@@ -1,0 +1,13 @@
+// $Id$
+// vim:ft=javascript
+
+// If your extension references something external, use ARG_WITH
+// ARG_WITH("v8", "for v8 support", "no");
+
+// Otherwise, use ARG_ENABLE
+// ARG_ENABLE("v8", "enable v8 support", "no");
+
+if (PHP_V8 != "no") {
+	EXTENSION("v8", "v8.c", PHP_EXTNAME_SHARED, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
+}
+
