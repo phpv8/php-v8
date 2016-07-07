@@ -43,7 +43,7 @@ $file_name1 = 'test.js';
 $script1 = new \v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
 
 try {
-    debug_zval_dump($script1->Run()->ToString($context1)->Value());
+    $helper->dump($script1->Run()->ToString($context1)->Value());
 } catch (Exception $e) {
     $helper->exception_export($e);
 }

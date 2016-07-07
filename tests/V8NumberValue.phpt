@@ -18,7 +18,7 @@ $value = new v8\NumberValue($isolate, 123.456);
 
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('NumberValue extends PrimitiveValue', $value instanceof \v8\PrimitiveValue);
@@ -40,8 +40,8 @@ $context = new \v8\Context($isolate, $extensions, $global_template);
 $string = $value->ToString($context);
 
 $helper->header(get_class($value) .'::ToString() converting');
-debug_zval_dump($string);
-debug_zval_dump($string->Value());
+$helper->dump($string);
+$helper->dump($string->Value());
 $helper->space();
 
 
@@ -78,9 +78,9 @@ foreach ([null, true, false, NAN, INF, -INF] as $val) {
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\NumberValue)#4 (1) refcount(2){
+object(v8\NumberValue)#4 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -123,14 +123,14 @@ v8\NumberValue(v8\Value)->IsRegExp(): bool(false)
 
 v8\NumberValue::ToString() converting:
 --------------------------------------
-object(v8\StringValue)#7 (1) refcount(2){
+object(v8\StringValue)#7 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(5){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
 }
-string(7) "123.456" refcount(1)
+string(7) "123.456"
 
 
 Primitive converters:

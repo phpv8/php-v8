@@ -5,22 +5,25 @@ v8\Value (destruct)
 --FILE--
 <?php
 
+/** @var \Phpv8Testsuite $helper */
+$helper = require '.testsuite.php';
+
 require '.tracking_dtors.php';
 
 $isolate = new v8\Isolate();
 $value = new \v8Tests\TrackingDtors\Value($isolate);
 
 
-debug_zval_dump($value);
+$helper->dump($value);
 
 $value = null;
 
 echo "Done here", PHP_EOL;
 ?>
 --EXPECT--
-object(v8Tests\TrackingDtors\Value)#2 (1) refcount(2){
+object(v8Tests\TrackingDtors\Value)#3 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#1 (1) refcount(2){
+  object(v8\Isolate)#2 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }

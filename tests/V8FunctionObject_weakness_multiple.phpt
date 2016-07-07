@@ -30,8 +30,6 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\v8\Functi
 
 $func->SetAccessor($context1, new \v8\StringValue($isolate1, 'nonexistent'), function () { echo 'get nonexistent 1', PHP_EOL; } );
 
-//debug_zval_dump($func);
-
 $context1->GlobalObject()->Set($context1, new \v8\StringValue($isolate1, 'print'), $func);
 $func = null;
 
@@ -62,7 +60,6 @@ $v8_helper->CompileRun($context1, 'print("test"); print.nonexistent;');
 $fnc3 = null;
 $v8_helper->CompileRun($context1, 'print("test"); print.nonexistent;');
 
-//debug_zval_dump($context1);
 $context1 = null;
 echo 'Context should be removed', PHP_EOL;
 

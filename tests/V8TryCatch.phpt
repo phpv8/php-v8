@@ -18,7 +18,7 @@ $context = new v8Tests\TrackingDtors\Context($isolate);
 $obj = new \v8\TryCatch($isolate, $context);
 
 $helper->header('Object representation (default)');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters (default)');
@@ -41,7 +41,7 @@ $trace = new \v8\StringValue($isolate, 'trace');
 $obj = new \v8\TryCatch($isolate, $context, $exception, $trace, $message, true, true);
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
@@ -66,19 +66,19 @@ $context = null;
 
 echo 'END', PHP_EOL;
 ?>
---EXPECTF--
+--EXPECT--
 Object representation (default):
 --------------------------------
-object(v8\TryCatch)#4 (7) refcount(2){
+object(v8\TryCatch)#4 (7) {
   ["isolate":"v8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(3){
+  object(v8Tests\TrackingDtors\Isolate)#2 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
   ["context":"v8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Context)#3 (4) refcount(2){
+  object(v8Tests\TrackingDtors\Context)#3 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(3){
+    object(v8Tests\TrackingDtors\Isolate)#2 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
@@ -115,16 +115,16 @@ v8\TryCatch::HasTerminated() matches expected value
 
 Object representation:
 ----------------------
-object(v8\TryCatch)#12 (7) refcount(2){
+object(v8\TryCatch)#12 (7) {
   ["isolate":"v8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(6){
+  object(v8Tests\TrackingDtors\Isolate)#2 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
   ["context":"v8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Context)#3 (4) refcount(4){
+  object(v8Tests\TrackingDtors\Context)#3 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(6){
+    object(v8Tests\TrackingDtors\Isolate)#2 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
@@ -136,16 +136,16 @@ object(v8\TryCatch)#12 (7) refcount(2){
     NULL
   }
   ["exception":"v8\TryCatch":private]=>
-  object(v8\ObjectValue)#5 (2) refcount(2){
+  object(v8\ObjectValue)#5 (2) {
     ["isolate":"v8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(6){
+    object(v8Tests\TrackingDtors\Isolate)#2 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
     ["context":"v8\ObjectValue":private]=>
-    object(v8Tests\TrackingDtors\Context)#3 (4) refcount(4){
+    object(v8Tests\TrackingDtors\Context)#3 (4) {
       ["isolate":"v8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(6){
+      object(v8Tests\TrackingDtors\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
@@ -158,27 +158,27 @@ object(v8\TryCatch)#12 (7) refcount(2){
     }
   }
   ["stack_trace":"v8\TryCatch":private]=>
-  object(v8\StringValue)#11 (1) refcount(2){
+  object(v8\StringValue)#11 (1) {
     ["isolate":"v8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(6){
+    object(v8Tests\TrackingDtors\Isolate)#2 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
   }
   ["message":"v8\TryCatch":private]=>
-  object(v8\Message)#6 (12) refcount(2){
+  object(v8\Message)#6 (12) {
     ["message":"v8\Message":private]=>
-    string(7) "message" refcount(1)
+    string(7) "message"
     ["script_origin":"v8\Message":private]=>
-    object(v8\ScriptOrigin)#7 (6) refcount(1){
+    object(v8\ScriptOrigin)#7 (6) {
       ["resource_name":"v8\ScriptOrigin":private]=>
-      string(13) "resource_name" refcount(1)
+      string(13) "resource_name"
       ["resource_line_offset":"v8\ScriptOrigin":private]=>
       int(0)
       ["resource_column_offset":"v8\ScriptOrigin":private]=>
       int(0)
       ["options":"v8\ScriptOrigin":private]=>
-      object(v8\ScriptOriginOptions)#8 (3) refcount(1){
+      object(v8\ScriptOriginOptions)#8 (3) {
         ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -189,28 +189,28 @@ object(v8\TryCatch)#12 (7) refcount(2){
       ["script_id":"v8\ScriptOrigin":private]=>
       int(0)
       ["source_map_url":"v8\ScriptOrigin":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
     }
     ["source_line":"v8\Message":private]=>
-    string(4) "line" refcount(1)
+    string(4) "line"
     ["resource_name":"v8\Message":private]=>
-    string(13) "resource_name" refcount(1)
+    string(13) "resource_name"
     ["stack_trace":"v8\Message":private]=>
-    object(v8\StackTrace)#9 (2) refcount(1){
+    object(v8\StackTrace)#9 (2) {
       ["frames":"v8\StackTrace":private]=>
-      array(0) refcount(1){
+      array(0) {
       }
       ["as_array":"v8\StackTrace":private]=>
-      object(v8\ArrayObject)#10 (2) refcount(1){
+      object(v8\ArrayObject)#10 (2) {
         ["isolate":"v8\Value":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(6){
+        object(v8Tests\TrackingDtors\Isolate)#2 (1) {
           ["snapshot":"v8\Isolate":private]=>
           NULL
         }
         ["context":"v8\ObjectValue":private]=>
-        object(v8Tests\TrackingDtors\Context)#3 (4) refcount(4){
+        object(v8Tests\TrackingDtors\Context)#3 (4) {
           ["isolate":"v8\Context":private]=>
-          object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(6){
+          object(v8Tests\TrackingDtors\Isolate)#2 (1) {
             ["snapshot":"v8\Isolate":private]=>
             NULL
           }

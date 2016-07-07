@@ -18,7 +18,6 @@ $global_template1 = new v8\ObjectTemplate($isolate1);
 
 
 $print_func_tpl = new \v8\FunctionTemplate($isolate1, function (\v8\FunctionCallbackInfo $info) {
-    //debug_zval_dump(func_get_args());
     $context = $info->GetContext();
 
     $out = [];
@@ -77,7 +76,7 @@ $file_name1 = 'test.js';
 
 $script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
 
-debug_zval_dump($script1->Run()->ToString($context1)->Value());
+$helper->dump($script1->Run()->ToString($context1)->Value());
 
 ?>
 --EXPECT--
@@ -86,4 +85,4 @@ foo
 Userland setter on property test called with bar, value is foo
 Userland getter on property test called, value is bar
 bar
-string(11) "Script done" refcount(1)
+string(11) "Script done"

@@ -26,7 +26,7 @@ $obj = new \v8\StackTrace($frames, $array);
 
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Class constants');
@@ -48,14 +48,14 @@ $isolate = null;
 
 echo "END", PHP_EOL
 ?>
---EXPECTF--
+--EXPECT--
 Object representation:
 ----------------------
-object(v8\StackTrace)#8 (2) refcount(2){
+object(v8\StackTrace)#8 (2) {
   ["frames":"v8\StackTrace":private]=>
-  array(2) refcount(2){
+  array(2) {
     [0]=>
-    object(v8\StackFrame)#6 (8) refcount(2){
+    object(v8\StackFrame)#6 (8) {
       ["line_number":"v8\StackFrame":private]=>
       int(1)
       ["column":"v8\StackFrame":private]=>
@@ -63,18 +63,18 @@ object(v8\StackTrace)#8 (2) refcount(2){
       ["script_id":"v8\StackFrame":private]=>
       int(0)
       ["script_name":"v8\StackFrame":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
       ["script_name_or_source_url":"v8\StackFrame":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
       ["function_name":"v8\StackFrame":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
       ["is_eval":"v8\StackFrame":private]=>
       bool(false)
       ["is_constructor":"v8\StackFrame":private]=>
       bool(false)
     }
     [1]=>
-    object(v8\StackFrame)#7 (8) refcount(2){
+    object(v8\StackFrame)#7 (8) {
       ["line_number":"v8\StackFrame":private]=>
       int(2)
       ["column":"v8\StackFrame":private]=>
@@ -82,11 +82,11 @@ object(v8\StackTrace)#8 (2) refcount(2){
       ["script_id":"v8\StackFrame":private]=>
       int(0)
       ["script_name":"v8\StackFrame":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
       ["script_name_or_source_url":"v8\StackFrame":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
       ["function_name":"v8\StackFrame":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
       ["is_eval":"v8\StackFrame":private]=>
       bool(false)
       ["is_constructor":"v8\StackFrame":private]=>
@@ -94,16 +94,16 @@ object(v8\StackTrace)#8 (2) refcount(2){
     }
   }
   ["as_array":"v8\StackTrace":private]=>
-  object(v8\ArrayObject)#5 (2) refcount(2){
+  object(v8\ArrayObject)#5 (2) {
     ["isolate":"v8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#3 (1) refcount(3){
+    object(v8Tests\TrackingDtors\Isolate)#3 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
     ["context":"v8\ObjectValue":private]=>
-    object(v8Tests\TrackingDtors\Context)#4 (4) refcount(2){
+    object(v8Tests\TrackingDtors\Context)#4 (4) {
       ["isolate":"v8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#3 (1) refcount(3){
+      object(v8Tests\TrackingDtors\Isolate)#3 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }

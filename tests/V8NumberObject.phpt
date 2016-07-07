@@ -27,7 +27,7 @@ $context1 = new v8\Context($isolate1, $extensions1, $global_template1);
 $value = new v8\NumberObject($context1, 42.12);
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('NumberObject extends ObjectValue', $value instanceof \v8\ObjectValue);
@@ -69,26 +69,26 @@ $v8_helper->run_checks($res1, 'Checkers on boxed from script');
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\NumberObject)#8 (2) refcount(2){
+object(v8\NumberObject)#8 (2) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(5){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
   ["context":"v8\ObjectValue":private]=>
-  object(v8\Context)#7 (4) refcount(2){
+  object(v8\Context)#7 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8\Isolate)#3 (1) refcount(5){
+    object(v8\Isolate)#3 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
     ["extensions":"v8\Context":private]=>
-    array(0) refcount(2){
+    array(0) {
     }
     ["global_template":"v8\Context":private]=>
-    object(v8\ObjectTemplate)#4 (1) refcount(2){
+    object(v8\ObjectTemplate)#4 (1) {
       ["isolate":"v8\Template":private]=>
-      object(v8\Isolate)#3 (1) refcount(5){
+      object(v8\Isolate)#3 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }

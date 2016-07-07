@@ -19,7 +19,7 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('IntegerValue extends NumberValue', $value instanceof \v8\NumberValue);
@@ -42,8 +42,8 @@ $context = new \v8\Context($isolate, $extensions, $global_template);
 $string = $value->ToString($context);
 
 $helper->header(get_class($value) .'::ToString() converting');
-debug_zval_dump($string);
-debug_zval_dump($string->Value());
+$helper->dump($string);
+$helper->dump($string->Value());
 $helper->space();
 
 
@@ -81,9 +81,9 @@ foreach ([PHP_INT_MAX, -PHP_INT_MAX, NAN, INF, -INF] as $val) {
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\IntegerValue)#2 (1) refcount(2){
+object(v8\IntegerValue)#2 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#1 (1) refcount(2){
+  object(v8\Isolate)#1 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -126,14 +126,14 @@ v8\IntegerValue(v8\Value)->IsRegExp(): bool(false)
 
 v8\IntegerValue::ToString() converting:
 ---------------------------------------
-object(v8\StringValue)#7 (1) refcount(2){
+object(v8\StringValue)#7 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#1 (1) refcount(5){
+  object(v8\Isolate)#1 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
 }
-string(3) "123" refcount(1)
+string(3) "123"
 
 
 Primitive converters:

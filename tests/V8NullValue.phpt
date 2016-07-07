@@ -19,7 +19,7 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('NullValue extends PrimitiveValue', $value instanceof \v8\PrimitiveValue);
@@ -46,16 +46,16 @@ $helper->space();
 $string = $value->ToString($context);
 
 $helper->header(get_class($value) .'::ToString() converting');
-debug_zval_dump($string);
-debug_zval_dump($string->Value());
+$helper->dump($string);
+$helper->dump($string->Value());
 
 ?>
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\NullValue)#2 (1) refcount(2){
+object(v8\NullValue)#2 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#1 (1) refcount(2){
+  object(v8\Isolate)#1 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -104,11 +104,11 @@ v8\NullValue(v8\Value)->NumberValue(): float(0)
 
 v8\NullValue::ToString() converting:
 ------------------------------------
-object(v8\StringValue)#7 (1) refcount(2){
+object(v8\StringValue)#7 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#1 (1) refcount(5){
+  object(v8\Isolate)#1 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
 }
-string(4) "null" refcount(1)
+string(4) "null"

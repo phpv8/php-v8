@@ -17,7 +17,7 @@ $value = new \v8\Exceptions\TryCatchException($isolate, $context, $try_catch);
 
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->header('Accessors');
@@ -30,31 +30,31 @@ $helper->space();
 --EXPECTF--
 Object representation:
 ----------------------
-object(v8\Exceptions\TryCatchException)#5 (10) refcount(2){
+object(v8\Exceptions\TryCatchException)#5 (10) {
   ["message":protected]=>
-  string(0) "" refcount(%d)
+  string(0) ""
   ["string":"Exception":private]=>
-  string(0) "" refcount(%d)
+  string(0) ""
   ["code":protected]=>
   int(0)
   ["file":protected]=>
-  string(%d) "%s" refcount(%d)
+  string(%d) "%s/V8ExceptionsTryCatchException.php"
   ["line":protected]=>
   int(11)
   ["trace":"Exception":private]=>
-  array(0) refcount(1){
+  array(0) {
   }
   ["previous":"Exception":private]=>
   NULL
   ["isolate":"v8\Exceptions\TryCatchException":private]=>
-  object(v8\Isolate)#2 (1) refcount(4){
+  object(v8\Isolate)#2 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
   ["context":"v8\Exceptions\TryCatchException":private]=>
-  object(v8\Context)#3 (4) refcount(3){
+  object(v8\Context)#3 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8\Isolate)#2 (1) refcount(4){
+    object(v8\Isolate)#2 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
@@ -66,16 +66,16 @@ object(v8\Exceptions\TryCatchException)#5 (10) refcount(2){
     NULL
   }
   ["try_catch":"v8\Exceptions\TryCatchException":private]=>
-  object(v8\TryCatch)#4 (7) refcount(2){
+  object(v8\TryCatch)#4 (7) {
     ["isolate":"v8\TryCatch":private]=>
-    object(v8\Isolate)#2 (1) refcount(4){
+    object(v8\Isolate)#2 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
     ["context":"v8\TryCatch":private]=>
-    object(v8\Context)#3 (4) refcount(3){
+    object(v8\Context)#3 (4) {
       ["isolate":"v8\Context":private]=>
-      object(v8\Isolate)#2 (1) refcount(4){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }

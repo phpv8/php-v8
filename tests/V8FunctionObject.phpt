@@ -27,7 +27,7 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\v8\Functi
 $func->SetName(new \v8\StringValue($isolate1, 'custom_name'));
 
 $helper->header('Object representation');
-debug_zval_dump($func);
+$helper->dump($func);
 $helper->space();
 
 $helper->assert('FunctionObject extends ObjectValue', $func instanceof \v8\ObjectValue);
@@ -42,7 +42,7 @@ $file_name1 = 'test.js';
 
 $script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
 
-debug_zval_dump($script1->Run()->ToString($context1)->Value());
+$helper->dump($script1->Run()->ToString($context1)->Value());
 $helper->line();
 
 $helper->dump_object_methods($func, [], new ArrayMapFilter(['GetScriptOrigin' => true]));
@@ -51,29 +51,29 @@ $helper->line();
 echo 'We are done for now', PHP_EOL;
 
 ?>
---EXPECTF--
+--EXPECT--
 Object representation:
 ----------------------
-object(v8Tests\TrackingDtors\FunctionObject)#5 (2) refcount(2){
+object(v8Tests\TrackingDtors\FunctionObject)#5 (2) {
   ["isolate":"v8\Value":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(4){
+  object(v8Tests\TrackingDtors\Isolate)#2 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
   ["context":"v8\ObjectValue":private]=>
-  object(v8\Context)#4 (4) refcount(2){
+  object(v8\Context)#4 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(4){
+    object(v8Tests\TrackingDtors\Isolate)#2 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
     ["extensions":"v8\Context":private]=>
-    array(0) refcount(2){
+    array(0) {
     }
     ["global_template":"v8\Context":private]=>
-    object(v8\ObjectTemplate)#3 (1) refcount(2){
+    object(v8\ObjectTemplate)#3 (1) {
       ["isolate":"v8\Template":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(4){
+      object(v8Tests\TrackingDtors\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
@@ -87,18 +87,18 @@ object(v8Tests\TrackingDtors\FunctionObject)#5 (2) refcount(2){
 FunctionObject extends ObjectValue: ok
 
 Should output Hello World string
-string(11) "Script done" refcount(1)
+string(11) "Script done"
 
 v8Tests\TrackingDtors\FunctionObject(v8\FunctionObject)->GetScriptOrigin():
-    object(v8\ScriptOrigin)#105 (6) refcount(5){
+    object(v8\ScriptOrigin)#105 (6) {
       ["resource_name":"v8\ScriptOrigin":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
       ["resource_line_offset":"v8\ScriptOrigin":private]=>
       int(0)
       ["resource_column_offset":"v8\ScriptOrigin":private]=>
       int(0)
       ["options":"v8\ScriptOrigin":private]=>
-      object(v8\ScriptOriginOptions)#106 (3) refcount(1){
+      object(v8\ScriptOriginOptions)#106 (3) {
         ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -109,7 +109,7 @@ v8Tests\TrackingDtors\FunctionObject(v8\FunctionObject)->GetScriptOrigin():
       ["script_id":"v8\ScriptOrigin":private]=>
       int(0)
       ["source_map_url":"v8\ScriptOrigin":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
     }
 
 We are done for now

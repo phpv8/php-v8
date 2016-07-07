@@ -18,7 +18,7 @@ $value = new v8\ObjectValue($context);
 
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('ObjectValue extends Value', $value instanceof \v8\Value);
@@ -42,26 +42,26 @@ $helper->dump_object_methods($value, ['@@default' => [$context]], new RegexpFilt
 --EXPECTF--
 Object representation:
 ----------------------
-object(v8\ObjectValue)#5 (2) refcount(2){
+object(v8\ObjectValue)#5 (2) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#2 (1) refcount(4){
+  object(v8\Isolate)#2 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
   ["context":"v8\ObjectValue":private]=>
-  object(v8\Context)#4 (4) refcount(2){
+  object(v8\Context)#4 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8\Isolate)#2 (1) refcount(4){
+    object(v8\Isolate)#2 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
     ["extensions":"v8\Context":private]=>
-    array(0) refcount(2){
+    array(0) {
     }
     ["global_template":"v8\Context":private]=>
-    object(v8\ObjectTemplate)#3 (1) refcount(2){
+    object(v8\ObjectTemplate)#3 (1) {
       ["isolate":"v8\Template":private]=>
-      object(v8\Isolate)#2 (1) refcount(4){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
@@ -90,58 +90,58 @@ v8\ObjectValue->GetIdentityHash(): int(%d)
 Converters:
 -----------
 v8\ObjectValue(v8\Value)->ToBoolean():
-    object(v8\BooleanValue)#88 (1) refcount(5){
+    object(v8\BooleanValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(5){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
     }
 v8\ObjectValue(v8\Value)->ToNumber():
-    object(v8\NumberValue)#88 (1) refcount(5){
+    object(v8\NumberValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(5){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
     }
 v8\ObjectValue(v8\Value)->ToString():
-    object(v8\StringValue)#88 (1) refcount(5){
+    object(v8\StringValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(5){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
     }
 v8\ObjectValue(v8\Value)->ToDetailString():
-    object(v8\StringValue)#88 (1) refcount(5){
+    object(v8\StringValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(5){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
     }
 v8\ObjectValue(v8\Value)->ToObject():
-    object(v8\ObjectValue)#5 (2) refcount(7){
+    object(v8\ObjectValue)#5 (2) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(4){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
       ["context":"v8\ObjectValue":private]=>
-      object(v8\Context)#4 (4) refcount(3){
+      object(v8\Context)#4 (4) {
         ["isolate":"v8\Context":private]=>
-        object(v8\Isolate)#2 (1) refcount(4){
+        object(v8\Isolate)#2 (1) {
           ["snapshot":"v8\Isolate":private]=>
           NULL
         }
         ["extensions":"v8\Context":private]=>
-        array(0) refcount(2){
+        array(0) {
         }
         ["global_template":"v8\Context":private]=>
-        object(v8\ObjectTemplate)#3 (1) refcount(2){
+        object(v8\ObjectTemplate)#3 (1) {
           ["isolate":"v8\Template":private]=>
-          object(v8\Isolate)#2 (1) refcount(4){
+          object(v8\Isolate)#2 (1) {
             ["snapshot":"v8\Isolate":private]=>
             NULL
           }
@@ -151,25 +151,25 @@ v8\ObjectValue(v8\Value)->ToObject():
       }
     }
 v8\ObjectValue(v8\Value)->ToInteger():
-    object(v8\NumberValue)#88 (1) refcount(5){
+    object(v8\NumberValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(5){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
     }
 v8\ObjectValue(v8\Value)->ToUint32():
-    object(v8\NumberValue)#88 (1) refcount(5){
+    object(v8\NumberValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(5){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
     }
 v8\ObjectValue(v8\Value)->ToInt32():
-    object(v8\NumberValue)#88 (1) refcount(5){
+    object(v8\NumberValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(5){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }

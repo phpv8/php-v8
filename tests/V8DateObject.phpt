@@ -32,7 +32,7 @@ $test_time = 1445444940000.0;
 $value = new v8\DateObject($context1, $test_time);
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('DateObject extends ObjectValue', $value instanceof \v8\ObjectValue);
@@ -116,26 +116,26 @@ putenv("TZ={$old_tz}"); // Go back
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\DateObject)#8 (2) refcount(2){
+object(v8\DateObject)#8 (2) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(5){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
   ["context":"v8\ObjectValue":private]=>
-  object(v8\Context)#7 (4) refcount(2){
+  object(v8\Context)#7 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8\Isolate)#3 (1) refcount(5){
+    object(v8\Isolate)#3 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
     ["extensions":"v8\Context":private]=>
-    array(0) refcount(2){
+    array(0) {
     }
     ["global_template":"v8\Context":private]=>
-    object(v8\ObjectTemplate)#4 (1) refcount(2){
+    object(v8\ObjectTemplate)#4 (1) {
       ["isolate":"v8\Template":private]=>
-      object(v8\Isolate)#3 (1) refcount(5){
+      object(v8\Isolate)#3 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }

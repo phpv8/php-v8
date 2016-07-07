@@ -25,7 +25,7 @@ $callback = function () {
 $function_template = new \v8\FunctionTemplate($isolate);
 
 $helper->header('Object representation');
-debug_zval_dump($function_template);
+$helper->dump($function_template);
 $helper->space();
 
 $helper->assert('FunctionTemplate extends Template', $function_template instanceof \v8\Template);
@@ -57,7 +57,7 @@ $function_template->SetClassName(new \v8\StringValue($isolate, 'TestFunction'));
 
 
 $helper->header('Object representation');
-debug_zval_dump($function_template);
+$helper->dump($function_template);
 $helper->space();
 
 $helper->header('Accessors');
@@ -67,7 +67,7 @@ $helper->space();
 
 $helper->header('Instance template');
 $instance_template = $function_template->InstanceTemplate();
-debug_zval_dump($instance_template);
+$helper->dump($instance_template);
 $helper->method_matches($function_template, 'InstanceTemplate', $instance_template);
 $helper->space();
 
@@ -127,14 +127,14 @@ $helper->value_matches_with_no_output($isolate, $isolate2, true);
 
 $res = $v8_helper->CompileRun($context, $source);
 
-debug_zval_dump($res->IsFunction());
+$helper->dump($res->IsFunction());
 
 if ($res->IsFunction()) {
     $func = $res->ToObject($context)->GetConstructorName();
-    debug_zval_dump($func);
+    $helper->dump($func);
 }
 
-debug_zval_dump($res->ToString($context)->Value());
+$helper->dump($res->ToString($context)->Value());
 
 
 
@@ -144,9 +144,9 @@ debug_zval_dump($res->ToString($context)->Value());
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\FunctionTemplate)#5 (1) refcount(2){
+object(v8\FunctionTemplate)#5 (1) {
   ["isolate":"v8\Template":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -157,9 +157,9 @@ FunctionTemplate extends Template: ok
 
 Object representation:
 ----------------------
-object(v8\FunctionTemplate)#5 (1) refcount(2){
+object(v8\FunctionTemplate)#5 (1) {
   ["isolate":"v8\Template":private]=>
-  object(v8\Isolate)#3 (1) refcount(3){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -173,9 +173,9 @@ v8\FunctionTemplate::GetIsolate() matches expected value
 
 Instance template:
 ------------------
-object(v8\ObjectTemplate)#8 (1) refcount(2){
+object(v8\ObjectTemplate)#8 (1) {
   ["isolate":"v8\Template":private]=>
-  object(v8\Isolate)#3 (1) refcount(4){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -190,4 +190,4 @@ Expected value is not identical to actual value
 Hello, world!
 test [object Object]
 bool(false)
-string(6) "object" refcount(1)
+string(6) "object"

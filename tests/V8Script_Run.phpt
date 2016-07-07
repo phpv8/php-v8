@@ -29,7 +29,7 @@ $res = $script->Run();
 
 $v8_helper->run_checks($value);
 
-debug_zval_dump($res->Value());
+$helper->dump($res->Value());
 
 $helper->space();
 
@@ -81,7 +81,7 @@ v8\StringValue(v8\Value)->IsNativeError(): bool(false)
 v8\StringValue(v8\Value)->IsRegExp(): bool(false)
 
 
-string(25) "TEST VALUE 111, confirmed" refcount(1)
+string(25) "TEST VALUE 111, confirmed"
 
 
 Scalar:

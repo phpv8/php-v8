@@ -16,12 +16,12 @@ $helper = require '.testsuite.php';
 // Tests:
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 ?>
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\Data)#2 (0) refcount(2){
+object(v8\Data)#2 (0) {
 }

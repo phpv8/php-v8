@@ -11,7 +11,7 @@ $helper = require '.testsuite.php';
 $obj = new v8\ScriptOrigin('test');
 
 $helper->header('Object representation (default)');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters (default)');
@@ -36,7 +36,7 @@ $helper->space();
 $obj = new v8\ScriptOrigin('test', 1, 2, true, 3, true, 'map', true);
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
@@ -58,18 +58,18 @@ $helper->method_matches_with_output($options, 'IsOpaque', true);
 $helper->space();
 
 ?>
---EXPECTF--
+--EXPECT--
 Object representation (default):
 --------------------------------
-object(v8\ScriptOrigin)#2 (6) refcount(2){
+object(v8\ScriptOrigin)#2 (6) {
   ["resource_name":"v8\ScriptOrigin":private]=>
-  string(4) "test" refcount(1)
+  string(4) "test"
   ["resource_line_offset":"v8\ScriptOrigin":private]=>
   int(0)
   ["resource_column_offset":"v8\ScriptOrigin":private]=>
   int(0)
   ["options":"v8\ScriptOrigin":private]=>
-  object(v8\ScriptOriginOptions)#3 (3) refcount(1){
+  object(v8\ScriptOriginOptions)#3 (3) {
     ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
     bool(false)
     ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -80,7 +80,7 @@ object(v8\ScriptOrigin)#2 (6) refcount(2){
   ["script_id":"v8\ScriptOrigin":private]=>
   int(0)
   ["source_map_url":"v8\ScriptOrigin":private]=>
-  string(0) "" refcount(%d)
+  string(0) ""
 }
 
 
@@ -103,15 +103,15 @@ v8\ScriptOriginOptions::IsOpaque() matches expected false
 
 Object representation:
 ----------------------
-object(v8\ScriptOrigin)#4 (6) refcount(2){
+object(v8\ScriptOrigin)#4 (6) {
   ["resource_name":"v8\ScriptOrigin":private]=>
-  string(4) "test" refcount(1)
+  string(4) "test"
   ["resource_line_offset":"v8\ScriptOrigin":private]=>
   int(1)
   ["resource_column_offset":"v8\ScriptOrigin":private]=>
   int(2)
   ["options":"v8\ScriptOrigin":private]=>
-  object(v8\ScriptOriginOptions)#5 (3) refcount(1){
+  object(v8\ScriptOriginOptions)#5 (3) {
     ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
     bool(true)
     ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -122,7 +122,7 @@ object(v8\ScriptOrigin)#4 (6) refcount(2){
   ["script_id":"v8\ScriptOrigin":private]=>
   int(3)
   ["source_map_url":"v8\ScriptOrigin":private]=>
-  string(3) "map" refcount(1)
+  string(3) "map"
 }
 
 

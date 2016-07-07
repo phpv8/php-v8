@@ -14,7 +14,7 @@ $obj = new v8\RegExpObject\Flags();
 $helper = require '.testsuite.php';
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 
@@ -26,7 +26,7 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\RegExpObject\Flags)#1 (0) refcount(2){
+object(v8\RegExpObject\Flags)#1 (0) {
 }
 
 

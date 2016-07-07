@@ -18,7 +18,7 @@ $isolate = new v8\Isolate();
 $value = new v8\Uint32Value($isolate, 2147483647+1);
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('Uint32Value extends IntegerValue', $value instanceof \v8\IntegerValue);
@@ -40,8 +40,8 @@ $context = new \v8\Context($isolate, $extensions, $global_template);
 $string = $value->ToString($context);
 
 $helper->header(get_class($value) .'::ToString() converting');
-debug_zval_dump($string);
-debug_zval_dump($string->Value());
+$helper->dump($string);
+$helper->dump($string->Value());
 $helper->space();
 
 
@@ -71,9 +71,9 @@ foreach ([-1, PHP_INT_MAX, -PHP_INT_MAX, NAN, INF, -INF] as $val) {
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\Uint32Value)#4 (1) refcount(2){
+object(v8\Uint32Value)#4 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -116,14 +116,14 @@ v8\Uint32Value(v8\Value)->IsRegExp(): bool(false)
 
 v8\Uint32Value::ToString() converting:
 --------------------------------------
-object(v8\StringValue)#7 (1) refcount(2){
+object(v8\StringValue)#7 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(5){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
 }
-string(10) "2147483648" refcount(1)
+string(10) "2147483648"
 
 
 Primitive converters:

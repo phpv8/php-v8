@@ -49,7 +49,7 @@ $file_name1 = 'test.js';
 
 $script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
 
-debug_zval_dump($script1->Run()->ToString($context1)->Value());
+$helper->dump($script1->Run()->ToString($context1)->Value());
 
 
 echo 'We are done for now', PHP_EOL;
@@ -62,7 +62,7 @@ Callback info holds original isolate object: ok
 Callback info holds original isolate object: ok
 Expected value is not identical to actual value
 Expected value is identical to actual value
-string(11) "Script done" refcount(1)
+string(11) "Script done"
 We are done for now
 FunctionObject dies now!
 Isolate dies now!

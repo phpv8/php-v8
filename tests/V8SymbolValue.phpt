@@ -21,7 +21,7 @@ $helper->header('Default constructor');
 $helper->line();
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('SymbolValue extends NameValue', $value instanceof \v8\NameValue);
@@ -41,7 +41,7 @@ $helper->header('Null constructor');
 $helper->line();
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('SymbolValue extends NameValue', $value instanceof \v8\NameValue);
@@ -60,7 +60,7 @@ $helper->header('Empty StringValue constructor');
 $helper->line();
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('SymbolValue extends NameValue', $value instanceof \v8\NameValue);
@@ -84,7 +84,7 @@ $helper->header('Non-empty StringValue constructor');
 $helper->line();
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('SymbolValue extends NameValue', $value instanceof \v8\NameValue);
@@ -176,9 +176,9 @@ Default constructor:
 
 Object representation:
 ----------------------
-object(v8\SymbolValue)#4 (1) refcount(2){
+object(v8\SymbolValue)#4 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -191,9 +191,9 @@ Accessors:
 ----------
 v8\SymbolValue::GetIsolate() matches expected value
 v8\SymbolValue->Name():
-    object(v8\Value)#58 (1) refcount(5){
+    object(v8\Value)#58 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#3 (1) refcount(3){
+      object(v8\Isolate)#3 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
@@ -232,9 +232,9 @@ Null constructor:
 
 Object representation:
 ----------------------
-object(v8\SymbolValue)#5 (1) refcount(2){
+object(v8\SymbolValue)#5 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -247,9 +247,9 @@ Accessors:
 ----------
 v8\SymbolValue::GetIsolate() matches expected value
 v8\SymbolValue->Name():
-    object(v8\Value)#8 (1) refcount(5){
+    object(v8\Value)#8 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#3 (1) refcount(3){
+      object(v8\Isolate)#3 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
@@ -288,9 +288,9 @@ Empty StringValue constructor:
 
 Object representation:
 ----------------------
-object(v8\SymbolValue)#4 (1) refcount(2){
+object(v8\SymbolValue)#4 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -303,9 +303,9 @@ Accessors:
 ----------
 v8\SymbolValue::GetIsolate() matches expected value
 v8\SymbolValue->Name():
-    object(v8\StringValue)#58 (1) refcount(5){
+    object(v8\StringValue)#58 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#3 (1) refcount(3){
+      object(v8\Isolate)#3 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
@@ -341,16 +341,16 @@ v8\SymbolValue(v8\Value)->IsRegExp(): bool(false)
 
 Symbol name:
 ------------
-string(0) "" refcount(3)
+string(0) ""
 
 Non-empty StringValue constructor:
 ----------------------------------
 
 Object representation:
 ----------------------
-object(v8\SymbolValue)#5 (1) refcount(2){
+object(v8\SymbolValue)#5 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -363,9 +363,9 @@ Accessors:
 ----------
 v8\SymbolValue::GetIsolate() matches expected value
 v8\SymbolValue->Name():
-    object(v8\StringValue)#8 (1) refcount(5){
+    object(v8\StringValue)#8 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#3 (1) refcount(3){
+      object(v8\Isolate)#3 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
@@ -401,7 +401,7 @@ v8\SymbolValue(v8\Value)->IsRegExp(): bool(false)
 
 Symbol name:
 ------------
-string(4) "test" refcount(3)
+string(4) "test"
 
 Checkers on name:
 -----------------
@@ -457,27 +457,27 @@ v8\SymbolValue(v8\Value)->IsRegExp(): bool(false)
 
 
 Symbol For(string) returned: ok
-Symbol For(string) name: string(4) "test" refcount(3)
+Symbol For(string) name: string(4) "test"
 
 Symbol For(string) returned: ok
-Symbol For(string) name: string(4) "test" refcount(3)
+Symbol For(string) name: string(4) "test"
 
 Isolate not in context: ok
 Symbol ForApi(string) returned: ok
-Symbol ForApi(string) name: string(4) "test" refcount(3)
+Symbol ForApi(string) name: string(4) "test"
 
 Isolate not in context: ok
 Symbol GetIterator() returned: ok
-Symbol GetIterator() name: string(15) "Symbol.iterator" refcount(3)
+Symbol GetIterator() name: string(15) "Symbol.iterator"
 
 Isolate not in context: ok
 Symbol GetUnscopables() returned: ok
-Symbol GetUnscopables() name: string(18) "Symbol.unscopables" refcount(3)
+Symbol GetUnscopables() name: string(18) "Symbol.unscopables"
 
 Isolate not in context: ok
 Symbol GetToStringTag() returned: ok
-Symbol GetToStringTag() name: string(18) "Symbol.toStringTag" refcount(3)
+Symbol GetToStringTag() name: string(18) "Symbol.toStringTag"
 
 Isolate not in context: ok
 Symbol GetIsConcatSpreadable() returned: ok
-Symbol GetIsConcatSpreadable() name: string(25) "Symbol.isConcatSpreadable" refcount(3)
+Symbol GetIsConcatSpreadable() name: string(25) "Symbol.isConcatSpreadable"

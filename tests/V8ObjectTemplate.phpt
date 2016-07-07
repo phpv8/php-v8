@@ -17,7 +17,7 @@ $isolate = new \v8\Isolate();
 $value = new \v8\ObjectTemplate($isolate);
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('ObjectTemplate extends Template', $value instanceof \v8\Template);
@@ -46,9 +46,9 @@ $helper->assert('ObjectTemplate instance has name from constructor', $instance->
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\ObjectTemplate)#4 (1) refcount(2){
+object(v8\ObjectTemplate)#4 (1) {
   ["isolate":"v8\Template":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }

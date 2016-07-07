@@ -20,7 +20,7 @@ $helper->dump_object_methods($hs);
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\HeapStatistics)#2 (7) refcount(4){
+object(v8\HeapStatistics)#2 (7) {
   ["total_heap_size":"v8\HeapStatistics":private]=>
   float(1)
   ["total_heap_size_executable":"v8\HeapStatistics":private]=>

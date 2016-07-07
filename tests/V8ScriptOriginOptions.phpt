@@ -11,7 +11,7 @@ $helper = require '.testsuite.php';
 $obj = new v8\ScriptOriginOptions();
 
 $helper->header('Object representation (default)');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters (default)');
@@ -24,7 +24,7 @@ $helper->space();
 $obj = new v8\ScriptOriginOptions(true);
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
@@ -36,7 +36,7 @@ $helper->space();
 $obj = new v8\ScriptOriginOptions(false, true);
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
@@ -48,7 +48,7 @@ $helper->space();
 $obj = new v8\ScriptOriginOptions(false, false, true);
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
@@ -60,7 +60,7 @@ $helper->space();
 $obj = new v8\ScriptOriginOptions(true, true, true);
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
@@ -73,7 +73,7 @@ $helper->space();
 --EXPECT--
 Object representation (default):
 --------------------------------
-object(v8\ScriptOriginOptions)#2 (3) refcount(2){
+object(v8\ScriptOriginOptions)#2 (3) {
   ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
   bool(false)
   ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -92,7 +92,7 @@ v8\ScriptOriginOptions::IsOpaque() matches expected false
 
 Object representation:
 ----------------------
-object(v8\ScriptOriginOptions)#3 (3) refcount(2){
+object(v8\ScriptOriginOptions)#3 (3) {
   ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
   bool(true)
   ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -111,7 +111,7 @@ v8\ScriptOriginOptions::IsOpaque() matches expected false
 
 Object representation:
 ----------------------
-object(v8\ScriptOriginOptions)#2 (3) refcount(2){
+object(v8\ScriptOriginOptions)#2 (3) {
   ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
   bool(false)
   ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -130,7 +130,7 @@ v8\ScriptOriginOptions::IsOpaque() matches expected false
 
 Object representation:
 ----------------------
-object(v8\ScriptOriginOptions)#3 (3) refcount(2){
+object(v8\ScriptOriginOptions)#3 (3) {
   ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
   bool(false)
   ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -149,7 +149,7 @@ v8\ScriptOriginOptions::IsOpaque() matches expected true
 
 Object representation:
 ----------------------
-object(v8\ScriptOriginOptions)#2 (3) refcount(2){
+object(v8\ScriptOriginOptions)#2 (3) {
   ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
   bool(true)
   ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>

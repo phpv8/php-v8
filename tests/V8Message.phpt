@@ -17,7 +17,7 @@ $trace = new \v8\StackTrace([], new \v8\ArrayObject($context));
 $obj = new v8\Message('message', 'source_line', $origin, 'resource_name', $trace);
 
 $helper->header('Object representation (default)');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters (default)');
@@ -39,7 +39,7 @@ $helper->space();
 $obj = new v8\Message('message', 'source_line', $origin, 'resource_name', $trace, 1, 2, 3, 4, 5, true, true);
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
@@ -58,22 +58,22 @@ $helper->method_matches_with_output($obj, 'IsOpaque', true);
 $helper->space();
 
 ?>
---EXPECTF--
+--EXPECT--
 Object representation (default):
 --------------------------------
-object(v8\Message)#8 (12) refcount(2){
+object(v8\Message)#8 (12) {
   ["message":"v8\Message":private]=>
-  string(7) "message" refcount(1)
+  string(7) "message"
   ["script_origin":"v8\Message":private]=>
-  object(v8\ScriptOrigin)#4 (6) refcount(2){
+  object(v8\ScriptOrigin)#4 (6) {
     ["resource_name":"v8\ScriptOrigin":private]=>
-    string(13) "resource_name" refcount(1)
+    string(13) "resource_name"
     ["resource_line_offset":"v8\ScriptOrigin":private]=>
     int(0)
     ["resource_column_offset":"v8\ScriptOrigin":private]=>
     int(0)
     ["options":"v8\ScriptOrigin":private]=>
-    object(v8\ScriptOriginOptions)#5 (3) refcount(1){
+    object(v8\ScriptOriginOptions)#5 (3) {
       ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
       bool(false)
       ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -84,28 +84,28 @@ object(v8\Message)#8 (12) refcount(2){
     ["script_id":"v8\ScriptOrigin":private]=>
     int(0)
     ["source_map_url":"v8\ScriptOrigin":private]=>
-    string(0) "" refcount(%d)
+    string(0) ""
   }
   ["source_line":"v8\Message":private]=>
-  string(11) "source_line" refcount(1)
+  string(11) "source_line"
   ["resource_name":"v8\Message":private]=>
-  string(13) "resource_name" refcount(1)
+  string(13) "resource_name"
   ["stack_trace":"v8\Message":private]=>
-  object(v8\StackTrace)#6 (2) refcount(2){
+  object(v8\StackTrace)#6 (2) {
     ["frames":"v8\StackTrace":private]=>
-    array(0) refcount(1){
+    array(0) {
     }
     ["as_array":"v8\StackTrace":private]=>
-    object(v8\ArrayObject)#7 (2) refcount(1){
+    object(v8\ArrayObject)#7 (2) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(3){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
       ["context":"v8\ObjectValue":private]=>
-      object(v8\Context)#3 (4) refcount(2){
+      object(v8\Context)#3 (4) {
         ["isolate":"v8\Context":private]=>
-        object(v8\Isolate)#2 (1) refcount(3){
+        object(v8\Isolate)#2 (1) {
           ["snapshot":"v8\Isolate":private]=>
           NULL
         }
@@ -153,19 +153,19 @@ v8\Message::IsOpaque() matches expected false
 
 Object representation:
 ----------------------
-object(v8\Message)#9 (12) refcount(2){
+object(v8\Message)#9 (12) {
   ["message":"v8\Message":private]=>
-  string(7) "message" refcount(1)
+  string(7) "message"
   ["script_origin":"v8\Message":private]=>
-  object(v8\ScriptOrigin)#4 (6) refcount(2){
+  object(v8\ScriptOrigin)#4 (6) {
     ["resource_name":"v8\ScriptOrigin":private]=>
-    string(13) "resource_name" refcount(1)
+    string(13) "resource_name"
     ["resource_line_offset":"v8\ScriptOrigin":private]=>
     int(0)
     ["resource_column_offset":"v8\ScriptOrigin":private]=>
     int(0)
     ["options":"v8\ScriptOrigin":private]=>
-    object(v8\ScriptOriginOptions)#5 (3) refcount(1){
+    object(v8\ScriptOriginOptions)#5 (3) {
       ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
       bool(false)
       ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -176,28 +176,28 @@ object(v8\Message)#9 (12) refcount(2){
     ["script_id":"v8\ScriptOrigin":private]=>
     int(0)
     ["source_map_url":"v8\ScriptOrigin":private]=>
-    string(0) "" refcount(%d)
+    string(0) ""
   }
   ["source_line":"v8\Message":private]=>
-  string(11) "source_line" refcount(1)
+  string(11) "source_line"
   ["resource_name":"v8\Message":private]=>
-  string(13) "resource_name" refcount(1)
+  string(13) "resource_name"
   ["stack_trace":"v8\Message":private]=>
-  object(v8\StackTrace)#6 (2) refcount(2){
+  object(v8\StackTrace)#6 (2) {
     ["frames":"v8\StackTrace":private]=>
-    array(0) refcount(1){
+    array(0) {
     }
     ["as_array":"v8\StackTrace":private]=>
-    object(v8\ArrayObject)#7 (2) refcount(1){
+    object(v8\ArrayObject)#7 (2) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) refcount(3){
+      object(v8\Isolate)#2 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
       ["context":"v8\ObjectValue":private]=>
-      object(v8\Context)#3 (4) refcount(2){
+      object(v8\Context)#3 (4) {
         ["isolate":"v8\Context":private]=>
-        object(v8\Isolate)#2 (1) refcount(3){
+        object(v8\Isolate)#2 (1) {
           ["snapshot":"v8\Isolate":private]=>
           NULL
         }

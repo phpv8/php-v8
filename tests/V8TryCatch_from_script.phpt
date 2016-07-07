@@ -42,7 +42,7 @@ $nested_try_catch_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolat
         $helper->assert('TryCatch holds the same isolate it was thrown', $try_catch->GetIsolate(), $isolate);
         $helper->assert('TryCatch holds the same context it was thrown', $try_catch->GetContext(), $nested_context);
 
-        debug_zval_dump($e->GetTryCatch()->Message()->Get());
+        $helper->dump($e->GetTryCatch()->Message()->Get());
         $helper->line();
     }
 });
@@ -70,7 +70,7 @@ try {
     $helper->assert('TryCatch holds the same isolate it was thrown', $try_catch->GetIsolate(), $script->GetIsolate());
     $helper->assert('TryCatch holds the same context it was thrown', $try_catch->GetContext(), $script->GetContext());
 
-    debug_zval_dump($e->GetTryCatch()->Message()->Get());
+    $helper->dump($e->GetTryCatch()->Message()->Get());
 
     $helper->line();
     $helper->assert('TryCatchException message has not stack trace', $e->GetTryCatch()->Message()->GetStackTrace() === null);
@@ -113,7 +113,7 @@ try {
     $helper->assert('TryCatch holds the same isolate it was thrown', $try_catch->GetIsolate(), $script->GetIsolate());
     $helper->assert('TryCatch holds the same context it was thrown', $try_catch->GetContext(), $script->GetContext());
 
-    debug_zval_dump($e->GetTryCatch()->Message()->Get());
+    $helper->dump($e->GetTryCatch()->Message()->Get());
     $helper->line();
 }
 
@@ -127,7 +127,7 @@ try {
     $helper->assert('TryCatchException holds the same context it was thrown', $e->GetContext(), $context);
     $helper->assert('TryCatchException holds the same isolate it was thrown', $e->GetIsolate(), $isolate);
 
-    debug_zval_dump($e->GetTryCatch()->Message()->Get());
+    $helper->dump($e->GetTryCatch()->Message()->Get());
     $helper->line();
 }
 
@@ -150,7 +150,7 @@ TryCatchException holds the same isolate it was thrown: ok
 TryCatchException holds the same context it was thrown: ok
 TryCatch holds the same isolate it was thrown: ok
 TryCatch holds the same context it was thrown: ok
-string(31) "Uncaught Error: Top-level error" refcount(2)
+string(31) "Uncaught Error: Top-level error"
 
 TryCatchException message has not stack trace: ok
 
@@ -165,7 +165,7 @@ TryCatchException holds the same isolate it was thrown: ok
 TryCatchException holds the same context it was thrown: ok
 TryCatch holds the same isolate it was thrown: ok
 TryCatch holds the same context it was thrown: ok
-string(28) "Uncaught Error: Nested error" refcount(2)
+string(28) "Uncaught Error: Nested error"
 
 Script dies now!
 v8\Exceptions\TryCatchException: Error: Top-level error
@@ -174,13 +174,13 @@ TryCatchException holds the same isolate it was thrown: ok
 TryCatchException holds the same context it was thrown: ok
 TryCatch holds the same isolate it was thrown: ok
 TryCatch holds the same context it was thrown: ok
-string(31) "Uncaught Error: Top-level error" refcount(2)
+string(31) "Uncaught Error: Top-level error"
 
 v8\Exceptions\TryCatchException: SyntaxError: Unexpected number
 
 TryCatchException holds the same context it was thrown: ok
 TryCatchException holds the same isolate it was thrown: ok
-string(39) "Uncaught SyntaxError: Unexpected number" refcount(2)
+string(39) "Uncaught SyntaxError: Unexpected number"
 
 Script dies now!
 FunctionTemplate dies now!

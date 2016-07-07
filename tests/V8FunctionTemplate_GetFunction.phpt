@@ -51,7 +51,7 @@ $file_name1 = 'test.js';
 
 $script1 = new \v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
 
-debug_zval_dump($script1->Run()->ToString($context1)->Value());
+$helper->dump($script1->Run()->ToString($context1)->Value());
 
 echo 'We are done for now', PHP_EOL;
 
@@ -62,6 +62,6 @@ v8\FunctionObject
 Function instance is the same within single context
 Function instance is NOT the same between different contexts
 Should output Hello World string
-string(11) "Script done" refcount(1)
+string(11) "Script done"
 We are done for now
 EOF

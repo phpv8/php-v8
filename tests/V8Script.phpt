@@ -46,27 +46,27 @@ $helper->space();
 
 $v8_helper->run_checks($res, 'Checkers');
 ?>
---EXPECTF--
-object(v8\Script)#7 (4) refcount(4){
+--EXPECT--
+object(v8\Script)#7 (4) {
   ["isolate":"v8\Script":private]=>
-  object(v8\Isolate)#3 (1) refcount(6){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
   ["context":"v8\Script":private]=>
-  object(v8\Context)#6 (4) refcount(2){
+  object(v8\Context)#6 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8\Isolate)#3 (1) refcount(6){
+    object(v8\Isolate)#3 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
     ["extensions":"v8\Context":private]=>
-    array(0) refcount(2){
+    array(0) {
     }
     ["global_template":"v8\Context":private]=>
-    object(v8\ObjectTemplate)#4 (1) refcount(2){
+    object(v8\ObjectTemplate)#4 (1) {
       ["isolate":"v8\Template":private]=>
-      object(v8\Isolate)#3 (1) refcount(6){
+      object(v8\Isolate)#3 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
@@ -75,23 +75,23 @@ object(v8\Script)#7 (4) refcount(4){
     NULL
   }
   ["source":"v8\Script":private]=>
-  object(v8\StringValue)#8 (1) refcount(1){
+  object(v8\StringValue)#8 (1) {
     ["isolate":"v8\Value":private]=>
-    object(v8\Isolate)#3 (1) refcount(6){
+    object(v8\Isolate)#3 (1) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
     }
   }
   ["origin":"v8\Script":private]=>
-  object(v8\ScriptOrigin)#9 (6) refcount(1){
+  object(v8\ScriptOrigin)#9 (6) {
     ["resource_name":"v8\ScriptOrigin":private]=>
-    string(7) "test.js" refcount(%d)
+    string(7) "test.js"
     ["resource_line_offset":"v8\ScriptOrigin":private]=>
     int(0)
     ["resource_column_offset":"v8\ScriptOrigin":private]=>
     int(0)
     ["options":"v8\ScriptOrigin":private]=>
-    object(v8\ScriptOriginOptions)#10 (3) refcount(1){
+    object(v8\ScriptOriginOptions)#10 (3) {
       ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
       bool(false)
       ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -102,7 +102,7 @@ object(v8\Script)#7 (4) refcount(4){
     ["script_id":"v8\ScriptOrigin":private]=>
     int(0)
     ["source_map_url":"v8\ScriptOrigin":private]=>
-    string(0) "" refcount(%d)
+    string(0) ""
   }
 }
 Accessors:

@@ -25,6 +25,8 @@ set_error_handler('exception_error_handler');
 
 class PhpV8Testsuite
 {
+    private $dumper = 'var_dump';
+
     public function header($title)
     {
         echo $title, ':', PHP_EOL;
@@ -82,7 +84,7 @@ class PhpV8Testsuite
     public function to_dump($value, $level = 1, $initial_nl = true)
     {
         ob_start();
-        debug_zval_dump($value);
+        var_dump($value);
         $res = ob_get_clean();
 
         $maybe_strings = explode(PHP_EOL, $res);

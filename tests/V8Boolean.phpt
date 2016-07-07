@@ -19,7 +19,7 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('BooleanValue extends PrimitiveValue', $value instanceof \v8\PrimitiveValue);
@@ -46,7 +46,7 @@ $helper->space();
 
 $helper->header(get_class($value) .'::ToString() converting');
 $string = $value->ToString($context);
-debug_zval_dump($string->Value());
+$helper->dump($string->Value());
 $helper->space();
 
 
@@ -54,9 +54,9 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\BooleanValue)#2 (1) refcount(2){
+object(v8\BooleanValue)#2 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#1 (1) refcount(2){
+  object(v8\Isolate)#1 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -105,4 +105,4 @@ v8\BooleanValue(v8\Value)->NumberValue(): float(1)
 
 v8\BooleanValue::ToString() converting:
 ---------------------------------------
-string(4) "true" refcount(1)
+string(4) "true"

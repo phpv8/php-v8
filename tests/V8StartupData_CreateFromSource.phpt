@@ -12,7 +12,7 @@ $source = 'function test_snapshot() { return "hello, world";}';
 $data = v8\StartupData::CreateFromSource($source);
 
 $helper->header('Object representation');
-debug_zval_dump($data);
+$helper->dump($data);
 $helper->space();
 
 
@@ -31,7 +31,7 @@ $helper->assert('Context global is affected by snapshot blob', $context->GlobalO
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\StartupData)#2 (0) refcount(2){
+object(v8\StartupData)#2 (0) {
 }
 
 

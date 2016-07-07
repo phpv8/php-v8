@@ -71,7 +71,7 @@ $helper->line();
 
 $v8_helper->run_checks($res);
 ?>
---EXPECTF--
+--EXPECT--
 Can create message when out of context: ok
 
 exception: '[object Object]'
@@ -81,18 +81,18 @@ Exception passed: ok
 
 Message created from thrown value:
 ----------------------------------
-v8\Message->Get(): string(18) "Uncaught #<Object>" refcount(%d)
-v8\Message->GetSourceLine(): string(24) "        test(exception);" refcount(%d)
+v8\Message->Get(): string(18) "Uncaught #<Object>"
+v8\Message->GetSourceLine(): string(24) "        test(exception);"
 v8\Message->GetScriptOrigin():
-    object(v8\ScriptOrigin)#22 (6) refcount(6){
+    object(v8\ScriptOrigin)#22 (6) {
       ["resource_name":"v8\ScriptOrigin":private]=>
-      string(7) "test.js" refcount(1)
+      string(7) "test.js"
       ["resource_line_offset":"v8\ScriptOrigin":private]=>
       int(0)
       ["resource_column_offset":"v8\ScriptOrigin":private]=>
       int(0)
       ["options":"v8\ScriptOrigin":private]=>
-      object(v8\ScriptOriginOptions)#18 (3) refcount(1){
+      object(v8\ScriptOriginOptions)#18 (3) {
         ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -101,11 +101,11 @@ v8\Message->GetScriptOrigin():
         bool(false)
       }
       ["script_id":"v8\ScriptOrigin":private]=>
-      int(33)
+      int(38)
       ["source_map_url":"v8\ScriptOrigin":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
     }
-v8\Message->GetScriptResourceName(): string(7) "test.js" refcount(6)
+v8\Message->GetScriptResourceName(): string(7) "test.js"
 v8\Message->GetStackTrace(): NULL
 v8\Message->GetLineNumber(): int(11)
 v8\Message->GetStartPosition(): int(227)
@@ -117,18 +117,18 @@ v8\Message->IsOpaque(): bool(false)
 
 Message created from created value:
 -----------------------------------
-v8\Message->Get(): string(13) "Uncaught test" refcount(%d)
-v8\Message->GetSourceLine(): string(24) "        test(exception);" refcount(%d)
+v8\Message->Get(): string(13) "Uncaught test"
+v8\Message->GetSourceLine(): string(24) "        test(exception);"
 v8\Message->GetScriptOrigin():
-    object(v8\ScriptOrigin)#36 (6) refcount(6){
+    object(v8\ScriptOrigin)#36 (6) {
       ["resource_name":"v8\ScriptOrigin":private]=>
-      string(7) "test.js" refcount(1)
+      string(7) "test.js"
       ["resource_line_offset":"v8\ScriptOrigin":private]=>
       int(0)
       ["resource_column_offset":"v8\ScriptOrigin":private]=>
       int(0)
       ["options":"v8\ScriptOrigin":private]=>
-      object(v8\ScriptOriginOptions)#35 (3) refcount(1){
+      object(v8\ScriptOriginOptions)#35 (3) {
         ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
@@ -137,11 +137,11 @@ v8\Message->GetScriptOrigin():
         bool(false)
       }
       ["script_id":"v8\ScriptOrigin":private]=>
-      int(33)
+      int(38)
       ["source_map_url":"v8\ScriptOrigin":private]=>
-      string(0) "" refcount(%d)
+      string(0) ""
     }
-v8\Message->GetScriptResourceName(): string(7) "test.js" refcount(%d)
+v8\Message->GetScriptResourceName(): string(7) "test.js"
 v8\Message->GetStackTrace(): NULL
 v8\Message->GetLineNumber(): int(11)
 v8\Message->GetStartPosition(): int(227)

@@ -13,7 +13,7 @@ require '.v8-helpers.php';
 $isolate = new v8\Isolate();
 
 $helper->header('Object representation');
-debug_zval_dump($isolate);
+$helper->dump($isolate);
 $helper->line();
 
 try {
@@ -26,12 +26,11 @@ $helper->line();
 $helper->method_export($isolate, 'GetHeapStatistics');
 
 $isolate = null;
-
 ?>
 --EXPECTF--
 Object representation:
 ----------------------
-object(v8\Isolate)#2 (1) refcount(2){
+object(v8\Isolate)#2 (1) {
   ["snapshot":"v8\Isolate":private]=>
   NULL
 }
@@ -39,7 +38,7 @@ object(v8\Isolate)#2 (1) refcount(2){
 v8\Exceptions\GenericException: Not in context!
 
 v8\Isolate->GetHeapStatistics():
-    object(v8\HeapStatistics)#22 (7) refcount(5){
+    object(v8\HeapStatistics)#22 (7) {
       ["total_heap_size":"v8\HeapStatistics":private]=>
       float(%d)
       ["total_heap_size_executable":"v8\HeapStatistics":private]=>

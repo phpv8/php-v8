@@ -18,7 +18,7 @@ $isolate = new v8\Isolate();
 
 $default = new v8\StringValue($isolate);
 $helper->header('Default constructor');
-debug_zval_dump($default);
+$helper->dump($default);
 $helper->method_export($default, 'Value');
 $helper->space();
 
@@ -26,7 +26,7 @@ $helper->space();
 $value = new v8\StringValue($isolate, 'test string');
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('StringValue extends NameValue', $value instanceof \v8\NameValue);
@@ -93,24 +93,24 @@ foreach (['Hello, world!', 'Привет, мир!', 'こんにちは世界'] as 
 
 
 ?>
---EXPECTF--
+--EXPECT--
 Default constructor:
 --------------------
-object(v8\StringValue)#4 (1) refcount(2){
+object(v8\StringValue)#4 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
 }
-v8\StringValue->Value(): string(0) "" refcount(5)
+v8\StringValue->Value(): string(0) ""
 
 
 Object representation:
 ----------------------
-object(v8\StringValue)#5 (1) refcount(2){
+object(v8\StringValue)#5 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(3){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -122,7 +122,7 @@ StringValue extends NameValue: ok
 Accessors:
 ----------
 v8\StringValue::GetIsolate() matches expected value
-v8\StringValue->Value(): string(11) "test string" refcount(5)
+v8\StringValue->Value(): string(11) "test string"
 
 
 Checkers:
@@ -169,21 +169,21 @@ v8\StringValue(v8\Value)->NumberValue(): float(NAN)
 
 Test empty string constructor:
 ------------------------------
-v8\StringValue->Value(): string(0) "" refcount(5)
+v8\StringValue->Value(): string(0) ""
 v8\StringValue(v8\Value)->BooleanValue(): bool(false)
 v8\StringValue(v8\Value)->NumberValue(): float(0)
 
 
 Test default constructor:
 -------------------------
-v8\StringValue->Value(): string(0) "" refcount(5)
+v8\StringValue->Value(): string(0) ""
 v8\StringValue(v8\Value)->BooleanValue(): bool(false)
 v8\StringValue(v8\Value)->NumberValue(): float(0)
 
 
 Test encodings:
 ---------------
-v8\StringValue->Value(): string(13) "Hello, world!" refcount(5)
+v8\StringValue->Value(): string(13) "Hello, world!"
 v8\StringValue->Length(): int(13)
 v8\StringValue->Utf8Length(): int(13)
 v8\StringValue->IsOneByte(): bool(true)
@@ -192,7 +192,7 @@ strlen(): 13
 mb_strlen(): 13
 
 
-v8\StringValue->Value(): string(21) "Привет, мир!" refcount(5)
+v8\StringValue->Value(): string(21) "Привет, мир!"
 v8\StringValue->Length(): int(12)
 v8\StringValue->Utf8Length(): int(21)
 v8\StringValue->IsOneByte(): bool(false)
@@ -201,7 +201,7 @@ strlen(): 21
 mb_strlen(): 12
 
 
-v8\StringValue->Value(): string(21) "こんにちは世界" refcount(5)
+v8\StringValue->Value(): string(21) "こんにちは世界"
 v8\StringValue->Length(): int(7)
 v8\StringValue->Utf8Length(): int(21)
 v8\StringValue->IsOneByte(): bool(false)

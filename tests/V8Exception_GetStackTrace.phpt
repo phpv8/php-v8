@@ -89,7 +89,7 @@ $res = $v8_helper->CompileRun($context, $source);
 
 
 ?>
---EXPECTF--
+--EXPECT--
 Can get stack trace when out of context: ok
 
 exception: 'Error: test'
@@ -110,9 +110,9 @@ Exception passed: ok
 Stack trace created from thrown value:
 --------------------------------------
 v8\StackTrace->getFrames():
-    array(1) refcount(6){
+    array(1) {
       [0]=>
-      object(v8\StackFrame)#20 (8) refcount(1){
+      object(v8\StackFrame)#20 (8) {
         ["line_number":"v8\StackFrame":private]=>
         int(5)
         ["column":"v8\StackFrame":private]=>
@@ -120,11 +120,11 @@ v8\StackTrace->getFrames():
         ["script_id":"v8\StackFrame":private]=>
         int(0)
         ["script_name":"v8\StackFrame":private]=>
-        string(7) "test.js" refcount(1)
+        string(7) "test.js"
         ["script_name_or_source_url":"v8\StackFrame":private]=>
-        string(0) "" refcount(%s)
+        string(0) ""
         ["function_name":"v8\StackFrame":private]=>
-        string(0) "" refcount(1)
+        string(0) ""
         ["is_eval":"v8\StackFrame":private]=>
         int(0)
         ["is_constructor":"v8\StackFrame":private]=>
@@ -133,26 +133,26 @@ v8\StackTrace->getFrames():
     }
 v8\StackTrace->GetFrameCount(): int(1)
 v8\StackTrace->AsArray():
-    object(v8\ArrayObject)#18 (2) refcount(6){
+    object(v8\ArrayObject)#18 (2) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#3 (1) refcount(10){
+      object(v8\Isolate)#3 (1) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
       }
       ["context":"v8\ObjectValue":private]=>
-      object(v8\Context)#8 (4) refcount(6){
+      object(v8\Context)#8 (4) {
         ["isolate":"v8\Context":private]=>
-        object(v8\Isolate)#3 (1) refcount(10){
+        object(v8\Isolate)#3 (1) {
           ["snapshot":"v8\Isolate":private]=>
           NULL
         }
         ["extensions":"v8\Context":private]=>
-        array(0) refcount(1){
+        array(0) {
         }
         ["global_template":"v8\Context":private]=>
-        object(v8\ObjectTemplate)#7 (1) refcount(2){
+        object(v8\ObjectTemplate)#7 (1) {
           ["isolate":"v8\Template":private]=>
-          object(v8\Isolate)#3 (1) refcount(10){
+          object(v8\Isolate)#3 (1) {
             ["snapshot":"v8\Isolate":private]=>
             NULL
           }

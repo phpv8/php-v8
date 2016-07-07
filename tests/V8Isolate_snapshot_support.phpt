@@ -13,7 +13,7 @@ $helper = require '.testsuite.php';
 $isolate = new \v8Tests\TrackingDtors\Isolate();
 
 $helper->header('Object representation (no snapshot)');
-debug_zval_dump($isolate);
+$helper->dump($isolate);
 $helper->space();
 
 
@@ -43,7 +43,7 @@ $isolate = new \v8Tests\TrackingDtors\Isolate($data);
 
 
 $helper->header('Object representation (with snapshot)');
-debug_zval_dump($isolate);
+$helper->dump($isolate);
 $helper->space();
 
 
@@ -83,7 +83,7 @@ echo 'END', PHP_EOL;
 --EXPECT--
 Object representation (no snapshot):
 ------------------------------------
-object(v8Tests\TrackingDtors\Isolate)#2 (1) refcount(2){
+object(v8Tests\TrackingDtors\Isolate)#2 (1) {
   ["snapshot":"v8\Isolate":private]=>
   NULL
 }
@@ -101,9 +101,9 @@ Isolate dies now!
 
 Object representation (with snapshot):
 --------------------------------------
-object(v8Tests\TrackingDtors\Isolate)#3 (1) refcount(2){
+object(v8Tests\TrackingDtors\Isolate)#3 (1) {
   ["snapshot":"v8\Isolate":private]=>
-  object(v8\StartupData)#2 (0) refcount(2){
+  object(v8\StartupData)#2 (0) {
   }
 }
 

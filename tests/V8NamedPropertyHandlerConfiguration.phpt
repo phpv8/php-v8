@@ -11,45 +11,45 @@ $getter = function () {};
 
 $helper->header('Getter released');
 
-debug_zval_dump($getter);
+$helper->dump($getter);
 
 // Bootstraps:
 $obj = new v8\NamedPropertyHandlerConfiguration($getter);
-debug_zval_dump($getter);
+$helper->dump($getter);
 $helper->space();
 
 // Tests:
 
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 
 $helper->header('Getter released');
-debug_zval_dump($getter);
+$helper->dump($getter);
 $obj = null;
-debug_zval_dump($getter);
+$helper->dump($getter);
 
 ?>
 --EXPECT--
 Getter released:
 ----------------
-object(Closure)#2 (0) refcount(2){
+object(Closure)#2 (0) {
 }
-object(Closure)#2 (0) refcount(3){
+object(Closure)#2 (0) {
 }
 
 
 Object representation:
 ----------------------
-object(v8\NamedPropertyHandlerConfiguration)#3 (0) refcount(2){
+object(v8\NamedPropertyHandlerConfiguration)#3 (0) {
 }
 
 
 Getter released:
 ----------------
-object(Closure)#2 (0) refcount(3){
+object(Closure)#2 (0) {
 }
-object(Closure)#2 (0) refcount(2){
+object(Closure)#2 (0) {
 }

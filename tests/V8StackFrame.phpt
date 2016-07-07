@@ -11,7 +11,7 @@ $helper = require '.testsuite.php';
 $obj = new v8\StackFrame();
 
 $helper->header('Object representation (default)');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters (default)');
@@ -30,7 +30,7 @@ $obj = new v8\StackFrame(1, 2, 3, 'script_name', 'script_name_or_source_url', 'f
 
 
 $helper->header('Object representation');
-debug_zval_dump($obj);
+$helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
@@ -45,10 +45,10 @@ $helper->method_matches_with_output($obj, 'IsConstructor', true);
 $helper->space();
 
 ?>
---EXPECTF--
+--EXPECT--
 Object representation (default):
 --------------------------------
-object(v8\StackFrame)#2 (8) refcount(2){
+object(v8\StackFrame)#2 (8) {
   ["line_number":"v8\StackFrame":private]=>
   int(0)
   ["column":"v8\StackFrame":private]=>
@@ -56,11 +56,11 @@ object(v8\StackFrame)#2 (8) refcount(2){
   ["script_id":"v8\StackFrame":private]=>
   int(0)
   ["script_name":"v8\StackFrame":private]=>
-  string(0) "" refcount(%d)
+  string(0) ""
   ["script_name_or_source_url":"v8\StackFrame":private]=>
-  string(0) "" refcount(%d)
+  string(0) ""
   ["function_name":"v8\StackFrame":private]=>
-  string(0) "" refcount(%d)
+  string(0) ""
   ["is_eval":"v8\StackFrame":private]=>
   bool(false)
   ["is_constructor":"v8\StackFrame":private]=>
@@ -82,7 +82,7 @@ v8\StackFrame::IsConstructor() matches expected false
 
 Object representation:
 ----------------------
-object(v8\StackFrame)#3 (8) refcount(2){
+object(v8\StackFrame)#3 (8) {
   ["line_number":"v8\StackFrame":private]=>
   int(1)
   ["column":"v8\StackFrame":private]=>
@@ -90,11 +90,11 @@ object(v8\StackFrame)#3 (8) refcount(2){
   ["script_id":"v8\StackFrame":private]=>
   int(3)
   ["script_name":"v8\StackFrame":private]=>
-  string(11) "script_name" refcount(1)
+  string(11) "script_name"
   ["script_name_or_source_url":"v8\StackFrame":private]=>
-  string(25) "script_name_or_source_url" refcount(1)
+  string(25) "script_name_or_source_url"
   ["function_name":"v8\StackFrame":private]=>
-  string(13) "function_name" refcount(1)
+  string(13) "function_name"
   ["is_eval":"v8\StackFrame":private]=>
   bool(true)
   ["is_constructor":"v8\StackFrame":private]=>

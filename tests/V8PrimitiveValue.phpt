@@ -19,7 +19,7 @@ $value = new v8\PrimitiveValue($isolate);
 
 
 $helper->header('Object representation');
-debug_zval_dump($value);
+$helper->dump($value);
 $helper->space();
 
 $helper->assert('PrimitiveValue extends Value', $value instanceof \v8\Value);
@@ -45,8 +45,8 @@ $helper->space();
 $string = $value->ToString($context);
 
 $helper->header(get_class($value) .'::ToString() converting');
-debug_zval_dump($string);
-debug_zval_dump($string->Value());
+$helper->dump($string);
+$helper->dump($string->Value());
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers after ToString() converting');
@@ -64,9 +64,9 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\PrimitiveValue)#4 (1) refcount(2){
+object(v8\PrimitiveValue)#4 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(2){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
@@ -114,14 +114,14 @@ v8\PrimitiveValue(v8\Value)->NumberValue(): float(NAN)
 
 v8\PrimitiveValue::ToString() converting:
 -----------------------------------------
-object(v8\StringValue)#48 (1) refcount(2){
+object(v8\StringValue)#48 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) refcount(5){
+  object(v8\Isolate)#3 (1) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
   }
 }
-string(9) "undefined" refcount(1)
+string(9) "undefined"
 
 
 Checkers after ToString() converting:

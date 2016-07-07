@@ -85,7 +85,7 @@ Property accessor:
             NULL
           }
           ["extensions":"v8\Context":private]=>
-          array(0) refcount(1){
+          array(0) refcount(2){
           }
           ["global_template":"v8\Context":private]=>
           object(v8\ObjectTemplate)#4 (1) refcount(2){
@@ -129,7 +129,7 @@ Index accessor:
             NULL
           }
           ["extensions":"v8\Context":private]=>
-          array(0) refcount(1){
+          array(0) refcount(2){
           }
           ["global_template":"v8\Context":private]=>
           object(v8\ObjectTemplate)#4 (1) refcount(2){

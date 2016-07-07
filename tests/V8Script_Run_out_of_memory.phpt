@@ -54,7 +54,7 @@ try {
 
 $v8_helper->run_checks($value);
 
-debug_zval_dump($res->Value());
+$helper->dump($res->Value());
 
 $helper->space();
 
