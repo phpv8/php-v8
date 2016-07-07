@@ -44,16 +44,32 @@ Object representation:
 ----------------------
 object(v8\ObjectValue)#5 (2) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#2 (1) {
+  object(v8\Isolate)#2 (5) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
+    ["time_limit":"v8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"v8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"v8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"v8\Isolate":private]=>
+    bool(false)
   }
   ["context":"v8\ObjectValue":private]=>
   object(v8\Context)#4 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8\Isolate)#2 (1) {
+    object(v8\Isolate)#2 (5) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
+      ["time_limit":"v8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"v8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"v8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"v8\Isolate":private]=>
+      bool(false)
     }
     ["extensions":"v8\Context":private]=>
     array(0) {
@@ -61,9 +77,17 @@ object(v8\ObjectValue)#5 (2) {
     ["global_template":"v8\Context":private]=>
     object(v8\ObjectTemplate)#3 (1) {
       ["isolate":"v8\Template":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
     ["global_object":"v8\Context":private]=>
@@ -92,48 +116,96 @@ Converters:
 v8\ObjectValue(v8\Value)->ToBoolean():
     object(v8\BooleanValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
 v8\ObjectValue(v8\Value)->ToNumber():
     object(v8\NumberValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
 v8\ObjectValue(v8\Value)->ToString():
     object(v8\StringValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
 v8\ObjectValue(v8\Value)->ToDetailString():
     object(v8\StringValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
 v8\ObjectValue(v8\Value)->ToObject():
     object(v8\ObjectValue)#5 (2) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
       ["context":"v8\ObjectValue":private]=>
       object(v8\Context)#4 (4) {
         ["isolate":"v8\Context":private]=>
-        object(v8\Isolate)#2 (1) {
+        object(v8\Isolate)#2 (5) {
           ["snapshot":"v8\Isolate":private]=>
           NULL
+          ["time_limit":"v8\Isolate":private]=>
+          float(0)
+          ["time_limit_hit":"v8\Isolate":private]=>
+          bool(false)
+          ["memory_limit":"v8\Isolate":private]=>
+          int(0)
+          ["memory_limit_hit":"v8\Isolate":private]=>
+          bool(false)
         }
         ["extensions":"v8\Context":private]=>
         array(0) {
@@ -141,9 +213,17 @@ v8\ObjectValue(v8\Value)->ToObject():
         ["global_template":"v8\Context":private]=>
         object(v8\ObjectTemplate)#3 (1) {
           ["isolate":"v8\Template":private]=>
-          object(v8\Isolate)#2 (1) {
+          object(v8\Isolate)#2 (5) {
             ["snapshot":"v8\Isolate":private]=>
             NULL
+            ["time_limit":"v8\Isolate":private]=>
+            float(0)
+            ["time_limit_hit":"v8\Isolate":private]=>
+            bool(false)
+            ["memory_limit":"v8\Isolate":private]=>
+            int(0)
+            ["memory_limit_hit":"v8\Isolate":private]=>
+            bool(false)
           }
         }
         ["global_object":"v8\Context":private]=>
@@ -153,25 +233,49 @@ v8\ObjectValue(v8\Value)->ToObject():
 v8\ObjectValue(v8\Value)->ToInteger():
     object(v8\NumberValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
 v8\ObjectValue(v8\Value)->ToUint32():
     object(v8\NumberValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
 v8\ObjectValue(v8\Value)->ToInt32():
     object(v8\NumberValue)#88 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
 v8\ObjectValue(v8\Value)->ToArrayIndex(): v8\Exceptions\GenericException: Failed to convert

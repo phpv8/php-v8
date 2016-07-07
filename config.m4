@@ -191,6 +191,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_startup_data.cc                            \
     src/php_v8_heap_statistics.cc                         \
     src/php_v8_isolate.cc                                 \
+    src/php_v8_isolate_limits.cc                          \
     src/php_v8_context.cc                                 \
     src/php_v8_object_template.cc                         \
     src/php_v8_function_template.cc                       \

@@ -32,6 +32,9 @@ extern "C" {
 extern zend_class_entry* php_v8_generic_exception_class_entry;
 extern zend_class_entry* php_v8_try_catch_exception_class_entry;
 extern zend_class_entry* php_v8_termination_exception_class_entry;
+extern zend_class_entry* php_v8_abstract_resource_limit_exception_class_entry;
+extern zend_class_entry* php_v8_time_limit_exception_class_entry;
+extern zend_class_entry* php_v8_memory_limit_exception_class_entry;
 
 extern zend_class_entry* php_v8_value_exception_class_entry;
 extern zend_class_entry* php_v8_script_exception_class_entry;
@@ -51,6 +54,8 @@ extern void php_v8_throw_try_catch_exception(php_v8_context_t *php_v8_context, v
 #define PHP_V8_CATCH_END() } assert(!try_catch.HasCaught());
 
 #define PHP_V8_MAYBE_CATCH(php_v8_context, try_catch) \
+    php_v8_isolate_maybe_update_limits_hit((php_v8_context)->php_v8_isolate);\
+    php_v8_isolate_limits_maybe_stop_timer((php_v8_context)->php_v8_isolate);\
     if ((try_catch).HasCaught()) { \
         php_v8_throw_try_catch_exception((php_v8_context), &(try_catch)); \
         return; \
@@ -92,6 +97,12 @@ extern void php_v8_throw_try_catch_exception(php_v8_context_t *php_v8_context, v
 #define PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(value, message) \
     if ((value).IsEmpty()) { \
         PHP_V8_THROW_EXCEPTION(message); \
+        return; \
+    }
+
+#define PHP_V8_THROW_EXCEPTION_WHEN_LIMITS_HIT(php_v8_context) \
+    if ((php_v8_context)->php_v8_isolate->limits.time_limit_hit || (php_v8_context)->php_v8_isolate->limits.memory_limit_hit) { \
+        php_v8_throw_try_catch_exception((php_v8_context), NULL); \
         return; \
     }
 

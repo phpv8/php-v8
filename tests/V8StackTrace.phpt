@@ -96,16 +96,32 @@ object(v8\StackTrace)#8 (2) {
   ["as_array":"v8\StackTrace":private]=>
   object(v8\ArrayObject)#5 (2) {
     ["isolate":"v8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#3 (1) {
+    object(v8Tests\TrackingDtors\Isolate)#3 (5) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
+      ["time_limit":"v8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"v8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"v8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"v8\Isolate":private]=>
+      bool(false)
     }
     ["context":"v8\ObjectValue":private]=>
     object(v8Tests\TrackingDtors\Context)#4 (4) {
       ["isolate":"v8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#3 (1) {
+      object(v8Tests\TrackingDtors\Isolate)#3 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
       ["extensions":"v8\Context":private]=>
       NULL

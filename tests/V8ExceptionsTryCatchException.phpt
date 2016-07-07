@@ -47,16 +47,32 @@ object(v8\Exceptions\TryCatchException)#5 (10) {
   ["previous":"Exception":private]=>
   NULL
   ["isolate":"v8\Exceptions\TryCatchException":private]=>
-  object(v8\Isolate)#2 (1) {
+  object(v8\Isolate)#2 (5) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
+    ["time_limit":"v8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"v8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"v8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"v8\Isolate":private]=>
+    bool(false)
   }
   ["context":"v8\Exceptions\TryCatchException":private]=>
   object(v8\Context)#3 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8\Isolate)#2 (1) {
+    object(v8\Isolate)#2 (5) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
+      ["time_limit":"v8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"v8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"v8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"v8\Isolate":private]=>
+      bool(false)
     }
     ["extensions":"v8\Context":private]=>
     NULL
@@ -68,16 +84,32 @@ object(v8\Exceptions\TryCatchException)#5 (10) {
   ["try_catch":"v8\Exceptions\TryCatchException":private]=>
   object(v8\TryCatch)#4 (7) {
     ["isolate":"v8\TryCatch":private]=>
-    object(v8\Isolate)#2 (1) {
+    object(v8\Isolate)#2 (5) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
+      ["time_limit":"v8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"v8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"v8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"v8\Isolate":private]=>
+      bool(false)
     }
     ["context":"v8\TryCatch":private]=>
     object(v8\Context)#3 (4) {
       ["isolate":"v8\Context":private]=>
-      object(v8\Isolate)#2 (1) {
+      object(v8\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
       ["extensions":"v8\Context":private]=>
       NULL

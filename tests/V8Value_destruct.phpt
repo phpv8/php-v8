@@ -23,9 +23,17 @@ echo "Done here", PHP_EOL;
 --EXPECT--
 object(v8Tests\TrackingDtors\Value)#3 (1) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#2 (1) {
+  object(v8\Isolate)#2 (5) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
+    ["time_limit":"v8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"v8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"v8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"v8\Isolate":private]=>
+    bool(false)
   }
 }
 Value dies now!

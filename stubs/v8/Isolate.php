@@ -26,10 +26,38 @@ class Isolate
      */
     private $snapshot;
 
+    private $time_limit = 0.0;
+    private $time_limit_hit = false;
+    private $memory_limit = 0;
+    private $memory_limit_hit = false;
+
     public function __construct(StartupData $snapshot = null)
     {
     }
 
+    public function SetMemoryLimit(int $memory_limit_in_bytes)
+    {
+    }
+
+    public function GetMemoryLimit() : int
+    {
+    }
+
+    public function IsMemoryLimitHit() : bool
+    {
+    }
+
+    public function SetTimeLimit(float $time_limit_in_seconds)
+    {
+    }
+
+    public function GetTimeLimit() : float
+    {
+    }
+
+    public function IsTimeLimitHit() : bool
+    {
+    }
     /**
      * @return StartupData | null
      */

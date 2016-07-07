@@ -203,6 +203,7 @@ static PHP_METHOD(V8Function, NewInstance) {
     v8::Local<v8::Function> local_function = php_v8_value_get_function_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Object> maybe_local_obj = local_function->NewInstance(context, argc, argv);
 
@@ -248,6 +249,7 @@ static PHP_METHOD(V8Function, Call) {
     v8::Local<v8::Function> local_function = php_v8_value_get_function_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Value> maybe_local_res = local_function->Call(context, local_recv, argc, argv);
 

@@ -30,15 +30,23 @@ $isolate = null;
 --EXPECTF--
 Object representation:
 ----------------------
-object(v8\Isolate)#2 (1) {
+object(v8\Isolate)#2 (5) {
   ["snapshot":"v8\Isolate":private]=>
   NULL
+  ["time_limit":"v8\Isolate":private]=>
+  float(0)
+  ["time_limit_hit":"v8\Isolate":private]=>
+  bool(false)
+  ["memory_limit":"v8\Isolate":private]=>
+  int(0)
+  ["memory_limit_hit":"v8\Isolate":private]=>
+  bool(false)
 }
 
 v8\Exceptions\GenericException: Not in context!
 
 v8\Isolate->GetHeapStatistics():
-    object(v8\HeapStatistics)#22 (7) {
+    object(v8\HeapStatistics)#28 (7) {
       ["total_heap_size":"v8\HeapStatistics":private]=>
       float(%d)
       ["total_heap_size_executable":"v8\HeapStatistics":private]=>

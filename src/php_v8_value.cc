@@ -620,6 +620,7 @@ static PHP_METHOD(V8Value, ToBoolean) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Boolean> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToBoolean(context);
 
@@ -647,6 +648,7 @@ static PHP_METHOD(V8Value, ToNumber) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Number> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToNumber(context);
 
@@ -674,6 +676,7 @@ static PHP_METHOD(V8Value, ToString) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::String> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToString(isolate);
 
@@ -701,6 +704,7 @@ static PHP_METHOD(V8Value, ToDetailString) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::String> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToDetailString(context);
 
@@ -728,6 +732,7 @@ static PHP_METHOD(V8Value, ToObject) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Object> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToObject(context);
 
@@ -755,6 +760,7 @@ static PHP_METHOD(V8Value, ToInteger) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Integer> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToInteger(context);
 
@@ -782,6 +788,7 @@ static PHP_METHOD(V8Value, ToUint32) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Uint32> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToUint32(context);
 
@@ -810,6 +817,7 @@ static PHP_METHOD(V8Value, ToInt32) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Int32> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToInt32(context);
 
@@ -837,6 +845,7 @@ static PHP_METHOD(V8Value, ToArrayIndex) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Uint32> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToArrayIndex(context);
 

@@ -24,6 +24,9 @@
 zend_class_entry* php_v8_generic_exception_class_entry;
 zend_class_entry* php_v8_try_catch_exception_class_entry;
 zend_class_entry* php_v8_termination_exception_class_entry;
+zend_class_entry* php_v8_abstract_resource_limit_exception_class_entry;
+zend_class_entry* php_v8_time_limit_exception_class_entry;
+zend_class_entry* php_v8_memory_limit_exception_class_entry;
 
 zend_class_entry* php_v8_value_exception_class_entry;
 zend_class_entry* php_v8_script_exception_class_entry;
@@ -61,23 +64,34 @@ void php_v8_create_try_catch_exception(zval *return_value, php_v8_isolate_t *php
     zend_class_entry* ce = NULL;
     const char *message = NULL;
 
-    v8::String::Utf8Value exception(try_catch->Exception());
+    PHP_V8_DECLARE_LIMITS(php_v8_isolate);
 
-    // TODO: can we remove some of this check as redundant?
-    if (try_catch->Exception()->IsNull() && try_catch->Message().IsEmpty() && !try_catch->CanContinue() && try_catch->HasTerminated()) {
-        ce = php_v8_termination_exception_class_entry;
-        message = "Execution terminated";
+    if ((try_catch == NULL) || (try_catch->Exception()->IsNull() && try_catch->Message().IsEmpty() && !try_catch->CanContinue() && try_catch->HasTerminated())) {
+        if (limits->time_limit_hit) {
+            ce = php_v8_time_limit_exception_class_entry;
+            message = "Time limit exceeded";
+        } else if (limits->memory_limit_hit) {
+            ce = php_v8_memory_limit_exception_class_entry;
+            message = "Memory limit exceeded";
+        } else {
+            ce = php_v8_termination_exception_class_entry;
+            message = "Execution terminated";
+        }
+
+        object_init_ex(return_value, ce);
+        zend_update_property_string(php_v8_try_catch_exception_class_entry, return_value, ZEND_STRL("message"), message);
     } else {
+        v8::String::Utf8Value exception(try_catch->Exception());
+
         ce = php_v8_try_catch_exception_class_entry;
         PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK_NODECL(exception, message);
+
+        object_init_ex(return_value, ce);
+        zend_update_property_string(php_v8_try_catch_exception_class_entry, return_value, ZEND_STRL("message"), message);
     }
 
-    // TODO: separate ce for Error and it children classes. Or should it be done in userland?
-
-    object_init_ex(return_value, ce);
     PHP_V8_TRY_CATCH_EXCEPTION_STORE_ISOLATE(return_value, &php_v8_isolate->this_ptr);
     PHP_V8_TRY_CATCH_EXCEPTION_STORE_CONTEXT(return_value, &php_v8_context->this_ptr);
-    zend_update_property_string(php_v8_try_catch_exception_class_entry, return_value, ZEND_STRL("message"), message);
 
     php_v8_try_catch_create_from_try_catch(&try_catch_zv, php_v8_isolate, php_v8_context, try_catch);
     PHP_V8_TRY_CATCH_EXCEPTION_STORE_TRY_CATCH(return_value, &try_catch_zv);
@@ -186,6 +200,17 @@ static const zend_function_entry php_v8_termination_exception_methods[] = {
         PHP_FE_END
 };
 
+static const zend_function_entry php_v8_abstract_resource_limit_exception_methods[] = {
+        PHP_FE_END
+};
+
+static const zend_function_entry php_v8_time_limit_exception_methods[] = {
+        PHP_FE_END
+};
+
+static const zend_function_entry php_v8_memory_limit_exception_methods[] = {
+        PHP_FE_END
+};
 
 static const zend_function_entry php_v8_script_exception_methods[] = {
         PHP_FE_END
@@ -214,6 +239,15 @@ PHP_MINIT_FUNCTION(php_v8_exceptions) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "TerminationException", php_v8_termination_exception_methods);
     php_v8_termination_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_try_catch_exception_class_entry);
 
+    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "AbstractResourceLimitException", php_v8_abstract_resource_limit_exception_methods);
+    php_v8_abstract_resource_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_termination_exception_class_entry);
+    php_v8_abstract_resource_limit_exception_class_entry->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
+
+    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "TimeLimitException", php_v8_time_limit_exception_methods);
+    php_v8_time_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_abstract_resource_limit_exception_class_entry);
+
+    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "MemoryLimitException", php_v8_memory_limit_exception_methods);
+    php_v8_memory_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_abstract_resource_limit_exception_class_entry);
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "ValueException", php_v8_value_exception_methods);
     php_v8_value_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_generic_exception_class_entry);

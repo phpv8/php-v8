@@ -198,6 +198,7 @@ static PHP_METHOD(V8Object, Set) {
     v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_obj->Set(context, local_key_or_index, local_value_to_set);
 
@@ -232,6 +233,7 @@ static PHP_METHOD(V8Object, SetIndex) {
     v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_obj->Set(context, static_cast<uint32_t>(index), local_value_to_set);
 
@@ -273,6 +275,7 @@ static PHP_METHOD(V8Object, ForceSet) {
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe = local_obj->ForceSet(context,
                                                 local_key,
@@ -308,6 +311,7 @@ static PHP_METHOD(V8Object, Get) {
     v8::Local<v8::Value> local_key_or_index = php_v8_value_get_value_local(isolate, php_v8_key_or_index);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     maybe_local = local_obj->Get(context, local_key_or_index);
 
@@ -342,6 +346,7 @@ static PHP_METHOD(V8Object, GetIndex) {
     v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     maybe_local = local_obj->Get(context, static_cast<uint32_t>(index));
 
@@ -375,6 +380,7 @@ static PHP_METHOD(V8Object, GetPropertyAttributes) {
     v8::Local<v8::String> local_string = php_v8_value_get_string_local(isolate, php_v8_string);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<v8::PropertyAttribute> maybe = local_obj->GetPropertyAttributes(context, local_string);
 
@@ -406,6 +412,7 @@ static PHP_METHOD(V8Object, GetOwnPropertyDescriptor) {
     v8::Local<v8::String> local_string = php_v8_value_get_string_local(isolate, php_v8_string);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::MaybeLocal<v8::Value> maybe_local = local_obj->GetOwnPropertyDescriptor(context, local_string);
 
@@ -439,6 +446,7 @@ static PHP_METHOD(V8Object, Has) {
     v8::Local<v8::Value> local_key_or_index = php_v8_value_get_value_local(isolate, php_v8_key_or_index);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_obj->Has(context, local_key_or_index);
 
@@ -469,6 +477,7 @@ static PHP_METHOD(V8Object, HasIndex) {
     v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_obj->Has(context, static_cast<uint32_t>(index));
 
@@ -500,6 +509,7 @@ static PHP_METHOD(V8Object, Delete) {
     v8::Local<v8::Value> local_key_or_index = php_v8_value_get_value_local(isolate, php_v8_key_or_index);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_obj->Delete(context, local_key_or_index);
 
@@ -530,6 +540,7 @@ static PHP_METHOD(V8Object, DeleteIndex) {
     v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_obj->Delete(context, static_cast<uint32_t>(index));
 
@@ -678,6 +689,7 @@ static PHP_METHOD(V8Object, GetPropertyNames) {
     v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::MaybeLocal<v8::Array> maybe_local_array = local_object->GetPropertyNames(local_context);
 
@@ -708,6 +720,7 @@ static PHP_METHOD(V8Object, GetOwnPropertyNames) {
     v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::MaybeLocal<v8::Array> maybe_local_array = local_object->GetOwnPropertyNames(local_context);
 
@@ -731,6 +744,7 @@ static PHP_METHOD(V8Object, GetPrototype) {
     v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Local<v8::Value> local_prototype = local_object->GetPrototype();
 
@@ -764,6 +778,7 @@ static PHP_METHOD(V8Object, SetPrototype) {
     v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_object->SetPrototype(local_context, local_prototype);
 
@@ -792,6 +807,7 @@ static PHP_METHOD(V8Object, FindInstanceInPrototypeChain) {
     v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Local<v8::Object> local_found = local_object->FindInstanceInPrototypeChain(local_function_template);
 
@@ -820,6 +836,7 @@ static PHP_METHOD(V8Object, ObjectProtoToString) {
     v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::MaybeLocal<v8::String> maybe_local_string = local_object->ObjectProtoToString(local_context);
 
@@ -868,6 +885,7 @@ static PHP_METHOD(V8Object, HasOwnProperty) {
     v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_object->HasOwnProperty(local_context, local_name);
 
@@ -900,6 +918,7 @@ static PHP_METHOD(V8Object, HasRealNamedProperty) {
     v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_object->HasRealNamedProperty(local_context, local_name);
 
@@ -931,6 +950,7 @@ static PHP_METHOD(V8Object, HasRealIndexedProperty) {
     v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_obj->HasRealIndexedProperty(local_context, (uint32_t) index);
 
@@ -963,6 +983,7 @@ static PHP_METHOD(V8Object, HasRealNamedCallbackProperty) {
     v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_object->HasRealNamedCallbackProperty(local_context, local_name);
 
@@ -995,6 +1016,7 @@ static PHP_METHOD(V8Object, GetRealNamedPropertyInPrototypeChain) {
     v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::MaybeLocal<v8::Value> maybe_res = local_object->GetRealNamedPropertyInPrototypeChain(local_context, local_name);
 
@@ -1029,6 +1051,7 @@ static PHP_METHOD(V8Object, GetRealNamedPropertyAttributesInPrototypeChain) {
     v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<v8::PropertyAttribute> maybe_res = local_object->GetRealNamedPropertyAttributesInPrototypeChain(local_context, local_name);
 
@@ -1092,6 +1115,7 @@ static PHP_METHOD(V8Object, GetRealNamedPropertyAttributes) {
     v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<v8::PropertyAttribute> maybe_res = local_object->GetRealNamedPropertyAttributes(local_context, local_name);
 
@@ -1156,6 +1180,7 @@ static PHP_METHOD(V8Object, Clone) {
     v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Local<v8::Object> local_cloned_object= local_object->Clone();
 
@@ -1228,6 +1253,7 @@ static PHP_METHOD(V8Object, CallAsFunction) {
     v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Value> maybe_local_res = local_object->CallAsFunction(context, local_recv, argc, argv);
 
@@ -1269,6 +1295,7 @@ static PHP_METHOD(V8Object, CallAsConstructor) {
     v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
     v8::MaybeLocal<v8::Value> maybe_local_res = local_object->CallAsConstructor(context, argc, argv);
 

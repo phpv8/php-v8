@@ -17,8 +17,8 @@
 
 typedef struct _php_v8_isolate_t php_v8_isolate_t;
 
+#include "php_v8_isolate_limits.h"
 #include "php_v8_exceptions.h"
-
 #include "php_v8_callbacks.h"
 #include <v8.h>
 #include <map>
@@ -31,12 +31,13 @@ extern "C" {
 #endif
 }
 
+extern zend_class_entry *php_v8_isolate_class_entry;
 
 extern php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
 
 // TODO: remove or cleanup to use for debug reasons
-//#define SX(x) #x
-//#define SX_(x) S(x)
+#define SX(x) #x
+#define SX_(x) S(x)
 //#define S__LINE__ SX_(__LINE__)
 //#define S__FILE__ SX_(__FILE__)
 //#define PHP_V8_ISOLATES_CHECK(first, second) if ((first)->isolate != (second)->isolate) { PHP_V8_THROW_EXCEPTION("Isolates mismatch: " S__FILE__ ":" S__LINE__); return; }
@@ -136,6 +137,7 @@ struct _php_v8_isolate_t {
     std::map<v8::Persistent<v8::Value>*, php_v8_callbacks_t *> *weak_values;
 
     uint32_t isolate_handle;
+    php_v8_isolate_limits_t limits;
 
     zval *gc_data;
     int   gc_data_count;

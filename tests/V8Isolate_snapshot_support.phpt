@@ -83,9 +83,17 @@ echo 'END', PHP_EOL;
 --EXPECT--
 Object representation (no snapshot):
 ------------------------------------
-object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+object(v8Tests\TrackingDtors\Isolate)#2 (5) {
   ["snapshot":"v8\Isolate":private]=>
   NULL
+  ["time_limit":"v8\Isolate":private]=>
+  float(0)
+  ["time_limit_hit":"v8\Isolate":private]=>
+  bool(false)
+  ["memory_limit":"v8\Isolate":private]=>
+  int(0)
+  ["memory_limit_hit":"v8\Isolate":private]=>
+  bool(false)
 }
 
 
@@ -101,10 +109,18 @@ Isolate dies now!
 
 Object representation (with snapshot):
 --------------------------------------
-object(v8Tests\TrackingDtors\Isolate)#3 (1) {
+object(v8Tests\TrackingDtors\Isolate)#3 (5) {
   ["snapshot":"v8\Isolate":private]=>
   object(v8\StartupData)#2 (0) {
   }
+  ["time_limit":"v8\Isolate":private]=>
+  float(0)
+  ["time_limit_hit":"v8\Isolate":private]=>
+  bool(false)
+  ["memory_limit":"v8\Isolate":private]=>
+  int(0)
+  ["memory_limit_hit":"v8\Isolate":private]=>
+  bool(false)
 }
 
 

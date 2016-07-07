@@ -48,9 +48,17 @@ Object representation:
 ----------------------
 object(v8\ObjectTemplate)#4 (1) {
   ["isolate":"v8\Template":private]=>
-  object(v8\Isolate)#3 (1) {
+  object(v8\Isolate)#3 (5) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
+    ["time_limit":"v8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"v8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"v8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"v8\Isolate":private]=>
+    bool(false)
   }
 }
 

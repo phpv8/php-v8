@@ -70,16 +70,32 @@ Object representation:
 ----------------------
 object(v8\StringObject)#6 (2) {
   ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (1) {
+  object(v8\Isolate)#3 (5) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
+    ["time_limit":"v8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"v8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"v8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"v8\Isolate":private]=>
+    bool(false)
   }
   ["context":"v8\ObjectValue":private]=>
   object(v8\Context)#5 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8\Isolate)#3 (1) {
+    object(v8\Isolate)#3 (5) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
+      ["time_limit":"v8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"v8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"v8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"v8\Isolate":private]=>
+      bool(false)
     }
     ["extensions":"v8\Context":private]=>
     array(0) {
@@ -87,9 +103,17 @@ object(v8\StringObject)#6 (2) {
     ["global_template":"v8\Context":private]=>
     object(v8\ObjectTemplate)#4 (1) {
       ["isolate":"v8\Template":private]=>
-      object(v8\Isolate)#3 (1) {
+      object(v8\Isolate)#3 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
     ["global_object":"v8\Context":private]=>
@@ -105,9 +129,17 @@ Getters:
 v8\StringObject->ValueOf():
     object(v8\StringValue)#91 (1) {
       ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#3 (1) {
+      object(v8\Isolate)#3 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
     }
 v8\StringValue->Value(): string(11) "test string"

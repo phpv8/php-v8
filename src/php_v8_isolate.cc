@@ -27,6 +27,8 @@
 #include "php_v8_a.h"
 #include "php_v8.h"
 
+#include <float.h>
+
 
 zend_class_entry *php_v8_isolate_class_entry;
 #define this_ce php_v8_isolate_class_entry
@@ -130,6 +132,8 @@ static HashTable * php_v8_isolate_gc(zval *object, zval **table, int *n) {
 static void php_v8_isolate_free(zend_object *object) {
     php_v8_isolate_t *php_v8_isolate = php_v8_isolate_fetch_object(object);
 
+    php_v8_isolate_limits_free(php_v8_isolate);
+
     if (php_v8_isolate->weak_function_templates) {
         php_v8_isolate_clean_weak<v8::FunctionTemplate>(php_v8_isolate->weak_function_templates);
         delete php_v8_isolate->weak_function_templates;
@@ -189,6 +193,8 @@ static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
 
     php_v8_isolate->std.handlers = &php_v8_isolate_object_handlers;
 
+    php_v8_isolate_limits_ctor(php_v8_isolate);
+
     return &php_v8_isolate->std;
 }
 
@@ -238,6 +244,106 @@ static PHP_METHOD(V8Isolate, __construct) {
     php_v8_isolate->isolate_handle = Z_OBJ_HANDLE_P(getThis());
 
     php_v8_isolate->isolate->SetFatalErrorHandler(php_v8_fatal_error_handler);
+}
+
+static PHP_METHOD(V8Isolate, SetTimeLimit) {
+    double time_limit_in_seconds;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "d", &time_limit_in_seconds) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+
+    if (time_limit_in_seconds < 0) {
+        PHP_V8_THROW_EXCEPTION("Time limit should be a non-negative float");
+        return;
+    }
+
+    php_v8_isolate_limits_set_time_limit(php_v8_isolate, time_limit_in_seconds);
+
+    zend_update_property_double(this_ce, getThis(), ZEND_STRL("time_limit"), time_limit_in_seconds);
+    zend_update_property_bool(this_ce, getThis(), ZEND_STRL("time_limit_hit"), 0);
+}
+
+static PHP_METHOD(V8Isolate, GetTimeLimit) {
+    zval rv;
+
+    zval *prop = NULL;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+
+    prop = zend_read_property(this_ce, getThis(), ZEND_STRL("time_limit"), 0, &rv);
+
+    RETVAL_ZVAL(prop, 1, 0);
+}
+
+static PHP_METHOD(V8Isolate, IsTimeLimitHit) {
+    zval rv;
+
+    zval *prop = NULL;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+
+    prop = zend_read_property(this_ce, getThis(), ZEND_STRL("time_limit_hit"), 0, &rv);
+
+    RETVAL_ZVAL(prop, 1, 0);
+}
+
+static PHP_METHOD(V8Isolate, SetMemoryLimit) {
+    long memory_limit_in_bytes;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &memory_limit_in_bytes) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+
+    if (memory_limit_in_bytes < 0) {
+        PHP_V8_THROW_EXCEPTION("Memory limit should be a non-negative numeric value");
+        return;
+    }
+
+    php_v8_isolate_limits_set_memory_limit(php_v8_isolate, static_cast<size_t>(memory_limit_in_bytes));
+
+    zend_update_property_long(this_ce, getThis(), ZEND_STRL("memory_limit"), memory_limit_in_bytes);
+    zend_update_property_bool(this_ce, getThis(), ZEND_STRL("memory_limit_hit"), 0);
+}
+
+static PHP_METHOD(V8Isolate, GetMemoryLimit) {
+    zval rv;
+
+    zval *prop = NULL;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+
+    prop = zend_read_property(this_ce, getThis(), ZEND_STRL("memory_limit"), 0, &rv);
+
+    RETVAL_ZVAL(prop, 1, 0);
+}
+
+static PHP_METHOD(V8Isolate, IsMemoryLimitHit) {
+    zval rv;
+
+    zval *prop = NULL;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+
+    prop = zend_read_property(this_ce, getThis(), ZEND_STRL("memory_limit_hit"), 0, &rv);
+
+    RETVAL_ZVAL(prop, 1, 0);
 }
 
 static PHP_METHOD(V8Isolate, GetSnapshot) {
@@ -434,6 +540,26 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate___construct, ZEND_SEND_BY_VAL, ZEND_RE
                 ZEND_ARG_OBJ_INFO(0, snapshot, v8\\StartupData, 1)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_SetTimeLimit, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+                ZEND_ARG_TYPE_INFO(0, time_limit_in_seconds, IS_DOUBLE, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetTimeLimit, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsTimeLimitHit, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_SetMemoryLimit, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+                ZEND_ARG_TYPE_INFO(0, memory_limit_in_bytes, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetMemoryLimit, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsMemoryLimitHit, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetSnapshot, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\StartupData", 1)
 ZEND_END_ARG_INFO()
 
@@ -485,6 +611,14 @@ ZEND_END_ARG_INFO()
 static const zend_function_entry php_v8_isolate_methods[] = {
         PHP_ME(V8Isolate, __construct, arginfo_v8_isolate___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
+        PHP_ME(V8Isolate, SetTimeLimit, arginfo_v8_isolate_SetTimeLimit, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Isolate, GetTimeLimit, arginfo_v8_isolate_GetTimeLimit, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Isolate, IsTimeLimitHit, arginfo_v8_isolate_IsTimeLimitHit, ZEND_ACC_PUBLIC)
+
+        PHP_ME(V8Isolate, SetMemoryLimit, arginfo_v8_isolate_SetMemoryLimit, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Isolate, GetMemoryLimit, arginfo_v8_isolate_GetMemoryLimit, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Isolate, IsMemoryLimitHit, arginfo_v8_isolate_IsMemoryLimitHit, ZEND_ACC_PUBLIC)
+
         PHP_ME(V8Isolate, GetSnapshot, arginfo_v8_isolate_GetSnapshot, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Isolate, GetHeapStatistics, arginfo_v8_isolate_GetHeapStatistics, ZEND_ACC_PUBLIC)
@@ -516,6 +650,12 @@ PHP_MINIT_FUNCTION (php_v8_isolate) {
     this_ce->create_object = php_v8_isolate_ctor;
 
     zend_declare_property_null(this_ce, ZEND_STRL("snapshot"), ZEND_ACC_PRIVATE);
+
+    zend_declare_property_double(this_ce, ZEND_STRL("time_limit"), 0.0, ZEND_ACC_PRIVATE);
+    zend_declare_property_bool(this_ce, ZEND_STRL("time_limit_hit"), 0, ZEND_ACC_PRIVATE);
+
+    zend_declare_property_long(this_ce, ZEND_STRL("memory_limit"), 0, ZEND_ACC_PRIVATE);
+    zend_declare_property_bool(this_ce, ZEND_STRL("memory_limit_hit"), 0, ZEND_ACC_PRIVATE);
 
     memcpy(&php_v8_isolate_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 

@@ -121,6 +121,9 @@ static PHP_METHOD(V8Script, __construct)
     v8::Local<v8::String> local_source =  php_v8_value_get_string_local(isolate, php_v8_string);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_SCRIPT(php_v8_script);
+
+    PHP_V8_DECLARE_LIMITS(php_v8_script->php_v8_isolate);
 
     v8::MaybeLocal<v8::Script> maybe_script = v8::Script::Compile(context, local_source, origin);
 
@@ -196,6 +199,7 @@ static PHP_METHOD(V8Script, Run)
     v8::Local<v8::Script> local_script = php_v8_script_get_local(isolate, php_v8_script);
 
     PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_SCRIPT(php_v8_script);
 
     v8::MaybeLocal<v8::Value> result = local_script->Run(context);
 

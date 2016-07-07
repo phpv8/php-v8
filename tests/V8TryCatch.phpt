@@ -71,16 +71,32 @@ Object representation (default):
 --------------------------------
 object(v8\TryCatch)#4 (7) {
   ["isolate":"v8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+  object(v8Tests\TrackingDtors\Isolate)#2 (5) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
+    ["time_limit":"v8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"v8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"v8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"v8\Isolate":private]=>
+    bool(false)
   }
   ["context":"v8\TryCatch":private]=>
   object(v8Tests\TrackingDtors\Context)#3 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+    object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
+      ["time_limit":"v8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"v8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"v8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"v8\Isolate":private]=>
+      bool(false)
     }
     ["extensions":"v8\Context":private]=>
     NULL
@@ -117,16 +133,32 @@ Object representation:
 ----------------------
 object(v8\TryCatch)#12 (7) {
   ["isolate":"v8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+  object(v8Tests\TrackingDtors\Isolate)#2 (5) {
     ["snapshot":"v8\Isolate":private]=>
     NULL
+    ["time_limit":"v8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"v8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"v8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"v8\Isolate":private]=>
+    bool(false)
   }
   ["context":"v8\TryCatch":private]=>
   object(v8Tests\TrackingDtors\Context)#3 (4) {
     ["isolate":"v8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+    object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
+      ["time_limit":"v8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"v8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"v8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"v8\Isolate":private]=>
+      bool(false)
     }
     ["extensions":"v8\Context":private]=>
     NULL
@@ -138,16 +170,32 @@ object(v8\TryCatch)#12 (7) {
   ["exception":"v8\TryCatch":private]=>
   object(v8\ObjectValue)#5 (2) {
     ["isolate":"v8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+    object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
+      ["time_limit":"v8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"v8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"v8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"v8\Isolate":private]=>
+      bool(false)
     }
     ["context":"v8\ObjectValue":private]=>
     object(v8Tests\TrackingDtors\Context)#3 (4) {
       ["isolate":"v8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+      object(v8Tests\TrackingDtors\Isolate)#2 (5) {
         ["snapshot":"v8\Isolate":private]=>
         NULL
+        ["time_limit":"v8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"v8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"v8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"v8\Isolate":private]=>
+        bool(false)
       }
       ["extensions":"v8\Context":private]=>
       NULL
@@ -160,9 +208,17 @@ object(v8\TryCatch)#12 (7) {
   ["stack_trace":"v8\TryCatch":private]=>
   object(v8\StringValue)#11 (1) {
     ["isolate":"v8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+    object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"v8\Isolate":private]=>
       NULL
+      ["time_limit":"v8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"v8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"v8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"v8\Isolate":private]=>
+      bool(false)
     }
   }
   ["message":"v8\TryCatch":private]=>
@@ -203,16 +259,32 @@ object(v8\TryCatch)#12 (7) {
       ["as_array":"v8\StackTrace":private]=>
       object(v8\ArrayObject)#10 (2) {
         ["isolate":"v8\Value":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+        object(v8Tests\TrackingDtors\Isolate)#2 (5) {
           ["snapshot":"v8\Isolate":private]=>
           NULL
+          ["time_limit":"v8\Isolate":private]=>
+          float(0)
+          ["time_limit_hit":"v8\Isolate":private]=>
+          bool(false)
+          ["memory_limit":"v8\Isolate":private]=>
+          int(0)
+          ["memory_limit_hit":"v8\Isolate":private]=>
+          bool(false)
         }
         ["context":"v8\ObjectValue":private]=>
         object(v8Tests\TrackingDtors\Context)#3 (4) {
           ["isolate":"v8\Context":private]=>
-          object(v8Tests\TrackingDtors\Isolate)#2 (1) {
+          object(v8Tests\TrackingDtors\Isolate)#2 (5) {
             ["snapshot":"v8\Isolate":private]=>
             NULL
+            ["time_limit":"v8\Isolate":private]=>
+            float(0)
+            ["time_limit_hit":"v8\Isolate":private]=>
+            bool(false)
+            ["memory_limit":"v8\Isolate":private]=>
+            int(0)
+            ["memory_limit_hit":"v8\Isolate":private]=>
+            bool(false)
           }
           ["extensions":"v8\Context":private]=>
           NULL
