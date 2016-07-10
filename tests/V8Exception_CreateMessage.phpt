@@ -71,7 +71,7 @@ $helper->line();
 
 $v8_helper->run_checks($res);
 ?>
---EXPECT--
+--EXPECTF--
 Can create message when out of context: ok
 
 exception: '[object Object]'
@@ -101,7 +101,7 @@ v8\Message->GetScriptOrigin():
         bool(false)
       }
       ["script_id":"v8\ScriptOrigin":private]=>
-      int(38)
+      int(%d)
       ["source_map_url":"v8\ScriptOrigin":private]=>
       string(0) ""
     }
@@ -137,7 +137,7 @@ v8\Message->GetScriptOrigin():
         bool(false)
       }
       ["script_id":"v8\ScriptOrigin":private]=>
-      int(38)
+      int(%d)
       ["source_map_url":"v8\ScriptOrigin":private]=>
       string(0) ""
     }

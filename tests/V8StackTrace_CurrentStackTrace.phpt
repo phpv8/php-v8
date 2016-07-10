@@ -133,25 +133,25 @@ $isolate = null;
 
 echo 'END', PHP_EOL;
 ?>
---EXPECT--
+--EXPECTF--
 totally 0 frames:
 [
 ]
 
 totally 1 frames:
 [
-    {"column":17,"lineNumber":14,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"column":17,"lineNumber":14,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","isEval":false,"functionName":"get_trace","isConstructor":false}
 ]
 
 totally 2 frames:
 [
-    {"column":17,"lineNumber":14,"scriptId":34}
-    {"column":1,"lineNumber":46,"scriptId":34}
+    {"column":17,"lineNumber":14,"scriptId":%d}
+    {"column":1,"lineNumber":46,"scriptId":%d}
 ]
 
 totally 1 frames:
 [
-    {"column":17,"lineNumber":14,"scriptId":34,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"column":17,"lineNumber":14,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","isEval":false,"functionName":"get_trace","isConstructor":false}
 ]
 
 totally 10 frames:
@@ -170,8 +170,8 @@ totally 10 frames:
 
 totally 2 frames:
 [
-    {"column":17,"lineNumber":14,"scriptId":34,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
-    {"column":1,"lineNumber":53,"scriptId":34,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
+    {"column":17,"lineNumber":14,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","isEval":false,"functionName":"get_trace","isConstructor":false}
+    {"column":1,"lineNumber":53,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","isEval":false,"functionName":"","isConstructor":false}
 ]
 
 JS-land stack trace:
