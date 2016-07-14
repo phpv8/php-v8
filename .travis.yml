@@ -1,0 +1,38 @@
+sudo: required
+dist: trusty
+
+language: php
+
+php:
+  - 7.0
+#  - 7.1
+  - nightly
+
+matrix:
+  allow_failures:
+    - php: nightly
+
+env:
+  global:
+    - NO_INTERACTION=1
+    - TEST_TIMEOUT=120
+  matrix:
+    - V8=5.2
+    - V8=5.2 TEST_PHP_ARGS=-m
+
+before_install:
+  - sudo add-apt-repository ppa:pinepain/libv8-${V8} -y
+  - sudo apt-get update -q
+  - sudo apt-get install -y libv8-${V8}-dev
+
+before_script:
+  - phpize && ./configure && make
+
+script:
+  - sh -c "make test | tee result.txt"
+  - sh test-report.sh
+
+addons:
+  apt:
+    packages:
+      - valgrind
