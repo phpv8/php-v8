@@ -60,7 +60,7 @@ object(v8\Isolate)#3 (5) {
   ["snapshot":"v8\Isolate":private]=>
   NULL
   ["time_limit":"v8\Isolate":private]=>
-  float(1.5)
+  float(%f)
   ["time_limit_hit":"v8\Isolate":private]=>
   bool(false)
   ["memory_limit":"v8\Isolate":private]=>
@@ -81,7 +81,7 @@ object(v8\Isolate)#3 (5) {
   ["snapshot":"v8\Isolate":private]=>
   NULL
   ["time_limit":"v8\Isolate":private]=>
-  float(1.5)
+  float(%f)
   ["time_limit_hit":"v8\Isolate":private]=>
   bool(false)
   ["memory_limit":"v8\Isolate":private]=>

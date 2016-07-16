@@ -26,6 +26,7 @@ before_install:
   - sudo apt-get install -y libv8-${V8}-dev
 
 before_script:
+  - echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - phpize && ./configure && make
 
 script:

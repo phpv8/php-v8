@@ -8,7 +8,7 @@ PHP extension for V8 JavaScript engine
 
 
 ## Developers note
-
+ - to be able to customize some tests make sure you have `` in your php.ini
  - `export DEV_TESTS=1` allows to run tests that made for development reason (e.g. test some weird behavior or for debugging)
  - To prevent asking test suite to send results to PHP QA team do `export NO_INTERACTION=1`
 

@@ -57,7 +57,21 @@ $file_name1 = 'test.js';
 
 $script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
 
-$isolate1->SetTimeLimit(1.5);
+// NOTE: this check is a bit fragile but should fits our need
+$needs_more_time = isset($_ENV['TRAVIS']) && isset($_ENV['TEST_PHP_ARGS']) && $_ENV['TEST_PHP_ARGS'] == '-m';
+
+if ($needs_more_time) {
+    // On travis when valgrind active it takes more time to complete all operations so we just increase initial limits
+    $time_limit = 5.0;
+    $low_range = 4.5;
+    $high_range = 7.5;
+} else {
+    $time_limit = 1.5;
+    $low_range = 1.45;
+    $high_range = 1.6;
+}
+
+$isolate1->SetTimeLimit($time_limit);
 $helper->dump($isolate1);
 $helper->line();
 
@@ -71,7 +85,7 @@ try {
     $helper->line();
     $t = microtime(true) - $t;
     $helper->dump(round($t, 9));
-    $helper->assert('Script execution time is between 1.500 and 1.600', $t >= 1.500 && $t < 1.599);
+    $helper->assert("Script execution time is within specified range ({$low_range}, {$high_range})", $t >= $low_range && $t < $high_range);
 }
 
 $helper->line();
@@ -82,7 +96,7 @@ object(v8\Isolate)#2 (5) {
   ["snapshot":"v8\Isolate":private]=>
   NULL
   ["time_limit":"v8\Isolate":private]=>
-  float(1.5)
+  float(%f)
   ["time_limit_hit":"v8\Isolate":private]=>
   bool(false)
   ["memory_limit":"v8\Isolate":private]=>
@@ -100,14 +114,14 @@ function call terminated
 v8\Exceptions\TimeLimitException: Time limit exceeded
 script execution terminated
 
-float(1.5%d)
-Script execution time is between 1.500 and 1.600: ok
+float(%f)
+Script execution time is within specified range (%f, %f): ok
 
 object(v8\Isolate)#2 (5) {
   ["snapshot":"v8\Isolate":private]=>
   NULL
   ["time_limit":"v8\Isolate":private]=>
-  float(1.5)
+  float(%f)
   ["time_limit_hit":"v8\Isolate":private]=>
   bool(true)
   ["memory_limit":"v8\Isolate":private]=>
