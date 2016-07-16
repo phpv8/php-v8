@@ -1,0 +1,4 @@
+#ifndef PHP_V8_HELLO_WORLD_H
+#define PHP_V8_HELLO_WORLD_H
+
+#endif //PHP_V8_HELLO_WORLD_H
