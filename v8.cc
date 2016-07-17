@@ -91,36 +91,6 @@ PHP_INI_END()
 */
 /* }}} */
 
-/* Remove the following function when you have successfully modified config.m4
-   so that your module can be compiled into PHP, it exists only for testing
-   purposes. */
-
-// TODO: remove this function and other stub data
-/* Every user-visible function in PHP should document itself in the source */
-/* {{{ proto string confirm_v8_compiled(string arg)
-   Return a string to confirm that the module is compiled in */
-PHP_FUNCTION(confirm_v8_compiled)
-{
-	char *arg = NULL;
-	size_t arg_len, len;
-	char *strg;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &arg, &arg_len) == FAILURE) {
-		return;
-	}
-
-	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "v8", arg);
-
-	RETVAL_STRINGL(strg, len);
-	efree(strg);
-}
-/* }}} */
-/* The previous line is meant for vim and emacs, so it can correctly fold and
-   unfold functions in source code. See the corresponding marks just before
-   function definition, where the functions purpose is also documented. Please
-   follow this convention for the convenience of others editing your code.
-*/
-
 
 /* {{{ PHP_MINIT_FUNCTION
  */
@@ -233,7 +203,7 @@ PHP_MINFO_FUNCTION(v8)
 	php_info_print_table_end();
 
 	php_info_print_table_start();
-	php_info_print_table_row(2, "V8 Engine Compiled Version", VERSION_STRING);
+	php_info_print_table_row(2, "V8 Engine Compiled Version", PHP_V8_LIBV8_VERSION);
 	php_info_print_table_row(2, "V8 Engine Linked Version", v8::V8::GetVersion());
 	php_info_print_table_end();
 
@@ -269,7 +239,6 @@ static PHP_GSHUTDOWN_FUNCTION(v8)
  * Every user visible function must have an entry in php_v8_functions[].
  */
 const zend_function_entry php_v8_functions[] = {
-	PHP_FE(confirm_v8_compiled,	NULL)		/* For testing, remove later. */
 	PHP_FE_END	/* Must be the last line in php_v8_functions[] */
 };
 /* }}} */

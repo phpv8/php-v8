@@ -15,6 +15,10 @@
 #ifndef PHP_V8_H
 #define PHP_V8_H
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 extern "C" {
 #include "php.h"
 #include <v8-version.h>
@@ -37,30 +41,10 @@ extern zend_module_entry php_v8_module_entry;
 #endif
 
 
+#define PHP_V8_NS "v8"
 
-#define PHP_V8_NS "v8"  // TODO: move to other header
-#define PHP_V8_EXCEPTIONS_NS PHP_V8_NS . "\\" . "Exceptions"  // TODO: move to other header
-
-
-/* From v8 src/version.cc */
-
-#if V8_IS_CANDIDATE_VERSION
-#define CANDIDATE_STRING " (candidate)"
-#else
-#define CANDIDATE_STRING ""
-#endif
-
-#define SX(x) #x
-#define S(x) SX(x)
-
-#if V8_PATCH_LEVEL > 0
-#define VERSION_STRING                                                      \
-  S(V8_MAJOR_VERSION) "." S(V8_MINOR_VERSION) "." S(V8_BUILD_NUMBER) "." S( \
-      V8_PATCH_LEVEL) CANDIDATE_STRING
-#else
-#define VERSION_STRING                                               \
-  S(V8_MAJOR_VERSION) "." S(V8_MINOR_VERSION) "." S(V8_BUILD_NUMBER) \
-      CANDIDATE_STRING
+#ifndef PHP_V8_LIBV8_VERSION
+#define PHP_V8_LIBV8_VERSION "undefined"
 #endif
 
 

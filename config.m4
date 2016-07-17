@@ -132,8 +132,8 @@ if test "$PHP_V8" != "no"; then
     if test "$V8_API_VERSION" -lt 501000 ; then
        AC_MSG_ERROR([libv8 must be version 5.1.0 or greater])
     fi
-    AC_DEFINE_UNQUOTED([PHP_LIBV8_API_VERSION], $V8_API_VERSION, [ ])
-    AC_DEFINE_UNQUOTED([PHP_LIBV8_VERSION], "$ac_cv_v8_version", [ ])
+    AC_DEFINE_UNQUOTED([PHP_V8_LIBV8_API_VERSION], $V8_API_VERSION, [ ])
+    AC_DEFINE_UNQUOTED([PHP_V8_LIBV8_VERSION], "$ac_cv_v8_version", [ ])
   else
     AC_MSG_ERROR([could not determine libv8 version])
   fi
