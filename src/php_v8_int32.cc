@@ -63,7 +63,7 @@ static PHP_METHOD(V8Int32, Value) {
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_int32___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
-                ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_TYPE_INFO(0, value, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 

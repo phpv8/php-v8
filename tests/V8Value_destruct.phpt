@@ -1,5 +1,5 @@
 --TEST--
-v8\Value (destruct)
+V8\Value (destruct)
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -10,7 +10,7 @@ $helper = require '.testsuite.php';
 
 require '.tracking_dtors.php';
 
-$isolate = new v8\Isolate();
+$isolate = new V8\Isolate();
 $value = new \v8Tests\TrackingDtors\Value($isolate);
 
 
@@ -22,17 +22,17 @@ echo "Done here", PHP_EOL;
 ?>
 --EXPECT--
 object(v8Tests\TrackingDtors\Value)#3 (1) {
-  ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#2 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+  ["isolate":"V8\Value":private]=>
+  object(V8\Isolate)#2 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
 }

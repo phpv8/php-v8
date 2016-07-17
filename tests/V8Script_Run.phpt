@@ -1,5 +1,5 @@
 --TEST--
-v8\Script::Run
+V8\Script::Run
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -11,20 +11,20 @@ require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
 
-$isolate = new v8\Isolate();
+$isolate = new V8\Isolate();
 $extensions = [];
-$global_template = new v8\ObjectTemplate($isolate);
+$global_template = new V8\ObjectTemplate($isolate);
 
-$value = new v8\StringValue($isolate, 'TEST VALUE 111');
+$value = new V8\StringValue($isolate, 'TEST VALUE 111');
 
-$global_template->Set(new \v8\StringValue($isolate, 'test'), $value);
-$context = new v8\Context($isolate, $extensions, $global_template);
+$global_template->Set(new \V8\StringValue($isolate, 'test'), $value);
+$context = new V8\Context($isolate, $extensions, $global_template);
 
 
 $source    = 'test; test = test + ", confirmed"';
 $file_name = 'test.js';
 
-$script = new v8\Script($context, new \v8\StringValue($isolate, $source), new \v8\ScriptOrigin($file_name));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 $res = $script->Run();
 
 $v8_helper->run_checks($value);
@@ -33,10 +33,10 @@ $helper->dump($res->Value());
 
 $helper->space();
 
-$scalar = new v8\NumberValue($isolate, 123);
-$obj    = new v8\ObjectValue($context);
-$context->GlobalObject()->Set($context, new \v8\StringValue($isolate, 'scalar'), $scalar);
-$context->GlobalObject()->Set($context, new \v8\StringValue($isolate, 'obj'), $obj);
+$scalar = new V8\NumberValue($isolate, 123);
+$obj    = new V8\ObjectValue($context);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'scalar'), $scalar);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $obj);
 
 $res = $v8_helper->CompileTryRun($context, 'scalar');
 
@@ -54,31 +54,31 @@ $helper->value_matches_with_no_output($res, $obj);
 
 ?>
 --EXPECT--
-Checks on v8\StringValue:
+Checks on V8\StringValue:
 -------------------------
-v8\StringValue->IsOneByte(): bool(true)
-v8\StringValue(v8\Value)->IsUndefined(): bool(false)
-v8\StringValue(v8\Value)->IsNull(): bool(false)
-v8\StringValue(v8\Value)->IsTrue(): bool(false)
-v8\StringValue(v8\Value)->IsFalse(): bool(false)
-v8\StringValue(v8\Value)->IsName(): bool(true)
-v8\StringValue(v8\Value)->IsString(): bool(true)
-v8\StringValue(v8\Value)->IsSymbol(): bool(false)
-v8\StringValue(v8\Value)->IsFunction(): bool(false)
-v8\StringValue(v8\Value)->IsArray(): bool(false)
-v8\StringValue(v8\Value)->IsObject(): bool(false)
-v8\StringValue(v8\Value)->IsBoolean(): bool(false)
-v8\StringValue(v8\Value)->IsNumber(): bool(false)
-v8\StringValue(v8\Value)->IsInt32(): bool(false)
-v8\StringValue(v8\Value)->IsUint32(): bool(false)
-v8\StringValue(v8\Value)->IsDate(): bool(false)
-v8\StringValue(v8\Value)->IsArgumentsObject(): bool(false)
-v8\StringValue(v8\Value)->IsBooleanObject(): bool(false)
-v8\StringValue(v8\Value)->IsNumberObject(): bool(false)
-v8\StringValue(v8\Value)->IsStringObject(): bool(false)
-v8\StringValue(v8\Value)->IsSymbolObject(): bool(false)
-v8\StringValue(v8\Value)->IsNativeError(): bool(false)
-v8\StringValue(v8\Value)->IsRegExp(): bool(false)
+V8\StringValue->IsOneByte(): bool(true)
+V8\StringValue(V8\Value)->IsUndefined(): bool(false)
+V8\StringValue(V8\Value)->IsNull(): bool(false)
+V8\StringValue(V8\Value)->IsTrue(): bool(false)
+V8\StringValue(V8\Value)->IsFalse(): bool(false)
+V8\StringValue(V8\Value)->IsName(): bool(true)
+V8\StringValue(V8\Value)->IsString(): bool(true)
+V8\StringValue(V8\Value)->IsSymbol(): bool(false)
+V8\StringValue(V8\Value)->IsFunction(): bool(false)
+V8\StringValue(V8\Value)->IsArray(): bool(false)
+V8\StringValue(V8\Value)->IsObject(): bool(false)
+V8\StringValue(V8\Value)->IsBoolean(): bool(false)
+V8\StringValue(V8\Value)->IsNumber(): bool(false)
+V8\StringValue(V8\Value)->IsInt32(): bool(false)
+V8\StringValue(V8\Value)->IsUint32(): bool(false)
+V8\StringValue(V8\Value)->IsDate(): bool(false)
+V8\StringValue(V8\Value)->IsArgumentsObject(): bool(false)
+V8\StringValue(V8\Value)->IsBooleanObject(): bool(false)
+V8\StringValue(V8\Value)->IsNumberObject(): bool(false)
+V8\StringValue(V8\Value)->IsStringObject(): bool(false)
+V8\StringValue(V8\Value)->IsSymbolObject(): bool(false)
+V8\StringValue(V8\Value)->IsNativeError(): bool(false)
+V8\StringValue(V8\Value)->IsRegExp(): bool(false)
 
 
 string(25) "TEST VALUE 111, confirmed"

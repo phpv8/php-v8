@@ -213,24 +213,24 @@ static PHP_METHOD(V8Script, Run)
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_source___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
-    ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-    ZEND_ARG_OBJ_INFO(0, source, v8\\StringValue, 0)
-    ZEND_ARG_OBJ_INFO(0, origin, v8\\ScriptOrigin, 0)
+    ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+    ZEND_ARG_OBJ_INFO(0, source, V8\\StringValue, 0)
+    ZEND_ARG_OBJ_INFO(0, origin, V8\\ScriptOrigin, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Isolate", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Isolate", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Context", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Context", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_getSource, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\StringValue", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_getSource, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\StringValue", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_getOrigin, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\ScriptOrigin", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_getOrigin, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\ScriptOrigin", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_Run, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Value", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_Run, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
 ZEND_END_ARG_INFO()
 
 

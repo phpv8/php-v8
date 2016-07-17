@@ -98,7 +98,7 @@ extern php_v8_return_value_t * php_v8_return_value_fetch_object(zend_object *obj
     } \
     \
     if((retval)->accepts == PHP_V8_RETVAL_ACCEPTS_ARRAY && !((val_type) & PHP_V8_RETVAL_ACCEPTS_ARRAY)) { \
-        PHP_V8_THROW_EXCEPTION("ReturnValue accepts only instances of \\v8\\ArrayObject class"); \
+        PHP_V8_THROW_EXCEPTION("ReturnValue accepts only instances of \\V8\\ArrayObject class"); \
         return; \
     } \
     \

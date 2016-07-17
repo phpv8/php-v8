@@ -1,12 +1,12 @@
 --TEST--
-v8\PropertyAttribute
+V8\PropertyAttribute
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
 <?php
 
 // Bootstraps:
-$obj = new v8\PropertyAttribute();
+$obj = new V8\PropertyAttribute();
 
 // Tests:
 
@@ -26,13 +26,13 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\PropertyAttribute)#1 (0) {
+object(V8\PropertyAttribute)#1 (0) {
 }
 
 
 Class constants:
 ----------------
-v8\PropertyAttribute::None = 0
-v8\PropertyAttribute::ReadOnly = 1
-v8\PropertyAttribute::DontEnum = 2
-v8\PropertyAttribute::DontDelete = 4
+V8\PropertyAttribute::None = 0
+V8\PropertyAttribute::ReadOnly = 1
+V8\PropertyAttribute::DontEnum = 2
+V8\PropertyAttribute::DontDelete = 4

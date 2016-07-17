@@ -1,5 +1,5 @@
 --TEST--
-v8\StackTrace::CurrentStackTrace()
+V8\StackTrace::CurrentStackTrace()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -19,7 +19,7 @@ $global_template = new v8Tests\TrackingDtors\ObjectTemplate($isolate);
 
 $stack_trace = null;
 
-$current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolate, function (\v8\FunctionCallbackInfo $args) use (&$stack_trace) {
+$current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use (&$stack_trace) {
     $isolate = $args->GetIsolate();
     $context = $args->GetContext();
 
@@ -32,18 +32,18 @@ $current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($iso
     if ($args->Length() > 1) {
         $options = $args->Arguments()[1]->NumberValue($context);
     } else {
-        $options = \v8\StackTrace\StackTraceOptions::kOverview;
+        $options = \V8\StackTrace\StackTraceOptions::kOverview;
     }
 
-    $stack_trace = \v8\StackTrace::CurrentStackTrace($isolate, $frame_limit, $options);
+    $stack_trace = \V8\StackTrace::CurrentStackTrace($isolate, $frame_limit, $options);
 
     echo 'totally ', $stack_trace->GetFrameCount(), ' frames:', PHP_EOL;
 
     $args->GetReturnValue()->Set($stack_trace->AsArray());
 });
 
-$global_template->Set(new \v8\StringValue($isolate, 'current_stack_trace'), $current_stack_trace_func_tpl);
-$global_template->Set(new \v8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
+$global_template->Set(new \V8\StringValue($isolate, 'current_stack_trace'), $current_stack_trace_func_tpl);
+$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $context = new v8Tests\TrackingDtors\Context($isolate, $extensions, $global_template);
 
 $source    = /** @lang JavaScript */
@@ -117,7 +117,7 @@ print("\\n");
 ';
 $file_name = 'test.js';
 
-$script = new v8Tests\TrackingDtors\Script($context, new \v8\StringValue($isolate, $source), new \v8\ScriptOrigin($file_name));
+$script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 $res = $script->Run();
 
 

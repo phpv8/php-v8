@@ -1,5 +1,5 @@
 --TEST--
-v8\Exception::GetStackTrace()
+V8\Exception::GetStackTrace()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -9,12 +9,12 @@ $helper = require '.testsuite.php';
 
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
-$isolate = new \v8\Isolate();
-$context = new \v8\Context($isolate);
+$isolate = new \V8\Isolate();
+$context = new \V8\Context($isolate);
 
 
 try {
-    $stack_trace = v8\Exception::GetStackTrace($context, new \v8\StringValue($isolate, 'test'));
+    $stack_trace = V8\Exception::GetStackTrace($context, new \V8\StringValue($isolate, 'test'));
     $helper->assert('Can get stack trace when out of context', true);
 } catch (\Exception $e) {
     $helper->exception_export($e);
@@ -25,7 +25,7 @@ $helper->line();
 //$stack_trace_generation_allowed = false;
 //$isolate->SetCaptureStackTraceForUncaughtExceptions($stack_trace_generation_allowed); // actually, this is default behavior
 
-$func_test_tpl = new \v8\FunctionTemplate($isolate, function (\v8\FunctionCallbackInfo $info) use ($helper, $v8_helper, &$stack_trace_generation_allowed) {
+$func_test_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) use ($helper, $v8_helper, &$stack_trace_generation_allowed) {
     $isolate = $info->GetIsolate();
 
     $helper->assert('Exception passed', $info->Length() == 1);
@@ -35,30 +35,30 @@ $func_test_tpl = new \v8\FunctionTemplate($isolate, function (\v8\FunctionCallba
 
 
     if (!$stack_trace_generation_allowed) {
-        $stack_trace = v8\Exception::GetStackTrace($info->GetContext(), $exception);
+        $stack_trace = V8\Exception::GetStackTrace($info->GetContext(), $exception);
         $helper->assert('Stack trace created from thrown value is null when capturing stack trace disabled', $stack_trace === null);
         $helper->line();
 
         return;
     }
 
-    $stack_trace = v8\Exception::GetStackTrace($info->GetContext(), $exception);
+    $stack_trace = V8\Exception::GetStackTrace($info->GetContext(), $exception);
     $helper->header('Stack trace created from thrown value');
     $helper->dump_object_methods($stack_trace, [], new ArrayListFilter(['GetFrame'], true, ReflectionMethod::IS_PUBLIC));
     $helper->line();
 
 
-    $exception = new \v8\StringValue($info->GetIsolate(), 'test');
-    $stack_trace = v8\Exception::GetStackTrace($info->GetContext(), $exception);
+    $exception = new \V8\StringValue($info->GetIsolate(), 'test');
+    $stack_trace = V8\Exception::GetStackTrace($info->GetContext(), $exception);
     $helper->assert('Stack trace created from manually created value is null', null === $stack_trace);
     $helper->line();
 });
 
-$global_tpl = new \v8\ObjectTemplate($isolate);
-$global_tpl->Set(new \v8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
-$global_tpl->Set(new \v8\StringValue($isolate, 'test'), $func_test_tpl);
+$global_tpl = new \V8\ObjectTemplate($isolate);
+$global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
+$global_tpl->Set(new \V8\StringValue($isolate, 'test'), $func_test_tpl);
 
-$context = new \v8\Context($isolate, [], $global_tpl);
+$context = new \V8\Context($isolate, [], $global_tpl);
 
 
 $source = '
@@ -109,79 +109,79 @@ Exception passed: ok
 
 Stack trace created from thrown value:
 --------------------------------------
-v8\StackTrace->getFrames():
+V8\StackTrace->getFrames():
     array(1) {
       [0]=>
-      object(v8\StackFrame)#20 (8) {
-        ["line_number":"v8\StackFrame":private]=>
+      object(V8\StackFrame)#20 (8) {
+        ["line_number":"V8\StackFrame":private]=>
         int(5)
-        ["column":"v8\StackFrame":private]=>
+        ["column":"V8\StackFrame":private]=>
         int(15)
-        ["script_id":"v8\StackFrame":private]=>
+        ["script_id":"V8\StackFrame":private]=>
         int(0)
-        ["script_name":"v8\StackFrame":private]=>
+        ["script_name":"V8\StackFrame":private]=>
         string(7) "test.js"
-        ["script_name_or_source_url":"v8\StackFrame":private]=>
+        ["script_name_or_source_url":"V8\StackFrame":private]=>
         string(0) ""
-        ["function_name":"v8\StackFrame":private]=>
+        ["function_name":"V8\StackFrame":private]=>
         string(0) ""
-        ["is_eval":"v8\StackFrame":private]=>
+        ["is_eval":"V8\StackFrame":private]=>
         int(0)
-        ["is_constructor":"v8\StackFrame":private]=>
+        ["is_constructor":"V8\StackFrame":private]=>
         int(0)
       }
     }
-v8\StackTrace->GetFrameCount(): int(1)
-v8\StackTrace->AsArray():
-    object(v8\ArrayObject)#18 (2) {
-      ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#3 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+V8\StackTrace->GetFrameCount(): int(1)
+V8\StackTrace->AsArray():
+    object(V8\ArrayObject)#18 (2) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#3 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["context":"v8\ObjectValue":private]=>
-      object(v8\Context)#8 (4) {
-        ["isolate":"v8\Context":private]=>
-        object(v8\Isolate)#3 (5) {
-          ["snapshot":"v8\Isolate":private]=>
+      ["context":"V8\ObjectValue":private]=>
+      object(V8\Context)#8 (4) {
+        ["isolate":"V8\Context":private]=>
+        object(V8\Isolate)#3 (5) {
+          ["snapshot":"V8\Isolate":private]=>
           NULL
-          ["time_limit":"v8\Isolate":private]=>
+          ["time_limit":"V8\Isolate":private]=>
           float(0)
-          ["time_limit_hit":"v8\Isolate":private]=>
+          ["time_limit_hit":"V8\Isolate":private]=>
           bool(false)
-          ["memory_limit":"v8\Isolate":private]=>
+          ["memory_limit":"V8\Isolate":private]=>
           int(0)
-          ["memory_limit_hit":"v8\Isolate":private]=>
+          ["memory_limit_hit":"V8\Isolate":private]=>
           bool(false)
         }
-        ["extensions":"v8\Context":private]=>
+        ["extensions":"V8\Context":private]=>
         array(0) {
         }
-        ["global_template":"v8\Context":private]=>
-        object(v8\ObjectTemplate)#7 (1) {
-          ["isolate":"v8\Template":private]=>
-          object(v8\Isolate)#3 (5) {
-            ["snapshot":"v8\Isolate":private]=>
+        ["global_template":"V8\Context":private]=>
+        object(V8\ObjectTemplate)#7 (1) {
+          ["isolate":"V8\Template":private]=>
+          object(V8\Isolate)#3 (5) {
+            ["snapshot":"V8\Isolate":private]=>
             NULL
-            ["time_limit":"v8\Isolate":private]=>
+            ["time_limit":"V8\Isolate":private]=>
             float(0)
-            ["time_limit_hit":"v8\Isolate":private]=>
+            ["time_limit_hit":"V8\Isolate":private]=>
             bool(false)
-            ["memory_limit":"v8\Isolate":private]=>
+            ["memory_limit":"V8\Isolate":private]=>
             int(0)
-            ["memory_limit_hit":"v8\Isolate":private]=>
+            ["memory_limit_hit":"V8\Isolate":private]=>
             bool(false)
           }
         }
-        ["global_object":"v8\Context":private]=>
+        ["global_object":"V8\Context":private]=>
         NULL
       }
     }

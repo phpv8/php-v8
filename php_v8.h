@@ -41,7 +41,7 @@ extern zend_module_entry php_v8_module_entry;
 #endif
 
 
-#define PHP_V8_NS "v8"
+#define PHP_V8_NS "V8"
 
 #ifndef PHP_V8_LIBV8_VERSION
 #define PHP_V8_LIBV8_VERSION "undefined"

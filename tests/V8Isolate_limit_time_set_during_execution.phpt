@@ -1,5 +1,5 @@
 --TEST--
-v8\Isolate - time limit set during execution
+V8\Isolate - time limit set during execution
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -10,12 +10,12 @@ $helper = require '.testsuite.php';
 
 require '.tracking_dtors.php';
 
-$isolate1 = new v8\Isolate();
+$isolate1 = new V8\Isolate();
 $extensions1 = [];
 
-$global_template1 = new v8\ObjectTemplate($isolate1);
+$global_template1 = new V8\ObjectTemplate($isolate1);
 
-$context1 = new v8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
 
 // NOTE: this check is a bit fragile but should fits our need
 $needs_more_time = isset($_ENV['TRAVIS']) && isset($_ENV['TEST_PHP_ARGS']) && $_ENV['TEST_PHP_ARGS'] == '-m';
@@ -31,13 +31,13 @@ if ($needs_more_time) {
     $high_range = 1.6;
 }
 
-$func = new v8\FunctionObject($context1, function (\v8\FunctionCallbackInfo $info) use (&$helper, $time_limit) {
+$func = new V8\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) use (&$helper, $time_limit) {
     $isolate = $info->GetIsolate();
     $isolate->SetTimeLimit($time_limit);
 });
 
 
-$context1->GlobalObject()->Set($context1, new \v8\StringValue($isolate1, 'test'), $func);
+$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'test'), $func);
 
 $source1 = '
 test();
@@ -45,7 +45,7 @@ for(;;);
 "Script done"';
 $file_name1 = 'test.js';
 
-$script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
+$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
 $helper->dump($isolate1);
 $helper->line();
@@ -53,7 +53,7 @@ $helper->line();
 $t = microtime(true);
 try {
     $script1->Run();
-} catch(\v8\Exceptions\TimeLimitException $e) {
+} catch(\V8\Exceptions\TimeLimitException $e) {
     $helper->exception_export($e);
     echo 'script execution terminated', PHP_EOL;
 } finally {
@@ -68,34 +68,34 @@ $helper->dump($isolate1);
 
 ?>
 --EXPECTF--
-object(v8\Isolate)#2 (5) {
-  ["snapshot":"v8\Isolate":private]=>
+object(V8\Isolate)#2 (5) {
+  ["snapshot":"V8\Isolate":private]=>
   NULL
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(0)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(false)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(0)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }
 
-v8\Exceptions\TimeLimitException: Time limit exceeded
+V8\Exceptions\TimeLimitException: Time limit exceeded
 script execution terminated
 
 float(%f)
 Script execution time is within specified range (%f, %f): ok
 
-object(v8\Isolate)#2 (5) {
-  ["snapshot":"v8\Isolate":private]=>
+object(V8\Isolate)#2 (5) {
+  ["snapshot":"V8\Isolate":private]=>
   NULL
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(%f)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(true)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(0)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }

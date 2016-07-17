@@ -1,5 +1,5 @@
 --TEST--
-v8\Script::Run - terminate script execution
+V8\Script::Run - terminate script execution
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -18,31 +18,31 @@ $extensions1 = [];
 
 //$isolate1->SetCaptureStackTraceForUncaughtExceptions(true);
 
-$global_template1 = new v8\ObjectTemplate($isolate1);
+$global_template1 = new V8\ObjectTemplate($isolate1);
 
 $timer = 0;
-$terminate = new v8\FunctionTemplate($isolate1, function (\v8\FunctionCallbackInfo $info) use (&$timer) {
+$terminate = new V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) use (&$timer) {
     echo 'Going to terminate', PHP_EOL;
     $isolate = $info->GetIsolate();
 
 //    throw new Exception('test');
 
     $timer = microtime(true);
-    $script = new v8\Script($info->GetContext(), new \v8\StringValue($isolate, 'for(;;);'), new \v8\ScriptOrigin('wait_for_termination.js'));
+    $script = new V8\Script($info->GetContext(), new \V8\StringValue($isolate, 'for(;;);'), new \V8\ScriptOrigin('wait_for_termination.js'));
     $isolate->TerminateExecution();
     try {
         $script->Run();
-    } catch (\v8\Exceptions\TerminationException $e) {
+    } catch (\V8\Exceptions\TerminationException $e) {
         echo 'wait loop terminated', PHP_EOL;
     }
 
     $e = null;
 });
 
-$global_template1->Set(new \v8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \v8\PropertyAttribute::DontDelete);
-$global_template1->Set(new \v8\StringValue($isolate1, 'terminate'), $terminate, \v8\PropertyAttribute::DontDelete);
+$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
+$global_template1->Set(new \V8\StringValue($isolate1, 'terminate'), $terminate, \V8\PropertyAttribute::DontDelete);
 
-$context1 = new v8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
 $global_template1 = null;
 
 $source1 = '
@@ -56,10 +56,10 @@ while (true) {
 ';
 $file_name1 = 'test.js';
 
-$script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
+$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 try {
 $res1 = $script1->Run();
-} catch (\v8\Exceptions\TerminationException $e) {
+} catch (\V8\Exceptions\TerminationException $e) {
    $helper->exception_export($e);
 } finally {
     $timer = microtime(true) - $timer;
@@ -83,7 +83,7 @@ EOF
 before terminate
 Going to terminate
 wait loop terminated
-v8\Exceptions\TerminationException: Execution terminated
+V8\Exceptions\TerminationException: Execution terminated
 Shutdown took: %fsec
 Shutdown is less than 1sec: yes
 Isolate dies now!

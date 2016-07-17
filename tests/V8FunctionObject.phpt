@@ -1,5 +1,5 @@
 --TEST--
-v8\FunctionObject
+V8\FunctionObject
 --SKIPIF--
 <?php if (!extension_loaded("v8")) {
     print "skip";
@@ -15,32 +15,32 @@ require '.tracking_dtors.php';
 $isolate1 = new v8Tests\TrackingDtors\Isolate();
 $extensions1 = [];
 
-$global_template1 = new v8\ObjectTemplate($isolate1);
+$global_template1 = new V8\ObjectTemplate($isolate1);
 
-$context1 = new v8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
 
 
-$func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\v8\FunctionCallbackInfo $info) {
+$func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) {
     echo 'Should output Hello World string', PHP_EOL;
 });
 
-$func->SetName(new \v8\StringValue($isolate1, 'custom_name'));
+$func->SetName(new \V8\StringValue($isolate1, 'custom_name'));
 
 $helper->header('Object representation');
 $helper->dump($func);
 $helper->space();
 
-$helper->assert('FunctionObject extends ObjectValue', $func instanceof \v8\ObjectValue);
+$helper->assert('FunctionObject extends ObjectValue', $func instanceof \V8\ObjectValue);
 $helper->line();
 
 
-$context1->GlobalObject()->Set($context1, new \v8\StringValue($isolate1, 'print'), $func);
+$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'print'), $func);
 
 $source1 = 'print("Hello, world\n"); delete print; "Script done"';
 $file_name1 = 'test.js';
 
 
-$script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
+$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
 $helper->dump($script1->Run()->ToString($context1)->Value());
 $helper->line();
@@ -55,54 +55,54 @@ echo 'We are done for now', PHP_EOL;
 Object representation:
 ----------------------
 object(v8Tests\TrackingDtors\FunctionObject)#5 (2) {
-  ["isolate":"v8\Value":private]=>
+  ["isolate":"V8\Value":private]=>
   object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
-  ["context":"v8\ObjectValue":private]=>
-  object(v8\Context)#4 (4) {
-    ["isolate":"v8\Context":private]=>
+  ["context":"V8\ObjectValue":private]=>
+  object(V8\Context)#4 (4) {
+    ["isolate":"V8\Context":private]=>
     object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-      ["snapshot":"v8\Isolate":private]=>
+      ["snapshot":"V8\Isolate":private]=>
       NULL
-      ["time_limit":"v8\Isolate":private]=>
+      ["time_limit":"V8\Isolate":private]=>
       float(0)
-      ["time_limit_hit":"v8\Isolate":private]=>
+      ["time_limit_hit":"V8\Isolate":private]=>
       bool(false)
-      ["memory_limit":"v8\Isolate":private]=>
+      ["memory_limit":"V8\Isolate":private]=>
       int(0)
-      ["memory_limit_hit":"v8\Isolate":private]=>
+      ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["extensions":"v8\Context":private]=>
+    ["extensions":"V8\Context":private]=>
     array(0) {
     }
-    ["global_template":"v8\Context":private]=>
-    object(v8\ObjectTemplate)#3 (1) {
-      ["isolate":"v8\Template":private]=>
+    ["global_template":"V8\Context":private]=>
+    object(V8\ObjectTemplate)#3 (1) {
+      ["isolate":"V8\Template":private]=>
       object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
     }
-    ["global_object":"v8\Context":private]=>
+    ["global_object":"V8\Context":private]=>
     NULL
   }
 }
@@ -113,26 +113,26 @@ FunctionObject extends ObjectValue: ok
 Should output Hello World string
 string(11) "Script done"
 
-v8Tests\TrackingDtors\FunctionObject(v8\FunctionObject)->GetScriptOrigin():
-    object(v8\ScriptOrigin)#105 (6) {
-      ["resource_name":"v8\ScriptOrigin":private]=>
+v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
+    object(V8\ScriptOrigin)#105 (6) {
+      ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
-      ["resource_line_offset":"v8\ScriptOrigin":private]=>
+      ["resource_line_offset":"V8\ScriptOrigin":private]=>
       int(0)
-      ["resource_column_offset":"v8\ScriptOrigin":private]=>
+      ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
-      ["options":"v8\ScriptOrigin":private]=>
-      object(v8\ScriptOriginOptions)#106 (3) {
-        ["is_embedder_debug_script":"v8\ScriptOriginOptions":private]=>
+      ["options":"V8\ScriptOrigin":private]=>
+      object(V8\ScriptOriginOptions)#106 (3) {
+        ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
         bool(false)
-        ["is_shared_cross_origin":"v8\ScriptOriginOptions":private]=>
+        ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
-        ["is_opaque":"v8\ScriptOriginOptions":private]=>
+        ["is_opaque":"V8\ScriptOriginOptions":private]=>
         bool(false)
       }
-      ["script_id":"v8\ScriptOrigin":private]=>
+      ["script_id":"V8\ScriptOrigin":private]=>
       int(0)
-      ["source_map_url":"v8\ScriptOrigin":private]=>
+      ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
     }
 

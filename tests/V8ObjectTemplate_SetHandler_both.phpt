@@ -1,5 +1,5 @@
 --TEST--
-v8\ObjectTemplate::SetHandlerFor{Named,Indexed}Property()
+V8\ObjectTemplate::SetHandlerFor{Named,Indexed}Property()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) { print "skip"; } ?>
 --FILE--
@@ -11,18 +11,18 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \v8\Isolate();
+$isolate1 = new \V8\Isolate();
 $extensions1 = [];
-$global_template1 = new v8\ObjectTemplate($isolate1);
+$global_template1 = new V8\ObjectTemplate($isolate1);
 
-$global_template1->Set(new \v8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \v8\PropertyAttribute::DontDelete);
+$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
 
 $allow_named = false;
 $allow_indexed = false;
 
 $foo = 100;
 
-$getter = function (\v8\NameValue $name, \v8\PropertyCallbackInfo $info) use (&$foo) {
+$getter = function (\V8\NameValue $name, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am named getter for ', $name->ToString($info->GetContext())->Value(), '!', PHP_EOL;
 
     if ('bar' === $name) {
@@ -30,46 +30,46 @@ $getter = function (\v8\NameValue $name, \v8\PropertyCallbackInfo $info) use (&$
         return;
     }
 
-    $info->GetReturnValue()->Set(new \v8\NumberValue($info->GetIsolate(), $foo));
+    $info->GetReturnValue()->Set(new \V8\NumberValue($info->GetIsolate(), $foo));
 };
 
-$setter = function (\v8\NameValue$name, \v8\Value $value, \v8\PropertyCallbackInfo $info) use (&$foo) {
+$setter = function (\V8\NameValue$name, \V8\Value $value, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am named setter for ', $name->ToString($info->GetContext())->Value(), '!', PHP_EOL;
 
     $foo = $value->ToNumber($info->GetContext())->Value() / 2;
 };
 
-$query = function (\v8\NameValue$name, \v8\PropertyCallbackInfo $info) use (&$foo) {
+$query = function (\V8\NameValue$name, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am named query for ', $name->ToString($info->GetContext())->Value(), '!', PHP_EOL;
-    $info->GetReturnValue()->SetInteger(\v8\PropertyAttribute::None);
+    $info->GetReturnValue()->SetInteger(\V8\PropertyAttribute::None);
 };
 
-$deleter = function (\v8\NameValue$name, \v8\PropertyCallbackInfo $info) use (&$foo) {
+$deleter = function (\V8\NameValue$name, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am named deleter for ', $name->ToString($info->GetContext())->Value(), '!', PHP_EOL;
 //    $info->GetReturnValue()->Set(true);
 };
 
-$enumerator = function (\v8\PropertyCallbackInfo $info) use (&$foo, &$allow_named) {
+$enumerator = function (\V8\PropertyCallbackInfo $info) use (&$foo, &$allow_named) {
     echo 'I am named enumerator!', PHP_EOL;
 
     $ctxt = $info->GetContext();
-    $arr = new \v8\ArrayObject($ctxt);
+    $arr = new \V8\ArrayObject($ctxt);
 
     if ($allow_named) {
         for ($i =0, $j = 'test-a'; $i < 10; $i ++, $j++) {
-            $arr->Set($ctxt, new \v8\StringValue($info->GetIsolate(), $i), new \v8\StringValue($info->GetIsolate(), $j));
+            $arr->Set($ctxt, new \V8\StringValue($info->GetIsolate(), $i), new \V8\StringValue($info->GetIsolate(), $j));
         }
     }
     $info->GetReturnValue()->Set($arr);
 };
 
 
-$test_obj_tpl = new \v8\ObjectTemplate($isolate1);
-$test_obj_tpl->SetHandlerForNamedProperty(new \v8\NamedPropertyHandlerConfiguration($getter, $setter, $query, $deleter, $enumerator));
+$test_obj_tpl = new \V8\ObjectTemplate($isolate1);
+$test_obj_tpl->SetHandlerForNamedProperty(new \V8\NamedPropertyHandlerConfiguration($getter, $setter, $query, $deleter, $enumerator));
 
 
 
-$getter = function (int $index, \v8\PropertyCallbackInfo $info) use (&$foo) {
+$getter = function (int $index, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am indexed getter for ', $index, '!', PHP_EOL;
 
     if (1 === $index) {
@@ -77,50 +77,50 @@ $getter = function (int $index, \v8\PropertyCallbackInfo $info) use (&$foo) {
         return;
     }
 
-    $info->GetReturnValue()->Set(new \v8\NumberValue($info->GetIsolate(), $foo));
+    $info->GetReturnValue()->Set(new \V8\NumberValue($info->GetIsolate(), $foo));
 };
 
-$setter = function (int $index, \v8\Value $value, \v8\PropertyCallbackInfo $info) use (&$foo) {
+$setter = function (int $index, \V8\Value $value, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am indexed setter for ', $index, '!', PHP_EOL;
 
     $foo = $value->ToNumber($info->GetContext())->Value() / 2;
 };
 
-$query = function ($index, \v8\PropertyCallbackInfo $info) use (&$foo) {
+$query = function ($index, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am indexed query for ', $index, '!', PHP_EOL;
 
     if (1 === $index) {
         return;
     }
 
-    $info->GetReturnValue()->SetInteger(\v8\PropertyAttribute::None);
+    $info->GetReturnValue()->SetInteger(\V8\PropertyAttribute::None);
 };
 
-$deleter = function (int $index, \v8\PropertyCallbackInfo $info) use (&$foo) {
+$deleter = function (int $index, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am indexed deleter for ', $index, '!', PHP_EOL;
 //    $info->GetReturnValue()->Set(true);
 };
 
-$enumerator = function (\v8\PropertyCallbackInfo $info) use (&$foo, &$allow_indexed) {
+$enumerator = function (\V8\PropertyCallbackInfo $info) use (&$foo, &$allow_indexed) {
     echo 'I am indexed enumerator!', PHP_EOL;
 
     $ctxt = $info->GetContext();
-    $arr = new \v8\ArrayObject($ctxt);
+    $arr = new \V8\ArrayObject($ctxt);
 
     if ($allow_indexed) {
         for ($i =0; $i < 10; $i ++) {
-            $arr->SetIndex($ctxt, $i, new \v8\NumberValue($info->GetIsolate(), $i));
+            $arr->SetIndex($ctxt, $i, new \V8\NumberValue($info->GetIsolate(), $i));
         }
     }
     $info->GetReturnValue()->Set($arr);
 };
-$test_obj_tpl->SetHandlerForIndexedProperty(new \v8\IndexedPropertyHandlerConfiguration($getter, $setter, $query, $deleter, $enumerator));
+$test_obj_tpl->SetHandlerForIndexedProperty(new \V8\IndexedPropertyHandlerConfiguration($getter, $setter, $query, $deleter, $enumerator));
 
 
 
-$global_template1->Set(new \v8\StringValue($isolate1, 'test'), $test_obj_tpl);
+$global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_obj_tpl);
 
-$context1 = new v8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
 
 
 $source1    = '
@@ -144,7 +144,7 @@ $file_name1 = 'test.js';
 $allow_named = true;
 $allow_indexed = false;
 
-$script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
+$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 $res1 = $script1->Run();
 $helper->space();
 
@@ -172,7 +172,7 @@ $file_name1 = 'test.js';
 $allow_named = false;
 $allow_indexed = true;
 
-$script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
+$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 $res1 = $script1->Run();
 
 ?>

@@ -1,5 +1,5 @@
 --TEST--
-v8\ObjectTemplate
+V8\ObjectTemplate
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 <?php print "skip this test is known to fail and it hangs on travis"; ?>
@@ -13,12 +13,12 @@ $v8_helper = new PhpV8Helpers($helper);
 
 // Tests:
 
-$isolate = new \v8\Isolate();
+$isolate = new \V8\Isolate();
 
-$template = new \v8\ObjectTemplate($isolate);
-$template->Set(new \v8\StringValue($isolate, 'self'), $template);
+$template = new \V8\ObjectTemplate($isolate);
+$template->Set(new \V8\StringValue($isolate, 'self'), $template);
 
-$context = new \v8\Context($isolate, [], $template);
+$context = new \V8\Context($isolate, [], $template);
 
 
 ?>

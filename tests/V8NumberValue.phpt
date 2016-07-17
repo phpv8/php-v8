@@ -1,5 +1,5 @@
 --TEST--
-v8\NumberValue
+V8\NumberValue
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -13,15 +13,15 @@ $v8_helper = new PhpV8Helpers($helper);
 
 // Tests:
 
-$isolate = new v8\Isolate();
-$value = new v8\NumberValue($isolate, 123.456);
+$isolate = new V8\Isolate();
+$value = new V8\NumberValue($isolate, 123.456);
 
 
 $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();
 
-$helper->assert('NumberValue extends PrimitiveValue', $value instanceof \v8\PrimitiveValue);
+$helper->assert('NumberValue extends PrimitiveValue', $value instanceof \V8\PrimitiveValue);
 $helper->line();
 
 $helper->header('Accessors');
@@ -33,8 +33,8 @@ $helper->space();
 $v8_helper->run_checks($value, 'Checkers');
 
 $extensions = [];
-$global_template = new \v8\ObjectTemplate($isolate);
-$context = new \v8\Context($isolate, $extensions, $global_template);
+$global_template = new \V8\ObjectTemplate($isolate);
+$context = new \V8\Context($isolate, $extensions, $global_template);
 
 
 $string = $value->ToString($context);
@@ -52,7 +52,7 @@ $helper->space();
 
 
 $helper->header('Test negative value in constructor');
-$value = new v8\NumberValue($isolate, -123.456);
+$value = new V8\NumberValue($isolate, -123.456);
 $helper->method_export($value, 'Value');
 $helper->method_export($value, 'BooleanValue', [$context]);
 $helper->method_export($value, 'NumberValue', [$context]);
@@ -62,7 +62,7 @@ $helper->header('Test non-standard constructor values');
 
 foreach ([null, true, false, NAN, INF, -INF] as $val) {
     try {
-        $value = new v8\NumberValue($isolate, $val);
+        $value = new V8\NumberValue($isolate, $val);
         $helper->value_export($val);
         $helper->method_export($value, 'Value');
         $helper->method_export($value, 'BooleanValue', [$context]);
@@ -78,18 +78,18 @@ foreach ([null, true, false, NAN, INF, -INF] as $val) {
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\NumberValue)#4 (1) {
-  ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+object(V8\NumberValue)#4 (1) {
+  ["isolate":"V8\Value":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
 }
@@ -99,50 +99,50 @@ NumberValue extends PrimitiveValue: ok
 
 Accessors:
 ----------
-v8\NumberValue::GetIsolate() matches expected value
-v8\NumberValue->Value(): float(123.456)
+V8\NumberValue::GetIsolate() matches expected value
+V8\NumberValue->Value(): float(123.456)
 
 
 Checkers:
 ---------
-v8\NumberValue(v8\Value)->IsUndefined(): bool(false)
-v8\NumberValue(v8\Value)->IsNull(): bool(false)
-v8\NumberValue(v8\Value)->IsTrue(): bool(false)
-v8\NumberValue(v8\Value)->IsFalse(): bool(false)
-v8\NumberValue(v8\Value)->IsName(): bool(false)
-v8\NumberValue(v8\Value)->IsString(): bool(false)
-v8\NumberValue(v8\Value)->IsSymbol(): bool(false)
-v8\NumberValue(v8\Value)->IsFunction(): bool(false)
-v8\NumberValue(v8\Value)->IsArray(): bool(false)
-v8\NumberValue(v8\Value)->IsObject(): bool(false)
-v8\NumberValue(v8\Value)->IsBoolean(): bool(false)
-v8\NumberValue(v8\Value)->IsNumber(): bool(true)
-v8\NumberValue(v8\Value)->IsInt32(): bool(false)
-v8\NumberValue(v8\Value)->IsUint32(): bool(false)
-v8\NumberValue(v8\Value)->IsDate(): bool(false)
-v8\NumberValue(v8\Value)->IsArgumentsObject(): bool(false)
-v8\NumberValue(v8\Value)->IsBooleanObject(): bool(false)
-v8\NumberValue(v8\Value)->IsNumberObject(): bool(false)
-v8\NumberValue(v8\Value)->IsStringObject(): bool(false)
-v8\NumberValue(v8\Value)->IsSymbolObject(): bool(false)
-v8\NumberValue(v8\Value)->IsNativeError(): bool(false)
-v8\NumberValue(v8\Value)->IsRegExp(): bool(false)
+V8\NumberValue(V8\Value)->IsUndefined(): bool(false)
+V8\NumberValue(V8\Value)->IsNull(): bool(false)
+V8\NumberValue(V8\Value)->IsTrue(): bool(false)
+V8\NumberValue(V8\Value)->IsFalse(): bool(false)
+V8\NumberValue(V8\Value)->IsName(): bool(false)
+V8\NumberValue(V8\Value)->IsString(): bool(false)
+V8\NumberValue(V8\Value)->IsSymbol(): bool(false)
+V8\NumberValue(V8\Value)->IsFunction(): bool(false)
+V8\NumberValue(V8\Value)->IsArray(): bool(false)
+V8\NumberValue(V8\Value)->IsObject(): bool(false)
+V8\NumberValue(V8\Value)->IsBoolean(): bool(false)
+V8\NumberValue(V8\Value)->IsNumber(): bool(true)
+V8\NumberValue(V8\Value)->IsInt32(): bool(false)
+V8\NumberValue(V8\Value)->IsUint32(): bool(false)
+V8\NumberValue(V8\Value)->IsDate(): bool(false)
+V8\NumberValue(V8\Value)->IsArgumentsObject(): bool(false)
+V8\NumberValue(V8\Value)->IsBooleanObject(): bool(false)
+V8\NumberValue(V8\Value)->IsNumberObject(): bool(false)
+V8\NumberValue(V8\Value)->IsStringObject(): bool(false)
+V8\NumberValue(V8\Value)->IsSymbolObject(): bool(false)
+V8\NumberValue(V8\Value)->IsNativeError(): bool(false)
+V8\NumberValue(V8\Value)->IsRegExp(): bool(false)
 
 
-v8\NumberValue::ToString() converting:
+V8\NumberValue::ToString() converting:
 --------------------------------------
-object(v8\StringValue)#7 (1) {
-  ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+object(V8\StringValue)#7 (1) {
+  ["isolate":"V8\Value":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
 }
@@ -151,47 +151,47 @@ string(7) "123.456"
 
 Primitive converters:
 ---------------------
-v8\NumberValue(v8\Value)->BooleanValue(): bool(true)
-v8\NumberValue(v8\Value)->NumberValue(): float(123.456)
+V8\NumberValue(V8\Value)->BooleanValue(): bool(true)
+V8\NumberValue(V8\Value)->NumberValue(): float(123.456)
 
 
 Test negative value in constructor:
 -----------------------------------
-v8\NumberValue->Value(): float(-123.456)
-v8\NumberValue(v8\Value)->BooleanValue(): bool(true)
-v8\NumberValue(v8\Value)->NumberValue(): float(-123.456)
+V8\NumberValue->Value(): float(-123.456)
+V8\NumberValue(V8\Value)->BooleanValue(): bool(true)
+V8\NumberValue(V8\Value)->NumberValue(): float(-123.456)
 
 
 Test non-standard constructor values:
 -------------------------------------
-TypeError: Argument 2 passed to v8\NumberValue::__construct() must be of the type float, null given
+TypeError: Argument 2 passed to V8\NumberValue::__construct() must be of the type float, null given
 
 
 boolean: true
-v8\NumberValue->Value(): float(1)
-v8\NumberValue(v8\Value)->BooleanValue(): bool(true)
-v8\NumberValue(v8\Value)->NumberValue(): float(1)
+V8\NumberValue->Value(): float(1)
+V8\NumberValue(V8\Value)->BooleanValue(): bool(true)
+V8\NumberValue(V8\Value)->NumberValue(): float(1)
 
 
 boolean: false
-v8\NumberValue->Value(): float(0)
-v8\NumberValue(v8\Value)->BooleanValue(): bool(false)
-v8\NumberValue(v8\Value)->NumberValue(): float(0)
+V8\NumberValue->Value(): float(0)
+V8\NumberValue(V8\Value)->BooleanValue(): bool(false)
+V8\NumberValue(V8\Value)->NumberValue(): float(0)
 
 
 double: NAN
-v8\NumberValue->Value(): float(NAN)
-v8\NumberValue(v8\Value)->BooleanValue(): bool(false)
-v8\NumberValue(v8\Value)->NumberValue(): float(NAN)
+V8\NumberValue->Value(): float(NAN)
+V8\NumberValue(V8\Value)->BooleanValue(): bool(false)
+V8\NumberValue(V8\Value)->NumberValue(): float(NAN)
 
 
 double: INF
-v8\NumberValue->Value(): float(INF)
-v8\NumberValue(v8\Value)->BooleanValue(): bool(true)
-v8\NumberValue(v8\Value)->NumberValue(): float(INF)
+V8\NumberValue->Value(): float(INF)
+V8\NumberValue(V8\Value)->BooleanValue(): bool(true)
+V8\NumberValue(V8\Value)->NumberValue(): float(INF)
 
 
 double: -INF
-v8\NumberValue->Value(): float(-INF)
-v8\NumberValue(v8\Value)->BooleanValue(): bool(true)
-v8\NumberValue(v8\Value)->NumberValue(): float(-INF)
+V8\NumberValue->Value(): float(-INF)
+V8\NumberValue(V8\Value)->BooleanValue(): bool(true)
+V8\NumberValue(V8\Value)->NumberValue(): float(-INF)

@@ -1,5 +1,5 @@
 --TEST--
-v8\Isolate - nested memory limit exceptions
+V8\Isolate - nested memory limit exceptions
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -15,14 +15,14 @@ $v8_helper = new PhpV8Helpers($helper);
 
 // Tests:
 
-$isolate = new v8\Isolate();
+$isolate = new V8\Isolate();
 $extensions = [];
-$global_template = new v8\ObjectTemplate($isolate);
-$global_template->Set(new \v8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \v8\PropertyAttribute::DontDelete);
+$global_template = new V8\ObjectTemplate($isolate);
+$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
 
-$context = new v8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $extensions, $global_template);
 
-$func = new v8\FunctionObject($context, function (\v8\FunctionCallbackInfo $info) use (&$helper) {
+$func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use (&$helper) {
     if (!$info->Arguments()) {
         $isolate = $info->GetIsolate();
 
@@ -35,11 +35,11 @@ $func = new v8\FunctionObject($context, function (\v8\FunctionCallbackInfo $info
             }
         ';
 
-        $script = new v8\Script($info->GetContext(), new \v8\StringValue($isolate, $source), new \v8\ScriptOrigin('wait_for_termination.js'));
+        $script = new V8\Script($info->GetContext(), new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin('wait_for_termination.js'));
 
         try {
             $script->Run();
-        } catch (\v8\Exceptions\MemoryLimitException $e) {
+        } catch (\V8\Exceptions\MemoryLimitException $e) {
             $helper->exception_export($e);
             echo 'wait loop terminated', PHP_EOL;
             $helper->line();
@@ -52,7 +52,7 @@ $func = new v8\FunctionObject($context, function (\v8\FunctionCallbackInfo $info
 
     try {
         $fnc->Call($info->GetContext(), $fnc);
-    } catch (\v8\Exceptions\MemoryLimitException $e) {
+    } catch (\V8\Exceptions\MemoryLimitException $e) {
         $helper->exception_export($e);
         echo 'function call terminated', PHP_EOL;
         $helper->line();
@@ -60,16 +60,16 @@ $func = new v8\FunctionObject($context, function (\v8\FunctionCallbackInfo $info
 });
 
 
-$func->SetName(new \v8\StringValue($isolate, 'custom_name'));
+$func->SetName(new \V8\StringValue($isolate, 'custom_name'));
 
 
-$context->GlobalObject()->Set($context, new \v8\StringValue($isolate, 'test'), $func);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
 
 $source = 'test(test); delete print; "Script done"';
 $file_name = 'test.js';
 
 
-$script = new v8\Script($context, new \v8\StringValue($isolate, $source), new \v8\ScriptOrigin($file_name));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 $isolate->SetMemoryLimit(1024 * 1024 * 10);
 $helper->dump($isolate);
@@ -78,7 +78,7 @@ $helper->line();
 $t = microtime(true);
 try {
     $script->Run();
-} catch(\v8\Exceptions\MemoryLimitException $e) {
+} catch(\V8\Exceptions\MemoryLimitException $e) {
     $helper->exception_export($e);
     echo 'script execution terminated', PHP_EOL;
 }
@@ -87,37 +87,37 @@ $helper->line();
 $helper->dump($isolate);
 ?>
 --EXPECT--
-object(v8\Isolate)#3 (5) {
-  ["snapshot":"v8\Isolate":private]=>
+object(V8\Isolate)#3 (5) {
+  ["snapshot":"V8\Isolate":private]=>
   NULL
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(0)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(false)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(10485760)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }
 
-v8\Exceptions\MemoryLimitException: Memory limit exceeded
+V8\Exceptions\MemoryLimitException: Memory limit exceeded
 wait loop terminated
 
-v8\Exceptions\MemoryLimitException: Memory limit exceeded
+V8\Exceptions\MemoryLimitException: Memory limit exceeded
 function call terminated
 
-v8\Exceptions\MemoryLimitException: Memory limit exceeded
+V8\Exceptions\MemoryLimitException: Memory limit exceeded
 script execution terminated
 
-object(v8\Isolate)#3 (5) {
-  ["snapshot":"v8\Isolate":private]=>
+object(V8\Isolate)#3 (5) {
+  ["snapshot":"V8\Isolate":private]=>
   NULL
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(0)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(false)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(10485760)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(true)
 }

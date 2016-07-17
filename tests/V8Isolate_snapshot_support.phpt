@@ -1,5 +1,5 @@
 --TEST--
-v8\Isolate - snapshot support
+V8\Isolate - snapshot support
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -21,9 +21,9 @@ $helper->header('Accessors (no snapshot)');
 $helper->method_matches($isolate, 'GetSnapshot', null);
 $helper->space();
 
-$context = new \v8\Context($isolate);
+$context = new \V8\Context($isolate);
 
-$helper->assert('Context should have no test data', $context->GlobalObject()->Has($context, new \v8\StringValue($isolate, 'test_snapshot')), false);
+$helper->assert('Context should have no test data', $context->GlobalObject()->Has($context, new \V8\StringValue($isolate, 'test_snapshot')), false);
 
 $helper->line();
 
@@ -36,7 +36,7 @@ $helper->space();
 
 $source = 'function test_snapshot() { return "hello, world";}';
 
-$data = v8\StartupData::CreateFromSource($source);
+$data = V8\StartupData::CreateFromSource($source);
 
 $isolate = new \v8Tests\TrackingDtors\Isolate($data);
 
@@ -48,26 +48,26 @@ $helper->space();
 
 
 $helper->header('Accessors (with snapshot)');
-$helper->method_matches_instanceof($isolate, 'GetSnapshot', v8\StartupData::class);
+$helper->method_matches_instanceof($isolate, 'GetSnapshot', V8\StartupData::class);
 $helper->space();
 
-$context = new \v8\Context($isolate);
+$context = new \V8\Context($isolate);
 
-$helper->assert('Context should have test function', $context->GlobalObject()->Get($context, new \v8\StringValue($isolate, 'test_snapshot'))->IsFunction());
-$context->GlobalObject()->Set($context, new \v8\StringValue($isolate, 'test_snapshot'), new \v8\StringValue($isolate, 'garbage'));
+$helper->assert('Context should have test function', $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'test_snapshot'))->IsFunction());
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test_snapshot'), new \V8\StringValue($isolate, 'garbage'));
 
-$context1 = new \v8\Context($isolate);
-$helper->assert('Contexts from the same snapshot doesn\'t affected by each other', $context1->GlobalObject()->Get($context1, new \v8\StringValue($isolate, 'test_snapshot'))->IsFunction());
+$context1 = new \V8\Context($isolate);
+$helper->assert('Contexts from the same snapshot doesn\'t affected by each other', $context1->GlobalObject()->Get($context1, new \V8\StringValue($isolate, 'test_snapshot'))->IsFunction());
 
 $isolate2 = new \v8Tests\TrackingDtors\Isolate($data);
-$context2 = new \v8\Context($isolate2);
-$helper->assert('Contexts between different isolates from the same snapshot doesn\'t affected by each other', $context2->GlobalObject()->Get($context2, new \v8\StringValue($isolate2, 'test_snapshot'))->IsFunction());
+$context2 = new \V8\Context($isolate2);
+$helper->assert('Contexts between different isolates from the same snapshot doesn\'t affected by each other', $context2->GlobalObject()->Get($context2, new \V8\StringValue($isolate2, 'test_snapshot'))->IsFunction());
 
 $isolate3 = new \v8Tests\TrackingDtors\Isolate($data);
 $data = null;
 
-$context3 = new \v8\Context($isolate3);
-$helper->assert('Deleting reference to snapshot is OK after creating Isolate instance', $context3->GlobalObject()->Get($context3, new \v8\StringValue($isolate3, 'test_snapshot'))->IsFunction());
+$context3 = new \V8\Context($isolate3);
+$helper->assert('Deleting reference to snapshot is OK after creating Isolate instance', $context3->GlobalObject()->Get($context3, new \V8\StringValue($isolate3, 'test_snapshot'))->IsFunction());
 $helper->line();
 
 $context = null;
@@ -84,15 +84,15 @@ echo 'END', PHP_EOL;
 Object representation (no snapshot):
 ------------------------------------
 object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-  ["snapshot":"v8\Isolate":private]=>
+  ["snapshot":"V8\Isolate":private]=>
   NULL
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(0)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(false)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(0)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }
 
@@ -110,23 +110,23 @@ Isolate dies now!
 Object representation (with snapshot):
 --------------------------------------
 object(v8Tests\TrackingDtors\Isolate)#3 (5) {
-  ["snapshot":"v8\Isolate":private]=>
-  object(v8\StartupData)#2 (0) {
+  ["snapshot":"V8\Isolate":private]=>
+  object(V8\StartupData)#2 (0) {
   }
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(0)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(false)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(0)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }
 
 
 Accessors (with snapshot):
 --------------------------
-v8Tests\TrackingDtors\Isolate::GetSnapshot() result is instance of v8\StartupData
+v8Tests\TrackingDtors\Isolate::GetSnapshot() result is instance of V8\StartupData
 
 
 Context should have test function: ok

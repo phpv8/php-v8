@@ -1,5 +1,5 @@
 --TEST--
-v8\StartupData::CreateFromSource
+V8\StartupData::CreateFromSource
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -9,7 +9,7 @@ v8\StartupData::CreateFromSource
 $helper = require '.testsuite.php';
 
 $source = 'function test_snapshot() { return "hello, world";}';
-$data = v8\StartupData::CreateFromSource($source);
+$data = V8\StartupData::CreateFromSource($source);
 
 $helper->header('Object representation');
 $helper->dump($data);
@@ -21,17 +21,17 @@ $helper->assert('Snapshot raw_size is the same as binary_string length', $data->
 $helper->assert('Snapshot raw_size is the same as binary_string length', $data->GetRawSize(), strlen($data->GetData()));
 
 
-$isolate = new \v8\Isolate($data);
+$isolate = new \V8\Isolate($data);
 $data = null;
 
-$context = new \v8\Context($isolate);
+$context = new \V8\Context($isolate);
 
-$helper->assert('Context global is affected by snapshot blob', $context->GlobalObject()->Get($context, new \v8\StringValue($isolate, 'test_snapshot'))->IsFunction());
+$helper->assert('Context global is affected by snapshot blob', $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'test_snapshot'))->IsFunction());
 ?>
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\StartupData)#2 (0) {
+object(V8\StartupData)#2 (0) {
 }
 
 

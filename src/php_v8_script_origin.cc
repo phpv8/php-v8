@@ -276,7 +276,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_SourceMapUrl, ZEND_RETURN_VALUE, 0, IS_STRING, NULL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_Options, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\ScriptOriginOptions", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_Options, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\ScriptOriginOptions", 0)
 ZEND_END_ARG_INFO()
 
 

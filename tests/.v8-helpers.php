@@ -33,8 +33,8 @@ class PhpV8Helpers {
         $this->testsuite = $testsuite;
     }
 
-    public function getPrintFunctionTemplate (\v8\Isolate $isolate) {
-        $print_func_tpl = new \v8\FunctionTemplate($isolate, function (\v8\FunctionCallbackInfo $args) {
+    public function getPrintFunctionTemplate (\V8\Isolate $isolate) {
+        $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) {
 
             $context = $args->GetContext();
 
@@ -51,12 +51,12 @@ class PhpV8Helpers {
     }
 
     /**
-     * @param \v8\Value | \v8\ObjectValue | \v8\SymbolValue | \v8\StringValue | \v8\NumberValue $arg
-     * @param \v8\Context   $context
+     * @param \V8\Value | \V8\ObjectValue | \V8\SymbolValue | \V8\StringValue | \V8\NumberValue $arg
+     * @param \V8\Context                                                                       $context
      *
      * @return mixed|string
      */
-    public function toString(\v8\Value $arg, \v8\Context $context)
+    public function toString(\V8\Value $arg, \V8\Context $context)
     {
         if ($arg->IsUndefined()) {
             return '<undefined>';
@@ -101,7 +101,7 @@ class PhpV8Helpers {
         return $arg->ToString($context)->Value();
     }
 
-    public function run_checks(\v8\Value $value, $title=null) {
+    public function run_checks(\V8\Value $value, $title=null) {
         $title = $title ?: 'Checks on ' . get_class($value);
         $this->testsuite->header($title);
 
@@ -110,18 +110,18 @@ class PhpV8Helpers {
         $this->testsuite->space();
     }
 
-    public function CompileRun(\v8\Context $context, $script) {
+    public function CompileRun(\V8\Context $context, $script) {
 
-        if (!($script instanceof \v8\StringValue)) {
-            $script = new \v8\StringValue($context->GetIsolate(), $script);
+        if (!($script instanceof \V8\StringValue)) {
+            $script = new \V8\StringValue($context->GetIsolate(), $script);
         }
 
-        $script = new \v8\Script($context, $script, new \v8\ScriptOrigin('test.js'));
+        $script = new \V8\Script($context, $script, new \V8\ScriptOrigin('test.js'));
 
         return $script->Run();
     }
 
-    public function CompileTryRun(\v8\Context $context, $script) {
+    public function CompileTryRun(\V8\Context $context, $script) {
         try {
             $res = $this->CompileRun($context, $script);
         } catch (\Exception $e) {
@@ -133,7 +133,7 @@ class PhpV8Helpers {
         return $res;
     }
 
-    public function ExpectString(\v8\Context $context, $script, $expected) {
+    public function ExpectString(\V8\Context $context, $script, $expected) {
         $res = $this->CompileTryRun($context,$script);
 
         if ($res) {
@@ -145,7 +145,7 @@ class PhpV8Helpers {
         }
     }
 
-    public function ExpectBoolean(v8\Context $context, $script, $expected) {
+    public function ExpectBoolean(V8\Context $context, $script, $expected) {
         $res = $this->CompileTryRun($context, $script);
 
         if ($res) {
@@ -158,15 +158,15 @@ class PhpV8Helpers {
         }
     }
 
-    public function ExpectTrue(\v8\Context $context, $script) {
+    public function ExpectTrue(\V8\Context $context, $script) {
         $this->ExpectBoolean($context, $script, true);
     }
 
-    public function ExpectFalse(\v8\Context $context, $script) {
+    public function ExpectFalse(\V8\Context $context, $script) {
         $this->ExpectBoolean($context, $script, false);
     }
 
-    public function ExpectObject(v8\Context $context, $script, \v8\Value $expected) {
+    public function ExpectObject(V8\Context $context, $script, \V8\Value $expected) {
         $res = $this->CompileTryRun($context,$script);
 
         if (!$res) {
@@ -180,7 +180,7 @@ class PhpV8Helpers {
         }
     }
 
-    public function ExpectUndefined(v8\Context $context, $script) {
+    public function ExpectUndefined(V8\Context $context, $script) {
         $res = $this->CompileTryRun($context,$script);
 
         if (!$res) {
@@ -194,7 +194,7 @@ class PhpV8Helpers {
         }
     }
 
-    public function ExpectNumber(v8\Context $context, $script, $expected=null) {
+    public function ExpectNumber(V8\Context $context, $script, $expected=null) {
         $res = $this->CompileTryRun($context,$script);
 
         if (!$res) {

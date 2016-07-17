@@ -1,5 +1,5 @@
 --TEST--
-v8\ObjectValue
+V8\ObjectValue
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -8,21 +8,21 @@ v8\ObjectValue
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
 
-$isolate = new \v8\Isolate();
+$isolate = new \V8\Isolate();
 $extensions = [];
-$global_template = new v8\ObjectTemplate($isolate);
+$global_template = new V8\ObjectTemplate($isolate);
 
-$context = new v8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $extensions, $global_template);
 
-$value = new v8\ObjectValue($context);
+$value = new V8\ObjectValue($context);
 
 
 $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();
 
-$helper->assert('ObjectValue extends Value', $value instanceof \v8\Value);
-$helper->assert('ObjectValue does not extend PrimitiveValue', !($value instanceof \v8\PrimitiveValue));
+$helper->assert('ObjectValue extends Value', $value instanceof \V8\Value);
+$helper->assert('ObjectValue does not extend PrimitiveValue', !($value instanceof \V8\PrimitiveValue));
 $helper->line();
 
 $helper->header('Accessors');
@@ -42,55 +42,55 @@ $helper->dump_object_methods($value, ['@@default' => [$context]], new RegexpFilt
 --EXPECTF--
 Object representation:
 ----------------------
-object(v8\ObjectValue)#5 (2) {
-  ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#2 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+object(V8\ObjectValue)#5 (2) {
+  ["isolate":"V8\Value":private]=>
+  object(V8\Isolate)#2 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
-  ["context":"v8\ObjectValue":private]=>
-  object(v8\Context)#4 (4) {
-    ["isolate":"v8\Context":private]=>
-    object(v8\Isolate)#2 (5) {
-      ["snapshot":"v8\Isolate":private]=>
+  ["context":"V8\ObjectValue":private]=>
+  object(V8\Context)#4 (4) {
+    ["isolate":"V8\Context":private]=>
+    object(V8\Isolate)#2 (5) {
+      ["snapshot":"V8\Isolate":private]=>
       NULL
-      ["time_limit":"v8\Isolate":private]=>
+      ["time_limit":"V8\Isolate":private]=>
       float(0)
-      ["time_limit_hit":"v8\Isolate":private]=>
+      ["time_limit_hit":"V8\Isolate":private]=>
       bool(false)
-      ["memory_limit":"v8\Isolate":private]=>
+      ["memory_limit":"V8\Isolate":private]=>
       int(0)
-      ["memory_limit_hit":"v8\Isolate":private]=>
+      ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["extensions":"v8\Context":private]=>
+    ["extensions":"V8\Context":private]=>
     array(0) {
     }
-    ["global_template":"v8\Context":private]=>
-    object(v8\ObjectTemplate)#3 (1) {
-      ["isolate":"v8\Template":private]=>
-      object(v8\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+    ["global_template":"V8\Context":private]=>
+    object(V8\ObjectTemplate)#3 (1) {
+      ["isolate":"V8\Template":private]=>
+      object(V8\Isolate)#2 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
     }
-    ["global_object":"v8\Context":private]=>
+    ["global_object":"V8\Context":private]=>
     NULL
   }
 }
@@ -101,181 +101,181 @@ ObjectValue does not extend PrimitiveValue: ok
 
 Accessors:
 ----------
-v8\ObjectValue::GetIsolate() matches expected value
-v8\ObjectValue::GetContext() matches expected value
-v8\ObjectValue::CreationContext() matches expected value
+V8\ObjectValue::GetIsolate() matches expected value
+V8\ObjectValue::GetContext() matches expected value
+V8\ObjectValue::CreationContext() matches expected value
 
 
 Getters:
 --------
-v8\ObjectValue->GetIdentityHash(): int(%d)
+V8\ObjectValue->GetIdentityHash(): int(%d)
 
 
 Converters:
 -----------
-v8\ObjectValue(v8\Value)->ToBoolean():
-    object(v8\BooleanValue)#88 (1) {
-      ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+V8\ObjectValue(V8\Value)->ToBoolean():
+    object(V8\BooleanValue)#88 (1) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#2 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
     }
-v8\ObjectValue(v8\Value)->ToNumber():
-    object(v8\NumberValue)#88 (1) {
-      ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+V8\ObjectValue(V8\Value)->ToNumber():
+    object(V8\NumberValue)#88 (1) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#2 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
     }
-v8\ObjectValue(v8\Value)->ToString():
-    object(v8\StringValue)#88 (1) {
-      ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+V8\ObjectValue(V8\Value)->ToString():
+    object(V8\StringValue)#88 (1) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#2 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
     }
-v8\ObjectValue(v8\Value)->ToDetailString():
-    object(v8\StringValue)#88 (1) {
-      ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+V8\ObjectValue(V8\Value)->ToDetailString():
+    object(V8\StringValue)#88 (1) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#2 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
     }
-v8\ObjectValue(v8\Value)->ToObject():
-    object(v8\ObjectValue)#5 (2) {
-      ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+V8\ObjectValue(V8\Value)->ToObject():
+    object(V8\ObjectValue)#5 (2) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#2 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["context":"v8\ObjectValue":private]=>
-      object(v8\Context)#4 (4) {
-        ["isolate":"v8\Context":private]=>
-        object(v8\Isolate)#2 (5) {
-          ["snapshot":"v8\Isolate":private]=>
+      ["context":"V8\ObjectValue":private]=>
+      object(V8\Context)#4 (4) {
+        ["isolate":"V8\Context":private]=>
+        object(V8\Isolate)#2 (5) {
+          ["snapshot":"V8\Isolate":private]=>
           NULL
-          ["time_limit":"v8\Isolate":private]=>
+          ["time_limit":"V8\Isolate":private]=>
           float(0)
-          ["time_limit_hit":"v8\Isolate":private]=>
+          ["time_limit_hit":"V8\Isolate":private]=>
           bool(false)
-          ["memory_limit":"v8\Isolate":private]=>
+          ["memory_limit":"V8\Isolate":private]=>
           int(0)
-          ["memory_limit_hit":"v8\Isolate":private]=>
+          ["memory_limit_hit":"V8\Isolate":private]=>
           bool(false)
         }
-        ["extensions":"v8\Context":private]=>
+        ["extensions":"V8\Context":private]=>
         array(0) {
         }
-        ["global_template":"v8\Context":private]=>
-        object(v8\ObjectTemplate)#3 (1) {
-          ["isolate":"v8\Template":private]=>
-          object(v8\Isolate)#2 (5) {
-            ["snapshot":"v8\Isolate":private]=>
+        ["global_template":"V8\Context":private]=>
+        object(V8\ObjectTemplate)#3 (1) {
+          ["isolate":"V8\Template":private]=>
+          object(V8\Isolate)#2 (5) {
+            ["snapshot":"V8\Isolate":private]=>
             NULL
-            ["time_limit":"v8\Isolate":private]=>
+            ["time_limit":"V8\Isolate":private]=>
             float(0)
-            ["time_limit_hit":"v8\Isolate":private]=>
+            ["time_limit_hit":"V8\Isolate":private]=>
             bool(false)
-            ["memory_limit":"v8\Isolate":private]=>
+            ["memory_limit":"V8\Isolate":private]=>
             int(0)
-            ["memory_limit_hit":"v8\Isolate":private]=>
+            ["memory_limit_hit":"V8\Isolate":private]=>
             bool(false)
           }
         }
-        ["global_object":"v8\Context":private]=>
+        ["global_object":"V8\Context":private]=>
         NULL
       }
     }
-v8\ObjectValue(v8\Value)->ToInteger():
-    object(v8\NumberValue)#88 (1) {
-      ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+V8\ObjectValue(V8\Value)->ToInteger():
+    object(V8\NumberValue)#88 (1) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#2 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
     }
-v8\ObjectValue(v8\Value)->ToUint32():
-    object(v8\NumberValue)#88 (1) {
-      ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+V8\ObjectValue(V8\Value)->ToUint32():
+    object(V8\NumberValue)#88 (1) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#2 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
     }
-v8\ObjectValue(v8\Value)->ToInt32():
-    object(v8\NumberValue)#88 (1) {
-      ["isolate":"v8\Value":private]=>
-      object(v8\Isolate)#2 (5) {
-        ["snapshot":"v8\Isolate":private]=>
+V8\ObjectValue(V8\Value)->ToInt32():
+    object(V8\NumberValue)#88 (1) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#2 (5) {
+        ["snapshot":"V8\Isolate":private]=>
         NULL
-        ["time_limit":"v8\Isolate":private]=>
+        ["time_limit":"V8\Isolate":private]=>
         float(0)
-        ["time_limit_hit":"v8\Isolate":private]=>
+        ["time_limit_hit":"V8\Isolate":private]=>
         bool(false)
-        ["memory_limit":"v8\Isolate":private]=>
+        ["memory_limit":"V8\Isolate":private]=>
         int(0)
-        ["memory_limit_hit":"v8\Isolate":private]=>
+        ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
     }
-v8\ObjectValue(v8\Value)->ToArrayIndex(): v8\Exceptions\GenericException: Failed to convert
+V8\ObjectValue(V8\Value)->ToArrayIndex(): V8\Exceptions\GenericException: Failed to convert

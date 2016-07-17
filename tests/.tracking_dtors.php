@@ -16,43 +16,43 @@
 
 namespace v8Tests\TrackingDtors;
 
-class Isolate extends \v8\Isolate {
+class Isolate extends \V8\Isolate {
     public function __destruct() {
         echo 'Isolate dies now!', PHP_EOL;
     }
 }
 
-class Context extends \v8\Context {
+class Context extends \V8\Context {
     public function __destruct() {
         echo 'Context dies now!', PHP_EOL;
     }
 }
 
-class Script extends \v8\Script {
+class Script extends \V8\Script {
     public function __destruct() {
         echo 'Script dies now!', PHP_EOL;
     }
 }
 
-class FunctionTemplate extends \v8\FunctionTemplate {
+class FunctionTemplate extends \V8\FunctionTemplate {
     public function __destruct() {
         echo 'FunctionTemplate dies now!', PHP_EOL;
     }
 }
 
-class ObjectTemplate extends \v8\ObjectTemplate {
+class ObjectTemplate extends \V8\ObjectTemplate {
     public function __destruct() {
         echo 'ObjectTemplate dies now!', PHP_EOL;
     }
 }
 
-class FunctionObject extends \v8\FunctionObject {
+class FunctionObject extends \V8\FunctionObject {
     public function __destruct() {
         echo 'FunctionObject dies now!', PHP_EOL;
     }
 }
 
-class Value extends \v8\Value {
+class Value extends \V8\Value {
     public function __destruct() {
         echo 'Value dies now!', PHP_EOL;
     }

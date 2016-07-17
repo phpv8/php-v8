@@ -1,5 +1,5 @@
 --TEST--
-v8\NamedPropertyHandlerConfiguration
+V8\NamedPropertyHandlerConfiguration
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -14,7 +14,7 @@ $helper->header('Getter released');
 $helper->dump($getter);
 
 // Bootstraps:
-$obj = new v8\NamedPropertyHandlerConfiguration($getter);
+$obj = new V8\NamedPropertyHandlerConfiguration($getter);
 $helper->dump($getter);
 $helper->space();
 
@@ -43,7 +43,7 @@ object(Closure)#2 (0) {
 
 Object representation:
 ----------------------
-object(v8\NamedPropertyHandlerConfiguration)#3 (0) {
+object(V8\NamedPropertyHandlerConfiguration)#3 (0) {
 }
 
 

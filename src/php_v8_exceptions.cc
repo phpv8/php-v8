@@ -165,18 +165,18 @@ static PHP_METHOD(V8ExceptionsTryCatch, GetTryCatch)
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_exceptions_try_catch___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 3)
-    ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
-    ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-    ZEND_ARG_OBJ_INFO(0, try_catch, v8\\TryCatch, 0)
+    ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
+    ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+    ZEND_ARG_OBJ_INFO(0, try_catch, V8\\TryCatch, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exceptions_try_catch_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Isolate", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exceptions_try_catch_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Isolate", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exceptions_try_catch_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Context", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exceptions_try_catch_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Context", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exceptions_try_catch_GetTryCatch, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\TryCatch", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exceptions_try_catch_GetTryCatch, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\TryCatch", 0)
 ZEND_END_ARG_INFO()
 
 

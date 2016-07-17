@@ -196,37 +196,37 @@ static PHP_METHOD(V8Symbol, GetIsConcatSpreadable)
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_symbol___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-    ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
-    ZEND_ARG_OBJ_INFO(0, name, v8\\StringValue, 1)
+    ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
+    ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_Name, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Value", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_Name, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_For, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\SymbolValue", 0)
-    ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-    ZEND_ARG_OBJ_INFO(0, name, v8\\StringValue, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_For, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\SymbolValue", 0)
+    ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+    ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_ForApi, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\SymbolValue", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, name, v8\\StringValue, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_ForApi, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\SymbolValue", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_GetIterator, ZEND_RETURN_VALUE, 1, IS_OBJECT, "v8\\SymbolValue", 0)
-                ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_GetIterator, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\SymbolValue", 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_GetUnscopables, ZEND_RETURN_VALUE, 1, IS_OBJECT, "v8\\SymbolValue", 0)
-                ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_GetUnscopables, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\SymbolValue", 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_GetToStringTag, ZEND_RETURN_VALUE, 1, IS_OBJECT, "v8\\SymbolValue", 0)
-                ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_GetToStringTag, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\SymbolValue", 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_GetIsConcatSpreadable, ZEND_RETURN_VALUE, 1, IS_OBJECT, "v8\\SymbolValue", 0)
-                ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_GetIsConcatSpreadable, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\SymbolValue", 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
 

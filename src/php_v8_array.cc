@@ -67,7 +67,7 @@ static PHP_METHOD(V8Array, Length) {
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_array___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 

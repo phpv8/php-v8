@@ -1,12 +1,12 @@
 --TEST--
-v8\RegExpObject\Flags
+V8\RegExpObject\Flags
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
 <?php
 
 // Bootstraps:
-$obj = new v8\RegExpObject\Flags();
+$obj = new V8\RegExpObject\Flags();
 
 // Tests:
 
@@ -26,15 +26,15 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\RegExpObject\Flags)#1 (0) {
+object(V8\RegExpObject\Flags)#1 (0) {
 }
 
 
 Class constants:
 ----------------
-v8\RegExpObject\Flags::kNone = 0
-v8\RegExpObject\Flags::kGlobal = 1
-v8\RegExpObject\Flags::kIgnoreCase = 2
-v8\RegExpObject\Flags::kMultiline = 4
-v8\RegExpObject\Flags::kSticky = 8
-v8\RegExpObject\Flags::kUnicode = 16
+V8\RegExpObject\Flags::kNone = 0
+V8\RegExpObject\Flags::kGlobal = 1
+V8\RegExpObject\Flags::kIgnoreCase = 2
+V8\RegExpObject\Flags::kMultiline = 4
+V8\RegExpObject\Flags::kSticky = 8
+V8\RegExpObject\Flags::kUnicode = 16

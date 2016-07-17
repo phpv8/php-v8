@@ -1,5 +1,5 @@
 --TEST--
-v8\StringValue
+V8\StringValue
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -14,22 +14,22 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 
-$isolate = new v8\Isolate();
+$isolate = new V8\Isolate();
 
-$default = new v8\StringValue($isolate);
+$default = new V8\StringValue($isolate);
 $helper->header('Default constructor');
 $helper->dump($default);
 $helper->method_export($default, 'Value');
 $helper->space();
 
 
-$value = new v8\StringValue($isolate, 'test string');
+$value = new V8\StringValue($isolate, 'test string');
 
 $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();
 
-$helper->assert('StringValue extends NameValue', $value instanceof \v8\NameValue);
+$helper->assert('StringValue extends NameValue', $value instanceof \V8\NameValue);
 $helper->line();
 
 $helper->header('Accessors');
@@ -48,8 +48,8 @@ $helper->method_export($value, 'ContainsOnlyOneByte');
 $helper->space();
 
 $extensions = [];
-$global_template = new \v8\ObjectTemplate($isolate);
-$context = new \v8\Context($isolate, $extensions, $global_template);
+$global_template = new \V8\ObjectTemplate($isolate);
+$context = new \V8\Context($isolate, $extensions, $global_template);
 
 
 $helper->header('Primitive converters');
@@ -58,7 +58,7 @@ $helper->method_export($value, 'NumberValue', [$context]);
 $helper->space();
 
 
-$value = new v8\StringValue($isolate, '');
+$value = new V8\StringValue($isolate, '');
 
 $helper->header('Test empty string constructor');
 $helper->method_export($value, 'Value');
@@ -66,7 +66,7 @@ $helper->method_export($value, 'BooleanValue', [$context]);
 $helper->method_export($value, 'NumberValue', [$context]);
 $helper->space();
 
-$value = new v8\StringValue($isolate);
+$value = new V8\StringValue($isolate);
 
 $helper->header('Test default constructor');
 $helper->method_export($value, 'Value');
@@ -78,7 +78,7 @@ $helper->space();
 $helper->header('Test encodings');
 
 foreach (['Hello, world!', 'Привет, мир!', 'こんにちは世界'] as $text ) {
-  $value = new v8\StringValue($isolate, $text);
+  $value = new V8\StringValue($isolate, $text);
 
   $helper->method_export($value, 'Value');
   $helper->method_export($value, 'Length');
@@ -96,38 +96,38 @@ foreach (['Hello, world!', 'Привет, мир!', 'こんにちは世界'] as 
 --EXPECT--
 Default constructor:
 --------------------
-object(v8\StringValue)#4 (1) {
-  ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+object(V8\StringValue)#4 (1) {
+  ["isolate":"V8\Value":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
 }
-v8\StringValue->Value(): string(0) ""
+V8\StringValue->Value(): string(0) ""
 
 
 Object representation:
 ----------------------
-object(v8\StringValue)#5 (1) {
-  ["isolate":"v8\Value":private]=>
-  object(v8\Isolate)#3 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+object(V8\StringValue)#5 (1) {
+  ["isolate":"V8\Value":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
 }
@@ -137,90 +137,90 @@ StringValue extends NameValue: ok
 
 Accessors:
 ----------
-v8\StringValue::GetIsolate() matches expected value
-v8\StringValue->Value(): string(11) "test string"
+V8\StringValue::GetIsolate() matches expected value
+V8\StringValue->Value(): string(11) "test string"
 
 
 Checkers:
 ---------
-v8\StringValue->IsOneByte(): bool(true)
-v8\StringValue(v8\Value)->IsUndefined(): bool(false)
-v8\StringValue(v8\Value)->IsNull(): bool(false)
-v8\StringValue(v8\Value)->IsTrue(): bool(false)
-v8\StringValue(v8\Value)->IsFalse(): bool(false)
-v8\StringValue(v8\Value)->IsName(): bool(true)
-v8\StringValue(v8\Value)->IsString(): bool(true)
-v8\StringValue(v8\Value)->IsSymbol(): bool(false)
-v8\StringValue(v8\Value)->IsFunction(): bool(false)
-v8\StringValue(v8\Value)->IsArray(): bool(false)
-v8\StringValue(v8\Value)->IsObject(): bool(false)
-v8\StringValue(v8\Value)->IsBoolean(): bool(false)
-v8\StringValue(v8\Value)->IsNumber(): bool(false)
-v8\StringValue(v8\Value)->IsInt32(): bool(false)
-v8\StringValue(v8\Value)->IsUint32(): bool(false)
-v8\StringValue(v8\Value)->IsDate(): bool(false)
-v8\StringValue(v8\Value)->IsArgumentsObject(): bool(false)
-v8\StringValue(v8\Value)->IsBooleanObject(): bool(false)
-v8\StringValue(v8\Value)->IsNumberObject(): bool(false)
-v8\StringValue(v8\Value)->IsStringObject(): bool(false)
-v8\StringValue(v8\Value)->IsSymbolObject(): bool(false)
-v8\StringValue(v8\Value)->IsNativeError(): bool(false)
-v8\StringValue(v8\Value)->IsRegExp(): bool(false)
+V8\StringValue->IsOneByte(): bool(true)
+V8\StringValue(V8\Value)->IsUndefined(): bool(false)
+V8\StringValue(V8\Value)->IsNull(): bool(false)
+V8\StringValue(V8\Value)->IsTrue(): bool(false)
+V8\StringValue(V8\Value)->IsFalse(): bool(false)
+V8\StringValue(V8\Value)->IsName(): bool(true)
+V8\StringValue(V8\Value)->IsString(): bool(true)
+V8\StringValue(V8\Value)->IsSymbol(): bool(false)
+V8\StringValue(V8\Value)->IsFunction(): bool(false)
+V8\StringValue(V8\Value)->IsArray(): bool(false)
+V8\StringValue(V8\Value)->IsObject(): bool(false)
+V8\StringValue(V8\Value)->IsBoolean(): bool(false)
+V8\StringValue(V8\Value)->IsNumber(): bool(false)
+V8\StringValue(V8\Value)->IsInt32(): bool(false)
+V8\StringValue(V8\Value)->IsUint32(): bool(false)
+V8\StringValue(V8\Value)->IsDate(): bool(false)
+V8\StringValue(V8\Value)->IsArgumentsObject(): bool(false)
+V8\StringValue(V8\Value)->IsBooleanObject(): bool(false)
+V8\StringValue(V8\Value)->IsNumberObject(): bool(false)
+V8\StringValue(V8\Value)->IsStringObject(): bool(false)
+V8\StringValue(V8\Value)->IsSymbolObject(): bool(false)
+V8\StringValue(V8\Value)->IsNativeError(): bool(false)
+V8\StringValue(V8\Value)->IsRegExp(): bool(false)
 
 
 Getters:
 --------
-v8\StringValue(v8\NameValue)->GetIdentityHash(): int(1034255942)
-v8\StringValue->Length(): int(11)
-v8\StringValue->Utf8Length(): int(11)
-v8\StringValue->IsOneByte(): bool(true)
-v8\StringValue->ContainsOnlyOneByte(): bool(true)
+V8\StringValue(V8\NameValue)->GetIdentityHash(): int(1034255942)
+V8\StringValue->Length(): int(11)
+V8\StringValue->Utf8Length(): int(11)
+V8\StringValue->IsOneByte(): bool(true)
+V8\StringValue->ContainsOnlyOneByte(): bool(true)
 
 
 Primitive converters:
 ---------------------
-v8\StringValue(v8\Value)->BooleanValue(): bool(true)
-v8\StringValue(v8\Value)->NumberValue(): float(NAN)
+V8\StringValue(V8\Value)->BooleanValue(): bool(true)
+V8\StringValue(V8\Value)->NumberValue(): float(NAN)
 
 
 Test empty string constructor:
 ------------------------------
-v8\StringValue->Value(): string(0) ""
-v8\StringValue(v8\Value)->BooleanValue(): bool(false)
-v8\StringValue(v8\Value)->NumberValue(): float(0)
+V8\StringValue->Value(): string(0) ""
+V8\StringValue(V8\Value)->BooleanValue(): bool(false)
+V8\StringValue(V8\Value)->NumberValue(): float(0)
 
 
 Test default constructor:
 -------------------------
-v8\StringValue->Value(): string(0) ""
-v8\StringValue(v8\Value)->BooleanValue(): bool(false)
-v8\StringValue(v8\Value)->NumberValue(): float(0)
+V8\StringValue->Value(): string(0) ""
+V8\StringValue(V8\Value)->BooleanValue(): bool(false)
+V8\StringValue(V8\Value)->NumberValue(): float(0)
 
 
 Test encodings:
 ---------------
-v8\StringValue->Value(): string(13) "Hello, world!"
-v8\StringValue->Length(): int(13)
-v8\StringValue->Utf8Length(): int(13)
-v8\StringValue->IsOneByte(): bool(true)
-v8\StringValue->ContainsOnlyOneByte(): bool(true)
+V8\StringValue->Value(): string(13) "Hello, world!"
+V8\StringValue->Length(): int(13)
+V8\StringValue->Utf8Length(): int(13)
+V8\StringValue->IsOneByte(): bool(true)
+V8\StringValue->ContainsOnlyOneByte(): bool(true)
 strlen(): 13
 mb_strlen(): 13
 
 
-v8\StringValue->Value(): string(21) "Привет, мир!"
-v8\StringValue->Length(): int(12)
-v8\StringValue->Utf8Length(): int(21)
-v8\StringValue->IsOneByte(): bool(false)
-v8\StringValue->ContainsOnlyOneByte(): bool(false)
+V8\StringValue->Value(): string(21) "Привет, мир!"
+V8\StringValue->Length(): int(12)
+V8\StringValue->Utf8Length(): int(21)
+V8\StringValue->IsOneByte(): bool(false)
+V8\StringValue->ContainsOnlyOneByte(): bool(false)
 strlen(): 21
 mb_strlen(): 12
 
 
-v8\StringValue->Value(): string(21) "こんにちは世界"
-v8\StringValue->Length(): int(7)
-v8\StringValue->Utf8Length(): int(21)
-v8\StringValue->IsOneByte(): bool(false)
-v8\StringValue->ContainsOnlyOneByte(): bool(false)
+V8\StringValue->Value(): string(21) "こんにちは世界"
+V8\StringValue->Length(): int(7)
+V8\StringValue->Utf8Length(): int(21)
+V8\StringValue->IsOneByte(): bool(false)
+V8\StringValue->ContainsOnlyOneByte(): bool(false)
 strlen(): 21
 mb_strlen(): 7

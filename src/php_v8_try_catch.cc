@@ -200,28 +200,28 @@ static PHP_METHOD(V8TryCatch, HasTerminated)
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_try_catch___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
-                ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, exception, v8\\Value, 1)
-                ZEND_ARG_OBJ_INFO(0, stack_trace, v8\\Value, 1)
-                ZEND_ARG_OBJ_INFO(0, message, v8\\Message, 1)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, exception, V8\\Value, 1)
+                ZEND_ARG_OBJ_INFO(0, stack_trace, V8\\Value, 1)
+                ZEND_ARG_OBJ_INFO(0, message, V8\\Message, 1)
                 ZEND_ARG_TYPE_INFO(0, can_continue, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, has_terminated, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Isolate", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Isolate", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Context", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Context", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_Exception, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Value", 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_Exception, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_StackTrace, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Value", 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_StackTrace, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_Message, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Message", 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_Message, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Message", 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_CanContinue, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)

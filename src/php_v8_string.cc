@@ -135,7 +135,7 @@ static PHP_METHOD(V8String, ContainsOnlyOneByte)
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_string___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
-    ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
+    ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 

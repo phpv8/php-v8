@@ -1,5 +1,5 @@
 --TEST--
-v8\ObjectTemplate
+V8\ObjectTemplate
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -12,15 +12,15 @@ $v8_helper = new PhpV8Helpers($helper);
 
 // Tests:
 
-$isolate = new \v8\Isolate();
+$isolate = new \V8\Isolate();
 
-$value = new \v8\ObjectTemplate($isolate);
+$value = new \V8\ObjectTemplate($isolate);
 
 $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();
 
-$helper->assert('ObjectTemplate extends Template', $value instanceof \v8\Template);
+$helper->assert('ObjectTemplate extends Template', $value instanceof \V8\Template);
 $helper->line();
 
 $helper->header('Accessors');
@@ -31,12 +31,12 @@ $callback = function() {
   echo 'Should never be called', PHP_EOL;
 };
 
-$fnc = new \v8\FunctionTemplate($isolate, $callback);
-$fnc->SetClassName(new \v8\StringValue($isolate, 'TestConstructor'));
+$fnc = new \V8\FunctionTemplate($isolate, $callback);
+$fnc->SetClassName(new \V8\StringValue($isolate, 'TestConstructor'));
 
-$context = new \v8\Context($isolate);
+$context = new \V8\Context($isolate);
 
-$value = new \v8\ObjectTemplate($isolate, $fnc);
+$value = new \V8\ObjectTemplate($isolate, $fnc);
 $instance = $value->NewInstance($context);
 
 $helper->assert('ObjectTemplate instance has name from constructor', $instance->GetConstructorName()->Value() == 'TestConstructor');
@@ -46,18 +46,18 @@ $helper->assert('ObjectTemplate instance has name from constructor', $instance->
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\ObjectTemplate)#4 (1) {
-  ["isolate":"v8\Template":private]=>
-  object(v8\Isolate)#3 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+object(V8\ObjectTemplate)#4 (1) {
+  ["isolate":"V8\Template":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
 }
@@ -67,6 +67,6 @@ ObjectTemplate extends Template: ok
 
 Accessors:
 ----------
-v8\ObjectTemplate::GetIsolate() matches expected value
+V8\ObjectTemplate::GetIsolate() matches expected value
 
 ObjectTemplate instance has name from constructor: ok

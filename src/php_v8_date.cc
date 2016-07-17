@@ -91,7 +91,7 @@ static PHP_METHOD(V8Date, DateTimeConfigurationChangeNotification) {
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_date___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, time, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
@@ -100,7 +100,7 @@ ZEND_END_ARG_INFO()
 
 // void method
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_date_DateTimeConfigurationChangeNotification, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, isolate, v8\\isolate, 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\isolate, 0)
 ZEND_END_ARG_INFO()
 
 

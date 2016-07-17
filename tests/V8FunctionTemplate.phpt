@@ -1,5 +1,5 @@
 --TEST--
-v8\FunctionTemplate
+V8\FunctionTemplate
 --SKIPIF--
 <?php if (!extension_loaded("v8")) {
     print "skip";
@@ -16,22 +16,22 @@ require '.tracking_dtors.php';
 
 // Tests:
 
-$isolate = new \v8\Isolate();
+$isolate = new \V8\Isolate();
 
 $callback = function () {
     print("hello word to js from PHP\n");
 };
 
-$function_template = new \v8\FunctionTemplate($isolate);
+$function_template = new \V8\FunctionTemplate($isolate);
 
 $helper->header('Object representation');
 $helper->dump($function_template);
 $helper->space();
 
-$helper->assert('FunctionTemplate extends Template', $function_template instanceof \v8\Template);
+$helper->assert('FunctionTemplate extends Template', $function_template instanceof \V8\Template);
 $helper->line();
 
-$print_func_tpl = new \v8\FunctionTemplate($isolate, function (\v8\FunctionCallbackInfo $info) {
+$print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
     $context = $info->GetContext();
 
     $out = [];
@@ -53,7 +53,7 @@ $print_func_tpl = new \v8\FunctionTemplate($isolate, function (\v8\FunctionCallb
 
 
 
-$function_template->SetClassName(new \v8\StringValue($isolate, 'TestFunction'));
+$function_template->SetClassName(new \V8\StringValue($isolate, 'TestFunction'));
 
 
 $helper->header('Object representation');
@@ -76,16 +76,16 @@ $instance_template_1 = $function_template->InstanceTemplate();
 $instance_template_2 = $function_template->InstanceTemplate();
 
 $extensions = [];
-$global_template = new v8\ObjectTemplate($isolate);
+$global_template = new V8\ObjectTemplate($isolate);
 
-$value = new v8\StringValue($isolate, 'TEST VALUE 111');
+$value = new V8\StringValue($isolate, 'TEST VALUE 111');
 
-$global_template->Set(new \v8\StringValue($isolate, 'test'), $value);
-$global_template->Set(new \v8\StringValue($isolate, 'func'), $function_template);
-$global_template->Set(new \v8\StringValue($isolate, 'print'), $print_func_tpl, \v8\PropertyAttribute::DontDelete);
+$global_template->Set(new \V8\StringValue($isolate, 'test'), $value);
+$global_template->Set(new \V8\StringValue($isolate, 'func'), $function_template);
+$global_template->Set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
 
 
-$context = new v8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $extensions, $global_template);
 
 
 $source    = '
@@ -96,28 +96,28 @@ typeof func()
 //$source    = 'func(); func(); func(); func()';
 $file_name = 'test.js';
 
-$isolate2 = new \v8\Isolate();
-$context2 = new v8\Context($isolate2);
+$isolate2 = new \V8\Isolate();
+$context2 = new V8\Context($isolate2);
 
 $global = $context->GlobalObject();
 
-$s = new \v8\StringValue($isolate, 'test');
-$s2 = new \v8\StringValue($isolate2, 'test 2');
+$s = new \V8\StringValue($isolate, 'test');
+$s2 = new \V8\StringValue($isolate2, 'test 2');
 
-$o = new \v8\ObjectValue($context);
-$o2 = new \v8\ObjectValue($context2);
+$o = new \V8\ObjectValue($context);
+$o2 = new \V8\ObjectValue($context2);
 
-$global->Set($context, new \v8\StringValue($isolate, 's'), $s);
+$global->Set($context, new \V8\StringValue($isolate, 's'), $s);
 try {
-  $global->Set($context, new \v8\StringValue($isolate, 's2'), $s2);
+  $global->Set($context, new \V8\StringValue($isolate, 's2'), $s2);
 } catch (Exception $e) {
   $helper->exception_export($e);
 }
 
-$global->Set($context, new \v8\StringValue($isolate, 'o'), $o);
+$global->Set($context, new \V8\StringValue($isolate, 'o'), $o);
 
 try {
-  $global->Set($context, new \v8\StringValue($isolate, 'o2'), $o2);
+  $global->Set($context, new \V8\StringValue($isolate, 'o2'), $o2);
 } catch (Exception $e) {
   $helper->exception_export($e);
 }
@@ -144,18 +144,18 @@ $helper->dump($res->ToString($context)->Value());
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\FunctionTemplate)#5 (1) {
-  ["isolate":"v8\Template":private]=>
-  object(v8\Isolate)#3 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+object(V8\FunctionTemplate)#5 (1) {
+  ["isolate":"V8\Template":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
 }
@@ -165,18 +165,18 @@ FunctionTemplate extends Template: ok
 
 Object representation:
 ----------------------
-object(v8\FunctionTemplate)#5 (1) {
-  ["isolate":"v8\Template":private]=>
-  object(v8\Isolate)#3 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+object(V8\FunctionTemplate)#5 (1) {
+  ["isolate":"V8\Template":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
 }
@@ -184,31 +184,31 @@ object(v8\FunctionTemplate)#5 (1) {
 
 Accessors:
 ----------
-v8\FunctionTemplate::GetIsolate() matches expected value
+V8\FunctionTemplate::GetIsolate() matches expected value
 
 
 Instance template:
 ------------------
-object(v8\ObjectTemplate)#8 (1) {
-  ["isolate":"v8\Template":private]=>
-  object(v8\Isolate)#3 (5) {
-    ["snapshot":"v8\Isolate":private]=>
+object(V8\ObjectTemplate)#8 (1) {
+  ["isolate":"V8\Template":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
     NULL
-    ["time_limit":"v8\Isolate":private]=>
+    ["time_limit":"V8\Isolate":private]=>
     float(0)
-    ["time_limit_hit":"v8\Isolate":private]=>
+    ["time_limit_hit":"V8\Isolate":private]=>
     bool(false)
-    ["memory_limit":"v8\Isolate":private]=>
+    ["memory_limit":"V8\Isolate":private]=>
     int(0)
-    ["memory_limit_hit":"v8\Isolate":private]=>
+    ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
 }
-v8\FunctionTemplate::InstanceTemplate() doesn't match expected value
+V8\FunctionTemplate::InstanceTemplate() doesn't match expected value
 
 
-v8\Exceptions\GenericException: Isolates mismatch
-v8\Exceptions\GenericException: Isolates mismatch
+V8\Exceptions\GenericException: Isolates mismatch
+V8\Exceptions\GenericException: Isolates mismatch
 Expected value matches actual value
 Expected value is not identical to actual value
 Hello, world!

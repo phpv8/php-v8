@@ -1,5 +1,5 @@
 --TEST--
-v8\Isolate - time limit
+V8\Isolate - time limit
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -13,8 +13,8 @@ $v8_helper = new PhpV8Helpers($helper);
 
 // Tests:
 
-$isolate = new v8\Isolate();
-$context = new v8\Context($isolate);
+$isolate = new V8\Isolate();
+$context = new V8\Context($isolate);
 
 
 $source    = '
@@ -23,7 +23,7 @@ $source    = '
 ';
 $file_name = 'test.js';
 
-$script = new v8\Script($context, new \v8\StringValue($isolate, $source), new \v8\ScriptOrigin($file_name));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 // NOTE: this check is a bit fragile but should fits our need
 $needs_more_time = isset($_ENV['TRAVIS']) && isset($_ENV['TEST_PHP_ARGS']) && $_ENV['TEST_PHP_ARGS'] == '-m';
@@ -50,7 +50,7 @@ $helper->line();
 $t = microtime(true);
 try {
   $res = $script->Run();
-} catch(\v8\Exceptions\TimeLimitException $e) {
+} catch(\V8\Exceptions\TimeLimitException $e) {
   $helper->exception_export($e);
   echo 'script execution terminated', PHP_EOL;
 } finally {
@@ -70,20 +70,20 @@ $helper->dump($isolate);
 Time limit accessor report no hit: ok
 Get time limit default value is zero: ok
 Get time limit returns valid value: ok
-object(v8\Isolate)#3 (5) {
-  ["snapshot":"v8\Isolate":private]=>
+object(V8\Isolate)#3 (5) {
+  ["snapshot":"V8\Isolate":private]=>
   NULL
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(%f)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(false)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(0)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }
 
-v8\Exceptions\TimeLimitException: Time limit exceeded
+V8\Exceptions\TimeLimitException: Time limit exceeded
 script execution terminated
 
 float(%f)
@@ -91,15 +91,15 @@ Script execution time is within specified range (%f, %f): ok
 Get time limit returns valid value: ok
 Time limit accessor report hit: ok
 
-object(v8\Isolate)#3 (5) {
-  ["snapshot":"v8\Isolate":private]=>
+object(V8\Isolate)#3 (5) {
+  ["snapshot":"V8\Isolate":private]=>
   NULL
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(%f)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(true)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(0)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }

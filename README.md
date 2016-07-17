@@ -65,9 +65,9 @@ level (probably, some wrapper around `ObjectTemplate` and `FunctionTemplate` wil
 Known issues demo:
 
 ```php
-$isolate = new v8\Isolate();
+$isolate = new V8\Isolate();
 
-$template = new ObjectTemplate($isolate);
+$template = new V8\ObjectTemplate($isolate);
 
 $template->Set('self', $template); // leads to segfault
 ```

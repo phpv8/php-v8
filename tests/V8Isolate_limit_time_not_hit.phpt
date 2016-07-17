@@ -1,5 +1,5 @@
 --TEST--
-v8\Isolate - time limit not hit
+V8\Isolate - time limit not hit
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -11,12 +11,12 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate = new v8\Isolate();
+$isolate = new V8\Isolate();
 $extensions = [];
-$global_template = new v8\ObjectTemplate($isolate);
-$global_template->Set(new \v8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \v8\PropertyAttribute::DontDelete);
+$global_template = new V8\ObjectTemplate($isolate);
+$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
 
-$context = new v8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $extensions, $global_template);
 
 $source = '
 print("start\n"); 
@@ -25,7 +25,7 @@ print("end\n");
 $file_name1 = 'test.js';
 
 
-$script = new v8\Script($context, new \v8\StringValue($isolate, $source), new \v8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name1));
 
 $time_limit = 1.5;
 $helper->assert('Time limit accessor report no hit', false === $isolate->IsTimeLimitHit());
@@ -56,16 +56,16 @@ $helper->dump($isolate);
 Time limit accessor report no hit: ok
 Get time limit default value is zero: ok
 Get time limit returns valid value: ok
-object(v8\Isolate)#3 (5) {
-  ["snapshot":"v8\Isolate":private]=>
+object(V8\Isolate)#3 (5) {
+  ["snapshot":"V8\Isolate":private]=>
   NULL
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(%f)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(false)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(0)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }
 
@@ -77,15 +77,15 @@ Script execution time is less than 0.5 sec: ok
 Get time limit returns valid value: ok
 Time limit accessor report not hit: ok
 
-object(v8\Isolate)#3 (5) {
-  ["snapshot":"v8\Isolate":private]=>
+object(V8\Isolate)#3 (5) {
+  ["snapshot":"V8\Isolate":private]=>
   NULL
-  ["time_limit":"v8\Isolate":private]=>
+  ["time_limit":"V8\Isolate":private]=>
   float(%f)
-  ["time_limit_hit":"v8\Isolate":private]=>
+  ["time_limit_hit":"V8\Isolate":private]=>
   bool(false)
-  ["memory_limit":"v8\Isolate":private]=>
+  ["memory_limit":"V8\Isolate":private]=>
   int(0)
-  ["memory_limit_hit":"v8\Isolate":private]=>
+  ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }

@@ -1,12 +1,12 @@
 --TEST--
-v8\PropertyHandlerFlags
+V8\PropertyHandlerFlags
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
 <?php
 
 // Bootstraps:
-$obj = new v8\PropertyHandlerFlags();
+$obj = new V8\PropertyHandlerFlags();
 
 // Tests:
 
@@ -26,13 +26,13 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\PropertyHandlerFlags)#1 (0) {
+object(V8\PropertyHandlerFlags)#1 (0) {
 }
 
 
 Class constants:
 ----------------
-v8\PropertyHandlerFlags::kNone = 0
-v8\PropertyHandlerFlags::kAllCanRead = 1
-v8\PropertyHandlerFlags::kNonMasking = 2
-v8\PropertyHandlerFlags::kOnlyInterceptStrings = 4
+V8\PropertyHandlerFlags::kNone = 0
+V8\PropertyHandlerFlags::kAllCanRead = 1
+V8\PropertyHandlerFlags::kNonMasking = 2
+V8\PropertyHandlerFlags::kOnlyInterceptStrings = 4

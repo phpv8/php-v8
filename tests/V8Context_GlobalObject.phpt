@@ -1,5 +1,5 @@
 --TEST--
-v8\Context::GlobalObject()
+V8\Context::GlobalObject()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -14,12 +14,12 @@ $v8_helper = new PhpV8Helpers($helper);
 
 require '.tracking_dtors.php';
 
-$isolate1 = new \v8\Isolate();
+$isolate1 = new \V8\Isolate();
 $extensions1 = [];
 
-$context = new \v8\Context($isolate1);
+$context = new \V8\Context($isolate1);
 
-$helper->method_matches_instanceof($context, 'GlobalObject', \v8\ObjectValue::class);
+$helper->method_matches_instanceof($context, 'GlobalObject', \V8\ObjectValue::class);
 
 $global1 = $context->GlobalObject();
 $global1->foo = 'bar';
@@ -31,8 +31,8 @@ $helper->assert('Global object on repeatable calls holds extra props', $global1-
 
 $context->DetachGlobal();
 
-$context2 = new \v8\Context($isolate1, null, null, $global2);
-$helper->method_matches_instanceof($context2, 'GlobalObject', \v8\ObjectValue::class);
+$context2 = new \V8\Context($isolate1, null, null, $global2);
+$helper->method_matches_instanceof($context2, 'GlobalObject', \V8\ObjectValue::class);
 
 echo 'Global object passed from one context to another is ', ($global1 === $global2 ? 'the same' : 'not the same'), PHP_EOL;
 
@@ -40,8 +40,8 @@ echo 'Global object passed from one context to another is ', ($global1 === $glob
 
 ?>
 --EXPECT--
-v8\Context::GlobalObject() result is instance of v8\ObjectValue
+V8\Context::GlobalObject() result is instance of V8\ObjectValue
 Global object on repeatable calls is the same: ok
 Global object on repeatable calls holds extra props: ok
-v8\Context::GlobalObject() result is instance of v8\ObjectValue
+V8\Context::GlobalObject() result is instance of V8\ObjectValue
 Global object passed from one context to another is the same

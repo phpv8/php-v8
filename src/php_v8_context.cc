@@ -309,17 +309,17 @@ static PHP_METHOD(V8Context, EstimatedSize)
 }
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-    ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
+    ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_ARRAY_INFO(0, extensions, 1)
-    ZEND_ARG_OBJ_INFO(0, global_template, v8\\ObjectTemplate, 1)
-    ZEND_ARG_OBJ_INFO(0, global_object, v8\\ObjectValue, 1)
+    ZEND_ARG_OBJ_INFO(0, global_template, V8\\ObjectTemplate, 1)
+    ZEND_ARG_OBJ_INFO(0, global_object, V8\\ObjectValue, 1)
 ZEND_END_ARG_INFO()
 
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Isolate", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Isolate", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_GlobalObject, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\ObjectValue", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_GlobalObject, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\ObjectValue", 0)
 ZEND_END_ARG_INFO()
 
 // void method
@@ -328,14 +328,14 @@ ZEND_END_ARG_INFO()
 
 // void method
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_SetSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-    ZEND_ARG_OBJ_INFO(0, token, v8\\Value, 0)
+    ZEND_ARG_OBJ_INFO(0, token, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 // void method
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_UseDefaultSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_GetSecurityToken, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Value", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_GetSecurityToken, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
 ZEND_END_ARG_INFO()
 
 // void method
@@ -348,7 +348,7 @@ ZEND_END_ARG_INFO()
 
 // void method
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_SetErrorMessageForCodeGenerationFromStrings, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, message, v8\\StringValue, 0)
+                ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_EstimatedSize, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)

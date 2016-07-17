@@ -193,39 +193,39 @@ static PHP_METHOD(V8Exception, GetStackTrace) {
 }
 
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_RangeError, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\Value", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, message, v8\\StringValue, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_RangeError, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\Value", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_ReferenceError, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\Value", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, message, v8\\StringValue, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_ReferenceError, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\Value", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_SyntaxError, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\Value", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, message, v8\\StringValue, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_SyntaxError, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\Value", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_TypeError, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\Value", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, message, v8\\StringValue, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_TypeError, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\Value", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_Error, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\Value", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, message, v8\\StringValue, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_Error, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\Value", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_CreateMessage, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\Message", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, exception, v8\\Value, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_CreateMessage, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\Message", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, exception, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_GetStackTrace, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\StackTrace", 1)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, exception, v8\\Value, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exception_GetStackTrace, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\StackTrace", 1)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, exception, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_exception_methods[] = {

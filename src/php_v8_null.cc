@@ -46,7 +46,7 @@ static PHP_METHOD(V8NullValue, Value) {
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_null___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_null_Value, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)

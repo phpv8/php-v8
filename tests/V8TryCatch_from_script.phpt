@@ -1,5 +1,5 @@
 --TEST--
-v8\TryCatch - getting from script
+V8\TryCatch - getting from script
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -17,20 +17,20 @@ $v8_helper = new PhpV8Helpers($helper);
 $isolate = new \v8Tests\TrackingDtors\Isolate();
 
 
-$nested_try_catch_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolate, function (\v8\FunctionCallbackInfo $args) use ($helper) {
+$nested_try_catch_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use ($helper) {
     $isolate = $args->GetIsolate();
-    $nested_context = new \v8\Context($isolate);
+    $nested_context = new \V8\Context($isolate);
 
     $source = /** @lang JavaScript */
         'throw new Error("Nested error");';
 
     $file_name = 'nested-test.js';
 
-    $script = new v8Tests\TrackingDtors\Script($nested_context, new \v8\StringValue($isolate, $source), new \v8\ScriptOrigin($file_name));
+    $script = new v8Tests\TrackingDtors\Script($nested_context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
     try{
       $script->Run();
-    } catch (v8\Exceptions\TryCatchException $e) {
+    } catch (V8\Exceptions\TryCatchException $e) {
         $helper->exception_export($e);
         $helper->line();
 
@@ -48,18 +48,18 @@ $nested_try_catch_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolat
 });
 
 $global_object_tpl = new \v8Tests\TrackingDtors\ObjectTemplate($isolate);
-$global_object_tpl->Set(new \v8\StringValue($isolate, 'nested_throw'), $nested_try_catch_func_tpl);
+$global_object_tpl->Set(new \V8\StringValue($isolate, 'nested_throw'), $nested_try_catch_func_tpl);
 $context = new v8Tests\TrackingDtors\Context($isolate, [], $global_object_tpl);
 
 $source = /** @lang JavaScript */
     'throw new Error("Top-level error");';
 $file_name = 'test.js';
 
-$script = new v8Tests\TrackingDtors\Script($context, new \v8\StringValue($isolate, $source), new \v8\ScriptOrigin($file_name));
+$script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 try {
     $res = $script->Run();
-} catch (v8\Exceptions\TryCatchException $e) {
+} catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();
 
@@ -81,11 +81,11 @@ $isolate->SetCaptureStackTraceForUncaughtExceptions(true);
 
 try {
     $res = $script->Run();
-} catch (v8\Exceptions\TryCatchException $e) {
+} catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();
 
-    $helper->assert('TryCatchException message has stack trace', $e->GetTryCatch()->Message()->GetStackTrace() instanceof \v8\StackTrace);
+    $helper->assert('TryCatchException message has stack trace', $e->GetTryCatch()->Message()->GetStackTrace() instanceof \V8\StackTrace);
     $helper->line();
 }
 
@@ -97,12 +97,12 @@ throw new Error("Top-level error");
 ';
 $file_name = 'test.js';
 
-$script = new v8Tests\TrackingDtors\Script($context, new \v8\StringValue($isolate, $source));
+$script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolate, $source));
 
 
 try {
     $res = $script->Run();
-} catch (v8\Exceptions\TryCatchException $e) {
+} catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();
 
@@ -119,8 +119,8 @@ try {
 
 try {
     $file_name = 'garbage.js';
-    $script = new v8Tests\TrackingDtors\Script($context, new \v8\StringValue($isolate, 'asd 1221as1 e^'), new \v8\ScriptOrigin($file_name));
-} catch (v8\Exceptions\TryCatchException $e) {
+    $script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolate, 'asd 1221as1 e^'), new \V8\ScriptOrigin($file_name));
+} catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();
 
@@ -144,7 +144,7 @@ $context = null;
 echo "END", PHP_EOL;
 ?>
 --EXPECT--
-v8\Exceptions\TryCatchException: Error: Top-level error
+V8\Exceptions\TryCatchException: Error: Top-level error
 
 TryCatchException holds the same isolate it was thrown: ok
 TryCatchException holds the same context it was thrown: ok
@@ -154,12 +154,12 @@ string(31) "Uncaught Error: Top-level error"
 
 TryCatchException message has not stack trace: ok
 
-v8\Exceptions\TryCatchException: Error: Top-level error
+V8\Exceptions\TryCatchException: Error: Top-level error
 
 TryCatchException message has stack trace: ok
 
 Script dies now!
-v8\Exceptions\TryCatchException: Error: Nested error
+V8\Exceptions\TryCatchException: Error: Nested error
 
 TryCatchException holds the same isolate it was thrown: ok
 TryCatchException holds the same context it was thrown: ok
@@ -168,7 +168,7 @@ TryCatch holds the same context it was thrown: ok
 string(28) "Uncaught Error: Nested error"
 
 Script dies now!
-v8\Exceptions\TryCatchException: Error: Top-level error
+V8\Exceptions\TryCatchException: Error: Top-level error
 
 TryCatchException holds the same isolate it was thrown: ok
 TryCatchException holds the same context it was thrown: ok
@@ -176,7 +176,7 @@ TryCatch holds the same isolate it was thrown: ok
 TryCatch holds the same context it was thrown: ok
 string(31) "Uncaught Error: Top-level error"
 
-v8\Exceptions\TryCatchException: SyntaxError: Unexpected number
+V8\Exceptions\TryCatchException: SyntaxError: Unexpected number
 
 TryCatchException holds the same context it was thrown: ok
 TryCatchException holds the same isolate it was thrown: ok

@@ -54,7 +54,7 @@ bool php_v8_function_unpack_args(zval* arguments_zv, zval *this_ptr, int arg_pos
     ZEND_HASH_FOREACH_VAL(myht, pzval) {
         if (Z_TYPE_P(pzval) != IS_OBJECT) {
             zend_throw_error(zend_ce_type_error,
-                             "Argument %d passed to %s::%s() should be array of \\v8\\Value objects, %s given at %d offset",
+                             "Argument %d passed to %s::%s() should be array of \\" PHP_V8_NS "\\Value objects, %s given at %d offset",
                              arg_position, ZSTR_VAL(Z_OBJCE_P(this_ptr)->name), get_active_function_name(),
                              zend_zval_type_name(pzval), i);
 
@@ -64,7 +64,7 @@ bool php_v8_function_unpack_args(zval* arguments_zv, zval *this_ptr, int arg_pos
 
         if (!instanceof_function(Z_OBJCE_P(pzval), php_v8_value_class_entry)) {
             zend_throw_error(zend_ce_type_error,
-                             "Argument %d passed to %s::%s() should be array of \\v8\\Value objects, instance of %s given at %d offset",
+                             "Argument %d passed to %s::%s() should be array of \\" PHP_V8_NS "\\Value objects, instance of %s given at %d offset",
                              arg_position, ZSTR_VAL(Z_OBJCE_P(this_ptr)->name), get_active_function_name(),
                              ZSTR_VAL(Z_OBJCE_P(pzval)->name), i);
 
@@ -422,34 +422,34 @@ static PHP_METHOD(V8Function, GetScriptOrigin) {
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_CALLABLE_INFO(0, callback, 0)
                 ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_NewInstance, ZEND_RETURN_VALUE, 1, IS_OBJECT, "v8\\ObjectValue", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_NewInstance, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\ObjectValue", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_Call, ZEND_RETURN_VALUE, 2, IS_OBJECT, "v8\\Value", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, recv, v8\\Value, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_Call, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\Value", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, recv, V8\\Value, 0)
                 ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
 // void method
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function_SetName, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, name, v8\\StringValue, 0)
+                ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetName, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Value", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetName, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetInferredName, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Value", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetInferredName, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetDisplayName, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Value", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetDisplayName, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
 ZEND_END_ARG_INFO()
 
 // long or null
@@ -463,10 +463,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_IsBuiltin, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetBoundFunction, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Value", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetBoundFunction, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetScriptOrigin, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\ScriptOrigin", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetScriptOrigin, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\ScriptOrigin", 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_object_methods[] = {

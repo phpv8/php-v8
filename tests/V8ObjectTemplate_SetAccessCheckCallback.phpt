@@ -1,5 +1,5 @@
 --TEST--
-v8\ObjectTemplate::SetAccessCheckCallback()
+V8\ObjectTemplate::SetAccessCheckCallback()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) { print "skip"; }
 echo 'skip ', 'see https://groups.google.com/forum/?fromgroups#!topic/v8-dev/c7LhW2bNabY';
@@ -20,21 +20,21 @@ $v8_helper = new PhpV8Helpers($helper);
 
 //v8::Isolate* isolate = CcTest::isolate();
 //v8::HandleScope handle_scope(isolate);
-$isolate = new \v8\Isolate();
+$isolate = new \V8\Isolate();
 
 //  v8::Handle<v8::ObjectTemplate> global_template = v8::ObjectTemplate::New(isolate);
 
-$global_template = new \v8\ObjectTemplate($isolate);
+$global_template = new \V8\ObjectTemplate($isolate);
 
 
 $g_echo_value = -1;
 
-$EchoGetter = function ($name, \v8\PropertyCallbackInfo $info) use (&$g_echo_value) {
+$EchoGetter = function ($name, \V8\PropertyCallbackInfo $info) use (&$g_echo_value) {
 //    echo 'EchoGetter for ', $name, PHP_EOL;
-    $info->GetReturnValue()->Set(new \v8\NumberValue($info->GetIsolate(), $g_echo_value));
+    $info->GetReturnValue()->Set(new \V8\NumberValue($info->GetIsolate(), $g_echo_value));
 };
 
-$EchoSetter = function ($name, \v8\Value $value, \v8\PropertyCallbackInfo $info) use (&$g_echo_value) {
+$EchoSetter = function ($name, \V8\Value $value, \V8\PropertyCallbackInfo $info) use (&$g_echo_value) {
 //    echo 'EchoSetter for ', $name, PHP_EOL;
     $g_echo_value = $value->Int32Value($info->GetContext());
 };
@@ -44,7 +44,7 @@ $UnreachableSetter = function () {throw new \Exception('Unreachable Setter');};
 
 $allowed_access = false;
 
-$AccessBlocker = function (\v8\Context $context, \v8\ObjectValue $object) use (&$isolate, &$allowed_access, $v8_helper, $helper) {
+$AccessBlocker = function (\V8\Context $context, \V8\ObjectValue $object) use (&$isolate, &$allowed_access, $v8_helper, $helper) {
     echo 'AccessBlocker called', PHP_EOL;
 //    echo '    access ', ($allowed_access ? 'allowed' : 'denied'), PHP_EOL;
 
@@ -52,29 +52,29 @@ $AccessBlocker = function (\v8\Context $context, \v8\ObjectValue $object) use (&
     return true;
 };
 
-$UnreachableFunction = new \v8\FunctionTemplate($isolate, function () {throw new \Exception('Unreachable function');});
+$UnreachableFunction = new \V8\FunctionTemplate($isolate, function () {throw new \Exception('Unreachable function');});
 
 //  global_template->SetAccessCheckCallbacks(AccessBlocker, NULL);
 $global_template->SetAccessCheckCallback($AccessBlocker);
 
 //  // Add an accessor accessible by cross-domain JS code.
 //  global_template->SetAccessor(v8_str("accessible_prop"), EchoGetter, EchoSetter, v8::Handle<Value>(), v8::AccessControl(v8::ALL_CAN_READ | v8::ALL_CAN_WRITE));
-$global_template->SetAccessor(new \v8\StringValue($isolate, 'accessible_prop'), $EchoGetter, $EchoSetter, \v8\AccessControl::ALL_CAN_READ | \v8\AccessControl::ALL_CAN_WRITE);
+$global_template->SetAccessor(new \V8\StringValue($isolate, 'accessible_prop'), $EchoGetter, $EchoSetter, \V8\AccessControl::ALL_CAN_READ | \V8\AccessControl::ALL_CAN_WRITE);
 
 
 //  // Add an accessor that is not accessible by cross-domain JS code.
 //  global_template->SetAccessor(v8_str("blocked_prop"), UnreachableGetter, UnreachableSetter, v8::Handle<Value>(), v8::DEFAULT);
-$global_template->SetAccessor(new \v8\StringValue($isolate, 'blocked_prop'), $UnreachableGetter, $UnreachableSetter, \v8\AccessControl::DEFAULT_ACCESS);
+$global_template->SetAccessor(new \V8\StringValue($isolate, 'blocked_prop'), $UnreachableGetter, $UnreachableSetter, \V8\AccessControl::DEFAULT_ACCESS);
 
 
 //  global_template->SetAccessorProperty(v8_str("blocked_js_prop"), v8::FunctionTemplate::New(isolate, UnreachableFunction), v8::FunctionTemplate::New(isolate, UnreachableFunction), v8::None, v8::DEFAULT);
-$global_template->SetAccessorProperty(new \v8\StringValue($isolate, 'blocked_js_prop'), $UnreachableFunction, $UnreachableFunction, \v8\PropertyAttribute::None, \v8\AccessControl::DEFAULT_ACCESS);
+$global_template->SetAccessorProperty(new \V8\StringValue($isolate, 'blocked_js_prop'), $UnreachableFunction, $UnreachableFunction, \V8\PropertyAttribute::None, \V8\AccessControl::DEFAULT_ACCESS);
 
 
 //  // Create an environment
 //  v8::Local<Context> context0 = Context::New(isolate, NULL, global_template);
 //  context0->Enter();
-$context0 = new \v8\Context($isolate, [], $global_template);
+$context0 = new \V8\Context($isolate, [], $global_template);
 
 //  v8::Handle<v8::Object> global0 = context0->Global();
 $global0 = $context0->GlobalObject();
@@ -91,12 +91,12 @@ $v8_helper->CompileRun($context0,
       "function setter() { return 'setter'; }\n" .
       "Object.defineProperty(this, 'js_accessor_p', {get:getter, set:setter})");
 
-$getter = $global0->Get($context0, new \v8\StringValue($isolate, 'getter'));
-$setter = $global0->Get($context0, new \v8\StringValue($isolate, 'setter'));
+$getter = $global0->Get($context0, new \V8\StringValue($isolate, 'getter'));
+$setter = $global0->Get($context0, new \V8\StringValue($isolate, 'setter'));
 
 //  // And define normal element.
 //  global0->Set(239, v8_str("239"));
-$global0->SetIndex($context0, 239, new \v8\StringValue($isolate, '239'));
+$global0->SetIndex($context0, 239, new \V8\StringValue($isolate, '239'));
 
 //  // Define an element with JS getter and setter.
 //  CompileRun(
@@ -113,15 +113,15 @@ $v8_helper->CompileRun($context0,
 //  Local<Value> el_getter = global0->Get(v8_str("el_getter"));
 //  Local<Value> el_setter = global0->Get(v8_str("el_setter"));
 
-$el_getter = $global0->Get($context0, new \v8\StringValue($isolate, 'el_getter'));
-$el_setter = $global0->Get($context0, new \v8\StringValue($isolate, 'el_setter'));
+$el_getter = $global0->Get($context0, new \V8\StringValue($isolate, 'el_getter'));
+$el_setter = $global0->Get($context0, new \V8\StringValue($isolate, 'el_setter'));
 
 
 //  v8::HandleScope scope1(isolate);
 //
 //  v8::Local<Context> context1 = Context::New(isolate);
 //  context1->Enter();
-$context1 = new \v8\Context($isolate);
+$context1 = new \V8\Context($isolate);
 
 
 //  v8::Handle<v8::Object> global1 = context1->Global();
@@ -129,7 +129,7 @@ $global1 = $context1->GlobalObject();
 
 
 //  global1->Set(v8_str("other"), global0);
-$global1->Set($context1, new \v8\StringValue($isolate, 'other'), $global0);
+$global1->Set($context1, new \V8\StringValue($isolate, 'other'), $global0);
 
 //  // Access blocked property.
 //  CompileRun("other.blocked_prop = 1");
@@ -294,25 +294,25 @@ $v8_helper->ExpectTrue($context1,
 Waiting for data parameter to be added to AccessCheck callback, https://groups.google.com/d/msg/v8-dev/c7LhW2bNabY/2p8U7KtgDQAJ
 TODO: test null-callback
 --EXPECT--
-other.blocked_prop = 1: v8\Exceptions\TryCatchException: TypeError: no access
-other.blocked_prop: v8\Exceptions\TryCatchException: TypeError: no access
-Object.getOwnPropertyDescriptor(other, 'blocked_prop'): v8\Exceptions\TryCatchException: TypeError: no access
-propertyIsEnumerable.call(other, 'blocked_prop'): v8\Exceptions\TryCatchException: TypeError: no access
-other[239] = 1: v8\Exceptions\TryCatchException: TypeError: no access
-other[239]: v8\Exceptions\TryCatchException: TypeError: no access
-Object.getOwnPropertyDescriptor(other, '239'): v8\Exceptions\TryCatchException: TypeError: no access
-propertyIsEnumerable.call(other, '239'): v8\Exceptions\TryCatchException: TypeError: no access
+other.blocked_prop = 1: V8\Exceptions\TryCatchException: TypeError: no access
+other.blocked_prop: V8\Exceptions\TryCatchException: TypeError: no access
+Object.getOwnPropertyDescriptor(other, 'blocked_prop'): V8\Exceptions\TryCatchException: TypeError: no access
+propertyIsEnumerable.call(other, 'blocked_prop'): V8\Exceptions\TryCatchException: TypeError: no access
+other[239] = 1: V8\Exceptions\TryCatchException: TypeError: no access
+other[239]: V8\Exceptions\TryCatchException: TypeError: no access
+Object.getOwnPropertyDescriptor(other, '239'): V8\Exceptions\TryCatchException: TypeError: no access
+propertyIsEnumerable.call(other, '239'): V8\Exceptions\TryCatchException: TypeError: no access
 Expected true value is identical to actual value true
-other.js_accessor_p = 2: v8\Exceptions\TryCatchException: TypeError: no access
-other.js_accessor_p: v8\Exceptions\TryCatchException: TypeError: no access
-Object.getOwnPropertyDescriptor(other, 'js_accessor_p'): v8\Exceptions\TryCatchException: TypeError: no access
+other.js_accessor_p = 2: V8\Exceptions\TryCatchException: TypeError: no access
+other.js_accessor_p: V8\Exceptions\TryCatchException: TypeError: no access
+Object.getOwnPropertyDescriptor(other, 'js_accessor_p'): V8\Exceptions\TryCatchException: TypeError: no access
 Expected 'getter' value is identical to actual value 'getter'
 Actual and expected objects are the same
 Actual and expected objects are the same
 Actual result for expected value is undefined
-other[42] = 2: v8\Exceptions\TryCatchException: TypeError: no access
-other[42]: v8\Exceptions\TryCatchException: TypeError: no access
-Object.getOwnPropertyDescriptor(other, '42'): v8\Exceptions\TryCatchException: TypeError: no access
+other[42] = 2: V8\Exceptions\TryCatchException: TypeError: no access
+other[42]: V8\Exceptions\TryCatchException: TypeError: no access
+Object.getOwnPropertyDescriptor(other, '42'): V8\Exceptions\TryCatchException: TypeError: no access
 Expected 'el_getter' value is identical to actual value 'el_getter'
 Actual and expected objects are the same
 Actual and expected objects are the same

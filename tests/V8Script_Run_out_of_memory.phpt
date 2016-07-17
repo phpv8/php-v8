@@ -1,5 +1,5 @@
 --TEST--
-v8\Script::Run() - out of memory example
+V8\Script::Run() - out of memory example
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 <?php if (!getenv("DEV_TESTS")) print "skip"; ?>
@@ -11,15 +11,15 @@ require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
 
-$isolate = new v8\Isolate();
+$isolate = new V8\Isolate();
 $extensions = [];
-$global_template = new v8\ObjectTemplate($isolate);
+$global_template = new V8\ObjectTemplate($isolate);
 
-$value = new v8\StringValue($isolate, 'TEST VALUE 111');
+$value = new V8\StringValue($isolate, 'TEST VALUE 111');
 
-$global_template->Set(new \v8\StringValue($isolate, 'test'), $value);
-$global_template->Set(new \v8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
-$context = new v8\Context($isolate, $extensions, $global_template);
+$global_template->Set(new \V8\StringValue($isolate, 'test'), $value);
+$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
+$context = new V8\Context($isolate, $extensions, $global_template);
 
 // This causes segfault
 $source = '
@@ -45,7 +45,7 @@ while (1) {
 
 $file_name = 'test.js';
 
-$script = new v8\Script($context, new \v8\StringValue($isolate, $source), new \v8\ScriptOrigin($file_name));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 try {
     $res = $script->Run();
 } catch (\Exception $e) {
@@ -58,10 +58,10 @@ $helper->dump($res->Value());
 
 $helper->space();
 
-$scalar = new v8\NumberValue($isolate, 123);
-$obj    = new v8\ObjectValue($context);
-$context->GlobalObject()->Set($context, new \v8\StringValue($isolate, 'scalar'), $scalar);
-$context->GlobalObject()->Set($context, new \v8\StringValue($isolate, 'obj'), $obj);
+$scalar = new V8\NumberValue($isolate, 123);
+$obj    = new V8\ObjectValue($context);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'scalar'), $scalar);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $obj);
 
 $res = $v8_helper->CompileTryRun($context, 'scalar');
 
@@ -79,27 +79,27 @@ $helper->value_matches_with_no_output($res, $obj);
 
 ?>
 --EXPECT--
-Checks on v8\StringValue:
+Checks on V8\StringValue:
 --------------------
-v8\StringValue::IsUndefined(): false
-v8\StringValue::IsNull(): false
-v8\StringValue::IsTrue(): false
-v8\StringValue::IsFalse(): false
-v8\StringValue::IsString(): true
-v8\StringValue::IsFunction(): false
-v8\StringValue::IsArray(): false
-v8\StringValue::IsObject(): false
-v8\StringValue::IsBoolean(): false
-v8\StringValue::IsNumber(): false
-v8\StringValue::IsInt32(): false
-v8\StringValue::IsUint32(): false
-v8\StringValue::IsDate(): false
-v8\StringValue::IsArgumentsObject(): false
-v8\StringValue::IsBooleanObject(): false
-v8\StringValue::IsNumberObject(): false
-v8\StringValue::IsStringObject(): false
-v8\StringValue::IsNativeError(): false
-v8\StringValue::IsRegExp(): false
+V8\StringValue::IsUndefined(): false
+V8\StringValue::IsNull(): false
+V8\StringValue::IsTrue(): false
+V8\StringValue::IsFalse(): false
+V8\StringValue::IsString(): true
+V8\StringValue::IsFunction(): false
+V8\StringValue::IsArray(): false
+V8\StringValue::IsObject(): false
+V8\StringValue::IsBoolean(): false
+V8\StringValue::IsNumber(): false
+V8\StringValue::IsInt32(): false
+V8\StringValue::IsUint32(): false
+V8\StringValue::IsDate(): false
+V8\StringValue::IsArgumentsObject(): false
+V8\StringValue::IsBooleanObject(): false
+V8\StringValue::IsNumberObject(): false
+V8\StringValue::IsStringObject(): false
+V8\StringValue::IsNativeError(): false
+V8\StringValue::IsRegExp(): false
 
 
 string(25) "TEST VALUE 111, confirmed" refcount(1)

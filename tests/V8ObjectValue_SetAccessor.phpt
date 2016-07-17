@@ -1,5 +1,5 @@
 --TEST--
-v8\ObjectValue::SetAccessor
+V8\ObjectValue::SetAccessor
 --SKIPIF--
 <?php if (!extension_loaded("v8")) {
     print "skip";
@@ -12,12 +12,12 @@ v8\ObjectValue::SetAccessor
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
 
-$isolate1         = new \v8\Isolate();
+$isolate1         = new \V8\Isolate();
 $extensions1      = [];
-$global_template1 = new v8\ObjectTemplate($isolate1);
+$global_template1 = new V8\ObjectTemplate($isolate1);
 
 
-$print_func_tpl = new \v8\FunctionTemplate($isolate1, function (\v8\FunctionCallbackInfo $info) {
+$print_func_tpl = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) {
     $context = $info->GetContext();
 
     $out = [];
@@ -37,20 +37,20 @@ $print_func_tpl = new \v8\FunctionTemplate($isolate1, function (\v8\FunctionCall
     echo implode('', $out);
 });
 
-$global_template1->Set(new \v8\StringValue($isolate1, 'print'), $print_func_tpl, \v8\PropertyAttribute::DontDelete);
+$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
 
-$context1 = new v8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
 
 $prop_value = 'foo';
 
-$getter = function (\v8\NameValue $property, \v8\PropertyCallbackInfo $info) use (&$prop_value) {
+$getter = function (\V8\NameValue $property, \V8\PropertyCallbackInfo $info) use (&$prop_value) {
     echo 'Userland getter on property ', $property->ToString($info->GetContext())->Value(), ' called, value is ', $prop_value, PHP_EOL;
 
-    $info->GetReturnValue()->Set(new \v8\StringValue($info->GetIsolate(), $prop_value));
+    $info->GetReturnValue()->Set(new \V8\StringValue($info->GetIsolate(), $prop_value));
 };
 
 
-$setter = function (\v8\NameValue $property, \v8\Value $value, \v8\PropertyCallbackInfo $info) use (& $prop_value) {
+$setter = function (\V8\NameValue $property, \V8\Value $value, \V8\PropertyCallbackInfo $info) use (& $prop_value) {
     $val = $value->ToString($info->GetContext())->Value();
     echo 'Userland setter on property ', $property->ToString($info->GetContext())->Value(), ' called with ', $val, ', value is ', $prop_value, PHP_EOL;
 
@@ -58,12 +58,12 @@ $setter = function (\v8\NameValue $property, \v8\Value $value, \v8\PropertyCallb
 };
 
 
-$obj = new \v8\ObjectValue($context1);
+$obj = new \V8\ObjectValue($context1);
 
 
-$obj->SetAccessor($context1, new \v8\StringValue($isolate1, 'test'), $getter, $setter);
+$obj->SetAccessor($context1, new \V8\StringValue($isolate1, 'test'), $getter, $setter);
 
-$context1->GlobalObject()->Set($context1, new \v8\StringValue($isolate1, 'obj'), $obj);
+$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj'), $obj);
 $source1    = '
 print(obj.test, "\n");
 obj.test = "bar";
@@ -74,7 +74,7 @@ print(obj.test, "\n");
 $file_name1 = 'test.js';
 
 
-$script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
+$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
 $helper->dump($script1->Run()->ToString($context1)->Value());
 

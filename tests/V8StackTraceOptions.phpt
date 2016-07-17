@@ -1,12 +1,12 @@
 --TEST--
-v8\StackTrace\StackTraceOptions
+V8\StackTrace\StackTraceOptions
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
 <?php
 
 // Bootstraps:
-$obj = new v8\StackTrace\StackTraceOptions();
+$obj = new V8\StackTrace\StackTraceOptions();
 
 // Tests:
 
@@ -26,20 +26,20 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(v8\StackTrace\StackTraceOptions)#1 (0) {
+object(V8\StackTrace\StackTraceOptions)#1 (0) {
 }
 
 
 Class constants:
 ----------------
-v8\StackTrace\StackTraceOptions::kLineNumber = 1
-v8\StackTrace\StackTraceOptions::kColumnOffset = 3
-v8\StackTrace\StackTraceOptions::kScriptName = 4
-v8\StackTrace\StackTraceOptions::kFunctionName = 8
-v8\StackTrace\StackTraceOptions::kIsEval = 16
-v8\StackTrace\StackTraceOptions::kIsConstructor = 32
-v8\StackTrace\StackTraceOptions::kScriptNameOrSourceURL = 64
-v8\StackTrace\StackTraceOptions::kScriptId = 128
-v8\StackTrace\StackTraceOptions::kExposeFramesAcrossSecurityOrigins = 256
-v8\StackTrace\StackTraceOptions::kOverview = 15
-v8\StackTrace\StackTraceOptions::kDetailed = 127
+V8\StackTrace\StackTraceOptions::kLineNumber = 1
+V8\StackTrace\StackTraceOptions::kColumnOffset = 3
+V8\StackTrace\StackTraceOptions::kScriptName = 4
+V8\StackTrace\StackTraceOptions::kFunctionName = 8
+V8\StackTrace\StackTraceOptions::kIsEval = 16
+V8\StackTrace\StackTraceOptions::kIsConstructor = 32
+V8\StackTrace\StackTraceOptions::kScriptNameOrSourceURL = 64
+V8\StackTrace\StackTraceOptions::kScriptId = 128
+V8\StackTrace\StackTraceOptions::kExposeFramesAcrossSecurityOrigins = 256
+V8\StackTrace\StackTraceOptions::kOverview = 15
+V8\StackTrace\StackTraceOptions::kDetailed = 127

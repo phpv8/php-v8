@@ -273,7 +273,7 @@ static PHP_METHOD(V8ReturnValue, GetContext) {
 }
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_return_value_Set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, value, v8\\Value, 0)
+                ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 
@@ -298,10 +298,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_return_value_SetFloat, ZEND_SEND_BY_VAL, ZEND_
                 ZEND_ARG_TYPE_INFO(0, i, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_return_value_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Isolate", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_return_value_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Isolate", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_return_value_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Context", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_return_value_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Context", 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_return_value_methods[] = {

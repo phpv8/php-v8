@@ -1,5 +1,5 @@
 --TEST--
-v8\Script::Run - exit during script execution
+V8\Script::Run - exit during script execution
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -27,8 +27,8 @@ $exit = new v8Tests\TrackingDtors\FunctionTemplate($isolate1, function () {
     exit();
 });
 
-$global_template1->Set(new \v8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \v8\PropertyAttribute::DontDelete);
-$global_template1->Set(new \v8\StringValue($isolate1, 'exit'), $exit, \v8\PropertyAttribute::DontDelete);
+$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
+$global_template1->Set(new \V8\StringValue($isolate1, 'exit'), $exit, \V8\PropertyAttribute::DontDelete);
 
 $context1 = new v8Tests\TrackingDtors\Context($isolate1, $extensions1, $global_template1);
 
@@ -40,7 +40,7 @@ print("after exit\n");
 ';
 $file_name1 = 'test.js';
 
-$script = new v8Tests\TrackingDtors\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
+$script = new v8Tests\TrackingDtors\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
 $isolate1 = null;
 $context1 = null;

@@ -434,32 +434,32 @@ static PHP_METHOD(V8FunctionTemplate, HasInstance) {
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function_template___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, isolate, v8\\Isolate, 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_CALLABLE_INFO(0, callback, 1)
                 ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Isolate", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Isolate", 0)
 ZEND_END_ARG_INFO()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_function_template_Set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
-                ZEND_ARG_OBJ_INFO(0, name, v8\\NameValue, 0)
-                ZEND_ARG_OBJ_INFO(0, value, v8\\Data, 0)
+                ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
+                ZEND_ARG_OBJ_INFO(0, value, V8\\Data, 0)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_function_template_SetAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, name, v8\\NameValue, 0)
-                ZEND_ARG_OBJ_INFO(0, getter, v8\\FunctionTemplate, 0)
-                ZEND_ARG_OBJ_INFO(0, setter, v8\\FunctionTemplate, 0)
+                ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
+                ZEND_ARG_OBJ_INFO(0, getter, V8\\FunctionTemplate, 0)
+                ZEND_ARG_OBJ_INFO(0, setter, V8\\FunctionTemplate, 0)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_function_template_SetNativeDataProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
-                ZEND_ARG_OBJ_INFO(0, name, v8\\NameValue, 0)
+                ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
@@ -468,8 +468,8 @@ ZEND_END_ARG_INFO()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_function_template_GetFunction, ZEND_RETURN_VALUE, 1, IS_OBJECT, "v8\\FunctionObject", 0)
-                ZEND_ARG_OBJ_INFO(0, context, v8\\Context, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_function_template_GetFunction, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\FunctionObject", 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
 // void method
@@ -482,20 +482,20 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_function_template_SetLength, ZEND_SEND_BY_
                 ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_InstanceTemplate, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\ObjectTemplate", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_InstanceTemplate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\ObjectTemplate", 0)
 ZEND_END_ARG_INFO()
 
 // void method
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function_template_Inherit, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, parent, v8\\FunctionTemplate, 0)
+                ZEND_ARG_OBJ_INFO(0, parent, V8\\FunctionTemplate, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_PrototypeTemplate, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\ObjectTemplate", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_PrototypeTemplate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\ObjectTemplate", 0)
 ZEND_END_ARG_INFO()
 
 // void method
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function_template_SetClassName, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_OBJ_INFO(0, name, v8\\StringValue, 0)
+                ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
 // void method
@@ -517,7 +517,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function_template_RemovePrototype, ZEND_SEND_B
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_HasInstance, ZEND_RETURN_VALUE, 1, _IS_BOOL, NULL, 0)
-                ZEND_ARG_OBJ_INFO(0, object, v8\\ObjectValue, 0)
+                ZEND_ARG_OBJ_INFO(0, object, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
 

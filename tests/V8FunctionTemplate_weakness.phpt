@@ -1,5 +1,5 @@
 --TEST--
-v8\FunctionTemplate weakness
+V8\FunctionTemplate weakness
 --SKIPIF--
 <?php if (!extension_loaded("v8")) {
     print "skip";
@@ -10,7 +10,7 @@ v8\FunctionTemplate weakness
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
 
-class Isolate extends \v8\Isolate
+class Isolate extends \V8\Isolate
 {
     public function __destruct()
     {
@@ -18,7 +18,7 @@ class Isolate extends \v8\Isolate
     }
 }
 
-class Context extends \v8\Context
+class Context extends \V8\Context
 {
     public function __destruct()
     {
@@ -26,7 +26,7 @@ class Context extends \v8\Context
     }
 }
 
-class Script extends \v8\Script
+class Script extends \V8\Script
 {
     public function __destruct()
     {
@@ -34,7 +34,7 @@ class Script extends \v8\Script
     }
 }
 
-class MyFunctionTemplate extends \v8\FunctionTemplate
+class MyFunctionTemplate extends \V8\FunctionTemplate
 {
     public function __destruct()
     {
@@ -42,7 +42,7 @@ class MyFunctionTemplate extends \v8\FunctionTemplate
     }
 }
 
-class MyObjectTemplate extends \v8\ObjectTemplate
+class MyObjectTemplate extends \V8\ObjectTemplate
 {
     public function __destruct()
     {
@@ -70,7 +70,7 @@ class MyCallaback
 $print_func_tpl = new MyFunctionTemplate($isolate1, new MyCallaback());
 
 $global_template1 = new MyObjectTemplate($isolate1);
-$global_template1->Set(new \v8\StringValue($isolate1, 'print'), $print_func_tpl);
+$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $print_func_tpl);
 $print_func_tpl = null;
 
 $context1 = new Context($isolate1, $extensions1, $global_template1);
@@ -79,7 +79,7 @@ $global_template1 = null;
 $source1 = 'print("Hello, world\n"); delete print; "Script done"';
 $file_name1 = 'test.js';
 try {
-    $script1 = new Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
+    $script1 = new Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
     $script1->Run()->Value();
 } catch (Exception $e) {

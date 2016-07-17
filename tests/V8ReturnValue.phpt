@@ -1,5 +1,5 @@
 --TEST--
-v8\ReturnValue
+V8\ReturnValue
 --SKIPIF--
 <?php if (!extension_loaded("v8")) {
     print "skip";
@@ -18,20 +18,20 @@ require '.tracking_dtors.php';
 $isolate1 = new v8Tests\TrackingDtors\Isolate();
 $extensions1 = [];
 
-$global_template1 = new v8\ObjectTemplate($isolate1);
+$global_template1 = new V8\ObjectTemplate($isolate1);
 
-//$global_template1->Set(new \v8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \v8\PropertyAttribute::DontDelete);
+//$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
 
-$context1 = new v8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
 
-$scalar = new \v8\StringValue($isolate1, "test");
-$object = new \v8\ObjectValue($context1);
+$scalar = new \V8\StringValue($isolate1, "test");
+$object = new \V8\ObjectValue($context1);
 
 
 $method = null;
 $args = [];
 
-$func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\v8\FunctionCallbackInfo $info) use ($helper, $scalar, $object, $isolate1, $context1, &$method, &$args) {
+$func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) use ($helper, $scalar, $object, $isolate1, $context1, &$method, &$args) {
 
     $retval = $info->GetReturnValue();
 
@@ -47,13 +47,13 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\v8\Functi
     }
 });
 
-$context1->GlobalObject()->Set($context1, new \v8\StringValue($isolate1, 'test'), $func);
+$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'test'), $func);
 
 $source1 = 'test(); "Script done";';
 $file_name1 = 'test.js';
 
 
-$script1 = new v8\Script($context1, new \v8\StringValue($isolate1, $source1), new \v8\ScriptOrigin($file_name1));
+$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
 $helper->dump($script1->Run()->ToString($context1)->Value());
 

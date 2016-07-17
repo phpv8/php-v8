@@ -1,5 +1,5 @@
 --TEST--
-v8\FunctionTemplate - require() implementation
+V8\FunctionTemplate - require() implementation
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -11,7 +11,7 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \v8\Isolate();
+$isolate1 = new \V8\Isolate();
 
 
 $code = [];
@@ -20,29 +20,29 @@ $code['test.js'] = 'var out = {"foo" : "unchanged"}; out';
 
 // *** This is how require implemented in node.js: ***
 
-/** @var \v8\Value[] $loaded */
+/** @var \V8\Value[] $loaded */
 $loaded_cache = [];
 
-$require_func_tpl_cache = new \v8\FunctionTemplate($isolate1, function (\v8\FunctionCallbackInfo $info) use (&$loaded_cache, &$code) {
+$require_func_tpl_cache = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) use (&$loaded_cache, &$code) {
   $isolate = $info->GetIsolate();
   $context = $info->GetContext();
 
   $module = $info->Arguments()[0]->ToString($context)->Value();
 
   if (!isset($loaded_cache[$module])) {
-    $new_context = new \v8\Context($isolate, [], new \v8\ObjectTemplate($isolate));
+    $new_context = new \V8\Context($isolate, [], new \V8\ObjectTemplate($isolate));
 
-    $script = new \v8\Script($new_context, new \v8\StringValue($isolate, $code[$module]), new \v8\ScriptOrigin($module));
+    $script = new \V8\Script($new_context, new \V8\StringValue($isolate, $code[$module]), new \V8\ScriptOrigin($module));
 
     $loaded_cache[$module] = $script->Run();
   }
 
   $info->GetReturnValue()->Set($loaded_cache[$module]);
 });
-$global_template = new v8\ObjectTemplate($isolate1);
-$global_template->Set(new \v8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \v8\PropertyAttribute::DontDelete);
-$global_template->Set(new \v8\StringValue($isolate1, 'require'), $require_func_tpl_cache, \v8\PropertyAttribute::DontDelete);
-$context = new v8\Context($isolate1, [], $global_template);
+$global_template = new V8\ObjectTemplate($isolate1);
+$global_template->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
+$global_template->Set(new \V8\StringValue($isolate1, 'require'), $require_func_tpl_cache, \V8\PropertyAttribute::DontDelete);
+$context = new V8\Context($isolate1, [], $global_template);
 
 $JS = '
 var test = require("test.js");
@@ -59,7 +59,7 @@ $file_name2 = 'experiment.js';
 
 $helper->header('Test require() (with cache)');
 
-$script2 = new v8\Script($context, new \v8\StringValue($isolate1, $JS), new \v8\ScriptOrigin($file_name2));
+$script2 = new V8\Script($context, new \V8\StringValue($isolate1, $JS), new \V8\ScriptOrigin($file_name2));
 $res2 = $script2->Run();
 
 $helper->space();
@@ -68,19 +68,19 @@ $helper->space();
 
 // *** This is how custom require() implementation demo (no caching): ***
 
-/** @var \v8\Script[] $loaded */
+/** @var \V8\Script[] $loaded */
 $loaded_no_cache = [];
 
-$require_func_tpl_nocache = new \v8\FunctionTemplate($isolate1, function (\v8\FunctionCallbackInfo $info) use (&$loaded_no_cache, &$code) {
+$require_func_tpl_nocache = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) use (&$loaded_no_cache, &$code) {
   $isolate = $info->GetIsolate();
   $context = $info->GetContext();
 
   $module = $info->Arguments()[0]->ToString($context)->Value();
 
   if (!isset($loaded_no_cache[$module])) {
-    $new_context = new \v8\Context($isolate, [], new \v8\ObjectTemplate($isolate));
+    $new_context = new \V8\Context($isolate, [], new \V8\ObjectTemplate($isolate));
 
-    $script = new \v8\Script($new_context, new \v8\StringValue($isolate, $code[$module]), new \v8\ScriptOrigin($module));
+    $script = new \V8\Script($new_context, new \V8\StringValue($isolate, $code[$module]), new \V8\ScriptOrigin($module));
 
     $loaded_no_cache[$module] = $script;
   }
@@ -89,10 +89,10 @@ $require_func_tpl_nocache = new \v8\FunctionTemplate($isolate1, function (\v8\Fu
 });
 
 
-$global_template = new v8\ObjectTemplate($isolate1);
-$global_template->Set(new \v8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \v8\PropertyAttribute::DontDelete);
-$global_template->Set(new \v8\StringValue($isolate1, 'require'), $require_func_tpl_nocache, \v8\PropertyAttribute::DontDelete);
-$context = new v8\Context($isolate1, [], $global_template);
+$global_template = new V8\ObjectTemplate($isolate1);
+$global_template->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
+$global_template->Set(new \V8\StringValue($isolate1, 'require'), $require_func_tpl_nocache, \V8\PropertyAttribute::DontDelete);
+$context = new V8\Context($isolate1, [], $global_template);
 
 $JS = '
 var test = require("test.js");
@@ -109,7 +109,7 @@ $file_name2 = 'experiment.js';
 
 $helper->header('Test require() (no cache)');
 
-$script2 = new v8\Script($context, new \v8\StringValue($isolate1, $JS), new \v8\ScriptOrigin($file_name2));
+$script2 = new V8\Script($context, new \V8\StringValue($isolate1, $JS), new \V8\ScriptOrigin($file_name2));
 $res2 = $script2->Run();
 
 ?>

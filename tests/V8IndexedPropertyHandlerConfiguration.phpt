@@ -1,5 +1,5 @@
 --TEST--
-v8\IndexedPropertyHandlerConfiguration
+V8\IndexedPropertyHandlerConfiguration
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -14,7 +14,7 @@ $helper->header('Getter released');
 $helper->dump($getter);
 
 // Bootstraps:
-$obj = new v8\IndexedPropertyHandlerConfiguration($getter);
+$obj = new V8\IndexedPropertyHandlerConfiguration($getter);
 $helper->dump($getter);
 $helper->space();
 
@@ -43,7 +43,7 @@ object(Closure)#2 (0) {
 
 Object representation:
 ----------------------
-object(v8\IndexedPropertyHandlerConfiguration)#3 (0) {
+object(V8\IndexedPropertyHandlerConfiguration)#3 (0) {
 }
 
 

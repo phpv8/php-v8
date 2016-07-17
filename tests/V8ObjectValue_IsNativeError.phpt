@@ -1,5 +1,5 @@
 --TEST--
-v8\ObjectValue::IsNativeError()
+V8\ObjectValue::IsNativeError()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) {
     print "skip";
@@ -13,10 +13,10 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \v8\Isolate();
+$isolate1 = new \V8\Isolate();
 $extensions1 = [];
-$global_template1 = new v8\ObjectTemplate($isolate1);
-$context1 = new v8\Context($isolate1, $extensions1, $global_template1);
+$global_template1 = new V8\ObjectTemplate($isolate1);
+$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
 
 // THREADED_TEST(IsNativeError)
 

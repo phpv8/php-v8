@@ -150,7 +150,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_startup_data_GetRawSize, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_startup_data_CreateFromSource, ZEND_RETURN_VALUE, 1, IS_OBJECT, "v8\\StartupData", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_startup_data_CreateFromSource, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\StartupData", 0)
                 ZEND_ARG_TYPE_INFO(0, source, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 

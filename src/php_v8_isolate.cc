@@ -537,7 +537,7 @@ static PHP_METHOD(V8Isolate, IsDead) {
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
-                ZEND_ARG_OBJ_INFO(0, snapshot, v8\\StartupData, 1)
+                ZEND_ARG_OBJ_INFO(0, snapshot, V8\\StartupData, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_SetTimeLimit, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
@@ -560,20 +560,20 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsMemoryLimitHit, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetSnapshot, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\StartupData", 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetSnapshot, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\StartupData", 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetHeapStatistics, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\HeapStatistics", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetHeapStatistics, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\HeapStatistics", 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_InContext, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetCurrentContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, "v8\\Context", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetCurrentContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Context", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_RETURN_VALUE, 1, IS_OBJECT, "v8\\Value", 0)
-                ZEND_ARG_OBJ_INFO(0, value, v8\\Value, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\Value", 0)
+                ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IdleNotificationDeadline, ZEND_RETURN_VALUE, 1, _IS_BOOL, NULL, 0)
