@@ -118,7 +118,7 @@ print("\\n");
 $file_name = 'test.js';
 
 $script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
-$res = $script->Run();
+$res = $script->Run($context);
 
 
 

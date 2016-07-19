@@ -34,7 +34,7 @@ $file_name1 = 'test.js';
 
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
-$res = $script1->Run()->ToString($context1)->Value();
+$res = $script1->Run($context1)->ToString($context1)->Value();
 $helper->pretty_dump('Script result', $res);
 
 echo 'We are done for now', PHP_EOL;

@@ -38,7 +38,7 @@ $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info
         $script = new V8\Script($info->GetContext(), new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin('wait_for_termination.js'));
 
         try {
-            $script->Run();
+            $script->Run($info->GetContext());
         } catch (\V8\Exceptions\MemoryLimitException $e) {
             $helper->exception_export($e);
             echo 'wait loop terminated', PHP_EOL;
@@ -77,7 +77,7 @@ $helper->line();
 
 $t = microtime(true);
 try {
-    $script->Run();
+    $script->Run($context);
 } catch(\V8\Exceptions\MemoryLimitException $e) {
     $helper->exception_export($e);
     echo 'script execution terminated', PHP_EOL;

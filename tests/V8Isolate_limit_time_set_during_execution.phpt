@@ -52,7 +52,7 @@ $helper->line();
 
 $t = microtime(true);
 try {
-    $script1->Run();
+    $script1->Run($context1);
 } catch(\V8\Exceptions\TimeLimitException $e) {
     $helper->exception_export($e);
     echo 'script execution terminated', PHP_EOL;

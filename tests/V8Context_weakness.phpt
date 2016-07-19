@@ -31,7 +31,7 @@ $script1 = new \V8\Script(
 );
 
 
-$obj = $script1->Run()->ToObject($script1->GetContext()); // contest should be stored in object
+$obj = $script1->Run($script1->GetContext())->ToObject($script1->GetContext()); // contest should be stored in object
 
 $script1 = null;
 

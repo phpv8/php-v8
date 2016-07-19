@@ -34,7 +34,7 @@ $require_func_tpl_cache = new \V8\FunctionTemplate($isolate1, function (\V8\Func
 
     $script = new \V8\Script($new_context, new \V8\StringValue($isolate, $code[$module]), new \V8\ScriptOrigin($module));
 
-    $loaded_cache[$module] = $script->Run();
+    $loaded_cache[$module] = $script->Run($new_context);
   }
 
   $info->GetReturnValue()->Set($loaded_cache[$module]);
@@ -60,7 +60,7 @@ $file_name2 = 'experiment.js';
 $helper->header('Test require() (with cache)');
 
 $script2 = new V8\Script($context, new \V8\StringValue($isolate1, $JS), new \V8\ScriptOrigin($file_name2));
-$res2 = $script2->Run();
+$res2 = $script2->Run($context);
 
 $helper->space();
 
@@ -85,7 +85,7 @@ $require_func_tpl_nocache = new \V8\FunctionTemplate($isolate1, function (\V8\Fu
     $loaded_no_cache[$module] = $script;
   }
 
-  $info->GetReturnValue()->Set($loaded_no_cache[$module]->Run());
+  $info->GetReturnValue()->Set($loaded_no_cache[$module]->Run($context));
 });
 
 
@@ -110,7 +110,7 @@ $file_name2 = 'experiment.js';
 $helper->header('Test require() (no cache)');
 
 $script2 = new V8\Script($context, new \V8\StringValue($isolate1, $JS), new \V8\ScriptOrigin($file_name2));
-$res2 = $script2->Run();
+$res2 = $script2->Run($context);
 
 ?>
 --EXPECT--

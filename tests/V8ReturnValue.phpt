@@ -55,7 +55,7 @@ $file_name1 = 'test.js';
 
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
-$helper->dump($script1->Run()->ToString($context1)->Value());
+$helper->dump($script1->Run($context1)->ToString($context1)->Value());
 
 $helper->space();
 

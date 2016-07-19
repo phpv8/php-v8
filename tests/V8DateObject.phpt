@@ -55,7 +55,7 @@ orig
 $file_name1 = 'test.js';
 
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run();
+$res1 = $script1->Run($context1);
 $helper->space();
 
 $helper->header('Returned value should be the same');
@@ -83,7 +83,7 @@ $file_name1 = 'test.js';
 
 
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run();
+$res1 = $script1->Run($context1);
 $helper->value_matches($test_time, $value->ValueOf());
 $helper->space();
 
@@ -105,7 +105,7 @@ $file_name1 = 'test.js';
 // TODO: for some reason v8 still be notified about TZ changes, see https://groups.google.com/forum/?fromgroups#!topic/v8-users/f249jR67ANk
 // TODO: we temporary set EDT instead of PDT which was before
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run();
+$res1 = $script1->Run($context1);
 $helper->value_matches($test_time, $value->ValueOf());
 $helper->space();
 

@@ -187,14 +187,19 @@ static PHP_METHOD(V8Script, getOrigin)
 
 static PHP_METHOD(V8Script, Run)
 {
-    if (zend_parse_parameters_none() == FAILURE) {
+    zval *php_v8_context_zv;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_context_zv) == FAILURE) {
         return;
     }
 
     PHP_V8_FETCH_SCRIPT_WITH_CHECK(getThis(), php_v8_script);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
+
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_script, php_v8_context);
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_script);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_script);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     v8::Local<v8::Script> local_script = php_v8_script_get_local(isolate, php_v8_script);
 
@@ -230,7 +235,8 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_getOrigin, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\ScriptOrigin", 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_Run, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_source_Run, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 1)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
 

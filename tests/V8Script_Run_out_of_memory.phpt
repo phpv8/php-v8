@@ -47,7 +47,7 @@ $file_name = 'test.js';
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 try {
-    $res = $script->Run();
+    $res = $script->Run($context);
 } catch (\Exception $e) {
     $helper->exception_export($e);
 }

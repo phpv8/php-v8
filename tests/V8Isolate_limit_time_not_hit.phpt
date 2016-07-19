@@ -38,7 +38,7 @@ $helper->line();
 
 $t = microtime(true);
 try {
-    $script->Run();
+    $script->Run($context);
 } finally {
     $helper->line();
     $t = microtime(true) - $t;

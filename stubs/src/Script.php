@@ -71,9 +71,11 @@ class Script
      * context in which it was created (ScriptCompiler::CompileBound or
      * UnboundScript::BindToCurrentContext()).
      *
-     * @return \V8\Value | \V8\StringValue | \V8\BooleanValue | \V8\NumberValue | \V8\ObjectValue | \V8\FunctionObject
+     * @param \V8\Context $context
+     *
+     * @return BooleanValue|FunctionObject|NumberValue|ObjectValue|StringValue|Value
      */
-    public function Run() : Value
+    public function Run(Context $context) : Value
     {
     }
 

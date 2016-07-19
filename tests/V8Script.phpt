@@ -38,7 +38,7 @@ $helper->header('Accessors');
 $helper->method_matches($script, 'GetContext', $context);
 $helper->space();
 
-$res = $script->Run();
+$res = $script->Run($context);
 
 $helper->header('Script result accessors');
 $helper->method_matches($res, 'GetIsolate', $isolate);

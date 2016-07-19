@@ -118,7 +118,7 @@ class PhpV8Helpers {
 
         $script = new \V8\Script($context, $script, new \V8\ScriptOrigin('test.js'));
 
-        return $script->Run();
+        return $script->Run($context);
     }
 
     public function CompileTryRun(\V8\Context $context, $script) {

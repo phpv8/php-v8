@@ -43,7 +43,7 @@ $helper->dump($isolate);
 $helper->line();
 
 try {
-  $res = $script->Run();
+  $res = $script->Run($context);
 } catch(\V8\Exceptions\MemoryLimitException $e) {
   $helper->exception_export($e);
   echo 'script execution terminated', PHP_EOL;

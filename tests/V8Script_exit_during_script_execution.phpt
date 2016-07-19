@@ -43,11 +43,11 @@ $file_name1 = 'test.js';
 $script = new v8Tests\TrackingDtors\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
 $isolate1 = null;
-$context1 = null;
 $global_template1 = null;
 $exit = null;
+$script->Run($context1);
 
-$script->Run();
+$context1 = null;
 
 echo 'Done here', PHP_EOL;
 ?>

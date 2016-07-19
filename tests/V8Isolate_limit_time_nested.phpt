@@ -24,7 +24,7 @@ $func = new V8\FunctionObject($context1, function (\V8\FunctionCallbackInfo $inf
         $script = new V8\Script($info->GetContext(), new \V8\StringValue($isolate, 'for(;;);'), new \V8\ScriptOrigin('wait_for_termination.js'));
 
         try {
-            $script->Run();
+            $script->Run($info->GetContext());
         } catch (\V8\Exceptions\TimeLimitException $e) {
             $helper->exception_export($e);
             echo 'wait loop terminated', PHP_EOL;
@@ -77,7 +77,7 @@ $helper->line();
 
 $t = microtime(true);
 try {
-    $script1->Run();
+    $script1->Run($context1);
 } catch(\V8\Exceptions\TimeLimitException $e) {
     $helper->exception_export($e);
     echo 'script execution terminated', PHP_EOL;

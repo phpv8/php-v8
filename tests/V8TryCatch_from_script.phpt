@@ -29,7 +29,7 @@ $nested_try_catch_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolat
     $script = new v8Tests\TrackingDtors\Script($nested_context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
     try{
-      $script->Run();
+      $script->Run($nested_context);
     } catch (V8\Exceptions\TryCatchException $e) {
         $helper->exception_export($e);
         $helper->line();
@@ -58,7 +58,7 @@ $file_name = 'test.js';
 $script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 try {
-    $res = $script->Run();
+    $res = $script->Run($context);
 } catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();
@@ -80,7 +80,7 @@ try {
 $isolate->SetCaptureStackTraceForUncaughtExceptions(true);
 
 try {
-    $res = $script->Run();
+    $res = $script->Run($context);
 } catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();
@@ -101,7 +101,7 @@ $script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolat
 
 
 try {
-    $res = $script->Run();
+    $res = $script->Run($context);
 } catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();

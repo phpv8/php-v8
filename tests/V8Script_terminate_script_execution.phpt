@@ -31,7 +31,7 @@ $terminate = new V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackIn
     $script = new V8\Script($info->GetContext(), new \V8\StringValue($isolate, 'for(;;);'), new \V8\ScriptOrigin('wait_for_termination.js'));
     $isolate->TerminateExecution();
     try {
-        $script->Run();
+        $script->Run($info->GetContext());
     } catch (\V8\Exceptions\TerminationException $e) {
         echo 'wait loop terminated', PHP_EOL;
     }
@@ -58,7 +58,7 @@ $file_name1 = 'test.js';
 
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 try {
-$res1 = $script1->Run();
+$res1 = $script1->Run($context1);
 } catch (\V8\Exceptions\TerminationException $e) {
    $helper->exception_export($e);
 } finally {

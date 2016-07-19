@@ -85,7 +85,7 @@ for (i in test) {
 $file_name1 = 'test.js';
 
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run();
+$res1 = $script1->Run($context1);
 
 ?>
 --EXPECT--

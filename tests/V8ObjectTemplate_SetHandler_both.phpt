@@ -145,7 +145,7 @@ $allow_named = true;
 $allow_indexed = false;
 
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run();
+$res1 = $script1->Run($context1);
 $helper->space();
 
 
@@ -173,7 +173,7 @@ $allow_named = false;
 $allow_indexed = true;
 
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run();
+$res1 = $script1->Run($context1);
 
 ?>
 --EXPECT--

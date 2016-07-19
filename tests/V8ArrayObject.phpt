@@ -57,7 +57,7 @@ print("arr.slice(1): ", arr.slice(1), "\n");
 $file_name1 = 'test.js';
 
 $script1 = new V8\Script($context, new \V8\StringValue($isolate, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run();
+$res1 = $script1->Run($context);
 
 ?>
 --EXPECT--

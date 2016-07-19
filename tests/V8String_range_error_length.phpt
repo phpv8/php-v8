@@ -35,7 +35,7 @@ $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V
 
 $t = microtime(true);
 try {
-  $res = $script->Run();
+  $res = $script->Run($context);
 } catch(\V8\Exceptions\TryCatchException $e) {
   $helper->exception_export($e);
 }

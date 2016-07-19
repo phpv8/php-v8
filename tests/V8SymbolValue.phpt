@@ -110,7 +110,7 @@ $file_name = 'test.js';
 $context = new V8\Context($isolate);
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
-$res = $script->Run();
+$res = $script->Run($context);
 
 $v8_helper->run_checks($res, 'Checkers on Symbol value from script');
 

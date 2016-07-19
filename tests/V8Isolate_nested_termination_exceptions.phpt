@@ -25,7 +25,7 @@ $func = new V8\FunctionObject($context1, function (\V8\FunctionCallbackInfo $inf
         $isolate->TerminateExecution();
 
         try {
-            $script->Run();
+            $script->Run($info->GetContext());
         } catch (\V8\Exceptions\TerminationException $e) {
             echo 'wait loop terminated', PHP_EOL;
         }
@@ -55,7 +55,7 @@ $file_name1 = 'test.js';
 $script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
 try {
-    $script1->Run();
+    $script1->Run($context1);
 } catch (\V8\Exceptions\TerminationException $e) {
     echo 'script execution terminated', PHP_EOL;
 }

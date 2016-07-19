@@ -81,7 +81,7 @@ $file_name1 = 'test.js';
 try {
     $script1 = new Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 
-    $script1->Run()->Value();
+    $script1->Run($context1)->Value();
 } catch (Exception $e) {
     $helper->exception_export($e);
 }
