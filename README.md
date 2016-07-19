@@ -9,6 +9,56 @@ This extension is for PHP 7 only.
 **This extension is still under heavy development and it public API may change without any warning. Use at your own risk.**
 
 
+## About
+[php-v8](https://github.com/pinepain/php-v8) is a PHP 7.x extension
+that brings [V8](https://developers.google.com/v8/intro) JavaScript engine API to PHP with some abstraction in mind and
+provides an accurate native V8 C++ API implementation available from PHP.
+
+**Key features:**
+ - provides up-to-date JavaScript engine with recent [ECMA](http://kangax.github.io/compat-table) features supported;
+ - accurate native V8 C++ API implementation available from PHP;
+ - solid experience between native V8 C++ API and V8 API in PHP;
+ - no magic; no assumption;
+ - does what it asked to do;
+ - hides complexity with isolates and contexts scope management under the hood;
+ - provides a both-way interaction with PHP and V8 objects, arrays and functions;
+ - execution time and memory limits;
+ - multiple isolates and contexts at the same time;
+ - it works;
+
+With this extension almost all what native V8 C++ API provides can be used. It provides a way to pass php scalars,
+objects and function to V8 runtime and specify interaction with passed values (objects and functions only, as scalars
+become js scalars too). While specific functionality will be done in PHP userland rather then in C/C++ this extension,
+it let get into V8 hacking faster, reduces time costs and let have more maintainable solution. And it doesn't make any
+assumptions for you so you are the boss, it does exactly what you ask for.
+
+With php-v8 you can even implement nodejs in PHP. Not sure whether anyone should/will do this anyway, but it's doable.
+
+*NOTE: Most, if not all, methods are named like in V8 API - starting from capital letter. This PSR violation done
+intentionally with the purpose to provide more solid experience between native V8 C++ API and V8 PHP API.*
+
+
+## Demo
+
+Here is a [Hello World](https://developers.google.com/v8/get_started#hello-world)
+from V8 [Getting Started](https://developers.google.com/v8/intro) developers guide page implemented in PHP with php-v8:
+
+```php
+<?php
+$isolate = new \V8\Isolate();
+$context = new \V8\Context($isolate);
+$source = new \V8\StringValue($isolate, "'Hello' + ', World!'");
+
+$script = new \V8\Script($context, $source);
+$result = $script->Run($context);
+
+echo $result->ToString($context)->Value(), PHP_EOL;
+```
+
+which will output `Hello, World!`. See how it shorter and readable from that C++ version? And it also doesn't limit you
+from V8 API utilizing to implement more amazing stuff.
+
+
 ## Installation
 
 ### Requirements
