@@ -104,6 +104,8 @@ static void php_v8_function_template_free(zend_object *object) {
         }
     }
 
+    delete php_v8_function_template->node;
+
     if (php_v8_function_template->gc_data) {
         efree(php_v8_function_template->gc_data);
     }
@@ -121,6 +123,8 @@ static zend_object * php_v8_function_template_ctor(zend_class_entry *ce) {
 
     php_v8_function_template->persistent = new v8::Persistent<v8::FunctionTemplate>();
     php_v8_function_template->callbacks = new php_v8_callbacks_t();
+
+    php_v8_function_template->node = new phpv8::TemplateNode();
 
     php_v8_function_template->std.handlers = &php_v8_function_template_object_handlers;
 

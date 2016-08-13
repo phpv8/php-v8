@@ -26,11 +26,11 @@ provides an accurate native V8 C++ API implementation available from PHP.
  - multiple isolates and contexts at the same time;
  - it works;
 
-With this extension almost all what native V8 C++ API provides can be used. It provides a way to pass php scalars,
+With this extension almost all that native V8 C++ API provides can be used. It provides a way to pass php scalars,
 objects and function to V8 runtime and specify interaction with passed values (objects and functions only, as scalars
 become js scalars too). While specific functionality will be done in PHP userland rather then in C/C++ this extension,
-it let get into V8 hacking faster, reduces time costs and let have more maintainable solution. And it doesn't make any
-assumptions for you so you are the boss, it does exactly what you ask for.
+it lets you get into V8 hacking faster, reduces time costs and gives you a more maintainable solution. And it doesn't
+make any assumptions for you, so you stay in control, it does exactly what you ask it to do.
 
 With php-v8 you can even implement nodejs in PHP. Not sure whether anyone should/will do this anyway, but it's doable.
 
@@ -55,8 +55,8 @@ $result = $script->Run($context);
 echo $result->ToString($context)->Value(), PHP_EOL;
 ```
 
-which will output `Hello, World!`. See how it shorter and readable from that C++ version? And it also doesn't limit you
-from V8 API utilizing to implement more amazing stuff.
+which will output `Hello, World!`. See how it's shorter and readable from that C++ version? And it also doesn't limit
+you from V8 API utilizing to implement more amazing stuff.
 
 
 ## Installation
@@ -102,25 +102,6 @@ $ sudo make install
 
  - To track memory usage you may want to use `smem`, `pmem` and even `lsof` to see what shared object are loaded
    and `free` to display free and used memory in the system.
-
-
-## Edge cases:
-
-### Templates recursion:
-
-When you set property on any `Template` (`ObjectTemplate` or `FunctionTemplate`) it shouldn't lead to recursion during
-template instantiation while it leads to segfault and for now there are no reasonable way to avoid this on extension
-level (probably, some wrapper around `ObjectTemplate` and `FunctionTemplate` will solve this.
-
-Known issues demo:
-
-```php
-$isolate = new V8\Isolate();
-
-$template = new V8\ObjectTemplate($isolate);
-
-$template->Set('self', $template); // leads to segfault
-```
 
 ## License
 
