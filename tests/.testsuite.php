@@ -267,6 +267,11 @@ class PhpV8Testsuite
             echo $rc->getName(), $info, $access, $m->getName(), '():', $final_res, PHP_EOL;
         }
     }
+
+    public function need_more_time() {
+        // NOTE: this check is a bit fragile but should fits our need
+        return isset($_ENV['TRAVIS']) && isset($_ENV['TEST_PHP_ARGS']) && $_ENV['TEST_PHP_ARGS'] == '-m';
+    }
 }
 
 interface FilterInterface

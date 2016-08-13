@@ -25,18 +25,15 @@ $file_name = 'test.js';
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-// NOTE: this check is a bit fragile but should fits our need
-$needs_more_time = isset($_ENV['TRAVIS']) && isset($_ENV['TEST_PHP_ARGS']) && $_ENV['TEST_PHP_ARGS'] == '-m';
-
-if ($needs_more_time) {
+if ($helper->need_more_time()) {
   // On travis when valgrind active it takes more time to complete all operations so we just increase initial limits
   $time_limit = 5.0;
   $low_range = 4.5;
-  $high_range = 7.5;
+  $high_range = 10.0;
 } else {
   $time_limit = 1.5;
   $low_range = 1.45;
-  $high_range = 1.6;
+  $high_range = 1.65;
 }
 
 $helper->assert('Time limit accessor report no hit', false === $isolate->IsTimeLimitHit());
