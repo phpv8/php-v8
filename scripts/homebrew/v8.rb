@@ -3,8 +3,8 @@
 class V8 < Formula
   desc "Google's JavaScript engine"
   homepage "https://code.google.com/p/v8/"
-  url "https://chromium.googlesource.com/v8/v8.git/+archive/5.2.371.tar.gz"
-  sha256 "526134c9f543def42e96ab55fb9ef4b0f5f741aa755d9dad59cad1120dcda0f7"
+  url "https://chromium.googlesource.com/v8/v8.git/+archive/5.4.420.tar.gz"
+  sha256 "b62a9735443cc391c3404eaa0480de40cc0d72ae0645704b5f9c261e42ef8dfc"
   head "https://chromium.googlesource.com/v8/v8.git"
 
   bottle do
@@ -34,12 +34,22 @@ class V8 < Formula
 
   resource "buildtools" do
     url "https://chromium.googlesource.com/chromium/buildtools.git",
-    :revision => "06e80a0e17319868d4a9b13f9bb6a248dc8d8b20"
+    :revision => "adb8bf4e8fc92aa1717bf151b862d58e6f27c4f2"
+  end
+
+  resource "inspector_protocol" do
+    url "https://chromium.googlesource.com/chromium/src/third_party/WebKit/Source/platform/inspector_protocol.git",
+    :revision => "9d440c96636c5a41ce3e40f1924fe41dd2694f51"
   end
 
   resource "ecmascript_simd" do
     url "https://chromium.googlesource.com/external/github.com/tc39/ecmascript_simd.git",
-    :revision => "c8ef63c728283debc25891123eb00482fee4b8cd"
+    :revision => "baf493985cb9ea7cdbd0d68704860a8156de9556"
+  end
+
+  resource "mb" do
+    url "https://chromium.googlesource.com/chromium/src/tools/mb.git",
+    :revision => "c78da3f5bccc979b35907c4cbf937aa5187e41fa"
   end
 
   resource "googlemock" do
@@ -49,7 +59,12 @@ class V8 < Formula
 
   resource "clang" do
     url "https://chromium.googlesource.com/chromium/src/tools/clang.git",
-    :revision => "996bab489f816e51dde704bd215fb3403919f07e"
+    :revision => "6d377a47e9c668c7550d17a7d4e6ba9f5931703a"
+  end
+
+  resource "markupsafe" do
+    url "https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git",
+    :revision => "484a5661041cac13bfc688a26ec5434b05d18961"
   end
 
   resource "googletest" do
@@ -57,9 +72,14 @@ class V8 < Formula
     :revision => "6f8a66431cb592dad629028a50b3dd418a408c87"
   end
 
-  resource "common" do
-    url "https://chromium.googlesource.com/chromium/src/base/trace_event/common.git",
-    :revision => "54b8455be9505c2cb0cf5c26bb86739c236471aa"
+  resource "jinja2" do
+    url "https://chromium.googlesource.com/chromium/src/third_party/jinja2.git",
+    :revision => "2222b31554f03e62600cd7e383376a7c187967a1"
+  end
+
+  resource "build" do
+    url "https://chromium.googlesource.com/chromium/src/build.git",
+    :revision => "4155375bddb65fe3d2dbc42ab0d64c4d72527165"
   end
 
   resource "benchmarks" do
@@ -69,27 +89,37 @@ class V8 < Formula
 
   resource "gyp" do
     url "https://chromium.googlesource.com/external/gyp.git",
-    :revision => "bce1c7793010574d88d7915e2d55395213ac63d1"
+    :revision => "702ac58e477214c635d9b541932e75a95d349352"
   end
 
   resource "test262" do
     url "https://chromium.googlesource.com/external/github.com/tc39/test262.git",
-    :revision => "9c45e2ac684bae64614d8eb55789cae97323a7e7"
+    :revision => "88bc7fe7586f161201c5f14f55c9c489f82b1b67"
+  end
+
+  resource "instrumented_libraries" do
+    url "https://chromium.googlesource.com/chromium/src/third_party/instrumented_libraries.git",
+    :revision => "f15768d7fdf68c0748d20738184120c8ab2e6db7"
   end
 
   resource "swarming" do
     url "https://chromium.googlesource.com/external/swarming.client.git",
-    :revision => "df6e95e7669883c8fe9ef956c69a544154701a49"
+    :revision => "e4288c3040a32f2e7ad92f957668f2ee3d36e5a6"
+  end
+
+  resource "test262-harness-py" do
+    url "https://chromium.googlesource.com/external/github.com/test262-utils/test262-harness-py.git",
+    :revision => "cbd968f54f7a95c6556d53ba852292a4c49d11d8"
   end
 
   resource "icu" do
     url "https://chromium.googlesource.com/chromium/deps/icu.git",
-    :revision => "c291cde264469b20ca969ce8832088acb21e0c48"
+    :revision => "53ce631655a61aaaa42b43b4d64abe23e9b8d71f"
   end
 
-  resource "build" do
-    url "https://chromium.googlesource.com/chromium/src/build.git",
-    :revision => "b2d15686436cdc17f67c3621c314f8d96b5b6fd9"
+  resource "common" do
+    url "https://chromium.googlesource.com/chromium/src/base/trace_event/common.git",
+    :revision => "315bf1e2d45be7d53346c31cfcc37424a32c30c8"
   end
 
   def install
@@ -113,26 +143,26 @@ class V8 < Formula
               "'OTHER_LDFLAGS': ['-dynamiclib', '-all_load']",
               "\\0, 'DYLIB_INSTALL_NAME_BASE': '#{opt_lib}'"
 
-    # fix gyp: Error importing pymod_do_mainmodule (detect_v8_host_arch): No module named detect_v8_host_arch
-    # https://groups.google.com/forum/#!topic/v8-dev/T8CTU6n5EQw
-    inreplace "Makefile",
-              'PYTHONPATH="$(shell pwd)/tools/generate_shim_headers:$(shell pwd)/build:$(PYTHONPATH):$(shell pwd)/tools/gyp/pylib:$(PYTHONPATH)"',
-              'PYTHONPATH="$(shell pwd)/tools/generate_shim_headers:$(shell pwd)/build:$(shell pwd)/gypfiles:$(PYTHONPATH):$(shell pwd)/tools/gyp/pylib:$(PYTHONPATH)"'
-
     # resources installation, do not edit, autogenerated
     (buildpath/"test/mozilla/data").install resource("mozilla-tests")
     (buildpath/"buildtools").install resource("buildtools")
+    (buildpath/"third_party/WebKit/Source/platform/inspector_protocol").install resource("inspector_protocol")
     (buildpath/"test/simdjs/data").install resource("ecmascript_simd")
+    (buildpath/"tools/mb").install resource("mb")
     (buildpath/"testing/gmock").install resource("googlemock")
     (buildpath/"tools/clang").install resource("clang")
+    (buildpath/"third_party/markupsafe").install resource("markupsafe")
     (buildpath/"testing/gtest").install resource("googletest")
-    (buildpath/"base/trace_event/common").install resource("common")
+    (buildpath/"third_party/jinja2").install resource("jinja2")
+    (buildpath/"build").install resource("build")
     (buildpath/"test/benchmarks/data").install resource("benchmarks")
     (buildpath/"tools/gyp").install resource("gyp")
     (buildpath/"test/test262/data").install resource("test262")
+    (buildpath/"third_party/instrumented_libraries").install resource("instrumented_libraries")
     (buildpath/"tools/swarming_client").install resource("swarming")
+    (buildpath/"test/test262/harness").install resource("test262-harness-py")
     (buildpath/"third_party/icu").install resource("icu")
-    (buildpath/"build").install resource("build")
+    (buildpath/"base/trace_event/common").install resource("common")
 
     system "make", "native", "library=shared", "snapshot=on",
                    "console=readline", i18nsupport,

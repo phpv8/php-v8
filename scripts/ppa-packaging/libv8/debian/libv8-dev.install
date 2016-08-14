@@ -1,0 +1,4 @@
+include/*.h usr/include/
+include/libplatform usr/include/
+debian/tmp/usr/lib/libv8.so usr/lib
+out/lib.static/*.a usr/lib

@@ -1,0 +1,68 @@
+Source: libv8-5.4
+Priority: optional
+Maintainer: Debian Javascript Maintainers <pkg-javascript-devel@lists.alioth.debian.org>
+Uploaders: Jérémy Lal <kapouer@melix.org>,
+ Jonas Smedegaard <dr@jones.dk>
+Build-Depends: @cdbs@,
+ libicu-dev,
+ abi-compliance-checker
+Standards-Version: 3.9.6
+Section: libs
+Homepage: http://code.google.com/p/v8/
+Vcs-Browser: http://anonscm.debian.org/git/collab-maint/libv8.git
+Vcs-Git: git://anonscm.debian.org/collab-maint/libv8.git
+
+Package: libv8-dev
+Section: libdevel
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 armel armhf mipsel mips
+Depends: libv8-5.4.420 (= ${binary:Version}), ${misc:Depends}
+Conflicts: libv8-legacy-dev, libv8-3.14-dev
+Replaces: libv8-legacy-dev, libv8-3.14-dev
+Description: V8 JavaScript engine - development files for latest branch
+ V8 is a high performance JavaScript engine written in C++.  It is used
+ in the web browser Chromium.
+ .
+ This package provide development headers for latest V8 branch.
+
+Package: libv8-5.4-dev
+Section: libdevel
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 armel armhf mipsel mips
+Depends: libv8-5.4.420 (= ${binary:Version}), ${misc:Depends}
+Provides: libv8-legacy-dev, libv8-dev
+Conflicts: libv8-dev
+Replaces: libv8-dev
+Description: V8 JavaScript engine - development files for 5.4 branch
+ V8 is a high performance JavaScript engine written in C++.  It is used
+ in the web browser Chromium.
+ .
+ This package provide development headers for V8 5.4 branch.
+
+Package: libv8-5.4.420
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 armel armhf mipsel mips
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: V8 JavaScript engine - runtime library
+ V8 is a high performance JavaScript engine written in C++.  It is used
+ in the web browser Chromium.
+ .
+ This package provides the dynamic library for V8.
+
+Package: libv8-5.4-dbg
+Priority: extra
+Section: debug
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 armel armhf mipsel mips
+Depends: libv8-5.4.420 (= ${binary:Version}), ${misc:Depends}
+Description: V8 JavaScript engine - debugging symbols
+ V8 is a high performance JavaScript engine written in C++.  It is used
+ in the web browser Chromium.
+ .
+ This package provides the debugging symbols for the library.
+
+Package: libv8-5.4-d8
+Priority: extra
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 armel armhf mipsel mips
+Depends: libv8-5.4.420 (= ${binary:Version}), ${misc:Depends}
+Description: V8 JavaScript engine - interactive shell
+ V8 is a high performance JavaScript engine written in C++.  It is used
+ in the web browser Chromium.
+ .
+ This package provides the interactive V8 shell.
