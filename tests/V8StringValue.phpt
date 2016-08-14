@@ -93,7 +93,7 @@ foreach (['Hello, world!', 'Привет, мир!', 'こんにちは世界'] as 
 
 
 ?>
---EXPECT--
+--EXPECTF--
 Default constructor:
 --------------------
 object(V8\StringValue)#4 (1) {
@@ -170,7 +170,7 @@ V8\StringValue(V8\Value)->IsRegExp(): bool(false)
 
 Getters:
 --------
-V8\StringValue(V8\NameValue)->GetIdentityHash(): int(1034255942)
+V8\StringValue(V8\NameValue)->GetIdentityHash(): int(%d)
 V8\StringValue->Length(): int(11)
 V8\StringValue->Utf8Length(): int(11)
 V8\StringValue->IsOneByte(): bool(true)

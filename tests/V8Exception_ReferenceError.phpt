@@ -99,7 +99,6 @@ e("test"): V8\Exceptions\TryCatchException: ReferenceError: test
 
 exception: 'ReferenceError: foo'
 exception.stack: ReferenceError: foo
-    at ReferenceError (native)
     at test.js:5:9
 
 Checks on V8\ObjectValue:

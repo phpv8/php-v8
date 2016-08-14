@@ -98,7 +98,6 @@ e("test"): V8\Exceptions\TryCatchException: Error: test
 
 exception: 'Error: foo'
 exception.stack: Error: foo
-    at Error (native)
     at test.js:5:9
 
 Checks on V8\ObjectValue:
