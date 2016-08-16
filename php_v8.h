@@ -33,7 +33,7 @@ extern zend_module_entry php_v8_module_entry;
 
 
 #ifndef PHP_V8_VERSION
-#define PHP_V8_VERSION "0.1.0" /* Replace with version number for your extension */
+#define PHP_V8_VERSION "0.1.0"
 #endif
 
 #ifndef PHP_V8_REVISION
