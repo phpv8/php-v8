@@ -15,6 +15,10 @@
 #ifndef PHP_V8_TEMPLATE_H
 #define PHP_V8_TEMPLATE_H
 
+namespace phpv8 {
+    class TemplateNode;
+}
+
 extern "C" {
 #include "php.h"
 
@@ -22,6 +26,8 @@ extern "C" {
 #include "TSRM.h"
 #endif
 }
+
+#include <set>
 
 extern zend_class_entry* php_v8_template_ce;
 
@@ -36,6 +42,61 @@ extern void php_v8_function_template_SetNativeDataProperty(INTERNAL_FUNCTION_PAR
 
 #define PHP_V8_TEMPLATE_STORE_ISOLATE(to_zval, from_isolate_zv) zend_update_property(php_v8_template_ce, (to_zval), ZEND_STRL("isolate"), (from_isolate_zv));
 #define PHP_V8_TEMPLATE_READ_ISOLATE(from_zval) zend_read_property(php_v8_template_ce, (from_zval), ZEND_STRL("isolate"), 0, &rv)
+
+namespace phpv8 {
+    class TemplateNode {
+    public:
+        std::set<TemplateNode *> children;
+        std::set<TemplateNode *> parents;
+
+        bool isSelf(TemplateNode *node) {
+            return this == node;
+        }
+
+        bool isParent(TemplateNode *node) {
+            if (parents.find(node) != parents.end()) {
+                return true;
+            }
+
+            for (TemplateNode *parent : parents) {
+                if (parent->isParent(node)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        //bool isChild(TemplateNode *node) {
+        //    if (children.find(node) != children.end()) {
+        //        return true;
+        //    }
+        //
+        //    for (TemplateNode *child : children) {
+        //        if (child->isChild(node)) {
+        //            return true;
+        //        }
+        //    }
+        //
+        //    return false;
+        //}
+
+        void addChild(TemplateNode *node) {
+            children.insert(node);
+            node->parents.insert(this);
+        }
+
+        ~TemplateNode() {
+            for (TemplateNode *parent : parents) {
+                parent->children.erase(this);
+            }
+
+            for (TemplateNode *child : children) {
+                child->parents.erase(this);
+            }
+        }
+    };
+}
 
 
 PHP_MINIT_FUNCTION(php_v8_template);

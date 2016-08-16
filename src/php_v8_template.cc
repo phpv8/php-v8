@@ -102,6 +102,21 @@ void php_v8_function_template_SetNativeDataProperty(INTERNAL_FUNCTION_PARAMETERS
     php_v8_template_SetNativeDataProperty(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
+template<typename M, typename N>
+static inline bool php_v8_template_node_set(M *parent, N *child) {
+    if (parent->node->isSelf(child->node)) {
+        PHP_V8_THROW_EXCEPTION("Can't set: recursion detected");
+        return false;
+    }
+
+    if (parent->node->isParent(child->node)) {
+        PHP_V8_THROW_EXCEPTION("Can't set: recursion detected");
+        return false;
+    }
+
+    parent->node->addChild(child->node);
+    return true;
+}
 
 template<class T, typename N>
 void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* php_v8_template, INTERNAL_FUNCTION_PARAMETERS) {
@@ -135,7 +150,9 @@ void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* p
 
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_object_template_to_set);
 
-        local_template->Set(local_name, php_v8_object_template_get_local(isolate, php_v8_object_template_to_set), static_cast<v8::PropertyAttribute>(attributes));
+        if (php_v8_template_node_set(php_v8_template, php_v8_object_template_to_set)) {
+            local_template->Set(local_name, php_v8_object_template_get_local(isolate, php_v8_object_template_to_set), static_cast<v8::PropertyAttribute>(attributes));
+        }
 
     } else if (instanceof_function(Z_OBJCE_P(php_v8_value_zv), php_v8_function_template_class_entry)) {
         // set function template
@@ -143,7 +160,9 @@ void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* p
 
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_function_template_to_set);
 
-        local_template->Set(local_name, php_v8_function_template_get_local(isolate, php_v8_function_template_to_set), static_cast<v8::PropertyAttribute>(attributes));
+        if (php_v8_template_node_set(php_v8_template, php_v8_function_template_to_set)) {
+            local_template->Set(local_name, php_v8_function_template_get_local(isolate, php_v8_function_template_to_set), static_cast<v8::PropertyAttribute>(attributes));
+        }
     } else {
         // should never get here
         PHP_V8_THROW_EXCEPTION("Unknown type to set");

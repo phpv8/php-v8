@@ -17,6 +17,7 @@
 
 typedef struct _php_v8_function_template_t php_v8_function_template_t;
 
+#include "php_v8_template.h"
 #include "php_v8_exceptions.h"
 #include "php_v8_isolate.h"
 #include <v8.h>
@@ -60,6 +61,8 @@ struct _php_v8_function_template_t {
 
     zval *gc_data;
     int gc_data_count;
+
+    phpv8::TemplateNode *node;
 
     zend_object std;
 };

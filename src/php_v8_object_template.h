@@ -17,6 +17,7 @@
 
 typedef struct _php_v8_object_template_t php_v8_object_template_t;
 
+#include "php_v8_template.h"
 #include "php_v8_exceptions.h"
 #include "php_v8_template.h"
 #include "php_v8_isolate.h"
@@ -53,20 +54,21 @@ extern php_v8_object_template_t * php_v8_object_template_fetch_object(zend_objec
   PHP_V8_COPY_POINTER_TO_ISOLATE((to_php_v8_val), (from_php_v8_val));
 
 
-
 struct _php_v8_object_template_t {
-  php_v8_isolate_t *php_v8_isolate;
+    php_v8_isolate_t *php_v8_isolate;
 
-  uint32_t isolate_handle;
+    uint32_t isolate_handle;
 
-  bool is_weak;
-  v8::Persistent<v8::ObjectTemplate> *persistent;
-  php_v8_callbacks_t *callbacks;
+    bool is_weak;
+    v8::Persistent<v8::ObjectTemplate> *persistent;
+    php_v8_callbacks_t *callbacks;
 
-  zval *gc_data;
-  int   gc_data_count;
+    zval *gc_data;
+    int gc_data_count;
 
-  zend_object std;
+    phpv8::TemplateNode *node;
+
+    zend_object std;
 };
 
 
