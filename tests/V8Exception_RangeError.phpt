@@ -99,7 +99,6 @@ e("test"): V8\Exceptions\TryCatchException: RangeError: test
 
 exception: 'RangeError: foo'
 exception.stack: RangeError: foo
-    at RangeError (native)
     at test.js:5:9
 
 Checks on V8\ObjectValue:

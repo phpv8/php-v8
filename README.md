@@ -63,15 +63,15 @@ you from V8 API utilizing to implement more amazing stuff.
 
 ### Requirements
 
-You will need some fresh v8 Google JavaScript enging version installed. At this time extension tested on 5.2.371.
+You will need some fresh v8 Google JavaScript enging version installed. At this time extension tested on 5.4.420.
 
- - For Ubuntu there are [pinepain/libv8-5.2](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-5.2) PPA.
+ - For Ubuntu there are [pinepain/libv8-5.4](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-5.4) PPA.
    To install fresh libv8 do:
 
    ```
-   $ sudo add-apt-repository ppa:pinepain/libv8-5.2 -y
+   $ sudo add-apt-repository ppa:pinepain/libv8-5.4 -y
    $ sudo apt-get update -q
-   $ sudo apt-get install -y libv8-5.2-dev
+   $ sudo apt-get install -y libv8-5.4-dev
    ```
  - For OS X there are [v8.rb](https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/v8.rb) homebrew formula.
   To install fresh libv8 do:

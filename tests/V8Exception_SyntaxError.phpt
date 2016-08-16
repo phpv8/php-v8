@@ -99,7 +99,6 @@ e("test"): V8\Exceptions\TryCatchException: SyntaxError: test
 
 exception: 'SyntaxError: foo'
 exception.stack: SyntaxError: foo
-    at SyntaxError (native)
     at test.js:5:9
 
 Checks on V8\ObjectValue:

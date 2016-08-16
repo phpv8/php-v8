@@ -71,7 +71,7 @@ $res1 = $script1->Run($context1);
 --EXPECT--
 typeof func: function
 func: function func() { [native code] }
-func(): [object global]
+func(): [object Object]
 
 typeof test: function
 test: [object Object]

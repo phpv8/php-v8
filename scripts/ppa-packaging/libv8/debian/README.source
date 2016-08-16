@@ -1,0 +1,59 @@
+CDBS+git-buildpackage
+=====================
+
+This source package uses CDBS and git-buildpackage.  NMUs need not (but
+are encouraged to) make special use of these tools.  In particular, the
+debian/control.in file can be completely ignored.
+
+More info here: http://wiki.debian.org/CDBS+git-buildpackage
+
+
+Branches, versions, SONAME
+==========================
+
+v8 upstream releases versions as major.minor.build.patch.
+A branch matches a major.minor version (like the 3.8 branch).
+Given a branch, when the build number stays constant it means it can
+be considered stable, meaning API/ABI won't change.
+
+Examples from http://v8.googlecode.com/svn/tags/ :
+3.6.6.4  -  3.6.6.25
+3.7.12.7 -  3.7.12.30
+3.8.9.1  -  3.8.9.23
+3.9.24.1 -  3.9.24.29
+3.10.8.1 -  3.10.8.13
+
+To reflect that upstream practice, the debian package use a SONAME built
+upon major.minor.build version, since version 3.10.8. This gives :
+libv8.so.3.10.8
+
+This allows easier "patch" updates to libv8, avoiding the need to
+rebuild all libv8 reverse dependencies. Previous soname would have been
+libv8.so.3.10.8.14.
+Important: it is certain that a change in minor version introduces
+API and ABI breakage. Never define a libv8.so.3 soname !
+
+However, upstream doesn't *guarantee* ABI compatibility, so each
+patch-level update should be uploaded to experimental first, to make
+sure any accidental ABI break does not happen.
+
+Side note: http://www.upstream-tracker.org/versions/v8.html gives
+valuable information about upstream involuntarily breaking API/ABI, like
+what happened with 3.7.12.31, fixed in 3.7.12.32.
+
+
+gbp.conf and branched versions
+==============================
+
+v8 stable versions (upstream /branches/), are maintained in git-buildpackage,
+and are mapped to :
+
+* (master, upstream) for unstable releases, passing all tests on all archs;
+* (master-experimental, upstream-experimental) for latest upstream branch releases,
+  tests are disabled because some might fail.
+* (master-stable, upstream-stable) for libv8 in debian/stable.
+
+debian/gbp.conf is configured for each debian branch.
+When moving experimental to unstable layout, gbp.conf is typically
+overwritten by merge. It needs to be restored, until #671791 feature
+is implemented.

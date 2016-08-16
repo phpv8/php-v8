@@ -99,7 +99,6 @@ e("test"): V8\Exceptions\TryCatchException: TypeError: test
 
 exception: 'TypeError: foo'
 exception.stack: TypeError: foo
-    at TypeError (native)
     at test.js:5:9
 
 Checks on V8\ObjectValue:
