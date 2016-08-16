@@ -144,6 +144,7 @@ if test "$PHP_V8" != "no"; then
   ac_cv_suppress_register_warnings_flag="-Wno-deprecated-register"
 
   AC_DEFINE([V8_DEPRECATION_WARNINGS], [1], [Enable compiler warnings when using V8_DEPRECATED apis.])
+  AC_DEFINE([V8_IMMINENT_DEPRECATION_WARNINGS], [1], [Enable compiler warnings to make it easier to see what v8 apis will be deprecated (V8_DEPRECATED) soon.])
 
   AC_LANG_RESTORE
   LIBS=$old_LIBS
