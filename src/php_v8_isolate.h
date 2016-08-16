@@ -117,19 +117,8 @@ extern php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
     }                                               \
 
 
-class ArrayBufferAllocator : public v8::ArrayBuffer::Allocator {
-public:
-    virtual void* Allocate(size_t length) {
-        void* data = AllocateUninitialized(length);
-        return data == NULL ? data : memset(data, 0, length);
-    }
-    virtual void* AllocateUninitialized(size_t length) { return malloc(length); }
-    virtual void Free(void* data, size_t) { free(data); }
-};
-
 struct _php_v8_isolate_t {
     v8::Isolate *isolate;
-    ArrayBufferAllocator *array_buffer_allocator;
     v8::Isolate::CreateParams *create_params;
 
     std::map<v8::Persistent<v8::FunctionTemplate>*, php_v8_callbacks_t *> *weak_function_templates;
