@@ -50,7 +50,7 @@ void php_v8_message_create_from_message(zval *return_value, php_v8_isolate_t *ph
 
     /* v8::Message::GetScriptOrigin */
     zval origin_zv;
-    php_v8_create_script_origin(&origin_zv, message->GetScriptOrigin());
+    php_v8_create_script_origin(&origin_zv, context, message->GetScriptOrigin());
     zend_update_property(this_ce, return_value, ZEND_STRL("script_origin"), &origin_zv);
     zval_ptr_dtor(&origin_zv);
 

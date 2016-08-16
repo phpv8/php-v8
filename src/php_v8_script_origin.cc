@@ -25,7 +25,7 @@ zend_class_entry *php_v8_script_origin_class_entry;
 #define this_ce php_v8_script_origin_class_entry
 
 
-extern void php_v8_create_script_origin(zval *return_value, v8::ScriptOrigin origin) {
+extern void php_v8_create_script_origin(zval *return_value, v8::Local<v8::Context> context, v8::ScriptOrigin origin) {
     zval options_zv;
 
     object_init_ex(return_value, this_ce);
@@ -38,13 +38,13 @@ extern void php_v8_create_script_origin(zval *return_value, v8::ScriptOrigin ori
     }
 
     /* v8::SourceMapUrl::ResourceLineOffset */
-    if (!origin.ResourceLineOffset().IsEmpty()) {
-        zend_update_property_long(this_ce, return_value, ZEND_STRL("resource_line_offset"), static_cast<zend_long>(origin.ResourceLineOffset()->NumberValue()));
+    if (!origin.ResourceLineOffset().IsEmpty() && origin.ResourceLineOffset()->NumberValue(context).IsJust()) {
+        zend_update_property_long(this_ce, return_value, ZEND_STRL("resource_line_offset"), static_cast<zend_long>(origin.ResourceLineOffset()->NumberValue(context).FromJust()));
     }
 
     /* v8::SourceMapUrl::ResourceColumnOffset */
-    if (!origin.ResourceColumnOffset().IsEmpty()) {
-        zend_update_property_long(this_ce, return_value, ZEND_STRL("resource_column_offset"), static_cast<zend_long>(origin.ResourceColumnOffset()->NumberValue()));
+    if (!origin.ResourceColumnOffset().IsEmpty() && origin.ResourceColumnOffset()->NumberValue(context).IsJust()) {
+        zend_update_property_long(this_ce, return_value, ZEND_STRL("resource_column_offset"), static_cast<zend_long>(origin.ResourceColumnOffset()->NumberValue(context).FromJust()));
     }
 
     /* v8::SourceMapUrl::Options */
@@ -53,8 +53,8 @@ extern void php_v8_create_script_origin(zval *return_value, v8::ScriptOrigin ori
     zval_ptr_dtor(&options_zv);
 
     /* v8::SourceMapUrl::ScriptID */
-    if (!origin.ScriptID().IsEmpty()) {
-        zend_update_property_long(this_ce, return_value, ZEND_STRL("script_id"), static_cast<zend_long>(origin.ScriptID()->NumberValue()));
+    if (!origin.ScriptID().IsEmpty() && origin.ScriptID()->NumberValue(context).IsJust()) {
+        zend_update_property_long(this_ce, return_value, ZEND_STRL("script_id"), static_cast<zend_long>(origin.ScriptID()->NumberValue(context).FromJust()));
     }
 
     /* v8::SourceMapUrl::ResourceName */

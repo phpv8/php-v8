@@ -41,9 +41,11 @@ static PHP_METHOD(V8Date, __construct) {
 
     PHP_V8_OBJECT_CONSTRUCT(getThis(), php_v8_context_zv, php_v8_context, php_v8_value);
 
-    v8::Local<v8::Date> local_date = v8::Date::New(isolate, time).As<v8::Date>();
+    v8::MaybeLocal<v8::Value> maybe_local_date = v8::Date::New(context, time);
 
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_date, "Failed to create Date value");
+    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(maybe_local_date, "Failed to create Date value");
+
+    v8::Local<v8::Date> local_date = maybe_local_date.ToLocalChecked().As<v8::Date>();
 
     ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
     php_v8_object_store_self_ptr(isolate, local_date, php_v8_value);

@@ -27,7 +27,7 @@ extern "C" {
 
 extern zend_class_entry* php_v8_script_origin_class_entry;
 
-extern void php_v8_create_script_origin(zval * return_value, v8::ScriptOrigin origin);
+extern void php_v8_create_script_origin(zval * return_value, v8::Local<v8::Context> context, v8::ScriptOrigin origin);
 extern v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate *isolate);
 
 PHP_MINIT_FUNCTION (php_v8_script_origin);
