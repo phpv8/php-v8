@@ -58,23 +58,52 @@ class ObjectValue extends Value
     }
 
     /**
-     * Sets an own property on this object bypassing interceptors and
-     * overriding accessors or read-only properties.
+     * Implements CreateDataProperty (ECMA-262, 7.3.4).
      *
-     * Note that if the object has an interceptor the property will be set
-     * locally, but since the interceptor takes precedence the local property
-     * will only be returned if the interceptor doesn't return a value.
+     * Defines a configurable, writable, enumerable property with the given value
+     * on the object unless the property already exists and is not configurable
+     * or the object is not extensible.
      *
-     * Note also that this only works for named properties.
-     *
-     * @param Context $context
-     * @param string  $key
-     * @param Value   $value
-     * @param int     $attributes
+     * @param Context   $context
+     * @param NameValue $key
+     * @param Value     $value
      *
      * @return bool
      */
-    public function ForceSet(Context $context, $key, Value $value, $attributes = PropertyAttribute::None)
+    public function CreateDataProperty(Context $context, NameValue $key, Value $value) : bool
+    {
+    }
+
+    /**
+     * Implements CreateDataProperty (ECMA-262, 7.3.4).
+     *
+     * Defines a configurable, writable, enumerable property with the given value
+     * on the object unless the property already exists and is not configurable
+     * or the object is not extensible.
+     *
+     * @param Context $context
+     * @param int     $index
+     * @param Value   $value
+     *
+     * @return bool
+     */
+    public function CreateDataPropertyIndex(Context $context, int $index, Value $value) : bool
+    {
+    }
+
+    /**
+     * Implements DefineOwnProperty.
+     *
+     * In general, CreateDataProperty will be faster, however, does not allow for specifying attributes.
+     *
+     * @param Context   $context
+     * @param NameValue $key
+     * @param Value     $value
+     * @param int       $attributes
+     *
+     * @return bool
+     */
+    public function DefineOwnProperty(Context $context, NameValue $key, Value $value, int $attributes = PropertyAttribute::None) : bool
     {
     }
 

@@ -114,7 +114,7 @@ V8\ObjectValue->GetIdentityHash(): int(%d)
 Converters:
 -----------
 V8\ObjectValue(V8\Value)->ToBoolean():
-    object(V8\BooleanValue)#88 (1) {
+    object(V8\BooleanValue)#90 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -130,7 +130,7 @@ V8\ObjectValue(V8\Value)->ToBoolean():
       }
     }
 V8\ObjectValue(V8\Value)->ToNumber():
-    object(V8\NumberValue)#88 (1) {
+    object(V8\NumberValue)#90 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -146,7 +146,7 @@ V8\ObjectValue(V8\Value)->ToNumber():
       }
     }
 V8\ObjectValue(V8\Value)->ToString():
-    object(V8\StringValue)#88 (1) {
+    object(V8\StringValue)#90 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -162,7 +162,7 @@ V8\ObjectValue(V8\Value)->ToString():
       }
     }
 V8\ObjectValue(V8\Value)->ToDetailString():
-    object(V8\StringValue)#88 (1) {
+    object(V8\StringValue)#90 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -231,7 +231,7 @@ V8\ObjectValue(V8\Value)->ToObject():
       }
     }
 V8\ObjectValue(V8\Value)->ToInteger():
-    object(V8\NumberValue)#88 (1) {
+    object(V8\NumberValue)#90 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -247,7 +247,7 @@ V8\ObjectValue(V8\Value)->ToInteger():
       }
     }
 V8\ObjectValue(V8\Value)->ToUint32():
-    object(V8\NumberValue)#88 (1) {
+    object(V8\NumberValue)#90 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -263,7 +263,7 @@ V8\ObjectValue(V8\Value)->ToUint32():
       }
     }
 V8\ObjectValue(V8\Value)->ToInt32():
-    object(V8\NumberValue)#88 (1) {
+    object(V8\NumberValue)#90 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
