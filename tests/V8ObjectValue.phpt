@@ -8,6 +8,9 @@ V8\ObjectValue
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
 
+require '.v8-helpers.php';
+$v8_helper = new PhpV8Helpers($helper);
+
 $isolate = new \V8\Isolate();
 $extensions = [];
 $global_template = new V8\ObjectTemplate($isolate);
@@ -35,6 +38,8 @@ $helper->header('Getters');
 $helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
+$v8_helper->run_checks($value, 'Checkers');
+
 $helper->header('Converters');
 $helper->dump_object_methods($value, ['@@default' => [$context]], new RegexpFilter('/^To/'));
 
@@ -42,9 +47,9 @@ $helper->dump_object_methods($value, ['@@default' => [$context]], new RegexpFilt
 --EXPECT--
 Object representation:
 ----------------------
-object(V8\ObjectValue)#5 (2) {
+object(V8\ObjectValue)#6 (2) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#2 (5) {
+  object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
     NULL
     ["time_limit":"V8\Isolate":private]=>
@@ -57,9 +62,9 @@ object(V8\ObjectValue)#5 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#4 (4) {
+  object(V8\Context)#5 (4) {
     ["isolate":"V8\Context":private]=>
-    object(V8\Isolate)#2 (5) {
+    object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
       NULL
       ["time_limit":"V8\Isolate":private]=>
@@ -75,9 +80,9 @@ object(V8\ObjectValue)#5 (2) {
     array(0) {
     }
     ["global_template":"V8\Context":private]=>
-    object(V8\ObjectTemplate)#3 (1) {
+    object(V8\ObjectTemplate)#4 (1) {
       ["isolate":"V8\Template":private]=>
-      object(V8\Isolate)#2 (5) {
+      object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>
@@ -111,12 +116,42 @@ Getters:
 GetIdentityHash is integer: ok
 
 
+Checkers:
+---------
+V8\ObjectValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
+
+V8\ObjectValue->IsCallable(): bool(false)
+V8\ObjectValue->IsConstructor(): bool(false)
+V8\ObjectValue(V8\Value)->IsUndefined(): bool(false)
+V8\ObjectValue(V8\Value)->IsNull(): bool(false)
+V8\ObjectValue(V8\Value)->IsTrue(): bool(false)
+V8\ObjectValue(V8\Value)->IsFalse(): bool(false)
+V8\ObjectValue(V8\Value)->IsName(): bool(false)
+V8\ObjectValue(V8\Value)->IsString(): bool(false)
+V8\ObjectValue(V8\Value)->IsSymbol(): bool(false)
+V8\ObjectValue(V8\Value)->IsFunction(): bool(false)
+V8\ObjectValue(V8\Value)->IsArray(): bool(false)
+V8\ObjectValue(V8\Value)->IsObject(): bool(true)
+V8\ObjectValue(V8\Value)->IsBoolean(): bool(false)
+V8\ObjectValue(V8\Value)->IsNumber(): bool(false)
+V8\ObjectValue(V8\Value)->IsInt32(): bool(false)
+V8\ObjectValue(V8\Value)->IsUint32(): bool(false)
+V8\ObjectValue(V8\Value)->IsDate(): bool(false)
+V8\ObjectValue(V8\Value)->IsArgumentsObject(): bool(false)
+V8\ObjectValue(V8\Value)->IsBooleanObject(): bool(false)
+V8\ObjectValue(V8\Value)->IsNumberObject(): bool(false)
+V8\ObjectValue(V8\Value)->IsStringObject(): bool(false)
+V8\ObjectValue(V8\Value)->IsSymbolObject(): bool(false)
+V8\ObjectValue(V8\Value)->IsNativeError(): bool(false)
+V8\ObjectValue(V8\Value)->IsRegExp(): bool(false)
+
+
 Converters:
 -----------
 V8\ObjectValue(V8\Value)->ToBoolean():
-    object(V8\BooleanValue)#91 (1) {
+    object(V8\BooleanValue)#92 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
+      object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>
@@ -130,9 +165,9 @@ V8\ObjectValue(V8\Value)->ToBoolean():
       }
     }
 V8\ObjectValue(V8\Value)->ToNumber():
-    object(V8\NumberValue)#91 (1) {
+    object(V8\NumberValue)#92 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
+      object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>
@@ -146,9 +181,9 @@ V8\ObjectValue(V8\Value)->ToNumber():
       }
     }
 V8\ObjectValue(V8\Value)->ToString():
-    object(V8\StringValue)#91 (1) {
+    object(V8\StringValue)#92 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
+      object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>
@@ -162,9 +197,9 @@ V8\ObjectValue(V8\Value)->ToString():
       }
     }
 V8\ObjectValue(V8\Value)->ToDetailString():
-    object(V8\StringValue)#91 (1) {
+    object(V8\StringValue)#92 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
+      object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>
@@ -178,9 +213,9 @@ V8\ObjectValue(V8\Value)->ToDetailString():
       }
     }
 V8\ObjectValue(V8\Value)->ToObject():
-    object(V8\ObjectValue)#5 (2) {
+    object(V8\ObjectValue)#6 (2) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
+      object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>
@@ -193,9 +228,9 @@ V8\ObjectValue(V8\Value)->ToObject():
         bool(false)
       }
       ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#4 (4) {
+      object(V8\Context)#5 (4) {
         ["isolate":"V8\Context":private]=>
-        object(V8\Isolate)#2 (5) {
+        object(V8\Isolate)#3 (5) {
           ["snapshot":"V8\Isolate":private]=>
           NULL
           ["time_limit":"V8\Isolate":private]=>
@@ -211,9 +246,9 @@ V8\ObjectValue(V8\Value)->ToObject():
         array(0) {
         }
         ["global_template":"V8\Context":private]=>
-        object(V8\ObjectTemplate)#3 (1) {
+        object(V8\ObjectTemplate)#4 (1) {
           ["isolate":"V8\Template":private]=>
-          object(V8\Isolate)#2 (5) {
+          object(V8\Isolate)#3 (5) {
             ["snapshot":"V8\Isolate":private]=>
             NULL
             ["time_limit":"V8\Isolate":private]=>
@@ -231,9 +266,9 @@ V8\ObjectValue(V8\Value)->ToObject():
       }
     }
 V8\ObjectValue(V8\Value)->ToInteger():
-    object(V8\NumberValue)#91 (1) {
+    object(V8\NumberValue)#92 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
+      object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>
@@ -247,9 +282,9 @@ V8\ObjectValue(V8\Value)->ToInteger():
       }
     }
 V8\ObjectValue(V8\Value)->ToUint32():
-    object(V8\NumberValue)#91 (1) {
+    object(V8\NumberValue)#92 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
+      object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>
@@ -263,9 +298,9 @@ V8\ObjectValue(V8\Value)->ToUint32():
       }
     }
 V8\ObjectValue(V8\Value)->ToInt32():
-    object(V8\NumberValue)#91 (1) {
+    object(V8\NumberValue)#92 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
+      object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>

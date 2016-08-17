@@ -10,6 +10,9 @@ V8\FunctionObject
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
 
+require '.v8-helpers.php';
+$v8_helper = new PhpV8Helpers($helper);
+
 require '.tracking_dtors.php';
 
 $isolate1 = new v8Tests\TrackingDtors\Isolate();
@@ -33,6 +36,7 @@ $helper->space();
 $helper->assert('FunctionObject extends ObjectValue', $func instanceof \V8\ObjectValue);
 $helper->line();
 
+$v8_helper->run_checks($func, 'Checkers');
 
 $context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'print'), $func);
 
@@ -54,9 +58,9 @@ echo 'We are done for now', PHP_EOL;
 --EXPECT--
 Object representation:
 ----------------------
-object(v8Tests\TrackingDtors\FunctionObject)#5 (2) {
+object(v8Tests\TrackingDtors\FunctionObject)#6 (2) {
   ["isolate":"V8\Value":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (5) {
+  object(v8Tests\TrackingDtors\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
     NULL
     ["time_limit":"V8\Isolate":private]=>
@@ -69,9 +73,9 @@ object(v8Tests\TrackingDtors\FunctionObject)#5 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#4 (4) {
+  object(V8\Context)#5 (4) {
     ["isolate":"V8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (5) {
+    object(v8Tests\TrackingDtors\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
       NULL
       ["time_limit":"V8\Isolate":private]=>
@@ -87,9 +91,9 @@ object(v8Tests\TrackingDtors\FunctionObject)#5 (2) {
     array(0) {
     }
     ["global_template":"V8\Context":private]=>
-    object(V8\ObjectTemplate)#3 (1) {
+    object(V8\ObjectTemplate)#4 (1) {
       ["isolate":"V8\Template":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (5) {
+      object(v8Tests\TrackingDtors\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
         NULL
         ["time_limit":"V8\Isolate":private]=>
@@ -110,11 +114,42 @@ object(v8Tests\TrackingDtors\FunctionObject)#5 (2) {
 
 FunctionObject extends ObjectValue: ok
 
+Checkers:
+---------
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(8) "function"
+
+v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->IsBuiltin(): bool(true)
+v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->IsCallable(): bool(true)
+v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->IsConstructor(): bool(true)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUndefined(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNull(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsTrue(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsFalse(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsName(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsString(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSymbol(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsFunction(): bool(true)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsArray(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsObject(): bool(true)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsBoolean(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNumber(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsInt32(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint32(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsDate(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsArgumentsObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsBooleanObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNumberObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsStringObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSymbolObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNativeError(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsRegExp(): bool(false)
+
+
 Should output Hello World string
 string(11) "Script done"
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
-    object(V8\ScriptOrigin)#108 (6) {
+    object(V8\ScriptOrigin)#110 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -122,7 +157,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#109 (3) {
+      object(V8\ScriptOriginOptions)#111 (3) {
         ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>

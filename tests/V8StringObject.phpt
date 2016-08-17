@@ -127,7 +127,7 @@ StringObject extends ObjectValue: ok
 Getters:
 --------
 V8\StringObject->ValueOf():
-    object(V8\StringValue)#94 (1) {
+    object(V8\StringValue)#95 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -150,6 +150,7 @@ Checkers:
 V8\StringObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
 
 V8\StringObject(V8\ObjectValue)->IsCallable(): bool(false)
+V8\StringObject(V8\ObjectValue)->IsConstructor(): bool(false)
 V8\StringObject(V8\Value)->IsUndefined(): bool(false)
 V8\StringObject(V8\Value)->IsNull(): bool(false)
 V8\StringObject(V8\Value)->IsTrue(): bool(false)
@@ -188,6 +189,7 @@ Checkers on boxed from script:
 V8\StringObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
 
 V8\StringObject(V8\ObjectValue)->IsCallable(): bool(false)
+V8\StringObject(V8\ObjectValue)->IsConstructor(): bool(false)
 V8\StringObject(V8\Value)->IsUndefined(): bool(false)
 V8\StringObject(V8\Value)->IsNull(): bool(false)
 V8\StringObject(V8\Value)->IsTrue(): bool(false)

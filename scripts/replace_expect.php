@@ -20,7 +20,7 @@ foreach ($iterator as $item) {
         $test_content .= PHP_EOL;
         file_put_contents($tests_dir . '/' . $test_file, $test_content);
 
-        foreach (['.diff', '.exp', '.log', '.mem', '.out', '.php'] as $ext) {
+        foreach (['.diff', '.exp', '.log', '.mem', '.out', '.php', '.sh'] as $ext) {
             @unlink($tests_dir. '/'.$base_name . $ext);
         }
     } else {

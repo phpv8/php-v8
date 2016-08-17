@@ -478,6 +478,15 @@ class ObjectValue extends Value
     }
 
     /**
+     * True if this object is a constructor.
+     *
+     * @return bool
+     */
+    public function IsConstructor() : bool
+    {
+    }
+
+    /**
      * Call an Object as a function if a callback is set by the
      * ObjectTemplate::SetCallAsFunctionHandler method.
      *

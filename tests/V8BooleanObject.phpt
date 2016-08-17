@@ -124,6 +124,7 @@ Checkers:
 V8\BooleanObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
 
 V8\BooleanObject(V8\ObjectValue)->IsCallable(): bool(false)
+V8\BooleanObject(V8\ObjectValue)->IsConstructor(): bool(false)
 V8\BooleanObject(V8\Value)->IsUndefined(): bool(false)
 V8\BooleanObject(V8\Value)->IsNull(): bool(false)
 V8\BooleanObject(V8\Value)->IsTrue(): bool(false)
@@ -157,6 +158,7 @@ Checkers on boxed from script:
 V8\BooleanObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
 
 V8\BooleanObject(V8\ObjectValue)->IsCallable(): bool(false)
+V8\BooleanObject(V8\ObjectValue)->IsConstructor(): bool(false)
 V8\BooleanObject(V8\Value)->IsUndefined(): bool(false)
 V8\BooleanObject(V8\Value)->IsNull(): bool(false)
 V8\BooleanObject(V8\Value)->IsTrue(): bool(false)

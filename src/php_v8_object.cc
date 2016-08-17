@@ -1293,6 +1293,21 @@ static PHP_METHOD(V8Object, IsCallable) {
     RETURN_BOOL(local_object->IsCallable());
 }
 
+
+static PHP_METHOD(V8Object, IsConstructor) {
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+    PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
+
+    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = v8::Local<v8::Object>::Cast(local_value);
+
+    RETURN_BOOL(local_object->IsConstructor());
+}
+
 static PHP_METHOD(V8Object, CallAsFunction) {
     zval *php_v8_context_zv;
     zval *php_v8_recv_zv;
@@ -1568,6 +1583,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_IsCallable, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_IsConstructor, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_CallAsFunction, ZEND_RETURN_VALUE, 2, IS_OBJECT, PHP_V8_NS "\\Value", 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, recv, V8\\Value, 0)
@@ -1630,6 +1648,7 @@ static const zend_function_entry php_v8_object_methods[] = {
         PHP_ME(V8Object, CreationContext, arginfo_v8_object_CreationContext, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Object, IsCallable, arginfo_v8_object_IsCallable, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Object, IsConstructor, arginfo_v8_object_IsConstructor, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, CallAsFunction, arginfo_v8_object_CallAsFunction, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, CallAsConstructor, arginfo_v8_object_CallAsConstructor, ZEND_ACC_PUBLIC)
 
