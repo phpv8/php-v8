@@ -21,7 +21,7 @@ if ($helper->need_more_time()) {
     // On travis when valgrind active it takes more time to complete all operations so we just increase initial limits
     $time_limit = 5.0;
     $low_range = 4.5;
-    $high_range = 10.0;
+    $high_range = 20.0;
 } else {
     $time_limit = 1.5;
     $low_range = 1.45;
