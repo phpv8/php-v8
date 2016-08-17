@@ -30,7 +30,7 @@ $helper->line();
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
 $helper->method_export($value, 'Name');
-$helper->method_export($value, 'GetIdentityHash');
+$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
@@ -50,7 +50,7 @@ $helper->line();
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
 $helper->method_export($value, 'Name');
-$helper->method_export($value, 'GetIdentityHash');
+$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
@@ -69,7 +69,7 @@ $helper->line();
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
 $helper->method_export($value, 'Name');
-$helper->method_export($value, 'GetIdentityHash');
+$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
@@ -93,7 +93,7 @@ $helper->line();
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
 $helper->method_export($value, 'Name');
-$helper->method_export($value, 'GetIdentityHash');
+$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
@@ -170,7 +170,7 @@ $helper->pretty_dump('Symbol GetIsConcatSpreadable() name', $value->Name()->Valu
 $helper->line();
 
 ?>
---EXPECTF--
+--EXPECT--
 Default constructor:
 --------------------
 
@@ -199,7 +199,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\Value)#58 (1) {
+    object(V8\Value)#59 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -214,11 +214,13 @@ V8\SymbolValue->Name():
         bool(false)
       }
     }
-V8\SymbolValue(V8\NameValue)->GetIdentityHash(): int(%d)
+GetIdentityHash is integer: ok
 
 
 Checkers:
 ---------
+V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+
 V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsNull(): bool(false)
 V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
@@ -248,7 +250,7 @@ Null constructor:
 
 Object representation:
 ----------------------
-object(V8\SymbolValue)#5 (1) {
+object(V8\SymbolValue)#59 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -271,7 +273,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\Value)#8 (1) {
+    object(V8\Value)#7 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -286,11 +288,13 @@ V8\SymbolValue->Name():
         bool(false)
       }
     }
-V8\SymbolValue(V8\NameValue)->GetIdentityHash(): int(%d)
+GetIdentityHash is integer: ok
 
 
 Checkers:
 ---------
+V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+
 V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsNull(): bool(false)
 V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
@@ -320,83 +324,7 @@ Empty StringValue constructor:
 
 Object representation:
 ----------------------
-object(V8\SymbolValue)#4 (1) {
-  ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-  }
-}
-
-
-SymbolValue extends NameValue: ok
-
-Accessors:
-----------
-V8\SymbolValue::GetIsolate() matches expected value
-V8\SymbolValue->Name():
-    object(V8\StringValue)#58 (1) {
-      ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-    }
-V8\SymbolValue(V8\NameValue)->GetIdentityHash(): int(%d)
-
-
-Checkers:
----------
-V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsNull(): bool(false)
-V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
-V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
-V8\SymbolValue(V8\Value)->IsName(): bool(true)
-V8\SymbolValue(V8\Value)->IsString(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbol(): bool(true)
-V8\SymbolValue(V8\Value)->IsFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBoolean(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumber(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32(): bool(false)
-V8\SymbolValue(V8\Value)->IsDate(): bool(false)
-V8\SymbolValue(V8\Value)->IsArgumentsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBooleanObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumberObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
-V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
-
-
-Symbol name:
-------------
-string(0) ""
-
-Non-empty StringValue constructor:
-----------------------------------
-
-Object representation:
-----------------------
-object(V8\SymbolValue)#5 (1) {
+object(V8\SymbolValue)#7 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -434,11 +362,91 @@ V8\SymbolValue->Name():
         bool(false)
       }
     }
-V8\SymbolValue(V8\NameValue)->GetIdentityHash(): int(%d)
+GetIdentityHash is integer: ok
 
 
 Checkers:
 ---------
+V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+
+V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->IsNull(): bool(false)
+V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
+V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
+V8\SymbolValue(V8\Value)->IsName(): bool(true)
+V8\SymbolValue(V8\Value)->IsString(): bool(false)
+V8\SymbolValue(V8\Value)->IsSymbol(): bool(true)
+V8\SymbolValue(V8\Value)->IsFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsBoolean(): bool(false)
+V8\SymbolValue(V8\Value)->IsNumber(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt32(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint32(): bool(false)
+V8\SymbolValue(V8\Value)->IsDate(): bool(false)
+V8\SymbolValue(V8\Value)->IsArgumentsObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsBooleanObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsNumberObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
+V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
+
+
+Symbol name:
+------------
+string(0) ""
+
+Non-empty StringValue constructor:
+----------------------------------
+
+Object representation:
+----------------------
+object(V8\SymbolValue)#8 (1) {
+  ["isolate":"V8\Value":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
+    NULL
+    ["time_limit":"V8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"V8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+  }
+}
+
+
+SymbolValue extends NameValue: ok
+
+Accessors:
+----------
+V8\SymbolValue::GetIsolate() matches expected value
+V8\SymbolValue->Name():
+    object(V8\StringValue)#60 (1) {
+      ["isolate":"V8\Value":private]=>
+      object(V8\Isolate)#3 (5) {
+        ["snapshot":"V8\Isolate":private]=>
+        NULL
+        ["time_limit":"V8\Isolate":private]=>
+        float(0)
+        ["time_limit_hit":"V8\Isolate":private]=>
+        bool(false)
+        ["memory_limit":"V8\Isolate":private]=>
+        int(0)
+        ["memory_limit_hit":"V8\Isolate":private]=>
+        bool(false)
+      }
+    }
+GetIdentityHash is integer: ok
+
+
+Checkers:
+---------
+V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+
 V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsNull(): bool(false)
 V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
@@ -469,6 +477,8 @@ string(4) "test"
 
 Checkers on name:
 -----------------
+V8\StringValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "string"
+
 V8\StringValue->IsOneByte(): bool(true)
 V8\StringValue(V8\Value)->IsUndefined(): bool(false)
 V8\StringValue(V8\Value)->IsNull(): bool(false)
@@ -496,6 +506,8 @@ V8\StringValue(V8\Value)->IsRegExp(): bool(false)
 
 Checkers on Symbol value from script:
 -------------------------------------
+V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+
 V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsNull(): bool(false)
 V8\SymbolValue(V8\Value)->IsTrue(): bool(false)

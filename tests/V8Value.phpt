@@ -23,6 +23,7 @@ $helper->dump($value);
 $helper->space();
 
 $helper->assert('Value extends Data', $value instanceof \V8\Data);
+$helper->assert('TypeOf returns StringValue', $value->TypeOf($isolate) instanceof \V8\StringValue);
 $helper->line();
 
 $helper->header('Accessors');
@@ -82,6 +83,7 @@ object(V8\Value)#4 (1) {
 
 
 Value extends Data: ok
+TypeOf returns StringValue: ok
 
 Accessors:
 ----------
@@ -90,6 +92,8 @@ V8\Value::GetIsolate() matches expected value
 
 Checks on V8\Value:
 -------------------
+V8\Value->TypeOf(): V8\StringValue->Value(): string(9) "undefined"
+
 V8\Value->IsUndefined(): bool(true)
 V8\Value->IsNull(): bool(false)
 V8\Value->IsTrue(): bool(false)
@@ -122,7 +126,7 @@ V8\Value->NumberValue(): float(NAN)
 
 V8\Value::ToString() converting:
 --------------------------------
-object(V8\StringValue)#48 (1) {
+object(V8\StringValue)#51 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -142,6 +146,8 @@ string(9) "undefined"
 
 Checkers after ToString() converting:
 -------------------------------------
+V8\Value->TypeOf(): V8\StringValue->Value(): string(9) "undefined"
+
 V8\Value->IsUndefined(): bool(true)
 V8\Value->IsNull(): bool(false)
 V8\Value->IsTrue(): bool(false)

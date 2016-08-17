@@ -149,6 +149,8 @@ V8\StringValue::GetIsolate() matches expected value
 
 Checkers:
 ---------
+V8\StringValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "string"
+
 V8\StringValue->IsOneByte(): bool(true)
 V8\StringValue(V8\Value)->IsUndefined(): bool(false)
 V8\StringValue(V8\Value)->IsNull(): bool(false)

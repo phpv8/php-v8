@@ -115,6 +115,11 @@ class PhpV8Helpers {
         $title = $title ?: 'Checks on ' . get_class($value);
         $this->testsuite->header($title);
 
+        $filter = new ArrayListFilter(['TypeOf'], false);
+        $finalizer = new CallChainFinalizer([\V8\StringValue::class => 'Value'], [], false);
+        $this->testsuite->dump_object_methods($value, ['@@default' => [$value->GetIsolate()]], $filter, $finalizer);
+        $this->testsuite->line();
+
         $filter = new RegexpFilter('/^Is/');
         $this->testsuite->dump_object_methods($value, [], $filter);
         $this->testsuite->space();

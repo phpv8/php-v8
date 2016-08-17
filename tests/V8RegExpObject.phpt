@@ -129,6 +129,8 @@ V8\RegExpObject->GetFlags(): int(2)
 
 Checkers:
 ---------
+V8\RegExpObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
+
 V8\RegExpObject(V8\ObjectValue)->IsCallable(): bool(false)
 V8\RegExpObject(V8\Value)->IsUndefined(): bool(false)
 V8\RegExpObject(V8\Value)->IsNull(): bool(false)

@@ -132,6 +132,8 @@ V8\NumberObject->ValueOf(): float(42.12)
 
 Checkers:
 ---------
+V8\NumberObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
+
 V8\NumberObject(V8\ObjectValue)->IsCallable(): bool(false)
 V8\NumberObject(V8\Value)->IsUndefined(): bool(false)
 V8\NumberObject(V8\Value)->IsNull(): bool(false)
@@ -168,6 +170,8 @@ Expected value is identical to actual value
 
 Checkers on boxed from script:
 ------------------------------
+V8\NumberObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
+
 V8\NumberObject(V8\ObjectValue)->IsCallable(): bool(false)
 V8\NumberObject(V8\Value)->IsUndefined(): bool(false)
 V8\NumberObject(V8\Value)->IsNull(): bool(false)

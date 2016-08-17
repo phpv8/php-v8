@@ -108,6 +108,8 @@ V8\IntegerValue->Value(): int(123)
 
 Checkers:
 ---------
+V8\IntegerValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "number"
+
 V8\IntegerValue(V8\Value)->IsUndefined(): bool(false)
 V8\IntegerValue(V8\Value)->IsNull(): bool(false)
 V8\IntegerValue(V8\Value)->IsTrue(): bool(false)
@@ -134,7 +136,7 @@ V8\IntegerValue(V8\Value)->IsRegExp(): bool(false)
 
 V8\IntegerValue::ToString() converting:
 ---------------------------------------
-object(V8\StringValue)#7 (1) {
+object(V8\StringValue)#52 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#1 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -167,6 +169,8 @@ V8\IntegerValue(V8\Value)->NumberValue(): float(-123)
 
 Checkers for negative:
 ----------------------
+V8\IntegerValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "number"
+
 V8\IntegerValue(V8\Value)->IsUndefined(): bool(false)
 V8\IntegerValue(V8\Value)->IsNull(): bool(false)
 V8\IntegerValue(V8\Value)->IsTrue(): bool(false)
