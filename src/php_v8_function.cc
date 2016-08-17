@@ -417,7 +417,7 @@ static PHP_METHOD(V8Function, GetScriptOrigin) {
 
     v8::ScriptOrigin script_origin = local_function->GetScriptOrigin();
 
-    php_v8_create_script_origin(return_value, script_origin);
+    php_v8_create_script_origin(return_value, context, script_origin);
 }
 
 

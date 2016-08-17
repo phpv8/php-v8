@@ -678,7 +678,7 @@ static PHP_METHOD(V8Value, ToString) {
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::String> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToString(isolate);
+    v8::MaybeLocal<v8::String> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToString(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");

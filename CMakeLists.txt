@@ -11,6 +11,7 @@ include_directories(/usr/local/include/php/main)
 include_directories(/usr/local/include/php/sapi)
 
 add_definitions(-DV8_DEPRECATION_WARNINGS)
+add_definitions(-DV8_IMMINENT_DEPRECATION_WARNINGS)
 
 if(EXISTS "${CMAKE_SOURCE_DIR}/config.h")
     add_definitions(-DHAVE_CONFIG_H)

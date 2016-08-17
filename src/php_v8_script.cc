@@ -103,7 +103,7 @@ static PHP_METHOD(V8Script, __construct)
         origin = new v8::ScriptOrigin(v8::Undefined(isolate));
 
         zval origin_zv;
-        php_v8_create_script_origin(&origin_zv, *origin);
+        php_v8_create_script_origin(&origin_zv, context, *origin);
         zend_update_property(this_ce, getThis(), ZEND_STRL("origin"), &origin_zv);
 
         zval_ptr_dtor(&origin_zv);

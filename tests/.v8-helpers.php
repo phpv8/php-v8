@@ -33,8 +33,9 @@ class PhpV8Helpers {
         $this->testsuite = $testsuite;
     }
 
-    public function getPrintFunctionTemplate (\V8\Isolate $isolate) {
-        $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) {
+    public function getPrintFunctionTemplate(\V8\Isolate $isolate, $newline = false)
+    {
+        $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use ($newline) {
 
             $context = $args->GetContext();
 
@@ -44,10 +45,19 @@ class PhpV8Helpers {
                 $out[] = $this->toString($arg, $context);
             }
 
-            echo implode('', $out);
+            echo implode('', $out), ($newline ? PHP_EOL : false);
         });
 
         return $print_func_tpl;
+    }
+
+    public function injectConsoleLog(\V8\Context $context) {
+        $isolate = $context->GetIsolate();
+        $obj_tpl = new \V8\ObjectTemplate($isolate);
+        $obj_tpl->Set(new \V8\StringValue($isolate, 'log'), $this->getPrintFunctionTemplate($isolate, true));
+
+        $console_obj = $obj_tpl->NewInstance($context);
+        $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'console'), $console_obj);
     }
 
     /**

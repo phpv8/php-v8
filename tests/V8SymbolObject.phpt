@@ -130,7 +130,7 @@ SymbolObject extends ObjectValue: ok
 Getters:
 --------
 V8\SymbolObject->ValueOf():
-    object(V8\SymbolValue)#91 (1) {
+    object(V8\SymbolValue)#93 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

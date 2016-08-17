@@ -243,12 +243,83 @@ static PHP_METHOD(V8Object, SetIndex) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, ForceSet) {
+static PHP_METHOD(V8Object, CreateDataProperty) {
+    zval *php_v8_context_zv;
+    zval *php_v8_key_or_index_zv;
+    zval *php_v8_value_zv;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "ooo", &php_v8_context_zv, &php_v8_key_or_index_zv, &php_v8_value_zv) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_key_or_index_zv, php_v8_key_or_index);
+    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_value_zv, php_v8_value_value_to_set);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
+
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key_or_index);
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_value_value_to_set);
+
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
+
+    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Name> local_key_or_index = php_v8_value_get_name_local(isolate, php_v8_key_or_index);
+    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
+
+    PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
+
+    v8::Maybe<bool> maybe_res = local_obj->CreateDataProperty(context, local_key_or_index, local_value_to_set);
+
+    PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
+    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to create data property");
+
+    RETURN_BOOL(maybe_res.FromJust());
+}
+
+static PHP_METHOD(V8Object, CreateDataPropertyIndex) {
+    zval *php_v8_context_zv;
+    zend_long index;
+    zval *php_v8_value_zv;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "olo", &php_v8_context_zv, &index, &php_v8_value_zv) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_CHECK_UINT32_RANGE(index, "Index is out of range (should be valid uint32 value)");
+
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_value_zv, php_v8_value_value_to_set);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
+
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_value_value_to_set);
+
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
+
+    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
+
+    PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
+
+    v8::Maybe<bool> maybe_res = local_obj->CreateDataProperty(context, static_cast<uint32_t>(index), local_value_to_set);
+
+    PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
+    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to create data property");
+
+    RETURN_BOOL(maybe_res.FromJust());
+}
+
+static PHP_METHOD(V8Object, DefineOwnProperty) {
     zval *php_v8_context_zv;
     zval *php_v8_value_zv;
     zval *php_v8_key_zv;
 
-    zend_long attributes;
+    zend_long attributes = 0;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "ooo|l", &php_v8_context_zv, &php_v8_key_zv, &php_v8_value_zv, &attributes) == FAILURE) {
         return;
@@ -270,20 +341,20 @@ static PHP_METHOD(V8Object, ForceSet) {
     v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
     v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
 
-    v8::Local<v8::String> local_key = php_v8_value_get_string_local(isolate, php_v8_key);
+    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_key);
 
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Maybe<bool> maybe = local_obj->ForceSet(context,
-                                                local_key,
-                                                local_value_to_set,
-                                                static_cast<v8::PropertyAttribute>(attributes));
+    v8::Maybe<bool> maybe = local_obj->DefineOwnProperty(context,
+                                                         local_name,
+                                                         local_value_to_set,
+                                                         static_cast<v8::PropertyAttribute>(attributes));
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
-    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe, "Failed to set persistent");
+    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe, "Failed to define own property");
 
     RETURN_BOOL(maybe.FromJust())
 }
@@ -1334,10 +1405,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_SetIndex, ZEND_RETURN_
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-// TODO: subject of change due to deprecateion
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object_ForceSet, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 3)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_CreateDataProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, NULL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_INFO(0, key_or_index)
+                ZEND_ARG_OBJ_INFO(0, key, V8\\NameValue, 0)
+                ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_CreateDataPropertyIndex, ZEND_RETURN_VALUE, 3, _IS_BOOL, NULL, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_TYPE_INFO(0, key, IS_LONG, 0)
+                ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_DefineOwnProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, NULL, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, key, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
                 ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
@@ -1510,7 +1592,9 @@ static const zend_function_entry php_v8_object_methods[] = {
         PHP_ME(V8Object, GetContext, arginfo_v8_object_GetContext, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, Set, arginfo_v8_object_Set, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, SetIndex, arginfo_v8_object_SetIndex, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, ForceSet, arginfo_v8_object_ForceSet, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Object, CreateDataProperty, arginfo_v8_object_CreateDataProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Object, CreateDataPropertyIndex, arginfo_v8_object_CreateDataPropertyIndex, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Object, DefineOwnProperty, arginfo_v8_object_DefineOwnProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, Get, arginfo_v8_object_Get, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, GetIndex, arginfo_v8_object_GetIndex, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, GetPropertyAttributes, arginfo_v8_object_GetPropertyAttributes, ZEND_ACC_PUBLIC)

@@ -161,11 +161,11 @@ static void php_v8_isolate_free(zend_object *object) {
 
     zend_object_std_dtor(&php_v8_isolate->std);
 
-    if (php_v8_isolate->array_buffer_allocator) {
-        delete php_v8_isolate->array_buffer_allocator;
-    }
-
     if (php_v8_isolate->create_params) {
+        if (php_v8_isolate->create_params->array_buffer_allocator) {
+            delete php_v8_isolate->create_params->array_buffer_allocator;
+        }
+
         delete php_v8_isolate->create_params;
     }
 }
@@ -182,10 +182,8 @@ static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
     // TODO: inline? module init?
     php_v8_init();
 
-    php_v8_isolate->array_buffer_allocator = new ArrayBufferAllocator();
     php_v8_isolate->create_params = new v8::Isolate::CreateParams();
-
-    php_v8_isolate->create_params->array_buffer_allocator = php_v8_isolate->array_buffer_allocator;
+    php_v8_isolate->create_params->array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
 
     php_v8_isolate->weak_function_templates = new std::map<v8::Persistent<v8::FunctionTemplate> *, php_v8_callbacks_t *>();
     php_v8_isolate->weak_object_templates = new std::map<v8::Persistent<v8::ObjectTemplate> *, php_v8_callbacks_t *>();
