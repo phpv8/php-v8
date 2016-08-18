@@ -17,6 +17,7 @@
 #endif
 
 #include "php_v8_object.h"
+#include "php_v8_integrity_level.h"
 #include "php_v8_exceptions.h"
 #include "php_v8_function_template.h"
 #include "php_v8_function.h"
@@ -933,6 +934,40 @@ static PHP_METHOD(V8Object, GetConstructorName) {
     php_v8_get_or_create_value(return_value, local_object->GetConstructorName(), isolate);
 }
 
+static PHP_METHOD(V8Object, SetIntegrityLevel) {
+    zval *php_v8_context_zv;
+    zend_long level;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "ol", &php_v8_context_zv, &level) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
+
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
+
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
+
+    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
+
+    level = level ? level & PHP_V8_INTEGRITY_LEVEL_FLAGS : level;
+
+    PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
+
+    v8::Maybe<bool> maybe_res = local_obj->SetIntegrityLevel(local_context, static_cast<v8::IntegrityLevel>(level));
+
+    PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
+    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to set integrity level");
+
+    RETURN_BOOL(maybe_res.FromJust());
+}
+
+
+
 static PHP_METHOD(V8Object, HasOwnProperty) {
     zval *php_v8_context_zv;
     zval *php_v8_name_zv;
@@ -1525,6 +1560,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_GetConstructorName, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\StringValue", 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_SetIntegrityLevel, ZEND_RETURN_VALUE, 2, _IS_BOOL, NULL, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_TYPE_INFO(0, level, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_HasOwnProperty, ZEND_RETURN_VALUE, 2, _IS_BOOL, NULL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_INFO(0, key)
@@ -1630,6 +1670,7 @@ static const zend_function_entry php_v8_object_methods[] = {
         PHP_ME(V8Object, FindInstanceInPrototypeChain, arginfo_php_v8_object_FindInstanceInPrototypeChain, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, ObjectProtoToString, arginfo_php_v8_object_ObjectProtoToString, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, GetConstructorName, arginfo_v8_object_GetConstructorName, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Object, SetIntegrityLevel, arginfo_v8_object_SetIntegrityLevel, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Object, HasOwnProperty, arginfo_v8_object_HasOwnProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, HasRealNamedProperty, arginfo_v8_object_HasRealNamedProperty, ZEND_ACC_PUBLIC)

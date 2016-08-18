@@ -209,6 +209,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_integer.cc                                 \
     src/php_v8_int32.cc                                   \
     src/php_v8_uint32.cc                                  \
+    src/php_v8_integrity_level.cc                         \
     src/php_v8_object.cc                                  \
     src/php_v8_function.cc                                \
     src/php_v8_array.cc                                   \

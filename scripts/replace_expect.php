@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 $tests_dir = realpath(__DIR__ . '/../tests');

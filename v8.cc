@@ -44,6 +44,7 @@
 #include "php_v8_uint32.h"
 #include "php_v8_primitive.h"
 #include "php_v8_object.h"
+#include "php_v8_integrity_level.h"
 #include "php_v8_function.h"
 #include "php_v8_array.h"
 #include "php_v8_date.h"
@@ -124,6 +125,7 @@ PHP_MINIT_FUNCTION(v8)
 	PHP_MINIT(php_v8_integer)(INIT_FUNC_ARGS_PASSTHRU);
 	PHP_MINIT(php_v8_int32)(INIT_FUNC_ARGS_PASSTHRU);
 	PHP_MINIT(php_v8_uint32)(INIT_FUNC_ARGS_PASSTHRU);
+	PHP_MINIT(php_v8_integrity_level)(INIT_FUNC_ARGS_PASSTHRU);
 	PHP_MINIT(php_v8_object)(INIT_FUNC_ARGS_PASSTHRU);
 	PHP_MINIT(php_v8_function)(INIT_FUNC_ARGS_PASSTHRU);
 	PHP_MINIT(php_v8_array)(INIT_FUNC_ARGS_PASSTHRU);
