@@ -35,6 +35,7 @@ void php_v8_heap_statistics_create_from_heap_statistics(zval *return_value, v8::
     zend_update_property_double(this_ce, return_value, ZEND_STRL("total_available_size"), hs->total_available_size());
     zend_update_property_double(this_ce, return_value, ZEND_STRL("used_heap_size"), hs->used_heap_size());
     zend_update_property_double(this_ce, return_value, ZEND_STRL("heap_size_limit"), hs->heap_size_limit());
+    zend_update_property_double(this_ce, return_value, ZEND_STRL("malloced_memory"), hs->malloced_memory());
 
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("does_zap_garbage"), static_cast<zend_long>(hs->does_zap_garbage()));
 
@@ -47,12 +48,13 @@ static PHP_METHOD(V8HeapStatistics, __construct) {
     double total_available_size = 0;
     double used_heap_size = 0;
     double heap_size_limit = 0;
+    double malloced_memory = 0;
 
     zend_bool does_zap_garbage = '\0';
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|ddddddb",
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|dddddddb",
                               &total_heap_size, &total_heap_size_executable, &total_physical_size, &total_available_size,
-                              &used_heap_size, &heap_size_limit, &does_zap_garbage) == FAILURE) {
+                              &used_heap_size, &heap_size_limit, &malloced_memory, &does_zap_garbage) == FAILURE) {
         return;
     }
 
@@ -62,6 +64,7 @@ static PHP_METHOD(V8HeapStatistics, __construct) {
     zend_update_property_double(this_ce, getThis(), ZEND_STRL("total_available_size"), total_available_size);
     zend_update_property_double(this_ce, getThis(), ZEND_STRL("used_heap_size"), used_heap_size);
     zend_update_property_double(this_ce, getThis(), ZEND_STRL("heap_size_limit"), heap_size_limit);
+    zend_update_property_double(this_ce, getThis(), ZEND_STRL("malloced_memory"), malloced_memory);
 
     zend_update_property_bool(this_ce, getThis(), ZEND_STRL("does_zap_garbage"), does_zap_garbage);
 }
@@ -126,6 +129,16 @@ static PHP_METHOD(V8HeapStatistics, heap_size_limit) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("heap_size_limit"), 0, &rv), 1, 0);
 }
 
+static PHP_METHOD(V8HeapStatistics, malloced_memory) {
+    zval rv;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("malloced_memory"), 0, &rv), 1, 0);
+}
+
 static PHP_METHOD(V8HeapStatistics, does_zap_garbage) {
     zval rv;
 
@@ -144,6 +157,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_heap_statistics___construct, ZEND_SEND_BY_VAL,
                 ZEND_ARG_TYPE_INFO(0, total_available_size, IS_DOUBLE, 0)
                 ZEND_ARG_TYPE_INFO(0, used_heap_size, IS_DOUBLE, 0)
                 ZEND_ARG_TYPE_INFO(0, heap_size_limit, IS_DOUBLE, 0)
+                ZEND_ARG_TYPE_INFO(0, malloced_memory, IS_DOUBLE, 0)
+                ZEND_ARG_TYPE_INFO(0, peak_malloced_memory, IS_DOUBLE, 0)
+
                 ZEND_ARG_TYPE_INFO(0, does_zap_garbage, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -165,6 +181,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__heap_size_limit, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__malloced_memory, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__does_zap_garbage, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
 ZEND_END_ARG_INFO()
 
@@ -178,6 +197,7 @@ static const zend_function_entry php_v8_heap_statistics_methods[] = {
         PHP_ME(V8HeapStatistics, total_available_size, arginfo_v8_heap_statistics__total_available_size, ZEND_ACC_PUBLIC)
         PHP_ME(V8HeapStatistics, used_heap_size, arginfo_v8_heap_statistics__used_heap_size, ZEND_ACC_PUBLIC)
         PHP_ME(V8HeapStatistics, heap_size_limit, arginfo_v8_heap_statistics__heap_size_limit, ZEND_ACC_PUBLIC)
+        PHP_ME(V8HeapStatistics, malloced_memory, arginfo_v8_heap_statistics__malloced_memory, ZEND_ACC_PUBLIC)
         PHP_ME(V8HeapStatistics, does_zap_garbage, arginfo_v8_heap_statistics__does_zap_garbage, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
@@ -195,6 +215,7 @@ PHP_MINIT_FUNCTION (php_v8_heap_statistics) {
     zend_declare_property_double(this_ce, ZEND_STRL("total_available_size"), 0, ZEND_ACC_PRIVATE);
     zend_declare_property_double(this_ce, ZEND_STRL("used_heap_size"), 0, ZEND_ACC_PRIVATE);
     zend_declare_property_double(this_ce, ZEND_STRL("heap_size_limit"), 0, ZEND_ACC_PRIVATE);
+    zend_declare_property_double(this_ce, ZEND_STRL("malloced_memory"), 0, ZEND_ACC_PRIVATE);
 
     zend_declare_property_bool(this_ce, ZEND_STRL("does_zap_garbage"), false, ZEND_ACC_PRIVATE);
 

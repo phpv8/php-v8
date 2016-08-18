@@ -91,7 +91,7 @@ object(V8\Isolate)#3 (5) {
   ["memory_limit_hit":"V8\Isolate":private]=>
   bool(true)
 }
-object(V8\HeapStatistics)#14 (7) {
+object(V8\HeapStatistics)#14 (8) {
   ["total_heap_size":"V8\HeapStatistics":private]=>
   float(%d)
   ["total_heap_size_executable":"V8\HeapStatistics":private]=>
@@ -103,6 +103,8 @@ object(V8\HeapStatistics)#14 (7) {
   ["used_heap_size":"V8\HeapStatistics":private]=>
   float(%d)
   ["heap_size_limit":"V8\HeapStatistics":private]=>
+  float(%d)
+  ["malloced_memory":"V8\HeapStatistics":private]=>
   float(%d)
   ["does_zap_garbage":"V8\HeapStatistics":private]=>
   bool(false)

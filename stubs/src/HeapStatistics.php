@@ -27,50 +27,56 @@ namespace V8;
 class  HeapStatistics
 {
     /**
-     * @var int
+     * @var float
      */
     private $total_heap_size;
     /**
-     * @var int
+     * @var float
      */
     private $total_heap_size_executable;
     /**
-     * @var int
+     * @var float
      */
     private $total_physical_size;
     /**
-     * @var int
+     * @var float
      */
     private $total_available_size;
     /**
-     * @var int
+     * @var float
      */
     private $used_heap_size;
     /**
-     * @var int
+     * @var float
      */
     private $heap_size_limit;
+    /**
+     * @var float
+     */
+    private $malloced_memory;
     /**
      * @var bool
      */
     private $does_zap_garbage;
 
     /**
-     * @param int  $total_heap_size
-     * @param int  $total_heap_size_executable
-     * @param int  $total_physical_size
-     * @param int  $total_available_size
-     * @param int  $used_heap_size
-     * @param int  $heap_size_limit
-     * @param bool $does_zap_garbage
+     * @param float $total_heap_size
+     * @param float $total_heap_size_executable
+     * @param float $total_physical_size
+     * @param float $total_available_size
+     * @param float $used_heap_size
+     * @param float $heap_size_limit
+     * @param float $malloced_memory
+     * @param bool  $does_zap_garbage
      */
     public function __construct(
-        int $total_heap_size,
-        int $total_heap_size_executable,
-        int $total_physical_size,
-        int $total_available_size,
-        int $used_heap_size,
-        int $heap_size_limit,
+        float $total_heap_size,
+        float $total_heap_size_executable,
+        float $total_physical_size,
+        float $total_available_size,
+        float $used_heap_size,
+        float $heap_size_limit,
+        float $malloced_memory,
         bool $does_zap_garbage
     ) {
         $this->total_heap_size = $total_heap_size;
@@ -79,40 +85,46 @@ class  HeapStatistics
         $this->total_available_size = $total_available_size;
         $this->used_heap_size = $used_heap_size;
         $this->heap_size_limit = $heap_size_limit;
+        $this->malloced_memory = $malloced_memory;
         $this->does_zap_garbage = $does_zap_garbage;
     }
 
-    public function total_heap_size()
+    public function total_heap_size() : float
     {
         return $this->total_heap_size;
     }
 
-    public function total_heap_size_executable()
+    public function total_heap_size_executable() : float
     {
         return $this->total_heap_size_executable;
     }
 
-    public function total_physical_size()
+    public function total_physical_size() : float
     {
         return $this->total_physical_size;
     }
 
-    public function total_available_size()
+    public function total_available_size() : float
     {
         return $this->total_available_size;
     }
 
-    public function used_heap_size()
+    public function used_heap_size() : float
     {
         return $this->used_heap_size;
     }
 
-    public function heap_size_limit()
+    public function heap_size_limit() : float
     {
         return $this->heap_size_limit;
     }
 
-    public function does_zap_garbage()
+    public function malloced_memory() : float
+    {
+        return $this->malloced_memory;
+    }
+
+    public function does_zap_garbage() : bool
     {
         return $this->does_zap_garbage;
     }
