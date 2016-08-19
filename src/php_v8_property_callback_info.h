@@ -15,6 +15,7 @@
 #ifndef PHP_V8_PROPERTY_CALLBACK_INFO_H
 #define PHP_V8_PROPERTY_CALLBACK_INFO_H
 
+#include "php_v8_callback_info.h"
 #include <v8.h>
 
 extern "C" {
@@ -27,11 +28,11 @@ extern "C" {
 
 extern zend_class_entry* php_v8_property_callback_info_class_entry;
 
-extern void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Value> &info);
-extern void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Array> &info);
-extern void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Integer> &info);
-extern void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Boolean> &info);
-extern void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<void> &info);
+extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Value> &info);
+extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Array> &info);
+extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Integer> &info);
+extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Boolean> &info);
+extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<void> &info);
 
 
 PHP_MINIT_FUNCTION (php_v8_property_callback_info);

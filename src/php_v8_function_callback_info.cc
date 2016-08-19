@@ -27,13 +27,14 @@ zend_class_entry* php_v8_function_callback_info_class_entry;
 #define this_ce php_v8_function_callback_info_class_entry
 
 
-void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::FunctionCallbackInfo<v8::Value> &args) {
+php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::FunctionCallbackInfo<v8::Value> &args) {
+    zval retval;
     v8::Isolate *isolate = args.GetIsolate();
     v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
     if (context.IsEmpty()) {
         PHP_V8_THROW_EXCEPTION("Internal exception: no calling context found");
-        return;
+        return NULL;
     }
 
     object_init_ex(this_ptr, this_ce);
@@ -42,15 +43,15 @@ void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::FunctionCal
     php_v8_callback_info->php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
     php_v8_callback_info->php_v8_context = php_v8_context_get_reference(context);
 
-    PHP_V8_COPY_ISOLATE_OBJECT_HANDLE(php_v8_callback_info->php_v8_isolate, php_v8_callback_info);
-
     php_v8_callback_info->this_obj->Reset(isolate, args.This());
     php_v8_callback_info->holder_obj->Reset(isolate, args.Holder());
 
-    php_v8_return_value_create_from_return_value(&php_v8_callback_info->retval,
-                                                 php_v8_callback_info->php_v8_isolate,
-                                                 php_v8_callback_info->php_v8_context,
-                                                 PHP_V8_RETVAL_ACCEPTS_ANY);
+    php_v8_callback_info->php_v8_return_value = php_v8_return_value_create_from_return_value(
+            &retval,
+            php_v8_callback_info->php_v8_isolate,
+            php_v8_callback_info->php_v8_context,
+            PHP_V8_RETVAL_ACCEPTS_ANY
+    );
 
     /* function callback specific part */
     php_v8_callback_info->length = args.Length();
@@ -62,6 +63,8 @@ void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::FunctionCal
     }
 
     php_v8_callback_info->is_construct_call = args.IsConstructCall();
+
+    return php_v8_callback_info;
 }
 
 

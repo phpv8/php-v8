@@ -26,37 +26,38 @@ zend_class_entry *php_v8_property_callback_info_class_entry;
 
 
 template<class T>
-void php_v8_callback_info_create_from_info_meta(zval *this_ptr, const v8::PropertyCallbackInfo<T> &info, int accepts);
+php_v8_callback_info_t *php_v8_callback_info_create_from_info_meta(zval *this_ptr, const v8::PropertyCallbackInfo<T> &info, int accepts);
 
 
-void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Value> &info) {
-    php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_ANY);
+php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Value> &info) {
+    return php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_ANY);
 }
 
-void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Array> &info) {
-    php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_ARRAY);
+php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Array> &info) {
+    return php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_ARRAY);
 }
 
-void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Integer> &info) {
-    php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_INTEGER);
+php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Integer> &info) {
+    return php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_INTEGER);
 }
 
-void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Boolean> &info) {
-    php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_BOOLEAN);
+php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Boolean> &info) {
+    return php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_BOOLEAN);
 }
 
-void php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<void> &info) {
-    php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_VOID);
+php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<void> &info) {
+    return php_v8_callback_info_create_from_info_meta(this_ptr, info, PHP_V8_RETVAL_ACCEPTS_VOID);
 }
 
 template<class T>
-void php_v8_callback_info_create_from_info_meta(zval *this_ptr, const v8::PropertyCallbackInfo<T> &info, int accepts) {
+php_v8_callback_info_t *php_v8_callback_info_create_from_info_meta(zval *this_ptr, const v8::PropertyCallbackInfo<T> &info, int accepts) {
+    zval retval;
     v8::Isolate *isolate = info.GetIsolate();
     v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
     if (context.IsEmpty()) {
         PHP_V8_THROW_EXCEPTION("Internal exception: no calling context found");
-        return;
+        return NULL;
     }
 
     object_init_ex(this_ptr, this_ce);
@@ -65,15 +66,17 @@ void php_v8_callback_info_create_from_info_meta(zval *this_ptr, const v8::Proper
     php_v8_callback_info->php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
     php_v8_callback_info->php_v8_context = php_v8_context_get_reference(context);
 
-    PHP_V8_COPY_ISOLATE_OBJECT_HANDLE(php_v8_callback_info->php_v8_isolate, php_v8_callback_info);
-
     php_v8_callback_info->this_obj->Reset(isolate, info.This());
     php_v8_callback_info->holder_obj->Reset(isolate, info.Holder());
 
-    php_v8_return_value_create_from_return_value(&php_v8_callback_info->retval,
-                                                 php_v8_callback_info->php_v8_isolate,
-                                                 php_v8_callback_info->php_v8_context,
-                                                 accepts);
+    php_v8_callback_info->php_v8_return_value = php_v8_return_value_create_from_return_value(
+            &retval,
+            php_v8_callback_info->php_v8_isolate,
+            php_v8_callback_info->php_v8_context,
+            accepts
+    );
+
+    return php_v8_callback_info;
 }
 
 static const zend_function_entry php_v8_property_callback_info_methods[] = {

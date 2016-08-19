@@ -65,6 +65,10 @@ static void php_v8_return_value_free(zend_object *object) {
         zval_ptr_dtor(&php_v8_return_value->value.php_v8_value_zv);
     }
 
+    if (!Z_ISUNDEF(php_v8_return_value->this_ptr)) {
+        zval_ptr_dtor(&php_v8_return_value->this_ptr);
+    }
+
     if (php_v8_return_value->gc_data) {
         efree(php_v8_return_value->gc_data);
     }
@@ -87,7 +91,7 @@ static zend_object * php_v8_return_value_ctor(zend_class_entry *ce) {
 }
 
 
-void php_v8_return_value_create_from_return_value(zval *this_ptr, php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, int accepts) {
+php_v8_return_value_t *php_v8_return_value_create_from_return_value(zval *this_ptr, php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, int accepts) {
     object_init_ex(this_ptr, this_ce);
 
     PHP_V8_RETURN_VALUE_FETCH_INTO(this_ptr, php_v8_return_value);
@@ -95,11 +99,13 @@ void php_v8_return_value_create_from_return_value(zval *this_ptr, php_v8_isolate
     php_v8_return_value->php_v8_isolate = php_v8_isolate;
     php_v8_return_value->php_v8_context = php_v8_context;
     php_v8_return_value->accepts = accepts;
+
+    ZVAL_COPY_VALUE(&php_v8_return_value->this_ptr, this_ptr);
+
+    return php_v8_return_value;
 }
 
-void php_v8_return_value_mark_expired(zval *this_ptr) {
-    PHP_V8_RETURN_VALUE_FETCH_INTO(this_ptr, php_v8_return_value);
-
+void php_v8_return_value_mark_expired(php_v8_return_value_t *php_v8_return_value) {
     php_v8_return_value->accepts = PHP_V8_RETVAL_ACCEPTS_INVALID;
 }
 

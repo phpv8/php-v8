@@ -31,12 +31,9 @@ php_v8_callback_info_t * php_v8_callback_info_fetch_object(zend_object *obj) {
     return (php_v8_callback_info_t *)((char *)obj - XtOffsetOf(php_v8_callback_info_t, std));
 }
 
-void php_v8_callback_info_invalidate(zval *val) {
-    PHP_V8_CALLBACK_INFO_FETCH_INTO(val, php_v8_callback_info);
-    php_v8_callback_info->php_v8_isolate = NULL;
-
-    if (!Z_ISUNDEF(php_v8_callback_info->retval)) {
-        php_v8_return_value_mark_expired(&php_v8_callback_info->retval);
+void php_v8_callback_info_invalidate(php_v8_callback_info_t *php_v8_callback_info) {
+    if (php_v8_callback_info->php_v8_return_value) {
+        php_v8_return_value_mark_expired(php_v8_callback_info->php_v8_return_value);
     }
 }
 
@@ -44,7 +41,7 @@ void php_v8_callback_info_invalidate(zval *val) {
 static HashTable * php_v8_callback_info_gc(zval *object, zval **table, int *n) {
     PHP_V8_CALLBACK_INFO_FETCH_INTO(object, php_v8_callback_info);
 
-    int size = 2; // args + retval
+    int size = 2; // args + php_v8_return_value->this_ptr
 
     if (php_v8_callback_info->gc_data_count < size) {
         php_v8_callback_info->gc_data = (zval *)safe_erealloc(php_v8_callback_info->gc_data, size, sizeof(zval), 0);
@@ -53,7 +50,7 @@ static HashTable * php_v8_callback_info_gc(zval *object, zval **table, int *n) {
     php_v8_callback_info->gc_data_count = size;
 
     ZVAL_COPY_VALUE(&php_v8_callback_info->gc_data[0], &php_v8_callback_info->args);
-    ZVAL_COPY_VALUE(&php_v8_callback_info->gc_data[1], &php_v8_callback_info->retval);
+    ZVAL_COPY_VALUE(&php_v8_callback_info->gc_data[1], &php_v8_callback_info->php_v8_return_value->this_ptr);
 
     *table = php_v8_callback_info->gc_data;
     *n     = php_v8_callback_info->gc_data_count;
@@ -93,8 +90,12 @@ void php_v8_callback_info_free(zend_object *object) {
         delete php_v8_callback_info->holder_obj;
     }
 
-    if (!Z_ISUNDEF(php_v8_callback_info->retval)) {
-        zval_ptr_dtor(&php_v8_callback_info->retval);
+    if (php_v8_callback_info->php_v8_return_value) {
+        if (!Z_ISUNDEF(php_v8_callback_info->php_v8_return_value->this_ptr)) {
+            zval_ptr_dtor(&php_v8_callback_info->php_v8_return_value->this_ptr);
+        }
+
+        php_v8_callback_info->php_v8_return_value = NULL;
     }
 
     if (!Z_ISUNDEF(php_v8_callback_info->args)) {
@@ -186,7 +187,7 @@ static PHP_METHOD(V8CallbackInfo, GetReturnValue) {
     PHP_V8_CALLBACK_INFO_FETCH_WITH_CHECK(getThis(), php_v8_callback_info);
     PHP_V8_V8_CALLBACK_INFO_CHECK_IN_CONTEXT(php_v8_callback_info);
 
-    RETVAL_ZVAL(&php_v8_callback_info->retval, 1, 0);
+    RETVAL_ZVAL(&php_v8_callback_info->php_v8_return_value->this_ptr, 1, 0);
 }
 
 

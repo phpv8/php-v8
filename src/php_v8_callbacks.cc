@@ -419,16 +419,21 @@ void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Val
 template<class T>
 void php_v8_callback_call_from_bucket_with_zargs(size_t index, const T &info, zval *args) {
     zval callback_info;
-
+    php_v8_callback_info_t *php_v8_callback_info;
     // Wrap callback info
-    php_v8_callback_info_create_from_info(&callback_info, info);
+    php_v8_callback_info = php_v8_callback_info_create_from_info(&callback_info, info);
+
+    if (!php_v8_callback_info) {
+        return;
+    }
+
     add_next_index_zval(args, &callback_info);
 
     php_v8_callback_call_from_bucket_with_zargs(index, info.Data(), args, NULL);
 
-    php_v8_callback_set_retval_from_callback_info(info.GetReturnValue(), PHP_V8_RETURN_VALUE_FETCH(&PHP_V8_CALLBACK_INFO_FETCH(&callback_info)->retval));
+    php_v8_callback_set_retval_from_callback_info(info.GetReturnValue(), php_v8_callback_info->php_v8_return_value);
 
-    php_v8_callback_info_invalidate(&callback_info);
+    php_v8_callback_info_invalidate(php_v8_callback_info);
 }
 
 
