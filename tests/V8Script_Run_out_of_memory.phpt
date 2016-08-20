@@ -2,7 +2,7 @@
 V8\Script::Run() - out of memory example
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
-<?php if (!getenv("DEV_TESTS")) print "skip"; ?>
+<?php //if (!getenv("DEV_TESTS")) print "skip"; ?>
 --FILE--
 <?php
 /** @var \Phpv8Testsuite $helper */
@@ -24,10 +24,10 @@ $context = new V8\Context($isolate, $extensions, $global_template);
 // This causes segfault
 $source = '
 x = \'x\';
-var multiply = 27;
+var multiply = 25;
 
 while (multiply-- > 0){
- x = ""+x+x;
+ x = x+x;
  print(x.length, "\n");
 }
 
@@ -78,39 +78,55 @@ $helper->header('Object');
 $helper->value_matches_with_no_output($res, $obj);
 
 ?>
---EXPECT--
-Checks on V8\StringValue:
---------------------
-V8\StringValue::IsUndefined(): false
-V8\StringValue::IsNull(): false
-V8\StringValue::IsTrue(): false
-V8\StringValue::IsFalse(): false
-V8\StringValue::IsString(): true
-V8\StringValue::IsFunction(): false
-V8\StringValue::IsArray(): false
-V8\StringValue::IsObject(): false
-V8\StringValue::IsBoolean(): false
-V8\StringValue::IsNumber(): false
-V8\StringValue::IsInt32(): false
-V8\StringValue::IsUint32(): false
-V8\StringValue::IsDate(): false
-V8\StringValue::IsArgumentsObject(): false
-V8\StringValue::IsBooleanObject(): false
-V8\StringValue::IsNumberObject(): false
-V8\StringValue::IsStringObject(): false
-V8\StringValue::IsNativeError(): false
-V8\StringValue::IsRegExp(): false
+--EXPECTF--
+2
+4
+8
+16
+32
+64
+128
+256
+512
+1024
+2048
+4096
+8192
+16384
+32768
+65536
+131072
+262144
+524288
+1048576
+2097152
+4194304
+8388608
+16777216
+33554432
 
 
-string(25) "TEST VALUE 111, confirmed" refcount(1)
+
+Fatal error: V8 OOM hit: location=invalid array length, is_heap_oom=yes
+ in %s/V8Script_Run_out_of_memory.php on line 44
+
+<--- Last few GCs --->
+
+%s %d ms: Mark-sweep %f (%f) -> %f (%f) MB, %f / %f ms %s
+%s %d ms: Mark-sweep %f (%f) -> %f (%f) MB, %f / %f ms %s
+%s %d ms: Mark-sweep %f (%f) -> %f (%f) MB, %f / %f ms %s
 
 
-Scalar:
--------
-Expected 123 value is identical to actual value 123
-Expected value is not identical to actual value
+<--- JS stacktrace --->
 
+==== JS stack trace =========================================
 
-Object:
--------
-Expected value is identical to actual value
+Security context: 0x%x <JS Object>
+    2: /* anonymous */ [test.js:~1] [pc=0x%x](this=0x%x <JS Global Object>)
+
+==== Details ================================================
+
+[2]: /* anonymous */ [test.js:~1] [pc=0x%x](this=0x%x <JS Global Object>) {
+// optimized frame
+--------- s o u r c e   c o d e ---------
+%s
