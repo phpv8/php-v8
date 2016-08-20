@@ -55,6 +55,10 @@ class  HeapStatistics
      */
     private $malloced_memory;
     /**
+     * @var float
+     */
+    private $peak_malloced_memory;
+    /**
      * @var bool
      */
     private $does_zap_garbage;
@@ -77,6 +81,7 @@ class  HeapStatistics
         float $used_heap_size,
         float $heap_size_limit,
         float $malloced_memory,
+        float $peak_malloced_memory,
         bool $does_zap_garbage
     ) {
         $this->total_heap_size = $total_heap_size;
@@ -86,6 +91,7 @@ class  HeapStatistics
         $this->used_heap_size = $used_heap_size;
         $this->heap_size_limit = $heap_size_limit;
         $this->malloced_memory = $malloced_memory;
+        $this->peak_malloced_memory = $peak_malloced_memory;
         $this->does_zap_garbage = $does_zap_garbage;
     }
 
@@ -122,6 +128,11 @@ class  HeapStatistics
     public function malloced_memory() : float
     {
         return $this->malloced_memory;
+    }
+
+    public function peak_malloced_memory() : float
+    {
+        return $this->peak_malloced_memory;
     }
 
     public function does_zap_garbage() : bool

@@ -46,7 +46,7 @@ object(V8\Isolate)#2 (5) {
 V8\Exceptions\GenericException: Not in context!
 
 V8\Isolate->GetHeapStatistics():
-    object(V8\HeapStatistics)#28 (8) {
+    object(V8\HeapStatistics)#28 (9) {
       ["total_heap_size":"V8\HeapStatistics":private]=>
       float(%d)
       ["total_heap_size_executable":"V8\HeapStatistics":private]=>
@@ -60,6 +60,8 @@ V8\Isolate->GetHeapStatistics():
       ["heap_size_limit":"V8\HeapStatistics":private]=>
       float(%d)
       ["malloced_memory":"V8\HeapStatistics":private]=>
+      float(%d)
+      ["peak_malloced_memory":"V8\HeapStatistics":private]=>
       float(%d)
       ["does_zap_garbage":"V8\HeapStatistics":private]=>
       bool(false)

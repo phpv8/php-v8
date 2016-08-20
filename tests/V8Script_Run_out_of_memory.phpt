@@ -2,7 +2,8 @@
 V8\Script::Run() - out of memory example
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
-<?php //if (!getenv("DEV_TESTS")) print "skip"; ?>
+<?php if (!getenv("DEV_TESTS")) print "skip"; ?>
+<?php if (getenv("SKIP_SLOW_TESTS")) print "skip slow"; ?>
 --FILE--
 <?php
 /** @var \Phpv8Testsuite $helper */
