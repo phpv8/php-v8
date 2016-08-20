@@ -49,10 +49,10 @@ extern void php_v8_callback_info_invalidate(php_v8_callback_info_t *php_v8_callb
     PHP_V8_CALLBACK_INFO_FETCH_INTO(pzval, into); \
     PHP_V8_CHECK_EMPTY_CALLBACK_INFO_HANDLER(into);
 
+#define PHP_V8_V8_CALLBACK_INFO_IN_CONTEXT(value) ((value)->php_v8_return_value != NULL && PHP_V8_RETURN_VALUE_IN_CONTEXT((value)->php_v8_return_value))
 
-// TODO: suggest better naming
 #define PHP_V8_V8_CALLBACK_INFO_CHECK_IN_CONTEXT(value) \
-    if ((value)->php_v8_return_value == NULL || PHP_V8_RETVAL_ACCEPTS_INVALID == (value)->php_v8_return_value->accepts) { \
+    if (!PHP_V8_V8_CALLBACK_INFO_IN_CONTEXT(value)) { \
         PHP_V8_THROW_EXCEPTION("Attempt to use callback info object out of callback context"); \
         return; \
     }

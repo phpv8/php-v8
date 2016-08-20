@@ -27,6 +27,17 @@ class ReturnValue
     {
     }
 
+    /**
+     * Getter
+     *
+     * If the ReturnValue was not yet set, this will return the undefined value.
+     *
+     * @return Value
+     */
+    public function Get() : Value
+    {
+    }
+
     public function SetNull()
     {
     }
@@ -71,6 +82,15 @@ class ReturnValue
      * @return \V8\Context
      */
     public function GetContext() : Context
+    {
+    }
+
+    /**
+     * Check whether object is in current calling context and thus is usable
+     *
+     * @return bool
+     */
+    public function InContext() : bool
     {
     }
 }
