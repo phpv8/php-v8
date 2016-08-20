@@ -101,7 +101,7 @@ if test "$PHP_V8" != "no"; then
   AC_LANG_SAVE
   AC_LANG_CPLUSPLUS
 
-
+  # NOTE: it is possible to get version string from headers with simple regexp match
   AC_CACHE_CHECK(for V8 version, ac_cv_v8_version, [
     AC_TRY_RUN([
       #include <v8.h>
@@ -123,14 +123,20 @@ if test "$PHP_V8" != "no"; then
     ], [ac_cv_v8_version=`cat ./conftestval|awk '{print $1}'`], [ac_cv_v8_version=NONE], [ac_cv_v8_version=NONE])
   ])
 
+  V8_MIN_API_VERSION_STR=5.4.420
+
   if test "$ac_cv_v8_version" != "NONE"; then
     ac_IFS=$IFS
     IFS=.
     set $ac_cv_v8_version
     IFS=$ac_IFS
     V8_API_VERSION=`expr [$]1 \* 1000000 + [$]2 \* 1000 + [$]3`
-    if test "$V8_API_VERSION" -lt 501000 ; then
-       AC_MSG_ERROR([libv8 must be version 5.1.0 or greater])
+    IFS=.
+    set $V8_MIN_API_VERSION_STR
+    IFS=$ac_IFS
+    V8_MIN_API_VERSION=`expr [$]1 \* 1000000 + [$]2 \* 1000 + [$]3`
+    if test "$V8_API_VERSION" -lt $V8_MIN_API_VERSION ; then
+       AC_MSG_ERROR([libv8 must be version $V8_MIN_API_VERSION_STR or greater])
     fi
     AC_DEFINE_UNQUOTED([PHP_V8_LIBV8_API_VERSION], $V8_API_VERSION, [ ])
     AC_DEFINE_UNQUOTED([PHP_V8_LIBV8_VERSION], "$ac_cv_v8_version", [ ])
