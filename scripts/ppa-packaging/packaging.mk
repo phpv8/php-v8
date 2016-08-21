@@ -38,6 +38,9 @@ work/${NAME}_${VERSION}:
 source-build:
 	$(MAKE) _build DEBUILD="debuild -S -sa"
 
+source-clean:
+	DEB_MAINTAINER_MODE=1 debuild clean
+
 build:
 	$(MAKE) _build DEBUILD=debuild
 
