@@ -6,7 +6,7 @@ class V8 < Formula
   homepage "https://code.google.com/p/v8/"
   {{ URL }}
   {{ SHA256 }}
-  head "https://chromium.googlesource.com/v8/v8.git"
+  {{ HEAD }}
 
   bottle do
     cellar :any

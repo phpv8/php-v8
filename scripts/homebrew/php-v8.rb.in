@@ -1,0 +1,29 @@
+require "/usr/local/Library/Taps/homebrew/homebrew-php/Abstract/abstract-php-extension"
+
+class Php{{ PHP_VERSION }}V8 < AbstractPhp71Extension
+  init
+  desc "PHP extension for V8 JavaScript engine"
+  homepage "https://github.com/pinepain/php-v8"
+  {{ URL }}
+  {{ SHA256 }}
+  head "https://github.com/pinepain/php-v8.git"
+
+  bottle do
+  end
+
+  {{ LIBV8_DEPENDENCY }}
+
+  # NOTE: this dependency is not valid as it takes core homebrew v8 formula, while own v8 already installed.
+  #       It looks like vanilla v8 should be managed in a way like with PPA: libv8-x.y
+  #depends_on "v8"
+
+  def install
+    ENV.universal_binary if build.universal?
+
+    safe_phpize
+    system "./configure", "--prefix=#{prefix}", phpconfig
+    system "make"
+    prefix.install "modules/v8.so"
+    write_config_file if build.with? "config-file"
+  end
+end
