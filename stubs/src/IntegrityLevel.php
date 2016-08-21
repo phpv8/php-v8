@@ -1,3 +1,5 @@
+<?php
+
 /*
   +----------------------------------------------------------------------+
   | This file is part of the pinepain/php-v8 PHP extension.              |
@@ -12,33 +14,14 @@
   +----------------------------------------------------------------------+
 */
 
-#ifndef PHP_V8_FUNCTION_CALLBACK_INFO_H
-#define PHP_V8_FUNCTION_CALLBACK_INFO_H
 
-#include "php_v8_callback_info.h"
-#include <v8.h>
+namespace V8;
 
-extern "C" {
-#include "php.h"
-
-#ifdef ZTS
-#include "TSRM.h"
-#endif
-}
-
-extern zend_class_entry* php_v8_function_callback_info_class_entry;
-
-extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::FunctionCallbackInfo<v8::Value>&args);
-
-
-PHP_MINIT_FUNCTION (php_v8_function_callback_info);
-
-#endif //PHP_V8_FUNCTION_CALLBACK_INFO_H
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
+/**
+ * Integrity level for objects.
  */
+class IntegrityLevel
+{
+    const kFrozen = 0;
+    const kSealed = 1;
+}

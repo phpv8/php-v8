@@ -103,7 +103,12 @@ class ObjectValue extends Value
      *
      * @return bool
      */
-    public function DefineOwnProperty(Context $context, NameValue $key, Value $value, int $attributes = PropertyAttribute::None) : bool
+    public function DefineOwnProperty(
+        Context $context,
+        NameValue $key,
+        Value $value,
+        int $attributes = PropertyAttribute::None
+    ) : bool
     {
     }
 
@@ -320,6 +325,18 @@ class ObjectValue extends Value
     }
 
     /**
+     * Sets the integrity level of the object.
+     *
+     * @param Context $context
+     * @param int     $level One of \V8\IntegrityLevel::{kFrozen, kSealed}
+     *
+     * @return bool
+     */
+    public function SetIntegrityLevel(Context $context, int $level) : bool
+    {
+    }
+
+    /**
      * @param Context $context
      * @param string  $key
      *
@@ -474,6 +491,15 @@ class ObjectValue extends Value
      * @return bool
      */
     public function IsCallable() : bool
+    {
+    }
+
+    /**
+     * True if this object is a constructor.
+     *
+     * @return bool
+     */
+    public function IsConstructor() : bool
     {
     }
 

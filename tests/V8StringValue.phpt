@@ -40,7 +40,7 @@ $helper->space();
 $v8_helper->run_checks($value, 'Checkers');
 
 $helper->header('Getters');
-$helper->method_export($value, 'GetIdentityHash');
+$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->method_export($value, 'Length');
 $helper->method_export($value, 'Utf8Length');
 $helper->method_export($value, 'IsOneByte');
@@ -93,7 +93,7 @@ foreach (['Hello, world!', 'Привет, мир!', 'こんにちは世界'] as 
 
 
 ?>
---EXPECTF--
+--EXPECT--
 Default constructor:
 --------------------
 object(V8\StringValue)#4 (1) {
@@ -143,6 +143,8 @@ V8\StringValue->Value(): string(11) "test string"
 
 Checkers:
 ---------
+V8\StringValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "string"
+
 V8\StringValue->IsOneByte(): bool(true)
 V8\StringValue(V8\Value)->IsUndefined(): bool(false)
 V8\StringValue(V8\Value)->IsNull(): bool(false)
@@ -170,7 +172,7 @@ V8\StringValue(V8\Value)->IsRegExp(): bool(false)
 
 Getters:
 --------
-V8\StringValue(V8\NameValue)->GetIdentityHash(): int(%d)
+GetIdentityHash is integer: ok
 V8\StringValue->Length(): int(11)
 V8\StringValue->Utf8Length(): int(11)
 V8\StringValue->IsOneByte(): bool(true)

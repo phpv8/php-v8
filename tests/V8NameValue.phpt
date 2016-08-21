@@ -30,7 +30,7 @@ $helper->method_matches($value, 'GetIsolate', $isolate);
 $helper->space();
 
 $helper->header('Getters');
-$helper->method_export($value, 'GetIdentityHash');
+$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
 
@@ -95,11 +95,13 @@ V8\NameValue::GetIsolate() matches expected value
 
 Getters:
 --------
-V8\NameValue->GetIdentityHash(): int(0)
+GetIdentityHash is integer: ok
 
 
 Checks on V8\NameValue:
 -----------------------
+V8\NameValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(9) "undefined"
+
 V8\NameValue(V8\Value)->IsUndefined(): bool(true)
 V8\NameValue(V8\Value)->IsNull(): bool(false)
 V8\NameValue(V8\Value)->IsTrue(): bool(false)
@@ -132,7 +134,7 @@ V8\NameValue(V8\Value)->NumberValue(): float(NAN)
 
 V8\NameValue::ToString() converting:
 ------------------------------------
-object(V8\StringValue)#7 (1) {
+object(V8\StringValue)#52 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -152,6 +154,8 @@ string(9) "undefined"
 
 Checkers after ToString() converting:
 -------------------------------------
+V8\NameValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(9) "undefined"
+
 V8\NameValue(V8\Value)->IsUndefined(): bool(true)
 V8\NameValue(V8\Value)->IsNull(): bool(false)
 V8\NameValue(V8\Value)->IsTrue(): bool(false)

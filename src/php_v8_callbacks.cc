@@ -258,128 +258,30 @@ void php_v8_bucket_gc(php_v8_callbacks_bucket_t *bucket, zval **gc_data, int * g
     *n     = *gc_data_count;
 }
 
-void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<void> retval, php_v8_return_value_t *return_value) {
-    if (!return_value->type) {
-        return;
-    }
-
-    switch (return_value->type) {
-        default:
-            // should never get here, just in case new types will be added in future
-            PHP_V8_THROW_EXCEPTION("Failed to set returned value: unsupported type");
-            return;
-            break;
-    }
+static inline void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<void> *rv, php_v8_return_value_t *php_v8_return_value) {
+    php_v8_return_value->accepts = PHP_V8_RETVAL_ACCEPTS_VOID;
+    php_v8_return_value->rv_void = rv;
 }
 
-void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<v8::Value> retval, php_v8_return_value_t *return_value) {
-    if (!return_value->type) {
-        return;
-    }
-
-    switch (return_value->type) {
-        case PHP_V8_RETVAL_UNDEFINED:
-            retval.SetUndefined();
-            break;
-        case PHP_V8_RETVAL_NULL:
-            retval.SetNull();
-            break;
-        case PHP_V8_RETVAL_EMPTY_STRING:
-            retval.SetEmptyString();
-            break;
-        case PHP_V8_RETVAL_BOOL:
-            retval.Set(return_value->value.set_bool);
-            break;
-        case PHP_V8_RETVAL_INT32:
-            retval.Set(return_value->value.set_int32);
-            break;
-        case PHP_V8_RETVAL_UINT32:
-            retval.Set(return_value->value.set_uint32);
-            break;
-        case PHP_V8_RETVAL_LONG:
-            retval.Set(static_cast<double>(return_value->value.set_long));
-
-            break;
-        case PHP_V8_RETVAL_DOUBLE:
-            retval.Set(return_value->value.set_double);
-            break;
-        case PHP_V8_RETVAL_V8_VALUE:
-            retval.Set(php_v8_value_get_value_local(retval.GetIsolate(),
-                                                    PHP_V8_VALUE_FETCH(&return_value->value.php_v8_value_zv)));
-            break;
-        default:
-            // should never get here, just in case new types will be added in future
-
-            // TODO: maybe value exception?
-            PHP_V8_THROW_EXCEPTION("Failed to set returned value: unsupported type");
-            return;
-            break;
-    }
+static inline void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<v8::Value> *rv, php_v8_return_value_t *php_v8_return_value) {
+    php_v8_return_value->accepts = PHP_V8_RETVAL_ACCEPTS_ANY;
+    php_v8_return_value->rv_any = rv;
 }
 
-void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<v8::Array> retval, php_v8_return_value_t *return_value) {
-    if (!return_value->type) {
-        return;
-    }
-
-    switch (return_value->type) {
-        case PHP_V8_RETVAL_V8_VALUE:
-            retval.Set(php_v8_value_get_array_local(retval.GetIsolate(),
-                                                   PHP_V8_VALUE_FETCH(&return_value->value.php_v8_value_zv)));
-            break;
-        default:
-            // should never get here, just in case new types will be added in future
-            PHP_V8_THROW_EXCEPTION("Failed to set returned value: unsupported type");
-            return;
-            break;
-    }
+static inline void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<v8::Integer> *rv, php_v8_return_value_t *php_v8_return_value) {
+    php_v8_return_value->accepts = PHP_V8_RETVAL_ACCEPTS_INTEGER;
+    php_v8_return_value->rv_integer = rv;
 }
 
-void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<v8::Integer> retval, php_v8_return_value_t *return_value) {
-    if (!return_value->type) {
-        return;
-    }
-
-    switch (return_value->type) {
-        case PHP_V8_RETVAL_INT32:
-            retval.Set(return_value->value.set_int32);
-            break;
-        case PHP_V8_RETVAL_UINT32:
-            retval.Set(return_value->value.set_uint32);
-            break;
-        case PHP_V8_RETVAL_V8_VALUE:
-            retval.Set(php_v8_value_get_integer_local(retval.GetIsolate(),
-                                                     PHP_V8_VALUE_FETCH(&return_value->value.php_v8_value_zv)));
-            break;
-        default:
-            // should never get here, just in case new types will be added in future
-            PHP_V8_THROW_EXCEPTION("Failed to set returned value: unsupported type");
-            return;
-            break;
-    }
+static inline void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<v8::Boolean> *rv, php_v8_return_value_t *php_v8_return_value) {
+    php_v8_return_value->accepts = PHP_V8_RETVAL_ACCEPTS_BOOLEAN;
+    php_v8_return_value->rv_boolean = rv;
 }
 
-void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<v8::Boolean> retval, php_v8_return_value_t *return_value) {
-    if (!return_value->type) {
-        return;
-    }
-
-    switch (return_value->type) {
-        case PHP_V8_RETVAL_BOOL:
-            retval.Set(return_value->value.set_bool);
-            break;
-        case PHP_V8_RETVAL_V8_VALUE:
-            retval.Set(php_v8_value_get_boolean_local(retval.GetIsolate(),
-                                                     PHP_V8_VALUE_FETCH(&return_value->value.php_v8_value_zv)));
-            break;
-        default:
-            // should never get here, just in case new types will be added in future
-            PHP_V8_THROW_EXCEPTION("Failed to set returned value: unsupported type");
-            return;
-            break;
-    }
+static inline void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue<v8::Array> *rv, php_v8_return_value_t *php_v8_return_value) {
+    php_v8_return_value->accepts = PHP_V8_RETVAL_ACCEPTS_ARRAY;
+    php_v8_return_value->rv_array = rv;
 }
-
 
 
 void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Value> data, zval *args, zval *retval) {
@@ -416,21 +318,25 @@ void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Val
     zend_fcall_info_args_clear(&fci, 1);
 }
 
-template<class T>
-void php_v8_callback_call_from_bucket_with_zargs(size_t index, const T &info, zval *args) {
+template<class T, class M>
+void php_v8_callback_call_from_bucket_with_zargs(size_t index, const T &info, M rv, zval *args) {
     zval callback_info;
-
+    php_v8_callback_info_t *php_v8_callback_info;
     // Wrap callback info
-    php_v8_callback_info_create_from_info(&callback_info, info);
+    php_v8_callback_info = php_v8_callback_info_create_from_info(&callback_info, info);
+
+    if (!php_v8_callback_info) {
+        return;
+    }
+
     add_next_index_zval(args, &callback_info);
+
+    php_v8_callback_set_retval_from_callback_info(&rv, php_v8_callback_info->php_v8_return_value);
 
     php_v8_callback_call_from_bucket_with_zargs(index, info.Data(), args, NULL);
 
-    php_v8_callback_set_retval_from_callback_info(info.GetReturnValue(), PHP_V8_RETURN_VALUE_FETCH(&PHP_V8_CALLBACK_INFO_FETCH(&callback_info)->retval));
-
-    php_v8_callback_info_invalidate(&callback_info);
+    php_v8_callback_info_invalidate(php_v8_callback_info);
 }
-
 
 
 void php_v8_callback_function(const v8::FunctionCallbackInfo<v8::Value> &info) {
@@ -441,7 +347,7 @@ void php_v8_callback_function(const v8::FunctionCallbackInfo<v8::Value> &info) {
     /* Build the parameter array */
     array_init_size(&args, 1);
 
-    php_v8_callback_call_from_bucket_with_zargs(0, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -458,7 +364,7 @@ void php_v8_callback_accessor_name_getter(v8::Local<v8::Name> property, const v8
     php_v8_get_or_create_value(&property_name, property, isolate);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(0, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -479,7 +385,7 @@ void php_v8_callback_accessor_name_setter(v8::Local<v8::Name> property, v8::Loca
     add_index_zval(&args, 0, &property_name);
     add_index_zval(&args, 1, &property_value);
 
-    php_v8_callback_call_from_bucket_with_zargs(1, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(1, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -497,7 +403,7 @@ void php_v8_callback_generic_named_property_getter(v8::Local<v8::Name> property,
     php_v8_get_or_create_value(&property_name, property, isolate);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(0, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -518,7 +424,7 @@ void php_v8_callback_generic_named_property_setter(v8::Local<v8::Name> property,
     add_index_zval(&args, 0, &property_name);
     add_index_zval(&args, 1, &property_value);
 
-    php_v8_callback_call_from_bucket_with_zargs(1, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(1, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -535,7 +441,7 @@ void php_v8_callback_generic_named_property_query(v8::Local<v8::Name> property, 
     php_v8_get_or_create_value(&property_name, property, isolate);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(2, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(2, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -552,7 +458,7 @@ void php_v8_callback_generic_named_property_deleter(v8::Local<v8::Name> property
     php_v8_get_or_create_value(&property_name, property, isolate);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(3, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(3, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -565,7 +471,7 @@ void php_v8_callback_generic_named_property_enumerator(const v8::PropertyCallbac
     /* Build the parameter array */
     array_init_size(&args, 1);
 
-    php_v8_callback_call_from_bucket_with_zargs(4, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(4, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -584,7 +490,7 @@ void php_v8_callback_indexed_property_getter(uint32_t index, const v8::PropertyC
     ZVAL_LONG(&property_name, index);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(0, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -605,7 +511,7 @@ void php_v8_callback_indexed_property_setter(uint32_t index, v8::Local<v8::Value
     add_index_zval(&args, 0, &property_name);
     add_index_zval(&args, 1, &property_value);
 
-    php_v8_callback_call_from_bucket_with_zargs(1, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(1, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -622,7 +528,7 @@ void php_v8_callback_indexed_property_query(uint32_t index, const v8::PropertyCa
     ZVAL_LONG(&property_name, index);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(2, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(2, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -639,7 +545,7 @@ void php_v8_callback_indexed_property_deleter(uint32_t index, const v8::Property
     ZVAL_LONG(&property_name, index);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(3, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(3, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -652,7 +558,7 @@ void php_v8_callback_indexed_property_enumerator(const v8::PropertyCallbackInfo<
     /* Build the parameter array */
     array_init_size(&args, 1);
 
-    php_v8_callback_call_from_bucket_with_zargs(4, info, &args);
+    php_v8_callback_call_from_bucket_with_zargs(4, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }

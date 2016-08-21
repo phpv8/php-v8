@@ -12,28 +12,34 @@
   +----------------------------------------------------------------------+
 */
 
-#ifndef PHP_V8_FUNCTION_CALLBACK_INFO_H
-#define PHP_V8_FUNCTION_CALLBACK_INFO_H
-
-#include "php_v8_callback_info.h"
-#include <v8.h>
-
-extern "C" {
-#include "php.h"
-
-#ifdef ZTS
-#include "TSRM.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
+
+#include "php_v8_integrity_level.h"
+#include "php_v8.h"
+
+zend_class_entry* php_v8_integrity_level_class_entry;
+#define this_ce php_v8_integrity_level_class_entry
+
+
+static const zend_function_entry php_v8_integrity_level_methods[] = {
+        PHP_FE_END
+};
+
+
+PHP_MINIT_FUNCTION(php_v8_integrity_level) {
+    zend_class_entry ce;
+    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "IntegrityLevel", php_v8_integrity_level_methods);
+    this_ce = zend_register_internal_class(&ce);
+
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("kFrozen"), static_cast<zend_long>(v8::IntegrityLevel::kFrozen));
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("kSealed"), static_cast<zend_long>(v8::IntegrityLevel::kSealed));
+
+    return SUCCESS;
 }
 
-extern zend_class_entry* php_v8_function_callback_info_class_entry;
 
-extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::FunctionCallbackInfo<v8::Value>&args);
-
-
-PHP_MINIT_FUNCTION (php_v8_function_callback_info);
-
-#endif //PHP_V8_FUNCTION_CALLBACK_INFO_H
 /*
  * Local variables:
  * tab-width: 4

@@ -56,6 +56,8 @@ $helper->value_matches_with_no_output($res, $obj);
 --EXPECT--
 Checks on V8\StringValue:
 -------------------------
+V8\StringValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "string"
+
 V8\StringValue->IsOneByte(): bool(true)
 V8\StringValue(V8\Value)->IsUndefined(): bool(false)
 V8\StringValue(V8\Value)->IsNull(): bool(false)

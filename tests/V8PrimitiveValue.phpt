@@ -90,6 +90,8 @@ V8\PrimitiveValue::GetIsolate() matches expected value
 
 Checks on V8\PrimitiveValue:
 ----------------------------
+V8\PrimitiveValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(9) "undefined"
+
 V8\PrimitiveValue(V8\Value)->IsUndefined(): bool(true)
 V8\PrimitiveValue(V8\Value)->IsNull(): bool(false)
 V8\PrimitiveValue(V8\Value)->IsTrue(): bool(false)
@@ -122,7 +124,7 @@ V8\PrimitiveValue(V8\Value)->NumberValue(): float(NAN)
 
 V8\PrimitiveValue::ToString() converting:
 -----------------------------------------
-object(V8\StringValue)#48 (1) {
+object(V8\StringValue)#51 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -142,6 +144,8 @@ string(9) "undefined"
 
 Checkers after ToString() converting:
 -------------------------------------
+V8\PrimitiveValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(9) "undefined"
+
 V8\PrimitiveValue(V8\Value)->IsUndefined(): bool(true)
 V8\PrimitiveValue(V8\Value)->IsNull(): bool(false)
 V8\PrimitiveValue(V8\Value)->IsTrue(): bool(false)

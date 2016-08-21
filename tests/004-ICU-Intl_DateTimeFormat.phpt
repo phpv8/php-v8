@@ -1,7 +1,7 @@
 --TEST--
 ICU - Intl.DateTimeFormat()
 --SKIPIF--
-<?php if (!extension_loaded("v8")) console.log "skip"; ?>
+<?php if (!extension_loaded("v8")) print "skip"; ?>
 --ENV--
 TZ=UTC
 --INI--

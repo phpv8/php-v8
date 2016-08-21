@@ -105,6 +105,8 @@ V8\NumberValue->Value(): float(123.456)
 
 Checkers:
 ---------
+V8\NumberValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "number"
+
 V8\NumberValue(V8\Value)->IsUndefined(): bool(false)
 V8\NumberValue(V8\Value)->IsNull(): bool(false)
 V8\NumberValue(V8\Value)->IsTrue(): bool(false)
@@ -131,7 +133,7 @@ V8\NumberValue(V8\Value)->IsRegExp(): bool(false)
 
 V8\NumberValue::ToString() converting:
 --------------------------------------
-object(V8\StringValue)#7 (1) {
+object(V8\StringValue)#52 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>

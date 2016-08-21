@@ -170,6 +170,9 @@ static void php_v8_isolate_free(zend_object *object) {
     }
 }
 
+static void php_v8_isolate_oom_error_callback(const char *location, bool is_heap_oom) {
+    zend_error(E_ERROR, "V8 OOM hit: location=%s, is_heap_oom=%s\n", location, is_heap_oom ? "yes" : "no");
+}
 
 static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
     php_v8_isolate_t *php_v8_isolate;
@@ -242,6 +245,7 @@ static PHP_METHOD(V8Isolate, __construct) {
     php_v8_isolate->isolate_handle = Z_OBJ_HANDLE_P(getThis());
 
     php_v8_isolate->isolate->SetFatalErrorHandler(php_v8_fatal_error_handler);
+    php_v8_isolate->isolate->SetOOMErrorHandler(php_v8_isolate_oom_error_callback);
 }
 
 static PHP_METHOD(V8Isolate, SetTimeLimit) {

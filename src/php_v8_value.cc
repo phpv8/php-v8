@@ -1050,6 +1050,26 @@ static PHP_METHOD(V8Value, SameValue) {
     RETVAL_BOOL(val);
 }
 
+static PHP_METHOD(V8Value, TypeOf) {
+    zval *php_v8_isolate_zv;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(php_v8_isolate_zv, php_v8_isolate);
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+
+    PHP_V8_DATA_ISOLATES_CHECK_USING(php_v8_value, php_v8_isolate);
+
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+
+    v8::Local<v8::String> local_string = php_v8_value_get_value_local(isolate, php_v8_value)->TypeOf(isolate);
+
+    PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(local_string, "Failed to get type of value");
+
+    php_v8_get_or_create_value(return_value, local_string, isolate);
+}
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_value___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
@@ -1175,6 +1195,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_value_SameValue, ZEND_SEND_BY_VAL, ZEND_RETURN
                 ZEND_ARG_OBJ_INFO(0, that, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_TypeOf, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\StringValue", 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_value_methods[] = {
         PHP_ME(V8Value, __construct, arginfo_v8_value___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
@@ -1222,6 +1246,8 @@ static const zend_function_entry php_v8_value_methods[] = {
         PHP_ME(V8Value, Equals,             arginfo_v8_value_Equals,            ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, StrictEquals,       arginfo_v8_value_StrictEquals,      ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, SameValue,          arginfo_v8_value_SameValue,         ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, TypeOf,             arginfo_v8_value_TypeOf,            ZEND_ACC_PUBLIC)
+
         PHP_FE_END
 };
 

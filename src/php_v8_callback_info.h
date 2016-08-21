@@ -17,6 +17,7 @@
 
 typedef struct _php_v8_callback_info_t php_v8_callback_info_t;
 
+#include "php_v8_return_value.h"
 #include "php_v8_exceptions.h"
 #include "php_v8_context.h"
 #include "php_v8_isolate.h"
@@ -34,7 +35,7 @@ extern zend_class_entry* php_v8_callback_info_class_entry;
 
 
 extern php_v8_callback_info_t * php_v8_callback_info_fetch_object(zend_object *obj);
-extern void php_v8_callback_info_invalidate(zval *val);
+extern void php_v8_callback_info_invalidate(php_v8_callback_info_t *php_v8_callback_info);
 
 #define PHP_V8_CALLBACK_INFO_FETCH(zv) php_v8_callback_info_fetch_object(Z_OBJ_P(zv))
 #define PHP_V8_CALLBACK_INFO_FETCH_INTO(pzval, into) php_v8_callback_info_t *(into) = PHP_V8_CALLBACK_INFO_FETCH((pzval));
@@ -48,10 +49,10 @@ extern void php_v8_callback_info_invalidate(zval *val);
     PHP_V8_CALLBACK_INFO_FETCH_INTO(pzval, into); \
     PHP_V8_CHECK_EMPTY_CALLBACK_INFO_HANDLER(into);
 
+#define PHP_V8_V8_CALLBACK_INFO_IN_CONTEXT(value) ((value)->php_v8_return_value != NULL && PHP_V8_RETURN_VALUE_IN_CONTEXT((value)->php_v8_return_value))
 
-// TODO: suggest better naming
 #define PHP_V8_V8_CALLBACK_INFO_CHECK_IN_CONTEXT(value) \
-    if ((value)->php_v8_isolate == NULL) { \
+    if (!PHP_V8_V8_CALLBACK_INFO_IN_CONTEXT(value)) { \
         PHP_V8_THROW_EXCEPTION("Attempt to use callback info object out of callback context"); \
         return; \
     }
@@ -69,7 +70,7 @@ struct _php_v8_callback_info_t {
     v8::Persistent<v8::Object> *holder_obj;
     bool is_construct_call;
 
-    zval retval;
+    php_v8_return_value_t *php_v8_return_value;
     zval args;
 
     zval *gc_data;

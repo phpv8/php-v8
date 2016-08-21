@@ -34,6 +34,11 @@ class PhpV8Testsuite
         echo str_repeat('-', strlen($title) + 1), PHP_EOL;
     }
 
+    public function inline($message, $value)
+    {
+        echo $message, ': ', $value, PHP_EOL;
+    }
+
     public function space($new_lines_number = 2)
     {
         echo str_repeat(PHP_EOL, max(1, $new_lines_number));
@@ -448,11 +453,16 @@ class CallChainFinalizer extends DefaultFinalizer {
      * @var array
      */
     private $args;
+    /**
+     * @var bool
+     */
+    private $expanded;
 
-    public function __construct(array $map = [], array $args = [])
+    public function __construct(array $map = [], array $args = [], $expanded = true)
     {
         $this->map = $map;
         $this->args = $args;
+        $this->expanded = $expanded;
     }
 
     public function finalize($res, Throwable $exception = null) : string
@@ -484,7 +494,11 @@ class CallChainFinalizer extends DefaultFinalizer {
         // TODO: at this place exception possible
         $res = $res->$method(...$args);
 
-        return PHP_EOL . '    ' . '@@' .$cls . '->'. $method .'(): ' . parent::finalize($res, $exception);
+        if ($this->expanded) {
+            return PHP_EOL . '    ' . '@@' .$cls . '->'. $method .'(): ' . parent::finalize($res, $exception);
+        }
+
+        return $cls.'->'. $method .'(): ' . parent::finalize($res, $exception);
     }
 }
 

@@ -1,7 +1,7 @@
 --TEST--
 ICU - Intl.NumberFormat()
 --SKIPIF--
-<?php if (!extension_loaded("v8")) console.log "skip"; ?>
+<?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
 <?php
 /** @var \Phpv8Testsuite $helper */

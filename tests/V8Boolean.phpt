@@ -81,6 +81,8 @@ V8\BooleanValue->Value(): bool(true)
 
 Checkers:
 ---------
+V8\BooleanValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(7) "boolean"
+
 V8\BooleanValue(V8\Value)->IsUndefined(): bool(false)
 V8\BooleanValue(V8\Value)->IsNull(): bool(false)
 V8\BooleanValue(V8\Value)->IsTrue(): bool(true)

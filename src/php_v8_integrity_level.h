@@ -12,10 +12,9 @@
   +----------------------------------------------------------------------+
 */
 
-#ifndef PHP_V8_PROPERTY_CALLBACK_INFO_H
-#define PHP_V8_PROPERTY_CALLBACK_INFO_H
+#ifndef PHP_V8_INTEGRITY_LEVEL_H
+#define PHP_V8_INTEGRITY_LEVEL_H
 
-#include "php_v8_callback_info.h"
 #include <v8.h>
 
 extern "C" {
@@ -26,18 +25,17 @@ extern "C" {
 #endif
 }
 
-extern zend_class_entry* php_v8_property_callback_info_class_entry;
+extern zend_class_entry* php_v8_integrity_level_class_entry;
 
-extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Value> &info);
-extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Array> &info);
-extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Integer> &info);
-extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<v8::Boolean> &info);
-extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::PropertyCallbackInfo<void> &info);
+PHP_MINIT_FUNCTION (php_v8_integrity_level);
+
+#define PHP_V8_INTEGRITY_LEVEL_FLAGS ( 0                \
+    | static_cast<long>(v8::IntegrityLevel::kFrozen)    \
+    | static_cast<long>(v8::IntegrityLevel::kSealed)    \
+)
 
 
-PHP_MINIT_FUNCTION (php_v8_property_callback_info);
-
-#endif //PHP_V8_PROPERTY_CALLBACK_INFO_H
+#endif //PHP_V8_INTEGRITY_LEVEL_H
 /*
  * Local variables:
  * tab-width: 4
@@ -46,10 +44,6 @@ PHP_MINIT_FUNCTION (php_v8_property_callback_info);
  * vim600: noet sw=4 ts=4 fdm=marker
  * vim<600: noet sw=4 ts=4
  */
-
-
-
-
 
 
 

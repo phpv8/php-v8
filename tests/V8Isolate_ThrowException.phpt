@@ -117,6 +117,8 @@ CHECK $res->StrictEquals(new \V8\StringValue($isolate, 'foo')): OK
 
 Checks on V8\StringValue:
 -------------------------
+V8\StringValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "string"
+
 V8\StringValue->IsOneByte(): bool(true)
 V8\StringValue(V8\Value)->IsUndefined(): bool(false)
 V8\StringValue(V8\Value)->IsNull(): bool(false)
@@ -147,7 +149,10 @@ exception.stack: <undefined>
 
 Checks on V8\ObjectValue:
 -------------------------
+V8\ObjectValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
+
 V8\ObjectValue->IsCallable(): bool(false)
+V8\ObjectValue->IsConstructor(): bool(false)
 V8\ObjectValue(V8\Value)->IsUndefined(): bool(false)
 V8\ObjectValue(V8\Value)->IsNull(): bool(false)
 V8\ObjectValue(V8\Value)->IsTrue(): bool(false)
@@ -178,7 +183,10 @@ exception.stack: Error
 
 Checks on V8\ObjectValue:
 -------------------------
+V8\ObjectValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
+
 V8\ObjectValue->IsCallable(): bool(false)
+V8\ObjectValue->IsConstructor(): bool(false)
 V8\ObjectValue(V8\Value)->IsUndefined(): bool(false)
 V8\ObjectValue(V8\Value)->IsNull(): bool(false)
 V8\ObjectValue(V8\Value)->IsTrue(): bool(false)

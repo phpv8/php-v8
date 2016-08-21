@@ -18,6 +18,7 @@
 
 #include "php_v8_return_value.h"
 #include "php_v8_integer.h"
+#include "php_v8_null.h"
 #include "php_v8_value.h"
 #include "php_v8.h"
 
@@ -30,43 +31,14 @@ php_v8_return_value_t * php_v8_return_value_fetch_object(zend_object *obj) {
     return (php_v8_return_value_t *)((char *)obj - XtOffsetOf(php_v8_return_value_t, std));
 }
 
-static HashTable * php_v8_return_value_gc(zval *object, zval **table, int *n) {
-    PHP_V8_RETURN_VALUE_FETCH_INTO(object, php_v8_return_value);
-
-    int size = 0;
-
-    if (php_v8_return_value->type & PHP_V8_RETVAL_ZVAL && !Z_ISUNDEF(php_v8_return_value->value.php_v8_value_zv)) {
-        size ++;
-    }
-
-    if (php_v8_return_value->gc_data_count < size) {
-        php_v8_return_value->gc_data = (zval *)safe_erealloc(php_v8_return_value->gc_data, size, sizeof(zval), 0);
-    }
-
-    php_v8_return_value->gc_data_count = size;
-
-    if (size) {
-        ZVAL_COPY_VALUE(&php_v8_return_value->gc_data[0], &php_v8_return_value->value.php_v8_value_zv);
-    }
-
-    *table = php_v8_return_value->gc_data;
-    *n     = php_v8_return_value->gc_data_count;
-
-    return zend_std_get_properties(object);
-}
-
 static void php_v8_return_value_free(zend_object *object) {
 
     php_v8_return_value_t *php_v8_return_value = php_v8_return_value_fetch_object(object);
 
     zend_object_std_dtor(&php_v8_return_value->std);
 
-    if (php_v8_return_value->type & PHP_V8_RETVAL_ZVAL && !Z_ISUNDEF(php_v8_return_value->value.php_v8_value_zv)) {
-        zval_ptr_dtor(&php_v8_return_value->value.php_v8_value_zv);
-    }
-
-    if (php_v8_return_value->gc_data) {
-        efree(php_v8_return_value->gc_data);
+    if (!Z_ISUNDEF(php_v8_return_value->this_ptr)) {
+        zval_ptr_dtor(&php_v8_return_value->this_ptr);
     }
 }
 
@@ -87,7 +59,7 @@ static zend_object * php_v8_return_value_ctor(zend_class_entry *ce) {
 }
 
 
-void php_v8_return_value_create_from_return_value(zval *this_ptr, php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, int accepts) {
+php_v8_return_value_t *php_v8_return_value_create_from_return_value(zval *this_ptr, php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, int accepts) {
     object_init_ex(this_ptr, this_ce);
 
     PHP_V8_RETURN_VALUE_FETCH_INTO(this_ptr, php_v8_return_value);
@@ -95,12 +67,75 @@ void php_v8_return_value_create_from_return_value(zval *this_ptr, php_v8_isolate
     php_v8_return_value->php_v8_isolate = php_v8_isolate;
     php_v8_return_value->php_v8_context = php_v8_context;
     php_v8_return_value->accepts = accepts;
+
+    ZVAL_COPY_VALUE(&php_v8_return_value->this_ptr, this_ptr);
+
+    return php_v8_return_value;
 }
 
-void php_v8_return_value_mark_expired(zval *this_ptr) {
-    PHP_V8_RETURN_VALUE_FETCH_INTO(this_ptr, php_v8_return_value);
-
+void php_v8_return_value_mark_expired(php_v8_return_value_t *php_v8_return_value) {
     php_v8_return_value->accepts = PHP_V8_RETVAL_ACCEPTS_INVALID;
+}
+
+//static inline void php_v8_return_value(php_v8_return_value_t *php_v8_return_value) {
+//    assert(PHP_V8_RETVAL_ACCEPTS_INVALID != php_v8_return_value->accepts);
+//
+//    switch (php_v8_return_value->accepts) {
+//        case PHP_V8_RETVAL_ACCEPTS_VOID:
+//            php_v8_return_value->rv_void;
+//            break;
+//        case PHP_V8_RETVAL_ACCEPTS_ANY:
+//            php_v8_return_value->rv_any;
+//            break;
+//        case PHP_V8_RETVAL_ACCEPTS_INTEGER:
+//            php_v8_return_value->rv_integer;
+//            break;
+//        case PHP_V8_RETVAL_ACCEPTS_BOOLEAN:
+//            php_v8_return_value->rv_boolean;
+//            break;
+//        case PHP_V8_RETVAL_ACCEPTS_ARRAY:
+//            php_v8_return_value->rv_array;
+//            break;
+//        default:
+//            assert(false);
+//            break;
+//    }
+//}
+
+static inline v8::Local<v8::Value> php_v8_return_value_get(php_v8_return_value_t *php_v8_return_value) {
+    assert(PHP_V8_RETVAL_ACCEPTS_INVALID != php_v8_return_value->accepts);
+
+    switch (php_v8_return_value->accepts) {
+        case PHP_V8_RETVAL_ACCEPTS_VOID:
+            return php_v8_return_value->rv_void->Get();
+        case PHP_V8_RETVAL_ACCEPTS_ANY:
+            return php_v8_return_value->rv_any->Get();
+        case PHP_V8_RETVAL_ACCEPTS_INTEGER:
+            return php_v8_return_value->rv_integer->Get();
+        case PHP_V8_RETVAL_ACCEPTS_BOOLEAN:
+            return php_v8_return_value->rv_boolean->Get();
+        case PHP_V8_RETVAL_ACCEPTS_ARRAY:
+            return php_v8_return_value->rv_array->Get();
+        default:
+            assert(false);
+    }
+
+    assert(false);
+    return v8::Undefined(php_v8_return_value->php_v8_isolate->isolate);
+}
+
+
+static PHP_METHOD(V8ReturnValue, Get) {
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
+    PHP_V8_RETURN_VALUE_CHECK_IN_CONTEXT(php_v8_return_value);
+
+    v8::Local<v8::Value> local_value = php_v8_return_value_get(php_v8_return_value);
+
+    php_v8_get_or_create_value(return_value, local_value, php_v8_return_value->php_v8_isolate->isolate);
 }
 
 
@@ -119,48 +154,43 @@ static PHP_METHOD(V8ReturnValue, Set) {
 
     v8::Local<v8::Value> local_value = php_v8_value_get_value_local(php_v8_return_value->php_v8_isolate->isolate, php_v8_value);
 
-    if (local_value->IsUndefined()) {
-        PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_UNDEFINED);
+    if (PHP_V8_RETVAL_ACCEPTS_VOID == php_v8_return_value->accepts) {
+        PHP_V8_THROW_EXCEPTION("ReturnValue doesn't accept any value");
         return;
     }
 
-    if (local_value->IsNull()) {
-        PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_NULL);
+    if (PHP_V8_RETVAL_ACCEPTS_ANY == php_v8_return_value->accepts) {
+        php_v8_return_value->rv_any->Set(local_value);
         return;
     }
 
-    if (local_value->IsBoolean()) {
-        PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_BOOL);
-        php_v8_return_value->value.set_bool = static_cast<bool>(local_value->IsTrue());
-        return;
+    if (PHP_V8_RETVAL_ACCEPTS_INTEGER == php_v8_return_value->accepts) {
+        if (local_value->IsInt32() || local_value->IsUint32()) {
+            php_v8_return_value->rv_integer->Set(local_value.As<v8::Integer>());
+            return;
+        }
+        PHP_V8_THROW_EXCEPTION("ReturnValue accepts only integers");
     }
 
-    if (local_value->IsInt32()) {
-        PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_INT32);
-        php_v8_return_value->value.set_int32 = local_value.As<v8::Int32>()->Value();
-        return;
+    if (PHP_V8_RETVAL_ACCEPTS_BOOLEAN == php_v8_return_value->accepts && !local_value->IsBoolean()) {
+        if (local_value->IsBoolean()) {
+            php_v8_return_value->rv_boolean->Set(local_value.As<v8::Boolean>());
+            return;
+        }
+        PHP_V8_THROW_EXCEPTION("ReturnValue accepts only boolean");
     }
 
-    if (local_value->IsUint32()) {
-        PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_UINT32);
-        php_v8_return_value->value.set_uint32 = local_value.As<v8::Uint32>()->Value();
-        return;
+    if (PHP_V8_RETVAL_ACCEPTS_ARRAY == php_v8_return_value->accepts && local_value->IsArray()) {
+        if (local_value->IsArray()) {
+            php_v8_return_value->rv_array->Set(local_value.As<v8::Array>());
+            return;
+        }
+        PHP_V8_THROW_EXCEPTION("ReturnValue accepts only instances of \\V8\\ArrayObject class");
     }
 
-    if (local_value->IsNumber()) {
-        PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_DOUBLE);
-        php_v8_return_value->value.set_double = local_value.As<v8::Number>()->Value();
-        return;
-    }
 
-    if (local_value->IsArray()) {
-        PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_ACCEPTS_ARRAY);
-    } else {
-        PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_V8_VALUE);
-    }
-
-    php_v8_return_value->type = PHP_V8_RETVAL_V8_VALUE;
-    ZVAL_COPY(&php_v8_return_value->value.php_v8_value_zv, php_v8_value_zv);
+    // should never go here
+    PHP_V8_THROW_EXCEPTION("Invalid ReturnValue to set");
 }
 
 // Fast JS primitive setters
@@ -172,7 +202,17 @@ static PHP_METHOD(V8ReturnValue, SetNull) {
     PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
     PHP_V8_RETURN_VALUE_CHECK_IN_CONTEXT(php_v8_return_value);
 
-    PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_NULL);
+    if (PHP_V8_RETVAL_ACCEPTS_VOID == php_v8_return_value->accepts) {
+        PHP_V8_THROW_EXCEPTION("ReturnValue doesn't accept any value");
+        return;
+    }
+
+    if (PHP_V8_RETVAL_ACCEPTS_ANY == php_v8_return_value->accepts) {
+        php_v8_return_value->rv_any->SetNull();
+        return;
+    }
+
+    PHP_V8_THROW_EXCEPTION("Invalid ReturnValue to set");
 }
 
 static PHP_METHOD(V8ReturnValue, SetUndefined) {
@@ -183,7 +223,17 @@ static PHP_METHOD(V8ReturnValue, SetUndefined) {
     PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
     PHP_V8_RETURN_VALUE_CHECK_IN_CONTEXT(php_v8_return_value);
 
-    PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_UNDEFINED);
+    if (PHP_V8_RETVAL_ACCEPTS_VOID == php_v8_return_value->accepts) {
+        PHP_V8_THROW_EXCEPTION("ReturnValue doesn't accept any value");
+        return;
+    }
+
+    if (PHP_V8_RETVAL_ACCEPTS_ANY == php_v8_return_value->accepts) {
+        php_v8_return_value->rv_any->SetUndefined();
+        return;
+    }
+
+    PHP_V8_THROW_EXCEPTION("Invalid ReturnValue to set");
 }
 
 static PHP_METHOD(V8ReturnValue, SetEmptyString) {
@@ -194,7 +244,18 @@ static PHP_METHOD(V8ReturnValue, SetEmptyString) {
     PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
     PHP_V8_RETURN_VALUE_CHECK_IN_CONTEXT(php_v8_return_value);
 
-    PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_EMPTY_STRING);
+    if (PHP_V8_RETVAL_ACCEPTS_VOID == php_v8_return_value->accepts) {
+        PHP_V8_THROW_EXCEPTION("ReturnValue doesn't accept any value");
+        return;
+    }
+
+    if (PHP_V8_RETVAL_ACCEPTS_ANY == php_v8_return_value->accepts) {
+        php_v8_return_value->rv_any->SetEmptyString();
+        return;
+    }
+
+    PHP_V8_THROW_EXCEPTION("Invalid ReturnValue to set");
+
 }
 
 // Non-standard primitive setters
@@ -208,8 +269,22 @@ static PHP_METHOD(V8ReturnValue, SetBool) {
     PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
     PHP_V8_RETURN_VALUE_CHECK_IN_CONTEXT(php_v8_return_value);
 
-    PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_BOOL);
-    php_v8_return_value->value.set_bool = static_cast<bool>(value);
+    if (PHP_V8_RETVAL_ACCEPTS_VOID == php_v8_return_value->accepts) {
+        PHP_V8_THROW_EXCEPTION("ReturnValue doesn't accept any value");
+        return;
+    }
+
+    if (PHP_V8_RETVAL_ACCEPTS_ANY == php_v8_return_value->accepts) {
+        php_v8_return_value->rv_any->Set(static_cast<bool>(value));
+        return;
+    }
+
+    if (PHP_V8_RETVAL_ACCEPTS_BOOLEAN == php_v8_return_value->accepts) {
+        php_v8_return_value->rv_boolean->Set(static_cast<bool>(value));
+        return;
+    }
+
+    PHP_V8_THROW_EXCEPTION("Invalid ReturnValue to set");
 }
 
 static PHP_METHOD(V8ReturnValue, SetInteger) {
@@ -224,14 +299,32 @@ static PHP_METHOD(V8ReturnValue, SetInteger) {
     PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
     PHP_V8_RETURN_VALUE_CHECK_IN_CONTEXT(php_v8_return_value);
 
-    if (value > INT32_MAX) {
-        PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_UINT32);
-        php_v8_return_value->value.set_uint32 = static_cast<uint32_t>(value);
+    if (PHP_V8_RETVAL_ACCEPTS_VOID == php_v8_return_value->accepts) {
+        PHP_V8_THROW_EXCEPTION("ReturnValue doesn't accept any value");
+        return;
     }
 
-    PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_INT32);
-    php_v8_return_value->value.set_int32 = static_cast<int32_t>(value);
+    if (PHP_V8_RETVAL_ACCEPTS_ANY == php_v8_return_value->accepts) {
+        if (value > INT32_MAX) {
+            php_v8_return_value->rv_any->Set(static_cast<uint32_t>(value));
+        } else {
+            php_v8_return_value->rv_any->Set(static_cast<int32_t>(value));
+        }
+        return;
+    }
+
+    if (PHP_V8_RETVAL_ACCEPTS_INTEGER == php_v8_return_value->accepts) {
+        if (value > INT32_MAX) {
+            php_v8_return_value->rv_integer->Set(static_cast<uint32_t>(value));
+        } else {
+            php_v8_return_value->rv_integer->Set(static_cast<int32_t>(value));
+        }
+        return;
+    }
+
+    PHP_V8_THROW_EXCEPTION("Invalid ReturnValue to set");
 }
+
 
 static PHP_METHOD(V8ReturnValue, SetFloat) {
     double value;
@@ -243,8 +336,17 @@ static PHP_METHOD(V8ReturnValue, SetFloat) {
     PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
     PHP_V8_RETURN_VALUE_CHECK_IN_CONTEXT(php_v8_return_value);
 
-    PHP_V8_CHECK_ACCEPTS(php_v8_return_value, PHP_V8_RETVAL_DOUBLE);
-    php_v8_return_value->value.set_double = value;
+    if (PHP_V8_RETVAL_ACCEPTS_VOID == php_v8_return_value->accepts) {
+        PHP_V8_THROW_EXCEPTION("ReturnValue doesn't accept any value");
+        return;
+    }
+
+    if (PHP_V8_RETVAL_ACCEPTS_ANY == php_v8_return_value->accepts) {
+        php_v8_return_value->rv_any->Set(value);
+        return;
+    }
+
+    PHP_V8_THROW_EXCEPTION("Invalid ReturnValue to set");
 }
 
 
@@ -271,6 +373,17 @@ static PHP_METHOD(V8ReturnValue, GetContext) {
 
     RETVAL_ZVAL(&php_v8_return_value->php_v8_context->this_ptr, 1, 0);
 }
+
+static PHP_METHOD(V8ReturnValue, InContext) {
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
+
+    RETURN_BOOL(PHP_V8_RETURN_VALUE_IN_CONTEXT(php_v8_return_value));
+}
+
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_return_value_Set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
@@ -304,7 +417,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_return_value_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Context", 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_return_value_InContext, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry php_v8_return_value_methods[] = {
+        PHP_ME(V8ReturnValue, Get, arginfo_v8_return_value_Set, ZEND_ACC_PUBLIC)
         PHP_ME(V8ReturnValue, Set, arginfo_v8_return_value_Set, ZEND_ACC_PUBLIC)
         PHP_ME(V8ReturnValue, SetNull, arginfo_v8_return_value_SetNull, ZEND_ACC_PUBLIC)
         PHP_ME(V8ReturnValue, SetUndefined, arginfo_v8_return_value_SetUndefined, ZEND_ACC_PUBLIC)
@@ -315,6 +432,7 @@ static const zend_function_entry php_v8_return_value_methods[] = {
 
         PHP_ME(V8ReturnValue, GetIsolate, arginfo_v8_return_value_GetIsolate, ZEND_ACC_PUBLIC)
         PHP_ME(V8ReturnValue, GetContext, arginfo_v8_return_value_GetContext, ZEND_ACC_PUBLIC)
+        PHP_ME(V8ReturnValue, InContext, arginfo_v8_return_value_InContext, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };
@@ -330,7 +448,6 @@ PHP_MINIT_FUNCTION (php_v8_return_value) {
 
     php_v8_return_value_object_handlers.offset   = XtOffsetOf(php_v8_return_value_t, std);
     php_v8_return_value_object_handlers.free_obj = php_v8_return_value_free;
-    php_v8_return_value_object_handlers.get_gc   = php_v8_return_value_gc;
 
     return SUCCESS;
 }
