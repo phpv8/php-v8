@@ -1,0 +1,23 @@
+Source: php-v8
+Section: php
+Priority: optional
+Maintainer: Bogdan Padalko <pinepain@gmail.com>
+Build-Depends: debhelper (>= 9),
+               dh-php (>= 0.12~),
+               libv8-5.4-dev (>= 5.4.420),
+               php-all-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/pinepain/php-v8
+Vcs-Browser: https://github.com/pinepain/php-v8
+Vcs-Git: https://github.com/pinepain/php-v8.git
+
+Package: php-v8
+Architecture: any
+Depends: ${misc:Depends},
+         ${php:Depends},
+         ${shlibs:Depends}
+Provides: ${php:Provides}
+Description:  PHP extension for V8 JavaScript engine
+ This extension brings V8 JavaScript engine API to PHP with some
+ abstraction in mind and provides an accurate native V8 C++ API
+ implementation available from PHP.

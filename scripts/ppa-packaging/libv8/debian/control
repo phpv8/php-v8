@@ -1,40 +1,21 @@
 Source: libv8-5.4
 Priority: optional
-Maintainer: Debian Javascript Maintainers <pkg-javascript-devel@lists.alioth.debian.org>
-Uploaders: Jérémy Lal <kapouer@melix.org>,
- Jonas Smedegaard <dr@jones.dk>
+Maintainer: Bogdan Padalko <pinepain@gmail.com>
 Build-Depends: cdbs,
- autotools-dev,
  devscripts,
  debhelper,
  dh-buildinfo,
- libicu-dev,
- abi-compliance-checker
-Standards-Version: 3.9.6
+ libicu-dev
+Standards-Version: 3.9.8
 Section: libs
-Homepage: http://code.google.com/p/v8/
-Vcs-Browser: http://anonscm.debian.org/git/collab-maint/libv8.git
-Vcs-Git: git://anonscm.debian.org/collab-maint/libv8.git
-
-Package: libv8-dev
-Section: libdevel
-Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 armel armhf mipsel mips
-Depends: libv8-5.4.420 (= ${binary:Version}), ${misc:Depends}
-Conflicts: libv8-legacy-dev, libv8-3.14-dev
-Replaces: libv8-legacy-dev, libv8-3.14-dev
-Description: V8 JavaScript engine - development files for latest branch
- V8 is a high performance JavaScript engine written in C++.  It is used
- in the web browser Chromium.
- .
- This package provide development headers for latest V8 branch.
+Homepage: https://developers.google.com/v8/
+Vcs-Browser: https://github.com/pinepain/php-v8
+Vcs-Git: https://github.com/pinepain/php-v8.git
 
 Package: libv8-5.4-dev
 Section: libdevel
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 armel armhf mipsel mips
 Depends: libv8-5.4.420 (= ${binary:Version}), ${misc:Depends}
-Provides: libv8-legacy-dev, libv8-dev
-Conflicts: libv8-dev
-Replaces: libv8-dev
 Description: V8 JavaScript engine - development files for 5.4 branch
  V8 is a high performance JavaScript engine written in C++.  It is used
  in the web browser Chromium.
