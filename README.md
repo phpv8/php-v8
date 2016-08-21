@@ -63,22 +63,64 @@ you from V8 API utilizing to implement more amazing stuff.
 
 ### Requirements
 
+#### V8
 You will need some fresh v8 Google JavaScript enging version installed. At this time extension tested on 5.4.420.
 
  - For Ubuntu there are [pinepain/libv8-5.4](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-5.4) PPA.
    To install fresh libv8 do:
 
    ```
-   $ sudo add-apt-repository ppa:pinepain/libv8-5.4 -y
-   $ sudo apt-get update -q
+   $ sudo add-apt-repository -y ppa:pinepain/libv8-5.4
+   $ sudo apt-get update -y
    $ sudo apt-get install -y libv8-5.4-dev
    ```
  - For OS X there are [v8.rb](https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/v8.rb) homebrew formula.
-  To install fresh libv8 do:
+   To install fresh libv8 do:
 
-  ```
-  $ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/v8.rb
-  ```
+   ```
+   $ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/v8.rb
+   ```
+
+#### PHP 7
+
+ - For Ubuntu there are [ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php) PPA by [Ondřej Surý](https://deb.sury.org).
+
+   To install fresh `php7.0` do:
+
+   ```
+   $ sudo add-apt-repository -y ppa:ondrej/php
+   $ sudo apt-get update -y
+   $ sudo apt-get install -y php7.0
+   ```
+ - For OS X there are [homebrew/homebrew-php](https://github.com/Homebrew/homebrew-php) tap with php70, php71 and large
+   variety extensions for them.
+
+   To install fresh `php70` do:
+
+   ```
+   $ brew tap homebrew/homebrew-php
+   $ brew install php70
+   ```
+
+
+### Installing from packages
+
+ - For Ubuntu there are [pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) PPA.
+
+   To install fresh `php7.0` do:
+
+   ```
+   $ sudo add-apt-repository -y ppa:pinepain/php-v8
+   $ sudo apt-get update -y
+   $ sudo apt-get install -y php-v8
+   ```
+ - For OS X there are [php70-v8.rb][php70-v8.rb] and [php71-v8.rb][php71-v8.rb] homebrew formulas.
+
+   To install fresh `php70-v8` do:
+
+   ```
+   $ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/php70-v8.rb
+   ```
 
 ### Building from sources
 
@@ -108,3 +150,7 @@ $ sudo make install
 Copyright (c) 2015-2016 Bogdan Padalko &lt;pinepain@gmail.com&gt;
 
 [php-v8](https://github.com/pinepain/php-v8) PHP extension is licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
+
+[php70-v8.rb]: https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/php70-v8.rb
+[php71-v8.rb]: https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/php71-v8.rb
