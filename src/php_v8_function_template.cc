@@ -42,13 +42,9 @@ static void php_v8_function_template_weak_callback(const v8::WeakCallbackInfo<v8
     v8::Isolate *isolate = data.GetIsolate();
     php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
-    php_v8_callbacks_t *callbacks = (*php_v8_isolate->weak_function_templates)[data.GetParameter()];
-    php_v8_isolate->weak_function_templates->erase(data.GetParameter());
-    php_v8_callbacks_cleanup(callbacks);
+    php_v8_isolate->weak_function_templates->remove(data.GetParameter());
 
     data.GetParameter()->Reset();
-
-    delete callbacks;
     delete data.GetParameter();
 
     // Tell v8 that we release external allocated memory
@@ -56,7 +52,7 @@ static void php_v8_function_template_weak_callback(const v8::WeakCallbackInfo<v8
 }
 
 void php_v8_function_template_make_weak(php_v8_function_template_t *php_v8_function_template) {
-    (*php_v8_function_template->php_v8_isolate->weak_function_templates)[php_v8_function_template->persistent] = php_v8_function_template->callbacks;
+    php_v8_function_template->php_v8_isolate->weak_function_templates->add(php_v8_function_template->persistent, php_v8_function_template->persistent_data);
 
     php_v8_function_template->is_weak = true;
     php_v8_function_template->persistent->SetWeak(php_v8_function_template->persistent, php_v8_function_template_weak_callback, v8::WeakCallbackType::kParameter);
@@ -68,7 +64,7 @@ void php_v8_function_template_make_weak(php_v8_function_template_t *php_v8_funct
 static HashTable *php_v8_function_template_gc(zval *object, zval **table, int *n) {
     PHP_V8_FUNCTION_TEMPLATE_FETCH_INTO(object, php_v8_function_template);
 
-    php_v8_callbacks_gc(php_v8_function_template->callbacks, &php_v8_function_template->gc_data, &php_v8_function_template->gc_data_count, table, n);
+    php_v8_callbacks_gc(php_v8_function_template->persistent_data, &php_v8_function_template->gc_data, &php_v8_function_template->gc_data_count, table, n);
 
     return zend_std_get_properties(object);
 }
@@ -85,14 +81,13 @@ static void php_v8_function_template_free(zend_object *object) {
      * unmarked as week? Note, that the only action on weak handler callback is Reset()ing persistent handler.
      *
      * */
-    if (!CG(unclean_shutdown) && php_v8_function_template->callbacks && !php_v8_function_template->callbacks->empty()) {
+    if (!CG(unclean_shutdown) && php_v8_function_template->persistent_data && !php_v8_function_template->persistent_data->empty()) {
         php_v8_function_template_make_weak(php_v8_function_template);
     }
 
     if (!php_v8_function_template->is_weak) {
-        if (php_v8_function_template->callbacks) {
-            php_v8_callbacks_cleanup(php_v8_function_template->callbacks);
-            delete php_v8_function_template->callbacks;
+        if (php_v8_function_template->persistent_data) {
+            delete php_v8_function_template->persistent_data;
         }
 
         if (php_v8_function_template->persistent) {
@@ -122,7 +117,7 @@ static zend_object * php_v8_function_template_ctor(zend_class_entry *ce) {
     object_properties_init(&php_v8_function_template->std, ce);
 
     php_v8_function_template->persistent = new v8::Persistent<v8::FunctionTemplate>();
-    php_v8_function_template->callbacks = new php_v8_callbacks_t();
+    php_v8_function_template->persistent_data = new phpv8::PersistentData();
 
     php_v8_function_template->node = new phpv8::TemplateNode();
 
@@ -160,10 +155,10 @@ static PHP_METHOD(V8FunctionTemplate, __construct) {
     PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
     if (fci.size) {
-        php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(1, "", false, "callback", php_v8_function_template->callbacks);
+        phpv8::CallbacksBucket *bucket= php_v8_function_template->persistent_data->bucket("callback");
         data = v8::External::New(isolate, bucket);
 
-        php_v8_callback_add(0, fci, fci_cache, bucket);
+        bucket->add(0, fci, fci_cache);
 
         callback = php_v8_callback_function;
     }
@@ -250,8 +245,8 @@ static PHP_METHOD(V8FunctionTemplate, SetCallHandler) {
     PHP_V8_FETCH_FUNCTION_TEMPLATE_WITH_CHECK(getThis(), php_v8_function_template);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(1, "", false, "callback", php_v8_function_template->callbacks);
-    php_v8_callback_add(0, fci, fci_cache, bucket);
+    phpv8::CallbacksBucket *bucket= php_v8_function_template->persistent_data->bucket("callback");
+    bucket->add(0, fci, fci_cache);
 
     v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_function_template);
 

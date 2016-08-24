@@ -69,47 +69,14 @@ static inline void php_v8_isolate_destroy(php_v8_isolate_t *php_v8_isolate) {
 }
 
 
-template<class T>
-static inline void php_v8_isolate_clean_weak(std::map<v8::Persistent<T> *, php_v8_callbacks_t *> *weak) {
-    for (auto it = weak->begin(); it != weak->end(); ++it) {
-        it->first->Reset();
-        delete it->first;
-
-        php_v8_callbacks_cleanup(it->second);
-        delete it->second;
-    }
-}
-
-template<class T>
-static void php_v8_isolate_get_weak_callbacks_zval(std::map<v8::Persistent<T> *, php_v8_callbacks_t *> *weak, zval *& zv) {
-    for (auto it = weak->begin(); it != weak->end(); ++it) {
-        php_v8_weak_callbacks_get_zvals(it->second, zv);
-    }
-}
-
-template<class T>
-static int php_v8_isolate_get_weak_callbacks_count(std::map<v8::Persistent<T> *, php_v8_callbacks_t *> *weak) {
-    int size = 0;
-
-    if (!weak) {
-        return size;
-    }
-
-    for (auto it = weak->begin(); it != weak->end(); ++it) {
-        size += php_v8_weak_callbacks_get_count(it->second);
-    }
-
-    return size;
-}
-
 static HashTable * php_v8_isolate_gc(zval *object, zval **table, int *n) {
     PHP_V8_ISOLATE_FETCH_INTO(object, php_v8_isolate);
 
     int size = 0;
 
-    size += php_v8_isolate_get_weak_callbacks_count(php_v8_isolate->weak_function_templates);
-    size += php_v8_isolate_get_weak_callbacks_count(php_v8_isolate->weak_object_templates);
-    size += php_v8_isolate_get_weak_callbacks_count(php_v8_isolate->weak_values);
+    size += php_v8_isolate->weak_function_templates->getGcCount();
+    size += php_v8_isolate->weak_object_templates->getGcCount();
+    size += php_v8_isolate->weak_values->getGcCount();
 
     if (php_v8_isolate->gc_data_count < size) {
         php_v8_isolate->gc_data = (zval *)safe_erealloc(php_v8_isolate->gc_data, size, sizeof(zval), 0);
@@ -119,9 +86,9 @@ static HashTable * php_v8_isolate_gc(zval *object, zval **table, int *n) {
 
     zval *gc_data = php_v8_isolate->gc_data;
 
-    php_v8_isolate_get_weak_callbacks_zval(php_v8_isolate->weak_function_templates, gc_data);
-    php_v8_isolate_get_weak_callbacks_zval(php_v8_isolate->weak_object_templates, gc_data);
-    php_v8_isolate_get_weak_callbacks_zval(php_v8_isolate->weak_values, gc_data);
+    php_v8_isolate->weak_function_templates->collectGcZvals(gc_data);
+    php_v8_isolate->weak_object_templates->collectGcZvals(gc_data);
+    php_v8_isolate->weak_values->collectGcZvals(gc_data);
 
     *table = php_v8_isolate->gc_data;
     *n     = php_v8_isolate->gc_data_count;
@@ -135,17 +102,14 @@ static void php_v8_isolate_free(zend_object *object) {
     php_v8_isolate_limits_free(php_v8_isolate);
 
     if (php_v8_isolate->weak_function_templates) {
-        php_v8_isolate_clean_weak<v8::FunctionTemplate>(php_v8_isolate->weak_function_templates);
         delete php_v8_isolate->weak_function_templates;
     }
 
     if (php_v8_isolate->weak_object_templates) {
-        php_v8_isolate_clean_weak<v8::ObjectTemplate>(php_v8_isolate->weak_object_templates);
         delete php_v8_isolate->weak_object_templates;
     }
 
     if (php_v8_isolate->weak_values) {
-        php_v8_isolate_clean_weak<v8::Value>(php_v8_isolate->weak_values);
         delete php_v8_isolate->weak_values;
     }
 
@@ -188,9 +152,9 @@ static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
     php_v8_isolate->create_params = new v8::Isolate::CreateParams();
     php_v8_isolate->create_params->array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
 
-    php_v8_isolate->weak_function_templates = new std::map<v8::Persistent<v8::FunctionTemplate> *, php_v8_callbacks_t *>();
-    php_v8_isolate->weak_object_templates = new std::map<v8::Persistent<v8::ObjectTemplate> *, php_v8_callbacks_t *>();
-    php_v8_isolate->weak_values = new std::map<v8::Persistent<v8::Value> *, php_v8_callbacks_t *>();
+    php_v8_isolate->weak_function_templates = new phpv8::PersistentCollection<v8::FunctionTemplate>();
+    php_v8_isolate->weak_object_templates = new phpv8::PersistentCollection<v8::ObjectTemplate>();
+    php_v8_isolate->weak_values = new phpv8::PersistentCollection<v8::Value>();
 
     php_v8_isolate->std.handlers = &php_v8_isolate_object_handlers;
 

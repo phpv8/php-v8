@@ -45,13 +45,9 @@ static void php_v8_object_template_weak_callback(const v8::WeakCallbackInfo<v8::
     v8::Isolate *isolate = data.GetIsolate();
     php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
-    php_v8_callbacks_t *callbacks = (*php_v8_isolate->weak_object_templates)[data.GetParameter()];
-    php_v8_callbacks_cleanup(callbacks);
-    php_v8_isolate->weak_object_templates->erase(data.GetParameter());
+    php_v8_isolate->weak_object_templates->remove(data.GetParameter());
 
     data.GetParameter()->Reset();
-
-    delete callbacks;
     delete data.GetParameter();
 
     // Tell v8 that we release external allocated memory
@@ -60,7 +56,7 @@ static void php_v8_object_template_weak_callback(const v8::WeakCallbackInfo<v8::
 
 
 static void php_v8_object_template_make_weak(php_v8_object_template_t *php_v8_object_template) {
-    (*php_v8_object_template->php_v8_isolate->weak_object_templates)[php_v8_object_template->persistent] = php_v8_object_template->callbacks;
+    php_v8_object_template->php_v8_isolate->weak_object_templates->add(php_v8_object_template->persistent, php_v8_object_template->persistent_data);
 
     php_v8_object_template->is_weak = true;
     php_v8_object_template->persistent->SetWeak(php_v8_object_template->persistent, php_v8_object_template_weak_callback, v8::WeakCallbackType::kParameter);
@@ -71,7 +67,7 @@ static void php_v8_object_template_make_weak(php_v8_object_template_t *php_v8_ob
 static HashTable * php_v8_object_template_gc(zval *object, zval **table, int *n) {
     PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(object, php_v8_object_template);
 
-    php_v8_callbacks_gc(php_v8_object_template->callbacks, &php_v8_object_template->gc_data, &php_v8_object_template->gc_data_count, table, n);
+    php_v8_callbacks_gc(php_v8_object_template->persistent_data, &php_v8_object_template->gc_data, &php_v8_object_template->gc_data_count, table, n);
 
     return zend_std_get_properties(object);
 }
@@ -79,14 +75,14 @@ static HashTable * php_v8_object_template_gc(zval *object, zval **table, int *n)
 static void php_v8_object_template_free(zend_object *object) {
     php_v8_object_template_t *php_v8_object_template = php_v8_object_template_fetch_object(object);
 
-    if (!CG(unclean_shutdown) && php_v8_object_template->callbacks && !php_v8_object_template->callbacks->empty()) {
+    if (!CG(unclean_shutdown) && php_v8_object_template->persistent_data && !php_v8_object_template->persistent_data->empty()) {
         php_v8_object_template_make_weak(php_v8_object_template);
     }
 
     if (!php_v8_object_template->is_weak) {
-        if (php_v8_object_template->callbacks) {
-            php_v8_callbacks_cleanup(php_v8_object_template->callbacks);
-            delete php_v8_object_template->callbacks;
+        if (php_v8_object_template->persistent_data) {
+            delete php_v8_object_template->persistent_data;
+            php_v8_object_template->persistent_data = NULL;
         }
 
         if (php_v8_object_template->persistent) {
@@ -116,7 +112,7 @@ static zend_object * php_v8_object_template_ctor(zend_class_entry *ce) {
     object_properties_init(&php_v8_object_template->std, ce);
 
     php_v8_object_template->persistent = new v8::Persistent<v8::ObjectTemplate>();
-    php_v8_object_template->callbacks = new php_v8_callbacks_t();
+    php_v8_object_template->persistent_data = new phpv8::PersistentData();
 
     php_v8_object_template->node = new phpv8::TemplateNode();
 
@@ -256,14 +252,15 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     v8::Local<v8::External> data;
     v8::Local<v8::AccessorSignature> signature; // TODO: add AccessorSignature support
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(2, "accessor_", local_name->IsSymbol(), name, php_v8_object_template->callbacks);
+    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("accessor_",
+                                                                                     local_name->IsSymbol(), name);
     data = v8::External::New(isolate, bucket);
 
-    php_v8_callback_add(0, getter_fci, getter_fci_cache, bucket);
+    bucket->add(0, getter_fci, getter_fci_cache);
     getter = php_v8_callback_accessor_name_getter;
 
     if (setter_fci.size) {
-        php_v8_callback_add(1, setter_fci, setter_fci_cache, bucket);
+        bucket->add(1, setter_fci, setter_fci_cache);
         setter = php_v8_callback_accessor_name_setter;
     }
 
@@ -291,8 +288,8 @@ static PHP_METHOD(V8ObjectTemplate, SetHandlerForNamedProperty) {
 
     v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(isolate, php_v8_object_template);
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(5, "", false, "named_handlers", php_v8_object_template->callbacks);
-    php_v8_callbacks_copy_bucket(php_v8_handlers->bucket, bucket);
+    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("named_handlers");
+    bucket->reset(php_v8_handlers->bucket);
 
     v8::Local<v8::External> data = v8::External::New(isolate, bucket);
 
@@ -323,8 +320,8 @@ static PHP_METHOD(V8ObjectTemplate, SetHandlerForIndexedProperty) {
 
     v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(isolate, php_v8_object_template);
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(5, "", false, "indexed_handlers", php_v8_object_template->callbacks);
-    php_v8_callbacks_copy_bucket(php_v8_handlers->bucket, bucket);
+    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("indexed_handlers");
+    bucket->reset(php_v8_handlers->bucket);
 
     v8::Local<v8::External> data = v8::External::New(isolate, bucket);
 
@@ -356,10 +353,10 @@ static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
 
     if (fci.size) {
-        php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(1, "", false, "callback", php_v8_object_template->callbacks);
+        phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("callback");
         data = v8::External::New(isolate, bucket);
 
-        php_v8_callback_add(0, fci, fci_cache, bucket);
+        bucket->add(0, fci, fci_cache);
 
         callback = php_v8_callback_function;
     }
@@ -394,8 +391,8 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessCheckCallback) {
     PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(getThis(), php_v8_object_template);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(1, "", false, "access_check", php_v8_object_template->callbacks);
-    php_v8_callback_add(0, fci_callback, fci_cache_callback, bucket);
+    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("access_check");
+    bucket->add(0, fci_callback, fci_cache_callback);
 
     v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(isolate, php_v8_object_template);
 

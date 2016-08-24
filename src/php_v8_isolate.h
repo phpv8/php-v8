@@ -121,9 +121,9 @@ struct _php_v8_isolate_t {
     v8::Isolate *isolate;
     v8::Isolate::CreateParams *create_params;
 
-    std::map<v8::Persistent<v8::FunctionTemplate>*, php_v8_callbacks_t *> *weak_function_templates;
-    std::map<v8::Persistent<v8::ObjectTemplate>*, php_v8_callbacks_t *> *weak_object_templates;
-    std::map<v8::Persistent<v8::Value>*, php_v8_callbacks_t *> *weak_values;
+    phpv8::PersistentCollection<v8::FunctionTemplate> *weak_function_templates;
+    phpv8::PersistentCollection<v8::ObjectTemplate> *weak_object_templates;
+    phpv8::PersistentCollection<v8::Value> *weak_values;
 
     uint32_t isolate_handle;
     php_v8_isolate_limits_t limits;

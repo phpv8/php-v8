@@ -15,8 +15,16 @@
 #ifndef PHP_V8_CALLBACKS_H
 #define PHP_V8_CALLBACKS_H
 
+namespace phpv8 {
+    class Callback;
+    class CallbacksBucket;
+    class PersistentData;
+    template <class T> class PersistentCollection;
+}
+
 #include <v8.h>
 #include <map>
+#include <string>
 
 extern "C" {
 #include "php.h"
@@ -26,30 +34,10 @@ extern "C" {
 #endif
 }
 
-typedef struct _php_v8_callback_t php_v8_callback_t;
-typedef struct _php_v8_callbacks_bucket_t php_v8_callbacks_bucket_t;
 
-struct cmp_str;
-typedef std::map<char *, php_v8_callbacks_bucket_t*, cmp_str> php_v8_callbacks_t;
+extern void php_v8_callbacks_gc(phpv8::PersistentData *data, zval **gc_data, int * gc_data_count, zval **table, int *n);
 
-
-extern php_v8_callbacks_bucket_t *php_v8_callback_create_bucket(size_t size);
-extern void php_v8_callback_destroy_bucket(php_v8_callbacks_bucket_t *bucket);
-
-extern php_v8_callbacks_bucket_t *php_v8_callback_get_or_create_bucket(size_t size,
-                                                                       const char *prefix,
-                                                                       bool is_symbol,
-                                                                       const char *name,
-                                                                       php_v8_callbacks_t *callbacks);
-
-extern void php_v8_callbacks_copy_bucket(php_v8_callbacks_bucket_t *from, php_v8_callbacks_bucket_t *to);
-extern php_v8_callback_t *php_v8_callback_add(size_t index, zend_fcall_info fci, zend_fcall_info_cache fci_cache, php_v8_callbacks_bucket_t *bucket);
-extern void php_v8_callbacks_cleanup(php_v8_callbacks_t *callbacks);
-
-extern void php_v8_callbacks_gc(php_v8_callbacks_t *callbacks, zval **gc_data, int * gc_data_count, zval **table, int *n);
-extern int php_v8_weak_callbacks_get_count(php_v8_callbacks_t *callbacks);
-extern void php_v8_weak_callbacks_get_zvals(php_v8_callbacks_t *callbacks, zval *& zv);
-extern void php_v8_bucket_gc(php_v8_callbacks_bucket_t *bucket, zval **gc_data, int * gc_data_count, zval **table, int *n);
+extern void php_v8_bucket_gc(phpv8::CallbacksBucket *bucket, zval **gc_data, int * gc_data_count, zval **table, int *n);
 
 extern void php_v8_callback_function(const v8::FunctionCallbackInfo<v8::Value>& info);
 extern void php_v8_callback_accessor_name_getter(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info);
@@ -70,22 +58,104 @@ extern void php_v8_callback_indexed_property_enumerator(const v8::PropertyCallba
 extern bool php_v8_callback_access_check(v8::Local<v8::Context> accessing_context, v8::Local<v8::Object> accessed_object, v8::Local<v8::Value> data);
 
 
-struct _php_v8_callback_t {
-    zval object;
-    zend_fcall_info fci;
-    zend_fcall_info_cache fci_cache;
-};
+namespace phpv8 {
 
-struct _php_v8_callbacks_bucket_t {
-    size_t size;
-    php_v8_callback_t **cb;
-};
+    class Callback {
+    public:
+        Callback(zend_fcall_info fci, zend_fcall_info_cache fci_cache);
+        ~Callback();
+        int getGcCount();
+        void collectGcZvals(zval *& zv);
 
-struct cmp_str {
-    bool operator()(char const *a, char const *b) const {
-        return strcmp(a, b) < 0;
-    }
-};
+        inline zend_fcall_info fci() {
+            return fci_;
+        }
+
+        inline zend_fcall_info_cache fci_cache() {
+            return fci_cache_;
+        }
+
+    private:
+        zval object;
+        zend_fcall_info fci_;
+        zend_fcall_info_cache fci_cache_;
+    };
+
+
+    class CallbacksBucket {
+    public:
+        phpv8::Callback *get(size_t index);
+        void reset(CallbacksBucket *bucket);
+
+        void add(size_t index, zend_fcall_info fci, zend_fcall_info_cache fci_cache);
+        int getGcCount();
+
+        void collectGcZvals(zval *& zv);
+
+        inline bool empty() {
+            return callbacks.empty();
+        }
+    private:
+        std::map<size_t, std::shared_ptr<phpv8::Callback>> callbacks;
+    };
+
+
+    class PersistentData {
+    public:
+        int getGcCount();
+        void collectGcZvals(zval *& zv);
+        CallbacksBucket *bucket(const char *prefix, bool is_symbol, const char *name);
+
+        inline CallbacksBucket *bucket(const char *name) {
+            return bucket("", false, name);
+        }
+
+        inline bool empty() {
+            return buckets.empty();
+        }
+
+    private:
+        std::map<std::string, std::shared_ptr<CallbacksBucket>> buckets;
+    };
+
+
+    template <class T>
+    class PersistentCollection {
+    public:
+        ~PersistentCollection() {
+            for (auto const &item : collection) {
+                item.first->Reset();
+                delete item.first;
+            }
+        }
+
+        int getGcCount() {
+            int size = 0;
+
+            for (auto const &item : collection) {
+                size += item.second->getGcCount();
+            }
+
+            return size;
+        }
+
+        void collectGcZvals(zval *& zv) {
+            for (auto const &item : collection) {
+                item.second->collectGcZvals(zv);
+            }
+        }
+
+        void add(v8::Persistent<T> *persistent, phpv8::PersistentData *data) {
+            collection[persistent] = std::shared_ptr<phpv8::PersistentData>(data);
+        }
+
+        void remove(v8::Persistent<T, v8::NonCopyablePersistentTraits<T>> *persistent) {
+            collection.erase(persistent);
+        }    private:
+        std::map<v8::Persistent<T> *, std::shared_ptr<phpv8::PersistentData>> collection;
+    };
+}
+
 
 #endif //PHP_V8_CALLBACKS_H
 

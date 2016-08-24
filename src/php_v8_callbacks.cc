@@ -31,118 +31,135 @@
 
 #include "php_v8_value.h"
 #include "php_v8_isolate.h"
+#include <string>
 
+namespace phpv8 {
 
-php_v8_callbacks_bucket_t *php_v8_callback_create_bucket(size_t size) {
+    Callback::Callback(zend_fcall_info fci, zend_fcall_info_cache fci_cache) : fci_(fci), fci_cache_(fci_cache) {
+        if (fci.size) {
+            Z_ADDREF(fci.function_name);
 
-    assert (size > 0);
-
-    php_v8_callbacks_bucket_t *bucket;
-
-    bucket = (php_v8_callbacks_bucket_t *) ecalloc(1, sizeof(*bucket));
-
-    bucket->size = size;
-    bucket->cb = (php_v8_callback_t **) ecalloc(size, sizeof(*bucket->cb));
-
-    return bucket;
-}
-
-
-void php_v8_callback_cleanup_bucket(php_v8_callbacks_bucket_t *bucket, size_t index) {
-    assert(bucket->size >= index);
-
-    if (bucket->cb[index] == NULL) {
-        return;
-    }
-
-    if (bucket->cb[index]->fci.size) {
-        zval_ptr_dtor(&bucket->cb[index]->fci.function_name);
-
-        if (!Z_ISUNDEF(bucket->cb[index]->object)) {
-            zval_ptr_dtor(&bucket->cb[index]->object);
+            if (fci.object) {
+                ZVAL_OBJ(&object, fci.object);
+                Z_ADDREF(object);
+            } else {
+                ZVAL_UNDEF(&object);
+            }
         }
     }
 
-    efree(bucket->cb[index]);
-    bucket->cb[index] = NULL;
-}
+    Callback::~Callback() {
+        if (fci_.size) {
+            zval_ptr_dtor(&fci_.function_name);
 
-void php_v8_callback_destroy_bucket(php_v8_callbacks_bucket_t *bucket) {
-    for (size_t i = 0; i < bucket->size; i++) {
-        php_v8_callback_cleanup_bucket(bucket, i);
+            if (!Z_ISUNDEF(object)) {
+                zval_ptr_dtor(&object);
+            }
+        }
     }
 
-    efree(bucket->cb);
-    efree(bucket);
-}
+    int Callback::getGcCount() {
+        int size = 0;
 
-php_v8_callbacks_bucket_t *php_v8_callback_get_or_create_bucket(size_t size, const char *prefix, bool is_symbol, const char *name, php_v8_callbacks_t *callbacks) {
-    char *internal_name;
+        if (fci_.size) {
+            size += 1;
 
-    spprintf(&internal_name, 0, "%s%s%s", prefix, (is_symbol ? "sym_" : "str_"), name);
+            if (!Z_ISUNDEF(object)) {
+                size += 1;
+            }
+        }
 
-    php_v8_callbacks_t::iterator it = callbacks->find(internal_name);
+        return size;
+    }
 
-    if (it != callbacks->end()) {
+    void Callback::collectGcZvals(zval *&zv) {
+        if (fci_.size) {
+            ZVAL_COPY_VALUE(zv++, &fci_.function_name);
+
+            if (!Z_ISUNDEF(object)) {
+                ZVAL_COPY_VALUE(zv++, &object);
+            }
+        }
+    }
+
+    void CallbacksBucket::reset(CallbacksBucket *bucket) {
+        callbacks.clear();
+
+        for (auto const &item : bucket->callbacks) {
+            callbacks[item.first] = item.second;
+        }
+    }
+
+    phpv8::Callback *CallbacksBucket::get(size_t index) {
+        auto it = callbacks.find(index);
+
+        if (it != callbacks.end()) {
+            return it->second.get();
+        }
+
+        return NULL;
+    }
+
+    void CallbacksBucket::add(size_t index, zend_fcall_info fci, zend_fcall_info_cache fci_cache) {
+        callbacks[index] = std::make_shared<Callback>(fci, fci_cache);
+    }
+
+    int CallbacksBucket::getGcCount() {
+        int size = 0;
+
+        for (auto const &item : callbacks) {
+            size += item.second->getGcCount();
+        }
+
+        return size;
+    }
+
+    void CallbacksBucket::collectGcZvals(zval *&zv) {
+        for (auto const &item : callbacks) {
+            item.second->collectGcZvals(zv);
+        }
+    }
+
+    int PersistentData::getGcCount() {
+        int size = 0;
+
+        for (auto const &item : buckets) {
+            size += item.second->getGcCount();
+        }
+
+        return size;
+    }
+
+    void PersistentData::collectGcZvals(zval *&zv) {
+        for (auto const &item : buckets) {
+            item.second->collectGcZvals(zv);
+        }
+    }
+
+    CallbacksBucket *PersistentData::bucket(const char *prefix, bool is_symbol, const char *name) {
+        char *internal_name;
+
+        size_t size = spprintf(&internal_name, 0, "%s%s%s", prefix, (is_symbol ? "sym_" : "str_"), name);
+
+        std::string str_name(internal_name, size);
         efree(internal_name);
 
-        return it->second;
-    }
+        auto it = buckets.find(str_name);
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_create_bucket(size);
-
-    (*callbacks)[internal_name] = bucket;
-
-    return bucket;
-}
-
-void php_v8_callbacks_copy_bucket(php_v8_callbacks_bucket_t *from, php_v8_callbacks_bucket_t *to) {
-    for (size_t i = 0; i < from->size; i++) {
-        if (from->cb[i]) {
-            php_v8_callback_add(i, from->cb[i]->fci, from->cb[i]->fci_cache, to);
+        if (it != buckets.end()) {
+            return it->second.get();
         }
+
+        auto bucket = std::make_shared<CallbacksBucket>();
+        buckets[str_name] = bucket;
+
+        return bucket.get();
     }
 }
 
+void php_v8_callbacks_gc(phpv8::PersistentData *data, zval **gc_data, int * gc_data_count, zval **table, int *n) {
 
-php_v8_callback_t *php_v8_callback_add(size_t index, zend_fcall_info fci, zend_fcall_info_cache fci_cache, php_v8_callbacks_bucket_t *bucket) {
-    assert(bucket->size >= index);
-
-    php_v8_callback_cleanup_bucket(bucket, index);
-
-    php_v8_callback_t *callback = (php_v8_callback_t *) ecalloc(1, sizeof(*callback));
-
-    callback->fci = fci;
-    callback->fci_cache = fci_cache;
-
-    if (fci.size) {
-        Z_ADDREF(callback->fci.function_name);
-
-        if (fci.object) {
-            ZVAL_OBJ(&callback->object, fci.object);
-            Z_ADDREF(callback->object);
-        }
-    }
-
-    bucket->cb[index] = callback;
-
-    return callback;
-}
-
-void php_v8_callbacks_cleanup(php_v8_callbacks_t *callbacks) {
-    if (callbacks == NULL) {
-        return;
-    }
-
-    for (php_v8_callbacks_t::iterator it = callbacks->begin(); it != callbacks->end(); ++it) {
-        php_v8_callback_destroy_bucket(it->second);
-        efree(it->first);
-    }
-}
-
-void php_v8_callbacks_gc(php_v8_callbacks_t *callbacks, zval **gc_data, int * gc_data_count, zval **table, int *n) {
-
-    int size = php_v8_weak_callbacks_get_count(callbacks);
+    int size = data->getGcCount();
 
     if (*gc_data_count < size) {
         *gc_data = (zval *)safe_erealloc(*gc_data, size, sizeof(zval), 0);
@@ -152,97 +169,15 @@ void php_v8_callbacks_gc(php_v8_callbacks_t *callbacks, zval **gc_data, int * gc
 
     zval *local_gc_data = *gc_data;
 
-    php_v8_weak_callbacks_get_zvals(callbacks, local_gc_data);
+    data->collectGcZvals(local_gc_data);
 
     *table = *gc_data;
     *n     = *gc_data_count;
 }
 
+void php_v8_bucket_gc(phpv8::CallbacksBucket *bucket, zval **gc_data, int * gc_data_count, zval **table, int *n) {
 
-int php_v8_callback_get_callback_count(php_v8_callback_t *cb) {
-    int size = 0;
-
-    if (!cb) {
-        return size;
-    }
-
-    if (cb->fci.size) {
-        size += 1;
-
-        if (!Z_ISUNDEF(cb->object)) {
-            size += 1;
-        }
-    }
-
-    return size;
-}
-
-int php_v8_callback_get_bucket_count(php_v8_callbacks_bucket_t *bucket) {
-    int size = 0;
-
-    if (!bucket) {
-        return size;
-    }
-
-    for (size_t i = 0; i < bucket->size; i++) {
-        size += php_v8_callback_get_callback_count(bucket->cb[i]);
-    }
-
-    return size;
-}
-
-int php_v8_weak_callbacks_get_count(php_v8_callbacks_t *callbacks) {
-    int size = 0;
-
-    if (callbacks == NULL || callbacks->empty()) {
-        return size;
-    }
-
-    for (auto it = callbacks->begin(); it != callbacks->end(); ++it) {
-        size += php_v8_callback_get_bucket_count(it->second);
-    }
-
-    return size;
-}
-
-void php_v8_callback_get_callback_zvals(php_v8_callback_t *cb, zval *& zv) {
-    if (!cb) {
-        return;
-    }
-
-    if (cb->fci.size) {
-        ZVAL_COPY_VALUE(zv++, &cb->fci.function_name);
-
-        if (!Z_ISUNDEF(cb->object)) {
-            ZVAL_COPY_VALUE(zv++, &cb->object);
-        }
-    }
-}
-
-
-void php_v8_callback_get_bucket_zvals(php_v8_callbacks_bucket_t *bucket, zval *& zv) {
-    if (!bucket) {
-        return;
-    }
-
-    for (size_t i = 0; i < bucket->size; i++) {
-        php_v8_callback_get_callback_zvals(bucket->cb[i], zv);
-    }
-}
-
-void php_v8_weak_callbacks_get_zvals(php_v8_callbacks_t *callbacks, zval *& zv) {
-    if (callbacks == NULL) {
-        return;
-    }
-
-    for (php_v8_callbacks_t::iterator it = callbacks->begin(); it != callbacks->end(); ++it) {
-        php_v8_callback_get_bucket_zvals(it->second, zv);
-    }
-}
-
-void php_v8_bucket_gc(php_v8_callbacks_bucket_t *bucket, zval **gc_data, int * gc_data_count, zval **table, int *n) {
-
-    int size = php_v8_callback_get_bucket_count(bucket);
+    int size = bucket->getGcCount();
 
     if (*gc_data_count < size) {
         *gc_data = (zval *)safe_erealloc(*gc_data, size, sizeof(zval), 0);
@@ -252,7 +187,7 @@ void php_v8_bucket_gc(php_v8_callbacks_bucket_t *bucket, zval **gc_data, int * g
 
     zval *local_gc_data = *gc_data;
 
-    php_v8_callback_get_bucket_zvals(bucket, local_gc_data);
+    bucket->collectGcZvals(local_gc_data);
 
     *table = *gc_data;
     *n     = *gc_data_count;
@@ -285,20 +220,25 @@ static inline void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue
 
 
 void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Value> data, zval *args, zval *retval) {
-    php_v8_callbacks_bucket_t *bucket;
+    phpv8::CallbacksBucket *bucket;
 
     if (data.IsEmpty() || !data->IsExternal()) {
         PHP_V8_THROW_EXCEPTION("Callback has no stored callback function");
         return;
     }
 
-    bucket = static_cast<php_v8_callbacks_bucket_t *>(v8::Local<v8::External>::Cast(data)->Value());
-    assert(bucket->size > index);
+    bucket = static_cast<phpv8::CallbacksBucket *>(v8::Local<v8::External>::Cast(data)->Value());
 
-    php_v8_callback_t *cb = bucket->cb[index];
+    phpv8::Callback *cb = bucket->get(index);
 
-    zend_fcall_info fci = cb->fci;
-    zend_fcall_info_cache fci_cache = cb->fci_cache;
+    // highly unlikely, but to play safe
+    if (!cb) {
+        PHP_V8_THROW_EXCEPTION("Callback has no stored callback function");
+        return;
+    }
+
+    zend_fcall_info fci = cb->fci();
+    zend_fcall_info_cache fci_cache = cb->fci_cache();
 
     /* Convert everything to be callable */
     zend_fcall_info_args(&fci, args);

@@ -41,7 +41,7 @@ static void php_v8_named_property_handler_configuration_free(zend_object *object
     php_v8_named_property_handler_configuration_t *php_v8_handler = php_v8_named_property_handler_configuration_fetch_object(object);
 
     if (php_v8_handler->bucket) {
-        php_v8_callback_destroy_bucket(php_v8_handler->bucket);
+        delete php_v8_handler->bucket;
         php_v8_handler->bucket = NULL;
     }
 
@@ -61,6 +61,8 @@ static zend_object * php_v8_named_property_handler_configuration_ctor(zend_class
 
     zend_object_std_init(&php_v8_handler->std, ce);
     object_properties_init(&php_v8_handler->std, ce);
+
+    php_v8_handler->bucket = new phpv8::CallbacksBucket();
 
     php_v8_handler->std.handlers = &php_v8_named_property_handler_configuration_object_handlers;
 
@@ -99,28 +101,26 @@ static PHP_METHOD (V8NamedPropertyHandlerConfiguration, __construct) {
 
     PHP_V8_NAMED_PROPERTY_HANDLER_FETCH_INTO(getThis(), php_v8_handlers);
 
-    php_v8_handlers->bucket = php_v8_callback_create_bucket(5);
-
-    php_v8_callback_add(0, fci_getter, fci_cache_getter, php_v8_handlers->bucket);
+    php_v8_handlers->bucket->add(0, fci_getter, fci_cache_getter);
     php_v8_handlers->getter = php_v8_callback_generic_named_property_getter;
 
     if (fci_setter.size) {
-        php_v8_callback_add(1, fci_setter, fci_cache_setter, php_v8_handlers->bucket);
+        php_v8_handlers->bucket->add(1, fci_setter, fci_cache_setter);
         php_v8_handlers->setter = php_v8_callback_generic_named_property_setter;
     }
 
     if (fci_query.size) {
-        php_v8_callback_add(2, fci_query, fci_cache_query, php_v8_handlers->bucket);
+        php_v8_handlers->bucket->add(2, fci_query, fci_cache_query);
         php_v8_handlers->query = php_v8_callback_generic_named_property_query;
     }
 
     if (fci_deleter.size) {
-        php_v8_callback_add(3, fci_deleter, fci_cache_deleter, php_v8_handlers->bucket);
+        php_v8_handlers->bucket->add(3, fci_deleter, fci_cache_deleter);
         php_v8_handlers->deleter = php_v8_callback_generic_named_property_deleter;
     }
 
     if (fci_enumerator.size) {
-        php_v8_callback_add(4, fci_enumerator, fci_cache_enumerator, php_v8_handlers->bucket);
+        php_v8_handlers->bucket->add(4, fci_enumerator, fci_cache_enumerator);
         php_v8_handlers->enumerator = php_v8_callback_generic_named_property_enumerator;
     }
 

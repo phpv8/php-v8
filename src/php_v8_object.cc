@@ -670,14 +670,15 @@ static PHP_METHOD(V8Object, SetAccessor) {
     v8::AccessorNameSetterCallback setter = 0;
     v8::Local<v8::External> data;
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(2, "accessor_", local_name->IsSymbol(), name, php_v8_value->callbacks);
+
+    phpv8::CallbacksBucket *bucket = php_v8_value->persistent_data->bucket("accessor_", local_name->IsSymbol(), name);
     data = v8::External::New(isolate, bucket);
 
-    php_v8_callback_add(0, getter_fci, getter_fci_cache, bucket);
+    bucket->add(0, getter_fci, getter_fci_cache);
     getter = php_v8_callback_accessor_name_getter;
 
     if (setter_fci.size) {
-        php_v8_callback_add(1, setter_fci, setter_fci_cache, bucket);
+        bucket->add(1, setter_fci, setter_fci_cache);
         setter = php_v8_callback_accessor_name_setter;
     }
 
