@@ -87,7 +87,7 @@ static void php_v8_function_template_free(zend_object *object) {
      * unmarked as week? Note, that the only action on weak handler callback is Reset()ing persistent handler.
      *
      * */
-    if (!CG(unclean_shutdown) && php_v8_function_template->persistent_data && !php_v8_function_template->persistent_data->empty()) {
+    if (zend_is_executing() && !CG(unclean_shutdown) && php_v8_function_template->persistent_data && !php_v8_function_template->persistent_data->empty()) {
         php_v8_function_template_make_weak(php_v8_function_template);
     }
 

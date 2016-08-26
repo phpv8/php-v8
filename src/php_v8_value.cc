@@ -133,7 +133,7 @@ static void php_v8_value_free(zend_object *object) {
 
 
     // TODO: making weak makes sense for objects only
-    if (!CG(unclean_shutdown) && php_v8_value->persistent_data && !php_v8_value->persistent_data->empty()) {
+    if (zend_is_executing() && !CG(unclean_shutdown) && php_v8_value->persistent_data && !php_v8_value->persistent_data->empty()) {
         php_v8_value_make_weak(php_v8_value); // TODO: refactor logic for make weak to include checking whether it can be weak -> maybe_make_weak
     }
 
