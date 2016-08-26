@@ -71,6 +71,7 @@ $helper->line();
 
 $v8_helper->run_checks($res);
 ?>
+EOF
 --EXPECTF--
 Can create message when out of context: ok
 
@@ -180,3 +181,6 @@ V8\ObjectValue(V8\Value)->IsStringObject(): bool(false)
 V8\ObjectValue(V8\Value)->IsSymbolObject(): bool(false)
 V8\ObjectValue(V8\Value)->IsNativeError(): bool(false)
 V8\ObjectValue(V8\Value)->IsRegExp(): bool(false)
+
+
+EOF

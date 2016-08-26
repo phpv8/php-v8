@@ -155,6 +155,24 @@ namespace phpv8 {
 
         return bucket.get();
     }
+
+    int64_t PersistentData::calculateSize() {
+        int64_t size = sizeof(*this);
+
+        for (auto const &item : buckets) {
+            size += sizeof(std::shared_ptr<CallbacksBucket>);
+            size += item.first.capacity();
+            size += item.second->calculateSize();
+        }
+
+        return size;
+    }
+
+    int64_t PersistentData::adjustSize(int64_t change_in_bytes) {
+        adjusted_size_ += change_in_bytes;
+        assert(adjusted_size_ >= 0);
+        return adjusted_size_;
+    }
 }
 
 void php_v8_callbacks_gc(phpv8::PersistentData *data, zval **gc_data, int * gc_data_count, zval **table, int *n) {

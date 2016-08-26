@@ -22,9 +22,11 @@ namespace phpv8 {
     template <class T> class PersistentCollection;
 }
 
+
 #include <v8.h>
 #include <map>
 #include <string>
+#include <utility>
 
 extern "C" {
 #include "php.h"
@@ -57,6 +59,13 @@ extern void php_v8_callback_indexed_property_enumerator(const v8::PropertyCallba
 
 extern bool php_v8_callback_access_check(v8::Local<v8::Context> accessing_context, v8::Local<v8::Object> accessed_object, v8::Local<v8::Value> data);
 
+//#define PHP_V8_DEBUG_EXTERNAL_MEM 1
+
+#ifdef PHP_V8_DEBUG_EXTERNAL_MEM
+#define php_v8_debug_external_mem(format, ...) fprintf(stderr, (format), ##__VA_ARGS__);
+#else
+#define php_v8_debug_external_mem(format, ...)
+#endif
 
 namespace phpv8 {
 
@@ -95,8 +104,13 @@ namespace phpv8 {
         inline bool empty() {
             return callbacks.empty();
         }
+
+        inline int64_t calculateSize() {
+            return sizeof(*this) + (sizeof(std::shared_ptr<Callback>) + sizeof(Callback)) * callbacks.size();
+        }
+
     private:
-        std::map<size_t, std::shared_ptr<phpv8::Callback>> callbacks;
+        std::map<size_t, std::shared_ptr<Callback>> callbacks;
     };
 
 
@@ -114,7 +128,20 @@ namespace phpv8 {
             return buckets.empty();
         }
 
+        int64_t calculateSize();
+
+        inline int64_t getTotalSize() {
+            if (!size_) {
+                size_ = calculateSize();
+            }
+
+            return size_ + adjusted_size_;
+        }
+
+        int64_t adjustSize(int64_t change_in_bytes);
     private:
+        int64_t size_;
+        int64_t adjusted_size_;
         std::map<std::string, std::shared_ptr<CallbacksBucket>> buckets;
     };
 
@@ -149,9 +176,20 @@ namespace phpv8 {
             collection[persistent] = std::shared_ptr<phpv8::PersistentData>(data);
         }
 
+        phpv8::PersistentData *get(v8::Persistent<T> *persistent) {
+            auto it = collection.find(persistent);
+
+            if (it != collection.end()) {
+                return it->second.get();
+            }
+
+            return nullptr;
+        }
+
         void remove(v8::Persistent<T, v8::NonCopyablePersistentTraits<T>> *persistent) {
             collection.erase(persistent);
-        }    private:
+        }
+    private:
         std::map<v8::Persistent<T> *, std::shared_ptr<phpv8::PersistentData>> collection;
     };
 }

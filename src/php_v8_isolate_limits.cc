@@ -22,8 +22,9 @@
 #define PHP_V8_TIME_SLEEP_MILLISECONDS 10
 
 //#define PHP_V8_DEBUG_EXECUTION 1
-
-#define mb(sz) ((sz)/1024/1024.0)
+#define one_mb (1024.0 * 1024.0)
+#define kb(sz) ((sz)/1024.0)
+#define mb(sz) (kb(sz)/1024.0)
 #define has(v, str) (v ? "has " str : "no " str)
 #define is(v) (v ? "yes" : "no")
 

@@ -62,7 +62,14 @@ static void php_v8_value_weak_callback(const v8::WeakCallbackInfo<v8::Persistent
     v8::Isolate *isolate = data.GetIsolate();
     php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
-    php_v8_isolate->weak_values->remove(data.GetParameter());
+    phpv8::PersistentData *persistent_data = php_v8_isolate->weak_values->get(data.GetParameter());
+
+    if (persistent_data != nullptr) {
+        // Tell v8 that we release external allocated memory
+        php_v8_debug_external_mem("Free allocated external memory (value: %p): -%" PRId64 "\n", persistent_data, persistent_data->getTotalSize())
+        isolate->AdjustAmountOfExternalAllocatedMemory(-persistent_data->getTotalSize());
+        php_v8_isolate->weak_values->remove(data.GetParameter());
+    }
 
     data.GetParameter()->Reset();
     delete data.GetParameter();
@@ -80,7 +87,9 @@ static void php_v8_value_make_weak(php_v8_value_t *php_v8_value) {
     php_v8_value->is_weak = true;
     php_v8_value->persistent->SetWeak(php_v8_value->persistent, php_v8_value_weak_callback, v8::WeakCallbackType::kParameter);
 
-    php_v8_value->php_v8_isolate->isolate->AdjustAmountOfExternalAllocatedMemory(1024 * 1024 * 1024);
+    // Tell v8 that we allocated external memory
+    php_v8_debug_external_mem("Allocate external memory (value: %p):  %" PRId64 "\n", php_v8_value->persistent_data, php_v8_value->persistent_data->getTotalSize())
+    php_v8_value->php_v8_isolate->isolate->AdjustAmountOfExternalAllocatedMemory(php_v8_value->persistent_data->getTotalSize());
 }
 
 static HashTable * php_v8_value_gc(zval *object, zval **table, int *n) {
