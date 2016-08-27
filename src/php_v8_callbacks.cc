@@ -36,14 +36,14 @@
 namespace phpv8 {
 
     Callback::Callback(zend_fcall_info fci, zend_fcall_info_cache fci_cache) : fci_(fci), fci_cache_(fci_cache) {
-        if (fci.size) {
-            Z_ADDREF(fci.function_name);
+        if (fci_.size) {
+            Z_ADDREF(fci_.function_name);
 
-            if (fci.object) {
-                ZVAL_OBJ(&object, fci.object);
-                Z_ADDREF(object);
+            if (fci_.object) {
+                ZVAL_OBJ(&object_, fci_.object);
+                Z_ADDREF(object_);
             } else {
-                ZVAL_UNDEF(&object);
+                ZVAL_UNDEF(&object_);
             }
         }
     }
@@ -52,8 +52,8 @@ namespace phpv8 {
         if (fci_.size) {
             zval_ptr_dtor(&fci_.function_name);
 
-            if (!Z_ISUNDEF(object)) {
-                zval_ptr_dtor(&object);
+            if (!Z_ISUNDEF(object_)) {
+                zval_ptr_dtor(&object_);
             }
         }
     }
@@ -64,7 +64,7 @@ namespace phpv8 {
         if (fci_.size) {
             size += 1;
 
-            if (!Z_ISUNDEF(object)) {
+            if (!Z_ISUNDEF(object_)) {
                 size += 1;
             }
         }
@@ -76,8 +76,8 @@ namespace phpv8 {
         if (fci_.size) {
             ZVAL_COPY_VALUE(zv++, &fci_.function_name);
 
-            if (!Z_ISUNDEF(object)) {
-                ZVAL_COPY_VALUE(zv++, &object);
+            if (!Z_ISUNDEF(object_)) {
+                ZVAL_COPY_VALUE(zv++, &object_);
             }
         }
     }

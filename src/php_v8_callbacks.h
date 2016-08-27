@@ -85,7 +85,7 @@ namespace phpv8 {
         }
 
     private:
-        zval object;
+        zval object_;
         zend_fcall_info fci_;
         zend_fcall_info_cache fci_cache_;
     };
