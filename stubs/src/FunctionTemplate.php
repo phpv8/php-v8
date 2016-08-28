@@ -114,7 +114,7 @@ namespace V8;
  * \endcode
  */
 //class FunctionTemplateInterface extends TemplateInterface
-class FunctionTemplate extends Template
+class FunctionTemplate extends Template implements AdjustableExternalMemoryInterface
 {
     private $isolate;
 
@@ -248,6 +248,20 @@ class FunctionTemplate extends Template
      * @return bool
      */
     public function HasInstance(Value $object) : bool
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function AdjustExternalAllocatedMemory(int $change_in_bytes) : int
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function GetExternalAllocatedMemory() : int
     {
     }
 }

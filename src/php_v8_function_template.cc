@@ -23,6 +23,7 @@
 #include "php_v8_object.h"
 #include "php_v8_value.h"
 #include "php_v8_context.h"
+#include "php_v8_ext_mem_interface.h"
 #include "php_v8.h"
 
 zend_class_entry *php_v8_function_template_class_entry;
@@ -437,6 +438,16 @@ static PHP_METHOD(V8FunctionTemplate, HasInstance) {
     RETURN_BOOL(local_template->HasInstance(local_obj));
 }
 
+/* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
+static PHP_METHOD(V8FunctionTemplate, AdjustExternalAllocatedMemory) {
+    php_v8_ext_mem_interface_function_template_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+
+/* Non-standard, implementations of AdjustableExternalMemoryInterface::GetExternalAllocatedMemory */
+static PHP_METHOD(V8FunctionTemplate, GetExternalAllocatedMemory) {
+    php_v8_ext_mem_interface_function_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function_template___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
@@ -525,6 +536,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_HasInstance
                 ZEND_ARG_OBJ_INFO(0, object, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, NULL, 0)
+                ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_template_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_function_template_methods[] = {
         PHP_ME(V8FunctionTemplate, __construct,             arginfo_v8_function_template___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
@@ -547,6 +566,9 @@ static const zend_function_entry php_v8_function_template_methods[] = {
         PHP_ME(V8FunctionTemplate, RemovePrototype,         arginfo_v8_function_template_RemovePrototype,       ZEND_ACC_PUBLIC)
         PHP_ME(V8FunctionTemplate, HasInstance,             arginfo_v8_function_template_HasInstance,           ZEND_ACC_PUBLIC)
 
+        PHP_ME(V8FunctionTemplate, AdjustExternalAllocatedMemory,   arginfo_v8_function_template_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+        PHP_ME(V8FunctionTemplate, GetExternalAllocatedMemory,      arginfo_v8_function_template_GetExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+
         PHP_FE_END
 };
 
@@ -556,6 +578,7 @@ PHP_MINIT_FUNCTION (php_v8_function_template) {
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "FunctionTemplate", php_v8_function_template_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_template_ce);
+    zend_class_implements(this_ce, 1, php_v8_ext_mem_interface_ce);
     this_ce->create_object = php_v8_function_template_ctor;
 
     memcpy(&php_v8_function_template_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));

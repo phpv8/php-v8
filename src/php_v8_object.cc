@@ -28,6 +28,7 @@
 #include "php_v8_name.h"
 #include "php_v8_value.h"
 #include "php_v8_context.h"
+#include "php_v8_ext_mem_interface.h"
 #include "php_v8.h"
 
 
@@ -1437,6 +1438,17 @@ static PHP_METHOD(V8Object, CallAsConstructor) {
 //static PHP_METHOD(V8Object, Cast) {
 //}
 
+/* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
+static PHP_METHOD(V8Object, AdjustExternalAllocatedMemory) {
+    php_v8_ext_mem_interface_value_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+
+/* Non-standard, implementations of AdjustableExternalMemoryInterface::GetExternalAllocatedMemory */
+static PHP_METHOD(V8Object, GetExternalAllocatedMemory) {
+    php_v8_ext_mem_interface_value_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
@@ -1645,6 +1657,14 @@ ZEND_END_ARG_INFO()
 //                ZEND_ARG_OBJ_INFO(0, persistent, V8\\Value, 0)
 //ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, NULL, 0)
+                ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_object_methods[] = {
         PHP_ME(V8Object, __construct, arginfo_v8_object___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
@@ -1696,15 +1716,19 @@ static const zend_function_entry php_v8_object_methods[] = {
 
         // NOTE: Not supported yet
         //PHP_ME(V8Object, Cast, arginfo_v8_object_Cast, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+
+        PHP_ME(V8Object, AdjustExternalAllocatedMemory, arginfo_v8_object_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Object, GetExternalAllocatedMemory, arginfo_v8_object_GetExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+
         PHP_FE_END
 };
-
 
 
 PHP_MINIT_FUNCTION(php_v8_object) {
     zend_class_entry ce;
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "ObjectValue", php_v8_object_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_value_class_entry);
+    zend_class_implements(this_ce, 1, php_v8_ext_mem_interface_ce);
 
     zend_declare_property_null(this_ce, ZEND_STRL("context"), ZEND_ACC_PRIVATE);
 

@@ -21,7 +21,7 @@ namespace V8;
 /**
  * A JavaScript object (ECMA-262, 4.3.3)
  */
-class ObjectValue extends Value
+class ObjectValue extends Value implements AdjustableExternalMemoryInterface
 {
     public function __construct(Context $context)
     {
@@ -528,6 +528,20 @@ class ObjectValue extends Value
      * @return \V8\Value
      */
     public function CallAsConstructor(Context $context, array $arguments = []) : Value
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function AdjustExternalAllocatedMemory(int $change_in_bytes) : int
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function GetExternalAllocatedMemory() : int
     {
     }
 }

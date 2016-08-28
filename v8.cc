@@ -67,6 +67,7 @@
 
 #include "php_v8_value.h"
 #include "php_v8_data.h"
+#include "php_v8_ext_mem_interface.h"
 
 #include <v8.h>
 
@@ -98,6 +99,7 @@ PHP_INI_END()
 PHP_MINIT_FUNCTION(v8)
 {
 	PHP_MINIT(php_v8_exceptions)(INIT_FUNC_ARGS_PASSTHRU);	/* Exceptions */
+    PHP_MINIT(php_v8_ext_mem_interface)(INIT_FUNC_ARGS_PASSTHRU);	/* AdjustableExternalMemoryInterface */
 
 	PHP_MINIT(php_v8_heap_statistics)(INIT_FUNC_ARGS_PASSTHRU);
 	PHP_MINIT(php_v8_startup_data)(INIT_FUNC_ARGS_PASSTHRU);

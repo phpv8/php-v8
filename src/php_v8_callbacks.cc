@@ -32,6 +32,7 @@
 #include "php_v8_value.h"
 #include "php_v8_isolate.h"
 #include <string>
+#include <algorithm>
 
 namespace phpv8 {
 
@@ -169,8 +170,7 @@ namespace phpv8 {
     }
 
     int64_t PersistentData::adjustSize(int64_t change_in_bytes) {
-        adjusted_size_ += change_in_bytes;
-        assert(adjusted_size_ >= 0);
+        adjusted_size_ = std::max(static_cast<int64_t>(0), adjusted_size_ + change_in_bytes);
         return adjusted_size_;
     }
 }

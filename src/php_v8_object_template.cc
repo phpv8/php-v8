@@ -25,7 +25,7 @@
 #include "php_v8_name.h"
 #include "php_v8_context.h"
 #include "php_v8_value.h"
-
+#include "php_v8_ext_mem_interface.h"
 #include "php_v8.h"
 
 zend_class_entry *php_v8_object_template_class_entry;
@@ -405,6 +405,16 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessCheckCallback) {
     local_template->SetAccessCheckCallback(php_v8_callback_access_check, v8::External::New(isolate, bucket));
 }
 
+/* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
+static PHP_METHOD(V8ObjectTemplate, AdjustExternalAllocatedMemory) {
+    php_v8_ext_mem_interface_object_template_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+
+/* Non-standard, implementations of AdjustableExternalMemoryInterface::GetExternalAllocatedMemory */
+static PHP_METHOD(V8ObjectTemplate, GetExternalAllocatedMemory) {
+    php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object_template___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
@@ -479,6 +489,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessCheckCallback, ZE
                 ZEND_ARG_CALLABLE_INFO(0, callback, 1)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, NULL, 0)
+                ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+ZEND_END_ARG_INFO()
+
+
 static const zend_function_entry php_v8_object_template_methods[] = {
         PHP_ME(V8ObjectTemplate, __construct, arginfo_v8_object_template___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
@@ -497,6 +516,9 @@ static const zend_function_entry php_v8_object_template_methods[] = {
         PHP_ME(V8ObjectTemplate, MarkAsUndetectable, arginfo_php_v8_object_template_MarkAsUndetectable, ZEND_ACC_PUBLIC)
 //        PHP_ME(V8ObjectTemplate, SetAccessCheckCallback, arginfo_php_v8_object_template_SetAccessCheckCallback, ZEND_ACC_PUBLIC)
 
+        PHP_ME(V8ObjectTemplate, AdjustExternalAllocatedMemory, arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+        PHP_ME(V8ObjectTemplate, GetExternalAllocatedMemory,    arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+
         PHP_FE_END
 };
 
@@ -506,6 +528,7 @@ PHP_MINIT_FUNCTION (php_v8_object_template) {
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "ObjectTemplate", php_v8_object_template_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_template_ce);
+    zend_class_implements(this_ce, 1, php_v8_ext_mem_interface_ce);
     this_ce->create_object = php_v8_object_template_ctor;
 
     memcpy(&php_v8_object_template_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));

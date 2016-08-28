@@ -29,6 +29,8 @@ $helper->dump($function_template);
 $helper->space();
 
 $helper->assert('FunctionTemplate extends Template', $function_template instanceof \V8\Template);
+$helper->assert('FunctionTemplate implements AdjustableExternalMemoryInterface', $function_template instanceof \V8\AdjustableExternalMemoryInterface);
+
 $helper->line();
 
 $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
@@ -162,6 +164,7 @@ object(V8\FunctionTemplate)#5 (1) {
 
 
 FunctionTemplate extends Template: ok
+FunctionTemplate implements AdjustableExternalMemoryInterface: ok
 
 Object representation:
 ----------------------

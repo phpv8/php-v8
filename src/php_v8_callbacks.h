@@ -24,6 +24,7 @@ namespace phpv8 {
 
 
 #include <v8.h>
+#include <limits>
 #include <map>
 #include <string>
 #include <utility>
@@ -128,17 +129,29 @@ namespace phpv8 {
             return buckets.empty();
         }
 
-        int64_t calculateSize();
-
         inline int64_t getTotalSize() {
             if (!size_) {
-                size_ = calculateSize();
+                // TODO: if adjusted_size_ is going to be much larger than estimated calculateSize() value,
+                //       we can ignore calculateSize() without loosing idea to notify v8 about
+                //       significant external memory pressure
+                size_ = calculateSize() + adjusted_size_;
+
+                if (size_ < 0) {
+                    size_ = std::numeric_limits<int64_t>::max();
+                }
             }
 
-            return size_ + adjusted_size_;
+            return size_;
+        }
+
+        inline int64_t getAdjustedSize() {
+            return adjusted_size_;
         }
 
         int64_t adjustSize(int64_t change_in_bytes);
+
+    protected:
+        int64_t calculateSize();
     private:
         int64_t size_;
         int64_t adjusted_size_;

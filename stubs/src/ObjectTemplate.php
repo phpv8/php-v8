@@ -24,7 +24,7 @@ namespace V8;
  * Properties added to an ObjectTemplate are added to each object
  * created from the ObjectTemplate.
  */
-class ObjectTemplate extends Template
+class ObjectTemplate extends Template implements AdjustableExternalMemoryInterface
 {
     public function __construct(Isolate $isolate, FunctionTemplate $constructor = null)
     {
@@ -167,4 +167,18 @@ class ObjectTemplate extends Template
     //public function SetAccessCheckCallback(callable $callback)
     //{
     //}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function AdjustExternalAllocatedMemory(int $change_in_bytes) : int
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function GetExternalAllocatedMemory() : int
+    {
+    }
 }
