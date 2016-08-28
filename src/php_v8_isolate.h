@@ -71,13 +71,13 @@ extern php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
     v8::Isolate *isolate = (php_v8_isolate)->isolate;
 
 #define PHP_V8_ISOLATE_ENTER(isolate) \
-	v8::Locker locker(isolate); \
-	v8::Isolate::Scope isolate_scope(isolate); \
-	v8::HandleScope handle_scope(isolate);
+    v8::Locker locker(isolate); \
+    v8::Isolate::Scope isolate_scope(isolate); \
+    v8::HandleScope handle_scope(isolate);
 
 #define PHP_V8_ENTER_ISOLATE(php_v8_isolate) \
-	PHP_V8_DECLARE_ISOLATE(php_v8_isolate); \
-	PHP_V8_ISOLATE_ENTER(isolate); \
+    PHP_V8_DECLARE_ISOLATE(php_v8_isolate); \
+    PHP_V8_ISOLATE_ENTER(isolate); \
 
 #define PHP_V8_ENTER_STORED_ISOLATE(stored) PHP_V8_ENTER_ISOLATE((stored)->php_v8_isolate);
 

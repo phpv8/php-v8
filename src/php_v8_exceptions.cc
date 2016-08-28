@@ -231,9 +231,9 @@ PHP_MINIT_FUNCTION(php_v8_exceptions) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "TryCatchException", php_v8_try_catch_exception_methods);
     php_v8_try_catch_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_generic_exception_class_entry);
 
-    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("isolate"),	ZEND_ACC_PRIVATE);
-    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("context"),	ZEND_ACC_PRIVATE);
-    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("try_catch"),	ZEND_ACC_PRIVATE);
+    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("isolate"),    ZEND_ACC_PRIVATE);
+    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("context"),    ZEND_ACC_PRIVATE);
+    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("try_catch"),    ZEND_ACC_PRIVATE);
 
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "TerminationException", php_v8_termination_exception_methods);

@@ -69,8 +69,7 @@ ZEND_TSRMLS_CACHE_EXTERN();
 
 ZEND_EXTERN_MODULE_GLOBALS(v8);
 
-#endif	/* PHP_V8_H */
-
+#endif //PHP_V8_H
 
 /*
  * Local variables:
