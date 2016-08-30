@@ -61,7 +61,7 @@ struct _php_v8_object_template_t {
 
     bool is_weak;
     v8::Persistent<v8::ObjectTemplate> *persistent;
-    php_v8_callbacks_t *callbacks;
+    phpv8::PersistentData *persistent_data;
 
     zval *gc_data;
     int gc_data_count;

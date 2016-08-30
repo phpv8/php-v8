@@ -249,14 +249,14 @@ void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> lo
 
     PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(name, local_name);
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(2, "native_data_property_", local_name->IsSymbol(), name, php_v8_template->callbacks);
+    phpv8::CallbacksBucket *bucket = php_v8_template->persistent_data->bucket("native_data_property_", local_name->IsSymbol(), name);
     data = v8::External::New(isolate, bucket);
 
-    php_v8_callback_add(0, getter_fci, getter_fci_cache, bucket);
+    bucket->add(0, getter_fci, getter_fci_cache);
     getter = php_v8_callback_accessor_name_getter;
 
     if (setter_fci.size) {
-        php_v8_callback_add(1, setter_fci, setter_fci_cache, bucket);
+        bucket->add(1, setter_fci, setter_fci_cache);
         setter = php_v8_callback_accessor_name_setter;
     }
 
@@ -308,6 +308,7 @@ PHP_MINIT_FUNCTION (php_v8_template) {
     zend_class_entry ce;
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "Template", php_v8_template_methods);
+    //zend_class_implements()
     this_ce = zend_register_internal_class_ex(&ce, php_v8_data_class_entry);
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);

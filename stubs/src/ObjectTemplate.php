@@ -24,7 +24,7 @@ namespace V8;
  * Properties added to an ObjectTemplate are added to each object
  * created from the ObjectTemplate.
  */
-class ObjectTemplate extends Template
+class ObjectTemplate extends Template implements AdjustableExternalMemoryInterface
 {
     public function __construct(Isolate $isolate, FunctionTemplate $constructor = null)
     {
@@ -102,20 +102,29 @@ class ObjectTemplate extends Template
     /**
      * Sets a named property handler on the object template.
      *
+     * Whenever a property whose name is a string or a symbol is accessed on
+     * objects created from this object template, the provided callback is
+     * invoked instead of accessing the property directly on the JavaScript
+     * object.
+     *
      * See \v8\NamedPropertyHandlerConfiguration constructor argument description for details
      *
-     * @param \v8\NamedPropertyHandlerConfiguration
+     * @param \v8\NamedPropertyHandlerConfiguration The NamedPropertyHandlerConfiguration that defines the callbacks to invoke when accessing a property.
      */
     public function SetHandlerForNamedProperty(NamedPropertyHandlerConfiguration $configuration)
     {
     }
 
     /**
-     * Sets a indexed property handler on the object template.
+     * Sets an indexed property handler on the object template.
+     *
+     * Whenever an indexed property is accessed on objects created from
+     * this object template, the provided callback is invoked instead of
+     * accessing the property directly on the JavaScript object.
      *
      * See \v8\IndexedPropertyHandlerConfiguration constructor argument description for details
      *
-     * @param \V8\IndexedPropertyHandlerConfiguration $configuration
+     * @param \V8\IndexedPropertyHandlerConfiguration $configuration The IndexedPropertyHandlerConfiguration that defines the callbacks to invoke when accessing a property.
      */
     public function SetHandlerForIndexedProperty(IndexedPropertyHandlerConfiguration $configuration)
     {
@@ -158,4 +167,18 @@ class ObjectTemplate extends Template
     //public function SetAccessCheckCallback(callable $callback)
     //{
     //}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function AdjustExternalAllocatedMemory(int $change_in_bytes) : int
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function GetExternalAllocatedMemory() : int
+    {
+    }
 }

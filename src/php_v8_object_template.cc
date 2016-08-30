@@ -25,7 +25,7 @@
 #include "php_v8_name.h"
 #include "php_v8_context.h"
 #include "php_v8_value.h"
-
+#include "php_v8_ext_mem_interface.h"
 #include "php_v8.h"
 
 zend_class_entry *php_v8_object_template_class_entry;
@@ -45,33 +45,35 @@ static void php_v8_object_template_weak_callback(const v8::WeakCallbackInfo<v8::
     v8::Isolate *isolate = data.GetIsolate();
     php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
-    php_v8_callbacks_t *callbacks = (*php_v8_isolate->weak_object_templates)[data.GetParameter()];
-    php_v8_callbacks_cleanup(callbacks);
-    php_v8_isolate->weak_object_templates->erase(data.GetParameter());
+    phpv8::PersistentData *persistent_data = php_v8_isolate->weak_object_templates->get(data.GetParameter());
+
+    if (persistent_data != nullptr) {
+        // Tell v8 that we release external allocated memory
+        php_v8_debug_external_mem("Free allocated external memory (obj tpl: %p): -%" PRId64 "\n", persistent_data, persistent_data->getTotalSize())
+        isolate->AdjustAmountOfExternalAllocatedMemory(-persistent_data->getTotalSize());
+        php_v8_isolate->weak_object_templates->remove(data.GetParameter());
+    }
 
     data.GetParameter()->Reset();
-
-    delete callbacks;
     delete data.GetParameter();
-
-    // Tell v8 that we release external allocated memory
-    isolate->AdjustAmountOfExternalAllocatedMemory(-1024 * 1024 * 1024);
 }
 
 
 static void php_v8_object_template_make_weak(php_v8_object_template_t *php_v8_object_template) {
-    (*php_v8_object_template->php_v8_isolate->weak_object_templates)[php_v8_object_template->persistent] = php_v8_object_template->callbacks;
+    php_v8_object_template->php_v8_isolate->weak_object_templates->add(php_v8_object_template->persistent, php_v8_object_template->persistent_data);
 
     php_v8_object_template->is_weak = true;
     php_v8_object_template->persistent->SetWeak(php_v8_object_template->persistent, php_v8_object_template_weak_callback, v8::WeakCallbackType::kParameter);
 
-    php_v8_object_template->php_v8_isolate->isolate->AdjustAmountOfExternalAllocatedMemory(1024 * 1024 * 1024);
+    // Tell v8 that we allocated external memory
+    php_v8_debug_external_mem("Allocate external memory (obj tpl: %p):  %" PRId64 "\n", php_v8_object_template->persistent_data, php_v8_object_template->persistent_data->getTotalSize())
+    php_v8_object_template->php_v8_isolate->isolate->AdjustAmountOfExternalAllocatedMemory(php_v8_object_template->persistent_data->getTotalSize());
 }
 
 static HashTable * php_v8_object_template_gc(zval *object, zval **table, int *n) {
     PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(object, php_v8_object_template);
 
-    php_v8_callbacks_gc(php_v8_object_template->callbacks, &php_v8_object_template->gc_data, &php_v8_object_template->gc_data_count, table, n);
+    php_v8_callbacks_gc(php_v8_object_template->persistent_data, &php_v8_object_template->gc_data, &php_v8_object_template->gc_data_count, table, n);
 
     return zend_std_get_properties(object);
 }
@@ -79,14 +81,14 @@ static HashTable * php_v8_object_template_gc(zval *object, zval **table, int *n)
 static void php_v8_object_template_free(zend_object *object) {
     php_v8_object_template_t *php_v8_object_template = php_v8_object_template_fetch_object(object);
 
-    if (!CG(unclean_shutdown) && php_v8_object_template->callbacks && !php_v8_object_template->callbacks->empty()) {
+    if (zend_is_executing() && !CG(unclean_shutdown) && php_v8_object_template->persistent_data && !php_v8_object_template->persistent_data->empty()) {
         php_v8_object_template_make_weak(php_v8_object_template);
     }
 
     if (!php_v8_object_template->is_weak) {
-        if (php_v8_object_template->callbacks) {
-            php_v8_callbacks_cleanup(php_v8_object_template->callbacks);
-            delete php_v8_object_template->callbacks;
+        if (php_v8_object_template->persistent_data) {
+            delete php_v8_object_template->persistent_data;
+            php_v8_object_template->persistent_data = NULL;
         }
 
         if (php_v8_object_template->persistent) {
@@ -116,7 +118,7 @@ static zend_object * php_v8_object_template_ctor(zend_class_entry *ce) {
     object_properties_init(&php_v8_object_template->std, ce);
 
     php_v8_object_template->persistent = new v8::Persistent<v8::ObjectTemplate>();
-    php_v8_object_template->callbacks = new php_v8_callbacks_t();
+    php_v8_object_template->persistent_data = new phpv8::PersistentData();
 
     php_v8_object_template->node = new phpv8::TemplateNode();
 
@@ -256,14 +258,15 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     v8::Local<v8::External> data;
     v8::Local<v8::AccessorSignature> signature; // TODO: add AccessorSignature support
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(2, "accessor_", local_name->IsSymbol(), name, php_v8_object_template->callbacks);
+    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("accessor_",
+                                                                                     local_name->IsSymbol(), name);
     data = v8::External::New(isolate, bucket);
 
-    php_v8_callback_add(0, getter_fci, getter_fci_cache, bucket);
+    bucket->add(0, getter_fci, getter_fci_cache);
     getter = php_v8_callback_accessor_name_getter;
 
     if (setter_fci.size) {
-        php_v8_callback_add(1, setter_fci, setter_fci_cache, bucket);
+        bucket->add(1, setter_fci, setter_fci_cache);
         setter = php_v8_callback_accessor_name_setter;
     }
 
@@ -291,8 +294,8 @@ static PHP_METHOD(V8ObjectTemplate, SetHandlerForNamedProperty) {
 
     v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(isolate, php_v8_object_template);
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(5, "", false, "named_handlers", php_v8_object_template->callbacks);
-    php_v8_callbacks_copy_bucket(php_v8_handlers->bucket, bucket);
+    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("named_handlers");
+    bucket->reset(php_v8_handlers->bucket);
 
     v8::Local<v8::External> data = v8::External::New(isolate, bucket);
 
@@ -323,8 +326,8 @@ static PHP_METHOD(V8ObjectTemplate, SetHandlerForIndexedProperty) {
 
     v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(isolate, php_v8_object_template);
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(5, "", false, "indexed_handlers", php_v8_object_template->callbacks);
-    php_v8_callbacks_copy_bucket(php_v8_handlers->bucket, bucket);
+    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("indexed_handlers");
+    bucket->reset(php_v8_handlers->bucket);
 
     v8::Local<v8::External> data = v8::External::New(isolate, bucket);
 
@@ -356,10 +359,10 @@ static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
 
     if (fci.size) {
-        php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(1, "", false, "callback", php_v8_object_template->callbacks);
+        phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("callback");
         data = v8::External::New(isolate, bucket);
 
-        php_v8_callback_add(0, fci, fci_cache, bucket);
+        bucket->add(0, fci, fci_cache);
 
         callback = php_v8_callback_function;
     }
@@ -394,12 +397,22 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessCheckCallback) {
     PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(getThis(), php_v8_object_template);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
 
-    php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(1, "", false, "access_check", php_v8_object_template->callbacks);
-    php_v8_callback_add(0, fci_callback, fci_cache_callback, bucket);
+    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("access_check");
+    bucket->add(0, fci_callback, fci_cache_callback);
 
     v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(isolate, php_v8_object_template);
 
     local_template->SetAccessCheckCallback(php_v8_callback_access_check, v8::External::New(isolate, bucket));
+}
+
+/* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
+static PHP_METHOD(V8ObjectTemplate, AdjustExternalAllocatedMemory) {
+    php_v8_ext_mem_interface_object_template_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+
+/* Non-standard, implementations of AdjustableExternalMemoryInterface::GetExternalAllocatedMemory */
+static PHP_METHOD(V8ObjectTemplate, GetExternalAllocatedMemory) {
+    php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
 
@@ -476,6 +489,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessCheckCallback, ZE
                 ZEND_ARG_CALLABLE_INFO(0, callback, 1)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, NULL, 0)
+                ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+ZEND_END_ARG_INFO()
+
+
 static const zend_function_entry php_v8_object_template_methods[] = {
         PHP_ME(V8ObjectTemplate, __construct, arginfo_v8_object_template___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
@@ -494,6 +516,9 @@ static const zend_function_entry php_v8_object_template_methods[] = {
         PHP_ME(V8ObjectTemplate, MarkAsUndetectable, arginfo_php_v8_object_template_MarkAsUndetectable, ZEND_ACC_PUBLIC)
 //        PHP_ME(V8ObjectTemplate, SetAccessCheckCallback, arginfo_php_v8_object_template_SetAccessCheckCallback, ZEND_ACC_PUBLIC)
 
+        PHP_ME(V8ObjectTemplate, AdjustExternalAllocatedMemory, arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+        PHP_ME(V8ObjectTemplate, GetExternalAllocatedMemory,    arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+
         PHP_FE_END
 };
 
@@ -503,6 +528,7 @@ PHP_MINIT_FUNCTION (php_v8_object_template) {
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "ObjectTemplate", php_v8_object_template_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_template_ce);
+    zend_class_implements(this_ce, 1, php_v8_ext_mem_interface_ce);
     this_ce->create_object = php_v8_object_template_ctor;
 
     memcpy(&php_v8_object_template_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));

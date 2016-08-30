@@ -146,10 +146,10 @@ static PHP_METHOD(V8Function, __construct) {
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
     if (fci.size) {
-        php_v8_callbacks_bucket_t *bucket = php_v8_callback_get_or_create_bucket(1, "", false, "callback", php_v8_value->callbacks);
+        phpv8::CallbacksBucket *bucket = php_v8_value->persistent_data->bucket("callback");
         data = v8::External::New(isolate, bucket);
 
-        php_v8_callback_add(0, fci, fci_cache, bucket);
+        bucket->add(0, fci, fci_cache);
 
         callback = php_v8_callback_function;
     }

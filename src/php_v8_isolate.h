@@ -71,13 +71,13 @@ extern php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
     v8::Isolate *isolate = (php_v8_isolate)->isolate;
 
 #define PHP_V8_ISOLATE_ENTER(isolate) \
-	v8::Locker locker(isolate); \
-	v8::Isolate::Scope isolate_scope(isolate); \
-	v8::HandleScope handle_scope(isolate);
+    v8::Locker locker(isolate); \
+    v8::Isolate::Scope isolate_scope(isolate); \
+    v8::HandleScope handle_scope(isolate);
 
 #define PHP_V8_ENTER_ISOLATE(php_v8_isolate) \
-	PHP_V8_DECLARE_ISOLATE(php_v8_isolate); \
-	PHP_V8_ISOLATE_ENTER(isolate); \
+    PHP_V8_DECLARE_ISOLATE(php_v8_isolate); \
+    PHP_V8_ISOLATE_ENTER(isolate); \
 
 #define PHP_V8_ENTER_STORED_ISOLATE(stored) PHP_V8_ENTER_ISOLATE((stored)->php_v8_isolate);
 
@@ -121,9 +121,9 @@ struct _php_v8_isolate_t {
     v8::Isolate *isolate;
     v8::Isolate::CreateParams *create_params;
 
-    std::map<v8::Persistent<v8::FunctionTemplate>*, php_v8_callbacks_t *> *weak_function_templates;
-    std::map<v8::Persistent<v8::ObjectTemplate>*, php_v8_callbacks_t *> *weak_object_templates;
-    std::map<v8::Persistent<v8::Value>*, php_v8_callbacks_t *> *weak_values;
+    phpv8::PersistentCollection<v8::FunctionTemplate> *weak_function_templates;
+    phpv8::PersistentCollection<v8::ObjectTemplate> *weak_object_templates;
+    phpv8::PersistentCollection<v8::Value> *weak_values;
 
     uint32_t isolate_handle;
     php_v8_isolate_limits_t limits;

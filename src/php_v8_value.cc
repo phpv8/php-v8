@@ -62,13 +62,16 @@ static void php_v8_value_weak_callback(const v8::WeakCallbackInfo<v8::Persistent
     v8::Isolate *isolate = data.GetIsolate();
     php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
-    php_v8_callbacks_t *callbacks = (*php_v8_isolate->weak_values)[data.GetParameter()];
-    php_v8_callbacks_cleanup(callbacks);
-    php_v8_isolate->weak_values->erase(data.GetParameter());
+    phpv8::PersistentData *persistent_data = php_v8_isolate->weak_values->get(data.GetParameter());
+
+    if (persistent_data != nullptr) {
+        // Tell v8 that we release external allocated memory
+        php_v8_debug_external_mem("Free allocated external memory (value: %p): -%" PRId64 "\n", persistent_data, persistent_data->getTotalSize())
+        isolate->AdjustAmountOfExternalAllocatedMemory(-persistent_data->getTotalSize());
+        php_v8_isolate->weak_values->remove(data.GetParameter());
+    }
 
     data.GetParameter()->Reset();
-
-    delete callbacks;
     delete data.GetParameter();
 
     // Tell v8 that we release external allocated memory
@@ -79,18 +82,20 @@ static void php_v8_value_make_weak(php_v8_value_t *php_v8_value) {
     // TODO: maybe week: if it already week, if has no isolate, if no callbacks or empty callbacks
     assert(!php_v8_value->is_weak);
 
-    (*php_v8_value->php_v8_isolate->weak_values)[php_v8_value->persistent] = php_v8_value->callbacks;
+    php_v8_value->php_v8_isolate->weak_values->add(php_v8_value->persistent, php_v8_value->persistent_data);
 
     php_v8_value->is_weak = true;
     php_v8_value->persistent->SetWeak(php_v8_value->persistent, php_v8_value_weak_callback, v8::WeakCallbackType::kParameter);
 
-    php_v8_value->php_v8_isolate->isolate->AdjustAmountOfExternalAllocatedMemory(1024 * 1024 * 1024);
+    // Tell v8 that we allocated external memory
+    php_v8_debug_external_mem("Allocate external memory (value: %p):  %" PRId64 "\n", php_v8_value->persistent_data, php_v8_value->persistent_data->getTotalSize())
+    php_v8_value->php_v8_isolate->isolate->AdjustAmountOfExternalAllocatedMemory(php_v8_value->persistent_data->getTotalSize());
 }
 
 static HashTable * php_v8_value_gc(zval *object, zval **table, int *n) {
     PHP_V8_VALUE_FETCH_INTO(object, php_v8_value);
 
-    php_v8_callbacks_gc(php_v8_value->callbacks, &php_v8_value->gc_data, &php_v8_value->gc_data_count, table, n);
+    php_v8_callbacks_gc(php_v8_value->persistent_data, &php_v8_value->gc_data, &php_v8_value->gc_data_count, table, n);
 
     return zend_std_get_properties(object);
 }
@@ -128,16 +133,16 @@ static void php_v8_value_free(zend_object *object) {
 
 
     // TODO: making weak makes sense for objects only
-    if (!CG(unclean_shutdown) && php_v8_value->callbacks && !php_v8_value->callbacks->empty()) {
+    if (zend_is_executing() && !CG(unclean_shutdown) && php_v8_value->persistent_data && !php_v8_value->persistent_data->empty()) {
         php_v8_value_make_weak(php_v8_value); // TODO: refactor logic for make weak to include checking whether it can be weak -> maybe_make_weak
     }
 
     // NOTE: is weak check can be made in this way:
     //if (!php_v8_value->persistent || !php_v8_value->persistent->IsWeak()) {
     if (!php_v8_value->is_weak) {
-        if (php_v8_value->callbacks) {
-            php_v8_callbacks_cleanup(php_v8_value->callbacks);
-            delete php_v8_value->callbacks;
+        if (php_v8_value->persistent_data) {
+            delete php_v8_value->persistent_data;
+            php_v8_value->persistent_data = NULL;
         }
 
         if (php_v8_value->persistent) {
@@ -162,7 +167,7 @@ static zend_object * php_v8_value_ctor(zend_class_entry *ce) {
     object_properties_init(&php_v8_value->std, ce);
 
     php_v8_value->persistent = new v8::Persistent<v8::Value>();
-    php_v8_value->callbacks = new php_v8_callbacks_t();
+    php_v8_value->persistent_data = new phpv8::PersistentData();
 
     php_v8_value->std.handlers = &php_v8_value_object_handlers;
 

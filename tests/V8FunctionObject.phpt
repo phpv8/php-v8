@@ -34,6 +34,7 @@ $helper->dump($func);
 $helper->space();
 
 $helper->assert('FunctionObject extends ObjectValue', $func instanceof \V8\ObjectValue);
+$helper->assert('FunctionObject implements AdjustableExternalMemoryInterface', $func instanceof \V8\AdjustableExternalMemoryInterface);
 $helper->line();
 
 $v8_helper->run_checks($func, 'Checkers');
@@ -113,6 +114,7 @@ object(v8Tests\TrackingDtors\FunctionObject)#6 (2) {
 
 
 FunctionObject extends ObjectValue: ok
+FunctionObject implements AdjustableExternalMemoryInterface: ok
 
 Checkers:
 ---------
@@ -149,7 +151,7 @@ Should output Hello World string
 string(11) "Script done"
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
-    object(V8\ScriptOrigin)#111 (6) {
+    object(V8\ScriptOrigin)#113 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -157,7 +159,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#112 (3) {
+      object(V8\ScriptOriginOptions)#114 (3) {
         ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>

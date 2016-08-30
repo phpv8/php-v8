@@ -67,6 +67,7 @@
 
 #include "php_v8_value.h"
 #include "php_v8_data.h"
+#include "php_v8_ext_mem_interface.h"
 
 #include <v8.h>
 
@@ -97,70 +98,71 @@ PHP_INI_END()
  */
 PHP_MINIT_FUNCTION(v8)
 {
-	PHP_MINIT(php_v8_exceptions)(INIT_FUNC_ARGS_PASSTHRU);	/* Exceptions */
+    PHP_MINIT(php_v8_exceptions)(INIT_FUNC_ARGS_PASSTHRU);    /* Exceptions */
+    PHP_MINIT(php_v8_ext_mem_interface)(INIT_FUNC_ARGS_PASSTHRU);    /* AdjustableExternalMemoryInterface */
 
-	PHP_MINIT(php_v8_heap_statistics)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_startup_data)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_isolate)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_context)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_script)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_heap_statistics)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_startup_data)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_isolate)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_context)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_script)(INIT_FUNC_ARGS_PASSTHRU);
 
-	PHP_MINIT(php_v8_exception)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_try_catch)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_message)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_stack_frame)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_stack_trace)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_script_origin_options)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_script_origin)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_exception)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_try_catch)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_message)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_stack_frame)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_stack_trace)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_script_origin_options)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_script_origin)(INIT_FUNC_ARGS_PASSTHRU);
 
-	PHP_MINIT(php_v8_data)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_value)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_primitive)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_null)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_boolean)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_name)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_string)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_symbol)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_number)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_integer)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_int32)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_uint32)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_integrity_level)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_object)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_function)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_array)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_date)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_regexp)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_data)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_value)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_primitive)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_null)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_boolean)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_name)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_string)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_symbol)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_number)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_integer)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_int32)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_uint32)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_integrity_level)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_object)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_function)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_array)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_date)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_regexp)(INIT_FUNC_ARGS_PASSTHRU);
 
-	PHP_MINIT(php_v8_number_object)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_boolean_object)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_string_object)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_symbol_object)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_number_object)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_boolean_object)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_string_object)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_symbol_object)(INIT_FUNC_ARGS_PASSTHRU);
 
-	PHP_MINIT(php_v8_template)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_object_template)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_function_template)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_template)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_object_template)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_function_template)(INIT_FUNC_ARGS_PASSTHRU);
 
 
-	PHP_MINIT(php_v8_property_attribute)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants for v8 internals similarity/compatibility */
-	PHP_MINIT(php_v8_access_control)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants */
-	PHP_MINIT(php_v8_return_value)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_property_attribute)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants for v8 internals similarity/compatibility */
+    PHP_MINIT(php_v8_access_control)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants */
+    PHP_MINIT(php_v8_return_value)(INIT_FUNC_ARGS_PASSTHRU);
 
-	PHP_MINIT(php_v8_callback_info)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_property_callback_info)(INIT_FUNC_ARGS_PASSTHRU); /* PropertyCallbackInfo inherits CallbackInfo */
-	PHP_MINIT(php_v8_function_callback_info)(INIT_FUNC_ARGS_PASSTHRU); /* FunctionCallbackInfo inherits CallbackInfo */
+    PHP_MINIT(php_v8_callback_info)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_property_callback_info)(INIT_FUNC_ARGS_PASSTHRU); /* PropertyCallbackInfo inherits CallbackInfo */
+    PHP_MINIT(php_v8_function_callback_info)(INIT_FUNC_ARGS_PASSTHRU); /* FunctionCallbackInfo inherits CallbackInfo */
 
-	PHP_MINIT(php_v8_property_handler_flags)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants */
-	PHP_MINIT(php_v8_named_property_handler_configuration)(INIT_FUNC_ARGS_PASSTHRU);
-	PHP_MINIT(php_v8_indexed_property_handler_configuration)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_property_handler_flags)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants */
+    PHP_MINIT(php_v8_named_property_handler_configuration)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_indexed_property_handler_configuration)(INIT_FUNC_ARGS_PASSTHRU);
 
-	PHP_MINIT(php_v8_access_type)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants */
+    PHP_MINIT(php_v8_access_type)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants */
 
-	/* If you have INI entries, uncomment these lines
-	REGISTER_INI_ENTRIES();
-	*/
+    /* If you have INI entries, uncomment these lines
+    REGISTER_INI_ENTRIES();
+    */
 
-	return SUCCESS;
+    return SUCCESS;
 }
 /* }}} */
 
@@ -168,10 +170,10 @@ PHP_MINIT_FUNCTION(v8)
  */
 PHP_MSHUTDOWN_FUNCTION(v8)
 {
-	/* uncomment this line if you have INI entries
-	UNREGISTER_INI_ENTRIES();
-	*/
-	return SUCCESS;
+    /* uncomment this line if you have INI entries
+    UNREGISTER_INI_ENTRIES();
+    */
+    return SUCCESS;
 }
 /* }}} */
 
@@ -180,7 +182,7 @@ PHP_MSHUTDOWN_FUNCTION(v8)
  */
 PHP_RINIT_FUNCTION(v8)
 {
-	return SUCCESS;
+    return SUCCESS;
 }
 /* }}} */
 
@@ -189,7 +191,7 @@ PHP_RINIT_FUNCTION(v8)
  */
 PHP_RSHUTDOWN_FUNCTION(v8)
 {
-	return SUCCESS;
+    return SUCCESS;
 }
 /* }}} */
 
@@ -197,21 +199,21 @@ PHP_RSHUTDOWN_FUNCTION(v8)
  */
 PHP_MINFO_FUNCTION(v8)
 {
-	php_info_print_table_start();
-	php_info_print_table_header(2, "V8 support", "enabled");
-	php_info_print_table_row(2, "Version", PHP_V8_VERSION);
-	php_info_print_table_row(2, "Revision", PHP_V8_REVISION);
-	php_info_print_table_row(2, "Compiled", __DATE__ " @ "  __TIME__);
-	php_info_print_table_end();
+    php_info_print_table_start();
+    php_info_print_table_header(2, "V8 support", "enabled");
+    php_info_print_table_row(2, "Version", PHP_V8_VERSION);
+    php_info_print_table_row(2, "Revision", PHP_V8_REVISION);
+    php_info_print_table_row(2, "Compiled", __DATE__ " @ "  __TIME__);
+    php_info_print_table_end();
 
-	php_info_print_table_start();
-	php_info_print_table_row(2, "V8 Engine Compiled Version", PHP_V8_LIBV8_VERSION);
-	php_info_print_table_row(2, "V8 Engine Linked Version", v8::V8::GetVersion());
-	php_info_print_table_end();
+    php_info_print_table_start();
+    php_info_print_table_row(2, "V8 Engine Compiled Version", PHP_V8_LIBV8_VERSION);
+    php_info_print_table_row(2, "V8 Engine Linked Version", v8::V8::GetVersion());
+    php_info_print_table_end();
 
-	/* Remove comments if you have entries in php.ini
-	DISPLAY_INI_ENTRIES();
-	*/
+    /* Remove comments if you have entries in php.ini
+    DISPLAY_INI_ENTRIES();
+    */
 }
 /* }}} */
 
@@ -221,9 +223,9 @@ PHP_MINFO_FUNCTION(v8)
 static PHP_GINIT_FUNCTION(v8)
 {
 #if defined(COMPILE_DL_V8) && defined(ZTS)
-	ZEND_TSRMLS_CACHE_UPDATE();
+    ZEND_TSRMLS_CACHE_UPDATE();
 #endif
-	v8_globals->v8_initialized = false;
+    v8_globals->v8_initialized = false;
 }
 /* }}} */
 
@@ -241,27 +243,27 @@ static PHP_GSHUTDOWN_FUNCTION(v8)
  * Every user visible function must have an entry in php_v8_functions[].
  */
 const zend_function_entry php_v8_functions[] = {
-	PHP_FE_END	/* Must be the last line in php_v8_functions[] */
+    PHP_FE_END    /* Must be the last line in php_v8_functions[] */
 };
 /* }}} */
 
 /* {{{ php_v8_module_entry
  */
 zend_module_entry php_v8_module_entry = {
-	STANDARD_MODULE_HEADER,
-	"v8",
-	php_v8_functions,
-	PHP_MINIT(v8),
-	PHP_MSHUTDOWN(v8),
-	PHP_RINIT(v8),		/* Replace with NULL if there's nothing to do at request start */
-	PHP_RSHUTDOWN(v8),	/* Replace with NULL if there's nothing to do at request end */
-	PHP_MINFO(v8),
-	PHP_V8_VERSION,
-	PHP_MODULE_GLOBALS(v8),
-	PHP_GINIT(v8),
-	PHP_GSHUTDOWN(v8),
-	NULL,
-	STANDARD_MODULE_PROPERTIES_EX
+    STANDARD_MODULE_HEADER,
+    "v8",
+    php_v8_functions,
+    PHP_MINIT(v8),
+    PHP_MSHUTDOWN(v8),
+    PHP_RINIT(v8),        /* Replace with NULL if there's nothing to do at request start */
+    PHP_RSHUTDOWN(v8),    /* Replace with NULL if there's nothing to do at request end */
+    PHP_MINFO(v8),
+    PHP_V8_VERSION,
+    PHP_MODULE_GLOBALS(v8),
+    PHP_GINIT(v8),
+    PHP_GSHUTDOWN(v8),
+    NULL,
+    STANDARD_MODULE_PROPERTIES_EX
 
 };
 /* }}} */

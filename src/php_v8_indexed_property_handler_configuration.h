@@ -55,7 +55,8 @@ typedef struct _php_v8_indexed_property_handler_configuration_t {
 
     long flags;
 
-    php_v8_callbacks_bucket_t *bucket;
+    //php_v8_callbacks_bucket_t *bucket;
+    phpv8::CallbacksBucket *bucket;
 
     zval *gc_data;
     int   gc_data_count;

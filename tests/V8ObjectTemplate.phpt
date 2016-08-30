@@ -21,6 +21,7 @@ $helper->dump($value);
 $helper->space();
 
 $helper->assert('ObjectTemplate extends Template', $value instanceof \V8\Template);
+$helper->assert('ObjectTemplate implements AdjustableExternalMemoryInterface', $value instanceof \V8\AdjustableExternalMemoryInterface);
 $helper->line();
 
 $helper->header('Accessors');
@@ -64,6 +65,7 @@ object(V8\ObjectTemplate)#4 (1) {
 
 
 ObjectTemplate extends Template: ok
+ObjectTemplate implements AdjustableExternalMemoryInterface: ok
 
 Accessors:
 ----------

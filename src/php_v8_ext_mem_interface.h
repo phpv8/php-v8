@@ -12,64 +12,34 @@
   +----------------------------------------------------------------------+
 */
 
-#ifndef PHP_V8_H
-#define PHP_V8_H
+#ifndef PHP_V8_EXT_MEM_INTERFACE_H
+#define PHP_V8_EXT_MEM_INTERFACE_H
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 extern "C" {
 #include "php.h"
-#include <v8-version.h>
 
 #ifdef ZTS
 #include "TSRM.h"
 #endif
-};
-
-extern zend_module_entry php_v8_module_entry;
-#define phpext_v8_ptr &php_v8_module_entry
+}
 
 
-#ifndef PHP_V8_VERSION
-#define PHP_V8_VERSION "0.2.0-dev"
-#endif
-
-#ifndef PHP_V8_REVISION
-#define PHP_V8_REVISION "dev"
-#endif
+extern zend_class_entry* php_v8_ext_mem_interface_ce;
 
 
-#define PHP_V8_NS "V8"
+extern void php_v8_ext_mem_interface_value_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS);
+extern void php_v8_ext_mem_interface_value_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS);
 
-#ifndef PHP_V8_LIBV8_VERSION
-#define PHP_V8_LIBV8_VERSION "undefined"
-#endif
+extern void php_v8_ext_mem_interface_function_template_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS);
+extern void php_v8_ext_mem_interface_function_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS);
 
+extern void php_v8_ext_mem_interface_object_template_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS);
+extern void php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS);
 
-ZEND_BEGIN_MODULE_GLOBALS(v8)
-    bool v8_initialized;
-ZEND_END_MODULE_GLOBALS(v8)
+PHP_MINIT_FUNCTION(php_v8_ext_mem_interface);
 
-
-/* Always refer to the globals in your function as PHP_V8_G(variable).
-   You are encouraged to rename these macros something shorter, see
-   examples in any other php module directory.
-*/
-
-#ifdef ZTS
-#define PHP_V8_G(v) ZEND_MODULE_GLOBALS_ACCESSOR(v8, v)
-#ifdef COMPILE_DL_V8
-ZEND_TSRMLS_CACHE_EXTERN();
-#endif
-#else
-#define PHP_V8_G(v) (v8_globals.v)
-#endif
-
-ZEND_EXTERN_MODULE_GLOBALS(v8);
-
-#endif //PHP_V8_H
+#endif //PHP_V8_EXT_MEM_INTERFACE_H
 
 /*
  * Local variables:
