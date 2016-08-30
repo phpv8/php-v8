@@ -196,11 +196,22 @@ class Isolate
     /**
      * Check if V8 is dead and therefore unusable.  This is the case after
      * fatal errors such as out-of-memory situations.
+     *
+     * @return bool
      */
     public function IsDead() : bool
     {
     }
 
+    /**
+     * Check if this isolate is in use.
+     * True if at least one thread Enter'ed this isolate.
+     *
+     * @return bool
+     */
+    public function IsInUse() : bool
+    {
+    }
 
     /**
      * Tells V8 to capture current stack trace when uncaught exception occurs
