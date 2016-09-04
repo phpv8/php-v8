@@ -40,8 +40,8 @@ intentionally with the purpose to provide more solid experience between native V
 
 ## Demo
 
-Here is a [Hello World](https://developers.google.com/v8/get_started#hello-world)
-from V8 [Getting Started](https://developers.google.com/v8/intro) developers guide page implemented in PHP with php-v8:
+Here is a [Hello World][v8-hello-world]
+from V8 [Getting Started][v8-intro] developers guide page implemented in PHP with php-v8:
 
 ```php
 <?php
@@ -55,8 +55,8 @@ $result = $script->Run($context);
 echo $result->ToString($context)->Value(), PHP_EOL;
 ```
 
-which will output `Hello, World!`. See how it's shorter and readable from that C++ version? And it also doesn't limit
-you from V8 API utilizing to implement more amazing stuff.
+which will output `Hello, World!`. See how it's shorter and readable from [that C++ version]([v8-hello-world])?
+And it also doesn't limit you from V8 API utilizing to implement more amazing stuff.
 
 
 ## Installation
@@ -103,11 +103,11 @@ You will need some fresh v8 Google JavaScript enging version installed. At this 
    ```
 
 
-### Installing from packages
+### Installing php-v8 from packages
 
  - For Ubuntu there are [pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) PPA.
 
-   To install fresh `php7.0` do:
+   To install fresh `php-v8`:
 
    ```
    $ sudo add-apt-repository -y ppa:pinepain/php-v8
@@ -122,7 +122,7 @@ You will need some fresh v8 Google JavaScript enging version installed. At this 
    $ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/php70-v8.rb
    ```
 
-### Building from sources
+### Building php-v8 from sources
 
 ```
 git clone https://github.com/pinepain/php-v8.git
@@ -152,5 +152,7 @@ Copyright (c) 2015-2016 Bogdan Padalko &lt;pinepain@gmail.com&gt;
 [php-v8](https://github.com/pinepain/php-v8) PHP extension is licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
 
+[v8-hello-world]: https://chromium.googlesource.com/v8/v8/+/master/samples/hello-world.cc
+[v8-intro]: https://developers.google.com/v8/intro
 [php70-v8.rb]: https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/php70-v8.rb
 [php71-v8.rb]: https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/php71-v8.rb

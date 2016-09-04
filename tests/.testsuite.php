@@ -39,6 +39,12 @@ class PhpV8Testsuite
         echo $message, ': ', $value, PHP_EOL;
     }
 
+    public function inline_dump($message, $value)
+    {
+        echo $message, ': ';
+        $this->dump($value);
+    }
+
     public function space($new_lines_number = 2)
     {
         echo str_repeat(PHP_EOL, max(1, $new_lines_number));

@@ -489,7 +489,6 @@ static PHP_METHOD(V8Isolate, SetCaptureStackTraceForUncaughtExceptions) {
                                                        static_cast<v8::StackTrace::StackTraceOptions>(options & PHP_V8_STACK_TRACE_OPTIONS));
 }
 
-
 static PHP_METHOD(V8Isolate, IsDead) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -499,6 +498,17 @@ static PHP_METHOD(V8Isolate, IsDead) {
     PHP_V8_ENTER_ISOLATE(php_v8_isolate); // TODO: can we just fetch isolate object here and do not eneter it?
 
     RETURN_BOOL(isolate->IsDead());
+}
+
+static PHP_METHOD(V8Isolate, IsInUse) {
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+    PHP_V8_DECLARE_ISOLATE(php_v8_isolate);
+
+    RETURN_BOOL(isolate->IsInUse());
 }
 
 
@@ -574,6 +584,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsDead, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsInUse, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+ZEND_END_ARG_INFO()
+
+
 static const zend_function_entry php_v8_isolate_methods[] = {
         PHP_ME(V8Isolate, __construct, arginfo_v8_isolate___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
@@ -603,6 +617,7 @@ static const zend_function_entry php_v8_isolate_methods[] = {
 
         PHP_ME(V8Isolate, SetCaptureStackTraceForUncaughtExceptions, arginfo_v8_isolate_SetCaptureStackTraceForUncaughtExceptions, ZEND_ACC_PUBLIC)
         PHP_ME(V8Isolate, IsDead, arginfo_v8_isolate_IsDead, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Isolate, IsInUse, arginfo_v8_isolate_IsInUse, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };
