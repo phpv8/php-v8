@@ -76,6 +76,7 @@ if test "$PHP_V8" != "no"; then
 
   for static_link_extra_file in $static_link_extra; do
     AC_MSG_CHECKING([for $static_link_extra_file])
+    static_link_dir=""
 
     for i in $PHP_V8 $SEARCH_PATH ; do
       if test -r $i/lib64/$static_link_extra_file; then
@@ -90,7 +91,7 @@ if test "$PHP_V8" != "no"; then
 
     if test -z "$static_link_dir"; then
       AC_MSG_RESULT([not found])
-      AC_MSG_ERROR([Please provide $static_link_extra_file next to the libv8.so, see README.md for details])
+      AC_MSG_ERROR([Please provide $static_link_extra_file next to the libv8.so])
     fi
 
     LDFLAGS="$LDFLAGS $static_link_dir/$static_link_extra_file"
