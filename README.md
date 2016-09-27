@@ -55,8 +55,18 @@ $result = $script->Run($context);
 echo $result->ToString($context)->Value(), PHP_EOL;
 ```
 
-which will output `Hello, World!`. See how it's shorter and more readable than [that C++ version]([v8-hello-world])?
+which will output `Hello, World!`. See how it's shorter and more readable than [that C++ version][v8-hello-world]?
 And it also doesn't limit you from V8 API utilizing to implement more amazing stuff.
+
+
+## Stub files
+
+If you are also using Composer, it is recommended to add the [php-v8-stub][php-v8-stubs]
+package as a dev-mode requirement. It provides skeleton definitions and annotations to enable support for auto-completion
+in your IDE and other code-analysis tools.
+
+    composer require --dev pinepain/php-v8-stubs
+
 
 ## Installation
 
@@ -155,3 +165,4 @@ Copyright (c) 2015-2016 Bogdan Padalko &lt;pinepain@gmail.com&gt;
 [v8-intro]: https://developers.google.com/v8/intro
 [php70-v8.rb]: https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/php70-v8.rb
 [php71-v8.rb]: https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/php71-v8.rb
+[php-v8-stubs]: https://github.com/pinepain/php-v8-stubs
