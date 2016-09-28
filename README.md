@@ -70,6 +70,29 @@ in your IDE and other code-analysis tools.
 
 ## Installation
 
+### Quick guide
+
+#### Ubuntu
+
+```
+$ sudo add-apt-repository -y ppa:ondrej/php
+$ sudo add-apt-repository -y ppa:pinepain/php
+$ sudo apt-get update -y
+$ sudo apt-get install -y php7.0 php-v8
+$ php --ri v8
+```
+
+#### OS X (homebrew)
+
+```
+$ brew tap homebrew/dupes
+$ brew tap homebrew/php
+$ brew install php70
+$ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/v8.rb
+$ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/php70-v8.rb
+$ php --ri v8
+```
+
 ### Requirements
 
 #### V8
