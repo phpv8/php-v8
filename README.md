@@ -88,8 +88,8 @@ $ php --ri v8
 $ brew tap homebrew/dupes
 $ brew tap homebrew/php
 $ brew install php70
-$ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/v8.rb
-$ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/php70-v8.rb
+$ brew install https://raw.githubusercontent.com/pinepain/packaging/master/homebrew/v8.rb
+$ brew install https://raw.githubusercontent.com/pinepain/packaging/master/homebrew/php70-v8.rb
 $ php --ri v8
 ```
 
@@ -106,11 +106,11 @@ You will need a recent v8 Google JavaScript engine version installed. At this ti
    $ sudo apt-get update -y
    $ sudo apt-get install -y libv8-5.4-dev
    ```
- - For OS X there is the [v8.rb](https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/v8.rb) homebrew formula.
+ - For OS X there is the [v8.rb][v8.rb] homebrew formula.
    To install libv8:
 
    ```
-   $ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/v8.rb
+   $ brew install https://raw.githubusercontent.com/pinepain/packaging/master/homebrew/v8.rb
    ```
 
 #### PHP 7
@@ -151,7 +151,7 @@ You will need a recent v8 Google JavaScript engine version installed. At this ti
    To install `php70-v8` do:
 
    ```
-   $ brew install https://raw.githubusercontent.com/pinepain/php-v8/master/scripts/homebrew/php70-v8.rb
+   $ brew install https://raw.githubusercontent.com/pinepain/packaging/master/homebrew/php70-v8.rb
    ```
 
 ### Building php-v8 from sources
@@ -186,6 +186,7 @@ Copyright (c) 2015-2016 Bogdan Padalko &lt;pinepain@gmail.com&gt;
 
 [v8-hello-world]: https://chromium.googlesource.com/v8/v8/+/master/samples/hello-world.cc
 [v8-intro]: https://developers.google.com/v8/intro
-[php70-v8.rb]: https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/php70-v8.rb
-[php71-v8.rb]: https://github.com/pinepain/php-v8/blob/master/scripts/homebrew/php71-v8.rb
+[v8.rb]: https://github.com/pinepain/packaging/blob/master/homebrew/v8.rb
+[php70-v8.rb]: https://github.com/pinepain/packaging/blob/master/homebrew/php70-v8.rb
+[php71-v8.rb]: https://github.com/pinepain/packaging/blob/master/homebrew/php71-v8.rb
 [php-v8-stubs]: https://github.com/pinepain/php-v8-stubs
