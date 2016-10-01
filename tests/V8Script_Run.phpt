@@ -27,7 +27,7 @@ $file_name = 'test.js';
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 $res = $script->Run($context);
 
-$v8_helper->run_checks($value);
+$v8_helper->run_checks($res);
 
 $helper->dump($res->Value());
 

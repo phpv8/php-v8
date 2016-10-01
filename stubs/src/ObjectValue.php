@@ -221,19 +221,20 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
     }
 
     /**
-     * @param NameValue     $name
-     * @param callable      $getter
-     * @param callable|null $setter
-     * @param int           $attributes
-     * @param int           $settings
+     * @param NameValue           $name
+     * @param FunctionObject      $getter
+     * @param FunctionObject|null $setter
+     * @param int                 $attributes
+     * @param int                 $settings
      */
     public function SetAccessorProperty(
         NameValue $name,
-        callable $getter,
-        callable $setter = null,
+        FunctionObject $getter,
+        FunctionObject $setter = null,
         int $attributes = PropertyAttribute::None,
         int $settings = AccessControl::DEFAULT_ACCESS
-    ) {
+    )
+    {
     }
 
     /**
