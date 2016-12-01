@@ -31,6 +31,9 @@ extern "C" {
 extern zend_module_entry php_v8_module_entry;
 #define phpext_v8_ptr &php_v8_module_entry
 
+#ifndef PHP_V8_LIB_DIR
+#define PHP_V8_LIB_DIR NULL
+#endif
 
 #ifndef PHP_V8_VERSION
 #define PHP_V8_VERSION "0.2.0-dev"

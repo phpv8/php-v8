@@ -29,6 +29,8 @@ void php_v8_init()
         return;
     }
 
+    v8::V8::InitializeICUDefaultLocation(PHP_V8_LIB_DIR);
+
     // NOTE: if we use snapshot and extenal startup data then we have to initialize it (see https://codereview.chromium.org/315033002/)
     // v8::V8::InitializeExternalStartupData(NULL);
     v8::Platform *platform = v8::platform::CreateDefaultPlatform();
