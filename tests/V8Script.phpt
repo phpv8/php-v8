@@ -123,9 +123,7 @@ object(V8\Script)#7 (4) {
     ["resource_column_offset":"V8\ScriptOrigin":private]=>
     int(0)
     ["options":"V8\ScriptOrigin":private]=>
-    object(V8\ScriptOriginOptions)#10 (3) {
-      ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
-      bool(false)
+    object(V8\ScriptOriginOptions)#10 (2) {
       ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
       bool(false)
       ["is_opaque":"V8\ScriptOriginOptions":private]=>

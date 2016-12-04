@@ -15,7 +15,6 @@ $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters (default)');
-$helper->method_matches_with_output($obj, 'IsEmbedderDebugScript', false);
 $helper->method_matches_with_output($obj, 'IsSharedCrossOrigin', false);
 $helper->method_matches_with_output($obj, 'IsOpaque', false);
 $helper->space();
@@ -28,9 +27,19 @@ $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
-$helper->method_matches_with_output($obj, 'IsEmbedderDebugScript', true);
-$helper->method_matches_with_output($obj, 'IsSharedCrossOrigin', false);
+$helper->method_matches_with_output($obj, 'IsSharedCrossOrigin', true);
 $helper->method_matches_with_output($obj, 'IsOpaque', false);
+$helper->space();
+
+$obj = new V8\ScriptOriginOptions(true, true);
+
+$helper->header('Object representation');
+$helper->dump($obj);
+$helper->space();
+
+$helper->header('Test getters');
+$helper->method_matches_with_output($obj, 'IsSharedCrossOrigin', true);
+$helper->method_matches_with_output($obj, 'IsOpaque', true);
 $helper->space();
 
 $obj = new V8\ScriptOriginOptions(false, true);
@@ -40,42 +49,26 @@ $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
-$helper->method_matches_with_output($obj, 'IsEmbedderDebugScript', false);
-$helper->method_matches_with_output($obj, 'IsSharedCrossOrigin', true);
-$helper->method_matches_with_output($obj, 'IsOpaque', false);
-$helper->space();
-
-$obj = new V8\ScriptOriginOptions(false, false, true);
-
-$helper->header('Object representation');
-$helper->dump($obj);
-$helper->space();
-
-$helper->header('Test getters');
-$helper->method_matches_with_output($obj, 'IsEmbedderDebugScript', false);
 $helper->method_matches_with_output($obj, 'IsSharedCrossOrigin', false);
 $helper->method_matches_with_output($obj, 'IsOpaque', true);
 $helper->space();
 
-$obj = new V8\ScriptOriginOptions(true, true, true);
+$obj = new V8\ScriptOriginOptions(true, false);
 
 $helper->header('Object representation');
 $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
-$helper->method_matches_with_output($obj, 'IsEmbedderDebugScript', true);
 $helper->method_matches_with_output($obj, 'IsSharedCrossOrigin', true);
-$helper->method_matches_with_output($obj, 'IsOpaque', true);
+$helper->method_matches_with_output($obj, 'IsOpaque', false);
 $helper->space();
 
 ?>
 --EXPECT--
 Object representation (default):
 --------------------------------
-object(V8\ScriptOriginOptions)#2 (3) {
-  ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
-  bool(false)
+object(V8\ScriptOriginOptions)#2 (2) {
   ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
   bool(false)
   ["is_opaque":"V8\ScriptOriginOptions":private]=>
@@ -85,35 +78,13 @@ object(V8\ScriptOriginOptions)#2 (3) {
 
 Test getters (default):
 -----------------------
-V8\ScriptOriginOptions::IsEmbedderDebugScript() matches expected false
 V8\ScriptOriginOptions::IsSharedCrossOrigin() matches expected false
 V8\ScriptOriginOptions::IsOpaque() matches expected false
 
 
 Object representation:
 ----------------------
-object(V8\ScriptOriginOptions)#3 (3) {
-  ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
-  bool(true)
-  ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_opaque":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-}
-
-
-Test getters:
--------------
-V8\ScriptOriginOptions::IsEmbedderDebugScript() matches expected true
-V8\ScriptOriginOptions::IsSharedCrossOrigin() matches expected false
-V8\ScriptOriginOptions::IsOpaque() matches expected false
-
-
-Object representation:
-----------------------
-object(V8\ScriptOriginOptions)#2 (3) {
-  ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
-  bool(false)
+object(V8\ScriptOriginOptions)#3 (2) {
   ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
   bool(true)
   ["is_opaque":"V8\ScriptOriginOptions":private]=>
@@ -123,16 +94,29 @@ object(V8\ScriptOriginOptions)#2 (3) {
 
 Test getters:
 -------------
-V8\ScriptOriginOptions::IsEmbedderDebugScript() matches expected false
 V8\ScriptOriginOptions::IsSharedCrossOrigin() matches expected true
 V8\ScriptOriginOptions::IsOpaque() matches expected false
 
 
 Object representation:
 ----------------------
-object(V8\ScriptOriginOptions)#3 (3) {
-  ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
-  bool(false)
+object(V8\ScriptOriginOptions)#2 (2) {
+  ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
+  bool(true)
+  ["is_opaque":"V8\ScriptOriginOptions":private]=>
+  bool(true)
+}
+
+
+Test getters:
+-------------
+V8\ScriptOriginOptions::IsSharedCrossOrigin() matches expected true
+V8\ScriptOriginOptions::IsOpaque() matches expected true
+
+
+Object representation:
+----------------------
+object(V8\ScriptOriginOptions)#3 (2) {
   ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
   bool(false)
   ["is_opaque":"V8\ScriptOriginOptions":private]=>
@@ -142,25 +126,21 @@ object(V8\ScriptOriginOptions)#3 (3) {
 
 Test getters:
 -------------
-V8\ScriptOriginOptions::IsEmbedderDebugScript() matches expected false
 V8\ScriptOriginOptions::IsSharedCrossOrigin() matches expected false
 V8\ScriptOriginOptions::IsOpaque() matches expected true
 
 
 Object representation:
 ----------------------
-object(V8\ScriptOriginOptions)#2 (3) {
-  ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
-  bool(true)
+object(V8\ScriptOriginOptions)#2 (2) {
   ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
   bool(true)
   ["is_opaque":"V8\ScriptOriginOptions":private]=>
-  bool(true)
+  bool(false)
 }
 
 
 Test getters:
 -------------
-V8\ScriptOriginOptions::IsEmbedderDebugScript() matches expected true
 V8\ScriptOriginOptions::IsSharedCrossOrigin() matches expected true
-V8\ScriptOriginOptions::IsOpaque() matches expected true
+V8\ScriptOriginOptions::IsOpaque() matches expected false

@@ -74,7 +74,6 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
     v8::Local<v8::Integer> resource_column_offset = v8::Local<v8::Integer>();
     v8::Local<v8::Boolean> resource_is_shared_cross_origin = v8::Local<v8::Boolean>();
     v8::Local<v8::Integer> script_id = v8::Local<v8::Integer>();
-    v8::Local<v8::Boolean> resource_is_embedder_debug_script = v8::Local<v8::Boolean>();
     v8::Local<v8::Value> source_map_url = v8::Local<v8::Value>();
     v8::Local<v8::Boolean> resource_is_opaque = v8::Local<v8::Boolean>();
 
@@ -124,12 +123,10 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
     zval *options_zv = zend_read_property(this_ce, value, ZEND_STRL("options"), 0, &rv); // ScriptOriginOptions
 
     if (Z_TYPE_P(options_zv) == IS_OBJECT) {
-        zval *is_embedder_debug_script_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_embedder_debug_script"), 0, &rv);
         zval *is_shared_cross_origin_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_shared_cross_origin"), 0, &rv);
         zval *is_opaque_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_opaque"), 0, &rv);
 
-        resource_is_shared_cross_origin = v8::Boolean::New(isolate, Z_TYPE_P(is_embedder_debug_script_zv) == IS_TRUE);
-        resource_is_embedder_debug_script = v8::Boolean::New(isolate, Z_TYPE_P(is_shared_cross_origin_zv) == IS_TRUE);
+        resource_is_shared_cross_origin = v8::Boolean::New(isolate, Z_TYPE_P(is_shared_cross_origin_zv) == IS_TRUE);
         resource_is_opaque = v8::Boolean::New(isolate, Z_TYPE_P(is_opaque_zv) == IS_TRUE);
     }
 
@@ -138,7 +135,6 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
                                 resource_column_offset,
                                 resource_is_shared_cross_origin,
                                 script_id,
-                                resource_is_embedder_debug_script,
                                 source_map_url,
                                 resource_is_opaque);
 }
@@ -149,26 +145,23 @@ static PHP_METHOD(V8ScriptOrigin, __construct) {
     zend_long resource_column_offset = static_cast<zend_long>(v8::Message::kNoColumnInfo);
     zend_bool resource_is_shared_cross_origin = '\0';
     zend_long script_id = static_cast<zend_long>(v8::Message::kNoScriptIdInfo);
-    zend_bool resource_is_embedder_debug_script = '\0';
     zend_string *source_map_url = NULL;
     zend_bool resource_is_opaque = '\0';
 
     zval options_zv;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|SllblbSb",
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|SllblSb",
                               &resource_name,
                               &resource_line_offset,
                               &resource_column_offset,
                               &resource_is_shared_cross_origin,
                               &script_id,
-                              &resource_is_embedder_debug_script,
                               &source_map_url,
                               &resource_is_opaque) == FAILURE) {
         return;
     }
 
-    v8::ScriptOriginOptions options(static_cast<bool>(resource_is_embedder_debug_script),
-                                    static_cast<bool>(resource_is_shared_cross_origin),
+    v8::ScriptOriginOptions options(static_cast<bool>(resource_is_shared_cross_origin),
                                     static_cast<bool>(resource_is_opaque));
 
     php_v8_create_script_origin_options(&options_zv, options);
@@ -256,7 +249,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_script_origin___construct, ZEND_SEND_BY_VAL, Z
                 ZEND_ARG_TYPE_INFO(0, resource_column_offset, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, resource_is_shared_cross_origin, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, script_id, IS_LONG, 0)
-                ZEND_ARG_TYPE_INFO(0, resource_is_embedder_debug_script, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, source_map_url, IS_STRING, 0)
                 ZEND_ARG_TYPE_INFO(0, resource_is_opaque, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
@@ -316,6 +308,6 @@ PHP_MINIT_FUNCTION (php_v8_script_origin) {
  * c-basic-offset: 4
  * End:
  * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
+ * vim<600: noet sw=4 ts=4``
  */
 
