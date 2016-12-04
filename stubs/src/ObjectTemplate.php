@@ -142,17 +142,31 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
     {
     }
 
-    /**
-     * Mark object instances of the template as undetectable.
-     *
-     * In many ways, undetectable objects behave as though they are not
-     * there.  They behave like 'undefined' in conditionals and when
-     * printed.  However, properties can be accessed and called as on
-     * normal objects.
-     */
-    public function MarkAsUndetectable()
-    {
-    }
+    // Method is not supported anymore due to a limited use and a way it implemented (causes segfault under certain conditions)
+    // see v8/src/api-natives.cc:677
+    //  // Mark as undetectable if needed.
+    //  if (obj->undetectable()) {
+    //    // We only allow callable undetectable receivers here, since this whole
+    //    // undetectable business is only to support document.all, which is both
+    //    // undetectable and callable. If we ever see the need to have an object
+    //    // that is undetectable but not callable, we need to update the types.h
+    //    // to allow encoding this.
+    //    CHECK(!obj->instance_call_handler()->IsUndefined(isolate));
+    //    map->set_is_undetectable();
+    //  }
+
+
+    ///**
+    // * Mark object instances of the template as undetectable.
+    // *
+    // * In many ways, undetectable objects behave as though they are not
+    // * there.  They behave like 'undefined' in conditionals and when
+    // * printed.  However, properties can be accessed and called as on
+    // * normal objects.
+    // */
+    //public function MarkAsUndetectable()
+    //{
+    //}
 
     // Disabled due to https://groups.google.com/forum/#!topic/v8-dev/c7LhW2bNabY and it should be not necessary to use
     // it in other then browser setup in most cases, though It would be nice to have it for API consistency reason.
