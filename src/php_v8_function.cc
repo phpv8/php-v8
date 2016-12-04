@@ -374,20 +374,6 @@ static PHP_METHOD(V8Function, GetScriptColumnNumber) {
     RETURN_LONG((zend_long) column_number);
 }
 
-static PHP_METHOD(V8Function, IsBuiltin) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
-
-    v8::Local<v8::Function> local_function = php_v8_value_get_function_local(isolate, php_v8_value);
-
-    RETURN_BOOL(local_function->IsBuiltin());
-}
-
 static PHP_METHOD(V8Function, GetBoundFunction) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -460,9 +446,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function_GetScriptColumnNumber, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_IsBuiltin, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_GetBoundFunction, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
 ZEND_END_ARG_INFO()
 
@@ -480,7 +463,6 @@ static const zend_function_entry php_v8_object_methods[] = {
 
         PHP_ME(V8Function, GetScriptLineNumber, arginfo_v8_function_GetScriptLineNumber, ZEND_ACC_PUBLIC)
         PHP_ME(V8Function, GetScriptColumnNumber, arginfo_v8_function_GetScriptColumnNumber, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Function, IsBuiltin, arginfo_v8_function_IsBuiltin, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Function, GetBoundFunction, arginfo_v8_function_GetBoundFunction, ZEND_ACC_PUBLIC)
         PHP_ME(V8Function, GetScriptOrigin, arginfo_v8_function_GetScriptOrigin, ZEND_ACC_PUBLIC)

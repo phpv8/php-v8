@@ -116,14 +116,6 @@ class  FunctionObject extends ObjectValue
     {
     }
 
-    /**
-     * Tells whether this function is builtin.
-     *
-     * @bool
-     */
-    public function IsBuiltin() : bool
-    {
-    }
 
     ///**
     // * Returns scriptId.
