@@ -1,6 +1,7 @@
 --TEST--
 V8\ObjectTemplate::MarkAsUndetectable
 --SKIPIF--
+<?php print "skip Method is not supported anymore due to a limited use and a way it implemented (causes segfault under certain conditions)"; ?>
 <?php if (!extension_loaded("v8")) { print "skip"; } ?>
 --FILE--
 <?php

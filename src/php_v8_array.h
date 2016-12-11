@@ -34,12 +34,3 @@ extern v8::Local<v8::Array> php_v8_value_get_array_local(v8::Isolate *isolate, p
 PHP_MINIT_FUNCTION(php_v8_array);
 
 #endif //PHP_V8_ARRAY_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

@@ -26,10 +26,6 @@ class ScriptOriginOptions
     /**
      * @var bool|bool
      */
-    private $is_embedder_debug_script;
-    /**
-     * @var bool|bool
-     */
     private $is_shared_cross_origin;
     /**
      * @var bool|bool
@@ -41,18 +37,11 @@ class ScriptOriginOptions
      * @param bool $is_shared_cross_origin
      * @param bool $is_opaque
      */
-    public function __construct(bool $is_embedder_debug_script = false,
-                                bool $is_shared_cross_origin = false,
+    public function __construct(bool $is_shared_cross_origin = false,
                                 bool $is_opaque = false)
     {
-        $this->is_embedder_debug_script = $is_embedder_debug_script;
         $this->is_shared_cross_origin = $is_shared_cross_origin;
         $this->is_opaque = $is_opaque;
-    }
-
-    public function IsEmbedderDebugScript() : bool
-    {
-        return $this->is_embedder_debug_script;
     }
 
     public function IsSharedCrossOrigin() : bool

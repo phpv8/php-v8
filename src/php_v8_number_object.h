@@ -34,17 +34,3 @@ extern v8::Local<v8::NumberObject> php_v8_value_get_number_object_local(v8::Isol
 PHP_MINIT_FUNCTION(php_v8_number_object);
 
 #endif //PHP_V8_NUMBER_OBJECT_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
-
-
-
-
-

@@ -55,7 +55,6 @@ class ScriptOrigin
      * @param int    $resource_column_offset
      * @param bool   $resource_is_shared_cross_origin
      * @param int    $script_id
-     * @param bool   $resource_is_embedder_debug_script
      * @param string $source_map_url
      * @param bool   $resource_is_opaque
      */
@@ -64,7 +63,6 @@ class ScriptOrigin
                                 int $resource_column_offset = Message::kNoColumnInfo,
                                 bool $resource_is_shared_cross_origin = false,
                                 int $script_id = Message::kNoScriptIdInfo,
-                                bool $resource_is_embedder_debug_script = false,
                                 string $source_map_url = '',
                                 bool $resource_is_opaque = false)
     {
@@ -72,7 +70,7 @@ class ScriptOrigin
         $this->resource_line_offset = $resource_line_offset;
         $this->resource_column_offset = $resource_column_offset;
 
-        $this->options = new ScriptOriginOptions($resource_is_embedder_debug_script, $resource_is_shared_cross_origin, $resource_is_opaque);
+        $this->options = new ScriptOriginOptions($resource_is_shared_cross_origin, $resource_is_opaque);
 
         $this->script_id = $script_id;
         $this->source_map_url = $source_map_url;

@@ -36,12 +36,3 @@ extern zend_class_entry* php_v8_access_type_class_entry;
 PHP_MINIT_FUNCTION(php_v8_access_type);
 
 #endif //PHP_V8_ACCESS_TYPE_H
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
-

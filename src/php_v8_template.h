@@ -102,12 +102,3 @@ namespace phpv8 {
 PHP_MINIT_FUNCTION(php_v8_template);
 
 #endif //PHP_V8_TEMPLATE_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

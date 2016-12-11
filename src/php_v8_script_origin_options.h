@@ -33,16 +33,3 @@ extern void php_v8_create_script_origin_options(zval * return_value, v8::ScriptO
 PHP_MINIT_FUNCTION (php_v8_script_origin_options);
 
 #endif //PHP_V8_SCRIPT_ORIGIN_OPTIONS_H
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
-
-
-
-
-

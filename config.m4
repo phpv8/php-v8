@@ -2,8 +2,18 @@ PHP_ARG_WITH(v8, for V8 Javascript Engine,
 [  --with-v8               Include V8 JavaScript Engine])
 
 if test "$PHP_V8" != "no"; then
+  V8_LIB_DIR=""
+  V8_INCLUDE_DIR=""
+
   SEARCH_PATH="/usr/local /usr"
   SEARCH_FOR="include/v8.h"
+
+  DESIRED_V8_VERSION=5.7
+
+  # Path where v8 from packages we recommend are installed, it's /opt/libv8-MAJOR.MINOR on Ubuntu
+  # and /usr/local/opt/v8@MAJOR.MINOR on macOS
+  PRIORITY_SEARCH_PATH="/opt/libv8-${DESIRED_V8_VERSION} /usr/local/opt/v8@${DESIRED_V8_VERSION}"
+  SEARCH_PATH="${PRIORITY_SEARCH_PATH} /usr/local /usr"
 
   if test -r $PHP_V8/$SEARCH_FOR; then
     case $host_os in
@@ -14,27 +24,30 @@ if test "$PHP_V8" != "no"; then
         LDFLAGS="$LDFLAGS -Wl,--rpath=$PHP_V8/$PHP_LIBDIR"
         ;;
     esac
-    V8_DIR=$PHP_V8
+    V8_LIB_DIR=$PHP_V8/$PHP_LIBDIR
+    V8_INCLUDE_DIR=$PHP_V8/include
   else
     AC_MSG_CHECKING([for V8 files in default path])
     for i in $SEARCH_PATH ; do
       if test -r $i/$SEARCH_FOR; then
-        V8_DIR=$i
         AC_MSG_RESULT(found in $i)
+        V8_LIB_DIR=$i/$PHP_LIBDIR
+        V8_INCLUDE_DIR=$i/include
       fi
     done
   fi
 
-  if test -z "$V8_DIR"; then
+  if test -z "$V8_LIB_DIR"; then
     AC_MSG_RESULT([not found])
-    AC_MSG_ERROR([Please reinstall the v8 distribution])
+    AC_MSG_ERROR([Please reinstall the v8 distribution or provide valid path to it])
   fi
 
-  PHP_ADD_INCLUDE($V8_DIR/include)
-  PHP_ADD_LIBRARY_WITH_PATH(v8, $V8_DIR/$PHP_LIBDIR, V8_SHARED_LIBADD)
+  AC_DEFINE_UNQUOTED([PHP_V8_LIB_DIR], ["$V8_LIB_DIR/"], [Root directory with libraries (and icu data file)])
+
+  PHP_ADD_INCLUDE($V8_INCLUDE_DIR)
+  PHP_ADD_LIBRARY_WITH_PATH(v8, $V8_LIB_DIR, V8_SHARED_LIBADD)
   PHP_SUBST(V8_SHARED_LIBADD)
   PHP_REQUIRE_CXX()
-
 
   AC_CACHE_CHECK(for C standard version, ac_cv_v8_cstd, [
     ac_cv_v8_cstd="c++11"
@@ -54,53 +67,21 @@ if test "$PHP_V8" != "no"; then
   case $host_os in
     darwin* )
       # MacOS does not support --rpath
-      LDFLAGS="-L$V8_DIR/$PHP_LIBDIR"
+      LDFLAGS="-L$V8_LIB_DIR"
       ;;
     * )
-      LDFLAGS="-Wl,--rpath=$V8_DIR/$PHP_LIBDIR -L$V8_DIR/$PHP_LIBDIR"
+      LDFLAGS="-Wl,--rpath=$V8_LIB_DIR -L$V8_LIB_DIR"
       ;;
   esac
 
   PHP_ADD_INCLUDE($V8_DIR)
 
-  case $host_os in
-    darwin* )
-      static_link_extra="libv8_libplatform.a libv8_libbase.a"
-      #static_link_extra="libv8_base.a libv8_libbase.a libv8_libplatform.a libv8_snapshot.a"
-      ;;
-    * )
-      static_link_extra="libv8_libplatform.a"
-      #static_link_extra="libv8_base.a libv8_libbase.a libv8_libplatform.a libv8_snapshot.a"
-      ;;
-  esac
-
-  for static_link_extra_file in $static_link_extra; do
-    AC_MSG_CHECKING([for $static_link_extra_file])
-    static_link_dir=""
-
-    for i in $PHP_V8 $SEARCH_PATH ; do
-      if test -r $i/lib64/$static_link_extra_file; then
-        static_link_dir=$i/lib64
-        AC_MSG_RESULT(found in $i)
-      fi
-      if test -r $i/lib/$static_link_extra_file; then
-        static_link_dir=$i/lib
-        AC_MSG_RESULT(found in $i)
-      fi
-    done
-
-    if test -z "$static_link_dir"; then
-      AC_MSG_RESULT([not found])
-      AC_MSG_ERROR([Please provide $static_link_extra_file next to the libv8.so])
-    fi
-
-    LDFLAGS="$LDFLAGS $static_link_dir/$static_link_extra_file"
-  done
-
-  LIBS=-lv8
-  CPPFLAGS="-I$V8_DIR/include -std=$ac_cv_v8_cstd"
+  LDFLAGS="$LDFLAGS -lv8_libbase -lv8_libplatform"
+  LIBS="-lv8 -lv8_libbase -lv8_libplatform"
+  CPPFLAGS="-I$V8_INCLUDE_DIR -std=$ac_cv_v8_cstd"
   AC_LANG_SAVE
   AC_LANG_CPLUSPLUS
+
 
   # NOTE: it is possible to get version string from headers with simple regexp match
   AC_CACHE_CHECK(for V8 version, ac_cv_v8_version, [
@@ -124,7 +105,7 @@ if test "$PHP_V8" != "no"; then
     ], [ac_cv_v8_version=`cat ./conftestval|awk '{print $1}'`], [ac_cv_v8_version=NONE], [ac_cv_v8_version=NONE])
   ])
 
-  V8_MIN_API_VERSION_STR=5.4.420
+  V8_MIN_API_VERSION_STR=5.7.202
 
   if test "$ac_cv_v8_version" != "NONE"; then
     ac_IFS=$IFS
@@ -147,15 +128,18 @@ if test "$PHP_V8" != "no"; then
 
   # On OS X clang reports warnings in zeng_strings.h, like
   #     php/Zend/zend_string.h:326:2: warning: 'register' storage class specifier is deprecated [-Wdeprecated-register]
-  # We want to make building log cleaner, so let's suppress this warning
+  # also
+  #     php/Zend/zend_operators.h:128:18: warning: 'finite' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+  # but as we want to track also deprecated methods from v8 we won't ignore -Wdeprecated-declarations warnings
+  # We want to make building log cleaner, so let's suppress only -Wdeprecated-register warning
   ac_cv_suppress_register_warnings_flag="-Wno-deprecated-register"
+  #ac_cv_suppress_register_warnings_flag="-Wno-deprecated-register -Wno-deprecated-declarations"
 
   AC_DEFINE([V8_DEPRECATION_WARNINGS], [1], [Enable compiler warnings when using V8_DEPRECATED apis.])
   AC_DEFINE([V8_IMMINENT_DEPRECATION_WARNINGS], [1], [Enable compiler warnings to make it easier to see what v8 apis will be deprecated (V8_DEPRECATED) soon.])
 
   AC_LANG_RESTORE
-  LIBS=$old_LIBS
-  #LDFLAGS=$old_LDFLAGS # we have to links some static libraries
+  #LDFLAGS=$old_LDFLAGS # we have to links some libraries
   CPPFLAGS=$old_CPPFLAGS
 
   if test -z "$TRAVIS" ; then

@@ -31,6 +31,9 @@ extern "C" {
 extern zend_module_entry php_v8_module_entry;
 #define phpext_v8_ptr &php_v8_module_entry
 
+#ifndef PHP_V8_LIB_DIR
+#define PHP_V8_LIB_DIR NULL
+#endif
 
 #ifndef PHP_V8_VERSION
 #define PHP_V8_VERSION "0.2.0-dev"
@@ -70,12 +73,3 @@ ZEND_TSRMLS_CACHE_EXTERN();
 ZEND_EXTERN_MODULE_GLOBALS(v8);
 
 #endif //PHP_V8_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

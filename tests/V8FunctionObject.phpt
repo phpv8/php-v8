@@ -120,7 +120,6 @@ Checkers:
 ---------
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(8) "function"
 
-v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->IsBuiltin(): bool(true)
 v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->IsCallable(): bool(true)
 v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->IsConstructor(): bool(true)
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUndefined(): bool(false)
@@ -151,7 +150,7 @@ Should output Hello World string
 string(11) "Script done"
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
-    object(V8\ScriptOrigin)#113 (6) {
+    object(V8\ScriptOrigin)#112 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -159,9 +158,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#114 (3) {
-        ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
-        bool(false)
+      object(V8\ScriptOriginOptions)#113 (2) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>

@@ -37,16 +37,3 @@ extern zend_class_entry* php_v8_property_handler_flags_class_entry;
 PHP_MINIT_FUNCTION (php_v8_property_handler_flags);
 
 #endif //PHP_V8_PROPERTY_HANDLER_FLAGS_H
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
-
-
-
-
-

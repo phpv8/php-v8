@@ -28,12 +28,3 @@ extern zend_class_entry *php_v8_data_class_entry;
 PHP_MINIT_FUNCTION (php_v8_data);
 
 #endif //PHP_V8_DATA_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

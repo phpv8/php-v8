@@ -29,6 +29,8 @@ void php_v8_init()
         return;
     }
 
+    v8::V8::InitializeICUDefaultLocation(PHP_V8_LIB_DIR);
+
     // NOTE: if we use snapshot and extenal startup data then we have to initialize it (see https://codereview.chromium.org/315033002/)
     // v8::V8::InitializeExternalStartupData(NULL);
     v8::Platform *platform = v8::platform::CreateDefaultPlatform();
@@ -54,15 +56,3 @@ void php_v8_init()
 //    v8::V8::Dispose();
 //    v8::V8::ShutdownPlatform();
 }
-
-
-
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

@@ -40,12 +40,3 @@ extern void php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(
 PHP_MINIT_FUNCTION(php_v8_ext_mem_interface);
 
 #endif //PHP_V8_EXT_MEM_INTERFACE_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

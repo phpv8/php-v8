@@ -43,12 +43,3 @@ extern php_v8_value_t * php_v8_object_get_self_ptr(v8::Isolate *isolate, v8::Loc
 PHP_MINIT_FUNCTION(php_v8_object);
 
 #endif //PHP_V8_OBJECT_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

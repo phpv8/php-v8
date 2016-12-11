@@ -34,11 +34,3 @@ extern void php_v8_message_create_from_message(zval *return_value, php_v8_isolat
 PHP_MINIT_FUNCTION(php_v8_message);
 
 #endif //PHP_V8_MESSAGE_H
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

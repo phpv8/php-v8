@@ -371,7 +371,8 @@ static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
 
     local_template->SetCallAsFunctionHandler(callback, data);
 }
-
+// NOTE: Method is not supported anymore due to a limited use and a way it implemented (causes segfault under certain conditions)
+/*
 static PHP_METHOD(V8ObjectTemplate, MarkAsUndetectable) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -384,6 +385,7 @@ static PHP_METHOD(V8ObjectTemplate, MarkAsUndetectable) {
 
     local_template->MarkAsUndetectable();
 }
+*/
 
 // not used currently
 static PHP_METHOD(V8ObjectTemplate, SetAccessCheckCallback) {
@@ -479,15 +481,20 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetCallAsFunctionHandler, 
                 ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
+// not used
 // void method
+/*
 ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_MarkAsUndetectable, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
+*/
 
 // not used
 // void method
+/*
 ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessCheckCallback, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_CALLABLE_INFO(0, callback, 1)
 ZEND_END_ARG_INFO()
+*/
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, NULL, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
@@ -513,7 +520,7 @@ static const zend_function_entry php_v8_object_template_methods[] = {
         PHP_ME(V8ObjectTemplate, SetHandlerForNamedProperty, arginfo_php_v8_object_template_SetHandlerForNamedProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8ObjectTemplate, SetHandlerForIndexedProperty, arginfo_php_v8_object_template_SetHandlerForIndexedProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8ObjectTemplate, SetCallAsFunctionHandler, arginfo_php_v8_object_template_SetCallAsFunctionHandler, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ObjectTemplate, MarkAsUndetectable, arginfo_php_v8_object_template_MarkAsUndetectable, ZEND_ACC_PUBLIC)
+//        PHP_ME(V8ObjectTemplate, MarkAsUndetectable, arginfo_php_v8_object_template_MarkAsUndetectable, ZEND_ACC_PUBLIC)
 //        PHP_ME(V8ObjectTemplate, SetAccessCheckCallback, arginfo_php_v8_object_template_SetAccessCheckCallback, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8ObjectTemplate, AdjustExternalAllocatedMemory, arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
@@ -539,13 +546,3 @@ PHP_MINIT_FUNCTION (php_v8_object_template) {
 
     return SUCCESS;
 }
-
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

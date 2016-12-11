@@ -73,9 +73,7 @@ object(V8\Message)#8 (12) {
     ["resource_column_offset":"V8\ScriptOrigin":private]=>
     int(0)
     ["options":"V8\ScriptOrigin":private]=>
-    object(V8\ScriptOriginOptions)#5 (3) {
-      ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
-      bool(false)
+    object(V8\ScriptOriginOptions)#5 (2) {
       ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
       bool(false)
       ["is_opaque":"V8\ScriptOriginOptions":private]=>
@@ -181,9 +179,7 @@ object(V8\Message)#9 (12) {
     ["resource_column_offset":"V8\ScriptOrigin":private]=>
     int(0)
     ["options":"V8\ScriptOrigin":private]=>
-    object(V8\ScriptOriginOptions)#5 (3) {
-      ["is_embedder_debug_script":"V8\ScriptOriginOptions":private]=>
-      bool(false)
+    object(V8\ScriptOriginOptions)#5 (2) {
       ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
       bool(false)
       ["is_opaque":"V8\ScriptOriginOptions":private]=>

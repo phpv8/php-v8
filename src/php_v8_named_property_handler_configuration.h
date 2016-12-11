@@ -70,15 +70,3 @@ typedef struct _php_v8_named_property_handler_configuration_t {
 PHP_MINIT_FUNCTION(php_v8_named_property_handler_configuration);
 
 #endif //PHP_V8_NAMED_PROPERTY_HANDLER_CONFIGURATION_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
-
-
-

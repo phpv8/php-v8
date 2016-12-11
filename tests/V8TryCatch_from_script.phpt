@@ -176,11 +176,11 @@ TryCatch holds the same isolate it was thrown: ok
 TryCatch holds the same context it was thrown: ok
 string(31) "Uncaught Error: Top-level error"
 
-V8\Exceptions\TryCatchException: SyntaxError: Unexpected number
+V8\Exceptions\TryCatchException: SyntaxError: Invalid or unexpected token
 
 TryCatchException holds the same context it was thrown: ok
 TryCatchException holds the same isolate it was thrown: ok
-string(39) "Uncaught SyntaxError: Unexpected number"
+string(49) "Uncaught SyntaxError: Invalid or unexpected token"
 
 Script dies now!
 FunctionTemplate dies now!

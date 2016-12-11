@@ -57,11 +57,3 @@ extern void php_v8_stack_trace_create_from_stack_trace(zval *return_value, php_v
 PHP_MINIT_FUNCTION(php_v8_stack_trace);
 
 #endif //PHP_V8_STACK_TRACE_H
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
