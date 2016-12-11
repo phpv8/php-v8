@@ -38,16 +38,3 @@ PHP_MINIT_FUNCTION (php_v8_property_attribute);
 
 
 #endif //PHP_V8_PROPERTY_ATTRIBUTE_H
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
-
-
-
-
-

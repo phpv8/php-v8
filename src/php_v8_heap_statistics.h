@@ -33,11 +33,3 @@ extern void php_v8_heap_statistics_create_from_heap_statistics(zval *return_valu
 PHP_MINIT_FUNCTION(php_v8_heap_statistics);
 
 #endif //PHP_V8_HEAP_STATISTICS_H
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

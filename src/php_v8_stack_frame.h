@@ -33,11 +33,3 @@ extern void php_v8_stack_frame_create_from_stack_frame(zval *return_value, v8::L
 PHP_MINIT_FUNCTION(php_v8_stack_frame);
 
 #endif //PHP_V8_STACK_FRAME_H
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

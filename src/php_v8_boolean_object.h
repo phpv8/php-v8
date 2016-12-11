@@ -34,15 +34,3 @@ extern v8::Local<v8::BooleanObject> php_v8_value_get_boolean_object_local(v8::Is
 PHP_MINIT_FUNCTION(php_v8_boolean_object);
 
 #endif //PHP_V8_BOOLEAN_OBJECT_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
-
-
-

@@ -71,12 +71,3 @@ struct _php_v8_function_template_t {
 PHP_MINIT_FUNCTION(php_v8_function_template);
 
 #endif //PHP_V8_FUNCTION_TEMPLATE_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

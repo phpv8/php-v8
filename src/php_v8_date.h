@@ -34,20 +34,3 @@ extern v8::Local<v8::Date> php_v8_value_get_date_local(v8::Isolate *isolate, php
 PHP_MINIT_FUNCTION(php_v8_date);
 
 #endif //PHP_V8_DATE_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
-
-
-
-
-
-
-
-

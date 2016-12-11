@@ -34,12 +34,3 @@ extern v8::Local<v8::Symbol> php_v8_value_get_symbol_local(v8::Isolate *isolate,
 PHP_MINIT_FUNCTION(php_v8_symbol);
 
 #endif //PHP_V8_SYMBOL_H
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
