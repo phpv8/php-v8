@@ -70,6 +70,18 @@ in your IDE and other code-analysis tools.
 
 ## Installation
 
+### Requirements
+
+#### V8
+You will need a recent v8 Google JavaScript engine version installed. At this time the extension is tested on 5.7.202.
+
+#### PHP
+This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.
+
+#### OS
+This extension works and tested on x64 Linux and macOS. As of written it is Ubuntu 16.04 LTS Xenial Xerus, amd64
+and macOS 10.12.1. Windows is not supported at this time.
+
 ### Quick guide
 
 #### Ubuntu
@@ -82,77 +94,25 @@ $ sudo apt-get install -y php7.0 php-v8
 $ php --ri v8
 ```
 
+While [pinepain/php](https://launchpad.net/~pinepain/+archive/ubuntu/php) PPA targets to contain all necessary
+extensions with dependencies, you may find useful 
+[pinepain/libv8-5.7](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-5.7) and
+[pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) standalone PPAs.
+
+
 #### OS X (homebrew)
 
 ```
 $ brew tap homebrew/dupes
 $ brew tap homebrew/php
-$ brew install php70
-$ brew install https://raw.githubusercontent.com/pinepain/packaging/master/homebrew/v8.rb
-$ brew install https://raw.githubusercontent.com/pinepain/packaging/master/homebrew/php70-v8.rb
+$ brew tap pinepain/devtools
+$ brew install php70 
+$ brew install v8@5.7
+$ brew install php70-v8
 $ php --ri v8
 ```
 
-### Requirements
-
-#### V8
-You will need a recent v8 Google JavaScript engine version installed. At this time the extension is tested on 5.4.420.
-
- - For Ubuntu there is the [pinepain/libv8-5.4](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-5.4) PPA.
-   To install libv8:
-
-   ```
-   $ sudo add-apt-repository -y ppa:pinepain/libv8-5.4
-   $ sudo apt-get update -y
-   $ sudo apt-get install -y libv8-5.4-dev
-   ```
- - For OS X there is the [v8.rb][v8.rb] homebrew formula.
-   To install libv8:
-
-   ```
-   $ brew install https://raw.githubusercontent.com/pinepain/packaging/master/homebrew/v8.rb
-   ```
-
-#### PHP 7
-
- - For Ubuntu there is the [ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php) PPA by [Ondřej Surý](https://deb.sury.org).
-
-   To install `php7.0`:
-
-   ```
-   $ sudo add-apt-repository -y ppa:ondrej/php
-   $ sudo apt-get update -y
-   $ sudo apt-get install -y php7.0
-   ```
- - For OS X there is the [homebrew/homebrew-php](https://github.com/Homebrew/homebrew-php) tap with php70, php71 and a large
-   variety extensions for them.
-
-   To install `php70`:
-
-   ```
-   $ brew tap homebrew/homebrew-php
-   $ brew install php70
-   ```
-
-
-### Installing php-v8 from packages
-
- - For Ubuntu there is the [pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) PPA.
-
-   To install `php-v8`:
-
-   ```
-   $ sudo add-apt-repository -y ppa:pinepain/php-v8
-   $ sudo apt-get update -y
-   $ sudo apt-get install -y php-v8
-   ```
- - For OS X there are the [php70-v8.rb][php70-v8.rb] and [php71-v8.rb][php71-v8.rb] homebrew formulas.
-
-   To install `php70-v8` do:
-
-   ```
-   $ brew install https://raw.githubusercontent.com/pinepain/packaging/master/homebrew/php70-v8.rb
-   ```
+For macOS php-v8 formulae and dependencies provided by [pinepain/devtools](https://github.com/pinepain/homebrew-devtools) tap.
 
 ### Building php-v8 from sources
 
@@ -186,7 +146,3 @@ Copyright (c) 2015-2016 Bogdan Padalko &lt;pinepain@gmail.com&gt;
 
 [v8-hello-world]: https://chromium.googlesource.com/v8/v8/+/master/samples/hello-world.cc
 [v8-intro]: https://developers.google.com/v8/intro
-[v8.rb]: https://github.com/pinepain/packaging/blob/master/homebrew/v8.rb
-[php70-v8.rb]: https://github.com/pinepain/packaging/blob/master/homebrew/php70-v8.rb
-[php71-v8.rb]: https://github.com/pinepain/packaging/blob/master/homebrew/php71-v8.rb
-[php-v8-stubs]: https://github.com/pinepain/php-v8-stubs
