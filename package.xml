@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ This file is part of the pinepain/php-v8 PHP extension.
+  ~
+  ~ Copyright (c) 2015-2017 Bogdan Padalko <pinepain@gmail.com>
+  ~
+  ~ Licensed under the MIT license: http://opensource.org/licenses/MIT
+  ~
+  ~ For the full copyright and license information, please view the
+  ~ LICENSE file that was distributed with this source or visit
+  ~ http://opensource.org/licenses/MIT
+  -->
+
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.4" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+    <name>v8</name>
+    <channel>pecl.php.net</channel>
+    <summary>V8 JavaScript engine API for PHP</summary>
+    <description>
+        This extension brings V8 JavaScript engine API to PHP with some abstraction in mind and provides an accurate native V8 C++ API implementation available from PHP.
+    </description>
+    <lead>
+        <name>Bogdan Padalko</name>
+        <user>pinepain</user>
+        <email>pinepain@gmail.com</email>
+        <active>yes</active>
+    </lead>
+    <date>2017-01-15</date>
+    <time>22:19:51</time>
+    <version>
+        <release>0.1.1</release>
+        <api>0.1.1</api>
+    </version>
+    <stability>
+        <release>stable</release>
+        <api>stable</api>
+    </stability>
+    <license uri="https://opensource.org/licenses/mit">The MIT License (MIT)</license>
+    <notes>
+        In this release new methods added and some internal logic refactored.
+
+        As of this release, V8 >= 5.4.420 required.
+
+        Also, deprecated or soon to be deprecated API calls are removed in this release, see note on BC-breaking changes below.
+        
+        - add V8\Isolate::IsInUse() method.
+        - add V8\AdjustableExternalMemoryInterface interface;
+        - add V8\ObjectValue::AdjustExternalAllocatedMemory() method;
+        - add V8\ObjectValue::GetExternalAllocatedMemory() method;
+        - add V8\FunctionTemplate::AdjustExternalAllocatedMemory() method;
+        - add V8\FunctionTemplate::GetExternalAllocatedMemory() method;
+        - add V8\ObjectTemplate::AdjustExternalAllocatedMemory() method;
+        - add V8\ObjectTemplate::GetExternalAllocatedMemory() method;
+        - rewrite callbacks structures to use std containers;
+        - use realistic external allocated memory value to notify isolate about based on callbacks structures size and optionally specified by user value.
+        - add V8\Value::TypeOf() method;
+        - add V8\ObjectValue::IsConstructor() method;
+        - add V8\ObjectValue::SetIntegrityLevel() method;
+        - add V8\CallbackInfo::InContext() method;
+        - add V8\ReturnValue::InContext() method;
+        - add V8\ReturnValue::Get() method;
+        - add V8\HeapStatistics::malloced_memory() method;
+        - add V8\HeapStatistics::peak_malloced_memory() method;
+        - properly shutdown in case of OOM;
+        - simplify V8\ReturnValue internals and integration with callbacks.
+
+        BC breaking changes:
+
+        - V8\ObjectValue::ForceSet() removed in a favor of V8\ObjectValue::DefineOwnProperty(), V8\ObjectValue::CreateDataProperty() and V8\ObjectValue::CreateDataPropertyIndex().
+    </notes>
+    <contents>
+        <dir name="/">
+            <!-- begin files list -->
+            <file name="src/php_v8_a.cc" role="src" />
+            <file name="src/php_v8_a.h" role="src" />
+            <file name="src/php_v8_access_control.cc" role="src" />
+            <file name="src/php_v8_access_control.h" role="src" />
+            <file name="src/php_v8_access_type.cc" role="src" />
+            <file name="src/php_v8_access_type.h" role="src" />
+            <file name="src/php_v8_array.cc" role="src" />
+            <file name="src/php_v8_array.h" role="src" />
+            <file name="src/php_v8_boolean.cc" role="src" />
+            <file name="src/php_v8_boolean.h" role="src" />
+            <file name="src/php_v8_boolean_object.cc" role="src" />
+            <file name="src/php_v8_boolean_object.h" role="src" />
+            <file name="src/php_v8_callback_info.cc" role="src" />
+            <file name="src/php_v8_callback_info.h" role="src" />
+            <file name="src/php_v8_callbacks.cc" role="src" />
+            <file name="src/php_v8_callbacks.h" role="src" />
+            <file name="src/php_v8_context.cc" role="src" />
+            <file name="src/php_v8_context.h" role="src" />
+            <file name="src/php_v8_data.cc" role="src" />
+            <file name="src/php_v8_data.h" role="src" />
+            <file name="src/php_v8_date.cc" role="src" />
+            <file name="src/php_v8_date.h" role="src" />
+            <file name="src/php_v8_exception.cc" role="src" />
+            <file name="src/php_v8_exception.h" role="src" />
+            <file name="src/php_v8_exceptions.cc" role="src" />
+            <file name="src/php_v8_exceptions.h" role="src" />
+            <file name="src/php_v8_ext_mem_interface.cc" role="src" />
+            <file name="src/php_v8_ext_mem_interface.h" role="src" />
+            <file name="src/php_v8_function.cc" role="src" />
+            <file name="src/php_v8_function.h" role="src" />
+            <file name="src/php_v8_function_callback_info.cc" role="src" />
+            <file name="src/php_v8_function_callback_info.h" role="src" />
+            <file name="src/php_v8_function_template.cc" role="src" />
+            <file name="src/php_v8_function_template.h" role="src" />
+            <file name="src/php_v8_heap_statistics.cc" role="src" />
+            <file name="src/php_v8_heap_statistics.h" role="src" />
+            <file name="src/php_v8_indexed_property_handler_configuration.cc" role="src" />
+            <file name="src/php_v8_indexed_property_handler_configuration.h" role="src" />
+            <file name="src/php_v8_int32.cc" role="src" />
+            <file name="src/php_v8_int32.h" role="src" />
+            <file name="src/php_v8_integer.cc" role="src" />
+            <file name="src/php_v8_integer.h" role="src" />
+            <file name="src/php_v8_integrity_level.cc" role="src" />
+            <file name="src/php_v8_integrity_level.h" role="src" />
+            <file name="src/php_v8_isolate.cc" role="src" />
+            <file name="src/php_v8_isolate.h" role="src" />
+            <file name="src/php_v8_isolate_limits.cc" role="src" />
+            <file name="src/php_v8_isolate_limits.h" role="src" />
+            <file name="src/php_v8_message.cc" role="src" />
+            <file name="src/php_v8_message.h" role="src" />
+            <file name="src/php_v8_name.cc" role="src" />
+            <file name="src/php_v8_name.h" role="src" />
+            <file name="src/php_v8_named_property_handler_configuration.cc" role="src" />
+            <file name="src/php_v8_named_property_handler_configuration.h" role="src" />
+            <file name="src/php_v8_null.cc" role="src" />
+            <file name="src/php_v8_null.h" role="src" />
+            <file name="src/php_v8_number.cc" role="src" />
+            <file name="src/php_v8_number.h" role="src" />
+            <file name="src/php_v8_number_object.cc" role="src" />
+            <file name="src/php_v8_number_object.h" role="src" />
+            <file name="src/php_v8_object.cc" role="src" />
+            <file name="src/php_v8_object.h" role="src" />
+            <file name="src/php_v8_object_template.cc" role="src" />
+            <file name="src/php_v8_object_template.h" role="src" />
+            <file name="src/php_v8_primitive.cc" role="src" />
+            <file name="src/php_v8_primitive.h" role="src" />
+            <file name="src/php_v8_property_attribute.cc" role="src" />
+            <file name="src/php_v8_property_attribute.h" role="src" />
+            <file name="src/php_v8_property_callback_info.cc" role="src" />
+            <file name="src/php_v8_property_callback_info.h" role="src" />
+            <file name="src/php_v8_property_handler_flags.cc" role="src" />
+            <file name="src/php_v8_property_handler_flags.h" role="src" />
+            <file name="src/php_v8_regexp.cc" role="src" />
+            <file name="src/php_v8_regexp.h" role="src" />
+            <file name="src/php_v8_return_value.cc" role="src" />
+            <file name="src/php_v8_return_value.h" role="src" />
+            <file name="src/php_v8_script.cc" role="src" />
+            <file name="src/php_v8_script.h" role="src" />
+            <file name="src/php_v8_script_origin.cc" role="src" />
+            <file name="src/php_v8_script_origin.h" role="src" />
+            <file name="src/php_v8_script_origin_options.cc" role="src" />
+            <file name="src/php_v8_script_origin_options.h" role="src" />
+            <file name="src/php_v8_stack_frame.cc" role="src" />
+            <file name="src/php_v8_stack_frame.h" role="src" />
+            <file name="src/php_v8_stack_trace.cc" role="src" />
+            <file name="src/php_v8_stack_trace.h" role="src" />
+            <file name="src/php_v8_startup_data.cc" role="src" />
+            <file name="src/php_v8_startup_data.h" role="src" />
+            <file name="src/php_v8_string.cc" role="src" />
+            <file name="src/php_v8_string.h" role="src" />
+            <file name="src/php_v8_string_object.cc" role="src" />
+            <file name="src/php_v8_string_object.h" role="src" />
+            <file name="src/php_v8_symbol.cc" role="src" />
+            <file name="src/php_v8_symbol.h" role="src" />
+            <file name="src/php_v8_symbol_object.cc" role="src" />
+            <file name="src/php_v8_symbol_object.h" role="src" />
+            <file name="src/php_v8_template.cc" role="src" />
+            <file name="src/php_v8_template.h" role="src" />
+            <file name="src/php_v8_try_catch.cc" role="src" />
+            <file name="src/php_v8_try_catch.h" role="src" />
+            <file name="src/php_v8_uint32.cc" role="src" />
+            <file name="src/php_v8_uint32.h" role="src" />
+            <file name="src/php_v8_value.cc" role="src" />
+            <file name="src/php_v8_value.h" role="src" />
+            <file name="stubs/composer.json" role="doc" />
+            <file name="stubs/LICENSE" role="doc" />
+            <file name="stubs/README.md" role="doc" />
+            <file name="stubs/src/AccessControl.php" role="doc" />
+            <file name="stubs/src/AdjustableExternalMemoryInterface.php" role="doc" />
+            <file name="stubs/src/ArrayObject.php" role="doc" />
+            <file name="stubs/src/BooleanObject.php" role="doc" />
+            <file name="stubs/src/BooleanValue.php" role="doc" />
+            <file name="stubs/src/CallbackInfo.php" role="doc" />
+            <file name="stubs/src/Context.php" role="doc" />
+            <file name="stubs/src/Data.php" role="doc" />
+            <file name="stubs/src/DateObject.php" role="doc" />
+            <file name="stubs/src/Exception.php" role="doc" />
+            <file name="stubs/src/Exceptions/AbstractResourceLimitException.php" role="doc" />
+            <file name="stubs/src/Exceptions/GenericException.php" role="doc" />
+            <file name="stubs/src/Exceptions/MemoryLimitException.php" role="doc" />
+            <file name="stubs/src/Exceptions/TerminationException.php" role="doc" />
+            <file name="stubs/src/Exceptions/TimeLimitException.php" role="doc" />
+            <file name="stubs/src/Exceptions/TryCatchException.php" role="doc" />
+            <file name="stubs/src/FunctionCallbackInfo.php" role="doc" />
+            <file name="stubs/src/FunctionObject.php" role="doc" />
+            <file name="stubs/src/FunctionTemplate.php" role="doc" />
+            <file name="stubs/src/HeapStatistics.php" role="doc" />
+            <file name="stubs/src/IndexedPropertyHandlerConfiguration.php" role="doc" />
+            <file name="stubs/src/Int32Value.php" role="doc" />
+            <file name="stubs/src/IntegerValue.php" role="doc" />
+            <file name="stubs/src/IntegrityLevel.php" role="doc" />
+            <file name="stubs/src/Isolate.php" role="doc" />
+            <file name="stubs/src/Message.php" role="doc" />
+            <file name="stubs/src/NamedPropertyHandlerConfiguration.php" role="doc" />
+            <file name="stubs/src/NameValue.php" role="doc" />
+            <file name="stubs/src/NullValue.php" role="doc" />
+            <file name="stubs/src/NumberObject.php" role="doc" />
+            <file name="stubs/src/NumberValue.php" role="doc" />
+            <file name="stubs/src/ObjectTemplate.php" role="doc" />
+            <file name="stubs/src/ObjectValue.php" role="doc" />
+            <file name="stubs/src/PrimitiveValue.php" role="doc" />
+            <file name="stubs/src/PropertyAttribute.php" role="doc" />
+            <file name="stubs/src/PropertyCallbackInfo.php" role="doc" />
+            <file name="stubs/src/PropertyHandlerFlags.php" role="doc" />
+            <file name="stubs/src/RegExp/Flags.php" role="doc" />
+            <file name="stubs/src/RegExpObject.php" role="doc" />
+            <file name="stubs/src/ReturnValue.php" role="doc" />
+            <file name="stubs/src/Script.php" role="doc" />
+            <file name="stubs/src/ScriptOrigin.php" role="doc" />
+            <file name="stubs/src/ScriptOriginOptions.php" role="doc" />
+            <file name="stubs/src/StackFrame.php" role="doc" />
+            <file name="stubs/src/StackTrace/StackTraceOptions.php" role="doc" />
+            <file name="stubs/src/StackTrace.php" role="doc" />
+            <file name="stubs/src/StartupData.php" role="doc" />
+            <file name="stubs/src/StringObject.php" role="doc" />
+            <file name="stubs/src/StringValue.php" role="doc" />
+            <file name="stubs/src/SymbolObject.php" role="doc" />
+            <file name="stubs/src/SymbolValue.php" role="doc" />
+            <file name="stubs/src/Template.php" role="doc" />
+            <file name="stubs/src/TryCatch.php" role="doc" />
+            <file name="stubs/src/Uint32Value.php" role="doc" />
+            <file name="stubs/src/Value.php" role="doc" />
+            <file name="tests/V8StackTrace.phpt" role="test" />
+            <file name="tests/V8StackTrace_CurrentStackTrace.phpt" role="test" />
+            <file name="tests/V8StackTraceOptions.phpt" role="test" />
+            <file name="tests/V8StartupData_CreateFromSource.phpt" role="test" />
+            <file name="tests/V8String_range_error_length.phpt" role="test" />
+            <file name="tests/V8StringObject.phpt" role="test" />
+            <file name="tests/V8StringValue.phpt" role="test" />
+            <file name="tests/V8SymbolObject.phpt" role="test" />
+            <file name="tests/V8SymbolValue.phpt" role="test" />
+            <file name="tests/V8TryCatch.phpt" role="test" />
+            <file name="tests/V8TryCatch_from_script.phpt" role="test" />
+            <file name="tests/V8Uint32Value.phpt" role="test" />
+            <file name="tests/V8Value.phpt" role="test" />
+            <file name="tests/V8Value_destruct.phpt" role="test" />
+            <file name="tests/V8Value_empty.phpt" role="test" />
+            <file name="tests/V8Value_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/.idea/encodings.xml" role="test" />
+            <file name="tests/.idea/modules.xml" role="test" />
+            <file name="tests/.idea/php.xml" role="test" />
+            <file name="tests/.idea/tests.iml" role="test" />
+            <file name="tests/.idea/workspace.xml" role="test" />
+            <file name="tests/.testsuite.php" role="test" />
+            <file name="tests/.tracking_dtors.php" role="test" />
+            <file name="tests/.v8-helpers.php" role="test" />
+            <file name="tests/001-verify-method-parameters-type.phpt" role="test" />
+            <file name="tests/001.phpt" role="test" />
+            <file name="tests/003-V8ObjectTemplate_recursive_chain.phpt" role="test" />
+            <file name="tests/003-V8ObjectTemplate_recursive_global.phpt" role="test" />
+            <file name="tests/003-V8ObjectTemplate_recursive_self.phpt" role="test" />
+            <file name="tests/003-V8ObjectTemplate_recursive_tree.phpt" role="test" />
+            <file name="tests/004-ICU-Intl_DateTimeFormat.phpt" role="test" />
+            <file name="tests/004-ICU-Intl_NumberFormat.phpt" role="test" />
+            <file name="tests/005-V8FunctionTemplate_external_memory.phpt" role="test" />
+            <file name="tests/005-V8ObjectTemplate_external_memory.phpt" role="test" />
+            <file name="tests/005-V8ObjectValue_external_memory.phpt" role="test" />
+            <file name="tests/V8_extension_info.phpt" role="test" />
+            <file name="tests/V8ArrayObject.phpt" role="test" />
+            <file name="tests/V8ArrayObject_Length.phpt" role="test" />
+            <file name="tests/V8Boolean.phpt" role="test" />
+            <file name="tests/V8BooleanObject.phpt" role="test" />
+            <file name="tests/V8Context.phpt" role="test" />
+            <file name="tests/V8Context_GlobalObject.phpt" role="test" />
+            <file name="tests/V8Context_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/V8Context_weakness.phpt" role="test" />
+            <file name="tests/V8Data.phpt" role="test" />
+            <file name="tests/V8DateObject.phpt" role="test" />
+            <file name="tests/V8Exception_CreateMessage.phpt" role="test" />
+            <file name="tests/V8Exception_Error.phpt" role="test" />
+            <file name="tests/V8Exception_GetStackTrace.phpt" role="test" />
+            <file name="tests/V8Exception_RangeError.phpt" role="test" />
+            <file name="tests/V8Exception_ReferenceError.phpt" role="test" />
+            <file name="tests/V8Exception_SyntaxError.phpt" role="test" />
+            <file name="tests/V8Exception_TypeError.phpt" role="test" />
+            <file name="tests/V8ExceptionsTryCatchException.phpt" role="test" />
+            <file name="tests/V8FunctionCallbackInfo.phpt" role="test" />
+            <file name="tests/V8FunctionObject.phpt" role="test" />
+            <file name="tests/V8FunctionObject_Call.phpt" role="test" />
+            <file name="tests/V8FunctionObject_Call_bad_args.phpt" role="test" />
+            <file name="tests/V8FunctionObject_die.phpt" role="test" />
+            <file name="tests/V8FunctionObject_weakness_multiple.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_callback_weakness.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_exception_in_php.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_GetFunction.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_require_implementation.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_SetCallHandler.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_weakness.phpt" role="test" />
+            <file name="tests/V8HeapStatistics.phpt" role="test" />
+            <file name="tests/V8IndexedPropertyHandlerConfiguration.phpt" role="test" />
+            <file name="tests/V8Int32Value.phpt" role="test" />
+            <file name="tests/V8IntegerValue.phpt" role="test" />
+            <file name="tests/V8IntegrityLevel.phpt" role="test" />
+            <file name="tests/V8Isolate.phpt" role="test" />
+            <file name="tests/V8Isolate_gc_cyclic_ref_memleak.phpt" role="test" />
+            <file name="tests/V8Isolate_IsInUse.phpt" role="test" />
+            <file name="tests/V8Isolate_limit_memory.phpt" role="test" />
+            <file name="tests/V8Isolate_limit_memory_nested.phpt" role="test" />
+            <file name="tests/V8Isolate_limit_memory_not_hit.phpt" role="test" />
+            <file name="tests/V8Isolate_limit_time.phpt" role="test" />
+            <file name="tests/V8Isolate_limit_time_nested.phpt" role="test" />
+            <file name="tests/V8Isolate_limit_time_not_hit.phpt" role="test" />
+            <file name="tests/V8Isolate_limit_time_set_during_execution.phpt" role="test" />
+            <file name="tests/V8Isolate_nested_termination_exceptions.phpt" role="test" />
+            <file name="tests/V8Isolate_snapshot_support.phpt" role="test" />
+            <file name="tests/V8Isolate_ThrowException.phpt" role="test" />
+            <file name="tests/V8Message.phpt" role="test" />
+            <file name="tests/V8NamedPropertyHandlerConfiguration.phpt" role="test" />
+            <file name="tests/V8NameValue.phpt" role="test" />
+            <file name="tests/V8NullValue.phpt" role="test" />
+            <file name="tests/V8NumberObject.phpt" role="test" />
+            <file name="tests/V8NumberValue.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_MarkAsUndetectable.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_Set.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_SetAccessCheckCallback.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_SetAccessCheckCallback_func_args.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_SetCallAsFunctionHandler.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_SetHandler_both.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_SetHandlerForIndexedProperty.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_SetHandlerForNamedProperty.phpt" role="test" />
+            <file name="tests/V8ObjectValue.phpt" role="test" />
+            <file name="tests/V8ObjectValue_Get.phpt" role="test" />
+            <file name="tests/V8ObjectValue_IsArgumentsObject.phpt" role="test" />
+            <file name="tests/V8ObjectValue_IsNativeError.phpt" role="test" />
+            <file name="tests/V8ObjectValue_SetAccessor.phpt" role="test" />
+            <file name="tests/V8ObjectValue_SetIntegrityLevel.phpt" role="test" />
+            <file name="tests/V8PrimitiveValue.phpt" role="test" />
+            <file name="tests/V8PropertyAttribute.phpt" role="test" />
+            <file name="tests/V8PropertyHandlerFlags.phpt" role="test" />
+            <file name="tests/V8RegExpFlags.phpt" role="test" />
+            <file name="tests/V8RegExpObject.phpt" role="test" />
+            <file name="tests/V8ReturnValue.phpt" role="test" />
+            <file name="tests/V8ReturnValue_context.phpt" role="test" />
+            <file name="tests/V8Script.phpt" role="test" />
+            <file name="tests/V8Script_exit_during_script_execution.phpt" role="test" />
+            <file name="tests/V8Script_Run.phpt" role="test" />
+            <file name="tests/V8Script_Run_out_of_memory.phpt" role="test" />
+            <file name="tests/V8Script_terminate_script_execution.phpt" role="test" />
+            <file name="tests/V8ScriptOrigin.phpt" role="test" />
+            <file name="tests/V8ScriptOriginOptions.phpt" role="test" />
+            <file name="tests/V8StackFrame.phpt" role="test" />
+            <file name="config.m4" role="src" />
+            <file name="config.w32" role="src" />
+            <file name="LICENSE" role="doc" />
+            <file name="php_v8.h" role="src" />
+            <file name="README.md" role="doc" />
+            <file name="v8.cc" role="src" />
+            <!-- end files list -->
+        </dir>
+    </contents>
+    <dependencies>
+        <required>
+            <php>
+                <min>7.0</min>
+            </php>
+            <pearinstaller>
+                <min>1.4.0</min>
+            </pearinstaller>
+        </required>
+    </dependencies>
+    <providesextension>v8</providesextension>
+    <extsrcrelease/>
+</package>
