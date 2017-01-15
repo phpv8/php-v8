@@ -16,6 +16,6 @@ in your IDE and other code-analysis tools.
 
 ## License
 
-Copyright (c) 2015-2016 Bogdan Padalko &lt;pinepain@gmail.com&gt;
+Copyright (c) 2015-2017 Bogdan Padalko &lt;pinepain@gmail.com&gt;
 
 [php-v8](https://github.com/pinepain/php-v8) PHP extension is licensed under the [MIT license](http://opensource.org/licenses/MIT).
