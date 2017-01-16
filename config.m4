@@ -8,7 +8,9 @@ if test "$PHP_V8" != "no"; then
   SEARCH_PATH="/usr/local /usr"
   SEARCH_FOR="include/v8.h"
 
-  DESIRED_V8_VERSION=5.7
+  V8_MIN_API_VERSION_STR=5.7.202
+
+  DESIRED_V8_VERSION=`echo "${V8_MIN_API_VERSION_STR}" | $AWK 'BEGIN { FS = "."; } { printf "%s.%s", [$]1, [$]2;}'`
 
   # Path where v8 from packages we recommend are installed, it's /opt/libv8-MAJOR.MINOR on Ubuntu
   # and /usr/local/opt/v8@MAJOR.MINOR on macOS
@@ -105,22 +107,15 @@ if test "$PHP_V8" != "no"; then
     ], [ac_cv_v8_version=`cat ./conftestval|awk '{print $1}'`], [ac_cv_v8_version=NONE], [ac_cv_v8_version=NONE])
   ])
 
-  V8_MIN_API_VERSION_STR=5.7.202
+  V8_MIN_API_VERSION_NUM=`echo "${V8_MIN_API_VERSION_STR}" | $AWK 'BEGIN { FS = "."; } { printf "%d", [$]1 * 1000000 + [$]2 * 1000 + [$]3;}'`
 
   if test "$ac_cv_v8_version" != "NONE"; then
-    ac_IFS=$IFS
-    IFS=.
-    set $ac_cv_v8_version
-    IFS=$ac_IFS
-    V8_API_VERSION=`expr [$]1 \* 1000000 + [$]2 \* 1000 + [$]3`
-    IFS=.
-    set $V8_MIN_API_VERSION_STR
-    IFS=$ac_IFS
-    V8_MIN_API_VERSION=`expr [$]1 \* 1000000 + [$]2 \* 1000 + [$]3`
-    if test "$V8_API_VERSION" -lt $V8_MIN_API_VERSION ; then
+    V8_API_VERSION_NUM=`echo "${ac_cv_v8_version}" | $AWK 'BEGIN { FS = "."; } { printf "%d", [$]1 * 1000000 + [$]2 * 1000 + [$]3;}'`
+
+    if test "$V8_API_VERSION_NUM" -lt "$V8_MIN_API_VERSION_NUM" ; then
        AC_MSG_ERROR([libv8 must be version $V8_MIN_API_VERSION_STR or greater])
     fi
-    AC_DEFINE_UNQUOTED([PHP_V8_LIBV8_API_VERSION], $V8_API_VERSION, [ ])
+    AC_DEFINE_UNQUOTED([PHP_V8_LIBV8_API_VERSION], $V8_API_VERSION_NUM, [ ])
     AC_DEFINE_UNQUOTED([PHP_V8_LIBV8_VERSION], "$ac_cv_v8_version", [ ])
   else
     AC_MSG_ERROR([could not determine libv8 version])
@@ -132,13 +127,14 @@ if test "$PHP_V8" != "no"; then
   #     php/Zend/zend_operators.h:128:18: warning: 'finite' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
   # but as we want to track also deprecated methods from v8 we won't ignore -Wdeprecated-declarations warnings
   # We want to make building log cleaner, so let's suppress only -Wdeprecated-register warning
-  ac_cv_suppress_register_warnings_flag="-Wno-deprecated-register"
-  #ac_cv_suppress_register_warnings_flag="-Wno-deprecated-register -Wno-deprecated-declarations"
+  PHP_V8_COMPILER_OPTIONS="-Wno-deprecated-register"
+  #PHP_V8_COMPILER_OPTIONS="-Wno-deprecated-register -Wno-deprecated-declarations"
 
   AC_DEFINE([V8_DEPRECATION_WARNINGS], [1], [Enable compiler warnings when using V8_DEPRECATED apis.])
   AC_DEFINE([V8_IMMINENT_DEPRECATION_WARNINGS], [1], [Enable compiler warnings to make it easier to see what v8 apis will be deprecated (V8_DEPRECATED) soon.])
 
   AC_LANG_RESTORE
+  LIBS=$old_LIBS
   #LDFLAGS=$old_LDFLAGS # we have to links some libraries
   CPPFLAGS=$old_CPPFLAGS
 
@@ -222,7 +218,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_named_property_handler_configuration.cc    \
     src/php_v8_indexed_property_handler_configuration.cc  \
     src/php_v8_access_type.cc                             \
-  ], $ext_shared, , "$ac_cv_suppress_register_warnings_flag -std="$ac_cv_v8_cstd -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+  ], $ext_shared, , "$PHP_V8_COMPILER_OPTIONS -std="$ac_cv_v8_cstd -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
   PHP_ADD_BUILD_DIR($ext_builddir/src)
 
