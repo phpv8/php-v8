@@ -73,7 +73,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_symbol_object___construct, ZEND_SEND_BY_VAL, Z
                 ZEND_ARG_OBJ_INFO(0, value, V8\\SymbolValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_object_ValueOf, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\SymbolValue", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_object_ValueOf, ZEND_RETURN_VALUE, 0, V8\\SymbolValue, 0)
 ZEND_END_ARG_INFO()
 
 

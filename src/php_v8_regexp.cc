@@ -92,10 +92,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_regexp___construct, ZEND_SEND_BY_VAL, ZEND_RET
                 ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_regexp_GetSource, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\StringValue", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_regexp_GetSource, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_regexp_GetFlags, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_regexp_GetFlags, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
@@ -118,7 +118,7 @@ PHP_MINIT_FUNCTION(php_v8_regexp) {
     this_ce = zend_register_internal_class_ex(&ce, php_v8_object_class_entry);
 
 
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\RegExpObject", "Flags", php_v8_regexp_flags_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\RegExpObject", "Flags", php_v8_regexp_flags_methods);
     php_v8_regexp_flags_class_entry = zend_register_internal_class(&ce);
 
     zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kNone"), v8::RegExp::Flags::kNone);

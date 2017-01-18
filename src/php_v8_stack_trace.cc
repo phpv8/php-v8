@@ -173,20 +173,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_stack_trace___construct, ZEND_SEND_BY_VAL, ZEN
                 ZEND_ARG_OBJ_INFO(0, frames, V8\\ArrayObject, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_stack_trace_getFrames, ZEND_RETURN_VALUE, 0, IS_ARRAY, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_stack_trace_getFrames, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_stack_trace_GetFrame, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\StackFrame", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_stack_trace_GetFrame, ZEND_RETURN_VALUE, 1, V8\\StackFrame, 0)
                 ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_stack_trace_GetFrameCount, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_stack_trace_GetFrameCount, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_stack_trace_AsArray, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\ArrayObject", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_stack_trace_AsArray, ZEND_RETURN_VALUE, 0, V8\\ArrayObject, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_stack_trace_CurrentStackTrace, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\StackTrace", 2)
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_stack_trace_CurrentStackTrace, ZEND_RETURN_VALUE, 2, V8\\StackTrace, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_TYPE_INFO(0, frame_limit, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, options, IS_LONG, 0)
@@ -222,7 +223,7 @@ PHP_MINIT_FUNCTION (php_v8_stack_trace) {
     zend_declare_property_null(this_ce, ZEND_STRL("frames"), ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("as_array"), ZEND_ACC_PRIVATE);
 
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\StackTrace", "StackTraceOptions", php_v8_stack_trace_options_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\StackTrace", "StackTraceOptions", php_v8_stack_trace_options_methods);
     php_v8_stack_trace_options_class_entry = zend_register_internal_class(&ce);
 
 

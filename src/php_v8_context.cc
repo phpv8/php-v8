@@ -314,10 +314,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context___construct, ZEND_SEND_BY_VAL, ZEND_RE
 ZEND_END_ARG_INFO()
 
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Isolate", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_context_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_GlobalObject, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\ObjectValue", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_context_GlobalObject, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
 // void method
@@ -333,7 +333,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_UseDefaultSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_GetSecurityToken, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Value", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_context_GetSecurityToken, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 // void method
@@ -341,7 +341,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_AllowCodeGenerationFromStrings, ZEND_S
                 ZEND_ARG_TYPE_INFO(0, allow, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_IsCodeGenerationFromStringsAllowed, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_IsCodeGenerationFromStringsAllowed, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 // void method
@@ -349,7 +349,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_SetErrorMessageForCodeGenerationFromSt
                 ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_EstimatedSize, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_EstimatedSize, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
