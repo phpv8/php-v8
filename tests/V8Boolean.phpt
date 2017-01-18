@@ -85,6 +85,7 @@ V8\BooleanValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(7) "boolean
 
 V8\BooleanValue(V8\Value)->IsUndefined(): bool(false)
 V8\BooleanValue(V8\Value)->IsNull(): bool(false)
+V8\BooleanValue(V8\Value)->IsNullOrUndefined(): bool(false)
 V8\BooleanValue(V8\Value)->IsTrue(): bool(true)
 V8\BooleanValue(V8\Value)->IsFalse(): bool(false)
 V8\BooleanValue(V8\Value)->IsName(): bool(false)

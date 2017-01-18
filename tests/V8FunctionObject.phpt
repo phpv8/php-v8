@@ -124,6 +124,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->IsCallable(): bool(true)
 v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->IsConstructor(): bool(true)
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUndefined(): bool(false)
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNull(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNullOrUndefined(): bool(false)
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsTrue(): bool(false)
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsFalse(): bool(false)
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsName(): bool(false)
@@ -150,7 +151,7 @@ Should output Hello World string
 string(11) "Script done"
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
-    object(V8\ScriptOrigin)#112 (6) {
+    object(V8\ScriptOrigin)#113 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -158,7 +159,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#113 (2) {
+      object(V8\ScriptOriginOptions)#114 (2) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>

@@ -96,6 +96,7 @@ V8\Value->TypeOf(): V8\StringValue->Value(): string(9) "undefined"
 
 V8\Value->IsUndefined(): bool(true)
 V8\Value->IsNull(): bool(false)
+V8\Value->IsNullOrUndefined(): bool(true)
 V8\Value->IsTrue(): bool(false)
 V8\Value->IsFalse(): bool(false)
 V8\Value->IsName(): bool(false)
@@ -126,7 +127,7 @@ V8\Value->NumberValue(): float(NAN)
 
 V8\Value::ToString() converting:
 --------------------------------
-object(V8\StringValue)#51 (1) {
+object(V8\StringValue)#52 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -150,6 +151,7 @@ V8\Value->TypeOf(): V8\StringValue->Value(): string(9) "undefined"
 
 V8\Value->IsUndefined(): bool(true)
 V8\Value->IsNull(): bool(false)
+V8\Value->IsNullOrUndefined(): bool(true)
 V8\Value->IsTrue(): bool(false)
 V8\Value->IsFalse(): bool(false)
 V8\Value->IsName(): bool(false)

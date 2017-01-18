@@ -102,6 +102,7 @@ V8\Uint32Value(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "number"
 
 V8\Uint32Value(V8\Value)->IsUndefined(): bool(false)
 V8\Uint32Value(V8\Value)->IsNull(): bool(false)
+V8\Uint32Value(V8\Value)->IsNullOrUndefined(): bool(false)
 V8\Uint32Value(V8\Value)->IsTrue(): bool(false)
 V8\Uint32Value(V8\Value)->IsFalse(): bool(false)
 V8\Uint32Value(V8\Value)->IsName(): bool(false)
@@ -126,7 +127,7 @@ V8\Uint32Value(V8\Value)->IsRegExp(): bool(false)
 
 V8\Uint32Value::ToString() converting:
 --------------------------------------
-object(V8\StringValue)#52 (1) {
+object(V8\StringValue)#53 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>

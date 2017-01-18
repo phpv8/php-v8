@@ -369,6 +369,17 @@ static PHP_METHOD(V8Value, IsNull) {
     RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsNull());
 }
 
+static PHP_METHOD(V8Value, IsNullOrUndefined) {
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+
+    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsNullOrUndefined());
+}
+
 static PHP_METHOD(V8Value, IsTrue) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -1086,6 +1097,8 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsUndefined,    
 ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsNull,            ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsNullOrUndefined, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsTrue,            ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsFalse,           ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
@@ -1209,6 +1222,7 @@ static const zend_function_entry php_v8_value_methods[] = {
 
         PHP_ME(V8Value, IsUndefined,        arginfo_v8_value_IsUndefined,       ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, IsNull,             arginfo_v8_value_IsNull,            ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsNullOrUndefined,  arginfo_v8_value_IsNullOrUndefined, ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, IsTrue,             arginfo_v8_value_IsTrue,            ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, IsFalse,            arginfo_v8_value_IsFalse,           ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, IsName,             arginfo_v8_value_IsName,            ZEND_ACC_PUBLIC)

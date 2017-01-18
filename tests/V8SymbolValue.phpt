@@ -199,7 +199,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\Value)#59 (1) {
+    object(V8\Value)#60 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -223,6 +223,7 @@ V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
 
 V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsNull(): bool(false)
+V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
 V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
 V8\SymbolValue(V8\Value)->IsName(): bool(true)
@@ -250,7 +251,7 @@ Null constructor:
 
 Object representation:
 ----------------------
-object(V8\SymbolValue)#59 (1) {
+object(V8\SymbolValue)#60 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -297,6 +298,7 @@ V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
 
 V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsNull(): bool(false)
+V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
 V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
 V8\SymbolValue(V8\Value)->IsName(): bool(true)
@@ -371,6 +373,7 @@ V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
 
 V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsNull(): bool(false)
+V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
 V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
 V8\SymbolValue(V8\Value)->IsName(): bool(true)
@@ -425,7 +428,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\StringValue)#60 (1) {
+    object(V8\StringValue)#61 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -449,6 +452,7 @@ V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
 
 V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsNull(): bool(false)
+V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
 V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
 V8\SymbolValue(V8\Value)->IsName(): bool(true)
@@ -482,6 +486,7 @@ V8\StringValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "string"
 V8\StringValue->IsOneByte(): bool(true)
 V8\StringValue(V8\Value)->IsUndefined(): bool(false)
 V8\StringValue(V8\Value)->IsNull(): bool(false)
+V8\StringValue(V8\Value)->IsNullOrUndefined(): bool(false)
 V8\StringValue(V8\Value)->IsTrue(): bool(false)
 V8\StringValue(V8\Value)->IsFalse(): bool(false)
 V8\StringValue(V8\Value)->IsName(): bool(true)
@@ -510,6 +515,7 @@ V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
 
 V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsNull(): bool(false)
+V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
 V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
 V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
 V8\SymbolValue(V8\Value)->IsName(): bool(true)

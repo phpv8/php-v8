@@ -130,7 +130,7 @@ SymbolObject extends ObjectValue: ok
 Getters:
 --------
 V8\SymbolObject->ValueOf():
-    object(V8\SymbolValue)#98 (1) {
+    object(V8\SymbolValue)#99 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -156,6 +156,7 @@ V8\SymbolObject(V8\ObjectValue)->IsCallable(): bool(false)
 V8\SymbolObject(V8\ObjectValue)->IsConstructor(): bool(false)
 V8\SymbolObject(V8\Value)->IsUndefined(): bool(false)
 V8\SymbolObject(V8\Value)->IsNull(): bool(false)
+V8\SymbolObject(V8\Value)->IsNullOrUndefined(): bool(false)
 V8\SymbolObject(V8\Value)->IsTrue(): bool(false)
 V8\SymbolObject(V8\Value)->IsFalse(): bool(false)
 V8\SymbolObject(V8\Value)->IsName(): bool(false)
