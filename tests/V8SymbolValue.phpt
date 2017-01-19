@@ -199,7 +199,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\Value)#60 (1) {
+    object(V8\Value)#85 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -244,6 +244,31 @@ V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
 V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
+V8\SymbolValue(V8\Value)->IsMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
+V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
 
 
 Null constructor:
@@ -251,7 +276,7 @@ Null constructor:
 
 Object representation:
 ----------------------
-object(V8\SymbolValue)#60 (1) {
+object(V8\SymbolValue)#85 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -319,6 +344,31 @@ V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
 V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
+V8\SymbolValue(V8\Value)->IsMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
+V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
 
 
 Empty StringValue constructor:
@@ -394,6 +444,31 @@ V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
 V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
+V8\SymbolValue(V8\Value)->IsMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
+V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
 
 
 Symbol name:
@@ -428,7 +503,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\StringValue)#61 (1) {
+    object(V8\StringValue)#86 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -473,6 +548,31 @@ V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
 V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
+V8\SymbolValue(V8\Value)->IsMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
+V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
 
 
 Symbol name:
@@ -507,6 +607,31 @@ V8\StringValue(V8\Value)->IsStringObject(): bool(false)
 V8\StringValue(V8\Value)->IsSymbolObject(): bool(false)
 V8\StringValue(V8\Value)->IsNativeError(): bool(false)
 V8\StringValue(V8\Value)->IsRegExp(): bool(false)
+V8\StringValue(V8\Value)->IsAsyncFunction(): bool(false)
+V8\StringValue(V8\Value)->IsGeneratorFunction(): bool(false)
+V8\StringValue(V8\Value)->IsGeneratorObject(): bool(false)
+V8\StringValue(V8\Value)->IsPromise(): bool(false)
+V8\StringValue(V8\Value)->IsMap(): bool(false)
+V8\StringValue(V8\Value)->IsSet(): bool(false)
+V8\StringValue(V8\Value)->IsMapIterator(): bool(false)
+V8\StringValue(V8\Value)->IsSetIterator(): bool(false)
+V8\StringValue(V8\Value)->IsWeakMap(): bool(false)
+V8\StringValue(V8\Value)->IsWeakSet(): bool(false)
+V8\StringValue(V8\Value)->IsArrayBuffer(): bool(false)
+V8\StringValue(V8\Value)->IsArrayBufferView(): bool(false)
+V8\StringValue(V8\Value)->IsTypedArray(): bool(false)
+V8\StringValue(V8\Value)->IsUint8Array(): bool(false)
+V8\StringValue(V8\Value)->IsUint8ClampedArray(): bool(false)
+V8\StringValue(V8\Value)->IsInt8Array(): bool(false)
+V8\StringValue(V8\Value)->IsUint16Array(): bool(false)
+V8\StringValue(V8\Value)->IsInt16Array(): bool(false)
+V8\StringValue(V8\Value)->IsUint32Array(): bool(false)
+V8\StringValue(V8\Value)->IsInt32Array(): bool(false)
+V8\StringValue(V8\Value)->IsFloat32Array(): bool(false)
+V8\StringValue(V8\Value)->IsFloat64Array(): bool(false)
+V8\StringValue(V8\Value)->IsDataView(): bool(false)
+V8\StringValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
+V8\StringValue(V8\Value)->IsProxy(): bool(false)
 
 
 Checkers on Symbol value from script:
@@ -536,6 +661,31 @@ V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
 V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
 V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
+V8\SymbolValue(V8\Value)->IsMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
+V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
 
 
 Symbol For(string) returned: ok

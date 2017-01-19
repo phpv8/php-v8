@@ -145,13 +145,38 @@ v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsStringObject(): bool(false)
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSymbolObject(): bool(false)
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNativeError(): bool(false)
 v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsRegExp(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsAsyncFunction(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsGeneratorFunction(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsGeneratorObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsPromise(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsMap(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSet(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsMapIterator(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSetIterator(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsWeakMap(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsWeakSet(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsArrayBuffer(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsArrayBufferView(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsTypedArray(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint8Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint8ClampedArray(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsInt8Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint16Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsInt16Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint32Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsInt32Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsFloat32Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsFloat64Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsDataView(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSharedArrayBuffer(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsProxy(): bool(false)
 
 
 Should output Hello World string
 string(11) "Script done"
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
-    object(V8\ScriptOrigin)#113 (6) {
+    object(V8\ScriptOrigin)#138 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -159,7 +184,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#114 (2) {
+      object(V8\ScriptOriginOptions)#139 (2) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>

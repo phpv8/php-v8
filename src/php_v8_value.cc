@@ -345,238 +345,39 @@ static PHP_METHOD(V8Value, GetIsolate) {
           v8::Value::Is* methods bindings
    ----------------------------------------------------------------------- */
 
-// TODO: maybe write some macro for Is* methods?
+#define PHP_V8_VALUE_IS_METHOD(classname, name)                                 \
+    PHP_METHOD(classname, name) {                                               \
+        if (zend_parse_parameters_none() == FAILURE) {                          \
+            return;                                                             \
+        }                                                                       \
+                                                                                \
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);                     \
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);                                  \
+                                                                                \
+    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->name());   \
+}                                                                               \
 
-static PHP_METHOD(V8Value, IsUndefined) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsUndefined());
-}
-
-static PHP_METHOD(V8Value, IsNull) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsNull());
-}
-
-static PHP_METHOD(V8Value, IsNullOrUndefined) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsNullOrUndefined());
-}
-
-static PHP_METHOD(V8Value, IsTrue) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsTrue());
-}
-
-static PHP_METHOD(V8Value, IsFalse) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsFalse());
-}
-
-static PHP_METHOD(V8Value, IsName) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsName());
-}
-
-static PHP_METHOD(V8Value, IsString) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsString());
-}
-
-static PHP_METHOD(V8Value, IsSymbol) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsSymbol());
-}
-
-static PHP_METHOD(V8Value, IsFunction) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsFunction());
-}
-
-static PHP_METHOD(V8Value, IsArray) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsArray());
-}
-
-static PHP_METHOD(V8Value, IsObject) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsObject());
-}
-
-static PHP_METHOD(V8Value, IsBoolean) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsBoolean());
-}
-
-static PHP_METHOD(V8Value, IsNumber) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsNumber());
-}
-
-static PHP_METHOD(V8Value, IsInt32) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsInt32());
-}
-
-static PHP_METHOD(V8Value, IsUint32) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsUint32());
-}
-
-static PHP_METHOD(V8Value, IsDate) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsDate());
-}
-
-static PHP_METHOD(V8Value, IsArgumentsObject) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsArgumentsObject());
-}
-
-static PHP_METHOD(V8Value, IsBooleanObject) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsBooleanObject());
-}
-
-static PHP_METHOD(V8Value, IsNumberObject) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsNumberObject());
-}
-
-static PHP_METHOD(V8Value, IsStringObject) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsStringObject());
-}
-
-static PHP_METHOD(V8Value, IsSymbolObject) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsSymbolObject());
-}
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsUndefined)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsNull)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsNullOrUndefined)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsTrue)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsFalse)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsName)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsString)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsSymbol)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsFunction)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsArray)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsObject)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsBoolean)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsNumber)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsInt32)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsUint32)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsDate)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsArgumentsObject)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsBooleanObject)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsNumberObject)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsStringObject)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsSymbolObject)
 
 static PHP_METHOD(V8Value, IsNativeError) {
     if (zend_parse_parameters_none() == FAILURE) {
@@ -600,17 +401,35 @@ static PHP_METHOD(V8Value, IsNativeError) {
     RETURN_BOOL(local->IsNativeError());
 }
 
-static PHP_METHOD(V8Value, IsRegExp) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsRegExp)
 
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->IsRegExp());
-}
-
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsAsyncFunction)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsGeneratorFunction)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsGeneratorObject)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsPromise)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsMap)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsSet)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsMapIterator)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsSetIterator)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsWeakMap)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsWeakSet)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsArrayBuffer)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsArrayBufferView)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsTypedArray)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsUint8Array)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsUint8ClampedArray)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsInt8Array)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsUint16Array)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsInt16Array)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsUint32Array)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsInt32Array)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsFloat32Array)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsFloat64Array)
+//static PHP_V8_VALUE_IS_METHOD(V8Value, IsFloat32x4)  // Experimental
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsDataView)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsSharedArrayBuffer)
+static PHP_V8_VALUE_IS_METHOD(V8Value, IsProxy)
+//static PHP_V8_VALUE_IS_METHOD(V8Value, IsWebAssemblyCompiledModule) // Experimental
 
 // TODO: bind other methods that matters
 
@@ -1093,52 +912,61 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_value_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsUndefined,       ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsNull,            ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsNullOrUndefined, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsTrue,            ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsFalse,           ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsName,            ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsString,          ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsSymbol,          ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsFunction,        ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsArray,           ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsObject,          ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsBoolean,         ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsNumber,          ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsInt32,           ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsUint32,          ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsDate,            ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsArgumentsObject, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsBooleanObject,   ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsNumberObject,    ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsStringObject,    ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsSymbolObject,    ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsNativeError,     ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_IsRegExp,          ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
+
+#define PHP_V8_VALUE_IS_METHOD_ARG_INFO(method) \
+    PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_##method, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0) \
+    ZEND_END_ARG_INFO() \
+
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsUndefined)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsNull)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsNullOrUndefined)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsTrue)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsFalse)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsName)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsString)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsSymbol)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsFunction)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsArray)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsObject)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsBoolean)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsNumber)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsInt32)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsUint32)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsDate)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsArgumentsObject)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsBooleanObject)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsNumberObject)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsStringObject)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsSymbolObject)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsNativeError)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsRegExp)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsAsyncFunction)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsGeneratorFunction)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsGeneratorObject)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsPromise)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsMap)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsSet)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsMapIterator)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsSetIterator)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsWeakMap)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsWeakSet)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsArrayBuffer)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsArrayBufferView)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsTypedArray)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsUint8Array)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsUint8ClampedArray)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsInt8Array)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsUint16Array)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsInt16Array)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsUint32Array)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsInt32Array)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsFloat32Array)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsFloat64Array)
+//PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsFloat32x4)  // Experimental
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsDataView)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsSharedArrayBuffer)
+PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsProxy)
+//PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsWebAssemblyCompiledModule)  // Experimental
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_value_ToBoolean, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
@@ -1220,29 +1048,56 @@ static const zend_function_entry php_v8_value_methods[] = {
         PHP_ME(V8Value, __construct, arginfo_v8_value___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
         PHP_ME(V8Value, GetIsolate, arginfo_v8_value_GetIsolate, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8Value, IsUndefined,        arginfo_v8_value_IsUndefined,       ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsNull,             arginfo_v8_value_IsNull,            ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsNullOrUndefined,  arginfo_v8_value_IsNullOrUndefined, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsTrue,             arginfo_v8_value_IsTrue,            ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsFalse,            arginfo_v8_value_IsFalse,           ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsName,             arginfo_v8_value_IsName,            ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsString,           arginfo_v8_value_IsString,          ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsSymbol,           arginfo_v8_value_IsSymbol,          ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsFunction,         arginfo_v8_value_IsFunction,        ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsArray,            arginfo_v8_value_IsArray,           ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsObject,           arginfo_v8_value_IsObject,          ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsBoolean,          arginfo_v8_value_IsBoolean,         ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsNumber,           arginfo_v8_value_IsNumber,          ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsInt32,            arginfo_v8_value_IsInt32,           ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsUint32,           arginfo_v8_value_IsUint32,          ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsDate,             arginfo_v8_value_IsDate,            ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsArgumentsObject,  arginfo_v8_value_IsArgumentsObject, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsBooleanObject,    arginfo_v8_value_IsBooleanObject,   ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsNumberObject,     arginfo_v8_value_IsNumberObject,    ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsStringObject,     arginfo_v8_value_IsStringObject,    ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsSymbolObject,     arginfo_v8_value_IsSymbolObject,    ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsNativeError,      arginfo_v8_value_IsNativeError,     ZEND_ACC_PUBLIC)
-        PHP_ME(V8Value, IsRegExp,           arginfo_v8_value_IsRegExp,          ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsUndefined,                    arginfo_v8_value_IsUndefined,                   ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsNull,                         arginfo_v8_value_IsNull,                        ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsNullOrUndefined,              arginfo_v8_value_IsNullOrUndefined,             ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsTrue,                         arginfo_v8_value_IsTrue,                        ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsFalse,                        arginfo_v8_value_IsFalse,                       ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsName,                         arginfo_v8_value_IsName,                        ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsString,                       arginfo_v8_value_IsString,                      ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsSymbol,                       arginfo_v8_value_IsSymbol,                      ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsFunction,                     arginfo_v8_value_IsFunction,                    ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsArray,                        arginfo_v8_value_IsArray,                       ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsObject,                       arginfo_v8_value_IsObject,                      ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsBoolean,                      arginfo_v8_value_IsBoolean,                     ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsNumber,                       arginfo_v8_value_IsNumber,                      ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsInt32,                        arginfo_v8_value_IsInt32,                       ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsUint32,                       arginfo_v8_value_IsUint32,                      ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsDate,                         arginfo_v8_value_IsDate,                        ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsArgumentsObject,              arginfo_v8_value_IsArgumentsObject,             ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsBooleanObject,                arginfo_v8_value_IsBooleanObject,               ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsNumberObject,                 arginfo_v8_value_IsNumberObject,                ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsStringObject,                 arginfo_v8_value_IsStringObject,                ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsSymbolObject,                 arginfo_v8_value_IsSymbolObject,                ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsNativeError,                  arginfo_v8_value_IsNativeError,                 ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsRegExp,                       arginfo_v8_value_IsRegExp,                      ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsAsyncFunction,                arginfo_v8_value_IsAsyncFunction,               ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsGeneratorFunction,            arginfo_v8_value_IsGeneratorFunction,           ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsGeneratorObject,              arginfo_v8_value_IsGeneratorObject,             ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsPromise,                      arginfo_v8_value_IsPromise,                     ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsMap,                          arginfo_v8_value_IsMap,                         ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsSet,                          arginfo_v8_value_IsSet,                         ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsMapIterator,                  arginfo_v8_value_IsMapIterator,                 ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsSetIterator,                  arginfo_v8_value_IsSetIterator,                 ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsWeakMap,                      arginfo_v8_value_IsWeakMap,                     ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsWeakSet,                      arginfo_v8_value_IsWeakSet,                     ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsArrayBuffer,                  arginfo_v8_value_IsArrayBuffer,                 ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsArrayBufferView,              arginfo_v8_value_IsArrayBufferView,             ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsTypedArray,                   arginfo_v8_value_IsTypedArray,                  ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsUint8Array,                   arginfo_v8_value_IsUint8Array,                  ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsUint8ClampedArray,            arginfo_v8_value_IsUint8ClampedArray,           ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsInt8Array,                    arginfo_v8_value_IsInt8Array,                   ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsUint16Array,                  arginfo_v8_value_IsUint16Array,                 ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsInt16Array,                   arginfo_v8_value_IsInt16Array,                  ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsUint32Array,                  arginfo_v8_value_IsUint32Array,                 ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsInt32Array,                   arginfo_v8_value_IsInt32Array,                  ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsFloat32Array,                 arginfo_v8_value_IsFloat32Array,                ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsFloat64Array,                 arginfo_v8_value_IsFloat64Array,                ZEND_ACC_PUBLIC)
+//        PHP_ME(V8Value, IsFloat32x4,                    arginfo_v8_value_IsFloat32x4,                   ZEND_ACC_PUBLIC) // Experimental
+        PHP_ME(V8Value, IsDataView,                     arginfo_v8_value_IsDataView,                    ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsSharedArrayBuffer,            arginfo_v8_value_IsSharedArrayBuffer,           ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, IsProxy,                        arginfo_v8_value_IsProxy,                       ZEND_ACC_PUBLIC)
+        //PHP_ME(V8Value, IsWebAssemblyCompiledModule,    arginfo_v8_value_IsWebAssemblyCompiledModule,   ZEND_ACC_PUBLIC) // Experimental
 
         PHP_ME(V8Value, ToBoolean,          arginfo_v8_value_ToBoolean,         ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, ToNumber,           arginfo_v8_value_ToNumber,          ZEND_ACC_PUBLIC)
