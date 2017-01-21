@@ -52,10 +52,9 @@ void php_v8_ext_mem_interface_function_template_AdjustExternalAllocatedMemory(IN
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &change_in_bytes) == FAILURE) {
         return;
     }
+    PHP_V8_FUNCTION_TEMPLATE_FETCH_INTO(getThis(), php_v8_function_template);
 
-    PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(getThis(), php_v8_object_template);
-
-    RETURN_LONG(php_v8_object_template->persistent_data->adjustSize(change_in_bytes));
+    RETURN_LONG(php_v8_function_template->persistent_data->adjustSize(change_in_bytes));
 }
 
 void php_v8_ext_mem_interface_function_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS) {
@@ -63,9 +62,9 @@ void php_v8_ext_mem_interface_function_template_GetExternalAllocatedMemory(INTER
         return;
     }
 
-    PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(getThis(), php_v8_object_template);
+    PHP_V8_FUNCTION_TEMPLATE_FETCH_INTO(getThis(), php_v8_function_template);
 
-    RETURN_LONG(php_v8_object_template->persistent_data->getAdjustedSize());
+    RETURN_LONG(php_v8_function_template->persistent_data->getAdjustedSize());
 }
 
 
@@ -76,9 +75,9 @@ void php_v8_ext_mem_interface_object_template_AdjustExternalAllocatedMemory(INTE
         return;
     }
 
-    PHP_V8_FUNCTION_TEMPLATE_FETCH_INTO(getThis(), php_v8_function_template);
+    PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(getThis(), php_v8_object_template);
 
-    RETURN_LONG(php_v8_function_template->persistent_data->adjustSize(change_in_bytes));
+    RETURN_LONG(php_v8_object_template->persistent_data->adjustSize(change_in_bytes));
 }
 
 void php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS) {
@@ -86,9 +85,9 @@ void php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNA
         return;
     }
 
-    PHP_V8_FUNCTION_TEMPLATE_FETCH_INTO(getThis(), php_v8_function_template);
+    PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(getThis(), php_v8_object_template);
 
-    RETURN_LONG(php_v8_function_template->persistent_data->getAdjustedSize());
+    RETURN_LONG(php_v8_object_template->persistent_data->getAdjustedSize());
 }
 
 
