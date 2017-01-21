@@ -45,6 +45,7 @@
 #include "php_v8_function.h"
 #include "php_v8_array.h"
 #include "php_v8_map.h"
+#include "php_v8_set.h"
 #include "php_v8_date.h"
 #include "php_v8_regexp.h"
 #include "php_v8_number_object.h"
@@ -132,6 +133,7 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_function)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_array)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_map)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_set)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_date)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_regexp)(INIT_FUNC_ARGS_PASSTHRU);
 
