@@ -201,6 +201,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_object.cc                                  \
     src/php_v8_function.cc                                \
     src/php_v8_array.cc                                   \
+    src/php_v8_map.cc                                     \
     src/php_v8_date.cc                                    \
     src/php_v8_regexp.cc                                  \
     src/php_v8_number_object.cc                           \

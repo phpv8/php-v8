@@ -41,16 +41,17 @@
 #include "php_v8_int32.h"
 #include "php_v8_uint32.h"
 #include "php_v8_primitive.h"
-#include "php_v8_object.h"
 #include "php_v8_integrity_level.h"
 #include "php_v8_function.h"
 #include "php_v8_array.h"
+#include "php_v8_map.h"
 #include "php_v8_date.h"
 #include "php_v8_regexp.h"
 #include "php_v8_number_object.h"
 #include "php_v8_boolean_object.h"
 #include "php_v8_string_object.h"
 #include "php_v8_symbol_object.h"
+#include "php_v8_object.h"
 #include "php_v8_property_attribute.h"
 #include "php_v8_template.h"
 #include "php_v8_return_value.h"
@@ -126,9 +127,11 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_int32)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_uint32)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_integrity_level)(INIT_FUNC_ARGS_PASSTHRU);
+
     PHP_MINIT(php_v8_object)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_function)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_array)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_map)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_date)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_regexp)(INIT_FUNC_ARGS_PASSTHRU);
 

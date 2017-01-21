@@ -26,6 +26,7 @@
 #include "php_v8_regexp.h"
 #include "php_v8_function.h"
 #include "php_v8_array.h"
+#include "php_v8_map.h"
 #include "php_v8_object.h"
 
 #include "php_v8_null.h"
@@ -225,6 +226,10 @@ zend_class_entry *php_v8_get_class_entry_from_value(v8::Local<v8::Value> value) 
             return php_v8_object_class_entry;
         }
         */
+
+        if (value->IsMap()) {
+            return php_v8_map_class_entry;
+        }
 
         // anything else will be just an object
         return php_v8_object_class_entry;

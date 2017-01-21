@@ -1454,7 +1454,7 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_Set, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object_Set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 3)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
@@ -1507,7 +1507,7 @@ ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_Has, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, key, V8\\StringValue, 0)
+                ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_HasIndex, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
@@ -1517,7 +1517,7 @@ ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_Delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, key, V8\\StringValue, 0)
+                ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_DeleteIndex, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
