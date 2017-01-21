@@ -96,7 +96,7 @@ $setter = $global0->Get($context0, new \V8\StringValue($isolate, 'setter'));
 
 //  // And define normal element.
 //  global0->Set(239, v8_str("239"));
-$global0->SetIndex($context0, 239, new \V8\StringValue($isolate, '239'));
+$global0->Set($context0, 239, new \V8\StringValue($isolate, '239'));
 
 //  // Define an element with JS getter and setter.
 //  CompileRun(

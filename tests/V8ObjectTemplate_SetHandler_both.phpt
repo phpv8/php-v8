@@ -109,7 +109,7 @@ $enumerator = function (\V8\PropertyCallbackInfo $info) use (&$foo, &$allow_inde
 
     if ($allow_indexed) {
         for ($i =0; $i < 10; $i ++) {
-            $arr->SetIndex($ctxt, $i, new \V8\NumberValue($info->GetIsolate(), $i));
+            $arr->Set($ctxt, new \V8\Uint32Value($info->GetIsolate(), $i), new \V8\NumberValue($info->GetIsolate(), $i));
         }
     }
     $info->GetReturnValue()->Set($arr);

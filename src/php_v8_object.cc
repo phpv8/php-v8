@@ -208,41 +208,6 @@ static PHP_METHOD(V8Object, Set) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, SetIndex) {
-    zval *php_v8_context_zv;
-    zend_long index;
-    zval *php_v8_value_zv;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "olo", &php_v8_context_zv, &index, &php_v8_value_zv) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_CHECK_UINT32_RANGE(index, "Index is out of range (should be valid uint32 value)");
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_value_zv, php_v8_value_value_to_set);
-    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
-
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_value_value_to_set);
-
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_CONTEXT(php_v8_context);
-
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
-
-    PHP_V8_TRY_CATCH(isolate);
-    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
-
-    v8::Maybe<bool> maybe_res = local_obj->Set(context, static_cast<uint32_t>(index), local_value_to_set);
-
-    PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
-    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to set");
-
-    RETURN_BOOL(maybe_res.FromJust());
-}
-
 static PHP_METHOD(V8Object, CreateDataProperty) {
     zval *php_v8_context_zv;
     zval *php_v8_key_or_index_zv;
@@ -272,41 +237,6 @@ static PHP_METHOD(V8Object, CreateDataProperty) {
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_obj->CreateDataProperty(context, local_key_or_index, local_value_to_set);
-
-    PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
-    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to create data property");
-
-    RETURN_BOOL(maybe_res.FromJust());
-}
-
-static PHP_METHOD(V8Object, CreateDataPropertyIndex) {
-    zval *php_v8_context_zv;
-    zend_long index;
-    zval *php_v8_value_zv;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "olo", &php_v8_context_zv, &index, &php_v8_value_zv) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_CHECK_UINT32_RANGE(index, "Index is out of range (should be valid uint32 value)");
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_value_zv, php_v8_value_value_to_set);
-    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
-
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_value_value_to_set);
-
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_CONTEXT(php_v8_context);
-
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
-
-    PHP_V8_TRY_CATCH(isolate);
-    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
-
-    v8::Maybe<bool> maybe_res = local_obj->CreateDataProperty(context, static_cast<uint32_t>(index), local_value_to_set);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to create data property");
@@ -385,41 +315,6 @@ static PHP_METHOD(V8Object, Get) {
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     maybe_local = local_obj->Get(context, local_key_or_index);
-
-    PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
-    PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to get");
-
-    v8::Local<v8::Value> local_value =  maybe_local.ToLocalChecked();
-
-    php_v8_get_or_create_value(return_value, local_value, isolate);
-}
-
-static PHP_METHOD(V8Object, GetIndex) {
-    zval *php_v8_context_zv;
-    zend_long index;
-
-    v8::MaybeLocal<v8::Value> maybe_local;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "ol", &php_v8_context_zv, &index) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_CHECK_UINT32_RANGE(index, "Index is out of range (should be valid uint32 value)");
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
-
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
-
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_CONTEXT(php_v8_context);
-
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-
-    PHP_V8_TRY_CATCH(isolate);
-    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
-
-    maybe_local = local_obj->Get(context, static_cast<uint32_t>(index));
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to get");
@@ -527,37 +422,6 @@ static PHP_METHOD(V8Object, Has) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, HasIndex) {
-    zval *php_v8_context_zv;
-    zend_long index;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "ol", &php_v8_context_zv, &index) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_CHECK_UINT32_RANGE(index, "Index is out of range (should be valid uint32 value)");
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
-
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
-
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_CONTEXT(php_v8_context);
-
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-
-    PHP_V8_TRY_CATCH(isolate);
-    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
-
-    v8::Maybe<bool> maybe_res = local_obj->Has(context, static_cast<uint32_t>(index));
-
-    PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
-    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to check");
-
-    RETURN_BOOL(maybe_res.FromJust());
-}
-
 static PHP_METHOD(V8Object, Delete) {
     zval *php_v8_context_zv;
     zval *php_v8_key_or_index_zv;
@@ -583,37 +447,6 @@ static PHP_METHOD(V8Object, Delete) {
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
     v8::Maybe<bool> maybe_res = local_obj->Delete(context, local_key_or_index);
-
-    PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
-    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to delete");
-
-    RETURN_BOOL(maybe_res.FromJust());
-}
-
-static PHP_METHOD(V8Object, DeleteIndex) {
-    zval *php_v8_context_zv;
-    zend_long index;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "ol", &php_v8_context_zv, &index) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_CHECK_UINT32_RANGE(index, "Index is out of range (should be valid uint32 value)");
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
-
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
-
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_CONTEXT(php_v8_context);
-
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-
-    PHP_V8_TRY_CATCH(isolate);
-    PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
-
-    v8::Maybe<bool> maybe_res = local_obj->Delete(context, static_cast<uint32_t>(index));
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to delete");
@@ -965,8 +798,6 @@ static PHP_METHOD(V8Object, SetIntegrityLevel) {
 
     RETURN_BOOL(maybe_res.FromJust());
 }
-
-
 
 static PHP_METHOD(V8Object, HasOwnProperty) {
     zval *php_v8_context_zv;
@@ -1460,21 +1291,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object_Set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALU
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_SetIndex, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
-                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_TYPE_INFO(0, key, IS_LONG, 0)
-                ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
-ZEND_END_ARG_INFO()
-
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_CreateDataProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\NameValue, 0)
-                ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_CreateDataPropertyIndex, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
-                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_TYPE_INFO(0, key, IS_LONG, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
@@ -1488,11 +1307,6 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_Get, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_GetIndex, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
-                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_GetPropertyAttributes, ZEND_RETURN_VALUE, 2, IS_LONG, 0)
@@ -1510,19 +1324,9 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_Has, ZEND_RETUR
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_HasIndex, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
-                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_Delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_DeleteIndex, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
-                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 // bool
@@ -1650,11 +1454,6 @@ ZEND_END_ARG_INFO()
 
 // static methods
 
-// NOTE: Not supported yet
-//ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object_Cast, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-//                ZEND_ARG_OBJ_INFO(0, persistent, V8\\Value, 0)
-//ZEND_END_ARG_INFO()
-
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -1668,18 +1467,13 @@ static const zend_function_entry php_v8_object_methods[] = {
         PHP_ME(V8Object, __construct, arginfo_v8_object___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
         PHP_ME(V8Object, GetContext, arginfo_v8_object_GetContext, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, Set, arginfo_v8_object_Set, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, SetIndex, arginfo_v8_object_SetIndex, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, CreateDataProperty, arginfo_v8_object_CreateDataProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, CreateDataPropertyIndex, arginfo_v8_object_CreateDataPropertyIndex, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, DefineOwnProperty, arginfo_v8_object_DefineOwnProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, Get, arginfo_v8_object_Get, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetIndex, arginfo_v8_object_GetIndex, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, GetPropertyAttributes, arginfo_v8_object_GetPropertyAttributes, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, GetOwnPropertyDescriptor, arginfo_v8_object_GetOwnPropertyDescriptor, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, Has, arginfo_v8_object_Has, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, HasIndex, arginfo_v8_object_HasIndex, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, Delete, arginfo_v8_object_Delete, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, DeleteIndex, arginfo_v8_object_DeleteIndex, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, SetAccessor, arginfo_v8_object_SetAccessor, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, SetAccessorProperty, arginfo_php_v8_object_SetAccessorProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, GetPropertyNames, arginfo_php_v8_object_GetPropertyNames, ZEND_ACC_PUBLIC)

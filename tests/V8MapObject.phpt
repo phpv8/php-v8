@@ -65,7 +65,6 @@ $key = new \V8\ObjectValue($context);
 $nonexistent_key = new \V8\ObjectValue($context);
 $val = new \V8\ObjectValue($context);
 
-
 $helper->method_export($value, 'Size');
 $helper->assert('Can set value', $value->Set($context, $key, $val), $value);
 $helper->assert('Value exists', $value->Has($context, $key));
@@ -74,19 +73,14 @@ $helper->assert('Nonexistent value does not exists', $value->Has($context, $none
 $helper->assert('Getting nonexistent value returns undefined', ($ret = $value->Get($context, $nonexistent_key)) instanceof \V8\Value && $ret->IsUndefined());
 $helper->line();
 
-$helper->assert('Can set indexed value', $value->SetIndex($context, 22, $val), true);
-$helper->assert('Setting indexed value on object has no impact on map', $value->SetIndex($context, 22, $val), true);
-$helper->method_export($value, 'Size');
-$helper->line();
-
 $helper->method_export($value, 'Size');
 $helper->method_matches_instanceof($value, 'AsArray', \V8\ArrayObject::class);
 $helper->line();
 
 $arr = $value->AsArray();
 $helper->assert('MapObject Array representation has valid length', $arr->Length() == 2);
-$helper->assert('MapObject Array contains key', $arr->GetIndex($context, 0), $key);
-$helper->assert('MapObject Array contains value', $arr->GetIndex($context, 1), $val);
+$helper->assert('MapObject Array contains key', $arr->Get($context, new \V8\Uint32Value($isolate, 0)), $key);
+$helper->assert('MapObject Array contains value', $arr->Get($context, new \V8\Uint32Value($isolate, 1)), $val);
 $helper->line();
 
 $helper->assert('Delete existent value', $value->Delete($context, $key));
@@ -236,7 +230,7 @@ V8\MapObject(V8\Value)->IsProxy(): bool(false)
 Converters:
 -----------
 V8\MapObject(V8\Value)->ToBoolean():
-    object(V8\BooleanValue)#124 (1) {
+    object(V8\BooleanValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -252,7 +246,7 @@ V8\MapObject(V8\Value)->ToBoolean():
       }
     }
 V8\MapObject(V8\Value)->ToNumber():
-    object(V8\NumberValue)#124 (1) {
+    object(V8\NumberValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -268,7 +262,7 @@ V8\MapObject(V8\Value)->ToNumber():
       }
     }
 V8\MapObject(V8\Value)->ToString():
-    object(V8\StringValue)#124 (1) {
+    object(V8\StringValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -284,7 +278,7 @@ V8\MapObject(V8\Value)->ToString():
       }
     }
 V8\MapObject(V8\Value)->ToDetailString():
-    object(V8\StringValue)#124 (1) {
+    object(V8\StringValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -353,7 +347,7 @@ V8\MapObject(V8\Value)->ToObject():
       }
     }
 V8\MapObject(V8\Value)->ToInteger():
-    object(V8\NumberValue)#124 (1) {
+    object(V8\NumberValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -369,7 +363,7 @@ V8\MapObject(V8\Value)->ToInteger():
       }
     }
 V8\MapObject(V8\Value)->ToUint32():
-    object(V8\NumberValue)#124 (1) {
+    object(V8\NumberValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -385,7 +379,7 @@ V8\MapObject(V8\Value)->ToUint32():
       }
     }
 V8\MapObject(V8\Value)->ToInt32():
-    object(V8\NumberValue)#124 (1) {
+    object(V8\NumberValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -428,10 +422,6 @@ Value exists: ok
 Can get value: ok
 Nonexistent value does not exists: ok
 Getting nonexistent value returns undefined: ok
-
-Can set indexed value: ok
-Setting indexed value on object has no impact on map: ok
-V8\MapObject->Size(): float(1)
 
 V8\MapObject->Size(): float(1)
 V8\MapObject::AsArray() result is instance of V8\ArrayObject
