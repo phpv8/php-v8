@@ -40,9 +40,8 @@ v8::Local<v8::Object> php_v8_value_get_object_local(v8::Isolate *isolate, php_v8
 
 // TODO: cache this private
 
-inline v8::Local<v8::Private> GetHiddenPropertyName(v8::Isolate* isolate) {
-//    v8::MaybeLocal<v8::String> local_key = v8::String::NewFromUtf8(isolate, "php_v8::self", v8::NewStringType::kInternalized);
-    v8::MaybeLocal<v8::String> local_key = v8::String::NewFromUtf8(isolate, "test", v8::NewStringType::kInternalized);
+inline v8::Local<v8::Private> php_v8_get_hidden_property_name(v8::Isolate *isolate) {
+    v8::MaybeLocal<v8::String> local_key = v8::String::NewFromUtf8(isolate, "php-v8::self", v8::NewStringType::kInternalized);
 
     assert(!local_key.IsEmpty());
 
@@ -65,7 +64,7 @@ bool php_v8_object_delete_self_ptr(v8::Isolate *isolate, v8::Local<v8::Object> l
     PHP_V8_ISOLATE_ENTER(isolate);
     PHP_V8_CONTEXT_ENTER(local_object->CreationContext());
 
-    v8::Local<v8::Private> key = GetHiddenPropertyName(isolate);
+    v8::Local<v8::Private> key = php_v8_get_hidden_property_name(isolate);
 
     assert(!key.IsEmpty());
 
@@ -93,7 +92,7 @@ bool php_v8_object_store_self_ptr(v8::Isolate *isolate, v8::Local<v8::Object> lo
 //    PHP_V8_ISOLATE_ENTER(isolate);
 //    PHP_V8_CONTEXT_ENTER(local_object->CreationContext());
 
-    v8::Local<v8::Private> key = GetHiddenPropertyName(isolate);
+    v8::Local<v8::Private> key = php_v8_get_hidden_property_name(isolate);
     assert(!key.IsEmpty());
 
     v8::Local<v8::External> this_embedded = v8::External::New(isolate, php_v8_value);
@@ -123,7 +122,7 @@ php_v8_value_t * php_v8_object_get_self_ptr(v8::Isolate *isolate, v8::Local<v8::
 //    PHP_V8_ISOLATE_ENTER(isolate);
 //    PHP_V8_CONTEXT_ENTER(local_object->CreationContext());
 
-    v8::Local<v8::Private> key = GetHiddenPropertyName(isolate);
+    v8::Local<v8::Private> key = php_v8_get_hidden_property_name(isolate);
     assert(!key.IsEmpty());
 
     v8::MaybeLocal<v8::Value> maybe_local_value = local_object->GetPrivate(local_object->CreationContext(), key);
