@@ -95,9 +95,10 @@ $ php --ri v8
 ```
 
 While [pinepain/php](https://launchpad.net/~pinepain/+archive/ubuntu/php) PPA targets to contain all necessary
-extensions with dependencies, you may find useful 
-[pinepain/libv8-5.7](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-5.7) and
-[pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) standalone PPAs.
+extensions with dependencies, you may find
+[pinepain/libv8-5.7](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-5.7),
+[pinepain/libv8-experimental](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental) and
+[pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) standalone PPAs useful.
 
 
 #### OS X (homebrew)
@@ -136,6 +137,8 @@ $ sudo make install
 
  - To track memory usage you may want to use `smem`, `pmem` or even `lsof` to see what shared object are loaded
    and `free` to display free and used memory in the system.
+ - [pinepain/libv8-experimental](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental) normally contains
+   `libv8` version that used in current `master` branch.
 
 ## License
 
