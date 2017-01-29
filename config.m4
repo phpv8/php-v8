@@ -18,53 +18,39 @@ if test "$PHP_V8" != "no"; then
   SEARCH_PATH="${PRIORITY_SEARCH_PATH} /usr/local /usr"
 
   if test -r $PHP_V8/$SEARCH_FOR; then
-    case $host_os in
-      darwin* )
-        # MacOS does not support --rpath
-        ;;
-      * )
-        LDFLAGS="$LDFLAGS -Wl,--rpath=$PHP_V8/$PHP_LIBDIR"
-        ;;
-    esac
-    V8_LIB_DIR=$PHP_V8/$PHP_LIBDIR
-    V8_INCLUDE_DIR=$PHP_V8/include
+    V8_ROOT_DIR=$PHP_V8
   else
     AC_MSG_CHECKING([for V8 files in default path])
     for i in $SEARCH_PATH ; do
       if test -r $i/$SEARCH_FOR; then
         AC_MSG_RESULT(found in $i)
-        V8_LIB_DIR=$i/$PHP_LIBDIR
-        V8_INCLUDE_DIR=$i/include
+        V8_ROOT_DIR=$i
+        break
       fi
     done
   fi
 
-  if test -z "$V8_LIB_DIR"; then
+  if test -z "$V8_ROOT_DIR"; then
     AC_MSG_RESULT([not found])
     AC_MSG_ERROR([Please reinstall the v8 distribution or provide valid path to it])
   fi
 
-  AC_DEFINE_UNQUOTED([PHP_V8_LIB_DIR], ["$V8_LIB_DIR/"], [Root directory with libraries (and icu data file)])
+  V8_LIB_DIR=$V8_ROOT_DIR/$PHP_LIBDIR
+  V8_INCLUDE_DIR=$V8_ROOT_DIR/include
 
-  PHP_ADD_INCLUDE($V8_INCLUDE_DIR)
-  PHP_ADD_LIBRARY_WITH_PATH(v8, $V8_LIB_DIR, V8_SHARED_LIBADD)
-  PHP_SUBST(V8_SHARED_LIBADD)
-  PHP_REQUIRE_CXX()
+  AC_MSG_CHECKING([for ICU data file icudtl.dat])
 
-  AC_CACHE_CHECK(for C standard version, ac_cv_v8_cstd, [
-    ac_cv_v8_cstd="c++11"
-    old_CPPFLAGS=$CPPFLAGS
-    AC_LANG_PUSH([C++])
-    CPPFLAGS="-std="$ac_cv_v8_cstd
-    AC_TRY_RUN([int main() { return 0; }],[],[ac_cv_v8_cstd="c++0x"],[])
-    AC_LANG_POP([C++])
-    CPPFLAGS=$old_CPPFLAGS
-  ]);
+  if test -r "$V8_LIB_DIR/icudtl.dat"; then
+    PHP_V8_ICU_DATA_DIR="$V8_LIB_DIR/" # trailing slash is required
+    AC_MSG_RESULT(found in $PHP_V8_ICU_DATA_DIR)
+  fi
 
+  if test -z "PHP_V8_ICU_DATA_DIR"; then
+    AC_MSG_RESULT([not found])
+    AC_MSG_ERROR([ICU data file icudtl.dat not found])
+  fi
 
-  old_LIBS=$LIBS
-  old_LDFLAGS=$LDFLAGS
-  old_CPPFLAGS=$CPPFLAGS
+  AC_DEFINE_UNQUOTED([PHP_V8_ICU_DATA_DIR], ["$PHP_V8_ICU_DATA_DIR"], [ICU data path (trailing slash is required)])
 
   case $host_os in
     darwin* )
@@ -76,35 +62,24 @@ if test "$PHP_V8" != "no"; then
       ;;
   esac
 
-  PHP_ADD_INCLUDE($V8_DIR)
-
-  LDFLAGS="$LDFLAGS -lv8_libbase -lv8_libplatform"
-  LIBS="-lv8 -lv8_libbase -lv8_libplatform"
-  CPPFLAGS="-I$V8_INCLUDE_DIR -std=$ac_cv_v8_cstd"
-  AC_LANG_SAVE
-  AC_LANG_CPLUSPLUS
-
-
-  # NOTE: it is possible to get version string from headers with simple regexp match
   AC_CACHE_CHECK(for V8 version, ac_cv_v8_version, [
-    AC_TRY_RUN([
-      #include <v8.h>
-      #include <iostream>
-      #include <fstream>
-      using namespace std;
+    if test -z "$V8_INCLUDE_DIR/v8-version.h"; then
+      AC_MSG_RESULT([not found])
+      AC_MSG_ERROR([Please reinstall the v8 distribution or provide valid path to it])
+    fi
 
-      int main ()
-      {
-          ofstream testfile ("conftestval");
-          if (testfile.is_open()) {
-              testfile << v8::V8::GetVersion();
-              testfile << "\n";
-              testfile.close();
-              return 0;
-          }
-          return 1;
-      }
-    ], [ac_cv_v8_version=`cat ./conftestval|awk '{print $1}'`], [ac_cv_v8_version=NONE], [ac_cv_v8_version=NONE])
+    major=`cat $V8_INCLUDE_DIR/v8-version.h | grep V8_MAJOR_VERSION | awk '{print $3}'`
+    minor=`cat $V8_INCLUDE_DIR/v8-version.h | grep V8_MINOR_VERSION | awk '{print $3}'`
+    build=`cat $V8_INCLUDE_DIR/v8-version.h | grep V8_BUILD_NUMBER | awk '{print $3}'`
+    patch=`cat $V8_INCLUDE_DIR/v8-version.h | grep V8_PATCH_LEVEL | awk '{print $3}'`
+    candidate=`cat $V8_INCLUDE_DIR/v8-version.h | grep V8_IS_CANDIDATE_VERSION | awk '{print $3}'`
+
+    version="$major.$minor.$build"
+
+    if test $patch -gt 0; then version="$version.$patch"; fi
+    if test $candidate -gt 0; then version="$version (candidate)"; fi
+
+    ac_cv_v8_version=$version
   ])
 
   V8_MIN_API_VERSION_NUM=`echo "${V8_MIN_API_VERSION_STR}" | $AWK 'BEGIN { FS = "."; } { printf "%d", [$]1 * 1000000 + [$]2 * 1000 + [$]3;}'`
@@ -121,22 +96,29 @@ if test "$PHP_V8" != "no"; then
     AC_MSG_ERROR([could not determine libv8 version])
   fi
 
+  PHP_ADD_INCLUDE($V8_DIR)
+  PHP_ADD_INCLUDE($V8_INCLUDE_DIR)
+
+  PHP_ADD_LIBRARY_WITH_PATH(v8, $V8_LIB_DIR, V8_SHARED_LIBADD)
+  PHP_ADD_LIBRARY_WITH_PATH(v8_libbase, $V8_LIB_DIR, V8_SHARED_LIBADD)
+  PHP_ADD_LIBRARY_WITH_PATH(v8_libplatform, $V8_LIB_DIR, V8_SHARED_LIBADD)
+
+  PHP_SUBST(V8_SHARED_LIBADD)
+  PHP_REQUIRE_CXX()
+
+  CPPFLAGS="$CPPFLAGS -std=c++11"
+
   # On OS X clang reports warnings in zeng_strings.h, like
   #     php/Zend/zend_string.h:326:2: warning: 'register' storage class specifier is deprecated [-Wdeprecated-register]
   # also
   #     php/Zend/zend_operators.h:128:18: warning: 'finite' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
   # but as we want to track also deprecated methods from v8 we won't ignore -Wdeprecated-declarations warnings
   # We want to make building log cleaner, so let's suppress only -Wdeprecated-register warning
-  PHP_V8_COMPILER_OPTIONS="-Wno-deprecated-register -Wno-unicode"
-  #PHP_V8_COMPILER_OPTIONS="-Wno-deprecated-register -Wno-deprecated-declarations"
+  CPPFLAGS="$CPPFLAGS -Wno-deprecated-register -Wno-unicode"
+  #CPPFLAGS="$CPPFLAGS -Wno-deprecated-declarations"
 
   AC_DEFINE([V8_DEPRECATION_WARNINGS], [1], [Enable compiler warnings when using V8_DEPRECATED apis.])
   AC_DEFINE([V8_IMMINENT_DEPRECATION_WARNINGS], [1], [Enable compiler warnings to make it easier to see what v8 apis will be deprecated (V8_DEPRECATED) soon.])
-
-  AC_LANG_RESTORE
-  LIBS=$old_LIBS
-  #LDFLAGS=$old_LDFLAGS # we have to links some libraries
-  CPPFLAGS=$old_CPPFLAGS
 
   if test -z "$TRAVIS" ; then
     type git &>/dev/null
@@ -221,7 +203,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_named_property_handler_configuration.cc    \
     src/php_v8_indexed_property_handler_configuration.cc  \
     src/php_v8_access_type.cc                             \
-  ], $ext_shared, , "$PHP_V8_COMPILER_OPTIONS -std="$ac_cv_v8_cstd -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+  ], $ext_shared, , -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
   PHP_ADD_BUILD_DIR($ext_builddir/src)
 
