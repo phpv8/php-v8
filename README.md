@@ -137,6 +137,20 @@ $ sudo make install
  - To track memory usage you may want to use `smem`, `pmem` or even `lsof` to see what shared object are loaded
    and `free` to display free and used memory in the system.
 
+## Credits
+
+My thanks to the following people and projects, without whom this extension wouldn't be what it is today.
+(Please let me know if I've mistakenly omitted anyone.)
+
+ - [v8js](https://github.com/phpv8/v8js) PHP extension which used as a reference on early stages;
+ - [Stefan Siegl](https://github.com/stesie), for his profound work on [v8js](https://github.com/phpv8/v8js)
+   PHP extension and for his personal time at helping building V8;
+ - all [v8js](https://github.com/phpv8/v8js) [contributors](https://github.com/phpv8/v8js/graphs/contributors);
+ - Jérémy Lal, one of [libv8](https://anonscm.debian.org/git/collab-maint/libv8.git) maintainers for his personal
+   help on building V8 on Ubuntu;
+ - [John Gardner](https://github.com/Alhadis) for dealing with V8 building system changes;
+ - [@ilovezfs](https://github.com/ilovezfs) for his help and mentoring on upgrading V8 homebrew formulae.
+
 ## License
 
 Copyright (c) 2015-2017 Bogdan Padalko &lt;pinepain@gmail.com&gt;
