@@ -215,37 +215,37 @@ static PHP_METHOD(V8Script, Run)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_source___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_script___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
     ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
     ZEND_ARG_OBJ_INFO(0, source, V8\\StringValue, 0)
     ZEND_ARG_OBJ_INFO(0, origin, V8\\ScriptOrigin, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_getSource, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_getSource, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_getOrigin, ZEND_RETURN_VALUE, 0, V8\\ScriptOrigin, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_getOrigin, ZEND_RETURN_VALUE, 0, V8\\ScriptOrigin, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_Run, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_Run, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_script_methods[] = {
-    PHP_ME(V8Script, __construct, arginfo_v8_source___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(V8Script, GetIsolate, arginfo_v8_source_GetIsolate, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Script, GetContext, arginfo_v8_source_GetContext, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Script, getSource, arginfo_v8_source_getSource, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Script, getOrigin, arginfo_v8_source_getOrigin, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, __construct, arginfo_v8_script___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_ME(V8Script, GetIsolate, arginfo_v8_script_GetIsolate, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, GetContext, arginfo_v8_script_GetContext, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, getSource, arginfo_v8_script_getSource, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, getOrigin, arginfo_v8_script_getOrigin, ZEND_ACC_PUBLIC)
 
-    PHP_ME(V8Script, Run, arginfo_v8_source_Run, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, Run, arginfo_v8_script_Run, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

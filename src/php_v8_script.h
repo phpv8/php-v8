@@ -64,19 +64,6 @@ struct _php_v8_script_t {
 };
 
 
-// Timer context
-//typedef struct _php_v8_limits_t
-//{
-//  long time_limit;
-//  long v8_memory_limit;
-//  long zend_memory_limit;
-//  std::chrono::time_point<std::chrono::high_resolution_clock> time_point;
-//  v8js_ctx *ctx;
-//  bool killed;
-//} php_v8_limits_t;
-
-
-
 PHP_MINIT_FUNCTION(php_v8_script);
 
 #endif //PHP_V8_SCRIPT_H
