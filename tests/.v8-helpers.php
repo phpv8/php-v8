@@ -86,7 +86,7 @@ class PhpV8Helpers {
             if ($len > 0) {
                 $items = [];
                 for($i =0; $i < $len; $i++) {
-                    $item = $arg->GetIndex($context, $i);
+                    $item = $arg->Get($context, new \V8\NumberValue($context->GetIsolate(), $i));
 
                     $items[] = $this->toString($item, $context);
                 }

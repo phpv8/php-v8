@@ -421,7 +421,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object_template___construct, ZEND_SEND_BY_VAL,
                 ZEND_ARG_OBJ_INFO(0, constructor, V8\\FunctionTemplate, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Isolate", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_template_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -451,7 +451,7 @@ ZEND_END_ARG_INFO()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_NewInstance, ZEND_RETURN_VALUE, 1, IS_OBJECT, PHP_V8_NS "\\ObjectValue", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_template_NewInstance, ZEND_RETURN_VALUE, 1, V8\\ObjectValue, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
@@ -494,12 +494,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessCheckCallback, ZE
 ZEND_END_ARG_INFO()
 */
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 

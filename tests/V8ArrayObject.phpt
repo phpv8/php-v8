@@ -33,13 +33,16 @@ $helper->method_matches($value, 'GetContext', $context);
 $helper->method_matches($value, 'CreationContext', $context);
 $helper->space();
 
+$v8_helper->run_checks($value, 'Checkers');
+
+
 $helper->header('Converters');
 $helper->dump_object_methods($value, ['@@default' => [$context]], new RegexpFilter('/^To/'));
 $helper->space();
 
 
-$value->SetIndex($context, 0, new \V8\StringValue($isolate, 'first'));
-$value->SetIndex($context, 1, new \V8\StringValue($isolate, 'second'));
+$value->Set($context, new \V8\Uint32Value($isolate, 0), new \V8\StringValue($isolate, 'first'));
+$value->Set($context, new \V8\Uint32Value($isolate, 1), new \V8\StringValue($isolate, 'second'));
 $value->Set($context, new \V8\Uint32Value($isolate, 2), new \V8\StringValue($isolate, 'third'));
 
 $value->Set($context, new \V8\StringValue($isolate, 'test'), new \V8\StringValue($isolate, 'property'));
@@ -126,10 +129,66 @@ V8\ArrayObject::GetContext() matches expected value
 V8\ArrayObject::CreationContext() matches expected value
 
 
+Checkers:
+---------
+V8\ArrayObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
+
+V8\ArrayObject(V8\ObjectValue)->IsCallable(): bool(false)
+V8\ArrayObject(V8\ObjectValue)->IsConstructor(): bool(false)
+V8\ArrayObject(V8\Value)->IsUndefined(): bool(false)
+V8\ArrayObject(V8\Value)->IsNull(): bool(false)
+V8\ArrayObject(V8\Value)->IsNullOrUndefined(): bool(false)
+V8\ArrayObject(V8\Value)->IsTrue(): bool(false)
+V8\ArrayObject(V8\Value)->IsFalse(): bool(false)
+V8\ArrayObject(V8\Value)->IsName(): bool(false)
+V8\ArrayObject(V8\Value)->IsString(): bool(false)
+V8\ArrayObject(V8\Value)->IsSymbol(): bool(false)
+V8\ArrayObject(V8\Value)->IsFunction(): bool(false)
+V8\ArrayObject(V8\Value)->IsArray(): bool(true)
+V8\ArrayObject(V8\Value)->IsObject(): bool(true)
+V8\ArrayObject(V8\Value)->IsBoolean(): bool(false)
+V8\ArrayObject(V8\Value)->IsNumber(): bool(false)
+V8\ArrayObject(V8\Value)->IsInt32(): bool(false)
+V8\ArrayObject(V8\Value)->IsUint32(): bool(false)
+V8\ArrayObject(V8\Value)->IsDate(): bool(false)
+V8\ArrayObject(V8\Value)->IsArgumentsObject(): bool(false)
+V8\ArrayObject(V8\Value)->IsBooleanObject(): bool(false)
+V8\ArrayObject(V8\Value)->IsNumberObject(): bool(false)
+V8\ArrayObject(V8\Value)->IsStringObject(): bool(false)
+V8\ArrayObject(V8\Value)->IsSymbolObject(): bool(false)
+V8\ArrayObject(V8\Value)->IsNativeError(): bool(false)
+V8\ArrayObject(V8\Value)->IsRegExp(): bool(false)
+V8\ArrayObject(V8\Value)->IsAsyncFunction(): bool(false)
+V8\ArrayObject(V8\Value)->IsGeneratorFunction(): bool(false)
+V8\ArrayObject(V8\Value)->IsGeneratorObject(): bool(false)
+V8\ArrayObject(V8\Value)->IsPromise(): bool(false)
+V8\ArrayObject(V8\Value)->IsMap(): bool(false)
+V8\ArrayObject(V8\Value)->IsSet(): bool(false)
+V8\ArrayObject(V8\Value)->IsMapIterator(): bool(false)
+V8\ArrayObject(V8\Value)->IsSetIterator(): bool(false)
+V8\ArrayObject(V8\Value)->IsWeakMap(): bool(false)
+V8\ArrayObject(V8\Value)->IsWeakSet(): bool(false)
+V8\ArrayObject(V8\Value)->IsArrayBuffer(): bool(false)
+V8\ArrayObject(V8\Value)->IsArrayBufferView(): bool(false)
+V8\ArrayObject(V8\Value)->IsTypedArray(): bool(false)
+V8\ArrayObject(V8\Value)->IsUint8Array(): bool(false)
+V8\ArrayObject(V8\Value)->IsUint8ClampedArray(): bool(false)
+V8\ArrayObject(V8\Value)->IsInt8Array(): bool(false)
+V8\ArrayObject(V8\Value)->IsUint16Array(): bool(false)
+V8\ArrayObject(V8\Value)->IsInt16Array(): bool(false)
+V8\ArrayObject(V8\Value)->IsUint32Array(): bool(false)
+V8\ArrayObject(V8\Value)->IsInt32Array(): bool(false)
+V8\ArrayObject(V8\Value)->IsFloat32Array(): bool(false)
+V8\ArrayObject(V8\Value)->IsFloat64Array(): bool(false)
+V8\ArrayObject(V8\Value)->IsDataView(): bool(false)
+V8\ArrayObject(V8\Value)->IsSharedArrayBuffer(): bool(false)
+V8\ArrayObject(V8\Value)->IsProxy(): bool(false)
+
+
 Converters:
 -----------
 V8\ArrayObject(V8\Value)->ToBoolean():
-    object(V8\BooleanValue)#98 (1) {
+    object(V8\BooleanValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -145,7 +204,7 @@ V8\ArrayObject(V8\Value)->ToBoolean():
       }
     }
 V8\ArrayObject(V8\Value)->ToNumber():
-    object(V8\NumberValue)#98 (1) {
+    object(V8\NumberValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -161,7 +220,7 @@ V8\ArrayObject(V8\Value)->ToNumber():
       }
     }
 V8\ArrayObject(V8\Value)->ToString():
-    object(V8\StringValue)#98 (1) {
+    object(V8\StringValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -177,7 +236,7 @@ V8\ArrayObject(V8\Value)->ToString():
       }
     }
 V8\ArrayObject(V8\Value)->ToDetailString():
-    object(V8\StringValue)#98 (1) {
+    object(V8\StringValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -246,7 +305,7 @@ V8\ArrayObject(V8\Value)->ToObject():
       }
     }
 V8\ArrayObject(V8\Value)->ToInteger():
-    object(V8\NumberValue)#98 (1) {
+    object(V8\NumberValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -262,7 +321,7 @@ V8\ArrayObject(V8\Value)->ToInteger():
       }
     }
 V8\ArrayObject(V8\Value)->ToUint32():
-    object(V8\NumberValue)#98 (1) {
+    object(V8\NumberValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -278,7 +337,7 @@ V8\ArrayObject(V8\Value)->ToUint32():
       }
     }
 V8\ArrayObject(V8\Value)->ToInt32():
-    object(V8\NumberValue)#98 (1) {
+    object(V8\NumberValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

@@ -29,7 +29,7 @@ $arr = new \V8\ArrayObject($context1, 5);
 echo $arr->Length(), PHP_EOL;
 
 for ($i =0; $i < 7; $i++) {
-    $arr->SetIndex($context1, $i, new \V8\StringValue($isolate1, 'test-'.$i));
+    $arr->Set($context1, new \V8\Uint32Value($isolate1, $i), new \V8\StringValue($isolate1, 'test-'.$i));
 }
 
 echo $arr->Length(), PHP_EOL;

@@ -52,36 +52,12 @@ void php_v8_ext_mem_interface_function_template_AdjustExternalAllocatedMemory(IN
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &change_in_bytes) == FAILURE) {
         return;
     }
-
-    PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(getThis(), php_v8_object_template);
-
-    RETURN_LONG(php_v8_object_template->persistent_data->adjustSize(change_in_bytes));
-}
-
-void php_v8_ext_mem_interface_function_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(getThis(), php_v8_object_template);
-
-    RETURN_LONG(php_v8_object_template->persistent_data->getAdjustedSize());
-}
-
-
-void php_v8_ext_mem_interface_object_template_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS) {
-    zend_long change_in_bytes;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &change_in_bytes) == FAILURE) {
-        return;
-    }
-
     PHP_V8_FUNCTION_TEMPLATE_FETCH_INTO(getThis(), php_v8_function_template);
 
     RETURN_LONG(php_v8_function_template->persistent_data->adjustSize(change_in_bytes));
 }
 
-void php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS) {
+void php_v8_ext_mem_interface_function_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -92,12 +68,35 @@ void php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNA
 }
 
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_ext_mem_interface_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, NULL, 0)
+void php_v8_ext_mem_interface_object_template_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS) {
+    zend_long change_in_bytes;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &change_in_bytes) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(getThis(), php_v8_object_template);
+
+    RETURN_LONG(php_v8_object_template->persistent_data->adjustSize(change_in_bytes));
+}
+
+void php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAMETERS) {
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(getThis(), php_v8_object_template);
+
+    RETURN_LONG(php_v8_object_template->persistent_data->getAdjustedSize());
+}
+
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_ext_mem_interface_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_ext_mem_interface_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_ext_mem_interface_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 

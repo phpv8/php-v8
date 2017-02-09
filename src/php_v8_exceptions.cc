@@ -168,13 +168,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_exceptions_try_catch___construct, ZEND_SEND_BY
     ZEND_ARG_OBJ_INFO(0, try_catch, V8\\TryCatch, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exceptions_try_catch_GetIsolate, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Isolate", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_exceptions_try_catch_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exceptions_try_catch_GetContext, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\Context", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_exceptions_try_catch_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_exceptions_try_catch_GetTryCatch, ZEND_RETURN_VALUE, 0, IS_OBJECT, PHP_V8_NS "\\TryCatch", 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_exceptions_try_catch_GetTryCatch, ZEND_RETURN_VALUE, 0, V8\\TryCatch, 0)
 ZEND_END_ARG_INFO()
 
 
@@ -223,10 +223,10 @@ static const zend_function_entry php_v8_value_exception_methods[] = {
 PHP_MINIT_FUNCTION(php_v8_exceptions) {
     zend_class_entry ce;
 
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "GenericException", php_v8_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "GenericException", php_v8_exception_methods);
     php_v8_generic_exception_class_entry = zend_register_internal_class_ex(&ce, zend_exception_get_default());
 
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "TryCatchException", php_v8_try_catch_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "TryCatchException", php_v8_try_catch_exception_methods);
     php_v8_try_catch_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_generic_exception_class_entry);
 
     zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("isolate"),    ZEND_ACC_PRIVATE);
@@ -234,24 +234,24 @@ PHP_MINIT_FUNCTION(php_v8_exceptions) {
     zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("try_catch"),    ZEND_ACC_PRIVATE);
 
 
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "TerminationException", php_v8_termination_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "TerminationException", php_v8_termination_exception_methods);
     php_v8_termination_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_try_catch_exception_class_entry);
 
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "AbstractResourceLimitException", php_v8_abstract_resource_limit_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "AbstractResourceLimitException", php_v8_abstract_resource_limit_exception_methods);
     php_v8_abstract_resource_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_termination_exception_class_entry);
     php_v8_abstract_resource_limit_exception_class_entry->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
 
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "TimeLimitException", php_v8_time_limit_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "TimeLimitException", php_v8_time_limit_exception_methods);
     php_v8_time_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_abstract_resource_limit_exception_class_entry);
 
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "MemoryLimitException", php_v8_memory_limit_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "MemoryLimitException", php_v8_memory_limit_exception_methods);
     php_v8_memory_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_abstract_resource_limit_exception_class_entry);
 
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "ValueException", php_v8_value_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "ValueException", php_v8_value_exception_methods);
     php_v8_value_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_generic_exception_class_entry);
 
     // TODO: completely replace ScriptException with TryCatchException
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS "\\Exceptions", "ScriptException", php_v8_script_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "ScriptException", php_v8_script_exception_methods);
     php_v8_script_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_generic_exception_class_entry);
 
     return SUCCESS;

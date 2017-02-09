@@ -175,31 +175,31 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_heap_statistics___construct, ZEND_SEND_BY_VAL,
                 ZEND_ARG_TYPE_INFO(0, does_zap_garbage, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_heap_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_heap_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_heap_size_executable, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_heap_size_executable, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_physical_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_physical_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_available_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_available_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__used_heap_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__used_heap_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__heap_size_limit, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__heap_size_limit, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__malloced_memory, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__malloced_memory, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__peak_malloced_memory, ZEND_RETURN_VALUE, 0, IS_DOUBLE, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__peak_malloced_memory, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__does_zap_garbage, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__does_zap_garbage, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 

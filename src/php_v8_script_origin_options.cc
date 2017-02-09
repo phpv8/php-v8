@@ -70,10 +70,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_script_origin_options___construct, ZEND_SEND_B
 ZEND_END_ARG_INFO()
 
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsSharedCrossOrigin, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsSharedCrossOrigin, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsOpaque, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsOpaque, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 

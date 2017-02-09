@@ -67,7 +67,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_boolean_object___construct, ZEND_SEND_BY_VAL, 
                 ZEND_ARG_TYPE_INFO(0, value, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_boolean_object_ValueOf, ZEND_RETURN_VALUE, 0, _IS_BOOL, NULL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_boolean_object_ValueOf, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
