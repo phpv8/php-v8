@@ -8,7 +8,7 @@ if test "$PHP_V8" != "no"; then
   SEARCH_PATH="/usr/local /usr"
   SEARCH_FOR="include/v8.h"
 
-  V8_MIN_API_VERSION_STR=5.7.514
+  V8_MIN_API_VERSION_STR=5.8.168
 
   DESIRED_V8_VERSION=`echo "${V8_MIN_API_VERSION_STR}" | $AWK 'BEGIN { FS = "."; } { printf "%s.%s", [$]1, [$]2;}'`
 
@@ -127,7 +127,7 @@ if test "$PHP_V8" != "no"; then
   #     php/Zend/zend_operators.h:128:18: warning: 'finite' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
   # but as we want to track also deprecated methods from v8 we won't ignore -Wdeprecated-declarations warnings
   # We want to make building log cleaner, so let's suppress only -Wdeprecated-register warning
-  PHP_V8_COMPILER_OPTIONS="-Wno-deprecated-register"
+  PHP_V8_COMPILER_OPTIONS="-Wno-deprecated-register -Wno-unicode"
   #PHP_V8_COMPILER_OPTIONS="-Wno-deprecated-register -Wno-deprecated-declarations"
 
   AC_DEFINE([V8_DEPRECATION_WARNINGS], [1], [Enable compiler warnings when using V8_DEPRECATED apis.])

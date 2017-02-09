@@ -17,8 +17,8 @@ env:
     - NO_INTERACTION=1
     - TEST_TIMEOUT=120
   matrix:
-    - V8=5.7
-    - V8=5.7 TEST_PHP_ARGS=-m
+    - V8=5.8
+    - V8=5.8 TEST_PHP_ARGS=-m
 
 before_install:
   - sudo add-apt-repository ppa:pinepain/libv8-${V8} -y
