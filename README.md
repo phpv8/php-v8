@@ -134,6 +134,7 @@ $ sudo make install
  - to be able to customize some tests make sure you have `variables_order = "EGPCS"` in your php.ini
  - `export DEV_TESTS=1` allows to run tests that are made for development reasons (e.g. test some weird behavior or for debugging)
  - To prevent the test suite from asking you to send results to the PHP QA team do `export NO_INTERACTION=1`
+ - To run tests with memory leaaks check, install `valgrind` and do `export TEST_PHP_ARGS="-m"`
 
  - To track memory usage you may want to use `smem`, `pmem` or even `lsof` to see what shared object are loaded
    and `free` to display free and used memory in the system.
