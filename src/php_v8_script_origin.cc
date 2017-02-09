@@ -145,22 +145,28 @@ static PHP_METHOD(V8ScriptOrigin, __construct) {
     zend_long script_id = static_cast<zend_long>(v8::Message::kNoScriptIdInfo);
     zend_string *source_map_url = NULL;
     zend_bool resource_is_opaque = '\0';
+    zend_bool is_wasm = '\0';
+    zend_bool is_module = '\0';
 
     zval options_zv;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|SllblSb",
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|SllblSbbb",
                               &resource_name,
                               &resource_line_offset,
                               &resource_column_offset,
                               &resource_is_shared_cross_origin,
                               &script_id,
                               &source_map_url,
-                              &resource_is_opaque) == FAILURE) {
+                              &resource_is_opaque,
+                              &is_wasm,
+                              &is_module) == FAILURE) {
         return;
     }
 
     v8::ScriptOriginOptions options(static_cast<bool>(resource_is_shared_cross_origin),
-                                    static_cast<bool>(resource_is_opaque));
+                                    static_cast<bool>(resource_is_opaque),
+                                    static_cast<bool>(is_wasm),
+                                    static_cast<bool>(is_module));
 
     php_v8_create_script_origin_options(&options_zv, options);
 

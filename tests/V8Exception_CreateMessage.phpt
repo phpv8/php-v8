@@ -93,10 +93,14 @@ V8\Message->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#18 (2) {
+      object(V8\ScriptOriginOptions)#18 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_wasm":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_module":"V8\ScriptOriginOptions":private]=>
         bool(false)
       }
       ["script_id":"V8\ScriptOrigin":private]=>
@@ -127,10 +131,14 @@ V8\Message->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#35 (2) {
+      object(V8\ScriptOriginOptions)#35 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_wasm":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_module":"V8\ScriptOriginOptions":private]=>
         bool(false)
       }
       ["script_id":"V8\ScriptOrigin":private]=>

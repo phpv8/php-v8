@@ -55,6 +55,8 @@ class ScriptOrigin
      * @param int    $script_id
      * @param string $source_map_url
      * @param bool   $resource_is_opaque
+     * @param bool   $is_wasm
+     * @param bool   $is_module
      */
     public function __construct(string $resource_name,
                                 int $resource_line_offset = Message::kNoLineNumberInfo,
@@ -62,13 +64,15 @@ class ScriptOrigin
                                 bool $resource_is_shared_cross_origin = false,
                                 int $script_id = Message::kNoScriptIdInfo,
                                 string $source_map_url = '',
-                                bool $resource_is_opaque = false)
+                                bool $resource_is_opaque = false,
+                                bool $is_wasm = false,
+                                bool $is_module = false)
     {
         $this->resource_name = $resource_name;
         $this->resource_line_offset = $resource_line_offset;
         $this->resource_column_offset = $resource_column_offset;
 
-        $this->options = new ScriptOriginOptions($resource_is_shared_cross_origin, $resource_is_opaque);
+        $this->options = new ScriptOriginOptions($resource_is_shared_cross_origin, $resource_is_opaque, $is_wasm, $is_module);
 
         $this->script_id = $script_id;
         $this->source_map_url = $source_map_url;
