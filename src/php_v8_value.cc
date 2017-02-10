@@ -262,19 +262,15 @@ zend_class_entry *php_v8_get_class_entry_from_value(v8::Local<v8::Value> value) 
         return php_v8_symbol_class_entry;
     }
 
-    /* currently we ignore detectind v8::Number sub-types */
-
-    /*
-    if (value->IsUint32()) {
-        return php_v8_uint32_class_entry;
-    }
-
-    if (value->IsInt32()) {
-        return php_v8_int32_class_entry;
-    }
-    */
-
     if (value->IsNumber()) {
+        if (value->IsInt32()) {
+            return php_v8_int32_class_entry;
+        }
+
+        if (value->IsUint32()) {
+            return php_v8_uint32_class_entry;
+        }
+
         return php_v8_number_class_entry;
     }
 

@@ -204,7 +204,7 @@ V8\ArrayObject(V8\Value)->ToBoolean():
       }
     }
 V8\ArrayObject(V8\Value)->ToNumber():
-    object(V8\NumberValue)#118 (1) {
+    object(V8\Int32Value)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -305,7 +305,7 @@ V8\ArrayObject(V8\Value)->ToObject():
       }
     }
 V8\ArrayObject(V8\Value)->ToInteger():
-    object(V8\NumberValue)#118 (1) {
+    object(V8\Int32Value)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -321,7 +321,7 @@ V8\ArrayObject(V8\Value)->ToInteger():
       }
     }
 V8\ArrayObject(V8\Value)->ToUint32():
-    object(V8\NumberValue)#118 (1) {
+    object(V8\Int32Value)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -337,7 +337,7 @@ V8\ArrayObject(V8\Value)->ToUint32():
       }
     }
 V8\ArrayObject(V8\Value)->ToInt32():
-    object(V8\NumberValue)#118 (1) {
+    object(V8\Int32Value)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

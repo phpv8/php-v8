@@ -33,7 +33,7 @@ $helper->dump($res->Value());
 
 $helper->space();
 
-$scalar = new V8\NumberValue($isolate, 123);
+$scalar = new V8\Int32Value($isolate, 123);
 $obj    = new V8\ObjectValue($context);
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'scalar'), $scalar);
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $obj);
@@ -114,7 +114,7 @@ string(25) "TEST VALUE 111, confirmed"
 
 Scalar:
 -------
-Expected 123.0 value is identical to actual value 123.0
+Expected 123 value is identical to actual value 123
 Expected value is not identical to actual value
 
 
