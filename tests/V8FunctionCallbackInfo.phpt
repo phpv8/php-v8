@@ -81,7 +81,7 @@ echo 'We are done for now', PHP_EOL;
 Function called
 Object representation:
 ----------------------
-object(V8\FunctionCallbackInfo)#13 (0) {
+object(V8\FunctionCallbackInfo)#10 (0) {
 }
 
 
@@ -99,7 +99,7 @@ V8\Exceptions\GenericException: Attempt to use callback info object out of callb
 
 Object representation (outside of context):
 -------------------------------------------
-object(V8\FunctionCallbackInfo)#13 (0) {
+object(V8\FunctionCallbackInfo)#10 (0) {
 }
 
 

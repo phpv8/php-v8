@@ -47,7 +47,7 @@ $helper->space();
 $v8_helper->run_checks($res, 'Checkers');
 ?>
 --EXPECT--
-object(V8\Script)#7 (4) {
+object(V8\Script)#7 (2) {
   ["isolate":"V8\Script":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -97,46 +97,6 @@ object(V8\Script)#7 (4) {
     }
     ["global_object":"V8\Context":private]=>
     NULL
-  }
-  ["source":"V8\Script":private]=>
-  object(V8\StringValue)#8 (1) {
-    ["isolate":"V8\Value":private]=>
-    object(V8\Isolate)#3 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-    }
-  }
-  ["origin":"V8\Script":private]=>
-  object(V8\ScriptOrigin)#9 (6) {
-    ["resource_name":"V8\ScriptOrigin":private]=>
-    string(7) "test.js"
-    ["resource_line_offset":"V8\ScriptOrigin":private]=>
-    int(0)
-    ["resource_column_offset":"V8\ScriptOrigin":private]=>
-    int(0)
-    ["options":"V8\ScriptOrigin":private]=>
-    object(V8\ScriptOriginOptions)#10 (4) {
-      ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-      bool(false)
-      ["is_opaque":"V8\ScriptOriginOptions":private]=>
-      bool(false)
-      ["is_wasm":"V8\ScriptOriginOptions":private]=>
-      bool(false)
-      ["is_module":"V8\ScriptOriginOptions":private]=>
-      bool(false)
-    }
-    ["script_id":"V8\ScriptOrigin":private]=>
-    int(0)
-    ["source_map_url":"V8\ScriptOrigin":private]=>
-    string(0) ""
   }
 }
 Accessors:

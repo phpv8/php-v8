@@ -32,7 +32,7 @@ extern zend_class_entry *php_v8_script_class_entry;
 
 extern v8::Local<v8::Script> php_v8_script_get_local(v8::Isolate *isolate, php_v8_script_t *php_v8_script);
 extern php_v8_script_t * php_v8_script_fetch_object(zend_object *obj);
-
+extern php_v8_script_t *php_v8_create_script(zval *return_value, v8::Local<v8::Script> local_script, php_v8_context_t *php_v8_context);
 
 #define PHP_V8_FETCH_SCRIPT(zv) php_v8_script_fetch_object(Z_OBJ_P(zv))
 #define PHP_V8_FETCH_SCRIPT_INTO(pzval, into) php_v8_script_t *(into) = PHP_V8_FETCH_SCRIPT((pzval))

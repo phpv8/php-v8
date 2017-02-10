@@ -16,10 +16,8 @@ namespace V8;
 
 class Script
 {
-    private $isolate;
+    //private $isolate;
     private $context;
-    private $source;
-    private $origin;
 
     /**
      * @param Context      $context
@@ -30,38 +28,20 @@ class Script
     {
         // $this->isolate = $context->isolate;
         $this->context = $context;
-        $this->source = $source;
-        $this->origin = $origin;
     }
 
     /**
      * @return Isolate
      */
-    public function GetIsolate() : Isolate
+    public function GetIsolate(): Isolate
     {
     }
 
     /**
      * @return \V8\Context
      */
-    public function GetContext() : Context
+    public function GetContext(): Context
     {
-    }
-
-    /**
-     * @return StringValue
-     */
-    public function getSource() : StringValue
-    {
-        return $this->source;
-    }
-
-    /**
-     * @return ScriptOrigin
-     */
-    public function getOrigin() : ScriptOrigin
-    {
-        return $this->origin;
     }
 
     /**
@@ -73,12 +53,7 @@ class Script
      *
      * @return BooleanValue|FunctionObject|NumberValue|ObjectValue|StringValue|Value
      */
-    public function Run(Context $context) : Value
+    public function Run(Context $context): Value
     {
     }
-
-    /**
-     * Returns the corresponding context-unbound script.
-     */
-    //Local<UnboundScript> GetUnboundScript();
 }

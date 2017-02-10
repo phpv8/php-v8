@@ -112,7 +112,7 @@ Stack trace created from thrown value:
 V8\StackTrace->getFrames():
     array(1) {
       [0]=>
-      object(V8\StackFrame)#20 (8) {
+      object(V8\StackFrame)#17 (8) {
         ["line_number":"V8\StackFrame":private]=>
         int(5)
         ["column":"V8\StackFrame":private]=>
@@ -133,7 +133,7 @@ V8\StackTrace->getFrames():
     }
 V8\StackTrace->GetFrameCount(): int(1)
 V8\StackTrace->AsArray():
-    object(V8\ArrayObject)#18 (2) {
+    object(V8\ArrayObject)#15 (2) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

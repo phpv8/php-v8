@@ -91,7 +91,7 @@ object(V8\Isolate)#3 (5) {
   ["memory_limit_hit":"V8\Isolate":private]=>
   bool(true)
 }
-object(V8\HeapStatistics)#14 (9) {
+object(V8\HeapStatistics)#11 (9) {
   ["total_heap_size":"V8\HeapStatistics":private]=>
   float(%d)
   ["total_heap_size_executable":"V8\HeapStatistics":private]=>

@@ -73,7 +73,7 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(V8\ReturnValue)#14 (0) {
+object(V8\ReturnValue)#11 (0) {
 }
 
 
@@ -89,5 +89,5 @@ V8\Exceptions\GenericException: Attempt to use return value out of calling funct
 
 Object representation (outside of context):
 -------------------------------------------
-object(V8\ReturnValue)#14 (0) {
+object(V8\ReturnValue)#11 (0) {
 }
