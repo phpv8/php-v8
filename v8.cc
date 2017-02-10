@@ -31,6 +31,7 @@
 #include "php_v8_object_template.h"
 #include "php_v8_function_template.h"
 #include "php_v8_script.h"
+#include "php_v8_unbound_script.h"
 #include "php_v8_null.h"
 #include "php_v8_boolean.h"
 #include "php_v8_symbol.h"
@@ -106,6 +107,7 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_isolate)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_context)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_script)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_unbound_script)(INIT_FUNC_ARGS_PASSTHRU);
 
     PHP_MINIT(php_v8_exception)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_try_catch)(INIT_FUNC_ARGS_PASSTHRU);

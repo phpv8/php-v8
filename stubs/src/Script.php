@@ -56,4 +56,13 @@ class Script
     public function Run(Context $context): Value
     {
     }
+
+    /**
+     * Returns the corresponding context-unbound script.
+     *
+     * @return \V8\UnboundScript
+     */
+    public function GetUnboundScript(): UnboundScript
+    {
+    }
 }

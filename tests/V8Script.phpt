@@ -38,6 +38,11 @@ $helper->header('Accessors');
 $helper->method_matches($script, 'GetContext', $context);
 $helper->space();
 
+$helper->header('Get unbound script');
+$helper->method_matches_instanceof($script, 'GetUnboundScript', \V8\UnboundScript::class);
+$helper->dump($script->GetUnboundScript());
+$helper->space();
+
 $res = $script->Run($context);
 
 $helper->header('Script result accessors');
@@ -102,6 +107,26 @@ object(V8\Script)#7 (2) {
 Accessors:
 ----------
 V8\Script::GetContext() matches expected value
+
+
+Get unbound script:
+-------------------
+V8\Script::GetUnboundScript() result is instance of V8\UnboundScript
+object(V8\UnboundScript)#8 (1) {
+  ["isolate":"V8\UnboundScript":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
+    NULL
+    ["time_limit":"V8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"V8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+  }
+}
 
 
 Script result accessors:

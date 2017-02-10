@@ -16,6 +16,7 @@
 
 #include "php_v8_script.h"
 #include "php_v8_script_origin.h"
+#include "php_v8_unbound_script.h"
 #include "php_v8_string.h"
 #include "php_v8_value.h"
 #include "php_v8.h"
@@ -186,11 +187,28 @@ static PHP_METHOD(V8Script, Run)
     v8::MaybeLocal<v8::Value> result = local_script->Run(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_script->php_v8_context, try_catch);
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(result, "Failed to create run script");
+    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(result, "Failed to run script");
 
     v8::Local<v8::Value> local_result = result.ToLocalChecked();
 
     php_v8_get_or_create_value(return_value, local_result, isolate);
+}
+
+static PHP_METHOD(V8Script, GetUnboundScript)
+{
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_FETCH_SCRIPT_WITH_CHECK(getThis(), php_v8_script);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_script);
+    PHP_V8_ENTER_STORED_CONTEXT(php_v8_script);
+
+    v8::Local<v8::Script> local_script = php_v8_script_get_local(isolate, php_v8_script);
+
+    v8::Local<v8::UnboundScript> unbound_script = local_script->GetUnboundScript();
+
+    php_v8_create_unbound_script(return_value, php_v8_script->php_v8_isolate, unbound_script);
 }
 
 
@@ -210,6 +228,9 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_Run, ZEND_RETURN
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_GetUnboundScript, ZEND_RETURN_VALUE, 0, V8\\UnboundScript, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_script_methods[] = {
     PHP_ME(V8Script, __construct, arginfo_v8_script___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
@@ -217,6 +238,7 @@ static const zend_function_entry php_v8_script_methods[] = {
     PHP_ME(V8Script, GetContext, arginfo_v8_script_GetContext, ZEND_ACC_PUBLIC)
 
     PHP_ME(V8Script, Run, arginfo_v8_script_Run, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, GetUnboundScript, arginfo_v8_script_GetUnboundScript, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

@@ -185,16 +185,21 @@ class PhpV8Testsuite
     }
 
 
-    public function method_matches_instanceof($object, $method, $expected)
+    public function method_matches_instanceof($object, $method, $expected, array $args = [])
     {
-        echo get_class($object), '::', $method, '() result', ($object->$method() instanceof $expected ? ' is' : ' not an'), ' instance of ', $expected, PHP_EOL;
+        echo get_class($object), '::', $method, '() result', ($object->$method(...$args) instanceof $expected ? ' is' : ' not an'), ' instance of ', $expected, PHP_EOL;
     }
 
 
-    public function method_matches_with_output($object, $method, $expected)
+    public function method_matches_with_output($object, $method, $expected, array $args = [])
     {
-        echo get_class($object), '::', $method, '()', ' ', ($expected === $object->$method() ? 'matches' : 'doesn\'t match'), ' expected ', var_export($expected,
+        echo get_class($object), '::', $method, '()', ' ', ($expected === $object->$method(...$args) ? 'matches' : 'doesn\'t match'), ' expected ', var_export($expected,
             true), PHP_EOL;
+    }
+
+    public function method_dump($object, $method, array $args = [])
+    {
+        echo get_class($object), '::', $method, '()', ' ', var_export($object->$method(...$args), true), PHP_EOL;
     }
 
     public function dump_object_constants($object)
