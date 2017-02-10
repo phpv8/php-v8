@@ -12,7 +12,6 @@ require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
 $global_template1 = new V8\ObjectTemplate($isolate1);
 
 $global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
@@ -77,7 +76,7 @@ $test_obj_tpl->SetHandlerForIndexedProperty(new \V8\IndexedPropertyHandlerConfig
 
 $global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_obj_tpl);
 
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 
 $source1    = '

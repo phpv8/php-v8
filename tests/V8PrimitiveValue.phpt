@@ -31,9 +31,8 @@ $helper->space();
 
 $v8_helper->run_checks($value);
 
-$extensions = [];
 $global_template = new \V8\ObjectTemplate($isolate);
-$context = new \V8\Context($isolate, $extensions, $global_template);
+$context = new \V8\Context($isolate, $global_template);
 
 
 $helper->header('Primitive converters');

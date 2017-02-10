@@ -14,9 +14,8 @@ require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
 $global_template1 = new V8\ObjectTemplate($isolate1);
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 //THREADED_TEST(ArgumentsObject)
 

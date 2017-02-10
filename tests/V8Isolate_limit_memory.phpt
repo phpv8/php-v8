@@ -14,11 +14,10 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $isolate = new V8\Isolate();
-$extensions = [];
 $global_template = new V8\ObjectTemplate($isolate);
 $global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
 
-$context = new V8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $global_template);
 
 
 $source    = '

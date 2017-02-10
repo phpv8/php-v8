@@ -15,7 +15,6 @@ $v8_helper = new PhpV8Helpers($helper);
 
 
 $isolate = new V8\Isolate();
-$extensions = [];
 $global_template = new V8\ObjectTemplate($isolate);
 
 $value = new V8\StringValue($isolate, 'TEST VALUE 111');
@@ -24,7 +23,7 @@ $value = new V8\StringValue($isolate, 'TEST VALUE 111');
 $global_template->Set(new \V8\StringValue($isolate, 'test'), $value);
 
 
-$context = new V8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $global_template);
 
 
 $source    = 'var test = "passed"; 2+2*2-2/2 + test';
@@ -67,7 +66,7 @@ object(V8\Script)#7 (2) {
     bool(false)
   }
   ["context":"V8\Script":private]=>
-  object(V8\Context)#6 (4) {
+  object(V8\Context)#6 (3) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -80,9 +79,6 @@ object(V8\Script)#7 (2) {
       int(0)
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
-    }
-    ["extensions":"V8\Context":private]=>
-    array(0) {
     }
     ["global_template":"V8\Context":private]=>
     object(V8\ObjectTemplate)#4 (1) {

@@ -55,7 +55,7 @@ $global_tpl->Set(new \V8\StringValue($isolate, 'e'), $func_tpl);
 $global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $global_tpl->Set(new \V8\StringValue($isolate, 'test'), $func_test_tpl);
 
-$context = new \V8\Context($isolate, [], $global_tpl);
+$context = new \V8\Context($isolate, $global_tpl);
 
 $v8_helper->CompileTryRun($context, 'test()');
 $v8_helper->CompileTryRun($context, 'e()');

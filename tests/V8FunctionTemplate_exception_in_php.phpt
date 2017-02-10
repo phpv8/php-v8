@@ -11,7 +11,6 @@ V8\FunctionTemplate: exception in php thrown
 $helper = require '.testsuite.php';
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
 
 $test_func_tpl = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) {
     throw new Exception('Unexpected exception');
@@ -21,7 +20,7 @@ $test_func_tpl = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCallb
 $global_template1 = new V8\ObjectTemplate($isolate1);
 $global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_func_tpl, \V8\PropertyAttribute::DontDelete);
 
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 $source1 = 'test(); "Script done"';
 $file_name1 = 'test.js';

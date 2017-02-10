@@ -14,7 +14,6 @@ $v8_helper = new PhpV8Helpers($helper);
 
 
 $isolate = new \v8Tests\TrackingDtors\Isolate();
-$extensions = [];
 $global_template = new v8Tests\TrackingDtors\ObjectTemplate($isolate);
 
 $stack_trace = null;
@@ -44,7 +43,7 @@ $current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($iso
 
 $global_template->Set(new \V8\StringValue($isolate, 'current_stack_trace'), $current_stack_trace_func_tpl);
 $global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
-$context = new v8Tests\TrackingDtors\Context($isolate, $extensions, $global_template);
+$context = new v8Tests\TrackingDtors\Context($isolate, $global_template);
 
 $source    = /** @lang JavaScript */
 '

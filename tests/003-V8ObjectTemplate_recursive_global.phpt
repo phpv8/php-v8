@@ -25,7 +25,7 @@ try {
     $helper->exception_export($e);
 }
 
-$context = new \V8\Context($isolate, [], $template);
+$context = new \V8\Context($isolate, $template);
 
 
 ?>

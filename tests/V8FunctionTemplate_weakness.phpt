@@ -51,7 +51,6 @@ class MyObjectTemplate extends \V8\ObjectTemplate
 }
 
 $isolate1 = new Isolate();
-$extensions1 = [];
 
 
 class MyCallaback
@@ -73,7 +72,7 @@ $global_template1 = new MyObjectTemplate($isolate1);
 $global_template1->Set(new \V8\StringValue($isolate1, 'print'), $print_func_tpl);
 $print_func_tpl = null;
 
-$context1 = new Context($isolate1, $extensions1, $global_template1);
+$context1 = new Context($isolate1, $global_template1);
 $global_template1 = null;
 
 $source1 = 'print("Hello, world\n"); delete print; "Script done"';

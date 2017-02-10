@@ -14,7 +14,6 @@ $v8_helper = new PhpV8Helpers($helper);
 require '.tracking_dtors.php';
 
 $isolate1 = new v8Tests\TrackingDtors\Isolate();
-$extensions1 = [];
 
 register_shutdown_function(function () {
     echo 'Doing shutdown', PHP_EOL;
@@ -30,7 +29,7 @@ $exit = new v8Tests\TrackingDtors\FunctionTemplate($isolate1, function () {
 $global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
 $global_template1->Set(new \V8\StringValue($isolate1, 'exit'), $exit, \V8\PropertyAttribute::DontDelete);
 
-$context1 = new v8Tests\TrackingDtors\Context($isolate1, $extensions1, $global_template1);
+$context1 = new v8Tests\TrackingDtors\Context($isolate1, $global_template1);
 
 
 $source1 = '

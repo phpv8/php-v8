@@ -32,9 +32,6 @@ class Context
      *
      * \param isolate The isolate in which to create the context.
      *
-     * \param extensions An optional extension configuration containing
-     * the extensions to be installed in the newly created context.
-     *
      * \param global_template An optional object template from which the
      * global object for the newly created context will be created.
      *
@@ -45,15 +42,13 @@ class Context
      * and only object identify will remain.
      *
      * @param \V8\Isolate             $isolate
-     * @param array|null              $extensions Currently unused as there are not extensions support
      * @param \V8\ObjectTemplate|null $global_template
      * @param \V8\ObjectValue|null    $global_object
+     *
+     * @internal param array|null $extensions Currently unused as there are not extensions support
      */
     public function __construct(
-        Isolate $isolate,
-        array $extensions = null,
-        ObjectTemplate $global_template = null,
-        ObjectValue $global_object = null
+        Isolate $isolate, ObjectTemplate $global_template = null, ObjectValue $global_object = null
     ) {
     }
 

@@ -11,11 +11,9 @@ $helper = require '.testsuite.php';
 require '.tracking_dtors.php';
 
 $isolate1 = new V8\Isolate();
-$extensions1 = [];
-
 $global_template1 = new V8\ObjectTemplate($isolate1);
 
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 if ($helper->need_more_time()) {
     // On travis when valgrind active it takes more time to complete all operations so we just increase initial limits

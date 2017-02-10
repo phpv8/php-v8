@@ -14,7 +14,6 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
 $global_template1 = new V8\ObjectTemplate($isolate1);
 
 // TODO: fix it, this cause segfault due to FunctionTemplate object destruction and all it internal structures cleanup
@@ -22,7 +21,7 @@ $global_template1 = new V8\ObjectTemplate($isolate1);
 $print_func_tpl = $v8_helper->getPrintFunctionTemplate($isolate1);
 $global_template1->Set(new \V8\StringValue($isolate1, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
 
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 $value = new V8\RegExpObject($context1, new \V8\StringValue($isolate1, '([a-z]{1,4})-([0-9]+)'), \V8\RegExpObject\Flags::kIgnoreCase);
 
@@ -80,7 +79,7 @@ object(V8\RegExpObject)#8 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#7 (4) {
+  object(V8\Context)#7 (3) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -93,9 +92,6 @@ object(V8\RegExpObject)#8 (2) {
       int(0)
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
-    }
-    ["extensions":"V8\Context":private]=>
-    array(0) {
     }
     ["global_template":"V8\Context":private]=>
     object(V8\ObjectTemplate)#4 (1) {

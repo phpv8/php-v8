@@ -60,7 +60,7 @@ object(V8\Exceptions\TryCatchException)#5 (10) {
     bool(false)
   }
   ["context":"V8\Exceptions\TryCatchException":private]=>
-  object(V8\Context)#3 (4) {
+  object(V8\Context)#3 (3) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#2 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -74,8 +74,6 @@ object(V8\Exceptions\TryCatchException)#5 (10) {
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["extensions":"V8\Context":private]=>
-    NULL
     ["global_template":"V8\Context":private]=>
     NULL
     ["global_object":"V8\Context":private]=>
@@ -97,7 +95,7 @@ object(V8\Exceptions\TryCatchException)#5 (10) {
       bool(false)
     }
     ["context":"V8\TryCatch":private]=>
-    object(V8\Context)#3 (4) {
+    object(V8\Context)#3 (3) {
       ["isolate":"V8\Context":private]=>
       object(V8\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -111,8 +109,6 @@ object(V8\Exceptions\TryCatchException)#5 (10) {
         ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["extensions":"V8\Context":private]=>
-      NULL
       ["global_template":"V8\Context":private]=>
       NULL
       ["global_object":"V8\Context":private]=>

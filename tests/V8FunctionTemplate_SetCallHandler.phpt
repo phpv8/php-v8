@@ -11,7 +11,6 @@ V8\FunctionTemplate::SetCallHandler
 $helper = require '.testsuite.php';
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
 
 
 $test_func_tpl = new \V8\FunctionTemplate($isolate1, function () {echo 'callback 1', PHP_EOL;});
@@ -33,7 +32,7 @@ $global_template1 = new \V8\ObjectTemplate($isolate1);
 $global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_func_tpl);
 $global_template1->Set(new \V8\StringValue($isolate1, 'change'), $change_func_tpl);
 
-$context1 = new \V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new \V8\Context($isolate1, $global_template1);
 
 
 $source1 = 'test(); change(); test(); "Script done"';

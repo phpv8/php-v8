@@ -74,7 +74,7 @@ $global_template->SetAccessorProperty(new \V8\StringValue($isolate, 'blocked_js_
 //  // Create an environment
 //  v8::Local<Context> context0 = Context::New(isolate, NULL, global_template);
 //  context0->Enter();
-$context0 = new \V8\Context($isolate, [], $global_template);
+$context0 = new \V8\Context($isolate, $global_template);
 
 //  v8::Handle<v8::Object> global0 = context0->Global();
 $global0 = $context0->GlobalObject();

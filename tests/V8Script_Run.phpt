@@ -12,13 +12,12 @@ $v8_helper = new PhpV8Helpers($helper);
 
 
 $isolate = new V8\Isolate();
-$extensions = [];
 $global_template = new V8\ObjectTemplate($isolate);
 
 $value = new V8\StringValue($isolate, 'TEST VALUE 111');
 
 $global_template->Set(new \V8\StringValue($isolate, 'test'), $value);
-$context = new V8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $global_template);
 
 
 $source    = 'test; test = test + ", confirmed"';

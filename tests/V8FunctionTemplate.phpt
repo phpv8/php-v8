@@ -77,7 +77,6 @@ $instance_template_1 = $function_template->InstanceTemplate();
 
 $instance_template_2 = $function_template->InstanceTemplate();
 
-$extensions = [];
 $global_template = new V8\ObjectTemplate($isolate);
 
 $value = new V8\StringValue($isolate, 'TEST VALUE 111');
@@ -87,7 +86,7 @@ $global_template->Set(new \V8\StringValue($isolate, 'func'), $function_template)
 $global_template->Set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
 
 
-$context = new V8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $global_template);
 
 
 $source    = '

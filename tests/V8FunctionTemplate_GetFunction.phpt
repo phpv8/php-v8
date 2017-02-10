@@ -11,7 +11,6 @@ V8\FunctionTemplate::GetFunction
 $helper = require '.testsuite.php';
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
 
 
 $print_func_tpl = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) {
@@ -20,8 +19,8 @@ $print_func_tpl = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCall
 
 
 $global_template1 = new V8\ObjectTemplate($isolate1);
-$context1 = new \V8\Context($isolate1, $extensions1, $global_template1);
-$context2 = new \V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new \V8\Context($isolate1, $global_template1);
+$context2 = new \V8\Context($isolate1, $global_template1);
 
 $func_1 = $print_func_tpl->GetFunction($context1);
 

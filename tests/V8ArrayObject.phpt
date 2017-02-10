@@ -12,11 +12,10 @@ require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
 $isolate = new \V8\Isolate();
-$extensions1 = [];
 $global_template1 = new V8\ObjectTemplate($isolate);
 
 $global_template1->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
-$context = new V8\Context($isolate, $extensions1, $global_template1);
+$context = new V8\Context($isolate, $global_template1);
 
 $value = new V8\ArrayObject($context);
 
@@ -81,7 +80,7 @@ object(V8\ArrayObject)#6 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#5 (4) {
+  object(V8\Context)#5 (3) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -94,9 +93,6 @@ object(V8\ArrayObject)#6 (2) {
       int(0)
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
-    }
-    ["extensions":"V8\Context":private]=>
-    array(0) {
     }
     ["global_template":"V8\Context":private]=>
     object(V8\ObjectTemplate)#4 (1) {
@@ -267,7 +263,7 @@ V8\ArrayObject(V8\Value)->ToObject():
         bool(false)
       }
       ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#5 (4) {
+      object(V8\Context)#5 (3) {
         ["isolate":"V8\Context":private]=>
         object(V8\Isolate)#3 (5) {
           ["snapshot":"V8\Isolate":private]=>
@@ -280,9 +276,6 @@ V8\ArrayObject(V8\Value)->ToObject():
           int(0)
           ["memory_limit_hit":"V8\Isolate":private]=>
           bool(false)
-        }
-        ["extensions":"V8\Context":private]=>
-        array(0) {
         }
         ["global_template":"V8\Context":private]=>
         object(V8\ObjectTemplate)#4 (1) {

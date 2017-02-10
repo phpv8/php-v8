@@ -113,7 +113,7 @@ object(V8\Message)#8 (12) {
         bool(false)
       }
       ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#3 (4) {
+      object(V8\Context)#3 (3) {
         ["isolate":"V8\Context":private]=>
         object(V8\Isolate)#2 (5) {
           ["snapshot":"V8\Isolate":private]=>
@@ -127,8 +127,6 @@ object(V8\Message)#8 (12) {
           ["memory_limit_hit":"V8\Isolate":private]=>
           bool(false)
         }
-        ["extensions":"V8\Context":private]=>
-        NULL
         ["global_template":"V8\Context":private]=>
         NULL
         ["global_object":"V8\Context":private]=>
@@ -223,7 +221,7 @@ object(V8\Message)#9 (12) {
         bool(false)
       }
       ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#3 (4) {
+      object(V8\Context)#3 (3) {
         ["isolate":"V8\Context":private]=>
         object(V8\Isolate)#2 (5) {
           ["snapshot":"V8\Isolate":private]=>
@@ -237,8 +235,6 @@ object(V8\Message)#9 (12) {
           ["memory_limit_hit":"V8\Isolate":private]=>
           bool(false)
         }
-        ["extensions":"V8\Context":private]=>
-        NULL
         ["global_template":"V8\Context":private]=>
         NULL
         ["global_object":"V8\Context":private]=>

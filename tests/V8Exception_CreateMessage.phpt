@@ -45,7 +45,7 @@ $global_tpl = new \V8\ObjectTemplate($isolate);
 $global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $global_tpl->Set(new \V8\StringValue($isolate, 'test'), $func_test_tpl);
 
-$context = new \V8\Context($isolate, [], $global_tpl);
+$context = new \V8\Context($isolate, $global_tpl);
 
 
 $source = '
