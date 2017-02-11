@@ -168,6 +168,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_function_template.cc                       \
     src/php_v8_script.cc                                  \
     src/php_v8_unbound_script.cc                          \
+    src/php_v8_cached_data.cc                             \
     src/php_v8_data.cc                                    \
     src/php_v8_value.cc                                   \
     src/php_v8_primitive.cc                               \

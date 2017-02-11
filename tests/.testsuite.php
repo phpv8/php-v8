@@ -197,6 +197,12 @@ class PhpV8Testsuite
             true), PHP_EOL;
     }
 
+    public function method_matches_with_dump($object, $method, $expected, array $args = [])
+    {
+        echo get_class($object), '::', $method, '()', ' ', ($expected === $object->$method(...$args) ? 'matches' : 'doesn\'t match'), ' expected ';
+        $this->dump($expected);
+    }
+
     public function method_dump($object, $method, array $args = [])
     {
         echo get_class($object), '::', $method, '()', ' ', var_export($object->$method(...$args), true), PHP_EOL;
