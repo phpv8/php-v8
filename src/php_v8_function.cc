@@ -29,7 +29,7 @@ v8::Local<v8::Function> php_v8_value_get_function_local(v8::Isolate *isolate, ph
     return v8::Local<v8::Function>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
 };
 
-bool php_v8_function_unpack_args(zval* arguments_zv, zval *this_ptr, int arg_position, v8::Isolate *isolate, int *argc, v8::Local<v8::Value> **argv) {
+bool php_v8_function_unpack_args(zval *arguments_zv, int arg_position, v8::Isolate *isolate, int *argc, v8::Local<v8::Value> **argv) {
     if (NULL == arguments_zv || zend_hash_num_elements(Z_ARRVAL_P(arguments_zv)) < 1) {
         return true;
     }
@@ -49,11 +49,17 @@ bool php_v8_function_unpack_args(zval* arguments_zv, zval *this_ptr, int arg_pos
 
     char *exception_message;
 
+    #if PHP_VERSION_ID >= 70100
+    zend_string *ce_name = zend_get_executed_scope()->name;
+    #else
+    zend_string *ce_name = EG(scope)->name;
+    #endif
+
     ZEND_HASH_FOREACH_VAL(myht, pzval) {
         if (Z_TYPE_P(pzval) != IS_OBJECT) {
             zend_throw_error(zend_ce_type_error,
                              "Argument %d passed to %s::%s() should be array of \\V8\\Value objects, %s given at %d offset",
-                             arg_position, ZSTR_VAL(Z_OBJCE_P(this_ptr)->name), get_active_function_name(),
+                             arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
                              zend_zval_type_name(pzval), i);
 
             has_error = true;
@@ -63,7 +69,7 @@ bool php_v8_function_unpack_args(zval* arguments_zv, zval *this_ptr, int arg_pos
         if (!instanceof_function(Z_OBJCE_P(pzval), php_v8_value_class_entry)) {
             zend_throw_error(zend_ce_type_error,
                              "Argument %d passed to %s::%s() should be array of \\V8\\Value objects, instance of %s given at %d offset",
-                             arg_position, ZSTR_VAL(Z_OBJCE_P(this_ptr)->name), get_active_function_name(),
+                             arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
                              ZSTR_VAL(Z_OBJCE_P(pzval)->name), i);
 
             has_error = true;
@@ -77,7 +83,7 @@ bool php_v8_function_unpack_args(zval* arguments_zv, zval *this_ptr, int arg_pos
         //       less confusing exception message
         if (NULL == php_v8_tmp_data->persistent || php_v8_tmp_data->persistent->IsEmpty()) {
             spprintf(&exception_message, 0, PHP_V8_EMPTY_VALUE_MSG ": argument %d passed to %s::%s() at %d offset",
-                     arg_position, ZSTR_VAL(Z_OBJCE_P(this_ptr)->name), get_active_function_name(), i);
+                     arg_position, ZSTR_VAL(ce_name), get_active_function_name(), i);
 
             PHP_V8_THROW_EXCEPTION(exception_message);
 
@@ -89,7 +95,7 @@ bool php_v8_function_unpack_args(zval* arguments_zv, zval *this_ptr, int arg_pos
         if (NULL == php_v8_tmp_data->php_v8_isolate || isolate != php_v8_tmp_data->php_v8_isolate->isolate) {
             spprintf(&exception_message, 0,
                      PHP_V8_ISOLATES_MISMATCH_MSG ": argument %d passed to %s::%s() at %d offset",
-                     arg_position, ZSTR_VAL(Z_OBJCE_P(this_ptr)->name), get_active_function_name(), i);
+                     arg_position, ZSTR_VAL(ce_name), get_active_function_name(), i);
 
             PHP_V8_THROW_EXCEPTION(exception_message);
 
@@ -100,6 +106,184 @@ bool php_v8_function_unpack_args(zval* arguments_zv, zval *this_ptr, int arg_pos
 
         (*argv)[i++] = php_v8_value_get_value_local(isolate, php_v8_tmp_data);
     } ZEND_HASH_FOREACH_END();
+
+    if (has_error) {
+        efree(*argv);
+        *argv = NULL;
+        *argc = 0;
+
+        return false;
+    }
+
+    return true;
+}
+
+bool php_v8_function_unpack_string_args(zval* arguments_zv, int arg_position, v8::Isolate *isolate, int *argc, v8::Local<v8::String> **argv) {
+    if (NULL == arguments_zv || zend_hash_num_elements(Z_ARRVAL_P(arguments_zv)) < 1) {
+        return true;
+    }
+
+    php_v8_value_t *php_v8_tmp_data;
+
+    int i = 0;
+    bool has_error = false;
+
+    HashTable *myht;
+    zval *pzval;
+
+    *argc = zend_hash_num_elements(Z_ARRVAL_P(arguments_zv));
+    *argv = (v8::Local<v8::String> *) ecalloc(static_cast<size_t>(*argc), sizeof(*argv));
+
+    myht = Z_ARRVAL_P(arguments_zv);
+
+    char *exception_message;
+
+    #if PHP_VERSION_ID >= 70100
+        zend_string *ce_name = zend_get_executed_scope()->name;
+    #else
+        zend_string *ce_name = EG(scope)->name;
+    #endif
+
+    ZEND_HASH_FOREACH_VAL(myht, pzval) {
+                if (Z_TYPE_P(pzval) != IS_OBJECT) {
+                    zend_throw_error(zend_ce_type_error,
+                                     "Argument %d passed to %s::%s() should be array of \\V8\\StringValue objects, %s given at %d offset",
+                                     arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
+                                     zend_zval_type_name(pzval), i);
+
+                    has_error = true;
+                    break;
+                }
+
+                if (!instanceof_function(Z_OBJCE_P(pzval), php_v8_string_class_entry)) {
+                    zend_throw_error(zend_ce_type_error,
+                                     "Argument %d passed to %s::%s() should be array of \\V8\\StringValue, instance of %s given at %d offset",
+                                     arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
+                                     ZSTR_VAL(Z_OBJCE_P(pzval)->name), i);
+
+                    has_error = true;
+                    break;
+                }
+
+                php_v8_tmp_data = PHP_V8_VALUE_FETCH(pzval);
+
+                // NOTE: check for emptiness may be considered redundant while we may catch the fact that value was not properly
+                //       constructed by checking isolates mismatch, but this check serves for user-friendly purposes to throw
+                //       less confusing exception message
+                if (NULL == php_v8_tmp_data->persistent || php_v8_tmp_data->persistent->IsEmpty()) {
+                    spprintf(&exception_message, 0, PHP_V8_EMPTY_VALUE_MSG ": argument %d passed to %s::%s() at %d offset",
+                             arg_position, ZSTR_VAL(ce_name), get_active_function_name(), i);
+
+                    PHP_V8_THROW_EXCEPTION(exception_message);
+
+                    efree(exception_message);
+                    has_error = true;
+                    break;
+                }
+
+                if (NULL == php_v8_tmp_data->php_v8_isolate || isolate != php_v8_tmp_data->php_v8_isolate->isolate) {
+                    spprintf(&exception_message, 0,
+                             PHP_V8_ISOLATES_MISMATCH_MSG ": argument %d passed to %s::%s() at %d offset",
+                             arg_position, ZSTR_VAL(ce_name), get_active_function_name(), i);
+
+                    PHP_V8_THROW_EXCEPTION(exception_message);
+
+                    efree(exception_message);
+                    has_error = true;
+                    break;
+                }
+
+                (*argv)[i++] = php_v8_value_get_string_local(isolate, php_v8_tmp_data);
+            } ZEND_HASH_FOREACH_END();
+
+    if (has_error) {
+        efree(*argv);
+        *argv = NULL;
+        *argc = 0;
+
+        return false;
+    }
+
+    return true;
+}
+
+bool php_v8_function_unpack_object_args(zval* arguments_zv, int arg_position, v8::Isolate *isolate, int *argc, v8::Local<v8::Object> **argv) {
+    if (NULL == arguments_zv || zend_hash_num_elements(Z_ARRVAL_P(arguments_zv)) < 1) {
+        return true;
+    }
+
+    php_v8_value_t *php_v8_tmp_data;
+
+    int i = 0;
+    bool has_error = false;
+
+    HashTable *myht;
+    zval *pzval;
+
+    *argc = zend_hash_num_elements(Z_ARRVAL_P(arguments_zv));
+    *argv = (v8::Local<v8::Object> *) ecalloc(static_cast<size_t>(*argc), sizeof(*argv));
+
+    myht = Z_ARRVAL_P(arguments_zv);
+
+    char *exception_message;
+
+    #if PHP_VERSION_ID >= 70100
+    zend_string *ce_name = zend_get_executed_scope()->name;
+    #else
+    zend_string *ce_name = EG(scope)->name;
+    #endif
+
+    ZEND_HASH_FOREACH_VAL(myht, pzval) {
+                if (Z_TYPE_P(pzval) != IS_OBJECT) {
+                    zend_throw_error(zend_ce_type_error,
+                                     "Argument %d passed to %s::%s() should be array of \\V8\\ObjectValue objects, %s given at %d offset",
+                                     arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
+                                     zend_zval_type_name(pzval), i);
+
+                    has_error = true;
+                    break;
+                }
+
+                if (!instanceof_function(Z_OBJCE_P(pzval), php_v8_object_class_entry)) {
+                    zend_throw_error(zend_ce_type_error,
+                                     "Argument %d passed to %s::%s() should be array of \\V8\\ObjectValue, instance of %s given at %d offset",
+                                     arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
+                                     ZSTR_VAL(Z_OBJCE_P(pzval)->name), i);
+
+                    has_error = true;
+                    break;
+                }
+
+                php_v8_tmp_data = PHP_V8_VALUE_FETCH(pzval);
+
+                // NOTE: check for emptiness may be considered redundant while we may catch the fact that value was not properly
+                //       constructed by checking isolates mismatch, but this check serves for user-friendly purposes to throw
+                //       less confusing exception message
+                if (NULL == php_v8_tmp_data->persistent || php_v8_tmp_data->persistent->IsEmpty()) {
+                    spprintf(&exception_message, 0, PHP_V8_EMPTY_VALUE_MSG ": argument %d passed to %s::%s() at %d offset",
+                             arg_position, ZSTR_VAL(ce_name), get_active_function_name(), i);
+
+                    PHP_V8_THROW_EXCEPTION(exception_message);
+
+                    efree(exception_message);
+                    has_error = true;
+                    break;
+                }
+
+                if (NULL == php_v8_tmp_data->php_v8_isolate || isolate != php_v8_tmp_data->php_v8_isolate->isolate) {
+                    spprintf(&exception_message, 0,
+                             PHP_V8_ISOLATES_MISMATCH_MSG ": argument %d passed to %s::%s() at %d offset",
+                             arg_position, ZSTR_VAL(ce_name), get_active_function_name(), i);
+
+                    PHP_V8_THROW_EXCEPTION(exception_message);
+
+                    efree(exception_message);
+                    has_error = true;
+                    break;
+                }
+
+                (*argv)[i++] = php_v8_value_get_object_local(isolate, php_v8_tmp_data);
+            } ZEND_HASH_FOREACH_END();
 
     if (has_error) {
         efree(*argv);
@@ -194,7 +378,7 @@ static PHP_METHOD(V8Function, NewInstance) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    if (!php_v8_function_unpack_args(arguments_zv, getThis(), 2, isolate, &argc, &argv)) {
+    if (!php_v8_function_unpack_args(arguments_zv, 2, isolate, &argc, &argv)) {
         return;
     }
 
@@ -239,7 +423,7 @@ static PHP_METHOD(V8Function, Call) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    if (!php_v8_function_unpack_args(arguments_zv, getThis(), 3, isolate, &argc, &argv)) {
+    if (!php_v8_function_unpack_args(arguments_zv, 3, isolate, &argc, &argv)) {
         return;
     }
 
