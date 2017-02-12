@@ -74,6 +74,8 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
     v8::Local<v8::Integer> script_id = v8::Local<v8::Integer>();
     v8::Local<v8::Value> source_map_url = v8::Local<v8::Value>();
     v8::Local<v8::Boolean> resource_is_opaque = v8::Local<v8::Boolean>();
+    v8::Local<v8::Boolean> is_wasm = v8::Local<v8::Boolean>();
+    v8::Local<v8::Boolean> is_module = v8::Local<v8::Boolean>();
 
     zval *resource_name_zv = zend_read_property(this_ce, value, ZEND_STRL("resource_name"), 0, &rv); // string
 
@@ -123,9 +125,13 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
     if (Z_TYPE_P(options_zv) == IS_OBJECT) {
         zval *is_shared_cross_origin_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_shared_cross_origin"), 0, &rv);
         zval *is_opaque_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_opaque"), 0, &rv);
+        zval *is_wasm_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_wasm"), 0, &rv);
+        zval *is_module_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_module"), 0, &rv);
 
         resource_is_shared_cross_origin = v8::Boolean::New(isolate, Z_TYPE_P(is_shared_cross_origin_zv) == IS_TRUE);
         resource_is_opaque = v8::Boolean::New(isolate, Z_TYPE_P(is_opaque_zv) == IS_TRUE);
+        is_wasm = v8::Boolean::New(isolate, Z_TYPE_P(is_wasm_zv) == IS_TRUE);
+        is_module = v8::Boolean::New(isolate, Z_TYPE_P(is_module_zv) == IS_TRUE);
     }
 
     return new v8::ScriptOrigin(resource_name,
@@ -134,7 +140,9 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
                                 resource_is_shared_cross_origin,
                                 script_id,
                                 source_map_url,
-                                resource_is_opaque);
+                                resource_is_opaque,
+                                is_wasm,
+                                is_module);
 }
 
 static PHP_METHOD(V8ScriptOrigin, __construct) {
