@@ -99,6 +99,15 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
+    public static function GetToPrimitive(Isolate $isolate) : SymbolValue
+    {
+    }
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
     public static function GetToStringTag(Isolate $isolate) : SymbolValue
     {
     }

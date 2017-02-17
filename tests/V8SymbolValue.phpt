@@ -158,6 +158,12 @@ $helper->pretty_dump('Symbol GetUnscopables() name', $value->Name()->Value());
 $helper->line();
 
 $helper->assert('Isolate not in context', !$isolate->InContext());
+$value = V8\SymbolValue::GetToPrimitive($isolate);
+$helper->assert('Symbol GetToPrimitive() returned', $value instanceof \V8\SymbolValue);
+$helper->pretty_dump('Symbol GetToPrimitive() name', $value->Name()->Value());
+$helper->line();
+
+$helper->assert('Isolate not in context', !$isolate->InContext());
 $value = V8\SymbolValue::GetToStringTag($isolate);
 $helper->assert('Symbol GetToStringTag() returned', $value instanceof \V8\SymbolValue);
 $helper->pretty_dump('Symbol GetToStringTag() name', $value->Name()->Value());
@@ -199,7 +205,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\Value)#85 (1) {
+    object(V8\Value)#86 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -276,7 +282,7 @@ Null constructor:
 
 Object representation:
 ----------------------
-object(V8\SymbolValue)#85 (1) {
+object(V8\SymbolValue)#86 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -503,7 +509,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\StringValue)#86 (1) {
+    object(V8\StringValue)#87 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -705,6 +711,10 @@ Symbol GetIterator() name: string(15) "Symbol.iterator"
 Isolate not in context: ok
 Symbol GetUnscopables() returned: ok
 Symbol GetUnscopables() name: string(18) "Symbol.unscopables"
+
+Isolate not in context: ok
+Symbol GetToPrimitive() returned: ok
+Symbol GetToPrimitive() name: string(18) "Symbol.toPrimitive"
 
 Isolate not in context: ok
 Symbol GetToStringTag() returned: ok
