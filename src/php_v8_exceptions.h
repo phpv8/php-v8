@@ -108,6 +108,7 @@ extern void php_v8_throw_try_catch_exception(php_v8_context_t *php_v8_context, v
 //#define PHP_V8_CHECK_EMPTY_HANDLER(val, message) if (NULL == (val)->php_v8_isolate || (val)->persistent->IsEmpty()) { PHP_V8_THROW_EXCEPTION(message); return; }
 // we check handler to be !IsEmpty() in constructors and before value creations, so unless we didn't check that by mistacke, IsEmpty() check may be skipped
 #define PHP_V8_CHECK_EMPTY_HANDLER(val, message) if (NULL == (val)->php_v8_isolate) { PHP_V8_THROW_EXCEPTION(message); return; }
+#define PHP_V8_CHECK_EMPTY_HANDLER_RET(val, message, ret) if (NULL == (val)->php_v8_isolate) { PHP_V8_THROW_EXCEPTION(message); return (ret); }
 
 
 PHP_MINIT_FUNCTION(php_v8_exceptions);

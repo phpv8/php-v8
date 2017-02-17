@@ -170,6 +170,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_unbound_script.cc                          \
     src/php_v8_cached_data.cc                             \
     src/php_v8_compile_options.cc                         \
+    src/php_v8_script_compiler.cc                         \
     src/php_v8_source.cc                                  \
     src/php_v8_data.cc                                    \
     src/php_v8_value.cc                                   \

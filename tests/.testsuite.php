@@ -32,6 +32,11 @@ class PhpV8Testsuite
         echo str_repeat('-', strlen($title) + 1), PHP_EOL;
     }
 
+    public function message($message)
+    {
+        echo $message, PHP_EOL;
+    }
+
     public function inline($message, $value)
     {
         echo $message, ': ', $value, PHP_EOL;
