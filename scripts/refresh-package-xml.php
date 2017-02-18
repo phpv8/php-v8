@@ -1,18 +1,30 @@
 #!/usr/bin/env php
 <?php
+/**
+ * This file is part of the pinepain/php-v8 PHP extension.
+ *
+ * Copyright (c) 2015-2017 Bogdan Padalko <pinepain@gmail.com>
+ *
+ * Licensed under the MIT license: http://opensource.org/licenses/MIT
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source or visit
+ * http://opensource.org/licenses/MIT
+ */
+
 
 chdir(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
 $contents = [
     'src'        => 'src',
-    'stubs'      => 'doc',
-    'tests'      => 'test',
     'config.m4'  => 'src',
     'config.w32' => 'src',
-    'LICENSE'    => 'doc',
     'php_v8.h'   => 'src',
-    'README.md'  => 'doc',
     'v8.cc'      => 'src',
+    'tests'      => 'test',
+    'stubs'      => 'doc',
+    'LICENSE'    => 'doc',
+    'README.md'  => 'doc',
 ];
 
 
@@ -23,6 +35,7 @@ $files[] = '<!-- begin files list -->';
 foreach ($contents as $location => $role) {
     if (is_dir($location)) {
 
+        $dir_files = [];
         /** @var SplFileInfo $filename */
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($location)) as $filename) {
             if ($filename->isDir()) {
@@ -35,8 +48,12 @@ foreach ($contents as $location => $role) {
                 throw new Exception("'{$location}' is not a file");
             }
 
-            $files[] = "            <file name=\"{$location}\" role=\"{$role}\" />";
+            $dir_files[] = "            <file name=\"{$location}\" role=\"{$role}\" />";
         }
+
+        sort($dir_files);
+
+        $files = array_merge($files, $dir_files);
 
         continue;
     }
