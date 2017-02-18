@@ -42,7 +42,7 @@ static PHP_METHOD(V8BooleanObject, __construct) {
     v8::Local<v8::BooleanObject> local_bool_obj = v8::BooleanObject::New(isolate, value).As<v8::BooleanObject>();
 
     ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_bool_obj, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_bool_obj);
 
     php_v8_value->persistent->Reset(isolate, local_bool_obj);
 }

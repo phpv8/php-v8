@@ -115,6 +115,7 @@ extern php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
     }                                               \
 
 
+
 struct _php_v8_isolate_t {
     v8::Isolate *isolate;
     v8::Isolate::CreateParams *create_params;
@@ -122,6 +123,8 @@ struct _php_v8_isolate_t {
     phpv8::PersistentCollection<v8::FunctionTemplate> *weak_function_templates;
     phpv8::PersistentCollection<v8::ObjectTemplate> *weak_object_templates;
     phpv8::PersistentCollection<v8::Value> *weak_values;
+
+    v8::Persistent<v8::Private> key;
 
     uint32_t isolate_handle;
     php_v8_isolate_limits_t limits;
@@ -133,6 +136,9 @@ struct _php_v8_isolate_t {
     zend_object std;
 };
 
+inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php_v8_isolate) {
+    return v8::Local<v8::Private>::New(php_v8_isolate->isolate, php_v8_isolate->key);
+}
 
 PHP_MINIT_FUNCTION(php_v8_isolate);
 

@@ -353,7 +353,7 @@ static PHP_METHOD(V8Function, __construct) {
     v8::Local<v8::Function> local_function = maybe_local_function.ToLocalChecked();
 
     ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_function, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_function);
 
     php_v8_value->persistent->Reset(isolate, local_function);
 }
@@ -398,7 +398,7 @@ static PHP_METHOD(V8Function, NewInstance) {
 
     v8::Local<v8::Object> local_obj = maybe_local_obj.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_obj, isolate);
+    php_v8_get_or_create_value(return_value, local_obj, php_v8_value->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Function, Call) {
@@ -444,7 +444,7 @@ static PHP_METHOD(V8Function, Call) {
 
     v8::Local<v8::Value> local_res = maybe_local_res.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_res, isolate);
+    php_v8_get_or_create_value(return_value, local_res, php_v8_value->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Function, SetName) {
@@ -480,7 +480,7 @@ static PHP_METHOD(V8Function, GetName) {
     v8::Local<v8::Function> local_function = php_v8_value_get_function_local(isolate, php_v8_value);
     v8::Local<v8::Value> local_name = local_function->GetName();
 
-    php_v8_get_or_create_value(return_value, local_name, isolate);
+    php_v8_get_or_create_value(return_value, local_name, php_v8_value->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Function, GetInferredName) {
@@ -495,7 +495,7 @@ static PHP_METHOD(V8Function, GetInferredName) {
     v8::Local<v8::Function> local_function = php_v8_value_get_function_local(isolate, php_v8_value);
     v8::Local<v8::Value> local_inferred_name = local_function->GetInferredName();
 
-    php_v8_get_or_create_value(return_value, local_inferred_name, isolate);
+    php_v8_get_or_create_value(return_value, local_inferred_name, php_v8_value->php_v8_isolate);
 
 }
 
@@ -511,7 +511,7 @@ static PHP_METHOD(V8Function, GetDisplayName) {
     v8::Local<v8::Function> local_function = php_v8_value_get_function_local(isolate, php_v8_value);
     v8::Local<v8::Value> local_display_name = local_function->GetDisplayName();
 
-    php_v8_get_or_create_value(return_value, local_display_name, isolate);
+    php_v8_get_or_create_value(return_value, local_display_name, php_v8_value->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Function, GetScriptLineNumber) {
@@ -569,7 +569,7 @@ static PHP_METHOD(V8Function, GetBoundFunction) {
 
     v8::Local<v8::Value> local_value = local_function->GetBoundFunction();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_value->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Function, GetScriptOrigin) {

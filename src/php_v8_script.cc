@@ -191,7 +191,7 @@ static PHP_METHOD(V8Script, Run)
 
     v8::Local<v8::Value> local_result = result.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_result, isolate);
+    php_v8_get_or_create_value(return_value, local_result, php_v8_script->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Script, GetUnboundScript)

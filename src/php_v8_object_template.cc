@@ -211,7 +211,7 @@ static PHP_METHOD(V8ObjectTemplate, NewInstance) {
 
     v8::Local<v8::Object> local_obj = maybe_local_obj.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_obj, isolate);
+    php_v8_get_or_create_value(return_value, local_obj, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8ObjectTemplate, SetAccessor) {

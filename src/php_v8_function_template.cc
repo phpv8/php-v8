@@ -232,7 +232,7 @@ static PHP_METHOD(V8FunctionTemplate, GetFunction) {
 
     v8::Local<v8::Function> local_function = maybe_local_function.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_function, isolate);
+    php_v8_get_or_create_value(return_value, local_function, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8FunctionTemplate, SetCallHandler) {

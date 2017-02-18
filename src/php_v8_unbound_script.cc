@@ -149,7 +149,7 @@ static PHP_METHOD(V8UnboundScript, GetScriptName)
 
     v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(isolate, php_v8_unbound_script);
 
-    php_v8_get_or_create_value(return_value, local_unbound_script->GetScriptName(), isolate);
+    php_v8_get_or_create_value(return_value, local_unbound_script->GetScriptName(), php_v8_unbound_script->php_v8_isolate);
 }
 
 static PHP_METHOD(V8UnboundScript, GetSourceURL)
@@ -163,7 +163,7 @@ static PHP_METHOD(V8UnboundScript, GetSourceURL)
 
     v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(isolate, php_v8_unbound_script);
 
-    php_v8_get_or_create_value(return_value, local_unbound_script->GetSourceURL(), isolate);
+    php_v8_get_or_create_value(return_value, local_unbound_script->GetSourceURL(), php_v8_unbound_script->php_v8_isolate);
 }
 
 static PHP_METHOD(V8UnboundScript, GetSourceMappingURL)
@@ -177,7 +177,7 @@ static PHP_METHOD(V8UnboundScript, GetSourceMappingURL)
 
     v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(isolate, php_v8_unbound_script);
 
-    php_v8_get_or_create_value(return_value, local_unbound_script->GetSourceMappingURL(), isolate);
+    php_v8_get_or_create_value(return_value, local_unbound_script->GetSourceMappingURL(), php_v8_unbound_script->php_v8_isolate);
 }
 
 static PHP_METHOD(V8UnboundScript, GetLineNumber)

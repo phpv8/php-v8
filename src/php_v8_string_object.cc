@@ -47,7 +47,7 @@ static PHP_METHOD(V8StringObject, __construct) {
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_string_obj, "Failed to create StringObject value");
 
     ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_string_obj, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_string_obj);
 
     php_v8_value->persistent->Reset(isolate, local_string_obj);
 }
@@ -59,11 +59,10 @@ static PHP_METHOD(V8StringObject, ValueOf) {
 
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    //PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
     v8::Local<v8::String> local_string = php_v8_value_get_string_object_local(isolate, php_v8_value)->ValueOf();
 
-    php_v8_get_or_create_value(return_value, local_string, isolate);
+    php_v8_get_or_create_value(return_value, local_string, php_v8_value->php_v8_isolate);
 }
 
 

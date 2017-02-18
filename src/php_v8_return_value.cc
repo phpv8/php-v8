@@ -133,7 +133,7 @@ static PHP_METHOD(V8ReturnValue, Get) {
 
     v8::Local<v8::Value> local_value = php_v8_return_value_get(php_v8_return_value);
 
-    php_v8_get_or_create_value(return_value, local_value, php_v8_return_value->php_v8_isolate->isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_return_value->php_v8_isolate);
 }
 
 

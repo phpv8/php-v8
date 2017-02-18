@@ -46,7 +46,7 @@ static PHP_METHOD(V8Exception, RangeError) {
 
     v8::Local<v8::Value> local_value = v8::Exception::RangeError(message);
 
-    php_v8_create_value(return_value, local_value, isolate);
+    php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Exception, ReferenceError) {
@@ -69,7 +69,7 @@ static PHP_METHOD(V8Exception, ReferenceError) {
 
     v8::Local<v8::Value> local_value = v8::Exception::ReferenceError(message);
 
-    php_v8_create_value(return_value, local_value, isolate);
+    php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Exception, SyntaxError) {
@@ -92,7 +92,7 @@ static PHP_METHOD(V8Exception, SyntaxError) {
 
     v8::Local<v8::Value> local_value = v8::Exception::SyntaxError(message);
 
-    php_v8_create_value(return_value, local_value, isolate);
+    php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Exception, TypeError) {
@@ -114,7 +114,7 @@ static PHP_METHOD(V8Exception, TypeError) {
 
     v8::Local<v8::Value> local_value = v8::Exception::TypeError(message);
 
-    php_v8_create_value(return_value, local_value, isolate);
+    php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Exception, Error) {
@@ -137,7 +137,7 @@ static PHP_METHOD(V8Exception, Error) {
 
     v8::Local<v8::Value> local_value = v8::Exception::Error(message);
 
-    php_v8_create_value(return_value, local_value, isolate);
+    php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Exception, CreateMessage) {

@@ -102,7 +102,7 @@ static PHP_METHOD(V8FunctionCallbackInfo, Arguments) {
 
         local_value = v8::Local<v8::Value>::New(isolate, *php_v8_callback_info->arguments[i]);
 
-        php_v8_get_or_create_value(&arg_zv, local_value, isolate);
+        php_v8_get_or_create_value(&arg_zv, local_value, php_v8_callback_info->php_v8_isolate);
 
         add_index_zval(&php_v8_callback_info->args, static_cast<zend_ulong>(i), &arg_zv);
     }

@@ -55,7 +55,7 @@ static PHP_METHOD(V8RegExp, __construct) {
     v8::Local<v8::RegExp> local_regexp = maybe_local_regexp.ToLocalChecked();
 
     ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_regexp, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_regexp);
 
     php_v8_value->persistent->Reset(isolate, local_regexp);
 }
@@ -71,7 +71,7 @@ static PHP_METHOD(V8RegExp, GetSource) {
 
     v8::Local<v8::String> local_string = php_v8_value_get_regexp_local(isolate, php_v8_value)->GetSource();
 
-    php_v8_get_or_create_value(return_value, local_string, isolate);
+    php_v8_get_or_create_value(return_value, local_string, php_v8_value->php_v8_isolate);
 }
 
 static PHP_METHOD(V8RegExp, GetFlags) {

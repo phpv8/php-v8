@@ -117,7 +117,7 @@ static void php_v8_value_free(zend_object *object) {
             /* NOTE: here we lose reference to persistent handler and callbacks. While in most cases this should be
              *       rare case, it may lead to allocated memory bloating, so it may be a good idea to store proper reference
              */
-            php_v8_object_delete_self_ptr(php_v8_value->php_v8_isolate->isolate, v8::Local<v8::Object>::Cast(local_value));
+            php_v8_object_delete_self_ptr(php_v8_value, v8::Local<v8::Object>::Cast(local_value));
         }
     }
 
@@ -277,10 +277,8 @@ zend_class_entry *php_v8_get_class_entry_from_value(v8::Local<v8::Value> value) 
     return php_v8_value_class_entry;
 }
 
-php_v8_value_t *php_v8_create_value(zval *return_value, v8::Local<v8::Value> local_value, v8::Isolate *isolate) {
+php_v8_value_t *php_v8_create_value(zval *return_value, v8::Local<v8::Value> local_value, php_v8_isolate_t *php_v8_isolate) {
     assert(!local_value.IsEmpty());
-
-    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
     object_init_ex(return_value, php_v8_get_class_entry_from_value(local_value));
     PHP_V8_VALUE_FETCH_INTO(return_value, return_php_v8_value);
@@ -288,7 +286,7 @@ php_v8_value_t *php_v8_create_value(zval *return_value, v8::Local<v8::Value> loc
     PHP_V8_STORE_POINTER_TO_ISOLATE(return_php_v8_value, php_v8_isolate);
 
     if (local_value->IsObject()) {
-        assert(isolate->InContext());
+        assert(php_v8_isolate->isolate->InContext());
 
         php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_value.As<v8::Object>()->CreationContext());
 
@@ -296,21 +294,21 @@ php_v8_value_t *php_v8_create_value(zval *return_value, v8::Local<v8::Value> loc
         PHP_V8_STORE_POINTER_TO_CONTEXT(return_php_v8_value, php_v8_context);
 
         ZVAL_COPY_VALUE(&return_php_v8_value->this_ptr, return_value);
-        php_v8_object_store_self_ptr(isolate, v8::Local<v8::Object>::Cast(local_value), return_php_v8_value);
+        php_v8_object_store_self_ptr(return_php_v8_value, v8::Local<v8::Object>::Cast(local_value));
     }
 
-    return_php_v8_value->persistent->Reset(isolate, local_value);
+    return_php_v8_value->persistent->Reset(php_v8_isolate->isolate, local_value);
 
     return return_php_v8_value;
 }
 
-php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<v8::Value> local_value, v8::Isolate *isolate) {
+php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<v8::Value> local_value, php_v8_isolate_t *php_v8_isolate) {
     assert(!local_value.IsEmpty());
 
     if (local_value->IsObject()) {
-        assert(isolate->InContext());
+        assert(php_v8_isolate->isolate->InContext());
 
-        php_v8_value_t *data = php_v8_object_get_self_ptr(isolate, v8::Local<v8::Object>::Cast(local_value));
+        php_v8_value_t *data = php_v8_object_get_self_ptr(php_v8_isolate, v8::Local<v8::Object>::Cast(local_value));
 
         if (data) {
             ZVAL_ZVAL(return_value, &data->this_ptr, 1, 0);
@@ -318,7 +316,7 @@ php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<v8::Val
         }
     }
 
-    return php_v8_create_value(return_value, local_value, isolate);
+    return php_v8_create_value(return_value, local_value, php_v8_isolate);
 }
 
 
@@ -467,7 +465,7 @@ static PHP_METHOD(V8Value, ToBoolean) {
 
     v8::Local<v8::Boolean> local_value = maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Value, ToNumber) {
@@ -495,7 +493,7 @@ static PHP_METHOD(V8Value, ToNumber) {
 
     v8::Local<v8::Number> local_value = maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Value, ToString) {
@@ -523,7 +521,7 @@ static PHP_METHOD(V8Value, ToString) {
 
     v8::Local<v8::String> local_value = maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Value, ToDetailString) {
@@ -551,7 +549,7 @@ static PHP_METHOD(V8Value, ToDetailString) {
 
     v8::Local<v8::String> local_value = maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Value, ToObject) {
@@ -579,7 +577,7 @@ static PHP_METHOD(V8Value, ToObject) {
 
     v8::Local<v8::Object> local_value = maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Value, ToInteger) {
@@ -607,7 +605,7 @@ static PHP_METHOD(V8Value, ToInteger) {
 
     v8::Local<v8::Integer> local_value = maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Value, ToUint32) {
@@ -635,7 +633,7 @@ static PHP_METHOD(V8Value, ToUint32) {
 
     v8::Local<v8::Uint32> local_value = maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Value, ToInt32) {
@@ -664,7 +662,7 @@ static PHP_METHOD(V8Value, ToInt32) {
 
     v8::Local<v8::Int32> local_value = maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Value, ToArrayIndex) {
@@ -692,7 +690,7 @@ static PHP_METHOD(V8Value, ToArrayIndex) {
 
     v8::Local<v8::Uint32> local_value = maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 
@@ -906,7 +904,7 @@ static PHP_METHOD(V8Value, TypeOf) {
 
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(local_string, "Failed to get type of value");
 
-    php_v8_get_or_create_value(return_value, local_string, isolate);
+    php_v8_get_or_create_value(return_value, local_string, php_v8_isolate);
 }
 
 

@@ -47,7 +47,7 @@ static PHP_METHOD(V8Array, __construct) {
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_array, "Failed to create Array value");
 
     ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_array, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_array);
 
     php_v8_value->persistent->Reset(isolate, local_array);
 }

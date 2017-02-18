@@ -159,7 +159,7 @@ static PHP_METHOD(V8CallbackInfo, This) {
 
     v8::Local<v8::Object> local_object = v8::Local<v8::Object>::New(isolate, *php_v8_callback_info->this_obj);
 
-    php_v8_get_or_create_value(return_value, local_object, isolate);
+    php_v8_get_or_create_value(return_value, local_object, php_v8_callback_info->php_v8_isolate);
 }
 
 static PHP_METHOD(V8CallbackInfo, Holder) {
@@ -174,7 +174,7 @@ static PHP_METHOD(V8CallbackInfo, Holder) {
 
     v8::Local<v8::Object> local_object = v8::Local<v8::Object>::New(isolate, *php_v8_callback_info->holder_obj);
 
-    php_v8_get_or_create_value(return_value, local_object, isolate);
+    php_v8_get_or_create_value(return_value, local_object, php_v8_callback_info->php_v8_isolate);
 }
 
 static PHP_METHOD(V8CallbackInfo, GetReturnValue) {

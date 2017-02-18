@@ -26,7 +26,7 @@ zend_class_entry* php_v8_try_catch_class_entry;
 void php_v8_try_catch_create_from_try_catch(zval *return_value, php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, v8::TryCatch *try_catch) {
     object_init_ex(return_value, this_ce);
 
-    v8::Isolate *isolate = php_v8_isolate->isolate;
+    PHP_V8_DECLARE_ISOLATE(php_v8_isolate);
     v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
     zend_update_property(this_ce, return_value, ZEND_STRL("isolate"), &php_v8_isolate->this_ptr);
@@ -37,14 +37,14 @@ void php_v8_try_catch_create_from_try_catch(zval *return_value, php_v8_isolate_t
 
     if (try_catch && !try_catch->Exception().IsEmpty()) {
         zval exception_zv;
-        php_v8_get_or_create_value(&exception_zv, try_catch->Exception(), php_v8_isolate->isolate);
+        php_v8_get_or_create_value(&exception_zv, try_catch->Exception(), php_v8_isolate);
         zend_update_property(this_ce, return_value, ZEND_STRL("exception"), &exception_zv);
         zval_ptr_dtor(&exception_zv);
     }
 
     if (try_catch && !try_catch->StackTrace(context).IsEmpty()) {
         zval stack_trace_zv;
-        php_v8_get_or_create_value(&stack_trace_zv, try_catch->StackTrace(context).ToLocalChecked(), isolate);
+        php_v8_get_or_create_value(&stack_trace_zv, try_catch->StackTrace(context).ToLocalChecked(), php_v8_isolate);
         zend_update_property(this_ce, return_value, ZEND_STRL("stack_trace"), &stack_trace_zv);
         zval_ptr_dtor(&stack_trace_zv);
     }

@@ -310,6 +310,7 @@ void php_v8_callback_function(const v8::FunctionCallbackInfo<v8::Value> &info) {
 
 void php_v8_callback_accessor_name_getter(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value> &info) {
     PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(info.GetIsolate());
+    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
     zval args;
     zval property_name;
@@ -317,7 +318,7 @@ void php_v8_callback_accessor_name_getter(v8::Local<v8::Name> property, const v8
     /* Build the parameter array */
     array_init_size(&args, 2);
 
-    php_v8_get_or_create_value(&property_name, property, isolate);
+    php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
     add_index_zval(&args, 0, &property_name);
 
     php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
@@ -327,6 +328,7 @@ void php_v8_callback_accessor_name_getter(v8::Local<v8::Name> property, const v8
 
 void php_v8_callback_accessor_name_setter(v8::Local<v8::Name> property, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void> &info) {
     PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(info.GetIsolate());
+    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
     zval args;
     zval property_name;
@@ -335,8 +337,8 @@ void php_v8_callback_accessor_name_setter(v8::Local<v8::Name> property, v8::Loca
     /* Build the parameter array */
     array_init_size(&args, 3);
 
-    php_v8_get_or_create_value(&property_name, property, isolate);
-    php_v8_get_or_create_value(&property_value, value, isolate);
+    php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
+    php_v8_get_or_create_value(&property_value, value, php_v8_isolate);
 
     add_index_zval(&args, 0, &property_name);
     add_index_zval(&args, 1, &property_value);
@@ -349,6 +351,7 @@ void php_v8_callback_accessor_name_setter(v8::Local<v8::Name> property, v8::Loca
 
 void php_v8_callback_generic_named_property_getter(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value> &info) {
     PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(info.GetIsolate());
+    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
     zval args;
     zval property_name;
@@ -356,7 +359,7 @@ void php_v8_callback_generic_named_property_getter(v8::Local<v8::Name> property,
     /* Build the parameter array */
     array_init_size(&args, 2);
 
-    php_v8_get_or_create_value(&property_name, property, isolate);
+    php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
     add_index_zval(&args, 0, &property_name);
 
     php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
@@ -366,6 +369,7 @@ void php_v8_callback_generic_named_property_getter(v8::Local<v8::Name> property,
 
 void php_v8_callback_generic_named_property_setter(v8::Local<v8::Name> property, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<v8::Value> &info) {
     PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(info.GetIsolate());
+    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
     zval args;
     zval property_name;
@@ -374,8 +378,8 @@ void php_v8_callback_generic_named_property_setter(v8::Local<v8::Name> property,
     /* Build the parameter array */
     array_init_size(&args, 3);
 
-    php_v8_get_or_create_value(&property_name, property, isolate);
-    php_v8_get_or_create_value(&property_value, value, isolate);
+    php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
+    php_v8_get_or_create_value(&property_value, value, php_v8_isolate);
 
     add_index_zval(&args, 0, &property_name);
     add_index_zval(&args, 1, &property_value);
@@ -387,6 +391,7 @@ void php_v8_callback_generic_named_property_setter(v8::Local<v8::Name> property,
 
 void php_v8_callback_generic_named_property_query(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Integer> &info) {
     PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(info.GetIsolate());
+    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
     zval args;
     zval property_name;
@@ -394,7 +399,7 @@ void php_v8_callback_generic_named_property_query(v8::Local<v8::Name> property, 
     /* Build the parameter array */
     array_init_size(&args, 2);
 
-    php_v8_get_or_create_value(&property_name, property, isolate);
+    php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
     add_index_zval(&args, 0, &property_name);
 
     php_v8_callback_call_from_bucket_with_zargs(2, info, info.GetReturnValue(), &args);
@@ -404,6 +409,7 @@ void php_v8_callback_generic_named_property_query(v8::Local<v8::Name> property, 
 
 void php_v8_callback_generic_named_property_deleter(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Boolean> &info) {
     PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(info.GetIsolate());
+    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
     zval args;
     zval property_name;
@@ -411,7 +417,7 @@ void php_v8_callback_generic_named_property_deleter(v8::Local<v8::Name> property
     /* Build the parameter array */
     array_init_size(&args, 2);
 
-    php_v8_get_or_create_value(&property_name, property, isolate);
+    php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
     add_index_zval(&args, 0, &property_name);
 
     php_v8_callback_call_from_bucket_with_zargs(3, info, info.GetReturnValue(), &args);
@@ -453,6 +459,7 @@ void php_v8_callback_indexed_property_getter(uint32_t index, const v8::PropertyC
 
 void php_v8_callback_indexed_property_setter(uint32_t index, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<v8::Value> &info) {
     PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(info.GetIsolate());
+    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
     zval args;
     zval property_name;
@@ -462,7 +469,7 @@ void php_v8_callback_indexed_property_setter(uint32_t index, v8::Local<v8::Value
     array_init_size(&args, 3);
 
     ZVAL_LONG(&property_name, index);
-    php_v8_get_or_create_value(&property_value, value, isolate);
+    php_v8_get_or_create_value(&property_value, value, php_v8_isolate);
 
     add_index_zval(&args, 0, &property_name);
     add_index_zval(&args, 1, &property_value);
@@ -520,10 +527,12 @@ void php_v8_callback_indexed_property_enumerator(const v8::PropertyCallbackInfo<
 }
 
 bool php_v8_callback_access_check(v8::Local<v8::Context> accessing_context, v8::Local<v8::Object> accessed_object, v8::Local<v8::Value> data) {
-    PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(v8::Isolate::GetCurrent());
-
     PHP_V8_THROW_EXCEPTION("Broken due to problem (see https://groups.google.com/forum/?fromgroups#!topic/v8-dev/c7LhW2bNabY)");
     return false;
+
+    PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(v8::Isolate::GetCurrent());
+    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
+
 
     zval args;
     zval accessed_object_zv;
@@ -539,7 +548,7 @@ bool php_v8_callback_access_check(v8::Local<v8::Context> accessing_context, v8::
 
     assert(NULL != php_v8_context);
 
-    php_v8_get_or_create_value(&accessed_object_zv, accessed_object, isolate);
+    php_v8_get_or_create_value(&accessed_object_zv, accessed_object, php_v8_isolate);
 
     add_index_zval(&args, 0, &php_v8_context->this_ptr);
     add_index_zval(&args, 1, &accessed_object_zv);

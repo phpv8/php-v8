@@ -27,6 +27,7 @@
 
 #include <float.h>
 
+#include <iostream>
 
 zend_class_entry *php_v8_isolate_class_entry;
 #define this_ce php_v8_isolate_class_entry
@@ -119,6 +120,12 @@ static void php_v8_isolate_free(zend_object *object) {
         efree(php_v8_isolate->gc_data);
     }
 
+    if (php_v8_isolate->isolate && PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_isolate)) {
+        php_v8_isolate->key.Reset();
+    }
+
+    php_v8_isolate->key.~Persistent();
+
     php_v8_isolate_destroy(php_v8_isolate);
 
     zend_object_std_dtor(&php_v8_isolate->std);
@@ -153,6 +160,7 @@ static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
     php_v8_isolate->weak_function_templates = new phpv8::PersistentCollection<v8::FunctionTemplate>();
     php_v8_isolate->weak_object_templates = new phpv8::PersistentCollection<v8::ObjectTemplate>();
     php_v8_isolate->weak_values = new phpv8::PersistentCollection<v8::Value>();
+    new(&php_v8_isolate->key) v8::Persistent<v8::Private>();
 
     php_v8_isolate->std.handlers = &php_v8_isolate_object_handlers;
 
@@ -208,6 +216,14 @@ static PHP_METHOD(V8Isolate, __construct) {
 
     php_v8_isolate->isolate->SetFatalErrorHandler(php_v8_fatal_error_handler);
     php_v8_isolate->isolate->SetOOMErrorHandler(php_v8_isolate_oom_error_callback);
+
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
+
+    v8::MaybeLocal<v8::String> local_key_string = v8::String::NewFromUtf8(isolate, "php-v8::self", v8::NewStringType::kInternalized);
+    PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(local_key_string, "Failed initialize Isolate");
+
+    v8::Local<v8::Private> local_private_key = v8::Private::ForApi(isolate, local_key_string.ToLocalChecked());
+    php_v8_isolate->key.Reset(isolate, local_private_key);
 }
 
 static PHP_METHOD(V8Isolate, SetTimeLimit) {
@@ -390,7 +406,7 @@ static PHP_METHOD(V8Isolate, ThrowException) {
     v8::Local<v8::Value> local_return_value = isolate->ThrowException(local_value);
 
     /* From v8 source code, Isolate::ThrowException() returns v8::Undefined() */
-    php_v8_get_or_create_value(return_value, local_return_value, isolate);
+    php_v8_get_or_create_value(return_value, local_return_value, php_v8_value->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Isolate, IdleNotificationDeadline) {

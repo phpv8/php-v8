@@ -160,7 +160,7 @@ static PHP_METHOD(V8Context, GlobalObject)
 
     v8::Local<v8::Object> local_object = context->Global();
 
-    php_v8_get_or_create_value(return_value, local_object, isolate);
+    php_v8_get_or_create_value(return_value, local_object, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Context, DetachGlobal)
@@ -224,7 +224,7 @@ static PHP_METHOD(V8Context, GetSecurityToken)
     v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
     v8::Local<v8::Value> local_value = local_context->GetSecurityToken();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Context, AllowCodeGenerationFromStrings)

@@ -42,7 +42,7 @@ static PHP_METHOD(V8Map, __construct) {
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_map, "Failed to create Map value");
 
     ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_map, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_map);
 
     php_v8_value->persistent->Reset(isolate, local_map);
 }
@@ -103,7 +103,7 @@ static PHP_METHOD(V8Map, Get) {
 
     v8::Local<v8::Value> local_value =  maybe_local.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_value->php_v8_isolate);
 }
 
 
@@ -225,7 +225,7 @@ static PHP_METHOD(V8Map, AsArray) {
     PHP_V8_MAYBE_CATCH(php_v8_value->php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(local_array, "Failed to get property names")
 
-    php_v8_get_or_create_value(return_value, local_array, isolate);
+    php_v8_get_or_create_value(return_value, local_array, php_v8_value->php_v8_isolate);
 }
 
 

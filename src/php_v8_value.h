@@ -36,8 +36,8 @@ extern v8::Local<v8::Value> php_v8_value_get_value_local(v8::Isolate *isolate, p
 extern php_v8_value_t *php_v8_value_fetch_object(zend_object *obj);
 
 extern zend_class_entry *php_v8_get_class_entry_from_value(v8::Local<v8::Value> value);
-extern php_v8_value_t *php_v8_create_value(zval *return_value, v8::Local<v8::Value> value, v8::Isolate *isolate);
-extern php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<v8::Value> local_value, v8::Isolate *isolate);
+extern php_v8_value_t *php_v8_create_value(zval *return_value, v8::Local<v8::Value> value, php_v8_isolate_t *php_v8_isolate);
+extern php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<v8::Value> local_value, php_v8_isolate_t *php_v8_isolate);
 
 #define PHP_V8_VALUE_FETCH(zv) php_v8_value_fetch_object(Z_OBJ_P(zv))
 #define PHP_V8_VALUE_FETCH_INTO(pzval, into) php_v8_value_t *(into) = PHP_V8_VALUE_FETCH((pzval));
