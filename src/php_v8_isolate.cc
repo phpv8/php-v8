@@ -493,7 +493,7 @@ static PHP_METHOD(V8Isolate, IsDead) {
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate); // TODO: can we just fetch isolate object here and do not eneter it?
+    PHP_V8_DECLARE_ISOLATE(php_v8_isolate);
 
     RETURN_BOOL(isolate->IsDead());
 }
