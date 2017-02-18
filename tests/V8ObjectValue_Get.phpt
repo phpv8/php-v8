@@ -9,10 +9,9 @@ V8\ObjectValue::Get
 $helper = require '.testsuite.php';
 
 $isolate = new \V8\Isolate();
-$extensions = [];
 $global_template = new V8\ObjectTemplate($isolate);
 
-$context = new V8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $global_template);
 
 $fnc = new \V8\FunctionObject($context, function () {echo 'I am fun', PHP_EOL;});
 

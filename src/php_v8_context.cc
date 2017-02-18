@@ -89,7 +89,6 @@ php_v8_context_t * php_v8_context_get_reference(v8::Local<v8::Context> context) 
 static PHP_METHOD(V8Context, __construct)
 {
     zval *php_v8_isolate_zv;
-    zval *extensions_zv = NULL;
     zval *php_v8_global_template_zv = NULL;
     zval *php_v8_global_object_zv = NULL;
 
@@ -97,7 +96,7 @@ static PHP_METHOD(V8Context, __construct)
     v8::Local<v8::ObjectTemplate> global_template;
     v8::Local<v8::Value> global_object;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|a!o!o!", &php_v8_isolate_zv, &extensions_zv, &php_v8_global_template_zv, &php_v8_global_object_zv) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|o!o!", &php_v8_isolate_zv, &php_v8_global_template_zv, &php_v8_global_object_zv) == FAILURE) {
         return;
     }
 
@@ -108,18 +107,8 @@ static PHP_METHOD(V8Context, __construct)
     PHP_V8_STORE_POINTER_TO_ISOLATE(php_v8_context, php_v8_isolate);
     PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
-    if (extensions_zv) {
-        zend_update_property(this_ce, getThis(), ZEND_STRL("extensions"), extensions_zv);
-    }
-
     if (php_v8_global_template_zv) {
         zend_update_property(this_ce, getThis(), ZEND_STRL("global_template"), php_v8_global_template_zv);
-    }
-
-    // TODO: implement extensions, note this feature is controversial, it also requires v8::RegisterExtension()
-    // TODO: store registered extensions somewhere and validate them by name before setting?
-    if (extensions_zv && zend_array_count(Z_ARRVAL_P(extensions_zv)) > 0) {
-        zend_error(E_WARNING, "Extensions are not supported yet");
     }
 
     if (php_v8_global_template_zv && Z_TYPE_P(php_v8_global_template_zv) != IS_NULL) {
@@ -308,7 +297,6 @@ static PHP_METHOD(V8Context, EstimatedSize)
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
-    ZEND_ARG_ARRAY_INFO(0, extensions, 1)
     ZEND_ARG_OBJ_INFO(0, global_template, V8\\ObjectTemplate, 1)
     ZEND_ARG_OBJ_INFO(0, global_object, V8\\ObjectValue, 1)
 ZEND_END_ARG_INFO()
@@ -383,7 +371,6 @@ PHP_MINIT_FUNCTION(php_v8_context)
     this_ce->create_object = php_v8_context_ctor;
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("extensions"), ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("global_template"), ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("global_object"), ZEND_ACC_PRIVATE);
 

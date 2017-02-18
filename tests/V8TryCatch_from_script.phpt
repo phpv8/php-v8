@@ -49,7 +49,7 @@ $nested_try_catch_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolat
 
 $global_object_tpl = new \v8Tests\TrackingDtors\ObjectTemplate($isolate);
 $global_object_tpl->Set(new \V8\StringValue($isolate, 'nested_throw'), $nested_try_catch_func_tpl);
-$context = new v8Tests\TrackingDtors\Context($isolate, [], $global_object_tpl);
+$context = new v8Tests\TrackingDtors\Context($isolate, $global_object_tpl);
 
 $source = /** @lang JavaScript */
     'throw new Error("Top-level error");';

@@ -14,7 +14,6 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
 $global_template1 = new V8\ObjectTemplate($isolate1);
 
 $func_tpl = new \V8\FunctionTemplate($isolate1, function () {});
@@ -39,7 +38,7 @@ $global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_obj_tpl);
 
 $handlers = null;
 
-$context1 = new \V8\Context($isolate1, [], $global_template1);
+$context1 = new \V8\Context($isolate1, $global_template1);
 
 $obj = new V8\ObjectValue($context1);
 $obj->SetAccessor($context1, new \V8\StringValue($isolate1, 'test'), function () use (&$isolate1, &$foo, &$name) {});

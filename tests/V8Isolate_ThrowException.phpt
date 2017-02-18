@@ -34,7 +34,7 @@ $global_tpl = new \V8\ObjectTemplate($isolate);
 $global_tpl->Set(new \V8\StringValue($isolate, 'e'), $func_tpl);
 $global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 
-$context = new \V8\Context($isolate, [], $global_tpl);
+$context = new \V8\Context($isolate, $global_tpl);
 
 $v8_helper->CompileTryRun($context, 'e()');
 $v8_helper->CompileTryRun($context, 'e("test")');

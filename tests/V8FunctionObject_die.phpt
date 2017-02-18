@@ -13,11 +13,8 @@ $helper = require '.testsuite.php';
 require '.tracking_dtors.php';
 
 $isolate1 = new v8Tests\TrackingDtors\Isolate();
-$extensions1 = [];
-
 $global_template1 = new V8\ObjectTemplate($isolate1);
-
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 
 $func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) {

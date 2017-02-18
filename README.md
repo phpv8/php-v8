@@ -73,7 +73,7 @@ in your IDE and other code-analysis tools.
 ### Requirements
 
 #### V8
-You will need a recent v8 Google JavaScript engine version installed. At this time the extension is tested on 5.7.514.
+You will need a recent v8 Google JavaScript engine version installed. At this time the extension is tested on 5.8.168.
 
 #### PHP
 This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.
@@ -96,7 +96,7 @@ $ php --ri v8
 
 While [pinepain/php](https://launchpad.net/~pinepain/+archive/ubuntu/php) PPA targets to contain all necessary
 extensions with dependencies, you may find
-[pinepain/libv8-5.7](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-5.7),
+[pinepain/libv8-5.8](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-5.8),
 [pinepain/libv8-experimental](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental) and
 [pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) standalone PPAs useful.
 
@@ -108,7 +108,7 @@ $ brew tap homebrew/dupes
 $ brew tap homebrew/php
 $ brew tap pinepain/devtools
 $ brew install php70 
-$ brew install v8@5.7
+$ brew install v8@5.8
 $ brew install php70-v8
 $ php --ri v8
 ```
@@ -134,6 +134,7 @@ $ sudo make install
  - to be able to customize some tests make sure you have `variables_order = "EGPCS"` in your php.ini
  - `export DEV_TESTS=1` allows to run tests that are made for development reasons (e.g. test some weird behavior or for debugging)
  - To prevent the test suite from asking you to send results to the PHP QA team do `export NO_INTERACTION=1`
+ - To run tests with memory leaaks check, install `valgrind` and do `export TEST_PHP_ARGS="-m"`
 
  - To track memory usage you may want to use `smem`, `pmem` or even `lsof` to see what shared object are loaded
    and `free` to display free and used memory in the system.

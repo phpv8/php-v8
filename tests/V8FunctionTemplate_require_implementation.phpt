@@ -30,7 +30,7 @@ $require_func_tpl_cache = new \V8\FunctionTemplate($isolate1, function (\V8\Func
   $module = $info->Arguments()[0]->ToString($context)->Value();
 
   if (!isset($loaded_cache[$module])) {
-    $new_context = new \V8\Context($isolate, [], new \V8\ObjectTemplate($isolate));
+    $new_context = new \V8\Context($isolate, new \V8\ObjectTemplate($isolate));
 
     $script = new \V8\Script($new_context, new \V8\StringValue($isolate, $code[$module]), new \V8\ScriptOrigin($module));
 
@@ -42,7 +42,7 @@ $require_func_tpl_cache = new \V8\FunctionTemplate($isolate1, function (\V8\Func
 $global_template = new V8\ObjectTemplate($isolate1);
 $global_template->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
 $global_template->Set(new \V8\StringValue($isolate1, 'require'), $require_func_tpl_cache, \V8\PropertyAttribute::DontDelete);
-$context = new V8\Context($isolate1, [], $global_template);
+$context = new V8\Context($isolate1, $global_template);
 
 $JS = '
 var test = require("test.js");
@@ -78,7 +78,7 @@ $require_func_tpl_nocache = new \V8\FunctionTemplate($isolate1, function (\V8\Fu
   $module = $info->Arguments()[0]->ToString($context)->Value();
 
   if (!isset($loaded_no_cache[$module])) {
-    $new_context = new \V8\Context($isolate, [], new \V8\ObjectTemplate($isolate));
+    $new_context = new \V8\Context($isolate, new \V8\ObjectTemplate($isolate));
 
     $script = new \V8\Script($new_context, new \V8\StringValue($isolate, $code[$module]), new \V8\ScriptOrigin($module));
 
@@ -92,7 +92,7 @@ $require_func_tpl_nocache = new \V8\FunctionTemplate($isolate1, function (\V8\Fu
 $global_template = new V8\ObjectTemplate($isolate1);
 $global_template->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
 $global_template->Set(new \V8\StringValue($isolate1, 'require'), $require_func_tpl_nocache, \V8\PropertyAttribute::DontDelete);
-$context = new V8\Context($isolate1, [], $global_template);
+$context = new V8\Context($isolate1, $global_template);
 
 $JS = '
 var test = require("test.js");

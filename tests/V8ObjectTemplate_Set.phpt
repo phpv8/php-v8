@@ -6,7 +6,6 @@ V8\ObjectTemplate::Set() - FunctionTemplate
 <?php
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
 $global_template1 = new V8\ObjectTemplate($isolate1);
 
 $fnc = function (\V8\FunctionCallbackInfo $info) {

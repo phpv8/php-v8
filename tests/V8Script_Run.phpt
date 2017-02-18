@@ -12,13 +12,12 @@ $v8_helper = new PhpV8Helpers($helper);
 
 
 $isolate = new V8\Isolate();
-$extensions = [];
 $global_template = new V8\ObjectTemplate($isolate);
 
 $value = new V8\StringValue($isolate, 'TEST VALUE 111');
 
 $global_template->Set(new \V8\StringValue($isolate, 'test'), $value);
-$context = new V8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $global_template);
 
 
 $source    = 'test; test = test + ", confirmed"';
@@ -33,7 +32,7 @@ $helper->dump($res->Value());
 
 $helper->space();
 
-$scalar = new V8\NumberValue($isolate, 123);
+$scalar = new V8\Int32Value($isolate, 123);
 $obj    = new V8\ObjectValue($context);
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'scalar'), $scalar);
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $obj);
@@ -114,7 +113,7 @@ string(25) "TEST VALUE 111, confirmed"
 
 Scalar:
 -------
-Expected 123.0 value is identical to actual value 123.0
+Expected 123 value is identical to actual value 123
 Expected value is not identical to actual value
 
 

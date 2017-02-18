@@ -14,11 +14,10 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $isolate = new V8\Isolate();
-$extensions = [];
 $global_template = new V8\ObjectTemplate($isolate);
 $global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
 
-$context = new V8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $global_template);
 
 
 $source    = '
@@ -91,7 +90,7 @@ object(V8\Isolate)#3 (5) {
   ["memory_limit_hit":"V8\Isolate":private]=>
   bool(true)
 }
-object(V8\HeapStatistics)#14 (9) {
+object(V8\HeapStatistics)#11 (9) {
   ["total_heap_size":"V8\HeapStatistics":private]=>
   float(%d)
   ["total_heap_size_executable":"V8\HeapStatistics":private]=>

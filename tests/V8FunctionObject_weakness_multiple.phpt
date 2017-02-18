@@ -16,12 +16,8 @@ $v8_helper = new PhpV8Helpers($helper);
 require '.tracking_dtors.php';
 
 $isolate1 = new v8Tests\TrackingDtors\Isolate();
-
-$extensions1 = [];
-
 $global_template1 = new V8\ObjectTemplate($isolate1);
-
-$context1 = new v8Tests\TrackingDtors\Context($isolate1, $extensions1, $global_template1);
+$context1 = new v8Tests\TrackingDtors\Context($isolate1, $global_template1);
 $global_template1 = null;
 
 $func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) {

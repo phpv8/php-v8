@@ -45,7 +45,7 @@ $global_tpl = new \V8\ObjectTemplate($isolate);
 $global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $global_tpl->Set(new \V8\StringValue($isolate, 'test'), $func_test_tpl);
 
-$context = new \V8\Context($isolate, [], $global_tpl);
+$context = new \V8\Context($isolate, $global_tpl);
 
 
 $source = '
@@ -85,7 +85,7 @@ Message created from thrown value:
 V8\Message->Get(): string(18) "Uncaught #<Object>"
 V8\Message->GetSourceLine(): string(24) "        test(exception);"
 V8\Message->GetScriptOrigin():
-    object(V8\ScriptOrigin)#22 (6) {
+    object(V8\ScriptOrigin)#19 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(7) "test.js"
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -93,10 +93,14 @@ V8\Message->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#18 (2) {
+      object(V8\ScriptOriginOptions)#15 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_wasm":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_module":"V8\ScriptOriginOptions":private]=>
         bool(false)
       }
       ["script_id":"V8\ScriptOrigin":private]=>
@@ -119,7 +123,7 @@ Message created from created value:
 V8\Message->Get(): string(13) "Uncaught test"
 V8\Message->GetSourceLine(): string(24) "        test(exception);"
 V8\Message->GetScriptOrigin():
-    object(V8\ScriptOrigin)#36 (6) {
+    object(V8\ScriptOrigin)#33 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(7) "test.js"
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -127,10 +131,14 @@ V8\Message->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#35 (2) {
+      object(V8\ScriptOriginOptions)#32 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_wasm":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_module":"V8\ScriptOriginOptions":private]=>
         bool(false)
       }
       ["script_id":"V8\ScriptOrigin":private]=>

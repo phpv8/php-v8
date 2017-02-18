@@ -15,12 +15,11 @@ $v8_helper = new PhpV8Helpers($helper);
 
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
 $global_template1 = new V8\ObjectTemplate($isolate1);
 
 $global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
 
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 $value = new V8\SymbolObject($context1, new \V8\SymbolValue($isolate1, new \V8\StringValue($isolate1, 'test')));
 
@@ -86,7 +85,7 @@ object(V8\SymbolObject)#6 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#5 (4) {
+  object(V8\Context)#5 (3) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -99,9 +98,6 @@ object(V8\SymbolObject)#6 (2) {
       int(0)
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
-    }
-    ["extensions":"V8\Context":private]=>
-    array(0) {
     }
     ["global_template":"V8\Context":private]=>
     object(V8\ObjectTemplate)#4 (1) {

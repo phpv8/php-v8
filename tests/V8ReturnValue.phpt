@@ -16,13 +16,12 @@ $v8_helper = new PhpV8Helpers($helper);
 require '.tracking_dtors.php';
 
 $isolate1 = new v8Tests\TrackingDtors\Isolate();
-$extensions1 = [];
 
 $global_template1 = new V8\ObjectTemplate($isolate1);
 
 //$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
 
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 $scalar = new \V8\StringValue($isolate1, "test");
 $object = new \V8\ObjectValue($context1);

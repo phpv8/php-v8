@@ -15,7 +15,6 @@ $v8_helper = new PhpV8Helpers($helper);
 
 
 $isolate = new V8\Isolate();
-$extensions = [];
 $global_template = new V8\ObjectTemplate($isolate);
 
 $value = new V8\StringValue($isolate, 'TEST VALUE 111');
@@ -24,7 +23,7 @@ $value = new V8\StringValue($isolate, 'TEST VALUE 111');
 $global_template->Set(new \V8\StringValue($isolate, 'test'), $value);
 
 
-$context = new V8\Context($isolate, $extensions, $global_template);
+$context = new V8\Context($isolate, $global_template);
 
 
 $source    = 'var test = "passed"; 2+2*2-2/2 + test';
@@ -38,6 +37,11 @@ $helper->header('Accessors');
 $helper->method_matches($script, 'GetContext', $context);
 $helper->space();
 
+$helper->header('Get unbound script');
+$helper->method_matches_instanceof($script, 'GetUnboundScript', \V8\UnboundScript::class);
+$helper->dump($script->GetUnboundScript());
+$helper->space();
+
 $res = $script->Run($context);
 
 $helper->header('Script result accessors');
@@ -47,7 +51,7 @@ $helper->space();
 $v8_helper->run_checks($res, 'Checkers');
 ?>
 --EXPECT--
-object(V8\Script)#7 (4) {
+object(V8\Script)#7 (2) {
   ["isolate":"V8\Script":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -62,7 +66,7 @@ object(V8\Script)#7 (4) {
     bool(false)
   }
   ["context":"V8\Script":private]=>
-  object(V8\Context)#6 (4) {
+  object(V8\Context)#6 (3) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -75,9 +79,6 @@ object(V8\Script)#7 (4) {
       int(0)
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
-    }
-    ["extensions":"V8\Context":private]=>
-    array(0) {
     }
     ["global_template":"V8\Context":private]=>
     object(V8\ObjectTemplate)#4 (1) {
@@ -98,46 +99,30 @@ object(V8\Script)#7 (4) {
     ["global_object":"V8\Context":private]=>
     NULL
   }
-  ["source":"V8\Script":private]=>
-  object(V8\StringValue)#8 (1) {
-    ["isolate":"V8\Value":private]=>
-    object(V8\Isolate)#3 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-    }
-  }
-  ["origin":"V8\Script":private]=>
-  object(V8\ScriptOrigin)#9 (6) {
-    ["resource_name":"V8\ScriptOrigin":private]=>
-    string(7) "test.js"
-    ["resource_line_offset":"V8\ScriptOrigin":private]=>
-    int(0)
-    ["resource_column_offset":"V8\ScriptOrigin":private]=>
-    int(0)
-    ["options":"V8\ScriptOrigin":private]=>
-    object(V8\ScriptOriginOptions)#10 (2) {
-      ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-      bool(false)
-      ["is_opaque":"V8\ScriptOriginOptions":private]=>
-      bool(false)
-    }
-    ["script_id":"V8\ScriptOrigin":private]=>
-    int(0)
-    ["source_map_url":"V8\ScriptOrigin":private]=>
-    string(0) ""
-  }
 }
 Accessors:
 ----------
 V8\Script::GetContext() matches expected value
+
+
+Get unbound script:
+-------------------
+V8\Script::GetUnboundScript() result is instance of V8\UnboundScript
+object(V8\UnboundScript)#8 (1) {
+  ["isolate":"V8\UnboundScript":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
+    NULL
+    ["time_limit":"V8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"V8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+  }
+}
 
 
 Script result accessors:

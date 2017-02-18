@@ -26,15 +26,19 @@ void php_v8_create_script_origin_options(zval * return_value, v8::ScriptOriginOp
 
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_shared_cross_origin"), static_cast<zend_bool>(options.IsSharedCrossOrigin()));
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_opaque"), static_cast<zend_bool>(options.IsOpaque()));
+    zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_wasm"), static_cast<zend_bool>(options.IsWasm()));
+    zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_module"), static_cast<zend_bool>(options.IsModule()));
 }
 
 
 static PHP_METHOD(V8ScriptOriginOptions, __construct) {
     zend_bool is_shared_cross_origin = '\0';
     zend_bool is_opaque = '\0';
+    zend_bool is_wasm = '\0';
+    zend_bool is_module = '\0';
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|bb",
-                              &is_shared_cross_origin, &is_opaque) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|bbbb",
+                              &is_shared_cross_origin, &is_opaque, &is_wasm, &is_module) == FAILURE) {
         return;
     }
 
@@ -63,10 +67,32 @@ static PHP_METHOD(V8ScriptOriginOptions, IsOpaque) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_opaque"), 0, &rv), 1, 0);
 }
 
+static PHP_METHOD(V8ScriptOriginOptions, IsWasm) {
+    zval rv;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_wasm"), 0, &rv), 1, 0);
+}
+
+static PHP_METHOD(V8ScriptOriginOptions, IsModule) {
+    zval rv;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_module"), 0, &rv), 1, 0);
+}
+
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_script_origin_options___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
                 ZEND_ARG_TYPE_INFO(0, is_shared_cross_origin, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, is_opaque, _IS_BOOL, 0)
+                ZEND_ARG_TYPE_INFO(0, is_wasm, _IS_BOOL, 0)
+                ZEND_ARG_TYPE_INFO(0, is_module, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
@@ -76,12 +102,20 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsOpaque, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsWasm, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsModule, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_script_origin_options_methods[] = {
         PHP_ME(V8ScriptOriginOptions, __construct, arginfo_v8_script_origin_options___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
         PHP_ME(V8ScriptOriginOptions, IsSharedCrossOrigin, arginfo_v8_script_origin_options_IsSharedCrossOrigin, ZEND_ACC_PUBLIC)
         PHP_ME(V8ScriptOriginOptions, IsOpaque, arginfo_v8_script_origin_options_IsOpaque, ZEND_ACC_PUBLIC)
+        PHP_ME(V8ScriptOriginOptions, IsWasm, arginfo_v8_script_origin_options_IsWasm, ZEND_ACC_PUBLIC)
+        PHP_ME(V8ScriptOriginOptions, IsModule, arginfo_v8_script_origin_options_IsModule, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };
@@ -94,6 +128,8 @@ PHP_MINIT_FUNCTION(php_v8_script_origin_options) {
 
     zend_declare_property_bool(this_ce, ZEND_STRL("is_shared_cross_origin"), static_cast<zend_bool>(false), ZEND_ACC_PRIVATE);
     zend_declare_property_bool(this_ce, ZEND_STRL("is_opaque"), static_cast<zend_bool>(false), ZEND_ACC_PRIVATE);
+    zend_declare_property_bool(this_ce, ZEND_STRL("is_wasm"), static_cast<zend_bool>(false), ZEND_ACC_PRIVATE);
+    zend_declare_property_bool(this_ce, ZEND_STRL("is_module"), static_cast<zend_bool>(false), ZEND_ACC_PRIVATE);
 
     return SUCCESS;
 }

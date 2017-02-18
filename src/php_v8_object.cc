@@ -1196,7 +1196,7 @@ static PHP_METHOD(V8Object, CallAsFunction) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    if (!php_v8_function_unpack_args(arguments_zv, getThis(), 3, isolate, &argc, &argv)) {
+    if (!php_v8_function_unpack_args(arguments_zv, 3, isolate, &argc, &argv)) {
         return;
     }
 
@@ -1239,7 +1239,7 @@ static PHP_METHOD(V8Object, CallAsConstructor) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    if (!php_v8_function_unpack_args(arguments_zv, getThis(), 2, isolate, &argc, &argv)) {
+    if (!php_v8_function_unpack_args(arguments_zv, 2, isolate, &argc, &argv)) {
         return;
     }
 

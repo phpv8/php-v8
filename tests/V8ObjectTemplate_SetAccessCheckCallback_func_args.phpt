@@ -45,7 +45,7 @@ $test_obj_tpl->SetAccessCheckCallback($access_check_callback);
 
 $global_template->Set(new \V8\StringValue($isolate, 'test'), $test_obj_tpl);
 
-$context0 = new \V8\Context($isolate, [], $global_template);
+$context0 = new \V8\Context($isolate, $global_template);
 
 $other = $context0->GlobalObject()->Get($context0, new \V8\StringValue($isolate, 'test'));
 

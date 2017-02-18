@@ -16,11 +16,8 @@ $v8_helper = new PhpV8Helpers($helper);
 require '.tracking_dtors.php';
 
 $isolate1 = new v8Tests\TrackingDtors\Isolate();
-$extensions1 = [];
-
 $global_template1 = new V8\ObjectTemplate($isolate1);
-
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 
 $func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) {
@@ -74,7 +71,7 @@ object(v8Tests\TrackingDtors\FunctionObject)#6 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#5 (4) {
+  object(V8\Context)#5 (3) {
     ["isolate":"V8\Context":private]=>
     object(v8Tests\TrackingDtors\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -87,9 +84,6 @@ object(v8Tests\TrackingDtors\FunctionObject)#6 (2) {
       int(0)
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
-    }
-    ["extensions":"V8\Context":private]=>
-    array(0) {
     }
     ["global_template":"V8\Context":private]=>
     object(V8\ObjectTemplate)#4 (1) {
@@ -176,7 +170,7 @@ Should output Hello World string
 string(11) "Script done"
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
-    object(V8\ScriptOrigin)#133 (6) {
+    object(V8\ScriptOrigin)#127 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -184,10 +178,14 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#134 (2) {
+      object(V8\ScriptOriginOptions)#131 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_wasm":"V8\ScriptOriginOptions":private]=>
+        bool(false)
+        ["is_module":"V8\ScriptOriginOptions":private]=>
         bool(false)
       }
       ["script_id":"V8\ScriptOrigin":private]=>

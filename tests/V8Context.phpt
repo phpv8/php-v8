@@ -12,15 +12,6 @@ require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
 $isolate1 = new \V8\Isolate();
-$extensions1 = [];
-//$global_template1 = new V8\ObjectTemplate($isolate1);
-//$global_template1->Set('print', $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
-
-try{
-    $context = new \V8\Context($isolate1, ['some', 'extensions']);
-} catch(Exception $e) {
-    $helper->exception_export($e);
-}
 
 $context = new \V8\Context($isolate1);
 $helper->pretty_dump('Estimated memory usage size by this context', $context->EstimatedSize());
@@ -50,7 +41,6 @@ $helper->pretty_dump('Estimated memory usage size by this context', $context->Es
 
 ?>
 --EXPECTF--
-ErrorException: Extensions are not supported yet
 Estimated memory usage size by this context: int(%d)
 V8\Context::GlobalObject() result is instance of V8\ObjectValue
 CHECK $global->SameValue($context->GlobalObject()): OK

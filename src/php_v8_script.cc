@@ -16,6 +16,7 @@
 
 #include "php_v8_script.h"
 #include "php_v8_script_origin.h"
+#include "php_v8_unbound_script.h"
 #include "php_v8_string.h"
 #include "php_v8_value.h"
 #include "php_v8.h"
@@ -32,6 +33,23 @@ v8::Local<v8::Script> php_v8_script_get_local(v8::Isolate *isolate, php_v8_scrip
 
 php_v8_script_t * php_v8_script_fetch_object(zend_object *obj) {
     return (php_v8_script_t *)((char *)obj - XtOffsetOf(php_v8_script_t, std));
+}
+
+php_v8_script_t *php_v8_create_script(zval *return_value, v8::Local<v8::Script> local_script, php_v8_context_t *php_v8_context) {
+    assert(!local_script.IsEmpty());
+
+    PHP_V8_DECLARE_ISOLATE(php_v8_context->php_v8_isolate);
+
+    object_init_ex(return_value, this_ce);
+
+    PHP_V8_FETCH_SCRIPT_INTO(return_value, php_v8_script);
+
+    PHP_V8_STORE_POINTER_TO_ISOLATE(php_v8_script, php_v8_context->php_v8_isolate);
+    PHP_V8_STORE_POINTER_TO_CONTEXT(php_v8_script, php_v8_context);
+
+    php_v8_script->persistent->Reset(isolate, local_script);
+
+    return php_v8_script;
 }
 
 static void php_v8_script_free(zend_object *object)
@@ -92,28 +110,16 @@ static PHP_METHOD(V8Script, __construct)
     PHP_V8_SCRIPT_STORE_CONTEXT(getThis(), php_v8_context_zv);
     PHP_V8_SCRIPT_STORE_ISOLATE(getThis(), PHP_V8_CONTEXT_READ_ISOLATE(php_v8_context_zv));
 
-    zend_update_property(this_ce, getThis(), ZEND_STRL("source"), php_v8_string_zv);
-
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_script);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_script);
 
-    if (php_v8_origin_zv == NULL) {
-        origin = new v8::ScriptOrigin(v8::Undefined(isolate));
-
-        zval origin_zv;
-        php_v8_create_script_origin(&origin_zv, context, *origin);
-        zend_update_property(this_ce, getThis(), ZEND_STRL("origin"), &origin_zv);
-
-        zval_ptr_dtor(&origin_zv);
-    } else {
+    if (php_v8_origin_zv != NULL) {
         origin = php_v8_create_script_origin_from_zval(php_v8_origin_zv, isolate);
 
         if (!origin) {
             /* exception was already thrown, here we just silently exit */
             return;
         }
-
-        zend_update_property(this_ce, getThis(), ZEND_STRL("origin"), php_v8_origin_zv);
     }
 
     v8::Local<v8::String> local_source =  php_v8_value_get_string_local(isolate, php_v8_string);
@@ -157,32 +163,6 @@ static PHP_METHOD(V8Script, GetContext)
     RETVAL_ZVAL(PHP_V8_SCRIPT_READ_CONTEXT(getThis()), 1, 0);
 }
 
-static PHP_METHOD(V8Script, getSource)
-{
-    zval rv;
-
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_FETCH_SCRIPT_WITH_CHECK(getThis(), php_v8_script);
-
-    RETURN_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("source"), 0, &rv), 1, 0);
-}
-
-static PHP_METHOD(V8Script, getOrigin)
-{
-    zval rv;
-
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_FETCH_SCRIPT_WITH_CHECK(getThis(), php_v8_script);
-
-    RETURN_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("origin"), 0, &rv), 1, 0);
-}
-
 static PHP_METHOD(V8Script, Run)
 {
     zval *php_v8_context_zv;
@@ -207,45 +187,58 @@ static PHP_METHOD(V8Script, Run)
     v8::MaybeLocal<v8::Value> result = local_script->Run(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_script->php_v8_context, try_catch);
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(result, "Failed to create run script");
+    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(result, "Failed to run script");
 
     v8::Local<v8::Value> local_result = result.ToLocalChecked();
 
     php_v8_get_or_create_value(return_value, local_result, isolate);
 }
 
+static PHP_METHOD(V8Script, GetUnboundScript)
+{
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_source___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+    PHP_V8_FETCH_SCRIPT_WITH_CHECK(getThis(), php_v8_script);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_script);
+    PHP_V8_ENTER_STORED_CONTEXT(php_v8_script);
+
+    v8::Local<v8::Script> local_script = php_v8_script_get_local(isolate, php_v8_script);
+
+    v8::Local<v8::UnboundScript> unbound_script = local_script->GetUnboundScript();
+
+    php_v8_create_unbound_script(return_value, php_v8_script->php_v8_isolate, unbound_script);
+}
+
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_script___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
     ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
     ZEND_ARG_OBJ_INFO(0, source, V8\\StringValue, 0)
     ZEND_ARG_OBJ_INFO(0, origin, V8\\ScriptOrigin, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_getSource, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_getOrigin, ZEND_RETURN_VALUE, 0, V8\\ScriptOrigin, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_source_Run, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_Run, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_GetUnboundScript, ZEND_RETURN_VALUE, 0, V8\\UnboundScript, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_script_methods[] = {
-    PHP_ME(V8Script, __construct, arginfo_v8_source___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(V8Script, GetIsolate, arginfo_v8_source_GetIsolate, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Script, GetContext, arginfo_v8_source_GetContext, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Script, getSource, arginfo_v8_source_getSource, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Script, getOrigin, arginfo_v8_source_getOrigin, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, __construct, arginfo_v8_script___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_ME(V8Script, GetIsolate, arginfo_v8_script_GetIsolate, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, GetContext, arginfo_v8_script_GetContext, ZEND_ACC_PUBLIC)
 
-    PHP_ME(V8Script, Run, arginfo_v8_source_Run, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, Run, arginfo_v8_script_Run, ZEND_ACC_PUBLIC)
+    PHP_ME(V8Script, GetUnboundScript, arginfo_v8_script_GetUnboundScript, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };
@@ -261,8 +254,6 @@ PHP_MINIT_FUNCTION(php_v8_script)
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("context"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("source"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("origin"), ZEND_ACC_PRIVATE);
 
     memcpy(&php_v8_script_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 

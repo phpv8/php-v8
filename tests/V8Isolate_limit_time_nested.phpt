@@ -11,11 +11,10 @@ $helper = require '.testsuite.php';
 require '.tracking_dtors.php';
 
 $isolate1 = new V8\Isolate();
-$extensions1 = [];
 
 $global_template1 = new V8\ObjectTemplate($isolate1);
 
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 $func = new V8\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) use (&$helper) {
     if (!$info->Arguments()) {

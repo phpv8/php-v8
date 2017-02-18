@@ -13,11 +13,8 @@ $helper = require '.testsuite.php';
 require '.tracking_dtors.php';
 
 $isolate1 = new v8Tests\TrackingDtors\Isolate();
-$extensions1 = [];
-
 $global_template1 = new V8\ObjectTemplate($isolate1);
-
-$context1 = new V8\Context($isolate1, $extensions1, $global_template1);
+$context1 = new V8\Context($isolate1, $global_template1);
 
 // TEST: Pass context instead of isolate to FunctionTemplate
 
@@ -81,7 +78,7 @@ echo 'We are done for now', PHP_EOL;
 Function called
 Object representation:
 ----------------------
-object(V8\FunctionCallbackInfo)#13 (0) {
+object(V8\FunctionCallbackInfo)#10 (0) {
 }
 
 
@@ -99,7 +96,7 @@ V8\Exceptions\GenericException: Attempt to use callback info object out of callb
 
 Object representation (outside of context):
 -------------------------------------------
-object(V8\FunctionCallbackInfo)#13 (0) {
+object(V8\FunctionCallbackInfo)#10 (0) {
 }
 
 

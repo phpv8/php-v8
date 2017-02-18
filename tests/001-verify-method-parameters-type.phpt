@@ -35,7 +35,7 @@ class Verifier
             return;
         }
 
-        if (!(class_exists($type))) {
+        if (!class_exists($type) && !interface_exists($type)) {
             $method_name = $parameter->getDeclaringClass()->getName() . '::' . $parameter->getDeclaringFunction()->getName();
             $param_name  = $parameter->getName();
 

@@ -156,6 +156,24 @@ static PHP_METHOD(V8Symbol, GetUnscopables)
     php_v8_get_or_create_value(return_value, local_symbol, isolate);
 }
 
+static PHP_METHOD(V8Symbol, GetToPrimitive)
+{
+    zval *php_v8_isolate_zv;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(php_v8_isolate_zv, php_v8_isolate);
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
+
+    v8::Local<v8::Symbol> local_symbol = v8::Symbol::GetToPrimitive(isolate);
+
+    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
+
+    php_v8_get_or_create_value(return_value, local_symbol, isolate);
+}
+
 static PHP_METHOD(V8Symbol, GetToStringTag)
 {
     zval *php_v8_isolate_zv;
@@ -219,6 +237,10 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_GetUnscopables, 
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_GetToPrimitive, ZEND_RETURN_VALUE, 1, V8\\SymbolValue, 0)
+                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_GetToStringTag, ZEND_RETURN_VALUE, 1, V8\\SymbolValue, 0)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
@@ -238,6 +260,7 @@ static const zend_function_entry php_v8_symbol_methods[] = {
 
     PHP_ME(V8Symbol, GetIterator,           arginfo_v8_symbol_GetIterator, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(V8Symbol, GetUnscopables,        arginfo_v8_symbol_GetUnscopables, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetToPrimitive,        arginfo_v8_symbol_GetToPrimitive, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(V8Symbol, GetToStringTag,        arginfo_v8_symbol_GetToStringTag, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(V8Symbol, GetIsConcatSpreadable, arginfo_v8_symbol_GetIsConcatSpreadable, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 

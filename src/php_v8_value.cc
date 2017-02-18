@@ -262,19 +262,15 @@ zend_class_entry *php_v8_get_class_entry_from_value(v8::Local<v8::Value> value) 
         return php_v8_symbol_class_entry;
     }
 
-    /* currently we ignore detectind v8::Number sub-types */
-
-    /*
-    if (value->IsUint32()) {
-        return php_v8_uint32_class_entry;
-    }
-
-    if (value->IsInt32()) {
-        return php_v8_int32_class_entry;
-    }
-    */
-
     if (value->IsNumber()) {
+        if (value->IsInt32()) {
+            return php_v8_int32_class_entry;
+        }
+
+        if (value->IsUint32()) {
+            return php_v8_uint32_class_entry;
+        }
+
         return php_v8_number_class_entry;
     }
 
@@ -435,7 +431,6 @@ static PHP_V8_VALUE_IS_METHOD(V8Value, IsUint32Array)
 static PHP_V8_VALUE_IS_METHOD(V8Value, IsInt32Array)
 static PHP_V8_VALUE_IS_METHOD(V8Value, IsFloat32Array)
 static PHP_V8_VALUE_IS_METHOD(V8Value, IsFloat64Array)
-//static PHP_V8_VALUE_IS_METHOD(V8Value, IsFloat32x4)  // Experimental
 static PHP_V8_VALUE_IS_METHOD(V8Value, IsDataView)
 static PHP_V8_VALUE_IS_METHOD(V8Value, IsSharedArrayBuffer)
 static PHP_V8_VALUE_IS_METHOD(V8Value, IsProxy)
@@ -972,7 +967,6 @@ PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsUint32Array)
 PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsInt32Array)
 PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsFloat32Array)
 PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsFloat64Array)
-//PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsFloat32x4)  // Experimental
 PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsDataView)
 PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsSharedArrayBuffer)
 PHP_V8_VALUE_IS_METHOD_ARG_INFO(IsProxy)
@@ -1103,7 +1097,6 @@ static const zend_function_entry php_v8_value_methods[] = {
         PHP_ME(V8Value, IsInt32Array,                   arginfo_v8_value_IsInt32Array,                  ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, IsFloat32Array,                 arginfo_v8_value_IsFloat32Array,                ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, IsFloat64Array,                 arginfo_v8_value_IsFloat64Array,                ZEND_ACC_PUBLIC)
-//        PHP_ME(V8Value, IsFloat32x4,                    arginfo_v8_value_IsFloat32x4,                   ZEND_ACC_PUBLIC) // Experimental
         PHP_ME(V8Value, IsDataView,                     arginfo_v8_value_IsDataView,                    ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, IsSharedArrayBuffer,            arginfo_v8_value_IsSharedArrayBuffer,           ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, IsProxy,                        arginfo_v8_value_IsProxy,                       ZEND_ACC_PUBLIC)

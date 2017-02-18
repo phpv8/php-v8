@@ -58,7 +58,7 @@ $global_tpl = new \V8\ObjectTemplate($isolate);
 $global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $global_tpl->Set(new \V8\StringValue($isolate, 'test'), $func_test_tpl);
 
-$context = new \V8\Context($isolate, [], $global_tpl);
+$context = new \V8\Context($isolate, $global_tpl);
 
 
 $source = '
@@ -112,7 +112,7 @@ Stack trace created from thrown value:
 V8\StackTrace->getFrames():
     array(1) {
       [0]=>
-      object(V8\StackFrame)#20 (8) {
+      object(V8\StackFrame)#17 (8) {
         ["line_number":"V8\StackFrame":private]=>
         int(5)
         ["column":"V8\StackFrame":private]=>
@@ -133,7 +133,7 @@ V8\StackTrace->getFrames():
     }
 V8\StackTrace->GetFrameCount(): int(1)
 V8\StackTrace->AsArray():
-    object(V8\ArrayObject)#18 (2) {
+    object(V8\ArrayObject)#15 (2) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -148,7 +148,7 @@ V8\StackTrace->AsArray():
         bool(false)
       }
       ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#8 (4) {
+      object(V8\Context)#8 (3) {
         ["isolate":"V8\Context":private]=>
         object(V8\Isolate)#3 (5) {
           ["snapshot":"V8\Isolate":private]=>
@@ -161,9 +161,6 @@ V8\StackTrace->AsArray():
           int(0)
           ["memory_limit_hit":"V8\Isolate":private]=>
           bool(false)
-        }
-        ["extensions":"V8\Context":private]=>
-        array(0) {
         }
         ["global_template":"V8\Context":private]=>
         object(V8\ObjectTemplate)#7 (1) {
