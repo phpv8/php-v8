@@ -39,7 +39,7 @@ void php_v8_object_template_Set(INTERNAL_FUNCTION_PARAMETERS) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_template);
 
-    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(isolate, php_v8_template);
+    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_template);
 
     php_v8_template_Set(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
@@ -50,7 +50,7 @@ void php_v8_function_template_Set(INTERNAL_FUNCTION_PARAMETERS)
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_template);
 
-    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_template);
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_template);
 
     php_v8_template_Set(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
@@ -61,7 +61,7 @@ void php_v8_object_template_SetAccessorProperty(INTERNAL_FUNCTION_PARAMETERS) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_template);
 
-    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(isolate, php_v8_template);
+    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_template);
 
     php_v8_template_SetAccessorProperty(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
@@ -72,7 +72,7 @@ void php_v8_function_template_SetAccessorProperty(INTERNAL_FUNCTION_PARAMETERS)
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_template);
 
-    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_template);
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_template);
 
     php_v8_template_SetAccessorProperty(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
@@ -84,7 +84,7 @@ void php_v8_object_template_SetNativeDataProperty(INTERNAL_FUNCTION_PARAMETERS) 
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_template);
 
-    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(isolate, php_v8_template);
+    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_template);
 
     php_v8_template_SetNativeDataProperty(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
@@ -95,7 +95,7 @@ void php_v8_function_template_SetNativeDataProperty(INTERNAL_FUNCTION_PARAMETERS
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_template);
 
-    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_template);
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_template);
 
     php_v8_template_SetNativeDataProperty(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
@@ -133,7 +133,7 @@ void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* p
 
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
 
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     if (instanceof_function(Z_OBJCE_P(php_v8_value_zv), php_v8_value_class_entry)) {
         // set persistent
@@ -141,7 +141,7 @@ void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* p
 
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_value_to_set);
 
-        local_template->Set(local_name, php_v8_value_get_value_local(isolate, php_v8_value_to_set), static_cast<v8::PropertyAttribute>(attributes));
+        local_template->Set(local_name, php_v8_value_get_local(php_v8_value_to_set), static_cast<v8::PropertyAttribute>(attributes));
     } else if (instanceof_function(Z_OBJCE_P(php_v8_value_zv), php_v8_object_template_class_entry)) {
         // set object template
         PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(php_v8_value_zv, php_v8_object_template_to_set);
@@ -149,7 +149,7 @@ void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* p
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_object_template_to_set);
 
         if (php_v8_template_node_set(php_v8_template, php_v8_object_template_to_set)) {
-            local_template->Set(local_name, php_v8_object_template_get_local(isolate, php_v8_object_template_to_set), static_cast<v8::PropertyAttribute>(attributes));
+            local_template->Set(local_name, php_v8_object_template_get_local(php_v8_object_template_to_set), static_cast<v8::PropertyAttribute>(attributes));
         }
 
     } else if (instanceof_function(Z_OBJCE_P(php_v8_value_zv), php_v8_function_template_class_entry)) {
@@ -159,7 +159,7 @@ void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* p
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_function_template_to_set);
 
         if (php_v8_template_node_set(php_v8_template, php_v8_function_template_to_set)) {
-            local_template->Set(local_name, php_v8_function_template_get_local(isolate, php_v8_function_template_to_set), static_cast<v8::PropertyAttribute>(attributes));
+            local_template->Set(local_name, php_v8_function_template_get_local(php_v8_function_template_to_set), static_cast<v8::PropertyAttribute>(attributes));
         }
     } else {
         // should never get here
@@ -187,7 +187,7 @@ void php_v8_template_SetAccessorProperty(v8::Isolate *isolate, v8::Local<T> loca
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
     settings = settings ? settings & PHP_V8_ACCESS_CONTROL_FLAGS : settings;
 
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
 
     v8::Local<v8::FunctionTemplate> getter;
@@ -199,7 +199,7 @@ void php_v8_template_SetAccessorProperty(v8::Isolate *isolate, v8::Local<T> loca
 
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_getter);
 
-        getter = php_v8_function_template_get_local(isolate, php_v8_getter);
+        getter = php_v8_function_template_get_local(php_v8_getter);
     }
 
     if (Z_TYPE_P(setter_zv) != IS_NULL) {
@@ -208,7 +208,7 @@ void php_v8_template_SetAccessorProperty(v8::Isolate *isolate, v8::Local<T> loca
 
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_setter);
 
-        setter = php_v8_function_template_get_local(isolate, php_v8_setter);
+        setter = php_v8_function_template_get_local(php_v8_setter);
     }
 
     local_template->SetAccessorProperty(local_name, getter, setter, static_cast<v8::PropertyAttribute>(attributes), static_cast<v8::AccessControl>(settings));
@@ -238,7 +238,7 @@ void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> lo
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
     settings = settings ? settings & PHP_V8_ACCESS_CONTROL_FLAGS : settings;
 
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     v8::AccessorNameGetterCallback getter;
     v8::AccessorNameSetterCallback setter = 0;

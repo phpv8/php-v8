@@ -32,7 +32,6 @@ extern zend_class_entry* php_v8_function_template_class_entry;
 typedef struct _php_v8_function_template_t php_v8_function_template_t;
 
 
-extern v8::Local<v8::FunctionTemplate> php_v8_function_template_get_local(v8::Isolate *isolate, php_v8_function_template_t *php_v8_function_template);
 extern php_v8_function_template_t * php_v8_function_template_fetch_object(zend_object *obj);
 
 
@@ -64,6 +63,10 @@ struct _php_v8_function_template_t {
 
     zend_object std;
 };
+
+inline v8::Local<v8::FunctionTemplate> php_v8_function_template_get_local(php_v8_function_template_t *php_v8_function_template) {
+    return v8::Local<v8::FunctionTemplate>::New(php_v8_function_template->php_v8_isolate->isolate, *php_v8_function_template->persistent);
+}
 
 
 PHP_MINIT_FUNCTION(php_v8_function_template);

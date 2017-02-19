@@ -24,9 +24,6 @@
 zend_class_entry *php_v8_string_object_class_entry;
 #define this_ce php_v8_string_object_class_entry
 
-v8::Local<v8::StringObject> php_v8_value_get_string_object_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::StringObject>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
 
 static PHP_METHOD(V8StringObject, __construct) {
     zval rv;
@@ -41,7 +38,7 @@ static PHP_METHOD(V8StringObject, __construct) {
 
     PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_string_zv, php_v8_value_to_set);
 
-    v8::Local<v8::String> local_string = php_v8_value_get_string_local(isolate, php_v8_value_to_set);
+    v8::Local<v8::String> local_string = php_v8_value_get_local_as<v8::String>(php_v8_value_to_set);
     v8::Local<v8::StringObject> local_string_obj = v8::StringObject::New(local_string).As<v8::StringObject>();
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_string_obj, "Failed to create StringObject value");
@@ -60,7 +57,7 @@ static PHP_METHOD(V8StringObject, ValueOf) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
-    v8::Local<v8::String> local_string = php_v8_value_get_string_object_local(isolate, php_v8_value)->ValueOf();
+    v8::Local<v8::String> local_string = php_v8_value_get_local_as<v8::StringObject>(php_v8_value)->ValueOf();
 
     php_v8_get_or_create_value(return_value, local_string, php_v8_value->php_v8_isolate);
 }

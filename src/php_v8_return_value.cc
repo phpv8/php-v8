@@ -150,7 +150,7 @@ static PHP_METHOD(V8ReturnValue, Set) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_value_zv, php_v8_value);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_return_value, php_v8_value);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(php_v8_return_value->php_v8_isolate->isolate, php_v8_value);
+    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
 
     if (PHP_V8_RETVAL_ACCEPTS_VOID == php_v8_return_value->accepts) {
         PHP_V8_THROW_EXCEPTION("ReturnValue doesn't accept any value");

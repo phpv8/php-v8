@@ -27,7 +27,6 @@ extern "C" {
 extern zend_class_entry* php_v8_regexp_class_entry;
 extern zend_class_entry* php_v8_regexp_flags_class_entry;
 
-extern v8::Local<v8::RegExp> php_v8_value_get_regexp_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
 
 #define PHP_V8_REGEXP_FLAGS (v8::RegExp::Flags::kNone | v8::RegExp::Flags::kGlobal | v8::RegExp::Flags::kIgnoreCase | v8::RegExp::Flags::kMultiline | v8::RegExp::Flags::kSticky | v8::RegExp::Flags::kUnicode)
 

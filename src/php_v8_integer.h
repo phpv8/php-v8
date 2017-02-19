@@ -26,7 +26,6 @@ extern "C" {
 
 extern zend_class_entry* php_v8_integer_class_entry;
 
-extern v8::Local<v8::Integer> php_v8_value_get_integer_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
 
 #define PHP_V8_CHECK_INTEGER_RANGE(val, message) \
     if ((val) > UINT32_MAX || (val) < INT32_MIN) { \

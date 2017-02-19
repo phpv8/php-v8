@@ -24,9 +24,6 @@
 zend_class_entry *php_v8_array_class_entry;
 #define this_ce php_v8_array_class_entry
 
-v8::Local<v8::Array> php_v8_value_get_array_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::Array>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
 
 static PHP_METHOD(V8Array, __construct) {
     zval rv;
@@ -60,7 +57,7 @@ static PHP_METHOD(V8Array, Length) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
-    RETURN_LONG((zend_long) php_v8_value_get_array_local(isolate, php_v8_value)->Length());
+    RETURN_LONG(static_cast<zend_long >(php_v8_value_get_local_as<v8::Array>(php_v8_value)->Length()));
 }
 
 

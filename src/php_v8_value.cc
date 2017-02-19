@@ -50,9 +50,6 @@ zend_class_entry *php_v8_value_class_entry;
 
 static zend_object_handlers php_v8_value_object_handlers;
 
-v8::Local<v8::Value> php_v8_value_get_value_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::Value>::New(isolate, *php_v8_value->persistent);
-};
 
 php_v8_value_t *php_v8_value_fetch_object(zend_object *obj) {
     return (php_v8_value_t *)((char *)obj - XtOffsetOf(php_v8_value_t, std));
@@ -108,8 +105,7 @@ static void php_v8_value_free(zend_object *object) {
         PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
         // TODO: in general, this makes sense only for objects
-        v8::Local<v8::Value> local_value = php_v8_value_get_value_local(php_v8_value->php_v8_isolate->isolate,
-                                                                        php_v8_value);
+        v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
 
         if (local_value->IsObject()) {
             // TODO: at this point we SHOULD drop link to complete object and replace it with link to persistent handler and callbacks
@@ -349,17 +345,17 @@ static PHP_METHOD(V8Value, GetIsolate) {
           v8::Value::Is* methods bindings
    ----------------------------------------------------------------------- */
 
-#define PHP_V8_VALUE_IS_METHOD(classname, name)                                 \
-    PHP_METHOD(classname, name) {                                               \
-        if (zend_parse_parameters_none() == FAILURE) {                          \
-            return;                                                             \
-        }                                                                       \
-                                                                                \
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);                     \
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);                                  \
-                                                                                \
-    RETURN_BOOL(php_v8_value_get_value_local(isolate, php_v8_value)->name());   \
-}                                                                               \
+#define PHP_V8_VALUE_IS_METHOD(classname, name)                             \
+    PHP_METHOD(classname, name) {                                           \
+        if (zend_parse_parameters_none() == FAILURE) {                      \
+            return;                                                         \
+        }                                                                   \
+                                                                            \
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);                 \
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);                              \
+                                                                            \
+    RETURN_BOOL(php_v8_value_get_local(php_v8_value)->name());   \
+}                                                                           \
 
 static PHP_V8_VALUE_IS_METHOD(V8Value, IsUndefined)
 static PHP_V8_VALUE_IS_METHOD(V8Value, IsNull)
@@ -392,11 +388,11 @@ static PHP_METHOD(V8Value, IsNativeError) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
     // NativeError is always object (see v8 sources)
-    if (!php_v8_value_get_value_local(isolate, php_v8_value)->IsObject()) {
+    if (!php_v8_value_get_local(php_v8_value)->IsObject()) {
         RETURN_FALSE;
     }
 
-    v8::Local<v8::Object> local = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     // We enter object's context, without it IsNativeError() causes segfault
     v8::Local<v8::Context> context = local->CreationContext();
@@ -452,13 +448,13 @@ static PHP_METHOD(V8Value, ToBoolean) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::Boolean> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToBoolean(context);
+    v8::MaybeLocal<v8::Boolean> maybe_local = php_v8_value_get_local(php_v8_value)->ToBoolean(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");
@@ -480,13 +476,13 @@ static PHP_METHOD(V8Value, ToNumber) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::Number> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToNumber(context);
+    v8::MaybeLocal<v8::Number> maybe_local = php_v8_value_get_local(php_v8_value)->ToNumber(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");
@@ -508,13 +504,13 @@ static PHP_METHOD(V8Value, ToString) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::String> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToString(context);
+    v8::MaybeLocal<v8::String> maybe_local = php_v8_value_get_local(php_v8_value)->ToString(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");
@@ -536,13 +532,13 @@ static PHP_METHOD(V8Value, ToDetailString) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::String> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToDetailString(context);
+    v8::MaybeLocal<v8::String> maybe_local = php_v8_value_get_local(php_v8_value)->ToDetailString(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");
@@ -564,13 +560,13 @@ static PHP_METHOD(V8Value, ToObject) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::Object> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToObject(context);
+    v8::MaybeLocal<v8::Object> maybe_local = php_v8_value_get_local(php_v8_value)->ToObject(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");
@@ -592,13 +588,13 @@ static PHP_METHOD(V8Value, ToInteger) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::Integer> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToInteger(context);
+    v8::MaybeLocal<v8::Integer> maybe_local = php_v8_value_get_local(php_v8_value)->ToInteger(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");
@@ -620,13 +616,13 @@ static PHP_METHOD(V8Value, ToUint32) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::Uint32> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToUint32(context);
+    v8::MaybeLocal<v8::Uint32> maybe_local = php_v8_value_get_local(php_v8_value)->ToUint32(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");
@@ -649,13 +645,13 @@ static PHP_METHOD(V8Value, ToInt32) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::Int32> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToInt32(context);
+    v8::MaybeLocal<v8::Int32> maybe_local = php_v8_value_get_local(php_v8_value)->ToInt32(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");
@@ -677,13 +673,13 @@ static PHP_METHOD(V8Value, ToArrayIndex) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
 
-    v8::MaybeLocal<v8::Uint32> maybe_local = php_v8_value_get_value_local(isolate, php_v8_value)->ToArrayIndex(context);
+    v8::MaybeLocal<v8::Uint32> maybe_local = php_v8_value_get_local(php_v8_value)->ToArrayIndex(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local, "Failed to convert");
@@ -711,10 +707,10 @@ static PHP_METHOD(V8Value, BooleanValue) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_DECLARE_CONTEXT(php_v8_context);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Maybe<bool> maybe = php_v8_value_get_value_local(isolate, php_v8_value)->BooleanValue(context);
+    v8::Maybe<bool> maybe = php_v8_value_get_local(php_v8_value)->BooleanValue(context);
 
     if (maybe.IsNothing()) {
         PHP_V8_THROW_EXCEPTION("Failed to convert");
@@ -736,10 +732,10 @@ static PHP_METHOD(V8Value, NumberValue) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_DECLARE_CONTEXT(php_v8_context);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Maybe<double> maybe = php_v8_value_get_value_local(isolate, php_v8_value)->NumberValue(context);
+    v8::Maybe<double> maybe = php_v8_value_get_local(php_v8_value)->NumberValue(context);
 
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe, "Failed to convert");
 
@@ -758,10 +754,10 @@ static PHP_METHOD(V8Value, IntegerValue) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_DECLARE_CONTEXT(php_v8_context);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Maybe<int64_t> maybe = php_v8_value_get_value_local(isolate, php_v8_value)->IntegerValue(context);
+    v8::Maybe<int64_t> maybe = php_v8_value_get_local(php_v8_value)->IntegerValue(context);
 
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe, "Failed to convert");
 
@@ -780,10 +776,10 @@ static PHP_METHOD(V8Value, Uint32Value) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_DECLARE_CONTEXT(php_v8_context);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Maybe<uint32_t> maybe = php_v8_value_get_value_local(isolate, php_v8_value)->Uint32Value(context);
+    v8::Maybe<uint32_t> maybe = php_v8_value_get_local(php_v8_value)->Uint32Value(context);
 
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe, "Failed to convert");
 
@@ -802,10 +798,10 @@ static PHP_METHOD(V8Value, Int32Value) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_DECLARE_CONTEXT(php_v8_context);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Maybe<int32_t> maybe = php_v8_value_get_value_local(isolate, php_v8_value)->Int32Value(context);
+    v8::Maybe<int32_t> maybe = php_v8_value_get_local(php_v8_value)->Int32Value(context);
 
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe, "Failed to convert");
 
@@ -830,13 +826,10 @@ static PHP_METHOD(V8Value, Equals) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_value_that);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    PHP_V8_DECLARE_CONTEXT(php_v8_context); // TODO: Declare or enter?
-
-    v8::Maybe<bool> maybe = php_v8_value_get_value_local(isolate, php_v8_value)->Equals(context,
-                                                                                       php_v8_value_get_value_local(
-                                                                                              isolate, php_v8_value_that));
+    v8::Maybe<bool> maybe = php_v8_value_get_local(php_v8_value)->Equals(context,php_v8_value_get_local(php_v8_value_that));
 
     if (maybe.IsNothing()) {
         PHP_V8_THROW_EXCEPTION("Failed to compare");
@@ -860,8 +853,7 @@ static PHP_METHOD(V8Value, StrictEquals) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
-    bool val = php_v8_value_get_value_local(isolate, php_v8_value)->StrictEquals(
-            php_v8_value_get_value_local(isolate, php_v8_value_that));
+    bool val = php_v8_value_get_local(php_v8_value)->StrictEquals(php_v8_value_get_local(php_v8_value_that));
 
     RETVAL_BOOL(val);
 }
@@ -880,8 +872,7 @@ static PHP_METHOD(V8Value, SameValue) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
-    bool val = php_v8_value_get_value_local(isolate, php_v8_value)->SameValue(
-            php_v8_value_get_value_local(isolate, php_v8_value_that));
+    bool val = php_v8_value_get_local(php_v8_value)->SameValue(php_v8_value_get_local(php_v8_value_that));
 
     RETVAL_BOOL(val);
 }
@@ -900,7 +891,7 @@ static PHP_METHOD(V8Value, TypeOf) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
-    v8::Local<v8::String> local_string = php_v8_value_get_value_local(isolate, php_v8_value)->TypeOf(isolate);
+    v8::Local<v8::String> local_string = php_v8_value_get_local(php_v8_value)->TypeOf(isolate);
 
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(local_string, "Failed to get type of value");
 

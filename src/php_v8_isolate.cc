@@ -401,8 +401,7 @@ static PHP_METHOD(V8Isolate, ThrowException) {
 
     PHP_V8_ISOLATE_REQUIRE_IN_CONTEXT(isolate);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(isolate, php_v8_value);
-
+    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
     v8::Local<v8::Value> local_return_value = isolate->ThrowException(local_value);
 
     /* From v8 source code, Isolate::ThrowException() returns v8::Undefined() */

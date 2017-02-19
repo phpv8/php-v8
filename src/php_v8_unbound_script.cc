@@ -27,10 +27,6 @@ zend_class_entry* php_v8_unbound_script_class_entry;
 static zend_object_handlers php_v8_unbound_script_object_handlers;
 
 
-v8::Local<v8::UnboundScript> php_v8_unbound_script_get_local(v8::Isolate *isolate, php_v8_unbound_script_t *php_v8_unbound_script) {
-    return v8::Local<v8::UnboundScript>::New(isolate, *php_v8_unbound_script->persistent);
-}
-
 php_v8_unbound_script_t * php_v8_unbound_script_fetch_object(zend_object *obj) {
     return (php_v8_unbound_script_t *)((char *)obj - XtOffsetOf(php_v8_unbound_script_t, std));
 }
@@ -118,7 +114,7 @@ static PHP_METHOD(V8UnboundScript, BindToContext)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(isolate, php_v8_unbound_script);
+    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(php_v8_unbound_script);
     v8::Local<v8::Script> local_script = local_unbound_script->BindToCurrentContext();
 
     php_v8_create_script(return_value, local_script, php_v8_context);
@@ -133,7 +129,7 @@ static PHP_METHOD(V8UnboundScript, GetId)
     PHP_V8_FETCH_UNBOUND_SCRIPT_WITH_CHECK(getThis(), php_v8_unbound_script);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_unbound_script);
 
-    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(isolate, php_v8_unbound_script);
+    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(php_v8_unbound_script);
 
     RETURN_LONG(static_cast<zend_long>(local_unbound_script->GetId()));
 }
@@ -147,7 +143,7 @@ static PHP_METHOD(V8UnboundScript, GetScriptName)
     PHP_V8_FETCH_UNBOUND_SCRIPT_WITH_CHECK(getThis(), php_v8_unbound_script);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_unbound_script);
 
-    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(isolate, php_v8_unbound_script);
+    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(php_v8_unbound_script);
 
     php_v8_get_or_create_value(return_value, local_unbound_script->GetScriptName(), php_v8_unbound_script->php_v8_isolate);
 }
@@ -161,7 +157,7 @@ static PHP_METHOD(V8UnboundScript, GetSourceURL)
     PHP_V8_FETCH_UNBOUND_SCRIPT_WITH_CHECK(getThis(), php_v8_unbound_script);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_unbound_script);
 
-    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(isolate, php_v8_unbound_script);
+    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(php_v8_unbound_script);
 
     php_v8_get_or_create_value(return_value, local_unbound_script->GetSourceURL(), php_v8_unbound_script->php_v8_isolate);
 }
@@ -175,7 +171,7 @@ static PHP_METHOD(V8UnboundScript, GetSourceMappingURL)
     PHP_V8_FETCH_UNBOUND_SCRIPT_WITH_CHECK(getThis(), php_v8_unbound_script);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_unbound_script);
 
-    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(isolate, php_v8_unbound_script);
+    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(php_v8_unbound_script);
 
     php_v8_get_or_create_value(return_value, local_unbound_script->GetSourceMappingURL(), php_v8_unbound_script->php_v8_isolate);
 }
@@ -193,7 +189,7 @@ static PHP_METHOD(V8UnboundScript, GetLineNumber)
     PHP_V8_FETCH_UNBOUND_SCRIPT_WITH_CHECK(getThis(), php_v8_unbound_script);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_unbound_script);
 
-    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(isolate, php_v8_unbound_script);
+    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(php_v8_unbound_script);
 
     RETURN_LONG(static_cast<zend_long>(local_unbound_script->GetLineNumber(static_cast<int>(code_pos))));
 }

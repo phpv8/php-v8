@@ -31,8 +31,9 @@ extern "C" {
 
 extern zend_class_entry* php_v8_object_template_class_entry;
 
-extern v8::Local<v8::ObjectTemplate> php_v8_object_template_get_local(v8::Isolate *isolate, php_v8_object_template_t *php_v8_object_template);
+
 extern php_v8_object_template_t * php_v8_object_template_fetch_object(zend_object *obj);
+
 
 #define PHP_V8_OBJECT_TEMPLATE_FETCH(zv) php_v8_object_template_fetch_object(Z_OBJ_P(zv))
 #define PHP_V8_OBJECT_TEMPLATE_FETCH_INTO(pzval, into) php_v8_object_template_t *(into) = PHP_V8_OBJECT_TEMPLATE_FETCH((pzval));
@@ -69,6 +70,9 @@ struct _php_v8_object_template_t {
     zend_object std;
 };
 
+inline v8::Local<v8::ObjectTemplate> php_v8_object_template_get_local(php_v8_object_template_t *php_v8_object_template) {
+    return v8::Local<v8::ObjectTemplate>::New(php_v8_object_template->php_v8_isolate->isolate, *php_v8_object_template->persistent);
+}
 
 
 PHP_MINIT_FUNCTION(php_v8_object_template);

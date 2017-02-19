@@ -22,10 +22,6 @@
 zend_class_entry* php_v8_name_class_entry;
 #define this_ce php_v8_name_class_entry
 
-v8::Local<v8::Name> php_v8_value_get_name_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::Name>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
-
 
 static PHP_METHOD(V8Name, GetIdentityHash)
 {
@@ -36,7 +32,7 @@ static PHP_METHOD(V8Name, GetIdentityHash)
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_value);
 
     if (!local_name->IsString() && !local_name->IsSymbol()) {
         RETURN_LONG(0);

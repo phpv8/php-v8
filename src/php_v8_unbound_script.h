@@ -29,8 +29,7 @@ extern "C" {
 
 extern zend_class_entry *php_v8_unbound_script_class_entry;
 
-extern v8::Local<v8::UnboundScript> php_v8_unbound_script_get_local(v8::Isolate *isolate, php_v8_unbound_script_t *php_v8_unbound_script);
-extern php_v8_unbound_script_t * php_v8_unbound_script_fetch_object(zend_object *obj);
+extern v8::Local<v8::UnboundScript> php_v8_unbound_script_get_local(php_v8_unbound_script_t *php_v8_unbound_script);
 extern php_v8_unbound_script_t * php_v8_create_unbound_script(zval *return_value, php_v8_isolate_t *php_v8_isolate, v8::Local<v8::UnboundScript> unbound_script);
 
 
@@ -62,6 +61,11 @@ struct _php_v8_unbound_script_t {
 
   zend_object std;
 };
+
+inline v8::Local<v8::UnboundScript> php_v8_unbound_script_get_local(php_v8_unbound_script_t *php_v8_unbound_script) {
+    return v8::Local<v8::UnboundScript>::New(php_v8_unbound_script->php_v8_isolate->isolate, *php_v8_unbound_script->persistent);
+}
+
 
 PHP_MINIT_FUNCTION(php_v8_unbound_script);
 

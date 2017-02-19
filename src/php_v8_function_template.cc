@@ -29,9 +29,6 @@ zend_class_entry *php_v8_function_template_class_entry;
 
 static zend_object_handlers php_v8_function_template_object_handlers;
 
-v8::Local<v8::FunctionTemplate> php_v8_function_template_get_local(v8::Isolate *isolate, php_v8_function_template_t *php_v8_function_template) {
-    return v8::Local<v8::FunctionTemplate>::New(isolate, *php_v8_function_template->persistent);
-}
 
 php_v8_function_template_t * php_v8_function_template_fetch_object(zend_object *obj) {
     return (php_v8_function_template_t *)((char *)obj - XtOffsetOf(php_v8_function_template_t, std));
@@ -225,7 +222,7 @@ static PHP_METHOD(V8FunctionTemplate, GetFunction) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(isolate, php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(php_v8_function_template);
     v8::MaybeLocal<v8::Function> maybe_local_function = local_function_tpl->GetFunction(context);
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(maybe_local_function, "Failed to get function instance");
@@ -253,7 +250,7 @@ static PHP_METHOD(V8FunctionTemplate, SetCallHandler) {
     phpv8::CallbacksBucket *bucket= php_v8_function_template->persistent_data->bucket("callback");
     bucket->add(0, fci, fci_cache);
 
-    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_function_template);
 
     local_template->SetCallHandler(php_v8_callback_function, v8::External::New(isolate, bucket));
 }
@@ -270,7 +267,7 @@ static PHP_METHOD(V8FunctionTemplate, SetLength) {
     PHP_V8_FETCH_FUNCTION_TEMPLATE_WITH_CHECK(getThis(), php_v8_function_template);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_function_template);
 
     local_template->SetLength(static_cast<int>(length));
 }
@@ -286,7 +283,7 @@ static PHP_METHOD(V8FunctionTemplate, InstanceTemplate) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(isolate, php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(php_v8_function_template);
 
     v8::Local<v8::ObjectTemplate> local_obj_tpl = local_function_tpl->InstanceTemplate();
 
@@ -310,8 +307,8 @@ static PHP_METHOD(V8FunctionTemplate, Inherit) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_function_template);
-    v8::Local<v8::FunctionTemplate> local_template_parent = php_v8_function_template_get_local(isolate, php_v8_function_template_parent);
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_template_parent = php_v8_function_template_get_local(php_v8_function_template_parent);
 
     local_template->Inherit(local_template_parent);
 }
@@ -327,7 +324,7 @@ static PHP_METHOD(V8FunctionTemplate, PrototypeTemplate) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(isolate, php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(php_v8_function_template);
 
     v8::Local<v8::ObjectTemplate> local_obj_tpl = local_function_tpl->PrototypeTemplate();
 
@@ -353,8 +350,8 @@ static PHP_METHOD(V8FunctionTemplate, SetClassName) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(isolate, php_v8_function_template);
-    v8::Local<v8::String> local_name = php_v8_value_get_string_local(isolate, php_v8_string);
+    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(php_v8_function_template);
+    v8::Local<v8::String> local_name = php_v8_value_get_local_as<v8::String>(php_v8_string);
 
     local_function_tpl->SetClassName(local_name);
 }
@@ -370,7 +367,7 @@ static PHP_METHOD(V8FunctionTemplate, SetAcceptAnyReceiver) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
 
-    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_function_template);
 
     local_template->SetAcceptAnyReceiver(static_cast<bool>(value));
 }
@@ -385,7 +382,7 @@ static PHP_METHOD(V8FunctionTemplate, SetHiddenPrototype) {
     PHP_V8_FETCH_FUNCTION_TEMPLATE_WITH_CHECK(getThis(), php_v8_function_template);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_function_template);
 
     local_template->SetHiddenPrototype(static_cast<bool>(value));
 }
@@ -399,7 +396,7 @@ static PHP_METHOD(V8FunctionTemplate, ReadOnlyPrototype) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(isolate, php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(php_v8_function_template);
 
     local_function_tpl->ReadOnlyPrototype();
 }
@@ -413,7 +410,7 @@ static PHP_METHOD(V8FunctionTemplate, RemovePrototype) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(isolate, php_v8_function_template);
+    v8::Local<v8::FunctionTemplate> local_function_tpl = php_v8_function_template_get_local(php_v8_function_template);
 
     local_function_tpl->RemovePrototype();
 }
@@ -430,8 +427,8 @@ static PHP_METHOD(V8FunctionTemplate, HasInstance) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
-    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(isolate, php_v8_function_template);
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_object);
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_function_template);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_object);
 
     RETURN_BOOL(local_template->HasInstance(local_obj));
 }

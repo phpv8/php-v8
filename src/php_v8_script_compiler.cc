@@ -34,7 +34,7 @@ zend_class_entry* php_v8_script_compiler_class_entry;
 static v8::ScriptCompiler::Source * php_v8_build_source(zval *source_string_zv, zval *origin_zv, zval *cached_data_zv, v8::Isolate *isolate) {
     PHP_V8_VALUE_FETCH_INTO(source_string_zv, php_v8_source_string);
 
-    v8::Local<v8::String> local_source_string = php_v8_value_get_string_local(isolate, php_v8_source_string);
+    v8::Local<v8::String> local_source_string = php_v8_value_get_local_as<v8::String>(php_v8_source_string);
 
     v8::ScriptOrigin *origin = NULL;
 

@@ -34,9 +34,6 @@ zend_class_entry *php_v8_object_class_entry;
 #define this_ce php_v8_object_class_entry
 
 
-v8::Local<v8::Object> php_v8_value_get_object_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::Object>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
 
 bool php_v8_object_delete_self_ptr(php_v8_value_t *php_v8_value, v8::Local<v8::Object> local_object) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
@@ -157,12 +154,12 @@ static PHP_METHOD(V8Object, Set) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key_or_index);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_value_value_to_set);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Value> local_key_or_index = php_v8_value_get_value_local(isolate, php_v8_key_or_index);
-    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Value> local_key_or_index = php_v8_value_get_local(php_v8_key_or_index);
+    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_local(php_v8_value_value_to_set);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -193,12 +190,12 @@ static PHP_METHOD(V8Object, CreateDataProperty) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key_or_index);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_value_value_to_set);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Name> local_key_or_index = php_v8_value_get_name_local(isolate, php_v8_key_or_index);
-    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_key_or_index = php_v8_value_get_local_as<v8::Name>(php_v8_key_or_index);
+    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_local(php_v8_value_value_to_set);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -232,13 +229,13 @@ static PHP_METHOD(V8Object, DefineOwnProperty) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_value_value_to_set);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_value_local(isolate, php_v8_value_value_to_set);
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Value> local_value_to_set = php_v8_value_get_local(php_v8_value_value_to_set);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_key);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_key);
 
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
 
@@ -272,11 +269,11 @@ static PHP_METHOD(V8Object, Get) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key_or_index);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Value> local_key_or_index = php_v8_value_get_value_local(isolate, php_v8_key_or_index);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Value> local_key_or_index = php_v8_value_get_local(php_v8_key_or_index);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -306,11 +303,11 @@ static PHP_METHOD(V8Object, GetPropertyAttributes) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_string)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::String> local_string = php_v8_value_get_string_local(isolate, php_v8_string);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::String> local_string = php_v8_value_get_local_as<v8::String>(php_v8_string);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -338,11 +335,11 @@ static PHP_METHOD(V8Object, GetOwnPropertyDescriptor) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_string)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::String> local_string = php_v8_value_get_string_local(isolate, php_v8_string);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::String> local_string = php_v8_value_get_local_as<v8::String>(php_v8_string);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -372,11 +369,11 @@ static PHP_METHOD(V8Object, Has) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key_or_index);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Value> local_key_or_index = php_v8_value_get_value_local(isolate, php_v8_key_or_index);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Value> local_key_or_index = php_v8_value_get_local(php_v8_key_or_index);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -404,11 +401,11 @@ static PHP_METHOD(V8Object, Delete) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key_or_index);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Value> local_key_or_index = php_v8_value_get_value_local(isolate, php_v8_key_or_index);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Value> local_key_or_index = php_v8_value_get_local(php_v8_key_or_index);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -452,12 +449,11 @@ static PHP_METHOD(V8Object, SetAccessor) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_name)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(name, local_name);
 
@@ -481,7 +477,7 @@ static PHP_METHOD(V8Object, SetAccessor) {
         setter = php_v8_callback_accessor_name_setter;
     }
 
-    v8::Maybe<bool> maybe_res = local_object->SetAccessor(local_context,
+    v8::Maybe<bool> maybe_res = local_object->SetAccessor(context,
                                                           local_name,
                                                           getter,
                                                           setter,
@@ -515,7 +511,7 @@ static PHP_METHOD(V8Object, SetAccessorProperty) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
     settings = settings ? settings & PHP_V8_ACCESS_CONTROL_FLAGS : settings;
@@ -526,16 +522,16 @@ static PHP_METHOD(V8Object, SetAccessorProperty) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getter_zv, php_v8_getter);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_getter, php_v8_value);
 
-    getter = php_v8_value_get_function_local(isolate, php_v8_getter);
+    getter = php_v8_value_get_local_as<v8::Function>(php_v8_getter);
 
     if (Z_TYPE_P(setter_zv) != IS_NULL) {
         PHP_V8_VALUE_FETCH_WITH_CHECK(setter_zv, php_v8_setter);
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_setter, php_v8_value);
 
-        setter = php_v8_value_get_function_local(isolate, php_v8_setter);
+        setter = php_v8_value_get_local_as<v8::Function>(php_v8_setter);
     }
 
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     local_object->SetAccessorProperty(local_name, getter, setter, static_cast<v8::PropertyAttribute>(attributes), static_cast<v8::AccessControl>(settings));
 }
@@ -554,16 +550,15 @@ static PHP_METHOD(V8Object, GetPropertyNames) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::MaybeLocal<v8::Array> maybe_local_array = local_object->GetPropertyNames(local_context);
+    v8::MaybeLocal<v8::Array> maybe_local_array = local_object->GetPropertyNames(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local_array, "Failed to get property names")
@@ -585,16 +580,15 @@ static PHP_METHOD(V8Object, GetOwnPropertyNames) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::MaybeLocal<v8::Array> maybe_local_array = local_object->GetOwnPropertyNames(local_context);
+    v8::MaybeLocal<v8::Array> maybe_local_array = local_object->GetOwnPropertyNames(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local_array, "Failed to get own property names")
@@ -613,7 +607,7 @@ static PHP_METHOD(V8Object, GetPrototype) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -641,18 +635,17 @@ static PHP_METHOD(V8Object, SetPrototype) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_prototype);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Value> local_prototype = php_v8_value_get_value_local(isolate, php_v8_prototype);
+    v8::Local<v8::Value> local_prototype = php_v8_value_get_local(php_v8_prototype);
 
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Maybe<bool> maybe_res = local_object->SetPrototype(local_context, local_prototype);
+    v8::Maybe<bool> maybe_res = local_object->SetPrototype(context, local_prototype);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to set prototype")
@@ -675,8 +668,8 @@ static PHP_METHOD(V8Object, FindInstanceInPrototypeChain) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
-    v8::Local<v8::FunctionTemplate> local_function_template = php_v8_function_template_get_local(isolate, php_v8_function_template);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::FunctionTemplate> local_function_template = php_v8_function_template_get_local(php_v8_function_template);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -701,16 +694,15 @@ static PHP_METHOD(V8Object, ObjectProtoToString) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::MaybeLocal<v8::String> maybe_local_string = local_object->ObjectProtoToString(local_context);
+    v8::MaybeLocal<v8::String> maybe_local_string = local_object->ObjectProtoToString(context);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local_string, "Failed to get")
@@ -729,7 +721,7 @@ static PHP_METHOD(V8Object, GetConstructorName) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     php_v8_get_or_create_value(return_value, local_object->GetConstructorName(), php_v8_value->php_v8_isolate);
 }
@@ -747,18 +739,17 @@ static PHP_METHOD(V8Object, SetIntegrityLevel) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     level = level ? level & PHP_V8_INTEGRITY_LEVEL_FLAGS : level;
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Maybe<bool> maybe_res = local_obj->SetIntegrityLevel(local_context, static_cast<v8::IntegrityLevel>(level));
+    v8::Maybe<bool> maybe_res = local_obj->SetIntegrityLevel(context, static_cast<v8::IntegrityLevel>(level));
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to set integrity level");
@@ -781,17 +772,16 @@ static PHP_METHOD(V8Object, HasOwnProperty) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_name)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Maybe<bool> maybe_res = local_object->HasOwnProperty(local_context, local_name);
+    v8::Maybe<bool> maybe_res = local_object->HasOwnProperty(context, local_name);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to perform check");
@@ -814,17 +804,16 @@ static PHP_METHOD(V8Object, HasRealNamedProperty) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_name)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Maybe<bool> maybe_res = local_object->HasRealNamedProperty(local_context, local_name);
+    v8::Maybe<bool> maybe_res = local_object->HasRealNamedProperty(context, local_name);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to perform check");
@@ -847,16 +836,15 @@ static PHP_METHOD(V8Object, HasRealIndexedProperty) {
 
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_obj = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_obj = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Maybe<bool> maybe_res = local_obj->HasRealIndexedProperty(local_context, (uint32_t) index);
+    v8::Maybe<bool> maybe_res = local_obj->HasRealIndexedProperty(context, (uint32_t) index);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to perform check");
@@ -879,17 +867,16 @@ static PHP_METHOD(V8Object, HasRealNamedCallbackProperty) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_name)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Maybe<bool> maybe_res = local_object->HasRealNamedCallbackProperty(local_context, local_name);
+    v8::Maybe<bool> maybe_res = local_object->HasRealNamedCallbackProperty(context, local_name);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to perform check");
@@ -912,17 +899,16 @@ static PHP_METHOD(V8Object, GetRealNamedPropertyInPrototypeChain) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_name)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::MaybeLocal<v8::Value> maybe_res = local_object->GetRealNamedPropertyInPrototypeChain(local_context, local_name);
+    v8::MaybeLocal<v8::Value> maybe_res = local_object->GetRealNamedPropertyInPrototypeChain(context, local_name);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_res, "No real property was located in the prototype chain");
@@ -947,17 +933,16 @@ static PHP_METHOD(V8Object, GetRealNamedPropertyAttributesInPrototypeChain) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_name)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Maybe<v8::PropertyAttribute> maybe_res = local_object->GetRealNamedPropertyAttributesInPrototypeChain(local_context, local_name);
+    v8::Maybe<v8::PropertyAttribute> maybe_res = local_object->GetRealNamedPropertyAttributesInPrototypeChain(context, local_name);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to get");
@@ -980,14 +965,13 @@ static PHP_METHOD(V8Object, GetRealNamedProperty) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_name)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
-    v8::MaybeLocal<v8::Value> maybe_res = local_object->GetRealNamedProperty(local_context, local_name);
+    v8::MaybeLocal<v8::Value> maybe_res = local_object->GetRealNamedProperty(context, local_name);
 
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_res, "No real property was located on the object or in the prototype chain");
 
@@ -1011,17 +995,16 @@ static PHP_METHOD(V8Object, GetRealNamedPropertyAttributes) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_name)
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Maybe<v8::PropertyAttribute> maybe_res = local_object->GetRealNamedPropertyAttributes(local_context, local_name);
+    v8::Maybe<v8::PropertyAttribute> maybe_res = local_object->GetRealNamedPropertyAttributes(context, local_name);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to get property attribute");
@@ -1037,7 +1020,7 @@ static PHP_METHOD(V8Object, HasNamedLookupInterceptor) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(isolate, php_v8_value);
+    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
     v8::Local<v8::Object> local_object = v8::Local<v8::Object>::Cast(local_value);
 
     RETURN_BOOL(local_object->HasNamedLookupInterceptor());
@@ -1051,7 +1034,7 @@ static PHP_METHOD(V8Object, HasIndexedLookupInterceptor) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(isolate, php_v8_value);
+    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
     v8::Local<v8::Object> local_object = v8::Local<v8::Object>::Cast(local_value);
 
     RETURN_BOOL(local_object->HasIndexedLookupInterceptor());
@@ -1067,7 +1050,7 @@ static PHP_METHOD(V8Object, GetIdentityHash)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     RETVAL_LONG(local_object->GetIdentityHash());
 }
@@ -1081,7 +1064,7 @@ static PHP_METHOD(V8Object, Clone) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -1102,7 +1085,7 @@ static PHP_METHOD(V8Object, CreationContext) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(isolate, php_v8_value);
+    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
     v8::Local<v8::Object> local_object = v8::Local<v8::Object>::Cast(local_value);
 
     v8::Local<v8::Context> local_context= local_object->CreationContext();
@@ -1120,7 +1103,7 @@ static PHP_METHOD(V8Object, IsCallable) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(isolate, php_v8_value);
+    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
     v8::Local<v8::Object> local_object = v8::Local<v8::Object>::Cast(local_value);
 
     RETURN_BOOL(local_object->IsCallable());
@@ -1135,7 +1118,7 @@ static PHP_METHOD(V8Object, IsConstructor) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(isolate, php_v8_value);
+    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
     v8::Local<v8::Object> local_object = v8::Local<v8::Object>::Cast(local_value);
 
     RETURN_BOOL(local_object->IsConstructor());
@@ -1168,8 +1151,8 @@ static PHP_METHOD(V8Object, CallAsFunction) {
         return;
     }
 
-    v8::Local<v8::Value> local_recv = php_v8_value_get_value_local(isolate, php_v8_value_recv);
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Value> local_recv = php_v8_value_get_local(php_v8_value_recv);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
@@ -1211,7 +1194,7 @@ static PHP_METHOD(V8Object, CallAsConstructor) {
         return;
     }
 
-    v8::Local<v8::Object> local_object = php_v8_value_get_object_local(isolate, php_v8_value);
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);

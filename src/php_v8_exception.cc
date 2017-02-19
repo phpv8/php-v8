@@ -42,7 +42,7 @@ static PHP_METHOD(V8Exception, RangeError) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::String> message = php_v8_value_get_string_local(isolate, php_v8_message);
+    v8::Local<v8::String> message = php_v8_value_get_local_as<v8::String>(php_v8_message);
 
     v8::Local<v8::Value> local_value = v8::Exception::RangeError(message);
 
@@ -65,7 +65,7 @@ static PHP_METHOD(V8Exception, ReferenceError) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::String> message = php_v8_value_get_string_local(isolate, php_v8_message);
+    v8::Local<v8::String> message = php_v8_value_get_local_as<v8::String>(php_v8_message);
 
     v8::Local<v8::Value> local_value = v8::Exception::ReferenceError(message);
 
@@ -88,7 +88,7 @@ static PHP_METHOD(V8Exception, SyntaxError) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::String> message = php_v8_value_get_string_local(isolate, php_v8_message);
+    v8::Local<v8::String> message = php_v8_value_get_local_as<v8::String>(php_v8_message);
 
     v8::Local<v8::Value> local_value = v8::Exception::SyntaxError(message);
 
@@ -110,7 +110,7 @@ static PHP_METHOD(V8Exception, TypeError) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
-    v8::Local<v8::String> message = php_v8_value_get_string_local(isolate, php_v8_message);
+    v8::Local<v8::String> message = php_v8_value_get_local_as<v8::String>(php_v8_message);
 
     v8::Local<v8::Value> local_value = v8::Exception::TypeError(message);
 
@@ -133,7 +133,7 @@ static PHP_METHOD(V8Exception, Error) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::String> message = php_v8_value_get_string_local(isolate, php_v8_message);
+    v8::Local<v8::String> message = php_v8_value_get_local_as<v8::String>(php_v8_message);
 
     v8::Local<v8::Value> local_value = v8::Exception::Error(message);
 
@@ -156,7 +156,7 @@ static PHP_METHOD(V8Exception, CreateMessage) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Value> exception = php_v8_value_get_value_local(isolate, php_v8_exception);
+    v8::Local<v8::Value> exception = php_v8_value_get_local(php_v8_exception);
 
     v8::Local<v8::Message> local_message = v8::Exception::CreateMessage(isolate, exception);
 
@@ -179,7 +179,7 @@ static PHP_METHOD(V8Exception, GetStackTrace) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Value> exception = php_v8_value_get_value_local(isolate, php_v8_exception);
+    v8::Local<v8::Value> exception = php_v8_value_get_local(php_v8_exception);
 
     v8::Local<v8::StackTrace> local_stack_trace = v8::Exception::GetStackTrace(exception);
 

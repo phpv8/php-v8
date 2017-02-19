@@ -27,7 +27,6 @@ extern "C" {
 
 extern zend_class_entry* php_v8_object_class_entry;
 
-extern v8::Local<v8::Object> php_v8_value_get_object_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
 
 extern bool php_v8_object_delete_self_ptr(php_v8_value_t *php_v8_value, v8::Local<v8::Object> local_object);
 extern bool php_v8_object_store_self_ptr(php_v8_value_t *php_v8_value, v8::Local<v8::Object> local_object);

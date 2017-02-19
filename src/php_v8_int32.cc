@@ -53,8 +53,7 @@ static PHP_METHOD(V8Int32, Value) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(isolate, php_v8_value);
-    v8::Local<v8::Int32> local_number = v8::Local<v8::Int32>::Cast(local_value);
+    v8::Local<v8::Int32> local_number = php_v8_value_get_local_as<v8::Int32>(php_v8_value);
 
     RETVAL_LONG(local_number->Value());
 }

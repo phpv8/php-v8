@@ -32,7 +32,6 @@ extern "C" {
 extern zend_class_entry *php_v8_value_class_entry;
 
 
-extern v8::Local<v8::Value> php_v8_value_get_value_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
 extern php_v8_value_t *php_v8_value_fetch_object(zend_object *obj);
 
 extern zend_class_entry *php_v8_get_class_entry_from_value(v8::Local<v8::Value> value);
@@ -120,6 +119,16 @@ struct _php_v8_value_t {
 
     zval this_ptr; // makes sense for objects only
     zend_object std;
+};
+
+inline v8::Local<v8::Value> php_v8_value_get_local(php_v8_value_t *php_v8_value) {
+    return v8::Local<v8::Value>::New(php_v8_value->php_v8_isolate->isolate, *php_v8_value->persistent);
+};
+
+
+template<class T>
+v8::Local<T> php_v8_value_get_local_as(php_v8_value_t *php_v8_value) {
+    return php_v8_value_get_local(php_v8_value).As<T>();
 };
 
 
