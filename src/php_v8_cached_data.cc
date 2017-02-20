@@ -24,9 +24,6 @@ zend_class_entry * php_v8_cached_data_class_entry;
 
 static zend_object_handlers php_v8_cached_data_object_handlers;
 
-php_v8_cached_data_t * php_v8_cached_data_fetch_object(zend_object *obj) {
-    return (php_v8_cached_data_t *)((char *)obj - XtOffsetOf(php_v8_cached_data_t, std));
-}
 
 php_v8_cached_data_t * php_v8_create_cached_data(zval *return_value, const v8::ScriptCompiler::CachedData *cached_data) {
 

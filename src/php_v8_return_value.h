@@ -30,9 +30,9 @@ extern "C" {
 
 extern zend_class_entry *php_v8_return_value_class_entry;
 
+inline php_v8_return_value_t *php_v8_return_value_fetch_object(zend_object *obj);
 extern php_v8_return_value_t *php_v8_return_value_create_from_return_value(zval *this_ptr, php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, int accepts);
 extern void php_v8_return_value_mark_expired(php_v8_return_value_t *php_v8_return_value);
-extern php_v8_return_value_t *php_v8_return_value_fetch_object(zend_object *obj);
 
 
 #define PHP_V8_RETURN_VALUE_FETCH(zv) php_v8_return_value_fetch_object(Z_OBJ_P(zv))
@@ -77,6 +77,10 @@ struct _php_v8_return_value_t {
     zval this_ptr;
     zend_object std;
 };
+
+inline php_v8_return_value_t * php_v8_return_value_fetch_object(zend_object *obj) {
+    return (php_v8_return_value_t *)((char *)obj - XtOffsetOf(php_v8_return_value_t, std));
+}
 
 
 PHP_MINIT_FUNCTION (php_v8_return_value);

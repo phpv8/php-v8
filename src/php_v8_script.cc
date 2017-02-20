@@ -27,10 +27,6 @@ zend_class_entry* php_v8_script_class_entry;
 static zend_object_handlers php_v8_script_object_handlers;
 
 
-php_v8_script_t * php_v8_script_fetch_object(zend_object *obj) {
-    return (php_v8_script_t *)((char *)obj - XtOffsetOf(php_v8_script_t, std));
-}
-
 php_v8_script_t *php_v8_create_script(zval *return_value, v8::Local<v8::Script> local_script, php_v8_context_t *php_v8_context) {
     assert(!local_script.IsEmpty());
 

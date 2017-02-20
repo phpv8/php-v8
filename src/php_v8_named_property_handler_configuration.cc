@@ -23,9 +23,6 @@ zend_class_entry* php_v8_named_property_handler_configuration_class_entry;
 
 static zend_object_handlers php_v8_named_property_handler_configuration_object_handlers;
 
-php_v8_named_property_handler_configuration_t * php_v8_named_property_handler_configuration_fetch_object(zend_object *obj) {
-    return (php_v8_named_property_handler_configuration_t *)((char *)obj - XtOffsetOf(php_v8_named_property_handler_configuration_t, std));
-}
 
 static HashTable * php_v8_named_property_handler_configuration_gc(zval *object, zval **table, int *n) {
     PHP_V8_NAMED_PROPERTY_HANDLER_FETCH_INTO(object, php_v8_handlers);

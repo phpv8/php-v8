@@ -27,10 +27,6 @@ zend_class_entry* php_v8_unbound_script_class_entry;
 static zend_object_handlers php_v8_unbound_script_object_handlers;
 
 
-php_v8_unbound_script_t * php_v8_unbound_script_fetch_object(zend_object *obj) {
-    return (php_v8_unbound_script_t *)((char *)obj - XtOffsetOf(php_v8_unbound_script_t, std));
-}
-
 php_v8_unbound_script_t * php_v8_create_unbound_script(zval *return_value, php_v8_isolate_t *php_v8_isolate, v8::Local<v8::UnboundScript> unbound_script) {
     assert(!unbound_script.IsEmpty());
 

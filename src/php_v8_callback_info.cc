@@ -25,9 +25,6 @@ zend_class_entry *php_v8_callback_info_class_entry;
 
 static zend_object_handlers php_v8_callback_info_object_handlers;
 
-php_v8_callback_info_t * php_v8_callback_info_fetch_object(zend_object *obj) {
-    return (php_v8_callback_info_t *)((char *)obj - XtOffsetOf(php_v8_callback_info_t, std));
-}
 
 void php_v8_callback_info_invalidate(php_v8_callback_info_t *php_v8_callback_info) {
     if (php_v8_callback_info->php_v8_return_value) {

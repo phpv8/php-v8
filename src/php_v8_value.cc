@@ -51,10 +51,6 @@ zend_class_entry *php_v8_value_class_entry;
 static zend_object_handlers php_v8_value_object_handlers;
 
 
-php_v8_value_t *php_v8_value_fetch_object(zend_object *obj) {
-    return (php_v8_value_t *)((char *)obj - XtOffsetOf(php_v8_value_t, std));
-}
-
 static void php_v8_value_weak_callback(const v8::WeakCallbackInfo<v8::Persistent<v8::Value>>& data) {
     v8::Isolate *isolate = data.GetIsolate();
     php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);

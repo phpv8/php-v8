@@ -32,7 +32,7 @@ extern "C" {
 extern zend_class_entry* php_v8_callback_info_class_entry;
 
 
-extern php_v8_callback_info_t * php_v8_callback_info_fetch_object(zend_object *obj);
+inline php_v8_callback_info_t * php_v8_callback_info_fetch_object(zend_object *obj);
 extern void php_v8_callback_info_invalidate(php_v8_callback_info_t *php_v8_callback_info);
 
 #define PHP_V8_CALLBACK_INFO_FETCH(zv) php_v8_callback_info_fetch_object(Z_OBJ_P(zv))
@@ -76,6 +76,10 @@ struct _php_v8_callback_info_t {
 
     zend_object std;
 };
+
+inline php_v8_callback_info_t * php_v8_callback_info_fetch_object(zend_object *obj) {
+    return (php_v8_callback_info_t *)((char *)obj - XtOffsetOf(php_v8_callback_info_t, std));
+}
 
 PHP_MINIT_FUNCTION(php_v8_callback_info);
 

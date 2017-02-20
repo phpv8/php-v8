@@ -28,10 +28,9 @@ extern "C" {
 
 extern zend_class_entry *php_v8_context_class_entry;
 
-extern php_v8_context_t *php_v8_context_fetch_object(zend_object *obj);
+inline php_v8_context_t *php_v8_context_fetch_object(zend_object *obj);
 
 extern void php_v8_context_store_reference(v8::Isolate *isolate, v8::Local<v8::Context> context, php_v8_context_t *php_v8_context);
-
 extern php_v8_context_t *php_v8_context_get_reference(v8::Local<v8::Context> context);
 
 
@@ -77,6 +76,9 @@ struct _php_v8_context_t {
     zend_object std;
 };
 
+inline php_v8_context_t * php_v8_context_fetch_object(zend_object *obj) {
+    return (php_v8_context_t *)((char *)obj - XtOffsetOf(php_v8_context_t, std));
+}
 
 PHP_MINIT_FUNCTION(php_v8_context);
 

@@ -30,7 +30,7 @@ extern "C" {
 
 extern zend_class_entry *php_v8_script_class_entry;
 
-extern php_v8_script_t * php_v8_script_fetch_object(zend_object *obj);
+inline php_v8_script_t * php_v8_script_fetch_object(zend_object *obj);
 extern php_v8_script_t *php_v8_create_script(zval *return_value, v8::Local<v8::Script> local_script, php_v8_context_t *php_v8_context);
 
 #define PHP_V8_FETCH_SCRIPT(zv) php_v8_script_fetch_object(Z_OBJ_P(zv))
@@ -61,6 +61,10 @@ struct _php_v8_script_t {
 
   zend_object std;
 };
+
+inline php_v8_script_t * php_v8_script_fetch_object(zend_object *obj) {
+    return (php_v8_script_t *)((char *)obj - XtOffsetOf(php_v8_script_t, std));
+}
 
 inline v8::Local<v8::Script> php_v8_script_get_local(php_v8_script_t *php_v8_script) {
     return v8::Local<v8::Script>::New(php_v8_script->php_v8_isolate->isolate, *php_v8_script->persistent);

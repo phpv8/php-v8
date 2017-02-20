@@ -34,9 +34,6 @@ zend_class_entry *php_v8_isolate_class_entry;
 
 static zend_object_handlers php_v8_isolate_object_handlers;
 
-php_v8_isolate_t *php_v8_isolate_fetch_object(zend_object *obj) {
-    return (php_v8_isolate_t *) ((char *) obj - XtOffsetOf(php_v8_isolate_t, std));
-}
 
 static void php_v8_maybe_terminate_execution(php_v8_isolate_t *php_v8_isolate) {
     if (php_v8_isolate->isolate->IsExecutionTerminating()) {

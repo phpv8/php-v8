@@ -26,10 +26,6 @@ zend_class_entry* php_v8_context_class_entry;
 static zend_object_handlers php_v8_context_object_handlers;
 
 
-php_v8_context_t * php_v8_context_fetch_object(zend_object *obj) {
-    return (php_v8_context_t *)((char *)obj - XtOffsetOf(php_v8_context_t, std));
-}
-
 static void php_v8_context_free(zend_object *object)
 {
     php_v8_context_t *php_v8_context = php_v8_context_fetch_object(object);

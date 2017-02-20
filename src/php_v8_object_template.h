@@ -32,7 +32,7 @@ extern "C" {
 extern zend_class_entry* php_v8_object_template_class_entry;
 
 
-extern php_v8_object_template_t * php_v8_object_template_fetch_object(zend_object *obj);
+inline php_v8_object_template_t * php_v8_object_template_fetch_object(zend_object *obj);
 
 
 #define PHP_V8_OBJECT_TEMPLATE_FETCH(zv) php_v8_object_template_fetch_object(Z_OBJ_P(zv))
@@ -69,6 +69,10 @@ struct _php_v8_object_template_t {
 
     zend_object std;
 };
+
+inline php_v8_object_template_t * php_v8_object_template_fetch_object(zend_object *obj) {
+    return (php_v8_object_template_t *)((char *)obj - XtOffsetOf(php_v8_object_template_t, std));
+}
 
 inline v8::Local<v8::ObjectTemplate> php_v8_object_template_get_local(php_v8_object_template_t *php_v8_object_template) {
     return v8::Local<v8::ObjectTemplate>::New(php_v8_object_template->php_v8_isolate->isolate, *php_v8_object_template->persistent);

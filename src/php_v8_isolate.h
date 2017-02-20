@@ -31,7 +31,8 @@ extern "C" {
 
 extern zend_class_entry *php_v8_isolate_class_entry;
 
-extern php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
+inline php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
+inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php_v8_isolate);
 
 // TODO: remove or cleanup to use for debug reasons
 #define SX(x) #x
@@ -135,6 +136,10 @@ struct _php_v8_isolate_t {
     zval this_ptr;
     zend_object std;
 };
+
+inline php_v8_isolate_t *php_v8_isolate_fetch_object(zend_object *obj) {
+    return (php_v8_isolate_t *) ((char *) obj - XtOffsetOf(php_v8_isolate_t, std));
+}
 
 inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php_v8_isolate) {
     return v8::Local<v8::Private>::New(php_v8_isolate->isolate, php_v8_isolate->key);

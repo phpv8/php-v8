@@ -28,7 +28,7 @@ extern "C" {
 
 extern zend_class_entry* php_v8_named_property_handler_configuration_class_entry;
 
-extern php_v8_named_property_handler_configuration_t * php_v8_named_property_handler_configuration_fetch_object(zend_object *obj);
+inline php_v8_named_property_handler_configuration_t * php_v8_named_property_handler_configuration_fetch_object(zend_object *obj);
 
 #define PHP_V8_NAMED_PROPERTY_HANDLER_FETCH(zv) php_v8_named_property_handler_configuration_fetch_object(Z_OBJ_P(zv))
 #define PHP_V8_NAMED_PROPERTY_HANDLER_FETCH_INTO(pzval, into) php_v8_named_property_handler_configuration_t *(into) = PHP_V8_NAMED_PROPERTY_HANDLER_FETCH((pzval));
@@ -63,6 +63,10 @@ typedef struct _php_v8_named_property_handler_configuration_t {
 
   zend_object std;
 } php_v8_named_property_handler_configuration_t;
+
+inline php_v8_named_property_handler_configuration_t * php_v8_named_property_handler_configuration_fetch_object(zend_object *obj) {
+    return (php_v8_named_property_handler_configuration_t *)((char *)obj - XtOffsetOf(php_v8_named_property_handler_configuration_t, std));
+}
 
 
 PHP_MINIT_FUNCTION(php_v8_named_property_handler_configuration);
