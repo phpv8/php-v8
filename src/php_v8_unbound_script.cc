@@ -28,12 +28,15 @@ static zend_object_handlers php_v8_unbound_script_object_handlers;
 
 
 php_v8_unbound_script_t * php_v8_create_unbound_script(zval *return_value, php_v8_isolate_t *php_v8_isolate, v8::Local<v8::UnboundScript> unbound_script) {
+    zval isolate_zv;
     assert(!unbound_script.IsEmpty());
 
     object_init_ex(return_value, this_ce);
 
+    ZVAL_OBJ(&isolate_zv, &php_v8_isolate->std);
+
     PHP_V8_FETCH_UNBOUND_SCRIPT_INTO(return_value, php_v8_unbound_script);
-    PHP_V8_UNBOUND_SCRIPT_STORE_ISOLATE(return_value, &php_v8_isolate->this_ptr)
+    PHP_V8_UNBOUND_SCRIPT_STORE_ISOLATE(return_value, &isolate_zv)
     PHP_V8_STORE_POINTER_TO_ISOLATE(php_v8_unbound_script, php_v8_isolate);
 
     php_v8_unbound_script->persistent->Reset(php_v8_isolate->isolate, unbound_script);

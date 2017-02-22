@@ -24,13 +24,19 @@ zend_class_entry* php_v8_try_catch_class_entry;
 
 
 void php_v8_try_catch_create_from_try_catch(zval *return_value, php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, v8::TryCatch *try_catch) {
+    zval isolate_zv;
+    zval context_zv;
+
     object_init_ex(return_value, this_ce);
 
     PHP_V8_DECLARE_ISOLATE(php_v8_isolate);
     v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
-    zend_update_property(this_ce, return_value, ZEND_STRL("isolate"), &php_v8_isolate->this_ptr);
-    zend_update_property(this_ce, return_value, ZEND_STRL("context"), &php_v8_context->this_ptr);
+    ZVAL_OBJ(&isolate_zv, &php_v8_isolate->std);
+    ZVAL_OBJ(&context_zv, &php_v8_context->std);
+
+    zend_update_property(this_ce, return_value, ZEND_STRL("isolate"), &isolate_zv);
+    zend_update_property(this_ce, return_value, ZEND_STRL("context"), &context_zv);
 
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("can_continue"), static_cast<zend_long>(try_catch && try_catch->CanContinue()));
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("has_terminated"), static_cast<zend_long>(try_catch && try_catch->HasTerminated()));

@@ -537,6 +537,7 @@ bool php_v8_callback_access_check(v8::Local<v8::Context> accessing_context, v8::
     zval args;
     zval accessed_object_zv;
     zval retval;
+    zval context_zv;
 
     bool security_retval = false;
 
@@ -550,7 +551,8 @@ bool php_v8_callback_access_check(v8::Local<v8::Context> accessing_context, v8::
 
     php_v8_get_or_create_value(&accessed_object_zv, accessed_object, php_v8_isolate);
 
-    add_index_zval(&args, 0, &php_v8_context->this_ptr);
+    ZVAL_OBJ(&context_zv, &php_v8_context->std);
+    add_index_zval(&args, 0, &context_zv);
     add_index_zval(&args, 1, &accessed_object_zv);
 
     php_v8_callback_call_from_bucket_with_zargs(0, data, &args, &retval);

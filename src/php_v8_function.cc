@@ -349,7 +349,6 @@ static PHP_METHOD(V8Function, __construct) {
 
     v8::Local<v8::Function> local_function = maybe_local_function.ToLocalChecked();
 
-    ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
     php_v8_object_store_self_ptr(php_v8_value, local_function);
 
     php_v8_value->persistent->Reset(isolate, local_function);

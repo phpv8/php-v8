@@ -72,7 +72,7 @@ struct _php_v8_context_t {
     v8::Persistent<v8::Context> *context;
 
     uint32_t isolate_handle;
-    zval this_ptr;
+
     zend_object std;
 };
 

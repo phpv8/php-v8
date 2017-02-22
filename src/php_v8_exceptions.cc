@@ -58,6 +58,9 @@ void php_v8_throw_try_catch_exception(php_v8_context_t *php_v8_context, v8::TryC
 
 void php_v8_create_try_catch_exception(zval *return_value, php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, v8::TryCatch *try_catch)
 {
+    zval isolate_zv;
+    zval context_zv;
+
     zval try_catch_zv;
     zend_class_entry* ce = NULL;
     const char *message = NULL;
@@ -88,8 +91,11 @@ void php_v8_create_try_catch_exception(zval *return_value, php_v8_isolate_t *php
         zend_update_property_string(php_v8_try_catch_exception_class_entry, return_value, ZEND_STRL("message"), message);
     }
 
-    PHP_V8_TRY_CATCH_EXCEPTION_STORE_ISOLATE(return_value, &php_v8_isolate->this_ptr);
-    PHP_V8_TRY_CATCH_EXCEPTION_STORE_CONTEXT(return_value, &php_v8_context->this_ptr);
+    ZVAL_OBJ(&isolate_zv, &php_v8_isolate->std);
+    ZVAL_OBJ(&context_zv, &php_v8_context->std);
+
+    PHP_V8_TRY_CATCH_EXCEPTION_STORE_ISOLATE(return_value, &isolate_zv);
+    PHP_V8_TRY_CATCH_EXCEPTION_STORE_CONTEXT(return_value, &context_zv);
 
     php_v8_try_catch_create_from_try_catch(&try_catch_zv, php_v8_isolate, php_v8_context, try_catch);
     PHP_V8_TRY_CATCH_EXCEPTION_STORE_TRY_CATCH(return_value, &try_catch_zv);

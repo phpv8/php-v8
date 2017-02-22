@@ -38,7 +38,6 @@ static PHP_METHOD(V8Set, __construct) {
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_set, "Failed to create Map value");
 
-    ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
     php_v8_object_store_self_ptr(php_v8_value, local_set);
 
     php_v8_value->persistent->Reset(isolate, local_set);
@@ -97,7 +96,7 @@ static PHP_METHOD(V8Set, Add) {
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local_res, "Failed to add");
 
-    RETVAL_ZVAL(&php_v8_value->this_ptr, 1, 0);
+    ZVAL_COPY(return_value, getThis());
 }
 
 static PHP_METHOD(V8Set, Has) {

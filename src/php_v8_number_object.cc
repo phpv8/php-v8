@@ -40,7 +40,6 @@ static PHP_METHOD(V8NumberObject, __construct) {
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_number_obj, "Failed to create NumberObject value");
 
-    ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
     php_v8_object_store_self_ptr(php_v8_value, local_number_obj);
 
     php_v8_value->persistent->Reset(isolate, local_number_obj);

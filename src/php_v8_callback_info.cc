@@ -130,7 +130,8 @@ static PHP_METHOD(V8CallbackInfo, GetIsolate) {
     PHP_V8_CALLBACK_INFO_FETCH_WITH_CHECK(getThis(), php_v8_callback_info);
     PHP_V8_V8_CALLBACK_INFO_CHECK_IN_CONTEXT(php_v8_callback_info);
 
-    RETVAL_ZVAL(&php_v8_callback_info->php_v8_isolate->this_ptr, 1, 0);
+    ZVAL_OBJ(return_value, &php_v8_callback_info->php_v8_isolate->std);
+    Z_ADDREF_P(return_value);
 }
 
 static PHP_METHOD(V8CallbackInfo, GetContext) {
@@ -141,7 +142,8 @@ static PHP_METHOD(V8CallbackInfo, GetContext) {
     PHP_V8_CALLBACK_INFO_FETCH_WITH_CHECK(getThis(), php_v8_callback_info);
     PHP_V8_V8_CALLBACK_INFO_CHECK_IN_CONTEXT(php_v8_callback_info);
 
-    RETVAL_ZVAL(&php_v8_callback_info->php_v8_context->this_ptr, 1, 0);
+    ZVAL_OBJ(return_value, &php_v8_callback_info->php_v8_context->std);
+    Z_ADDREF_P(return_value);
 }
 
 static PHP_METHOD(V8CallbackInfo, This) {

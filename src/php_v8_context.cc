@@ -40,10 +40,6 @@ static void php_v8_context_free(zend_object *object)
         delete php_v8_context->context;
     }
 
-    if (!Z_ISUNDEF(php_v8_context->this_ptr)) {
-        zval_ptr_dtor(&php_v8_context->this_ptr);
-    }
-
     zend_object_std_dtor(&php_v8_context->std);
 }
 
@@ -122,7 +118,6 @@ static PHP_METHOD(V8Context, __construct)
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(context, "Failed to create Context");
 
-    ZVAL_COPY_VALUE(&php_v8_context->this_ptr, getThis());
     php_v8_context_store_reference(isolate, context, php_v8_context);
 
     php_v8_context->context->Reset(isolate, context);

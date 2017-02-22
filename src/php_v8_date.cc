@@ -42,7 +42,6 @@ static PHP_METHOD(V8Date, __construct) {
 
     v8::Local<v8::Date> local_date = maybe_local_date.ToLocalChecked().As<v8::Date>();
 
-    ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
     php_v8_object_store_self_ptr(php_v8_value, local_date);
 
     php_v8_value->persistent->Reset(isolate, local_date);

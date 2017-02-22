@@ -109,10 +109,6 @@ static void php_v8_isolate_free(zend_object *object) {
         delete php_v8_isolate->weak_values;
     }
 
-    if (!Z_ISUNDEF(php_v8_isolate->this_ptr)) {
-        zval_ptr_dtor(&php_v8_isolate->this_ptr);
-    }
-
     if (php_v8_isolate->gc_data) {
         efree(php_v8_isolate->gc_data);
     }
@@ -208,7 +204,6 @@ static PHP_METHOD(V8Isolate, __construct) {
     php_v8_isolate->isolate = v8::Isolate::New(*php_v8_isolate->create_params);
     PHP_V8_ISOLATE_STORE_REFERENCE(php_v8_isolate);
 
-    ZVAL_COPY_VALUE(&php_v8_isolate->this_ptr, getThis());
     php_v8_isolate->isolate_handle = Z_OBJ_HANDLE_P(getThis());
 
     php_v8_isolate->isolate->SetFatalErrorHandler(php_v8_fatal_error_handler);
@@ -379,7 +374,8 @@ static PHP_METHOD(V8Isolate, GetCurrentContext) {
 
     php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_context);
 
-    RETURN_ZVAL(&php_v8_context->this_ptr, 1, 0);
+    ZVAL_OBJ(return_value, &php_v8_context->std);
+    Z_ADDREF_P(return_value);
 }
 
 static PHP_METHOD(V8Isolate, ThrowException) {

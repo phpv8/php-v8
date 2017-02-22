@@ -117,7 +117,6 @@ struct _php_v8_value_t {
     zval *gc_data;
     int   gc_data_count;
 
-    zval this_ptr; // makes sense for objects only
     zend_object std;
 };
 

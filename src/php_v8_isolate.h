@@ -133,7 +133,6 @@ struct _php_v8_isolate_t {
     zval *gc_data;
     int   gc_data_count;
 
-    zval this_ptr;
     zend_object std;
 };
 

@@ -113,7 +113,6 @@ static PHP_METHOD(V8Object, __construct) {
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_object, "Failed to create Object value");
 
-    ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
     php_v8_object_store_self_ptr(php_v8_value, local_object);
 
     php_v8_value->persistent->Reset(isolate, local_object);
@@ -1087,7 +1086,8 @@ static PHP_METHOD(V8Object, CreationContext) {
 
     php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_context);
 
-    RETVAL_ZVAL(&php_v8_context->this_ptr, 1, 0);
+    ZVAL_OBJ(return_value, &php_v8_context->std);
+    Z_ADDREF_P(return_value);
 }
 
 static PHP_METHOD(V8Object, IsCallable) {
