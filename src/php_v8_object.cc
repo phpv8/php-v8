@@ -58,7 +58,6 @@ bool php_v8_object_store_self_ptr(php_v8_value_t *php_v8_value, v8::Local<v8::Ob
 {
     assert(NULL != v8::Isolate::GetCurrent());
     assert(v8::Isolate::GetCurrent()->InContext());
-    assert(v8::Isolate::GetCurrent()->GetCurrentContext() == local_object->CreationContext());
 
     v8::Local<v8::Private> key = php_v8_isolate_get_key_local(php_v8_value->php_v8_isolate);
     assert(!key.IsEmpty());
@@ -79,13 +78,8 @@ bool php_v8_object_store_self_ptr(php_v8_value_t *php_v8_value, v8::Local<v8::Ob
 
 php_v8_value_t * php_v8_object_get_self_ptr(php_v8_isolate_t *php_v8_isolate, v8::Local<v8::Object> local_object)
 {
-    //assert(isolate->InContext())
     assert(NULL != v8::Isolate::GetCurrent());
     assert(v8::Isolate::GetCurrent()->InContext());
-    assert(v8::Isolate::GetCurrent()->GetCurrentContext() == local_object->CreationContext());
-
-//    PHP_V8_ISOLATE_ENTER(isolate);
-//    PHP_V8_CONTEXT_ENTER(local_object->CreationContext());
 
     v8::Local<v8::Private> key = php_v8_isolate_get_key_local(php_v8_isolate);
     assert(!key.IsEmpty());
@@ -98,7 +92,8 @@ php_v8_value_t * php_v8_object_get_self_ptr(php_v8_isolate_t *php_v8_isolate, v8
 
     v8::Local<v8::Value> local_value = maybe_local_value.ToLocalChecked();
 
-    //assert(local_value->IsExternal()); // TODO: for some reason this check fails, but value IS external
+    // for some reason this check fails, but value IS external
+    //assert(local_value->IsExternal());
 
     return static_cast<php_v8_value_t *>(local_value.As<v8::External>()->Value());
 }
