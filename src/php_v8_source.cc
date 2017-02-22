@@ -39,6 +39,7 @@ void php_v8_update_source_cached_data(zval *src_zv, v8::ScriptCompiler::Source *
     php_v8_create_cached_data(&tmp, source->GetCachedData());
 
     zend_update_property(this_ce, src_zv, ZEND_STRL("cached_data"), &tmp);
+    Z_DELREF(tmp);
 }
 
 static PHP_METHOD(V8Source, __construct)

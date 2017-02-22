@@ -236,6 +236,14 @@ static PHP_METHOD(V8ScriptCompiler, CompileFunctionInContext)
                                                                   static_cast<size_t>(context_extensions_count),
                                                                   context_extensions);
 
+    if (arguments) {
+        efree(arguments);
+    }
+
+    if (context_extensions) {
+        efree(context_extensions);
+    }
+
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(maybe_function, "Failed to compile function in context");
 
