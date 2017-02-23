@@ -30,7 +30,7 @@ class ReturnValue
      *
      * If the ReturnValue was not yet set, this will return the undefined value.
      *
-     * @return Value
+     * @return Value | StringValue | NumberValue | ObjectValue | ArrayObject | FunctionObject
      */
     public function Get() : Value
     {

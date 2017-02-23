@@ -19,5 +19,17 @@ namespace V8;
  * The information passed to a property callback about the context
  * of the property access.
  */
-class PropertyCallbackInfo extends CallbackInfo {
+class PropertyCallbackInfo extends CallbackInfo
+{
+    /**
+     * Returns true if the intercepted function should throw if an error occurs.
+     * Usually, true corresponds to 'use strict'.
+     *
+     * Always false when intercepting Reflect.set() independent of the language mode.
+     *
+     * @return bool
+     */
+    public function ShouldThrowOnError(): bool
+    {
+    }
 }

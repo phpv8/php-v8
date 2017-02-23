@@ -22,13 +22,13 @@ $current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($iso
     $isolate = $args->GetIsolate();
     $context = $args->GetContext();
 
-    if ($args->Length()) {
+    if (count($args->Arguments())) {
         $frame_limit = $args->Arguments()[0]->NumberValue($context);
     } else {
         $frame_limit = 10;
     }
 
-    if ($args->Length() > 1) {
+    if (count($args->Arguments()) > 1) {
         $options = $args->Arguments()[1]->NumberValue($context);
     } else {
         $options = \V8\StackTrace\StackTraceOptions::kOverview;

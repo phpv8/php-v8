@@ -73,7 +73,40 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(V8\ReturnValue)#11 (0) {
+object(V8\ReturnValue)#12 (2) {
+  ["isolate":"V8\ReturnValue":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
+    NULL
+    ["time_limit":"V8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"V8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+  }
+  ["context":"V8\ReturnValue":private]=>
+  object(V8\Context)#4 (3) {
+    ["isolate":"V8\Context":private]=>
+    object(V8\Isolate)#3 (5) {
+      ["snapshot":"V8\Isolate":private]=>
+      NULL
+      ["time_limit":"V8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"V8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"V8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"V8\Isolate":private]=>
+      bool(false)
+    }
+    ["global_template":"V8\Context":private]=>
+    NULL
+    ["global_object":"V8\Context":private]=>
+    NULL
+  }
 }
 
 
@@ -89,5 +122,38 @@ V8\Exceptions\GenericException: Attempt to use return value out of calling funct
 
 Object representation (outside of context):
 -------------------------------------------
-object(V8\ReturnValue)#11 (0) {
+object(V8\ReturnValue)#12 (2) {
+  ["isolate":"V8\ReturnValue":private]=>
+  object(V8\Isolate)#3 (5) {
+    ["snapshot":"V8\Isolate":private]=>
+    NULL
+    ["time_limit":"V8\Isolate":private]=>
+    float(0)
+    ["time_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+    ["memory_limit":"V8\Isolate":private]=>
+    int(0)
+    ["memory_limit_hit":"V8\Isolate":private]=>
+    bool(false)
+  }
+  ["context":"V8\ReturnValue":private]=>
+  object(V8\Context)#4 (3) {
+    ["isolate":"V8\Context":private]=>
+    object(V8\Isolate)#3 (5) {
+      ["snapshot":"V8\Isolate":private]=>
+      NULL
+      ["time_limit":"V8\Isolate":private]=>
+      float(0)
+      ["time_limit_hit":"V8\Isolate":private]=>
+      bool(false)
+      ["memory_limit":"V8\Isolate":private]=>
+      int(0)
+      ["memory_limit_hit":"V8\Isolate":private]=>
+      bool(false)
+    }
+    ["global_template":"V8\Context":private]=>
+    NULL
+    ["global_object":"V8\Context":private]=>
+    NULL
+  }
 }

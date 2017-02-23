@@ -277,21 +277,22 @@ void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Val
 template<class T, class M>
 void php_v8_callback_call_from_bucket_with_zargs(size_t index, const T &info, M rv, zval *args) {
     zval callback_info;
-    php_v8_callback_info_t *php_v8_callback_info;
+    php_v8_return_value_t *php_v8_return_value;
     // Wrap callback info
-    php_v8_callback_info = php_v8_callback_info_create_from_info(&callback_info, info);
 
-    if (!php_v8_callback_info) {
+    php_v8_return_value = php_v8_callback_info_create_from_info(&callback_info, info);
+
+    if (!php_v8_return_value) {
         return;
     }
 
     add_next_index_zval(args, &callback_info);
 
-    php_v8_callback_set_retval_from_callback_info(&rv, php_v8_callback_info->php_v8_return_value);
+    php_v8_callback_set_retval_from_callback_info(&rv, php_v8_return_value);
 
     php_v8_callback_call_from_bucket_with_zargs(index, info.Data(), args, NULL);
 
-    php_v8_callback_info_invalidate(php_v8_callback_info);
+    php_v8_return_value_mark_expired(php_v8_return_value);
 }
 
 

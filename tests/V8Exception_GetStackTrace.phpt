@@ -28,7 +28,7 @@ $helper->line();
 $func_test_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) use ($helper, $v8_helper, &$stack_trace_generation_allowed) {
     $isolate = $info->GetIsolate();
 
-    $helper->assert('Exception passed', $info->Length() == 1);
+    $helper->assert('Exception passed', count($info->Arguments()) == 1);
     $helper->line();
 
     $exception = $info->Arguments()[0];
@@ -112,7 +112,7 @@ Stack trace created from thrown value:
 V8\StackTrace->getFrames():
     array(1) {
       [0]=>
-      object(V8\StackFrame)#17 (8) {
+      object(V8\StackFrame)#19 (8) {
         ["line_number":"V8\StackFrame":private]=>
         int(5)
         ["column":"V8\StackFrame":private]=>

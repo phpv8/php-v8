@@ -31,10 +31,7 @@ class FunctionCallbackInfo extends CallbackInfo
     {
     }
 
-    /**
-     * @return int
-     */
-    public function Length() : int
+    public function NewTarget() : Value
     {
     }
 
