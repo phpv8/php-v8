@@ -183,8 +183,8 @@ TryCatchException holds the same isolate it was thrown: ok
 string(49) "Uncaught SyntaxError: Invalid or unexpected token"
 
 Script dies now!
+ObjectTemplate dies now!
 FunctionTemplate dies now!
 Context dies now!
-ObjectTemplate dies now!
 Isolate dies now!
 END

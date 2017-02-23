@@ -45,7 +45,7 @@ $helper->dump($obj->GetContext());
 $obj = null;
 ?>
 --EXPECT--
-object(Context)#4 (3) {
+object(Context)#4 (1) {
   ["isolate":"V8\Context":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -59,17 +59,13 @@ object(Context)#4 (3) {
     ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
-  ["global_template":"V8\Context":private]=>
-  NULL
-  ["global_object":"V8\Context":private]=>
-  NULL
 }
 
 Context dies now
 
 Previous context should be dead, creating zval for object from old context
 
-object(Context)#6 (3) {
+object(Context)#6 (1) {
   ["isolate":"V8\Context":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -83,9 +79,5 @@ object(Context)#6 (3) {
     ["memory_limit_hit":"V8\Isolate":private]=>
     bool(false)
   }
-  ["global_template":"V8\Context":private]=>
-  NULL
-  ["global_object":"V8\Context":private]=>
-  NULL
 }
 Context dies now

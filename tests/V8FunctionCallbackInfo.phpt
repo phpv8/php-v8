@@ -90,7 +90,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
     bool(false)
   }
   ["context":"V8\CallbackInfo":private]=>
-  object(V8\Context)#4 (3) {
+  object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
     object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -104,24 +104,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["global_template":"V8\Context":private]=>
-    object(V8\ObjectTemplate)#3 (1) {
-      ["isolate":"V8\Template":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-    }
-    ["global_object":"V8\Context":private]=>
-    NULL
   }
   ["this":"V8\CallbackInfo":private]=>
   object(V8\ObjectValue)#11 (2) {
@@ -139,7 +121,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
       bool(false)
     }
     ["context":"V8\ObjectValue":private]=>
-    object(V8\Context)#4 (3) {
+    object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
       object(v8Tests\TrackingDtors\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -153,24 +135,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
         ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["global_template":"V8\Context":private]=>
-      object(V8\ObjectTemplate)#3 (1) {
-        ["isolate":"V8\Template":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
-      ["global_object":"V8\Context":private]=>
-      NULL
     }
   }
   ["holder":"V8\CallbackInfo":private]=>
@@ -189,7 +153,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
       bool(false)
     }
     ["context":"V8\ObjectValue":private]=>
-    object(V8\Context)#4 (3) {
+    object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
       object(v8Tests\TrackingDtors\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -203,24 +167,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
         ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["global_template":"V8\Context":private]=>
-      object(V8\ObjectTemplate)#3 (1) {
-        ["isolate":"V8\Template":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
-      ["global_object":"V8\Context":private]=>
-      NULL
     }
   }
   ["return_value":"V8\CallbackInfo":private]=>
@@ -239,7 +185,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
       bool(false)
     }
     ["context":"V8\ReturnValue":private]=>
-    object(V8\Context)#4 (3) {
+    object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
       object(v8Tests\TrackingDtors\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -253,24 +199,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
         ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["global_template":"V8\Context":private]=>
-      object(V8\ObjectTemplate)#3 (1) {
-        ["isolate":"V8\Template":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
-      ["global_object":"V8\Context":private]=>
-      NULL
     }
   }
   ["arguments":"V8\FunctionCallbackInfo":private]=>
@@ -307,7 +235,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
         bool(false)
       }
       ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#4 (3) {
+      object(V8\Context)#4 (1) {
         ["isolate":"V8\Context":private]=>
         object(v8Tests\TrackingDtors\Isolate)#2 (5) {
           ["snapshot":"V8\Isolate":private]=>
@@ -321,24 +249,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
           ["memory_limit_hit":"V8\Isolate":private]=>
           bool(false)
         }
-        ["global_template":"V8\Context":private]=>
-        object(V8\ObjectTemplate)#3 (1) {
-          ["isolate":"V8\Template":private]=>
-          object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-            ["snapshot":"V8\Isolate":private]=>
-            NULL
-            ["time_limit":"V8\Isolate":private]=>
-            float(0)
-            ["time_limit_hit":"V8\Isolate":private]=>
-            bool(false)
-            ["memory_limit":"V8\Isolate":private]=>
-            int(0)
-            ["memory_limit_hit":"V8\Isolate":private]=>
-            bool(false)
-          }
-        }
-        ["global_object":"V8\Context":private]=>
-        NULL
       }
     }
   }
@@ -386,7 +296,7 @@ object(V8\ReturnValue)#12 (2) {
     bool(false)
   }
   ["context":"V8\ReturnValue":private]=>
-  object(V8\Context)#4 (3) {
+  object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
     object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -400,24 +310,6 @@ object(V8\ReturnValue)#12 (2) {
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["global_template":"V8\Context":private]=>
-    object(V8\ObjectTemplate)#3 (1) {
-      ["isolate":"V8\Template":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-    }
-    ["global_object":"V8\Context":private]=>
-    NULL
   }
 }
 
@@ -438,7 +330,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
     bool(false)
   }
   ["context":"V8\CallbackInfo":private]=>
-  object(V8\Context)#4 (3) {
+  object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
     object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -452,24 +344,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["global_template":"V8\Context":private]=>
-    object(V8\ObjectTemplate)#3 (1) {
-      ["isolate":"V8\Template":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-    }
-    ["global_object":"V8\Context":private]=>
-    NULL
   }
   ["this":"V8\CallbackInfo":private]=>
   object(V8\ObjectValue)#11 (2) {
@@ -487,7 +361,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
       bool(false)
     }
     ["context":"V8\ObjectValue":private]=>
-    object(V8\Context)#4 (3) {
+    object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
       object(v8Tests\TrackingDtors\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -501,24 +375,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
         ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["global_template":"V8\Context":private]=>
-      object(V8\ObjectTemplate)#3 (1) {
-        ["isolate":"V8\Template":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
-      ["global_object":"V8\Context":private]=>
-      NULL
     }
   }
   ["holder":"V8\CallbackInfo":private]=>
@@ -537,7 +393,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
       bool(false)
     }
     ["context":"V8\ObjectValue":private]=>
-    object(V8\Context)#4 (3) {
+    object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
       object(v8Tests\TrackingDtors\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -551,24 +407,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
         ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["global_template":"V8\Context":private]=>
-      object(V8\ObjectTemplate)#3 (1) {
-        ["isolate":"V8\Template":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
-      ["global_object":"V8\Context":private]=>
-      NULL
     }
   }
   ["return_value":"V8\CallbackInfo":private]=>
@@ -587,7 +425,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
       bool(false)
     }
     ["context":"V8\ReturnValue":private]=>
-    object(V8\Context)#4 (3) {
+    object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
       object(v8Tests\TrackingDtors\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -601,24 +439,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
         ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["global_template":"V8\Context":private]=>
-      object(V8\ObjectTemplate)#3 (1) {
-        ["isolate":"V8\Template":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
-      ["global_object":"V8\Context":private]=>
-      NULL
     }
   }
   ["arguments":"V8\FunctionCallbackInfo":private]=>
@@ -655,7 +475,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
         bool(false)
       }
       ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#4 (3) {
+      object(V8\Context)#4 (1) {
         ["isolate":"V8\Context":private]=>
         object(v8Tests\TrackingDtors\Isolate)#2 (5) {
           ["snapshot":"V8\Isolate":private]=>
@@ -669,24 +489,6 @@ object(V8\FunctionCallbackInfo)#10 (8) {
           ["memory_limit_hit":"V8\Isolate":private]=>
           bool(false)
         }
-        ["global_template":"V8\Context":private]=>
-        object(V8\ObjectTemplate)#3 (1) {
-          ["isolate":"V8\Template":private]=>
-          object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-            ["snapshot":"V8\Isolate":private]=>
-            NULL
-            ["time_limit":"V8\Isolate":private]=>
-            float(0)
-            ["time_limit_hit":"V8\Isolate":private]=>
-            bool(false)
-            ["memory_limit":"V8\Isolate":private]=>
-            int(0)
-            ["memory_limit_hit":"V8\Isolate":private]=>
-            bool(false)
-          }
-        }
-        ["global_object":"V8\Context":private]=>
-        NULL
       }
     }
   }

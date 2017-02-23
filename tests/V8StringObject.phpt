@@ -82,7 +82,7 @@ object(V8\StringObject)#6 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#5 (3) {
+  object(V8\Context)#5 (1) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -96,24 +96,6 @@ object(V8\StringObject)#6 (2) {
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["global_template":"V8\Context":private]=>
-    object(V8\ObjectTemplate)#4 (1) {
-      ["isolate":"V8\Template":private]=>
-      object(V8\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-    }
-    ["global_object":"V8\Context":private]=>
-    NULL
   }
 }
 

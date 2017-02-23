@@ -52,11 +52,11 @@ echo 'Done here', PHP_EOL;
 ?>
 EOF
 --EXPECT--
+ObjectTemplate dies now!
 FunctionTemplate dies now!
 before exit
 Going to exit
 Doing shutdown
 Isolate dies now!
-ObjectTemplate dies now!
 Context dies now!
 Script dies now!

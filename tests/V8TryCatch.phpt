@@ -84,7 +84,7 @@ object(V8\TryCatch)#4 (7) {
     bool(false)
   }
   ["context":"V8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Context)#3 (3) {
+  object(v8Tests\TrackingDtors\Context)#3 (1) {
     ["isolate":"V8\Context":private]=>
     object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -98,10 +98,6 @@ object(V8\TryCatch)#4 (7) {
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["global_template":"V8\Context":private]=>
-    NULL
-    ["global_object":"V8\Context":private]=>
-    NULL
   }
   ["exception":"V8\TryCatch":private]=>
   NULL
@@ -144,7 +140,7 @@ object(V8\TryCatch)#12 (7) {
     bool(false)
   }
   ["context":"V8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Context)#3 (3) {
+  object(v8Tests\TrackingDtors\Context)#3 (1) {
     ["isolate":"V8\Context":private]=>
     object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -158,10 +154,6 @@ object(V8\TryCatch)#12 (7) {
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["global_template":"V8\Context":private]=>
-    NULL
-    ["global_object":"V8\Context":private]=>
-    NULL
   }
   ["exception":"V8\TryCatch":private]=>
   object(V8\ObjectValue)#5 (2) {
@@ -179,7 +171,7 @@ object(V8\TryCatch)#12 (7) {
       bool(false)
     }
     ["context":"V8\ObjectValue":private]=>
-    object(v8Tests\TrackingDtors\Context)#3 (3) {
+    object(v8Tests\TrackingDtors\Context)#3 (1) {
       ["isolate":"V8\Context":private]=>
       object(v8Tests\TrackingDtors\Isolate)#2 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -193,10 +185,6 @@ object(V8\TryCatch)#12 (7) {
         ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["global_template":"V8\Context":private]=>
-      NULL
-      ["global_object":"V8\Context":private]=>
-      NULL
     }
   }
   ["stack_trace":"V8\TryCatch":private]=>
@@ -268,7 +256,7 @@ object(V8\TryCatch)#12 (7) {
           bool(false)
         }
         ["context":"V8\ObjectValue":private]=>
-        object(v8Tests\TrackingDtors\Context)#3 (3) {
+        object(v8Tests\TrackingDtors\Context)#3 (1) {
           ["isolate":"V8\Context":private]=>
           object(v8Tests\TrackingDtors\Isolate)#2 (5) {
             ["snapshot":"V8\Isolate":private]=>
@@ -282,10 +270,6 @@ object(V8\TryCatch)#12 (7) {
             ["memory_limit_hit":"V8\Isolate":private]=>
             bool(false)
           }
-          ["global_template":"V8\Context":private]=>
-          NULL
-          ["global_object":"V8\Context":private]=>
-          NULL
         }
       }
     }

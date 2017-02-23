@@ -96,10 +96,6 @@ static PHP_METHOD(V8Context, __construct)
     PHP_V8_STORE_POINTER_TO_ISOLATE(php_v8_context, php_v8_isolate);
     PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
-    if (php_v8_global_template_zv) {
-        zend_update_property(this_ce, getThis(), ZEND_STRL("global_template"), php_v8_global_template_zv);
-    }
-
     if (php_v8_global_template_zv && Z_TYPE_P(php_v8_global_template_zv) != IS_NULL) {
         PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(php_v8_global_template_zv, php_v8_global_template);
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_context, php_v8_global_template);
@@ -352,8 +348,6 @@ PHP_MINIT_FUNCTION(php_v8_context)
     this_ce->create_object = php_v8_context_ctor;
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("global_template"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("global_object"), ZEND_ACC_PRIVATE);
 
     memcpy(&php_v8_context_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 

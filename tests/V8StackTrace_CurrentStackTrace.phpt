@@ -179,8 +179,8 @@ Error
     at test.js:64:7
 
 Script dies now!
+ObjectTemplate dies now!
 FunctionTemplate dies now!
 Context dies now!
-ObjectTemplate dies now!
 Isolate dies now!
 END

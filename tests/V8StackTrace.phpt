@@ -109,7 +109,7 @@ object(V8\StackTrace)#8 (2) {
       bool(false)
     }
     ["context":"V8\ObjectValue":private]=>
-    object(v8Tests\TrackingDtors\Context)#4 (3) {
+    object(v8Tests\TrackingDtors\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
       object(v8Tests\TrackingDtors\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -123,10 +123,6 @@ object(V8\StackTrace)#8 (2) {
         ["memory_limit_hit":"V8\Isolate":private]=>
         bool(false)
       }
-      ["global_template":"V8\Context":private]=>
-      NULL
-      ["global_object":"V8\Context":private]=>
-      NULL
     }
   }
 }
