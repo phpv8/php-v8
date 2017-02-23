@@ -280,7 +280,7 @@ php_v8_value_t *php_v8_create_value(zval *return_value, v8::Local<v8::Value> loc
     if (local_value->IsObject()) {
         assert(php_v8_isolate->isolate->InContext());
 
-        php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_value.As<v8::Object>()->CreationContext());
+        php_v8_context_t *php_v8_context = php_v8_context_get_reference(php_v8_isolate->isolate->GetEnteredContext());
 
         ZVAL_OBJ(&context_zv, &php_v8_context->std);
         PHP_V8_OBJECT_STORE_CONTEXT(return_value, &context_zv);

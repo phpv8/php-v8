@@ -123,7 +123,7 @@ StringObject extends ObjectValue: ok
 Getters:
 --------
 V8\StringObject->ValueOf():
-    object(V8\StringValue)#119 (1) {
+    object(V8\StringValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

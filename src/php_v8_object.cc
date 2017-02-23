@@ -1071,25 +1071,6 @@ static PHP_METHOD(V8Object, Clone) {
     php_v8_get_or_create_value(return_value, local_cloned_object, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, CreationContext) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
-
-    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
-    v8::Local<v8::Object> local_object = v8::Local<v8::Object>::Cast(local_value);
-
-    v8::Local<v8::Context> local_context= local_object->CreationContext();
-
-    php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_context);
-
-    ZVAL_OBJ(return_value, &php_v8_context->std);
-    Z_ADDREF_P(return_value);
-}
-
 static PHP_METHOD(V8Object, IsCallable) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -1377,9 +1358,6 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_Clone, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_CreationContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
-ZEND_END_ARG_INFO()
-
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_IsCallable, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -1444,7 +1422,6 @@ static const zend_function_entry php_v8_object_methods[] = {
         PHP_ME(V8Object, HasIndexedLookupInterceptor, arginfo_v8_object_HasIndexedLookupInterceptor, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, GetIdentityHash, arginfo_v8_object_GetIdentityHash, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, Clone, arginfo_v8_object_Clone, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, CreationContext, arginfo_v8_object_CreationContext, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Object, IsCallable, arginfo_v8_object_IsCallable, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, IsConstructor, arginfo_v8_object_IsConstructor, ZEND_ACC_PUBLIC)
