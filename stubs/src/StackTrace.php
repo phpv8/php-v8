@@ -53,7 +53,7 @@ class StackTrace
     /**
      * Returns a StackFrame at a particular index.
      *
-     * @return StackFrame
+     * @return StackFrame[]
      */
     public function GetFrames() : array
     {

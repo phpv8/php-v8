@@ -371,7 +371,7 @@ static PHP_METHOD(V8Isolate, GetEnteredContext) {
     PHP_V8_ISOLATE_REQUIRE_IN_CONTEXT(isolate);
 
     v8::Local<v8::Context> local_context = php_v8_isolate->isolate->GetEnteredContext();
-    
+
     php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_context);
 
     ZVAL_OBJ(return_value, &php_v8_context->std);
