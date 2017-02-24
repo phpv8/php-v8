@@ -54,7 +54,7 @@ php_v8_return_value_t *php_v8_callback_info_create_from_info_meta(zval *return_v
     php_v8_return_value_t *php_v8_return_value;
 
     v8::Isolate *isolate = args.GetIsolate();
-    v8::Local<v8::Context> context = isolate->GetCurrentContext();
+    v8::Local<v8::Context> context = isolate->GetEnteredContext();
 
     if (context.IsEmpty()) {
         PHP_V8_THROW_EXCEPTION("Internal exception: no calling context found");

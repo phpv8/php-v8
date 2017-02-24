@@ -360,7 +360,7 @@ static PHP_METHOD(V8Isolate, InContext) {
     RETURN_BOOL(php_v8_isolate->isolate->InContext())
 }
 
-static PHP_METHOD(V8Isolate, GetCurrentContext) {
+static PHP_METHOD(V8Isolate, GetEnteredContext) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -370,8 +370,8 @@ static PHP_METHOD(V8Isolate, GetCurrentContext) {
 
     PHP_V8_ISOLATE_REQUIRE_IN_CONTEXT(isolate);
 
-    v8::Local<v8::Context> local_context = php_v8_isolate->isolate->GetCurrentContext();
-
+    v8::Local<v8::Context> local_context = php_v8_isolate->isolate->GetEnteredContext();
+    
     php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_context);
 
     ZVAL_OBJ(return_value, &php_v8_context->std);
@@ -551,7 +551,7 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_InContext, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetCurrentContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetEnteredContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
@@ -610,7 +610,7 @@ static const zend_function_entry php_v8_isolate_methods[] = {
         PHP_ME(V8Isolate, GetHeapStatistics, arginfo_v8_isolate_GetHeapStatistics, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Isolate, InContext, arginfo_v8_isolate_InContext, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, GetCurrentContext, arginfo_v8_isolate_GetCurrentContext, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Isolate, GetEnteredContext, arginfo_v8_isolate_GetEnteredContext, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Isolate, ThrowException, arginfo_v8_isolate_ThrowException, ZEND_ACC_PUBLIC)
         PHP_ME(V8Isolate, IdleNotificationDeadline, arginfo_v8_isolate_IdleNotificationDeadline, ZEND_ACC_PUBLIC)

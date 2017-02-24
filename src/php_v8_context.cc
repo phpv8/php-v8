@@ -30,10 +30,14 @@ static void php_v8_context_free(zend_object *object)
 {
     php_v8_context_t *php_v8_context = php_v8_context_fetch_object(object);
 
-    // TODO: if we become weak, don't forget to remove stored `zval* this_ptr` to Context object
-
     if (php_v8_context->context) {
         if (PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_context)) {
+            {
+                PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+                PHP_V8_DECLARE_CONTEXT(php_v8_context);
+                php_v8_context_store_reference(isolate, context, nullptr);
+            }
+
             php_v8_context->context->Reset();
         }
 

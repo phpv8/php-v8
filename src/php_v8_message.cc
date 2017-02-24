@@ -30,7 +30,7 @@ void php_v8_message_create_from_message(zval *return_value, php_v8_isolate_t *ph
     object_init_ex(return_value, this_ce);
 
     v8::Isolate *isolate = php_v8_isolate->isolate;
-    v8::Local<v8::Context> context = isolate->GetCurrentContext();
+    v8::Local<v8::Context> context = isolate->GetEnteredContext();
 
     /* v8::Message::Get */
     if (!message->Get().IsEmpty()) {

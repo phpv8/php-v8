@@ -51,7 +51,7 @@ class Script
      *
      * @param \V8\Context $context
      *
-     * @return BooleanValue|FunctionObject|NumberValue|ObjectValue|StringValue|Value
+     * @return BooleanValue | FunctionObject | NumberValue | ObjectValue | StringValue | Value
      */
     public function Run(Context $context): Value
     {

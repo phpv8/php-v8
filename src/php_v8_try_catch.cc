@@ -30,7 +30,7 @@ void php_v8_try_catch_create_from_try_catch(zval *return_value, php_v8_isolate_t
     object_init_ex(return_value, this_ce);
 
     PHP_V8_DECLARE_ISOLATE(php_v8_isolate);
-    v8::Local<v8::Context> context = isolate->GetCurrentContext();
+    v8::Local<v8::Context> context = isolate->GetEnteredContext();
 
     ZVAL_OBJ(&isolate_zv, &php_v8_isolate->std);
     ZVAL_OBJ(&context_zv, &php_v8_context->std);

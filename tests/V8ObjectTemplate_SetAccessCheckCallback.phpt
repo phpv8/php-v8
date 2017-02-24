@@ -48,7 +48,7 @@ $AccessBlocker = function (\V8\Context $context, \V8\ObjectValue $object) use (&
     echo 'AccessBlocker called', PHP_EOL;
 //    echo '    access ', ($allowed_access ? 'allowed' : 'denied'), PHP_EOL;
 
-    //return $isolate->GetCurrentContext()->GlobalObject()->Equals($isolate->GetCurrentContext(), $object) || $allowed_access;
+    //return $isolate->GetEnteredContext()->GlobalObject()->Equals($isolate->GetCurrentContext(), $object) || $allowed_access;
     return true;
 };
 
