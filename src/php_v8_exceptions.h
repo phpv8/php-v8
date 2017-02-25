@@ -35,9 +35,7 @@ extern zend_class_entry* php_v8_time_limit_exception_class_entry;
 extern zend_class_entry* php_v8_memory_limit_exception_class_entry;
 
 extern zend_class_entry* php_v8_value_exception_class_entry;
-extern zend_class_entry* php_v8_script_exception_class_entry;
 
-extern void php_v8_try_catch_throw_exception(v8::TryCatch *try_catch, const char* message, zend_class_entry *ce);
 extern void php_v8_throw_try_catch_exception(php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, v8::TryCatch *try_catch);
 extern void php_v8_throw_try_catch_exception(php_v8_context_t *php_v8_context, v8::TryCatch *try_catch);
 

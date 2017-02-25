@@ -77,8 +77,7 @@ static void php_v8_function_template_free(zend_object *object) {
      * persistent handler and cleanup callbacks. Alternatively, we can detect in weak callback that object is live and
      * unmark it as weak and do all that cleanings in free handler. What about if object will be reused after being
      * unmarked as week? Note, that the only action on weak handler callback is Reset()ing persistent handler.
-     *
-     * */
+     */
     if (zend_is_executing() && !CG(unclean_shutdown) && php_v8_function_template->persistent_data && !php_v8_function_template->persistent_data->empty()) {
         php_v8_function_template_make_weak(php_v8_function_template);
     }
@@ -161,13 +160,7 @@ static PHP_METHOD(V8FunctionTemplate, __construct) {
         callback = php_v8_callback_function;
     }
 
-    v8::Local<v8::FunctionTemplate> local_template = v8::FunctionTemplate::New(
-            isolate,
-            callback,
-            data,
-            signature,
-            static_cast<int>(length)
-    );
+    v8::Local<v8::FunctionTemplate> local_template = v8::FunctionTemplate::New(isolate, callback, data, signature, static_cast<int>(length));
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_template, "Failed to create FunctionTemplate value");
 

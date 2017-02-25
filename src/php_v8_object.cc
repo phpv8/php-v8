@@ -1189,10 +1189,6 @@ static PHP_METHOD(V8Object, CallAsConstructor) {
     php_v8_get_or_create_value(return_value, local_res, php_v8_value->php_v8_isolate);
 }
 
-// Not supported yet
-//static PHP_METHOD(V8Object, Cast) {
-//}
-
 /* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
 static PHP_METHOD(V8Object, AdjustExternalAllocatedMemory) {
     php_v8_ext_mem_interface_value_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
@@ -1427,9 +1423,6 @@ static const zend_function_entry php_v8_object_methods[] = {
         PHP_ME(V8Object, IsConstructor, arginfo_v8_object_IsConstructor, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, CallAsFunction, arginfo_v8_object_CallAsFunction, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, CallAsConstructor, arginfo_v8_object_CallAsConstructor, ZEND_ACC_PUBLIC)
-
-        // NOTE: Not supported yet
-        //PHP_ME(V8Object, Cast, arginfo_v8_object_Cast, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
         PHP_ME(V8Object, AdjustExternalAllocatedMemory, arginfo_v8_object_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
         PHP_ME(V8Object, GetExternalAllocatedMemory, arginfo_v8_object_GetExternalAllocatedMemory, ZEND_ACC_PUBLIC)

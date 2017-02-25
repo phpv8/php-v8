@@ -27,6 +27,16 @@ $data = null;
 $context = new \V8\Context($isolate);
 
 $helper->assert('Context global is affected by snapshot blob', $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'test_snapshot'))->IsFunction());
+
+
+try {
+    V8\StartupData::CreateFromSource(') bad +/^\\');
+    $helper->assert('Unable to create startup data from bad source', false);
+} catch (Exception $e) {
+    $helper->space();
+    $helper->exception_export($e);
+}
+
 ?>
 --EXPECT--
 Object representation:
@@ -39,3 +49,6 @@ Snapshot blob is large binary string: ok
 Snapshot raw_size is the same as binary_string length: ok
 Snapshot raw_size is the same as binary_string length: ok
 Context global is affected by snapshot blob: ok
+
+
+V8\Exceptions\GenericException: Failed to create startup blob

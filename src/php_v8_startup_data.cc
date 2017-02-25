@@ -115,8 +115,8 @@ static PHP_METHOD(V8StartupData, CreateFromSource) {
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "S", &blob) == FAILURE) {
         return;
     }
+
     /* we can't try-catch here while we have no isolate yet */
-    // TODO: test to create blob from invalid source
 
     const char *source = ZSTR_VAL(blob);
     php_v8_init();

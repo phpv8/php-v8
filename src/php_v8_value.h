@@ -70,7 +70,6 @@ extern php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<
     PHP_V8_ENTER_STORED_ISOLATE((value_v8)); \
     PHP_V8_ENTER_STORED_CONTEXT((value_v8)); \
 
-// TODO: move to better place or is it fine here too?
 #define PHP_V8_CONVERT_UTF8VALUE_TO_STRING(from, to) const char *(to) = (const char*) *(from);
 #define PHP_V8_CONVERT_UTF8VALUE_TO_STRING_NODECL(from, to) (to) = (const char*) *(from);
 
@@ -97,7 +96,6 @@ extern php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<
     PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK_NODECL(_v8_utf8_str_##cstr, cstr); \
 }
 
-// TODO: string length check?
 #define PHP_V8_SET_ZVAL_STRING_FROM_V8_STRING(zval_to, v8_local_string_from) { \
     v8::String::Utf8Value _v8_utf8_str((v8_local_string_from)); \
     PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(_v8_utf8_str, _v8_utf8_cstr); \

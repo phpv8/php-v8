@@ -268,7 +268,7 @@ void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Val
         ZVAL_ZVAL(retval, fci.retval, 1, 1);
     }
 
-    // TODO: what about exceptions? - we let user handle any case of exceptions for themselves
+    // We let user handle any case of exceptions for themselves
 
     /* Clean up our mess */
     zend_fcall_info_args_clear(&fci, 1);

@@ -106,8 +106,8 @@ static void php_v8_value_free(zend_object *object) {
         if (local_value->IsObject()) {
             // TODO: at this point we SHOULD drop link to complete object and replace it with link to persistent handler and callbacks
 
-            /* NOTE: here we lose reference to persistent handler and callbacks. While in most cases this should be
-             *       rare case, it may lead to allocated memory bloating, so it may be a good idea to store proper reference
+            /* Here we lose reference to persistent handler and callbacks. While in most cases this should be
+             * rare case, it may lead to allocated memory bloating, so it may be a good idea to store proper reference
              */
             php_v8_object_delete_self_ptr(php_v8_value, v8::Local<v8::Object>::Cast(local_value));
         }
@@ -427,7 +427,6 @@ static PHP_V8_VALUE_IS_METHOD(V8Value, IsSharedArrayBuffer)
 static PHP_V8_VALUE_IS_METHOD(V8Value, IsProxy)
 //static PHP_V8_VALUE_IS_METHOD(V8Value, IsWebAssemblyCompiledModule) // Experimental
 
-// TODO: bind other methods that matters
 
 /* -----------------------------------------------------------------------
           Converters from v8::Value to high-level v8::Value's children

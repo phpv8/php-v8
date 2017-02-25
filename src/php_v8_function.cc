@@ -75,9 +75,9 @@ bool php_v8_function_unpack_args(zval *arguments_zv, int arg_position, v8::Isola
 
         php_v8_tmp_data = PHP_V8_VALUE_FETCH(pzval);
 
-        // NOTE: check for emptiness may be considered redundant while we may catch the fact that value was not properly
-        //       constructed by checking isolates mismatch, but this check serves for user-friendly purposes to throw
-        //       less confusing exception message
+        // Check for emptiness may be considered redundant while we may catch the fact that value was not properly
+        // constructed by checking isolates mismatch, but this check serves for user-friendly purposes to throw
+        // less confusing exception message
         if (NULL == php_v8_tmp_data->persistent || php_v8_tmp_data->persistent->IsEmpty()) {
             spprintf(&exception_message, 0, PHP_V8_EMPTY_VALUE_MSG ": argument %d passed to %s::%s() at %d offset",
                      arg_position, ZSTR_VAL(ce_name), get_active_function_name(), i);
@@ -164,9 +164,9 @@ bool php_v8_function_unpack_string_args(zval* arguments_zv, int arg_position, v8
 
                 php_v8_tmp_data = PHP_V8_VALUE_FETCH(pzval);
 
-                // NOTE: check for emptiness may be considered redundant while we may catch the fact that value was not properly
-                //       constructed by checking isolates mismatch, but this check serves for user-friendly purposes to throw
-                //       less confusing exception message
+                // Check for emptiness may be considered redundant while we may catch the fact that value was not properly
+                // constructed by checking isolates mismatch, but this check serves for user-friendly purposes to throw
+                // less confusing exception message
                 if (NULL == php_v8_tmp_data->persistent || php_v8_tmp_data->persistent->IsEmpty()) {
                     spprintf(&exception_message, 0, PHP_V8_EMPTY_VALUE_MSG ": argument %d passed to %s::%s() at %d offset",
                              arg_position, ZSTR_VAL(ce_name), get_active_function_name(), i);
@@ -253,9 +253,9 @@ bool php_v8_function_unpack_object_args(zval* arguments_zv, int arg_position, v8
 
                 php_v8_tmp_data = PHP_V8_VALUE_FETCH(pzval);
 
-                // NOTE: check for emptiness may be considered redundant while we may catch the fact that value was not properly
-                //       constructed by checking isolates mismatch, but this check serves for user-friendly purposes to throw
-                //       less confusing exception message
+                // Check for emptiness may be considered redundant while we may catch the fact that value was not properly
+                // constructed by checking isolates mismatch, but this check serves for user-friendly purposes to throw
+                // less confusing exception message
                 if (NULL == php_v8_tmp_data->persistent || php_v8_tmp_data->persistent->IsEmpty()) {
                     spprintf(&exception_message, 0, PHP_V8_EMPTY_VALUE_MSG ": argument %d passed to %s::%s() at %d offset",
                              arg_position, ZSTR_VAL(ce_name), get_active_function_name(), i);
@@ -333,14 +333,7 @@ static PHP_METHOD(V8Function, __construct) {
         callback = php_v8_callback_function;
     }
 
-    // TODO: check length range (PHP uses long, while V8 uses int
-
-    v8::MaybeLocal<v8::Function> maybe_local_function = v8::Function::New(
-            context,
-            callback,
-            data,
-            (int) length
-    );
+    v8::MaybeLocal<v8::Function> maybe_local_function = v8::Function::New(context, callback, data, static_cast<int>(length));
 
     if (maybe_local_function.IsEmpty()) {
         PHP_V8_THROW_EXCEPTION("Failed to create Function value");

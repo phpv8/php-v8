@@ -164,8 +164,6 @@ static void php_v8_fatal_error_handler(const char *location, const char *message
     v8::Isolate *isolate = v8::Isolate::GetCurrent();
     assert(isolate != NULL); // as we set fatal error handler per-isolate, we should always have at least any of them as current one
 
-    // TODO: if there are no entered isolates = fatal error
-
     php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
     assert(NULL != php_v8_isolate);

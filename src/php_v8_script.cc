@@ -48,7 +48,6 @@ static void php_v8_script_free(zend_object *object)
 {
     php_v8_script_t *php_v8_script = php_v8_script_fetch_object(object);
 
-    // TODO: think about making script weak, it probably may still in use by returned functions from it, isn't it?
     if (php_v8_script->persistent) {
         if (PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_script)) {
             php_v8_script->persistent->Reset();

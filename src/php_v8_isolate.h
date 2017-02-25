@@ -57,7 +57,6 @@ inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php
     PHP_V8_CHECK_EMPTY_ISOLATE_HANDLER(into);
 
 
-// TODO: cover cases when first and/or second are NULLs
 #define PHP_V8_ISOLATES_CHECK(first, second) if ((first)->isolate != (second)->isolate) { PHP_V8_THROW_EXCEPTION(PHP_V8_ISOLATES_MISMATCH_MSG); return; }
 #define PHP_V8_ISOLATES_CHECK_USING_ISOLATE(first, using_isolate) if ((first)->isolate != (using_isolate)) { PHP_V8_THROW_EXCEPTION(PHP_V8_ISOLATES_MISMATCH_MSG); return; }
 

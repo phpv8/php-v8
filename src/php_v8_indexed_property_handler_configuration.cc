@@ -119,8 +119,7 @@ static PHP_METHOD (V8IndexedPropertyHandlerConfiguration, __construct) {
         php_v8_handlers->enumerator = php_v8_callback_indexed_property_enumerator;
     }
 
-    // TODO: php_v8_handlers->flags is long, while flag is zend_long, unify types or cast ???
-    php_v8_handlers->flags = flags ? flags & PHP_V8_PROPERTY_HANDLER_FLAGS : flags;
+    php_v8_handlers->flags = static_cast<long>(flags ? flags & PHP_V8_PROPERTY_HANDLER_FLAGS : flags);
 }
 
 
