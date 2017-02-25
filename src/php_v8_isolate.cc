@@ -44,20 +44,21 @@ static void php_v8_maybe_terminate_execution(php_v8_isolate_t *php_v8_isolate) {
 }
 
 static inline void php_v8_isolate_destroy(php_v8_isolate_t *php_v8_isolate) {
+    v8::Isolate *isolate = nullptr;
+
     if (php_v8_isolate->isolate) {
 
         php_v8_maybe_terminate_execution(php_v8_isolate);
 
-        while (php_v8_isolate->isolate->InContext()) {
-            v8::Local<v8::Context> context = php_v8_isolate->isolate->GetEnteredContext();
-            context->Exit();
+        if (CG(unclean_shutdown)) {
+            // freeing order is not guaranteed upon unclean shutdown, so we explicitly exit all entered isolates,
+            // to ensure that current one won't remain entered so that we'll properly dispose it below
+            while ( (isolate = v8::Isolate::GetCurrent())) {
+                isolate->Exit();
+            }
         }
 
-        if (php_v8_isolate->isolate == v8::Isolate::GetCurrent()) {
-            php_v8_isolate->isolate->Exit();
-        }
-
-        php_v8_isolate->isolate->Dispose(); // this cause error when we try to call on already entered context
+        php_v8_isolate->isolate->Dispose(); // this cause error when we try to call on already entered isolate
     }
 }
 
