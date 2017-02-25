@@ -646,9 +646,10 @@ PHP_MINIT_FUNCTION (php_v8_isolate) {
 
     memcpy(&php_v8_isolate_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_isolate_object_handlers.offset   = XtOffsetOf(php_v8_isolate_t, std);
-    php_v8_isolate_object_handlers.free_obj = php_v8_isolate_free;
-    php_v8_isolate_object_handlers.get_gc   = php_v8_isolate_gc;
+    php_v8_isolate_object_handlers.offset    = XtOffsetOf(php_v8_isolate_t, std);
+    php_v8_isolate_object_handlers.free_obj  = php_v8_isolate_free;
+    php_v8_isolate_object_handlers.get_gc    = php_v8_isolate_gc;
+    php_v8_isolate_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

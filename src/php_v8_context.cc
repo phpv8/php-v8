@@ -355,8 +355,9 @@ PHP_MINIT_FUNCTION(php_v8_context)
 
     memcpy(&php_v8_context_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_context_object_handlers.offset = XtOffsetOf(php_v8_context_t, std);
-    php_v8_context_object_handlers.free_obj = php_v8_context_free;
+    php_v8_context_object_handlers.offset    = XtOffsetOf(php_v8_context_t, std);
+    php_v8_context_object_handlers.free_obj  = php_v8_context_free;
+    php_v8_context_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

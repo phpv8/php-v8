@@ -169,8 +169,9 @@ PHP_MINIT_FUNCTION (php_v8_startup_data) {
 
     memcpy(&php_v8_startup_data_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_startup_data_object_handlers.offset   = XtOffsetOf(php_v8_startup_data_t, std);
-    php_v8_startup_data_object_handlers.free_obj = php_v8_startup_data_free;
+    php_v8_startup_data_object_handlers.offset    = XtOffsetOf(php_v8_startup_data_t, std);
+    php_v8_startup_data_object_handlers.free_obj  = php_v8_startup_data_free;
+    php_v8_startup_data_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

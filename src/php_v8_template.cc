@@ -306,7 +306,6 @@ PHP_MINIT_FUNCTION (php_v8_template) {
     zend_class_entry ce;
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "Template", php_v8_template_methods);
-    //zend_class_implements()
     this_ce = zend_register_internal_class_ex(&ce, php_v8_data_class_entry);
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);

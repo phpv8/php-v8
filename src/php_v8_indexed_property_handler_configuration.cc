@@ -149,9 +149,10 @@ PHP_MINIT_FUNCTION(php_v8_indexed_property_handler_configuration) {
 
     memcpy(&php_v8_indexed_property_handler_configuration_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_indexed_property_handler_configuration_object_handlers.offset   = XtOffsetOf(php_v8_indexed_property_handler_configuration_t, std);
-    php_v8_indexed_property_handler_configuration_object_handlers.free_obj = php_v8_indexed_property_handler_configuration_free;
-    php_v8_indexed_property_handler_configuration_object_handlers.get_gc   = php_v8_indexed_property_handler_configuration_gc;
+    php_v8_indexed_property_handler_configuration_object_handlers.offset    = XtOffsetOf(php_v8_indexed_property_handler_configuration_t, std);
+    php_v8_indexed_property_handler_configuration_object_handlers.free_obj  = php_v8_indexed_property_handler_configuration_free;
+    php_v8_indexed_property_handler_configuration_object_handlers.get_gc    = php_v8_indexed_property_handler_configuration_gc;
+    php_v8_indexed_property_handler_configuration_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }
