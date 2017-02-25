@@ -15,6 +15,7 @@
 #endif
 
 #include "php_v8.h"
+#include "php_v8_a.h"
 
 #include "php_v8_isolate.h"
 #include "php_v8_startup_data.h"
@@ -187,6 +188,7 @@ PHP_MSHUTDOWN_FUNCTION(v8)
     /* uncomment this line if you have INI entries
     UNREGISTER_INI_ENTRIES();
     */
+    php_v8_shutdown();
     return SUCCESS;
 }
 /* }}} */
@@ -240,6 +242,7 @@ static PHP_GINIT_FUNCTION(v8)
     ZEND_TSRMLS_CACHE_UPDATE();
 #endif
     v8_globals->v8_initialized = false;
+    v8_globals->platform = nullptr;
 }
 /* }}} */
 

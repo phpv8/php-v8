@@ -17,9 +17,11 @@
 #include "config.h"
 #endif
 
+#include <v8-version.h>
+#include <v8.h>
+
 extern "C" {
 #include "php.h"
-#include <v8-version.h>
 
 #ifdef ZTS
 #include "TSRM.h"
@@ -51,6 +53,7 @@ extern zend_module_entry php_v8_module_entry;
 
 ZEND_BEGIN_MODULE_GLOBALS(v8)
     bool v8_initialized;
+    v8::Platform *platform;
 ZEND_END_MODULE_GLOBALS(v8)
 
 // Add zend_type support (new since PHP 7.2)

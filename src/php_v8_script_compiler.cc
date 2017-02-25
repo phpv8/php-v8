@@ -83,7 +83,7 @@ static PHP_METHOD(V8ScriptCompiler, CompileUnboundScript)
 
     PHP_V8_CHECK_COMPILER_OPTIONS_RANGE(options, "Invalid Script compiler options given. See V8\\ScriptCompiler\\CompileOptions class constants for available options.")
 
-    PHP_V8_CONTEXT_FETCH_INTO(php_v8_context_zv, php_v8_context);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
 
     zval *source_string_zv = PHP_V8_SOURCE_READ_SOURCE_STRING(php_v8_source_zv);
     zval *origin_zv        = PHP_V8_SOURCE_READ_ORIGIN(php_v8_source_zv);
@@ -139,7 +139,7 @@ static PHP_METHOD(V8ScriptCompiler, Compile)
 
     PHP_V8_CHECK_COMPILER_OPTIONS_RANGE(options, "Invalid Script compiler options given. See V8\\ScriptCompiler\\CompileOptions class constants for available options.")
 
-    PHP_V8_CONTEXT_FETCH_INTO(php_v8_context_zv, php_v8_context);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
 
     zval *source_string_zv = PHP_V8_SOURCE_READ_SOURCE_STRING(php_v8_source_zv);
     zval *origin_zv        = PHP_V8_SOURCE_READ_ORIGIN(php_v8_source_zv);
@@ -199,7 +199,7 @@ static PHP_METHOD(V8ScriptCompiler, CompileFunctionInContext)
         return;
     }
 
-    PHP_V8_CONTEXT_FETCH_INTO(php_v8_context_zv, php_v8_context);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
 
     zval *source_string_zv = PHP_V8_SOURCE_READ_SOURCE_STRING(php_v8_source_zv);
     zval *origin_zv        = PHP_V8_SOURCE_READ_ORIGIN(php_v8_source_zv);

@@ -46,16 +46,13 @@ static void php_v8_maybe_terminate_execution(php_v8_isolate_t *php_v8_isolate) {
 static inline void php_v8_isolate_destroy(php_v8_isolate_t *php_v8_isolate) {
     if (php_v8_isolate->isolate) {
 
-        // TODO: terminate all executions!
         php_v8_maybe_terminate_execution(php_v8_isolate);
 
         while (php_v8_isolate->isolate->InContext()) {
             v8::Local<v8::Context> context = php_v8_isolate->isolate->GetEnteredContext();
-//            context->GetIsolate()->Exit();
             context->Exit();
         }
 
-        // TODO: exit if entered, TODO: maybe, move it to love above?
         if (php_v8_isolate->isolate == v8::Isolate::GetCurrent()) {
             php_v8_isolate->isolate->Exit();
         }
@@ -144,7 +141,6 @@ static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
     zend_object_std_init(&php_v8_isolate->std, ce);
     object_properties_init(&php_v8_isolate->std, ce);
 
-    // TODO: inline? module init?
     php_v8_init();
 
     php_v8_isolate->create_params = new v8::Isolate::CreateParams();
@@ -422,7 +418,7 @@ static PHP_METHOD(V8Isolate, LowMemoryNotification) {
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
     PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
-    isolate->LowMemoryNotification(); // TODO: for some reason it reports memleak
+    isolate->LowMemoryNotification();
 }
 
 
@@ -460,7 +456,7 @@ static PHP_METHOD(V8Isolate, IsExecutionTerminating) {
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate); // TODO: can we just fetch isolate object here and do not eneter it?
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
     RETURN_BOOL(isolate->IsExecutionTerminating());
 }
@@ -471,7 +467,7 @@ static PHP_METHOD(V8Isolate, CancelTerminateExecution) {
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate); // TODO: can we just fetch isolate object here and do not eneter it?
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
     isolate->CancelTerminateExecution();
 }
@@ -488,7 +484,7 @@ static PHP_METHOD(V8Isolate, SetCaptureStackTraceForUncaughtExceptions) {
     PHP_V8_CHECK_STACK_TRACE_RANGE(frame_limit, "Frame limit is out of range");
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate); // TODO: can we just fetch isolate object here and do not eneter it?
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
     isolate->SetCaptureStackTraceForUncaughtExceptions(static_cast<bool>(capture),
                                                        static_cast<int>(frame_limit),
