@@ -33,6 +33,7 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context1, function (V8\Functio
 
     $callback_info = $info;
     $helper->assert('Original arguments number passed', count($info->Arguments()) == 2);
+    $helper->assert('Arguments number matches Length() method output', count($info->Arguments()) == $info->Length());
 
     $helper->assert('Callback info holds original isolate object', $info->GetIsolate(), $isolate1);
     $helper->assert('Callback info holds original isolate object', $info->GetContext(), $context1);
@@ -274,6 +275,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
 
 
 Original arguments number passed: ok
+Arguments number matches Length() method output: ok
 Callback info holds original isolate object: ok
 Callback info holds original isolate object: ok
 Scalars hold no info about their zval, so that their zvals are recreated on each access: ok

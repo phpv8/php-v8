@@ -29,7 +29,6 @@ php_v8_return_value_t * php_v8_callback_info_create_from_info(zval *return_value
     zval tmp;
     zval arg_zv;
     php_v8_return_value_t *php_v8_return_value;
-    v8::Local<v8::Value> local_value;
 
     v8::Isolate *isolate = args.GetIsolate();
     v8::Local<v8::Context> context = isolate->GetEnteredContext();
@@ -87,6 +86,19 @@ php_v8_return_value_t * php_v8_callback_info_create_from_info(zval *return_value
     return php_v8_return_value;
 }
 
+static PHP_METHOD(V8FunctionCallbackInfo, Length) {
+    zval rv;
+    zval *tmp;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("arguments"), 0, &rv);
+
+    RETURN_LONG(zend_array_count(Z_ARRVAL_P(tmp)));
+}
+
 static PHP_METHOD(V8FunctionCallbackInfo, Arguments) {
     zval rv;
     zval *tmp;
@@ -124,6 +136,9 @@ static PHP_METHOD(V8FunctionCallbackInfo, IsConstructCall) {
 }
 
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_callback_info_Length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_callback_info_Arguments, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
@@ -135,6 +150,7 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_function_callback_info_methods[] = {
+        PHP_ME(V8FunctionCallbackInfo, Length, arginfo_v8_function_callback_info_Length, ZEND_ACC_PUBLIC)
         PHP_ME(V8FunctionCallbackInfo, Arguments, arginfo_v8_function_callback_info_Arguments, ZEND_ACC_PUBLIC)
         PHP_ME(V8FunctionCallbackInfo, NewTarget, arginfo_v8_function_callback_info_NewTarget, ZEND_ACC_PUBLIC)
         PHP_ME(V8FunctionCallbackInfo, IsConstructCall, arginfo_v8_function_callback_info_IsConstructCall, ZEND_ACC_PUBLIC)
