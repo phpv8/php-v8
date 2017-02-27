@@ -44,22 +44,22 @@ class ScriptOriginOptions
      * @param bool $is_wasm
      * @param bool $is_module
      */
-    public function __construct(bool $is_shared_cross_origin = false,
-                                bool $is_opaque = false,
-                                bool $is_wasm = false,
-                                bool $is_module = false
-                                )
-    {
+    public function __construct(
+        bool $is_shared_cross_origin = false,
+        bool $is_opaque = false,
+        bool $is_wasm = false,
+        bool $is_module = false
+    ) {
         $this->is_shared_cross_origin = $is_shared_cross_origin;
-        $this->is_opaque = $is_opaque;
-        $this->is_wasm = $is_wasm;
-        $this->is_module = $is_module;
+        $this->is_opaque              = $is_opaque;
+        $this->is_wasm                = $is_wasm;
+        $this->is_module              = $is_module;
     }
 
     /**
      * @return bool
      */
-    public function IsSharedCrossOrigin() : bool
+    public function IsSharedCrossOrigin(): bool
     {
         return $this->is_shared_cross_origin;
     }
@@ -67,7 +67,7 @@ class ScriptOriginOptions
     /**
      * @return bool
      */
-    public function IsOpaque() : bool
+    public function IsOpaque(): bool
     {
         return $this->is_opaque;
     }
@@ -75,7 +75,7 @@ class ScriptOriginOptions
     /**
      * @return bool
      */
-    public function isIsWasm(): bool
+    public function IsWasm(): bool
     {
         return $this->is_wasm;
     }
@@ -83,7 +83,7 @@ class ScriptOriginOptions
     /**
      * @return bool
      */
-    public function isIsModule(): bool
+    public function IsModule(): bool
     {
         return $this->is_module;
     }

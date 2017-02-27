@@ -58,55 +58,53 @@ class ScriptOrigin
      * @param bool   $is_wasm
      * @param bool   $is_module
      */
-    public function __construct(string $resource_name,
-                                int $resource_line_offset = Message::kNoLineNumberInfo,
-                                int $resource_column_offset = Message::kNoColumnInfo,
-                                bool $resource_is_shared_cross_origin = false,
-                                int $script_id = Message::kNoScriptIdInfo,
-                                string $source_map_url = '',
-                                bool $resource_is_opaque = false,
-                                bool $is_wasm = false,
-                                bool $is_module = false)
-    {
-        $this->resource_name = $resource_name;
-        $this->resource_line_offset = $resource_line_offset;
+    public function __construct(
+        string $resource_name,
+        int $resource_line_offset = Message::kNoLineNumberInfo,
+        int $resource_column_offset = Message::kNoColumnInfo,
+        bool $resource_is_shared_cross_origin = false,
+        int $script_id = Message::kNoScriptIdInfo,
+        string $source_map_url = '',
+        bool $resource_is_opaque = false,
+        bool $is_wasm = false,
+        bool $is_module = false
+    ) {
+        $this->resource_name          = $resource_name;
+        $this->resource_line_offset   = $resource_line_offset;
         $this->resource_column_offset = $resource_column_offset;
 
         $this->options = new ScriptOriginOptions($resource_is_shared_cross_origin, $resource_is_opaque, $is_wasm, $is_module);
 
-        $this->script_id = $script_id;
+        $this->script_id      = $script_id;
         $this->source_map_url = $source_map_url;
     }
 
-    public function ResourceName() : int
+    public function ResourceName(): string
     {
         return $this->resource_name;
     }
 
-    public function ResourceLineOffset() : int
+    public function ResourceLineOffset(): int
     {
         return $this->resource_line_offset;
     }
 
-    public function ResourceColumnOffset() : int
+    public function ResourceColumnOffset(): int
     {
         return $this->resource_column_offset;
     }
 
-    public function ScriptID() : int
+    public function ScriptID(): int
     {
         return $this->script_id;
     }
 
-    /**
-     * @return string
-     */
-    public function SourceMapUrl() : string
+    public function SourceMapUrl(): string
     {
         return $this->source_map_url;
     }
 
-    public function Options() : ScriptOriginOptions
+    public function Options(): ScriptOriginOptions
     {
         return $this->options;
     }
