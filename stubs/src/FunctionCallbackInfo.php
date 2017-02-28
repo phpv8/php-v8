@@ -25,16 +25,20 @@ namespace V8;
 class FunctionCallbackInfo extends CallbackInfo
 {
     /**
+     * @return int
+     */
+    public function Length() : int
+    {
+    }
+
+    /**
      * @return Value[] | StringValue[] | SymbolValue[] | NumberValue[] | ObjectValue[] | ArrayObject[] | FunctionObject[] | StringObject[] | SymbolObject[]
      */
     public function Arguments() : array
     {
     }
 
-    /**
-     * @return int
-     */
-    public function Length() : int
+    public function NewTarget() : Value
     {
     }
 

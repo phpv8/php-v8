@@ -51,13 +51,4 @@ class CallbackInfo
     public function GetReturnValue() : ReturnValue
     {
     }
-
-    /**
-     * Check whether object is in current calling context and thus is usable
-     *
-     * @return bool
-     */
-    public function InContext() : bool
-    {
-    }
 }

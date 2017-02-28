@@ -27,7 +27,7 @@ extern "C" {
 
 extern zend_class_entry* php_v8_stack_frame_class_entry;
 
-extern php_v8_startup_data_t * php_v8_startup_data_fetch_object(zend_object *obj);
+inline php_v8_startup_data_t * php_v8_startup_data_fetch_object(zend_object *obj);
 
 #define PHP_V8_STARTUP_DATA_FETCH(zv) php_v8_startup_data_fetch_object(Z_OBJ_P(zv))
 #define PHP_V8_STARTUP_DATA_FETCH_INTO(pzval, into) php_v8_startup_data_t *(into) = PHP_V8_STARTUP_DATA_FETCH((pzval))
@@ -38,6 +38,9 @@ struct _php_v8_startup_data_t {
     zend_object std;
 };
 
+inline php_v8_startup_data_t * php_v8_startup_data_fetch_object(zend_object *obj) {
+    return (php_v8_startup_data_t *) ((char *) obj - XtOffsetOf(php_v8_startup_data_t, std));
+}
 
 PHP_MINIT_FUNCTION(php_v8_startup_data);
 

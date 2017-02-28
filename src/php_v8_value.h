@@ -32,12 +32,11 @@ extern "C" {
 extern zend_class_entry *php_v8_value_class_entry;
 
 
-extern v8::Local<v8::Value> php_v8_value_get_value_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
-extern php_v8_value_t *php_v8_value_fetch_object(zend_object *obj);
+inline php_v8_value_t *php_v8_value_fetch_object(zend_object *obj);
 
 extern zend_class_entry *php_v8_get_class_entry_from_value(v8::Local<v8::Value> value);
-extern php_v8_value_t *php_v8_create_value(zval *return_value, v8::Local<v8::Value> value, v8::Isolate *isolate);
-extern php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<v8::Value> local_value, v8::Isolate *isolate);
+extern php_v8_value_t *php_v8_create_value(zval *return_value, v8::Local<v8::Value> value, php_v8_isolate_t *php_v8_isolate);
+extern php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<v8::Value> local_value, php_v8_isolate_t *php_v8_isolate);
 
 #define PHP_V8_VALUE_FETCH(zv) php_v8_value_fetch_object(Z_OBJ_P(zv))
 #define PHP_V8_VALUE_FETCH_INTO(pzval, into) php_v8_value_t *(into) = PHP_V8_VALUE_FETCH((pzval));
@@ -71,7 +70,6 @@ extern php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<
     PHP_V8_ENTER_STORED_ISOLATE((value_v8)); \
     PHP_V8_ENTER_STORED_CONTEXT((value_v8)); \
 
-// TODO: move to better place or is it fine here too?
 #define PHP_V8_CONVERT_UTF8VALUE_TO_STRING(from, to) const char *(to) = (const char*) *(from);
 #define PHP_V8_CONVERT_UTF8VALUE_TO_STRING_NODECL(from, to) (to) = (const char*) *(from);
 
@@ -98,7 +96,6 @@ extern php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<
     PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK_NODECL(_v8_utf8_str_##cstr, cstr); \
 }
 
-// TODO: string length check?
 #define PHP_V8_SET_ZVAL_STRING_FROM_V8_STRING(zval_to, v8_local_string_from) { \
     v8::String::Utf8Value _v8_utf8_str((v8_local_string_from)); \
     PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(_v8_utf8_str, _v8_utf8_cstr); \
@@ -118,8 +115,20 @@ struct _php_v8_value_t {
     zval *gc_data;
     int   gc_data_count;
 
-    zval this_ptr; // makes sense for objects only
     zend_object std;
+};
+
+inline php_v8_value_t *php_v8_value_fetch_object(zend_object *obj) {
+    return (php_v8_value_t *)((char *)obj - XtOffsetOf(php_v8_value_t, std));
+}
+
+inline v8::Local<v8::Value> php_v8_value_get_local(php_v8_value_t *php_v8_value) {
+    return v8::Local<v8::Value>::New(php_v8_value->php_v8_isolate->isolate, *php_v8_value->persistent);
+};
+
+template<class T>
+v8::Local<T> php_v8_value_get_local_as(php_v8_value_t *php_v8_value) {
+    return php_v8_value_get_local(php_v8_value).As<T>();
 };
 
 

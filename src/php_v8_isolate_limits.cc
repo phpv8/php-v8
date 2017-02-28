@@ -183,12 +183,16 @@ void php_v8_isolate_limits_ctor(php_v8_isolate_t *php_v8_isolate) {
 }
 
 void php_v8_isolate_maybe_update_limits_hit(php_v8_isolate_t *php_v8_isolate) {
+    zval isolate_zv;
+
+    ZVAL_OBJ(&isolate_zv, &php_v8_isolate->std);
     PHP_V8_DECLARE_LIMITS(php_v8_isolate);
+
     if (limits->time_limit) {
-        zend_update_property_bool(php_v8_isolate_class_entry, &php_v8_isolate->this_ptr, ZEND_STRL("time_limit_hit"), limits->time_limit_hit);
+        zend_update_property_bool(php_v8_isolate_class_entry, &isolate_zv, ZEND_STRL("time_limit_hit"), limits->time_limit_hit);
     }
     if (limits->memory_limit) {
-        zend_update_property_bool(php_v8_isolate_class_entry, &php_v8_isolate->this_ptr, ZEND_STRL("memory_limit_hit"), limits->memory_limit_hit);
+        zend_update_property_bool(php_v8_isolate_class_entry, &isolate_zv, ZEND_STRL("memory_limit_hit"), limits->memory_limit_hit);
     }
 }
 

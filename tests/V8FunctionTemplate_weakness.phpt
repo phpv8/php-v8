@@ -96,10 +96,10 @@ echo 'We are done for now', PHP_EOL;
 EOF
 --EXPECT--
 FunctionTemplate dies now!
+ObjectTemplate dies now!
 Should output Hello World string
 Script dies now!
 Context dies now!
-ObjectTemplate dies now!
 Isolate dies now!
 MyCallaback::__destruct
 We are done for now

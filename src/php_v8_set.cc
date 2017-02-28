@@ -23,9 +23,6 @@
 zend_class_entry *php_v8_set_class_entry;
 #define this_ce php_v8_set_class_entry
 
-v8::Local<v8::Set> php_v8_value_get_set_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::Set>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
 
 static PHP_METHOD(V8Set, __construct) {
     zval rv;
@@ -41,8 +38,7 @@ static PHP_METHOD(V8Set, __construct) {
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_set, "Failed to create Map value");
 
-    ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_set, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_set);
 
     php_v8_value->persistent->Reset(isolate, local_set);
 }
@@ -56,7 +52,7 @@ static PHP_METHOD(V8Set, Size) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
-    RETURN_DOUBLE(php_v8_value_get_set_local(isolate, php_v8_value)->Size());
+    RETURN_DOUBLE(php_v8_value_get_local_as<v8::Set>(php_v8_value)->Size());
 }
 
 static PHP_METHOD(V8Set, Clear) {
@@ -68,7 +64,7 @@ static PHP_METHOD(V8Set, Clear) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
-    php_v8_value_get_set_local(isolate, php_v8_value)->Clear();
+    php_v8_value_get_local_as<v8::Set>(php_v8_value)->Clear();
 }
 
 static PHP_METHOD(V8Set, Add) {
@@ -86,11 +82,11 @@ static PHP_METHOD(V8Set, Add) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Set> local_set = php_v8_value_get_set_local(isolate, php_v8_value);
-    v8::Local<v8::Value> local_key = php_v8_value_get_value_local(isolate, php_v8_key);
+    v8::Local<v8::Set> local_set = php_v8_value_get_local_as<v8::Set>(php_v8_value);
+    v8::Local<v8::Value> local_key = php_v8_value_get_local(php_v8_key);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -100,7 +96,7 @@ static PHP_METHOD(V8Set, Add) {
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local_res, "Failed to add");
 
-    RETVAL_ZVAL(&php_v8_value->this_ptr, 1, 0);
+    ZVAL_COPY(return_value, getThis());
 }
 
 static PHP_METHOD(V8Set, Has) {
@@ -118,11 +114,11 @@ static PHP_METHOD(V8Set, Has) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Set> local_set = php_v8_value_get_set_local(isolate, php_v8_value);
-    v8::Local<v8::Value> local_key = php_v8_value_get_value_local(isolate, php_v8_key);
+    v8::Local<v8::Set> local_set = php_v8_value_get_local_as<v8::Set>(php_v8_value);
+    v8::Local<v8::Value> local_key = php_v8_value_get_local(php_v8_key);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -150,11 +146,11 @@ static PHP_METHOD(V8Set, Delete) {
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_key);
 
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Set> local_set = php_v8_value_get_set_local(isolate, php_v8_value);
-    v8::Local<v8::Value> local_key = php_v8_value_get_value_local(isolate, php_v8_key);
+    v8::Local<v8::Set> local_set = php_v8_value_get_local_as<v8::Set>(php_v8_value);
+    v8::Local<v8::Value> local_key = php_v8_value_get_local(php_v8_key);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
@@ -179,12 +175,12 @@ static PHP_METHOD(V8Set, AsArray) {
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::Local<v8::Array> local_array = php_v8_value_get_set_local(isolate, php_v8_value)->AsArray();
+    v8::Local<v8::Array> local_array = php_v8_value_get_local_as<v8::Set>(php_v8_value)->AsArray();
 
     PHP_V8_MAYBE_CATCH(php_v8_value->php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(local_array, "Failed to get property names")
 
-    php_v8_get_or_create_value(return_value, local_array, isolate);
+    php_v8_get_or_create_value(return_value, local_array, php_v8_value->php_v8_isolate);
 }
 
 

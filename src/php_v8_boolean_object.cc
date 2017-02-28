@@ -23,9 +23,6 @@
 zend_class_entry *php_v8_boolean_object_class_entry;
 #define this_ce php_v8_boolean_object_class_entry
 
-v8::Local<v8::BooleanObject> php_v8_value_get_boolean_object_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::BooleanObject>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
 
 static PHP_METHOD(V8BooleanObject, __construct) {
     zval rv;
@@ -41,8 +38,7 @@ static PHP_METHOD(V8BooleanObject, __construct) {
 
     v8::Local<v8::BooleanObject> local_bool_obj = v8::BooleanObject::New(isolate, value).As<v8::BooleanObject>();
 
-    ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_bool_obj, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_bool_obj);
 
     php_v8_value->persistent->Reset(isolate, local_bool_obj);
 }
@@ -56,7 +52,7 @@ static PHP_METHOD(V8BooleanObject, ValueOf) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
-    v8::Local<v8::BooleanObject> local_boolean = php_v8_value_get_boolean_object_local(isolate, php_v8_value);
+    v8::Local<v8::BooleanObject> local_boolean = php_v8_value_get_local_as<v8::BooleanObject>(php_v8_value);
 
     RETURN_BOOL(static_cast<zend_bool>(local_boolean->ValueOf()));
 }

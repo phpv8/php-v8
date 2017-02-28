@@ -17,7 +17,7 @@ $helper->dump($isolate);
 $helper->line();
 
 try {
-  $isolate->GetCurrentContext();
+  $isolate->GetEnteredContext();
 } catch (Exception $e) {
   $helper->exception_export($e);
 }

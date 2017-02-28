@@ -31,7 +31,8 @@ extern "C" {
 
 extern zend_class_entry *php_v8_isolate_class_entry;
 
-extern php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
+inline php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
+inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php_v8_isolate);
 
 // TODO: remove or cleanup to use for debug reasons
 #define SX(x) #x
@@ -56,7 +57,6 @@ extern php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
     PHP_V8_CHECK_EMPTY_ISOLATE_HANDLER(into);
 
 
-// TODO: cover cases when first and/or second are NULLs
 #define PHP_V8_ISOLATES_CHECK(first, second) if ((first)->isolate != (second)->isolate) { PHP_V8_THROW_EXCEPTION(PHP_V8_ISOLATES_MISMATCH_MSG); return; }
 #define PHP_V8_ISOLATES_CHECK_USING_ISOLATE(first, using_isolate) if ((first)->isolate != (using_isolate)) { PHP_V8_THROW_EXCEPTION(PHP_V8_ISOLATES_MISMATCH_MSG); return; }
 
@@ -115,6 +115,7 @@ extern php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
     }                                               \
 
 
+
 struct _php_v8_isolate_t {
     v8::Isolate *isolate;
     v8::Isolate::CreateParams *create_params;
@@ -123,16 +124,24 @@ struct _php_v8_isolate_t {
     phpv8::PersistentCollection<v8::ObjectTemplate> *weak_object_templates;
     phpv8::PersistentCollection<v8::Value> *weak_values;
 
+    v8::Persistent<v8::Private> key;
+
     uint32_t isolate_handle;
     php_v8_isolate_limits_t limits;
 
     zval *gc_data;
     int   gc_data_count;
 
-    zval this_ptr;
     zend_object std;
 };
 
+inline php_v8_isolate_t *php_v8_isolate_fetch_object(zend_object *obj) {
+    return (php_v8_isolate_t *) ((char *) obj - XtOffsetOf(php_v8_isolate_t, std));
+}
+
+inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php_v8_isolate) {
+    return v8::Local<v8::Private>::New(php_v8_isolate->isolate, php_v8_isolate->key);
+}
 
 PHP_MINIT_FUNCTION(php_v8_isolate);
 

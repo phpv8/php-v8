@@ -26,10 +26,6 @@ zend_class_entry *php_v8_startup_data_class_entry;
 static zend_object_handlers php_v8_startup_data_object_handlers;
 
 
-php_v8_startup_data_t * php_v8_startup_data_fetch_object(zend_object *obj) {
-    return (php_v8_startup_data_t *) ((char *) obj - XtOffsetOf(php_v8_startup_data_t, std));
-}
-
 void php_v8_startup_data_create(zval *return_value, v8::StartupData *blob) {
     object_init_ex(return_value, this_ce);
 
@@ -119,8 +115,8 @@ static PHP_METHOD(V8StartupData, CreateFromSource) {
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "S", &blob) == FAILURE) {
         return;
     }
+
     /* we can't try-catch here while we have no isolate yet */
-    // TODO: test to create blob from invalid source
 
     const char *source = ZSTR_VAL(blob);
     php_v8_init();
@@ -173,8 +169,9 @@ PHP_MINIT_FUNCTION (php_v8_startup_data) {
 
     memcpy(&php_v8_startup_data_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_startup_data_object_handlers.offset   = XtOffsetOf(php_v8_startup_data_t, std);
-    php_v8_startup_data_object_handlers.free_obj = php_v8_startup_data_free;
+    php_v8_startup_data_object_handlers.offset    = XtOffsetOf(php_v8_startup_data_t, std);
+    php_v8_startup_data_object_handlers.free_obj  = php_v8_startup_data_free;
+    php_v8_startup_data_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

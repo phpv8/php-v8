@@ -45,13 +45,11 @@ class Script
     }
 
     /**
-     * Runs the script returning the resulting value. It will be run in the
-     * context in which it was created (ScriptCompiler::CompileBound or
-     * UnboundScript::BindToCurrentContext()).
+     * Runs the script returning the resulting value.
      *
      * @param \V8\Context $context
      *
-     * @return BooleanValue|FunctionObject|NumberValue|ObjectValue|StringValue|Value
+     * @return BooleanValue | FunctionObject | NumberValue | ObjectValue | StringValue | Value
      */
     public function Run(Context $context): Value
     {

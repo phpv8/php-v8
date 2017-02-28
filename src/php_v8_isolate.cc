@@ -27,15 +27,13 @@
 
 #include <float.h>
 
+#include <iostream>
 
 zend_class_entry *php_v8_isolate_class_entry;
 #define this_ce php_v8_isolate_class_entry
 
 static zend_object_handlers php_v8_isolate_object_handlers;
 
-php_v8_isolate_t *php_v8_isolate_fetch_object(zend_object *obj) {
-    return (php_v8_isolate_t *) ((char *) obj - XtOffsetOf(php_v8_isolate_t, std));
-}
 
 static void php_v8_maybe_terminate_execution(php_v8_isolate_t *php_v8_isolate) {
     if (php_v8_isolate->isolate->IsExecutionTerminating()) {
@@ -46,23 +44,21 @@ static void php_v8_maybe_terminate_execution(php_v8_isolate_t *php_v8_isolate) {
 }
 
 static inline void php_v8_isolate_destroy(php_v8_isolate_t *php_v8_isolate) {
+    v8::Isolate *isolate = nullptr;
+
     if (php_v8_isolate->isolate) {
 
-        // TODO: terminate all executions!
         php_v8_maybe_terminate_execution(php_v8_isolate);
 
-        while (php_v8_isolate->isolate->InContext()) {
-            v8::Local<v8::Context> context = php_v8_isolate->isolate->GetEnteredContext();
-//            context->GetIsolate()->Exit();
-            context->Exit();
+        if (CG(unclean_shutdown)) {
+            // freeing order is not guaranteed upon unclean shutdown, so we explicitly exit all entered isolates,
+            // to ensure that current one won't remain entered so that we'll properly dispose it below
+            while ( (isolate = v8::Isolate::GetCurrent())) {
+                isolate->Exit();
+            }
         }
 
-        // TODO: exit if entered, TODO: maybe, move it to love above?
-        if (php_v8_isolate->isolate == v8::Isolate::GetCurrent()) {
-            php_v8_isolate->isolate->Exit();
-        }
-
-        php_v8_isolate->isolate->Dispose(); // this cause error when we try to call on already entered context
+        php_v8_isolate->isolate->Dispose(); // this cause error when we try to call on already entered isolate
     }
 }
 
@@ -111,13 +107,15 @@ static void php_v8_isolate_free(zend_object *object) {
         delete php_v8_isolate->weak_values;
     }
 
-    if (!Z_ISUNDEF(php_v8_isolate->this_ptr)) {
-        zval_ptr_dtor(&php_v8_isolate->this_ptr);
-    }
-
     if (php_v8_isolate->gc_data) {
         efree(php_v8_isolate->gc_data);
     }
+
+    if (php_v8_isolate->isolate && PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_isolate)) {
+        php_v8_isolate->key.Reset();
+    }
+
+    php_v8_isolate->key.~Persistent();
 
     php_v8_isolate_destroy(php_v8_isolate);
 
@@ -144,7 +142,6 @@ static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
     zend_object_std_init(&php_v8_isolate->std, ce);
     object_properties_init(&php_v8_isolate->std, ce);
 
-    // TODO: inline? module init?
     php_v8_init();
 
     php_v8_isolate->create_params = new v8::Isolate::CreateParams();
@@ -153,6 +150,7 @@ static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
     php_v8_isolate->weak_function_templates = new phpv8::PersistentCollection<v8::FunctionTemplate>();
     php_v8_isolate->weak_object_templates = new phpv8::PersistentCollection<v8::ObjectTemplate>();
     php_v8_isolate->weak_values = new phpv8::PersistentCollection<v8::Value>();
+    new(&php_v8_isolate->key) v8::Persistent<v8::Private>();
 
     php_v8_isolate->std.handlers = &php_v8_isolate_object_handlers;
 
@@ -165,8 +163,6 @@ static void php_v8_fatal_error_handler(const char *location, const char *message
 {
     v8::Isolate *isolate = v8::Isolate::GetCurrent();
     assert(isolate != NULL); // as we set fatal error handler per-isolate, we should always have at least any of them as current one
-
-    // TODO: if there are no entered isolates = fatal error
 
     php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
 
@@ -203,11 +199,18 @@ static PHP_METHOD(V8Isolate, __construct) {
     php_v8_isolate->isolate = v8::Isolate::New(*php_v8_isolate->create_params);
     PHP_V8_ISOLATE_STORE_REFERENCE(php_v8_isolate);
 
-    ZVAL_COPY_VALUE(&php_v8_isolate->this_ptr, getThis());
     php_v8_isolate->isolate_handle = Z_OBJ_HANDLE_P(getThis());
 
     php_v8_isolate->isolate->SetFatalErrorHandler(php_v8_fatal_error_handler);
     php_v8_isolate->isolate->SetOOMErrorHandler(php_v8_isolate_oom_error_callback);
+
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
+
+    v8::MaybeLocal<v8::String> local_key_string = v8::String::NewFromUtf8(isolate, "php-v8::self", v8::NewStringType::kInternalized);
+    PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(local_key_string, "Failed initialize Isolate");
+
+    v8::Local<v8::Private> local_private_key = v8::Private::ForApi(isolate, local_key_string.ToLocalChecked());
+    php_v8_isolate->key.Reset(isolate, local_private_key);
 }
 
 static PHP_METHOD(V8Isolate, SetTimeLimit) {
@@ -352,7 +355,7 @@ static PHP_METHOD(V8Isolate, InContext) {
     RETURN_BOOL(php_v8_isolate->isolate->InContext())
 }
 
-static PHP_METHOD(V8Isolate, GetCurrentContext) {
+static PHP_METHOD(V8Isolate, GetEnteredContext) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -362,11 +365,12 @@ static PHP_METHOD(V8Isolate, GetCurrentContext) {
 
     PHP_V8_ISOLATE_REQUIRE_IN_CONTEXT(isolate);
 
-    v8::Local<v8::Context> local_context = php_v8_isolate->isolate->GetCurrentContext();
+    v8::Local<v8::Context> local_context = php_v8_isolate->isolate->GetEnteredContext();
 
     php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_context);
 
-    RETURN_ZVAL(&php_v8_context->this_ptr, 1, 0);
+    ZVAL_OBJ(return_value, &php_v8_context->std);
+    Z_ADDREF_P(return_value);
 }
 
 static PHP_METHOD(V8Isolate, ThrowException) {
@@ -385,12 +389,11 @@ static PHP_METHOD(V8Isolate, ThrowException) {
 
     PHP_V8_ISOLATE_REQUIRE_IN_CONTEXT(isolate);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(isolate, php_v8_value);
-
+    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
     v8::Local<v8::Value> local_return_value = isolate->ThrowException(local_value);
 
     /* From v8 source code, Isolate::ThrowException() returns v8::Undefined() */
-    php_v8_get_or_create_value(return_value, local_return_value, isolate);
+    php_v8_get_or_create_value(return_value, local_return_value, php_v8_value->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Isolate, IdleNotificationDeadline) {
@@ -414,7 +417,7 @@ static PHP_METHOD(V8Isolate, LowMemoryNotification) {
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
     PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
-    isolate->LowMemoryNotification(); // TODO: for some reason it reports memleak
+    isolate->LowMemoryNotification();
 }
 
 
@@ -452,7 +455,7 @@ static PHP_METHOD(V8Isolate, IsExecutionTerminating) {
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate); // TODO: can we just fetch isolate object here and do not eneter it?
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
     RETURN_BOOL(isolate->IsExecutionTerminating());
 }
@@ -463,7 +466,7 @@ static PHP_METHOD(V8Isolate, CancelTerminateExecution) {
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate); // TODO: can we just fetch isolate object here and do not eneter it?
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
     isolate->CancelTerminateExecution();
 }
@@ -480,7 +483,7 @@ static PHP_METHOD(V8Isolate, SetCaptureStackTraceForUncaughtExceptions) {
     PHP_V8_CHECK_STACK_TRACE_RANGE(frame_limit, "Frame limit is out of range");
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate); // TODO: can we just fetch isolate object here and do not eneter it?
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
     isolate->SetCaptureStackTraceForUncaughtExceptions(static_cast<bool>(capture),
                                                        static_cast<int>(frame_limit),
@@ -543,7 +546,7 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_InContext, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetCurrentContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetEnteredContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
@@ -602,7 +605,7 @@ static const zend_function_entry php_v8_isolate_methods[] = {
         PHP_ME(V8Isolate, GetHeapStatistics, arginfo_v8_isolate_GetHeapStatistics, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Isolate, InContext, arginfo_v8_isolate_InContext, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, GetCurrentContext, arginfo_v8_isolate_GetCurrentContext, ZEND_ACC_PUBLIC)
+        PHP_ME(V8Isolate, GetEnteredContext, arginfo_v8_isolate_GetEnteredContext, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Isolate, ThrowException, arginfo_v8_isolate_ThrowException, ZEND_ACC_PUBLIC)
         PHP_ME(V8Isolate, IdleNotificationDeadline, arginfo_v8_isolate_IdleNotificationDeadline, ZEND_ACC_PUBLIC)
@@ -638,9 +641,10 @@ PHP_MINIT_FUNCTION (php_v8_isolate) {
 
     memcpy(&php_v8_isolate_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_isolate_object_handlers.offset   = XtOffsetOf(php_v8_isolate_t, std);
-    php_v8_isolate_object_handlers.free_obj = php_v8_isolate_free;
-    php_v8_isolate_object_handlers.get_gc   = php_v8_isolate_gc;
+    php_v8_isolate_object_handlers.offset    = XtOffsetOf(php_v8_isolate_t, std);
+    php_v8_isolate_object_handlers.free_obj  = php_v8_isolate_free;
+    php_v8_isolate_object_handlers.get_gc    = php_v8_isolate_gc;
+    php_v8_isolate_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

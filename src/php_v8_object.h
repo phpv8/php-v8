@@ -14,6 +14,7 @@
 #define PHP_V8_OBJECT_H
 
 #include "php_v8_value.h"
+#include "php_v8_isolate.h"
 #include <v8.h>
 
 extern "C" {
@@ -26,12 +27,10 @@ extern "C" {
 
 extern zend_class_entry* php_v8_object_class_entry;
 
-extern v8::Local<v8::Object> php_v8_value_get_object_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
 
-extern bool php_v8_object_delete_self_ptr(v8::Isolate *isolate, v8::Local<v8::Object> local_object);
-extern bool php_v8_object_store_self_ptr(v8::Isolate *isolate, v8::Local<v8::Object> local_object,
-                                         php_v8_value_t *php_v8_value);
-extern php_v8_value_t * php_v8_object_get_self_ptr(v8::Isolate *isolate, v8::Local<v8::Object> local_object);
+extern bool php_v8_object_delete_self_ptr(php_v8_value_t *php_v8_value, v8::Local<v8::Object> local_object);
+extern bool php_v8_object_store_self_ptr(php_v8_value_t *php_v8_value, v8::Local<v8::Object> local_object);
+extern php_v8_value_t * php_v8_object_get_self_ptr(php_v8_isolate_t *php_v8_isolate, v8::Local<v8::Object> local_object);
 
 
 #define PHP_V8_OBJECT_STORE_CONTEXT(to_zval, from_context_zv) zend_update_property(php_v8_object_class_entry, (to_zval), ZEND_STRL("context"), (from_context_zv));

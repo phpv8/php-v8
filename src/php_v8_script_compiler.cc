@@ -34,7 +34,7 @@ zend_class_entry* php_v8_script_compiler_class_entry;
 static v8::ScriptCompiler::Source * php_v8_build_source(zval *source_string_zv, zval *origin_zv, zval *cached_data_zv, v8::Isolate *isolate) {
     PHP_V8_VALUE_FETCH_INTO(source_string_zv, php_v8_source_string);
 
-    v8::Local<v8::String> local_source_string = php_v8_value_get_string_local(isolate, php_v8_source_string);
+    v8::Local<v8::String> local_source_string = php_v8_value_get_local_as<v8::String>(php_v8_source_string);
 
     v8::ScriptOrigin *origin = NULL;
 
@@ -83,7 +83,7 @@ static PHP_METHOD(V8ScriptCompiler, CompileUnboundScript)
 
     PHP_V8_CHECK_COMPILER_OPTIONS_RANGE(options, "Invalid Script compiler options given. See V8\\ScriptCompiler\\CompileOptions class constants for available options.")
 
-    PHP_V8_CONTEXT_FETCH_INTO(php_v8_context_zv, php_v8_context);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
 
     zval *source_string_zv = PHP_V8_SOURCE_READ_SOURCE_STRING(php_v8_source_zv);
     zval *origin_zv        = PHP_V8_SOURCE_READ_ORIGIN(php_v8_source_zv);
@@ -139,7 +139,7 @@ static PHP_METHOD(V8ScriptCompiler, Compile)
 
     PHP_V8_CHECK_COMPILER_OPTIONS_RANGE(options, "Invalid Script compiler options given. See V8\\ScriptCompiler\\CompileOptions class constants for available options.")
 
-    PHP_V8_CONTEXT_FETCH_INTO(php_v8_context_zv, php_v8_context);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
 
     zval *source_string_zv = PHP_V8_SOURCE_READ_SOURCE_STRING(php_v8_source_zv);
     zval *origin_zv        = PHP_V8_SOURCE_READ_ORIGIN(php_v8_source_zv);
@@ -199,7 +199,7 @@ static PHP_METHOD(V8ScriptCompiler, CompileFunctionInContext)
         return;
     }
 
-    PHP_V8_CONTEXT_FETCH_INTO(php_v8_context_zv, php_v8_context);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
 
     zval *source_string_zv = PHP_V8_SOURCE_READ_SOURCE_STRING(php_v8_source_zv);
     zval *origin_zv        = PHP_V8_SOURCE_READ_ORIGIN(php_v8_source_zv);
@@ -236,12 +236,20 @@ static PHP_METHOD(V8ScriptCompiler, CompileFunctionInContext)
                                                                   static_cast<size_t>(context_extensions_count),
                                                                   context_extensions);
 
+    if (arguments) {
+        efree(arguments);
+    }
+
+    if (context_extensions) {
+        efree(context_extensions);
+    }
+
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(maybe_function, "Failed to compile function in context");
 
     v8::Local<v8::Function> local_function = maybe_function.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_function, isolate);
+    php_v8_get_or_create_value(return_value, local_function, php_v8_context->php_v8_isolate);
 }
 
 

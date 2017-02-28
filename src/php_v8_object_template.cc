@@ -31,13 +31,6 @@ zend_class_entry *php_v8_object_template_class_entry;
 
 static zend_object_handlers php_v8_object_template_object_handlers;
 
-v8::Local<v8::ObjectTemplate> php_v8_object_template_get_local(v8::Isolate *isolate, php_v8_object_template_t *php_v8_object_template) {
-    return v8::Local<v8::ObjectTemplate>::New(isolate, *php_v8_object_template->persistent);
-}
-
-php_v8_object_template_t * php_v8_object_template_fetch_object(zend_object *obj) {
-    return (php_v8_object_template_t *)((char *)obj - XtOffsetOf(php_v8_object_template_t, std));
-}
 
 static void php_v8_object_template_weak_callback(const v8::WeakCallbackInfo<v8::Persistent<v8::ObjectTemplate>> &data) {
     v8::Isolate *isolate = data.GetIsolate();
@@ -147,7 +140,7 @@ static PHP_METHOD(V8ObjectTemplate, __construct) {
         PHP_V8_FETCH_FUNCTION_TEMPLATE_WITH_CHECK(php_v8_function_template_zv, php_v8_function_template);
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_object_template, php_v8_function_template);
 
-        constructor = php_v8_function_template_get_local(isolate, php_v8_function_template);
+        constructor = php_v8_function_template_get_local(php_v8_function_template);
     }
 
     v8::Local<v8::ObjectTemplate> local_obj_tpl = v8::ObjectTemplate::New(isolate, constructor);
@@ -203,7 +196,7 @@ static PHP_METHOD(V8ObjectTemplate, NewInstance) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(isolate, php_v8_object_template);
+    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(php_v8_object_template);
 
     v8::MaybeLocal<v8::Object> maybe_local_obj = local_obj_tpl->NewInstance(context);
 
@@ -211,7 +204,7 @@ static PHP_METHOD(V8ObjectTemplate, NewInstance) {
 
     v8::Local<v8::Object> local_obj = maybe_local_obj.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_obj, isolate);
+    php_v8_get_or_create_value(return_value, local_obj, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
@@ -242,12 +235,12 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
 
-    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(isolate, php_v8_object_template);
+    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(php_v8_object_template);
 
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
     settings = settings ? settings & PHP_V8_ACCESS_CONTROL_FLAGS : settings;
 
-    v8::Local<v8::Name> local_name = php_v8_value_get_name_local(isolate, php_v8_name);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
     PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(name, local_name);
 
@@ -290,7 +283,7 @@ static PHP_METHOD(V8ObjectTemplate, SetHandlerForNamedProperty) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
 
-    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(isolate, php_v8_object_template);
+    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(php_v8_object_template);
 
     phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("named_handlers");
     bucket->reset(php_v8_handlers->bucket);
@@ -322,7 +315,7 @@ static PHP_METHOD(V8ObjectTemplate, SetHandlerForIndexedProperty) {
 
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
 
-    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(isolate, php_v8_object_template);
+    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(php_v8_object_template);
 
     phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("indexed_handlers");
     bucket->reset(php_v8_handlers->bucket);
@@ -365,7 +358,7 @@ static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
         callback = php_v8_callback_function;
     }
 
-    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(isolate, php_v8_object_template);
+    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_object_template);
 
     local_template->SetCallAsFunctionHandler(callback, data);
 }
@@ -400,7 +393,7 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessCheckCallback) {
     phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("access_check");
     bucket->add(0, fci_callback, fci_cache_callback);
 
-    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(isolate, php_v8_object_template);
+    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_object_template);
 
     local_template->SetAccessCheckCallback(php_v8_callback_access_check, v8::External::New(isolate, bucket));
 }
@@ -538,9 +531,10 @@ PHP_MINIT_FUNCTION (php_v8_object_template) {
 
     memcpy(&php_v8_object_template_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_object_template_object_handlers.offset   = XtOffsetOf(php_v8_object_template_t, std);
-    php_v8_object_template_object_handlers.free_obj = php_v8_object_template_free;
-    php_v8_object_template_object_handlers.get_gc   = php_v8_object_template_gc;
+    php_v8_object_template_object_handlers.offset    = XtOffsetOf(php_v8_object_template_t, std);
+    php_v8_object_template_object_handlers.free_obj  = php_v8_object_template_free;
+    php_v8_object_template_object_handlers.get_gc    = php_v8_object_template_gc;
+    php_v8_object_template_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

@@ -24,9 +24,6 @@ zend_class_entry * php_v8_cached_data_class_entry;
 
 static zend_object_handlers php_v8_cached_data_object_handlers;
 
-php_v8_cached_data_t * php_v8_cached_data_fetch_object(zend_object *obj) {
-    return (php_v8_cached_data_t *)((char *)obj - XtOffsetOf(php_v8_cached_data_t, std));
-}
 
 php_v8_cached_data_t * php_v8_create_cached_data(zval *return_value, const v8::ScriptCompiler::CachedData *cached_data) {
 
@@ -139,8 +136,9 @@ PHP_MINIT_FUNCTION(php_v8_cached_data)
 
     memcpy(&php_v8_cached_data_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_cached_data_object_handlers.offset = XtOffsetOf(php_v8_cached_data_t, std);
-    php_v8_cached_data_object_handlers.free_obj = php_v8_cached_data_free;
+    php_v8_cached_data_object_handlers.offset    = XtOffsetOf(php_v8_cached_data_t, std);
+    php_v8_cached_data_object_handlers.free_obj  = php_v8_cached_data_free;
+    php_v8_cached_data_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

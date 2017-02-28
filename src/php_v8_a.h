@@ -13,6 +13,15 @@
 #ifndef PHP_V8_A_H
 #define PHP_V8_A_H
 
+extern "C" {
+#include "php.h"
+
+#ifdef ZTS
+#include "TSRM.h"
+#endif
+};
+
 void php_v8_init();
+void php_v8_shutdown();
 
 #endif //PHP_V8_A_H

@@ -26,8 +26,6 @@ extern "C" {
 
 extern zend_class_entry* php_v8_array_class_entry;
 
-extern v8::Local<v8::Array> php_v8_value_get_array_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
-
 
 PHP_MINIT_FUNCTION(php_v8_array);
 

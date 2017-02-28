@@ -25,22 +25,14 @@ zend_class_entry *php_v8_return_value_class_entry;
 
 static zend_object_handlers php_v8_return_value_object_handlers;
 
-php_v8_return_value_t * php_v8_return_value_fetch_object(zend_object *obj) {
-    return (php_v8_return_value_t *)((char *)obj - XtOffsetOf(php_v8_return_value_t, std));
-}
 
 static void php_v8_return_value_free(zend_object *object) {
-
     php_v8_return_value_t *php_v8_return_value = php_v8_return_value_fetch_object(object);
 
     zend_object_std_dtor(&php_v8_return_value->std);
-
-    if (!Z_ISUNDEF(php_v8_return_value->this_ptr)) {
-        zval_ptr_dtor(&php_v8_return_value->this_ptr);
-    }
 }
 
-static zend_object * php_v8_return_value_ctor(zend_class_entry *ce) {
+static zend_object *php_v8_return_value_ctor(zend_class_entry *ce) {
 
     php_v8_return_value_t *php_v8_return_value;
 
@@ -57,48 +49,27 @@ static zend_object * php_v8_return_value_ctor(zend_class_entry *ce) {
 }
 
 
-php_v8_return_value_t *php_v8_return_value_create_from_return_value(zval *this_ptr, php_v8_isolate_t *php_v8_isolate, php_v8_context_t *php_v8_context, int accepts) {
-    object_init_ex(this_ptr, this_ce);
+php_v8_return_value_t * php_v8_return_value_create_from_return_value(zval *return_value, php_v8_context_t *php_v8_context, int accepts) {
+    zval isolate_zv;
+    zval context_zv;
+    object_init_ex(return_value, this_ce);
 
-    PHP_V8_RETURN_VALUE_FETCH_INTO(this_ptr, php_v8_return_value);
+    PHP_V8_RETURN_VALUE_FETCH_INTO(return_value, php_v8_return_value);
 
-    php_v8_return_value->php_v8_isolate = php_v8_isolate;
+    // isolate
+    ZVAL_OBJ(&isolate_zv, &php_v8_context->php_v8_isolate->std);
+    zend_update_property(this_ce, return_value, ZEND_STRL("isolate"), &isolate_zv);
+    // context
+    ZVAL_OBJ(&context_zv, &php_v8_context->std);
+    zend_update_property(this_ce, return_value, ZEND_STRL("context"), &context_zv);
+
+    php_v8_return_value->php_v8_isolate = php_v8_context->php_v8_isolate;
     php_v8_return_value->php_v8_context = php_v8_context;
     php_v8_return_value->accepts = accepts;
-
-    ZVAL_COPY_VALUE(&php_v8_return_value->this_ptr, this_ptr);
 
     return php_v8_return_value;
 }
 
-void php_v8_return_value_mark_expired(php_v8_return_value_t *php_v8_return_value) {
-    php_v8_return_value->accepts = PHP_V8_RETVAL_ACCEPTS_INVALID;
-}
-
-//static inline void php_v8_return_value(php_v8_return_value_t *php_v8_return_value) {
-//    assert(PHP_V8_RETVAL_ACCEPTS_INVALID != php_v8_return_value->accepts);
-//
-//    switch (php_v8_return_value->accepts) {
-//        case PHP_V8_RETVAL_ACCEPTS_VOID:
-//            php_v8_return_value->rv_void;
-//            break;
-//        case PHP_V8_RETVAL_ACCEPTS_ANY:
-//            php_v8_return_value->rv_any;
-//            break;
-//        case PHP_V8_RETVAL_ACCEPTS_INTEGER:
-//            php_v8_return_value->rv_integer;
-//            break;
-//        case PHP_V8_RETVAL_ACCEPTS_BOOLEAN:
-//            php_v8_return_value->rv_boolean;
-//            break;
-//        case PHP_V8_RETVAL_ACCEPTS_ARRAY:
-//            php_v8_return_value->rv_array;
-//            break;
-//        default:
-//            assert(false);
-//            break;
-//    }
-//}
 
 static inline v8::Local<v8::Value> php_v8_return_value_get(php_v8_return_value_t *php_v8_return_value) {
     assert(PHP_V8_RETVAL_ACCEPTS_INVALID != php_v8_return_value->accepts);
@@ -133,7 +104,7 @@ static PHP_METHOD(V8ReturnValue, Get) {
 
     v8::Local<v8::Value> local_value = php_v8_return_value_get(php_v8_return_value);
 
-    php_v8_get_or_create_value(return_value, local_value, php_v8_return_value->php_v8_isolate->isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_return_value->php_v8_isolate);
 }
 
 
@@ -150,7 +121,7 @@ static PHP_METHOD(V8ReturnValue, Set) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_value_zv, php_v8_value);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_return_value, php_v8_value);
 
-    v8::Local<v8::Value> local_value = php_v8_value_get_value_local(php_v8_return_value->php_v8_isolate->isolate, php_v8_value);
+    v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
 
     if (PHP_V8_RETVAL_ACCEPTS_VOID == php_v8_return_value->accepts) {
         PHP_V8_THROW_EXCEPTION("ReturnValue doesn't accept any value");
@@ -350,26 +321,28 @@ static PHP_METHOD(V8ReturnValue, SetFloat) {
 
 // Convenience getter for Isolate
 static PHP_METHOD(V8ReturnValue, GetIsolate) {
+    zval rv;
+    zval *tmp;
+
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
-    PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
-    PHP_V8_RETURN_VALUE_CHECK_IN_CONTEXT(php_v8_return_value);
-
-    RETVAL_ZVAL(&php_v8_return_value->php_v8_isolate->this_ptr, 1, 0);
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("isolate"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
 }
 
 // Convenience getter for Context
 static PHP_METHOD(V8ReturnValue, GetContext) {
+    zval rv;
+    zval *tmp;
+
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
-    PHP_V8_FETCH_RETURN_VALUE_WITH_CHECK(getThis(), php_v8_return_value);
-    PHP_V8_RETURN_VALUE_CHECK_IN_CONTEXT(php_v8_return_value);
-
-    RETVAL_ZVAL(&php_v8_return_value->php_v8_context->this_ptr, 1, 0);
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("context"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
 }
 
 static PHP_METHOD(V8ReturnValue, InContext) {
@@ -442,10 +415,14 @@ PHP_MINIT_FUNCTION (php_v8_return_value) {
     this_ce = zend_register_internal_class(&ce);
     this_ce->create_object = php_v8_return_value_ctor;
 
+    zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("context"), ZEND_ACC_PRIVATE);
+
     memcpy(&php_v8_return_value_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_return_value_object_handlers.offset   = XtOffsetOf(php_v8_return_value_t, std);
-    php_v8_return_value_object_handlers.free_obj = php_v8_return_value_free;
+    php_v8_return_value_object_handlers.offset    = XtOffsetOf(php_v8_return_value_t, std);
+    php_v8_return_value_object_handlers.free_obj  = php_v8_return_value_free;
+    php_v8_return_value_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

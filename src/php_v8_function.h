@@ -26,9 +26,7 @@ extern "C" {
 
 extern zend_class_entry* php_v8_function_class_entry;
 
-extern v8::Local<v8::Function> php_v8_value_get_function_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
-extern bool
-php_v8_function_unpack_args(zval *arguments_zv, int arg_position, v8::Isolate *isolate, int *argc, v8::Local<v8::Value> **argv);
+extern bool php_v8_function_unpack_args(zval *arguments_zv, int arg_position, v8::Isolate *isolate, int *argc, v8::Local<v8::Value> **argv);
 extern bool php_v8_function_unpack_string_args(zval* arguments_zv, int arg_position, v8::Isolate *isolate, int *argc, v8::Local<v8::String> **argv);
 extern bool php_v8_function_unpack_object_args(zval* arguments_zv, int arg_position, v8::Isolate *isolate, int *argc, v8::Local<v8::Object> **argv);
 

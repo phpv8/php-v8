@@ -28,7 +28,6 @@ extern "C" {
 
 extern zend_class_entry* php_v8_string_class_entry;
 
-extern v8::Local<v8::String> php_v8_value_get_string_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
 
 #define MAYBE_ZSTR_VAL(zstr) ((zstr) ? ZSTR_VAL(zstr) : "")
 #define MAYBE_ZSTR_LEN(zstr) ((zstr) ? ZSTR_LEN(zstr) : 0)

@@ -27,7 +27,7 @@ extern "C" {
 extern zend_class_entry* php_v8_indexed_property_handler_configuration_class_entry;
 typedef struct _php_v8_indexed_property_handler_configuration_t php_v8_indexed_property_handler_configuration_t;
 
-extern php_v8_indexed_property_handler_configuration_t * php_v8_indexed_property_handler_configuration_fetch_object(zend_object *obj);
+inline php_v8_indexed_property_handler_configuration_t * php_v8_indexed_property_handler_configuration_fetch_object(zend_object *obj);
 
 #define PHP_V8_INDEXED_PROPERTY_HANDLER_FETCH(zv) php_v8_indexed_property_handler_configuration_fetch_object(Z_OBJ_P(zv))
 #define PHP_V8_INDEXED_PROPERTY_HANDLER_FETCH_INTO(pzval, into) php_v8_indexed_property_handler_configuration_t *(into) = PHP_V8_INDEXED_PROPERTY_HANDLER_FETCH((pzval));
@@ -38,7 +38,7 @@ extern php_v8_indexed_property_handler_configuration_t * php_v8_indexed_property
 
 #define PHP_V8_INDEXED_PROPERTY_HANDLER_FETCH_WITH_CHECK(pzval, into) \
     PHP_V8_INDEXED_PROPERTY_HANDLER_FETCH_INTO(pzval, into); \
-    PHP_V8_CHECK_EMPTY_INDEXED_PROPERTY_HANDLER(into);// TODO: fetch with check
+    PHP_V8_CHECK_EMPTY_INDEXED_PROPERTY_HANDLER(into);
 
 #define PHP_V8_INDEXED_PROPERTY_HANDLER_STORE_ISOLATE(to_zval, from_isolate_zv) zend_update_property(php_v8_indexed_property_handler_configuration_class_entry, (to_zval), ZEND_STRL("isolate"), (from_isolate_zv));
 #define PHP_V8_INDEXED_PROPERTY_HANDLER_READ_ISOLATE(from_zval) zend_read_property(php_v8_indexed_property_handler_configuration_class_entry, (from_zval), ZEND_STRL("isolate"), 0, &rv)
@@ -61,6 +61,10 @@ typedef struct _php_v8_indexed_property_handler_configuration_t {
 
     zend_object std;
 } php_v8_indexed_property_handler_configuration_t;
+
+inline php_v8_indexed_property_handler_configuration_t * php_v8_indexed_property_handler_configuration_fetch_object(zend_object *obj) {
+    return (php_v8_indexed_property_handler_configuration_t *)((char *)obj - XtOffsetOf(php_v8_indexed_property_handler_configuration_t, std));
+}
 
 
 PHP_MINIT_FUNCTION(php_v8_indexed_property_handler_configuration);

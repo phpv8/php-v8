@@ -29,7 +29,7 @@ void php_v8_init()
 
     v8::V8::InitializeICUDefaultLocation(PHP_V8_ICU_DATA_DIR);
 
-    // NOTE: if we use snapshot and extenal startup data then we have to initialize it (see https://codereview.chromium.org/315033002/)
+    // If we use snapshot and extenal startup data then we have to initialize it (see https://codereview.chromium.org/315033002/)
     // v8::V8::InitializeExternalStartupData(NULL);
     v8::Platform *platform = v8::platform::CreateDefaultPlatform();
     v8::V8::InitializePlatform(platform);
@@ -37,20 +37,21 @@ void php_v8_init()
 //    const char *flags = "--no-hard_abort";
 //    v8::V8::SetFlagsFromString(flags, strlen(flags));
 
-
-    // TODO: remove flags?
-    /* Set V8 command line flags (must be done before V8::Initialize()!) */
-//    if (PHP_V8_G(v8_flags)) {
-//        v8::V8::SetFlagsFromString(PHP_V8_G(v8_flags), strlen(PHP_V8_G(v8_flags)));
-//    }
-
     /* Initialize V8 */
     v8::V8::Initialize();
 
     /* Run only once */
     PHP_V8_G(v8_initialized) = true;
+    PHP_V8_G(platform) = platform;
+}
 
-//    TODO: probably, not necessary to call it on shutdown
-//    v8::V8::Dispose();
-//    v8::V8::ShutdownPlatform();
+void php_v8_shutdown() {
+    if (!PHP_V8_G(v8_initialized)) {
+        return;
+    }
+
+    v8::V8::Dispose();
+    v8::V8::ShutdownPlatform();
+
+    delete PHP_V8_G(platform);
 }

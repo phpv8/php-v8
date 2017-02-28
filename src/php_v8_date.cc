@@ -23,9 +23,6 @@
 zend_class_entry *php_v8_date_class_entry;
 #define this_ce php_v8_date_class_entry
 
-v8::Local<v8::Date> php_v8_value_get_date_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::Date>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
 
 static PHP_METHOD(V8Date, __construct) {
     zval rv;
@@ -45,8 +42,7 @@ static PHP_METHOD(V8Date, __construct) {
 
     v8::Local<v8::Date> local_date = maybe_local_date.ToLocalChecked().As<v8::Date>();
 
-    ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_date, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_date);
 
     php_v8_value->persistent->Reset(isolate, local_date);
 }
@@ -60,23 +56,9 @@ static PHP_METHOD(V8Date, ValueOf) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
-    RETURN_DOUBLE(php_v8_value_get_date_local(isolate, php_v8_value)->ValueOf());
+    RETURN_DOUBLE(php_v8_value_get_local_as<v8::Date>(php_v8_value)->ValueOf());
 }
 
-
-///**
-// * Notification that the embedder has changed the time zone,
-// * daylight savings time, or other date / time configuration
-// * parameters.  V8 keeps a cache of various values used for
-// * date / time computation.  This notification will reset
-// * those cached values for the current context so that date /
-// * time configuration changes would be reflected in the Date
-// * object.
-// *
-// * This API should not be called more than needed as it will
-// * negatively impact the performance of date operations.
-// */
-//static void DateTimeConfigurationChangeNotification(Isolate* isolate);
 static PHP_METHOD(V8Date, DateTimeConfigurationChangeNotification) {
     zval *isolate_zv;
 

@@ -71,7 +71,7 @@ object(v8Tests\TrackingDtors\FunctionObject)#6 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#5 (3) {
+  object(V8\Context)#5 (1) {
     ["isolate":"V8\Context":private]=>
     object(v8Tests\TrackingDtors\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -85,24 +85,6 @@ object(v8Tests\TrackingDtors\FunctionObject)#6 (2) {
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["global_template":"V8\Context":private]=>
-    object(V8\ObjectTemplate)#4 (1) {
-      ["isolate":"V8\Template":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-    }
-    ["global_object":"V8\Context":private]=>
-    NULL
   }
 }
 
@@ -170,7 +152,7 @@ Should output Hello World string
 string(11) "Script done"
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
-    object(V8\ScriptOrigin)#127 (6) {
+    object(V8\ScriptOrigin)#126 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -178,7 +160,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#131 (4) {
+      object(V8\ScriptOriginOptions)#130 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>

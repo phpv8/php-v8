@@ -13,6 +13,7 @@
 #ifndef PHP_V8_FUNCTION_CALLBACK_INFO_H
 #define PHP_V8_FUNCTION_CALLBACK_INFO_H
 
+#include "php_v8_return_value.h"
 #include "php_v8_callback_info.h"
 #include <v8.h>
 
@@ -26,7 +27,7 @@ extern "C" {
 
 extern zend_class_entry* php_v8_function_callback_info_class_entry;
 
-extern php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::FunctionCallbackInfo<v8::Value>&args);
+extern php_v8_return_value_t * php_v8_callback_info_create_from_info(zval *return_value, const v8::FunctionCallbackInfo<v8::Value> &args);
 
 
 PHP_MINIT_FUNCTION (php_v8_function_callback_info);

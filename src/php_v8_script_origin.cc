@@ -122,7 +122,7 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
 
     zval *options_zv = zend_read_property(this_ce, value, ZEND_STRL("options"), 0, &rv); // ScriptOriginOptions
 
-    if (Z_TYPE_P(options_zv) == IS_OBJECT) {
+    if (Z_TYPE_P(options_zv) == IS_OBJECT && instanceof_function(Z_OBJCE_P(options_zv), php_v8_script_origin_options_class_entry)) {
         zval *is_shared_cross_origin_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_shared_cross_origin"), 0, &rv);
         zval *is_opaque_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_opaque"), 0, &rv);
         zval *is_wasm_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_wasm"), 0, &rv);

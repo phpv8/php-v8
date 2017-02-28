@@ -14,44 +14,50 @@
 
 namespace v8Tests\TrackingDtors;
 
-class Isolate extends \V8\Isolate {
-    public function __destruct() {
-        echo 'Isolate dies now!', PHP_EOL;
+
+trait DestructMessageAwareTrait {
+    //private $message = '';
+
+    //public function setOnDestructMessage($message) {
+    //    $this->message = $message;
+    //}
+
+    public function __destruct()
+    {
+        if (isset($this->destructor_test_message)) {
+            $message = $this->destructor_test_message;
+        }else {
+            $message = (new \ReflectionClass($this))->getShortName() . ' dies now!';
+        }
+
+        echo $message, PHP_EOL;
     }
+}
+
+class Isolate extends \V8\Isolate {
+    use DestructMessageAwareTrait;
 }
 
 class Context extends \V8\Context {
-    public function __destruct() {
-        echo 'Context dies now!', PHP_EOL;
-    }
+    use DestructMessageAwareTrait;
 }
 
 class Script extends \V8\Script {
-    public function __destruct() {
-        echo 'Script dies now!', PHP_EOL;
-    }
+    use DestructMessageAwareTrait;
 }
 
 class FunctionTemplate extends \V8\FunctionTemplate {
-    public function __destruct() {
-        echo 'FunctionTemplate dies now!', PHP_EOL;
-    }
+    use DestructMessageAwareTrait;
 }
 
 class ObjectTemplate extends \V8\ObjectTemplate {
-    public function __destruct() {
-        echo 'ObjectTemplate dies now!', PHP_EOL;
-    }
+    use DestructMessageAwareTrait;
 }
 
 class FunctionObject extends \V8\FunctionObject {
-    public function __destruct() {
-        echo 'FunctionObject dies now!', PHP_EOL;
-    }
+    use DestructMessageAwareTrait;
 }
 
 class Value extends \V8\Value {
-    public function __destruct() {
-        echo 'Value dies now!', PHP_EOL;
-    }
+    use DestructMessageAwareTrait;
 }

@@ -24,9 +24,6 @@ zend_class_entry* php_v8_indexed_property_handler_configuration_class_entry;
 
 static zend_object_handlers php_v8_indexed_property_handler_configuration_object_handlers;
 
-php_v8_indexed_property_handler_configuration_t * php_v8_indexed_property_handler_configuration_fetch_object(zend_object *obj) {
-    return (php_v8_indexed_property_handler_configuration_t *)((char *)obj - XtOffsetOf(php_v8_indexed_property_handler_configuration_t, std));
-}
 
 static HashTable * php_v8_indexed_property_handler_configuration_gc(zval *object, zval **table, int *n) {
     PHP_V8_INDEXED_PROPERTY_HANDLER_FETCH_INTO(object, php_v8_handlers);
@@ -122,8 +119,7 @@ static PHP_METHOD (V8IndexedPropertyHandlerConfiguration, __construct) {
         php_v8_handlers->enumerator = php_v8_callback_indexed_property_enumerator;
     }
 
-    // TODO: php_v8_handlers->flags is long, while flag is zend_long, unify types or cast ???
-    php_v8_handlers->flags = flags ? flags & PHP_V8_PROPERTY_HANDLER_FLAGS : flags;
+    php_v8_handlers->flags = static_cast<long>(flags ? flags & PHP_V8_PROPERTY_HANDLER_FLAGS : flags);
 }
 
 
@@ -152,9 +148,10 @@ PHP_MINIT_FUNCTION(php_v8_indexed_property_handler_configuration) {
 
     memcpy(&php_v8_indexed_property_handler_configuration_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_indexed_property_handler_configuration_object_handlers.offset   = XtOffsetOf(php_v8_indexed_property_handler_configuration_t, std);
-    php_v8_indexed_property_handler_configuration_object_handlers.free_obj = php_v8_indexed_property_handler_configuration_free;
-    php_v8_indexed_property_handler_configuration_object_handlers.get_gc   = php_v8_indexed_property_handler_configuration_gc;
+    php_v8_indexed_property_handler_configuration_object_handlers.offset    = XtOffsetOf(php_v8_indexed_property_handler_configuration_t, std);
+    php_v8_indexed_property_handler_configuration_object_handlers.free_obj  = php_v8_indexed_property_handler_configuration_free;
+    php_v8_indexed_property_handler_configuration_object_handlers.get_gc    = php_v8_indexed_property_handler_configuration_gc;
+    php_v8_indexed_property_handler_configuration_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

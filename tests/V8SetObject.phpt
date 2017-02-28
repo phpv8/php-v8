@@ -31,7 +31,6 @@ $helper->line();
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
 $helper->method_matches($value, 'GetContext', $context);
-$helper->method_matches($value, 'CreationContext', $context);
 $helper->space();
 
 $helper->header('Getters');
@@ -122,7 +121,7 @@ object(V8\SetObject)#6 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#5 (3) {
+  object(V8\Context)#5 (1) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -136,24 +135,6 @@ object(V8\SetObject)#6 (2) {
       ["memory_limit_hit":"V8\Isolate":private]=>
       bool(false)
     }
-    ["global_template":"V8\Context":private]=>
-    object(V8\ObjectTemplate)#4 (1) {
-      ["isolate":"V8\Template":private]=>
-      object(V8\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-    }
-    ["global_object":"V8\Context":private]=>
-    NULL
   }
 }
 
@@ -166,7 +147,6 @@ Accessors:
 ----------
 V8\SetObject::GetIsolate() matches expected value
 V8\SetObject::GetContext() matches expected value
-V8\SetObject::CreationContext() matches expected value
 
 
 Getters:
@@ -233,7 +213,7 @@ V8\SetObject(V8\Value)->IsProxy(): bool(false)
 Converters:
 -----------
 V8\SetObject(V8\Value)->ToBoolean():
-    object(V8\BooleanValue)#120 (1) {
+    object(V8\BooleanValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -249,7 +229,7 @@ V8\SetObject(V8\Value)->ToBoolean():
       }
     }
 V8\SetObject(V8\Value)->ToNumber():
-    object(V8\NumberValue)#120 (1) {
+    object(V8\NumberValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -265,7 +245,7 @@ V8\SetObject(V8\Value)->ToNumber():
       }
     }
 V8\SetObject(V8\Value)->ToString():
-    object(V8\StringValue)#120 (1) {
+    object(V8\StringValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -281,7 +261,7 @@ V8\SetObject(V8\Value)->ToString():
       }
     }
 V8\SetObject(V8\Value)->ToDetailString():
-    object(V8\StringValue)#120 (1) {
+    object(V8\StringValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -312,7 +292,7 @@ V8\SetObject(V8\Value)->ToObject():
         bool(false)
       }
       ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#5 (3) {
+      object(V8\Context)#5 (1) {
         ["isolate":"V8\Context":private]=>
         object(V8\Isolate)#3 (5) {
           ["snapshot":"V8\Isolate":private]=>
@@ -326,28 +306,10 @@ V8\SetObject(V8\Value)->ToObject():
           ["memory_limit_hit":"V8\Isolate":private]=>
           bool(false)
         }
-        ["global_template":"V8\Context":private]=>
-        object(V8\ObjectTemplate)#4 (1) {
-          ["isolate":"V8\Template":private]=>
-          object(V8\Isolate)#3 (5) {
-            ["snapshot":"V8\Isolate":private]=>
-            NULL
-            ["time_limit":"V8\Isolate":private]=>
-            float(0)
-            ["time_limit_hit":"V8\Isolate":private]=>
-            bool(false)
-            ["memory_limit":"V8\Isolate":private]=>
-            int(0)
-            ["memory_limit_hit":"V8\Isolate":private]=>
-            bool(false)
-          }
-        }
-        ["global_object":"V8\Context":private]=>
-        NULL
       }
     }
 V8\SetObject(V8\Value)->ToInteger():
-    object(V8\Int32Value)#120 (1) {
+    object(V8\Int32Value)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -363,7 +325,7 @@ V8\SetObject(V8\Value)->ToInteger():
       }
     }
 V8\SetObject(V8\Value)->ToUint32():
-    object(V8\Int32Value)#120 (1) {
+    object(V8\Int32Value)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -379,7 +341,7 @@ V8\SetObject(V8\Value)->ToUint32():
       }
     }
 V8\SetObject(V8\Value)->ToInt32():
-    object(V8\Int32Value)#120 (1) {
+    object(V8\Int32Value)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

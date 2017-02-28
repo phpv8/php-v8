@@ -22,10 +22,6 @@
 zend_class_entry* php_v8_string_class_entry;
 #define this_ce php_v8_string_class_entry
 
-v8::Local<v8::String> php_v8_value_get_string_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::String>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
-
 
 static PHP_METHOD(V8String, __construct) {
     zval *php_v8_isolate_zv;
@@ -61,7 +57,7 @@ static PHP_METHOD(V8String, Value)
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::Value> str_tpl = php_v8_value_get_value_local(isolate, php_v8_value);
+    v8::Local<v8::Value> str_tpl = php_v8_value_get_local(php_v8_value);
 
     v8::String::Utf8Value str(str_tpl);
 
@@ -80,7 +76,7 @@ static PHP_METHOD(V8String, Length)
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::String> str_tpl_checked = php_v8_value_get_string_local(isolate, php_v8_value);
+    v8::Local<v8::String> str_tpl_checked = php_v8_value_get_local_as<v8::String>(php_v8_value);
 
     RETVAL_LONG(str_tpl_checked->Length());
 }
@@ -95,7 +91,7 @@ static PHP_METHOD(V8String, Utf8Length)
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::String> str_tpl_checked = php_v8_value_get_string_local(isolate, php_v8_value);
+    v8::Local<v8::String> str_tpl_checked = php_v8_value_get_local_as<v8::String>(php_v8_value);
 
     RETVAL_LONG(str_tpl_checked->Utf8Length());
 }
@@ -110,7 +106,7 @@ static PHP_METHOD(V8String, IsOneByte)
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::String> str_tpl_checked = php_v8_value_get_string_local(isolate, php_v8_value);
+    v8::Local<v8::String> str_tpl_checked = php_v8_value_get_local_as<v8::String>(php_v8_value);
 
     RETVAL_BOOL(str_tpl_checked->IsOneByte());
 }
@@ -125,7 +121,7 @@ static PHP_METHOD(V8String, ContainsOnlyOneByte)
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_ISOLATE(php_v8_value->php_v8_isolate);
 
-    v8::Local<v8::String> str_tpl_checked = php_v8_value_get_string_local(isolate, php_v8_value);
+    v8::Local<v8::String> str_tpl_checked = php_v8_value_get_local_as<v8::String>(php_v8_value);
 
     RETVAL_BOOL(str_tpl_checked->ContainsOnlyOneByte());
 }

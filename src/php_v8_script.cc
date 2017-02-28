@@ -27,14 +27,6 @@ zend_class_entry* php_v8_script_class_entry;
 static zend_object_handlers php_v8_script_object_handlers;
 
 
-v8::Local<v8::Script> php_v8_script_get_local(v8::Isolate *isolate, php_v8_script_t *php_v8_script) {
-    return v8::Local<v8::Script>::New(isolate, *php_v8_script->persistent);
-}
-
-php_v8_script_t * php_v8_script_fetch_object(zend_object *obj) {
-    return (php_v8_script_t *)((char *)obj - XtOffsetOf(php_v8_script_t, std));
-}
-
 php_v8_script_t *php_v8_create_script(zval *return_value, v8::Local<v8::Script> local_script, php_v8_context_t *php_v8_context) {
     assert(!local_script.IsEmpty());
 
@@ -56,7 +48,6 @@ static void php_v8_script_free(zend_object *object)
 {
     php_v8_script_t *php_v8_script = php_v8_script_fetch_object(object);
 
-    // TODO: think about making script weak, it probably may still in use by returned functions from it, isn't it?
     if (php_v8_script->persistent) {
         if (PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_script)) {
             php_v8_script->persistent->Reset();
@@ -122,7 +113,7 @@ static PHP_METHOD(V8Script, __construct)
         }
     }
 
-    v8::Local<v8::String> local_source =  php_v8_value_get_string_local(isolate, php_v8_string);
+    v8::Local<v8::String> local_source =  php_v8_value_get_local_as<v8::String>(php_v8_string);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_SCRIPT(php_v8_script);
@@ -179,7 +170,7 @@ static PHP_METHOD(V8Script, Run)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_script);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Script> local_script = php_v8_script_get_local(isolate, php_v8_script);
+    v8::Local<v8::Script> local_script = php_v8_script_get_local(php_v8_script);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_SCRIPT(php_v8_script);
@@ -191,7 +182,7 @@ static PHP_METHOD(V8Script, Run)
 
     v8::Local<v8::Value> local_result = result.ToLocalChecked();
 
-    php_v8_get_or_create_value(return_value, local_result, isolate);
+    php_v8_get_or_create_value(return_value, local_result, php_v8_script->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Script, GetUnboundScript)
@@ -204,7 +195,7 @@ static PHP_METHOD(V8Script, GetUnboundScript)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_script);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_script);
 
-    v8::Local<v8::Script> local_script = php_v8_script_get_local(isolate, php_v8_script);
+    v8::Local<v8::Script> local_script = php_v8_script_get_local(php_v8_script);
 
     v8::Local<v8::UnboundScript> unbound_script = local_script->GetUnboundScript();
 
@@ -257,8 +248,9 @@ PHP_MINIT_FUNCTION(php_v8_script)
 
     memcpy(&php_v8_script_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_script_object_handlers.offset = XtOffsetOf(php_v8_script_t, std);
-    php_v8_script_object_handlers.free_obj = php_v8_script_free;
+    php_v8_script_object_handlers.offset    = XtOffsetOf(php_v8_script_t, std);
+    php_v8_script_object_handlers.free_obj  = php_v8_script_free;
+    php_v8_script_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }

@@ -26,7 +26,6 @@ extern "C" {
 
 extern zend_class_entry* php_v8_map_class_entry;
 
-extern v8::Local<v8::Map> php_v8_value_get_map_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
 
 PHP_MINIT_FUNCTION(php_v8_map);
 

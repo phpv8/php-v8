@@ -53,7 +53,7 @@ void php_v8_stack_trace_create_from_stack_trace(zval *return_value, php_v8_isola
     /* v8::StackTrace::AsArray */
     zval as_array_zv;
     v8::Local<v8::Array> local_frames_array_v8 = trace->AsArray();
-    php_v8_get_or_create_value(&as_array_zv, local_frames_array_v8, isolate);
+    php_v8_get_or_create_value(&as_array_zv, local_frames_array_v8, php_v8_isolate);
     zend_update_property(this_ce, return_value, ZEND_STRL("as_array"), &as_array_zv);
     zval_ptr_dtor(&as_array_zv);
 }

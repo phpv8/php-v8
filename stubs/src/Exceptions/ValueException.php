@@ -1,4 +1,6 @@
-/*
+<?php
+
+/**
  * This file is part of the pinepain/php-v8 PHP extension.
  *
  * Copyright (c) 2015-2017 Bogdan Padalko <pinepain@gmail.com>
@@ -10,23 +12,9 @@
  * http://opensource.org/licenses/MIT
  */
 
-#ifndef PHP_V8_NAME_H
-#define PHP_V8_NAME_H
+namespace V8\Exceptions;
 
-#include "php_v8_value.h"
-#include <v8.h>
 
-extern "C" {
-#include "php.h"
-
-#ifdef ZTS
-#include "TSRM.h"
-#endif
+class ValueException extends GenericException
+{
 }
-
-extern zend_class_entry* php_v8_name_class_entry;
-
-
-PHP_MINIT_FUNCTION(php_v8_name);
-
-#endif //PHP_V8_NAME_H

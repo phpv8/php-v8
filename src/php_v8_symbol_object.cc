@@ -24,10 +24,6 @@
 zend_class_entry *php_v8_symbol_object_class_entry;
 #define this_ce php_v8_symbol_object_class_entry
 
-v8::Local<v8::SymbolObject> php_v8_value_get_symbol_object_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::SymbolObject>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
-
 static PHP_METHOD(V8SymbolObject, __construct) {
     zval rv;
     zval *php_v8_context_zv;
@@ -41,14 +37,13 @@ static PHP_METHOD(V8SymbolObject, __construct) {
     PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_symbol_zv, php_v8_value_to_set);
     PHP_V8_DATA_ISOLATES_CHECK(php_v8_context, php_v8_value_to_set);
 
-    v8::Local<v8::Symbol> local_symbol = php_v8_value_get_symbol_local(isolate, php_v8_value_to_set);
+    v8::Local<v8::Symbol> local_symbol = php_v8_value_get_local_as<v8::Symbol>(php_v8_value_to_set);
 
     v8::Local<v8::SymbolObject> local_symbol_obj = v8::SymbolObject::New(isolate, local_symbol).As<v8::SymbolObject>();
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol_obj, "Failed to create SymbolObject value");
 
-    ZVAL_COPY_VALUE(&php_v8_value->this_ptr, getThis());
-    php_v8_object_store_self_ptr(isolate, local_symbol_obj, php_v8_value);
+    php_v8_object_store_self_ptr(php_v8_value, local_symbol_obj);
 
     php_v8_value->persistent->Reset(isolate, local_symbol_obj);
 }
@@ -62,9 +57,9 @@ static PHP_METHOD(V8SymbolObject, ValueOf) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
-    v8::Local<v8::Symbol> local_symbol = php_v8_value_get_symbol_object_local(isolate, php_v8_value)->ValueOf();
+    v8::Local<v8::Symbol> local_symbol = php_v8_value_get_local_as<v8::SymbolObject>(php_v8_value)->ValueOf();
 
-    php_v8_get_or_create_value(return_value, local_symbol, isolate);
+    php_v8_get_or_create_value(return_value, local_symbol, php_v8_value->php_v8_isolate);
 }
 
 

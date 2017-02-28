@@ -412,16 +412,6 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
     }
 
     /**
-     * Returns the context in which the object was created.
-     * Note: Object may be created outside context!
-     *
-     * @return \V8\Context
-     */
-    public function CreationContext(): Context
-    {
-    }
-
-    /**
      * Checks whether a callback is set by the
      * ObjectTemplate::SetCallAsFunctionHandler method.
      * When an Object is callable this method returns true.

@@ -82,11 +82,11 @@ class Isolate
     }
 
     /**
-     * Returns the context that is on the top of the stack.
+     * Returns the last entered context.
      *
      * @return \V8\Context
      */
-    public function GetCurrentContext() : Context
+    public function GetEnteredContext() : Context
     {
     }
 

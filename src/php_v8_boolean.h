@@ -26,8 +26,6 @@ extern "C" {
 
 extern zend_class_entry* php_v8_boolean_class_entry;
 
-extern v8::Local<v8::Boolean> php_v8_value_get_boolean_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value);
-
 
 PHP_MINIT_FUNCTION(php_v8_boolean);
 

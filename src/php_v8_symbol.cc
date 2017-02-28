@@ -23,10 +23,6 @@
 zend_class_entry* php_v8_symbol_class_entry;
 #define this_ce php_v8_symbol_class_entry
 
-v8::Local<v8::Symbol> php_v8_value_get_symbol_local(v8::Isolate *isolate, php_v8_value_t *php_v8_value) {
-    return v8::Local<v8::Symbol>::Cast(php_v8_value_get_value_local(isolate, php_v8_value));
-};
-
 
 static PHP_METHOD(V8Symbol, __construct) {
     zval *php_v8_isolate_zv;
@@ -44,7 +40,7 @@ static PHP_METHOD(V8Symbol, __construct) {
         PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_string_zv, php_v8_string);
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_string, php_v8_value);
 
-        local_name = php_v8_value_get_string_local(isolate, php_v8_string);
+        local_name = php_v8_value_get_local_as<v8::String>(php_v8_string);
     }
 
     v8::Local<v8::Symbol> local_symbol = v8::Symbol::New(isolate, local_name);
@@ -66,10 +62,10 @@ static PHP_METHOD(V8Symbol, Name)
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
-    v8::Local<v8::Symbol> local_symbol = php_v8_value_get_symbol_local(isolate, php_v8_value);
+    v8::Local<v8::Symbol> local_symbol = php_v8_value_get_local_as<v8::Symbol>(php_v8_value);
     v8::Local<v8::Value> local_name = local_symbol->Name();
 
-    php_v8_get_or_create_value(return_value, local_name, isolate);
+    php_v8_get_or_create_value(return_value, local_name, php_v8_value->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Symbol, For)
@@ -88,12 +84,12 @@ static PHP_METHOD(V8Symbol, For)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::String> local_string = php_v8_value_get_string_local(isolate, php_v8_value);
+    v8::Local<v8::String> local_string = php_v8_value_get_local_as<v8::String>(php_v8_value);
     v8::Local<v8::Symbol> local_symbol = v8::Symbol::For(isolate, local_string);
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
 
-    php_v8_get_or_create_value(return_value, local_symbol, isolate);
+    php_v8_get_or_create_value(return_value, local_symbol, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Symbol, ForApi)
@@ -112,12 +108,12 @@ static PHP_METHOD(V8Symbol, ForApi)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::String> local_string = php_v8_value_get_string_local(isolate, php_v8_value);
+    v8::Local<v8::String> local_string = php_v8_value_get_local_as<v8::String>(php_v8_value);
     v8::Local<v8::Symbol> local_symbol = v8::Symbol::ForApi(isolate, local_string);
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
 
-    php_v8_get_or_create_value(return_value, local_symbol, isolate);
+    php_v8_get_or_create_value(return_value, local_symbol, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Symbol, GetIterator)
@@ -135,7 +131,7 @@ static PHP_METHOD(V8Symbol, GetIterator)
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
 
-    php_v8_get_or_create_value(return_value, local_symbol, isolate);
+    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
 }
 
 static PHP_METHOD(V8Symbol, GetUnscopables)
@@ -153,7 +149,7 @@ static PHP_METHOD(V8Symbol, GetUnscopables)
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
 
-    php_v8_get_or_create_value(return_value, local_symbol, isolate);
+    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
 }
 
 static PHP_METHOD(V8Symbol, GetToPrimitive)
@@ -171,7 +167,7 @@ static PHP_METHOD(V8Symbol, GetToPrimitive)
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
 
-    php_v8_get_or_create_value(return_value, local_symbol, isolate);
+    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
 }
 
 static PHP_METHOD(V8Symbol, GetToStringTag)
@@ -189,7 +185,7 @@ static PHP_METHOD(V8Symbol, GetToStringTag)
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
 
-    php_v8_get_or_create_value(return_value, local_symbol, isolate);
+    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
 }
 
 static PHP_METHOD(V8Symbol, GetIsConcatSpreadable)
@@ -207,7 +203,7 @@ static PHP_METHOD(V8Symbol, GetIsConcatSpreadable)
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
 
-    php_v8_get_or_create_value(return_value, local_symbol, isolate);
+    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
 }
 
 

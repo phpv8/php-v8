@@ -28,13 +28,9 @@ extern "C" {
 
 extern zend_class_entry *php_v8_context_class_entry;
 
-extern v8::Local<v8::Context> php_v8_context_get_local(v8::Isolate *isolate, php_v8_context_t *php_v8_context);
+inline php_v8_context_t *php_v8_context_fetch_object(zend_object *obj);
 
-extern php_v8_context_t *php_v8_context_fetch_object(zend_object *obj);
-
-extern void php_v8_context_store_reference(v8::Isolate *isolate, v8::Local<v8::Context> context,
-                                           php_v8_context_t *php_v8_context);
-
+extern void php_v8_context_store_reference(v8::Isolate *isolate, v8::Local<v8::Context> context, php_v8_context_t *php_v8_context);
 extern php_v8_context_t *php_v8_context_get_reference(v8::Local<v8::Context> context);
 
 
@@ -65,7 +61,7 @@ extern php_v8_context_t *php_v8_context_get_reference(v8::Local<v8::Context> con
     v8::Context::Scope context_scope(context);
 
 #define PHP_V8_ENTER_CONTEXT(php_v8_context) \
-    v8::Local<v8::Context> context = php_v8_context_get_local(isolate, (php_v8_context)); \
+    PHP_V8_DECLARE_CONTEXT(php_v8_context);  \
     PHP_V8_CONTEXT_ENTER(context);
 
 #define PHP_V8_ENTER_STORED_CONTEXT(stored) PHP_V8_ENTER_CONTEXT((stored)->php_v8_context);
@@ -76,10 +72,13 @@ struct _php_v8_context_t {
     v8::Persistent<v8::Context> *context;
 
     uint32_t isolate_handle;
-    zval this_ptr;
+
     zend_object std;
 };
 
+inline php_v8_context_t * php_v8_context_fetch_object(zend_object *obj) {
+    return (php_v8_context_t *)((char *)obj - XtOffsetOf(php_v8_context_t, std));
+}
 
 PHP_MINIT_FUNCTION(php_v8_context);
 

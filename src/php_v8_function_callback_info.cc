@@ -25,100 +25,114 @@ zend_class_entry* php_v8_function_callback_info_class_entry;
 #define this_ce php_v8_function_callback_info_class_entry
 
 
-php_v8_callback_info_t *php_v8_callback_info_create_from_info(zval *this_ptr, const v8::FunctionCallbackInfo<v8::Value> &args) {
-    zval retval;
+php_v8_return_value_t * php_v8_callback_info_create_from_info(zval *return_value, const v8::FunctionCallbackInfo<v8::Value> &args) {
+    zval tmp;
+    zval arg_zv;
+    php_v8_return_value_t *php_v8_return_value;
+
     v8::Isolate *isolate = args.GetIsolate();
-    v8::Local<v8::Context> context = isolate->GetCurrentContext();
+    v8::Local<v8::Context> context = isolate->GetEnteredContext();
 
     if (context.IsEmpty()) {
         PHP_V8_THROW_EXCEPTION("Internal exception: no calling context found");
         return NULL;
     }
 
-    object_init_ex(this_ptr, this_ce);
-    PHP_V8_CALLBACK_INFO_FETCH_INTO(this_ptr, php_v8_callback_info);
+    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
+    php_v8_context_t *php_v8_context = php_v8_context_get_reference(context);
 
-    php_v8_callback_info->php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
-    php_v8_callback_info->php_v8_context = php_v8_context_get_reference(context);
+    object_init_ex(return_value, this_ce);
 
-    php_v8_callback_info->this_obj->Reset(isolate, args.This());
-    php_v8_callback_info->holder_obj->Reset(isolate, args.Holder());
+    // common to both callback structures:
+    // isolate
+    ZVAL_OBJ(&tmp, &php_v8_isolate->std);
+    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("isolate"), &tmp);
+    // context
+    ZVAL_OBJ(&tmp, &php_v8_context->std);
+    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("context"), &tmp);
+    // this
+    php_v8_get_or_create_value(&tmp, args.This(), php_v8_isolate);
+    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("this"), &tmp);
+    Z_DELREF(tmp);
+    // holder
+    php_v8_get_or_create_value(&tmp, args.Holder(), php_v8_isolate);
+    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("holder"), &tmp);
+    Z_DELREF(tmp);
+    // return value
+    php_v8_return_value = php_v8_return_value_create_from_return_value(&tmp, php_v8_context, PHP_V8_RETVAL_ACCEPTS_ANY);
+    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("return_value"), &tmp);
+    Z_DELREF(tmp);
 
-    php_v8_callback_info->php_v8_return_value = php_v8_return_value_create_from_return_value(
-            &retval,
-            php_v8_callback_info->php_v8_isolate,
-            php_v8_callback_info->php_v8_context,
-            PHP_V8_RETVAL_ACCEPTS_ANY
-    );
+    // specific to function callback structure:
+    // length & arguments, all in one
+    array_init_size(&tmp, static_cast<uint>(args.Length()));
 
-    /* function callback specific part */
-    php_v8_callback_info->length = args.Length();
+    for (int i=0; i < args.Length(); i++) {
+        php_v8_get_or_create_value(&arg_zv,  args[i], php_v8_isolate);
 
-    php_v8_callback_info->arguments = (v8::Persistent<v8::Value> **) ecalloc(static_cast<size_t>(php_v8_callback_info->length), sizeof(*php_v8_callback_info->arguments));
-
-    for (int i=0; i < php_v8_callback_info->length; i++) {
-        php_v8_callback_info->arguments[i] = new v8::Persistent<v8::Value>(isolate, args[i]);
+        add_index_zval(&tmp, static_cast<zend_ulong>(i), &arg_zv);
     }
+    zend_update_property(this_ce, return_value, ZEND_STRL("arguments"), &tmp);
+    Z_DELREF(tmp);
 
-    php_v8_callback_info->is_construct_call = args.IsConstructCall();
+    // new_target
+    php_v8_get_or_create_value(&tmp, args.NewTarget(), php_v8_isolate);
+    zend_update_property(this_ce, return_value, ZEND_STRL("new_target"), &tmp);
+    Z_DELREF(tmp);
 
-    return php_v8_callback_info;
+    // is_constructor_call
+    zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_constructor_call"), static_cast<zend_bool>(args.IsConstructCall()));
+
+    return php_v8_return_value;
 }
 
-
 static PHP_METHOD(V8FunctionCallbackInfo, Length) {
+    zval rv;
+    zval *tmp;
+
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
-    PHP_V8_CALLBACK_INFO_FETCH_WITH_CHECK(getThis(), php_v8_callback_info);
-    PHP_V8_V8_CALLBACK_INFO_CHECK_IN_CONTEXT(php_v8_callback_info);
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("arguments"), 0, &rv);
 
-    RETURN_LONG(static_cast<zend_long>(php_v8_callback_info->length));
+    RETURN_LONG(zend_array_count(Z_ARRVAL_P(tmp)));
 }
 
 static PHP_METHOD(V8FunctionCallbackInfo, Arguments) {
-    v8::Local<v8::Value> local_value;
-
-    zval arg_zv;
+    zval rv;
+    zval *tmp;
 
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
-    PHP_V8_CALLBACK_INFO_FETCH_WITH_CHECK(getThis(), php_v8_callback_info);
-    PHP_V8_V8_CALLBACK_INFO_CHECK_IN_CONTEXT(php_v8_callback_info);
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("arguments"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
+}
 
-    if (!Z_ISUNDEF(php_v8_callback_info->args)) {
-        RETURN_ZVAL(&php_v8_callback_info->args, 1, 0);
+static PHP_METHOD(V8FunctionCallbackInfo, NewTarget) {
+    zval rv;
+    zval *tmp;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
     }
 
-    // TODO: looks like PHP_V8_V8_CALLBACK_INFO_CHECK_IN_CONTEXT make sure we have current context, but check this one more time
-    v8::Isolate *isolate = php_v8_callback_info->php_v8_isolate->isolate;
-
-    array_init_size(&php_v8_callback_info->args, static_cast<uint>(php_v8_callback_info->length));
-
-    for (int i=0; i < php_v8_callback_info->length; i++) {
-
-        local_value = v8::Local<v8::Value>::New(isolate, *php_v8_callback_info->arguments[i]);
-
-        php_v8_get_or_create_value(&arg_zv, local_value, isolate);
-
-        add_index_zval(&php_v8_callback_info->args, static_cast<zend_ulong>(i), &arg_zv);
-    }
-
-    RETURN_ZVAL(&php_v8_callback_info->args, 1, 0);
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("new_target"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
 }
 
 static PHP_METHOD(V8FunctionCallbackInfo, IsConstructCall) {
+    zval rv;
+    zval *tmp;
+
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
-    PHP_V8_CALLBACK_INFO_FETCH_WITH_CHECK(getThis(), php_v8_callback_info);
-    PHP_V8_V8_CALLBACK_INFO_CHECK_IN_CONTEXT(php_v8_callback_info);
-
-    RETURN_BOOL(php_v8_callback_info->is_construct_call)
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("is_constructor_call"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
 }
 
 
@@ -128,6 +142,9 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_callback_info_Arguments, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_function_callback_info_NewTarget, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_callback_info_IsConstructCall, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -135,6 +152,7 @@ ZEND_END_ARG_INFO()
 static const zend_function_entry php_v8_function_callback_info_methods[] = {
         PHP_ME(V8FunctionCallbackInfo, Length, arginfo_v8_function_callback_info_Length, ZEND_ACC_PUBLIC)
         PHP_ME(V8FunctionCallbackInfo, Arguments, arginfo_v8_function_callback_info_Arguments, ZEND_ACC_PUBLIC)
+        PHP_ME(V8FunctionCallbackInfo, NewTarget, arginfo_v8_function_callback_info_NewTarget, ZEND_ACC_PUBLIC)
         PHP_ME(V8FunctionCallbackInfo, IsConstructCall, arginfo_v8_function_callback_info_IsConstructCall, ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
@@ -144,6 +162,10 @@ PHP_MINIT_FUNCTION(php_v8_function_callback_info) {
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "FunctionCallbackInfo", php_v8_function_callback_info_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_callback_info_class_entry);
+
+    zend_declare_property_null(this_ce, ZEND_STRL("arguments"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("new_target"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("is_constructor_call"), ZEND_ACC_PRIVATE);
 
     return SUCCESS;
 }

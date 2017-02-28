@@ -25,30 +25,23 @@ zend_class_entry* php_v8_context_class_entry;
 
 static zend_object_handlers php_v8_context_object_handlers;
 
-v8::Local<v8::Context> php_v8_context_get_local(v8::Isolate *isolate, php_v8_context_t *php_v8_context) {
-    return v8::Local<v8::Context>::New(isolate, *php_v8_context->context);
-};
-
-php_v8_context_t * php_v8_context_fetch_object(zend_object *obj) {
-    return (php_v8_context_t *)((char *)obj - XtOffsetOf(php_v8_context_t, std));
-}
 
 static void php_v8_context_free(zend_object *object)
 {
     php_v8_context_t *php_v8_context = php_v8_context_fetch_object(object);
 
-    // TODO: if we become weak, don't forget to remove stored `zval* this_ptr` to Context object
-
     if (php_v8_context->context) {
         if (PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_context)) {
+            {
+                PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+                PHP_V8_DECLARE_CONTEXT(php_v8_context);
+                php_v8_context_store_reference(isolate, context, nullptr);
+            }
+
             php_v8_context->context->Reset();
         }
 
         delete php_v8_context->context;
-    }
-
-    if (!Z_ISUNDEF(php_v8_context->this_ptr)) {
-        zval_ptr_dtor(&php_v8_context->this_ptr);
     }
 
     zend_object_std_dtor(&php_v8_context->std);
@@ -107,29 +100,24 @@ static PHP_METHOD(V8Context, __construct)
     PHP_V8_STORE_POINTER_TO_ISOLATE(php_v8_context, php_v8_isolate);
     PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
-    if (php_v8_global_template_zv) {
-        zend_update_property(this_ce, getThis(), ZEND_STRL("global_template"), php_v8_global_template_zv);
-    }
-
     if (php_v8_global_template_zv && Z_TYPE_P(php_v8_global_template_zv) != IS_NULL) {
         PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(php_v8_global_template_zv, php_v8_global_template);
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_context, php_v8_global_template);
 
-        global_template = php_v8_object_template_get_local(isolate, php_v8_global_template);
+        global_template = php_v8_object_template_get_local(php_v8_global_template);
     }
 
     if (php_v8_global_object_zv && Z_TYPE_P(php_v8_global_object_zv) != IS_NULL) {
         PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_global_object_zv, php_v8_global_object);
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_context, php_v8_global_object);
 
-        global_object = php_v8_value_get_value_local(isolate, php_v8_global_object);
+        global_object = php_v8_value_get_local(php_v8_global_object);
     }
 
     v8::Local<v8::Context> context = v8::Context::New(isolate, extensions, global_template, global_object);
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(context, "Failed to create Context");
 
-    ZVAL_COPY_VALUE(&php_v8_context->this_ptr, getThis());
     php_v8_context_store_reference(isolate, context, php_v8_context);
 
     php_v8_context->context->Reset(isolate, context);
@@ -160,7 +148,7 @@ static PHP_METHOD(V8Context, GlobalObject)
 
     v8::Local<v8::Object> local_object = context->Global();
 
-    php_v8_get_or_create_value(return_value, local_object, isolate);
+    php_v8_get_or_create_value(return_value, local_object, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Context, DetachGlobal)
@@ -171,10 +159,9 @@ static PHP_METHOD(V8Context, DetachGlobal)
 
     PHP_V8_CONTEXT_FETCH_WITH_CHECK(getThis(), php_v8_context);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_DECLARE_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-
-    local_context->DetachGlobal();
+    context->DetachGlobal();
 }
 
 static PHP_METHOD(V8Context, SetSecurityToken)
@@ -190,10 +177,11 @@ static PHP_METHOD(V8Context, SetSecurityToken)
 
     PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_value_zv, php_v8_value);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Value> local_token = php_v8_value_get_value_local(isolate, php_v8_value);
+    PHP_V8_DECLARE_CONTEXT(php_v8_context);
 
-    local_context->SetSecurityToken(local_token);
+    v8::Local<v8::Value> local_token = php_v8_value_get_local(php_v8_value);
+
+    context->SetSecurityToken(local_token);
 }
 
 static PHP_METHOD(V8Context, UseDefaultSecurityToken)
@@ -204,10 +192,9 @@ static PHP_METHOD(V8Context, UseDefaultSecurityToken)
 
     PHP_V8_CONTEXT_FETCH_WITH_CHECK(getThis(), php_v8_context);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_DECLARE_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-
-    local_context->UseDefaultSecurityToken();
+    context->UseDefaultSecurityToken();
 }
 
 static PHP_METHOD(V8Context, GetSecurityToken)
@@ -221,10 +208,9 @@ static PHP_METHOD(V8Context, GetSecurityToken)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    v8::Local<v8::Value> local_value = local_context->GetSecurityToken();
+    v8::Local<v8::Value> local_value = context->GetSecurityToken();
 
-    php_v8_get_or_create_value(return_value, local_value, isolate);
+    php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
 static PHP_METHOD(V8Context, AllowCodeGenerationFromStrings)
@@ -237,9 +223,9 @@ static PHP_METHOD(V8Context, AllowCodeGenerationFromStrings)
 
     PHP_V8_CONTEXT_FETCH_WITH_CHECK(getThis(), php_v8_context);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_DECLARE_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-    local_context->AllowCodeGenerationFromStrings((bool) allow);
+    context->AllowCodeGenerationFromStrings((bool) allow);
 }
 
 static PHP_METHOD(V8Context, IsCodeGenerationFromStringsAllowed)
@@ -250,10 +236,9 @@ static PHP_METHOD(V8Context, IsCodeGenerationFromStringsAllowed)
 
     PHP_V8_CONTEXT_FETCH_WITH_CHECK(getThis(), php_v8_context);
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_DECLARE_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-
-    RETURN_BOOL(local_context->IsCodeGenerationFromStringsAllowed());
+    RETURN_BOOL(context->IsCodeGenerationFromStringsAllowed());
 }
 
 static PHP_METHOD(V8Context, SetErrorMessageForCodeGenerationFromStrings)
@@ -272,11 +257,9 @@ static PHP_METHOD(V8Context, SetErrorMessageForCodeGenerationFromStrings)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
+    v8::Local<v8::String> local_string = php_v8_value_get_local_as<v8::String>(php_v8_string);
 
-    v8::Local<v8::String> local_string = php_v8_value_get_string_local(isolate, php_v8_string);
-
-    local_context->SetErrorMessageForCodeGenerationFromStrings(local_string);
+    context->SetErrorMessageForCodeGenerationFromStrings(local_string);
 }
 
 static PHP_METHOD(V8Context, EstimatedSize)
@@ -290,9 +273,7 @@ static PHP_METHOD(V8Context, EstimatedSize)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
-    v8::Local<v8::Context> local_context = php_v8_context_get_local(isolate, php_v8_context);
-
-    RETURN_LONG(local_context->EstimatedSize());
+    RETURN_LONG(context->EstimatedSize());
 }
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
@@ -371,13 +352,12 @@ PHP_MINIT_FUNCTION(php_v8_context)
     this_ce->create_object = php_v8_context_ctor;
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("global_template"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("global_object"), ZEND_ACC_PRIVATE);
 
     memcpy(&php_v8_context_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 
-    php_v8_context_object_handlers.offset = XtOffsetOf(php_v8_context_t, std);
-    php_v8_context_object_handlers.free_obj = php_v8_context_free;
+    php_v8_context_object_handlers.offset    = XtOffsetOf(php_v8_context_t, std);
+    php_v8_context_object_handlers.free_obj  = php_v8_context_free;
+    php_v8_context_object_handlers.clone_obj = NULL;
 
     return SUCCESS;
 }
