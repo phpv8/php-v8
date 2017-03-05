@@ -11,7 +11,9 @@
   ~ http://opensource.org/licenses/MIT
   -->
 
-<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.4" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         packagerversion="1.9.4" version="2.0"
+         xsi:schemaLocation="http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
     <name>v8</name>
     <channel>pecl.php.net</channel>
     <summary>V8 JavaScript engine API for PHP</summary>
@@ -24,11 +26,11 @@
         <email>pinepain@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2017-02-18</date>
-    <time>14:14:21</time>
+    <date>2017-03-05</date>
+    <time>20:48:11</time>
     <version>
-        <release>0.1.2</release>
-        <api>0.1.2</api>
+        <release>0.1.3</release>
+        <api>0.1.3</api>
     </version>
     <stability>
         <release>stable</release>
@@ -36,31 +38,25 @@
     </stability>
     <license uri="https://opensource.org/licenses/mit">The MIT License (MIT)</license>
     <notes>
-        This release adds script compilation and caching. Also more new methods added and some internal logic refactored.
-        See detailed changes below.
+        This release adds low-level optimizations, simplify some internal methods and fix few bugs. For more details see
+        change list below.
 
-        As of this release, V8 >= 5.8.168 required.
+        As of this release, V8 >= 5.9.5 required.
 
-        * - BC-breaking or potentially BC-breaking changes.
+        * - BC-breaking or potentially BC-breaking changes
 
         Changes to public API and other important changes which may affect end-user:
 
-            - * Add $is_wasm and $is_module options to V8\ScriptOriginOptions and V8\ScriptOrigin;
-            - * Remove non-standard V8\Scrip::{getSource,getOrigin};
-            - * Remove V8\ObjectValue::{Get,Set,Has,Delete,CreateDataProperty}Indexed methods;
-            - * Remove non-working V8\Context extensions support;
-            - * Handle V8\IntegerValue sub-types when returning values from V8, fixes #19;
-            - Add V8\UnboundScript class;
-            - Add V8\ScriptCompiler\CachedData class;
-            - Add V8\ScriptCompiler\CompileOptions class;
-            - Add V8\ScriptCompiler\Source class;
-            - Add V8\ScriptCompiler;
-            - Add V8\SymbolValue::GetToPrimitive() method;
-            - Add V8\Value::IsNullOrUndefinedl() method;
-            - Add more V8\Value::Is*() methods;
-            - Add V8\MapObject;
-            - Add V8\SetObject;
-            - Fix obj and func templates external memory adjusting.
+        - * Replace V8\Isolate::GetCurrentContext with V8\Isolate::GetEnteredContext();
+        - * Remove V8\ObjectValue::CreationContext(), use V8\ObjectValue::GetContext();
+        - Add V8\PropertyCallbackInfo::ShouldThrowOnError() method;
+        - Add V8\FunctionCallbackInfo::NewTarget() method;
+        - V8\ReturnValue now explicitly holds isolate and context which could be accessed outside of calling context;
+        - Fix potential problems with V8\FunctionCallbackInfo and V8\PropertyCallbackInfo when used outside calling scope;
+        - Fix leak when V8\ScriptCompiler::CompileFunctionInContext() invoked with arguments and/or context extensions;
+        - Fix segfault when abruptly exiting from isolate which entered multiple time or from multiple nested isolates;
+        - Add V8\Exceptions\ValueException to stubs;
+        - Remove $global_template and $global_object private props from V8\Context.
     </notes>
     <contents>
         <dir name="/">
@@ -211,6 +207,7 @@
             <file name="tests/V8Context.phpt" role="test" />
             <file name="tests/V8Context_GlobalObject.phpt" role="test" />
             <file name="tests/V8Context_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/V8Context_reference_lifecycle.phpt" role="test" />
             <file name="tests/V8Context_weakness.phpt" role="test" />
             <file name="tests/V8Data.phpt" role="test" />
             <file name="tests/V8DateObject.phpt" role="test" />
@@ -227,6 +224,8 @@
             <file name="tests/V8FunctionObject_Call.phpt" role="test" />
             <file name="tests/V8FunctionObject_Call_bad_args.phpt" role="test" />
             <file name="tests/V8FunctionObject_die.phpt" role="test" />
+            <file name="tests/V8FunctionObject_die_different_isolates.phpt" role="test" />
+            <file name="tests/V8FunctionObject_die_nested.phpt" role="test" />
             <file name="tests/V8FunctionObject_weakness_multiple.phpt" role="test" />
             <file name="tests/V8FunctionTemplate.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_GetFunction.phpt" role="test" />
@@ -257,8 +256,6 @@
             <file name="tests/V8Isolate_snapshot_support.phpt" role="test" />
             <file name="tests/V8MapObject.phpt" role="test" />
             <file name="tests/V8Message.phpt" role="test" />
-            <file name="tests/V8Module.sh" role="test" />
-            <file name="tests/V8Module_oom.sh" role="test" />
             <file name="tests/V8NameValue.phpt" role="test" />
             <file name="tests/V8NamedPropertyHandlerConfiguration.phpt" role="test" />
             <file name="tests/V8NullValue.phpt" role="test" />
@@ -282,6 +279,7 @@
             <file name="tests/V8ObjectValue_SetIntegrityLevel.phpt" role="test" />
             <file name="tests/V8PrimitiveValue.phpt" role="test" />
             <file name="tests/V8PropertyAttribute.phpt" role="test" />
+            <file name="tests/V8PropertyCallbackInfo.phpt" role="test" />
             <file name="tests/V8PropertyHandlerFlags.phpt" role="test" />
             <file name="tests/V8RegExpFlags.phpt" role="test" />
             <file name="tests/V8RegExpObject.phpt" role="test" />
@@ -291,12 +289,12 @@
             <file name="tests/V8ScriptCompiler.phpt" role="test" />
             <file name="tests/V8ScriptCompiler_Compile.phpt" role="test" />
             <file name="tests/V8ScriptCompiler_CompileFunctionInContext.phpt" role="test" />
-            <file name="tests/V8ScriptCompiler_CompileModule.sh" role="test" />
             <file name="tests/V8ScriptCompiler_CompileUnbound.phpt" role="test" />
             <file name="tests/V8ScriptOrigin.phpt" role="test" />
             <file name="tests/V8ScriptOriginOptions.phpt" role="test" />
             <file name="tests/V8Script_Run.phpt" role="test" />
             <file name="tests/V8Script_Run_out_of_memory.phpt" role="test" />
+            <file name="tests/V8Script_Run_uncaught_exception.phpt" role="test" />
             <file name="tests/V8Script_exit_during_script_execution.phpt" role="test" />
             <file name="tests/V8Script_terminate_script_execution.phpt" role="test" />
             <file name="tests/V8SetObject.phpt" role="test" />
@@ -339,6 +337,7 @@
             <file name="stubs/src/Exceptions/TerminationException.php" role="doc" />
             <file name="stubs/src/Exceptions/TimeLimitException.php" role="doc" />
             <file name="stubs/src/Exceptions/TryCatchException.php" role="doc" />
+            <file name="stubs/src/Exceptions/ValueException.php" role="doc" />
             <file name="stubs/src/FunctionCallbackInfo.php" role="doc" />
             <file name="stubs/src/FunctionObject.php" role="doc" />
             <file name="stubs/src/FunctionTemplate.php" role="doc" />

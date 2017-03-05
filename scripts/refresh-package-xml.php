@@ -27,6 +27,13 @@ $contents = [
     'README.md'  => 'doc',
 ];
 
+$rules = [
+    'test' => [
+        '/\.phpt$/',
+        '/^\..+\.php$/',
+    ],
+];
+
 
 $files = [];
 
@@ -46,6 +53,20 @@ foreach ($contents as $location => $role) {
 
             if (!is_file($location)) {
                 throw new Exception("'{$location}' is not a file");
+            }
+
+
+            if (isset($rules[$role])) {
+                $matches = false;
+                foreach ($rules[$role] as $rule) {
+                    if ($matches = preg_match($rule, $filename->getFilename())) {
+                        break;
+                    }
+                }
+
+                if (!$matches) {
+                    continue;
+                }
             }
 
             $dir_files[] = "            <file name=\"{$location}\" role=\"{$role}\" />";
