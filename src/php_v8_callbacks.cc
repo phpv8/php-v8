@@ -239,7 +239,7 @@ void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Val
     phpv8::CallbacksBucket *bucket;
 
     if (data.IsEmpty() || !data->IsExternal()) {
-        PHP_V8_THROW_EXCEPTION("Callback has no stored callback function");
+        PHP_V8_THROW_EXCEPTION("Callback doesn't have stored callback function");
         return;
     }
 
@@ -249,7 +249,7 @@ void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Val
 
     // highly unlikely, but to play safe
     if (!cb) {
-        PHP_V8_THROW_EXCEPTION("Callback has no stored callback function");
+        PHP_V8_THROW_EXCEPTION("Callback doesn't have stored callback function");
         return;
     }
 
