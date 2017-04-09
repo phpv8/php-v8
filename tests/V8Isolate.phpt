@@ -43,7 +43,7 @@ object(V8\Isolate)#2 (5) {
   bool(false)
 }
 
-V8\Exceptions\GenericException: Not in context!
+V8\Exceptions\Exception: Not in context!
 
 V8\Isolate->GetHeapStatistics():
     object(V8\HeapStatistics)#29 (9) {

@@ -16,6 +16,6 @@
 namespace V8\Exceptions;
 
 
-class GenericException extends \Exception
+class Exception extends \Exception
 {
 }

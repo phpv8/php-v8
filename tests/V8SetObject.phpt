@@ -356,7 +356,7 @@ V8\SetObject(V8\Value)->ToInt32():
         bool(false)
       }
     }
-V8\SetObject(V8\Value)->ToArrayIndex(): V8\Exceptions\GenericException: Failed to convert
+V8\SetObject(V8\Value)->ToArrayIndex(): V8\Exceptions\Exception: Failed to convert
 
 
 New value creation from V8 runtime:

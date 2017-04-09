@@ -83,7 +83,7 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
         v8::MaybeLocal<v8::String> local_resource_name =  v8::String::NewFromUtf8(isolate, Z_STRVAL_P(resource_name_zv), v8::NewStringType::kNormal, (int)Z_STRLEN_P(resource_name_zv));
 
         if (local_resource_name.IsEmpty()) {
-            zend_throw_exception(php_v8_generic_exception_class_entry, "Invalid resource name", 0);
+            PHP_V8_THROW_EXCEPTION("Invalid resource name");
             return nullptr;
         }
 
@@ -113,7 +113,7 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
         v8::MaybeLocal<v8::String> local_source_map_url =  v8::String::NewFromUtf8(isolate, Z_STRVAL_P(source_map_url_zv), v8::NewStringType::kNormal, (int)Z_STRLEN_P(source_map_url_zv));
 
         if (local_source_map_url.IsEmpty()) {
-            zend_throw_exception(php_v8_generic_exception_class_entry, "Invalid source map url", 0);
+            PHP_V8_THROW_EXCEPTION("Invalid source map url");
             return nullptr;
         }
 

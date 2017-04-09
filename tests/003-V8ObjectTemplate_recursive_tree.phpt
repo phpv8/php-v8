@@ -48,14 +48,14 @@ $t7->Set($s9, $t9);
 
 try {
     $t9->Set($s1, $t1);
-} catch (\V8\Exceptions\GenericException $e) {
+} catch (\V8\Exceptions\Exception $e) {
     $helper->exception_export($e);
 }
 
 
 try {
     $t7->Set($s1, $t1);
-} catch (\V8\Exceptions\GenericException $e) {
+} catch (\V8\Exceptions\Exception $e) {
     $helper->exception_export($e);
 }
 
@@ -63,7 +63,7 @@ $t4->Set($s6, $t6);
 
 try {
     $t6->Set($s4, $t4);
-} catch (\V8\Exceptions\GenericException $e) {
+} catch (\V8\Exceptions\Exception $e) {
     $helper->exception_export($e);
 }
 
@@ -72,6 +72,6 @@ $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $
 
 ?>
 --EXPECT--
-V8\Exceptions\GenericException: Can't set: recursion detected
-V8\Exceptions\GenericException: Can't set: recursion detected
-V8\Exceptions\GenericException: Can't set: recursion detected
+V8\Exceptions\Exception: Can't set: recursion detected
+V8\Exceptions\Exception: Can't set: recursion detected
+V8\Exceptions\Exception: Can't set: recursion detected

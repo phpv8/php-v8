@@ -296,4 +296,4 @@ V8\ObjectValue(V8\Value)->ToInt32():
         bool(false)
       }
     }
-V8\ObjectValue(V8\Value)->ToArrayIndex(): V8\Exceptions\GenericException: Failed to convert
+V8\ObjectValue(V8\Value)->ToArrayIndex(): V8\Exceptions\Exception: Failed to convert

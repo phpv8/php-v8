@@ -5,7 +5,7 @@ V8\ObjectTemplate::Set() - recursive self
 --FILE--
 <?php
 
-use V8\Exceptions\GenericException;
+use V8\Exceptions\Exception;
 
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
@@ -21,7 +21,7 @@ $template = new \V8\ObjectTemplate($isolate);
 
 try {
     $template->Set(new \V8\StringValue($isolate, 'self'), $template);
-} catch (GenericException $e) {
+} catch (Exception $e) {
     $helper->exception_export($e);
 }
 
@@ -30,4 +30,4 @@ $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $
 
 ?>
 --EXPECT--
-V8\Exceptions\GenericException: Can't set: recursion detected
+V8\Exceptions\Exception: Can't set: recursion detected

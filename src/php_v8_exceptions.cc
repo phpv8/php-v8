@@ -215,7 +215,7 @@ static const zend_function_entry php_v8_value_exception_methods[] = {
 PHP_MINIT_FUNCTION(php_v8_exceptions) {
     zend_class_entry ce;
 
-    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "GenericException", php_v8_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "Exception", php_v8_exception_methods);
     php_v8_generic_exception_class_entry = zend_register_internal_class_ex(&ce, zend_exception_get_default());
 
     INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "TryCatchException", php_v8_try_catch_exception_methods);
