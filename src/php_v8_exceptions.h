@@ -30,7 +30,7 @@ extern "C" {
 extern zend_class_entry* php_v8_generic_exception_class_entry;
 extern zend_class_entry* php_v8_try_catch_exception_class_entry;
 extern zend_class_entry* php_v8_termination_exception_class_entry;
-extern zend_class_entry* php_v8_abstract_resource_limit_exception_class_entry;
+extern zend_class_entry* php_v8_resource_limit_exception_class_entry;
 extern zend_class_entry* php_v8_time_limit_exception_class_entry;
 extern zend_class_entry* php_v8_memory_limit_exception_class_entry;
 

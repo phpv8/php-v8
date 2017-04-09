@@ -16,6 +16,6 @@
 namespace V8\Exceptions;
 
 
-class TimeLimitException extends AbstractResourceLimitException
+class TimeLimitException extends ResourceLimitException
 {
 }

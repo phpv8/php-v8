@@ -16,6 +16,6 @@
 namespace V8\Exceptions;
 
 
-abstract class AbstractResourceLimitException extends TerminationException
+class ResourceLimitException extends TerminationException
 {
 }
