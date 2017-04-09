@@ -25,7 +25,7 @@ $helper->line();
 $func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
     $value = count($info->Arguments()) ? $info->Arguments()[0] : new \V8\StringValue($info->GetIsolate(), "exception");
 
-    $e = $info->GetIsolate()->ThrowException(V8\Exception::TypeError($info->GetContext(), $value));
+    $e = $info->GetIsolate()->ThrowException($info->GetContext(), V8\Exception::TypeError($info->GetContext(), $value));
 
     $info->GetReturnValue()->Set($e);
 });
