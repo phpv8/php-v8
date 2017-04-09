@@ -363,9 +363,12 @@ static PHP_METHOD(V8Isolate, GetEnteredContext) {
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
     PHP_V8_ENTER_ISOLATE(php_v8_isolate)
 
-    PHP_V8_ISOLATE_REQUIRE_IN_CONTEXT(isolate);
-
     v8::Local<v8::Context> local_context = php_v8_isolate->isolate->GetEnteredContext();
+
+    if (local_context.IsEmpty()) {
+        PHP_V8_THROW_EXCEPTION("Isolate doesn't have entered context");
+        return;
+    }
 
     php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_context);
 

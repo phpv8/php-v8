@@ -13,8 +13,6 @@ $v8_helper = new PhpV8Helpers($helper);
 
 $isolate = new \V8\Isolate();
 
-$helper->line();
-
 $func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
     $value = count($info->Arguments()) ? $info->Arguments()[0] : new \V8\StringValue($info->GetIsolate(), "exception");
 
