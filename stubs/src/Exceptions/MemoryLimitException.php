@@ -16,6 +16,6 @@
 namespace V8\Exceptions;
 
 
-class MemoryLimitException extends AbstractResourceLimitException
+class MemoryLimitException extends ResourceLimitException
 {
 }

@@ -99,14 +99,14 @@ static PHP_METHOD(V8StackTrace, GetFrame)
     frames = zend_read_property(this_ce, getThis(), ZEND_STRL("frames"), 0, &rv);
 
     if (index < 0) {
-        zend_throw_exception(php_v8_generic_exception_class_entry, "Fame index is out of range", 0);
+        PHP_V8_THROW_EXCEPTION("Fame index is out of range");
         return;
     }
 
     frame = zend_hash_index_find(Z_ARRVAL_P(frames), static_cast<zend_ulong>(index));
 
     if (frame == NULL) {
-        zend_throw_exception(php_v8_generic_exception_class_entry, "Fame index is out of range", 0);
+        PHP_V8_THROW_EXCEPTION("Fame index is out of range");
         return;
     }
 

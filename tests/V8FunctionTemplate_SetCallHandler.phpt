@@ -55,6 +55,6 @@ EOF
 TypeError: Argument 1 passed to V8\FunctionTemplate::SetCallHandler() must be callable, null given
 
 callback test()
-V8\Exceptions\GenericException: v8::FunctionTemplate::SetCallHandler FunctionTemplate already instantiated
+V8\Exceptions\Exception: v8::FunctionTemplate::SetCallHandler FunctionTemplate already instantiated
 We are done for now
 EOF

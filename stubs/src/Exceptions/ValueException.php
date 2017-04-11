@@ -15,6 +15,6 @@
 namespace V8\Exceptions;
 
 
-class ValueException extends GenericException
+class ValueException extends Exception
 {
 }

@@ -44,7 +44,7 @@ $cache_data = null;
         $source_string = new V8\StringValue($isolate, '"test"');
         $source        = new \V8\ScriptCompiler\Source($source_string, $origin);
         $script        = V8\ScriptCompiler::Compile($context, $source);
-    } catch (\V8\Exceptions\GenericException $e) {
+    } catch (\V8\Exceptions\Exception $e) {
         $helper->exception_export($e);
     }
 
@@ -72,7 +72,7 @@ $cache_data = null;
     $helper->assert('Source cache data is not set', $source->GetCachedData() === null);
     try {
         $script = V8\ScriptCompiler::Compile($context, $source, V8\ScriptCompiler\CompileOptions::kConsumeParserCache);
-    } catch (\V8\Exceptions\GenericException $e) {
+    } catch (\V8\Exceptions\Exception $e) {
         $helper->exception_export($e);
     }
 }
@@ -266,7 +266,7 @@ Compiling:
 Compile script: ok
 Compile script: ok
 V8\Exceptions\TryCatchException: SyntaxError: Unexpected identifier
-V8\Exceptions\GenericException: Unable to compile module as script
+V8\Exceptions\Exception: Unable to compile module as script
 
 
 Testing:
@@ -277,7 +277,7 @@ string(11) "test passed"
 Test cache when no cache set:
 -----------------------------
 Source cache data is not set: ok
-V8\Exceptions\GenericException: Unable to consume cache when it's not set
+V8\Exceptions\Exception: Unable to consume cache when it's not set
 Test generating code cache:
 ---------------------------
 Source cache data is NULL: ok

@@ -38,5 +38,5 @@ try {
 
 ?>
 --EXPECT--
-V8\Exceptions\GenericException: Value is empty. Forgot to call parent::__construct()?
-V8\Exceptions\GenericException: Value is empty. Forgot to call parent::__construct()?
+V8\Exceptions\Exception: Value is empty. Forgot to call parent::__construct()?
+V8\Exceptions\Exception: Value is empty. Forgot to call parent::__construct()?

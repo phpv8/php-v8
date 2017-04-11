@@ -22,7 +22,7 @@
 zend_class_entry* php_v8_generic_exception_class_entry;
 zend_class_entry* php_v8_try_catch_exception_class_entry;
 zend_class_entry* php_v8_termination_exception_class_entry;
-zend_class_entry* php_v8_abstract_resource_limit_exception_class_entry;
+zend_class_entry* php_v8_resource_limit_exception_class_entry;
 zend_class_entry* php_v8_time_limit_exception_class_entry;
 zend_class_entry* php_v8_memory_limit_exception_class_entry;
 
@@ -190,7 +190,7 @@ static const zend_function_entry php_v8_termination_exception_methods[] = {
         PHP_FE_END
 };
 
-static const zend_function_entry php_v8_abstract_resource_limit_exception_methods[] = {
+static const zend_function_entry php_v8_resource_limit_exception_methods[] = {
         PHP_FE_END
 };
 
@@ -202,11 +202,6 @@ static const zend_function_entry php_v8_memory_limit_exception_methods[] = {
         PHP_FE_END
 };
 
-static const zend_function_entry php_v8_script_exception_methods[] = {
-        PHP_FE_END
-};
-
-
 static const zend_function_entry php_v8_value_exception_methods[] = {
         PHP_FE_END
 };
@@ -215,7 +210,7 @@ static const zend_function_entry php_v8_value_exception_methods[] = {
 PHP_MINIT_FUNCTION(php_v8_exceptions) {
     zend_class_entry ce;
 
-    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "GenericException", php_v8_exception_methods);
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "Exception", php_v8_exception_methods);
     php_v8_generic_exception_class_entry = zend_register_internal_class_ex(&ce, zend_exception_get_default());
 
     INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "TryCatchException", php_v8_try_catch_exception_methods);
@@ -229,15 +224,14 @@ PHP_MINIT_FUNCTION(php_v8_exceptions) {
     INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "TerminationException", php_v8_termination_exception_methods);
     php_v8_termination_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_try_catch_exception_class_entry);
 
-    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "AbstractResourceLimitException", php_v8_abstract_resource_limit_exception_methods);
-    php_v8_abstract_resource_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_termination_exception_class_entry);
-    php_v8_abstract_resource_limit_exception_class_entry->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
+    INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "ResourceLimitException", php_v8_resource_limit_exception_methods);
+    php_v8_resource_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_termination_exception_class_entry);
 
     INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "TimeLimitException", php_v8_time_limit_exception_methods);
-    php_v8_time_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_abstract_resource_limit_exception_class_entry);
+    php_v8_time_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_resource_limit_exception_class_entry);
 
     INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "MemoryLimitException", php_v8_memory_limit_exception_methods);
-    php_v8_memory_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_abstract_resource_limit_exception_class_entry);
+    php_v8_memory_limit_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_resource_limit_exception_class_entry);
 
     INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "ValueException", php_v8_value_exception_methods);
     php_v8_value_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_generic_exception_class_entry);

@@ -13,18 +13,10 @@ $v8_helper = new PhpV8Helpers($helper);
 
 $isolate = new \V8\Isolate();
 
-try {
-    $isolate->ThrowException(new \V8\StringValue($isolate, 'test exception'));
-} catch (\Exception $e) {
-    $helper->exception_export($e);
-}
-
-$helper->line();
-
 $func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
     $value = count($info->Arguments()) ? $info->Arguments()[0] : new \V8\StringValue($info->GetIsolate(), "exception");
 
-    $e = $info->GetIsolate()->ThrowException($value);
+    $e = $info->GetIsolate()->ThrowException($info->GetContext(), $value);
 
     $info->GetReturnValue()->Set($e);
 });
@@ -35,6 +27,7 @@ $global_tpl->Set(new \V8\StringValue($isolate, 'e'), $func_tpl);
 $global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 
 $context = new \V8\Context($isolate, $global_tpl);
+
 
 $v8_helper->CompileTryRun($context, 'e()');
 $v8_helper->CompileTryRun($context, 'e("test")');
@@ -105,8 +98,6 @@ $v8_helper->run_checks($res);
 
 ?>
 --EXPECT--
-V8\Exceptions\GenericException: Not in context!
-
 e(): V8\Exceptions\TryCatchException: exception
 e("test"): V8\Exceptions\TryCatchException: test
 

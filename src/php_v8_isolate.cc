@@ -363,9 +363,12 @@ static PHP_METHOD(V8Isolate, GetEnteredContext) {
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
     PHP_V8_ENTER_ISOLATE(php_v8_isolate)
 
-    PHP_V8_ISOLATE_REQUIRE_IN_CONTEXT(isolate);
-
     v8::Local<v8::Context> local_context = php_v8_isolate->isolate->GetEnteredContext();
+
+    if (local_context.IsEmpty()) {
+        PHP_V8_THROW_EXCEPTION("Isolate doesn't have entered context");
+        return;
+    }
 
     php_v8_context_t *php_v8_context = php_v8_context_get_reference(local_context);
 
@@ -374,20 +377,23 @@ static PHP_METHOD(V8Isolate, GetEnteredContext) {
 }
 
 static PHP_METHOD(V8Isolate, ThrowException) {
+    zval *php_v8_context_zv;
     zval *php_v8_value_zv;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_value_zv) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "oo", &php_v8_context_zv, &php_v8_value_zv) == FAILURE) {
         return;
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
     PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_value_zv, php_v8_value);
 
+    PHP_V8_DATA_ISOLATES_CHECK_USING(php_v8_context, php_v8_isolate);
     PHP_V8_DATA_ISOLATES_CHECK_USING(php_v8_value, php_v8_isolate);
 
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
-
-    PHP_V8_ISOLATE_REQUIRE_IN_CONTEXT(isolate);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
     v8::Local<v8::Value> local_return_value = isolate->ThrowException(local_value);
@@ -549,7 +555,8 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetEnteredContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 

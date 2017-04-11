@@ -114,7 +114,7 @@ Return value holds value: 42
 
 
 Return value object is out of context: ok
-V8\Exceptions\GenericException: Attempt to use return value out of calling function context
+V8\Exceptions\Exception: Attempt to use return value out of calling function context
 
 Object representation (outside of context):
 -------------------------------------------

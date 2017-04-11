@@ -58,5 +58,5 @@ try {
 --EXPECT--
 TypeError: Argument 3 passed to V8\FunctionObject::Call() should be array of \V8\Value objects, integer given at 0 offset
 TypeError: Argument 3 passed to V8\FunctionObject::Call() should be array of \V8\Value objects, instance of stdClass given at 0 offset
-V8\Exceptions\GenericException: Value is empty. Forgot to call parent::__construct()?: argument 3 passed to V8\FunctionObject::Call() at 0 offset
-V8\Exceptions\GenericException: Isolates mismatch: argument 3 passed to V8\FunctionObject::Call() at 0 offset
+V8\Exceptions\Exception: Value is empty. Forgot to call parent::__construct()?: argument 3 passed to V8\FunctionObject::Call() at 0 offset
+V8\Exceptions\Exception: Isolates mismatch: argument 3 passed to V8\FunctionObject::Call() at 0 offset

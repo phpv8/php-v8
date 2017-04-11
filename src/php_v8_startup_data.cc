@@ -68,7 +68,7 @@ static PHP_METHOD(V8StartupData, __construct) {
     }
 
     if (ZSTR_LEN(blob) > INT_MAX) {
-        zend_throw_exception(php_v8_generic_exception_class_entry, "Failed to create startup blob due to blob size integer overflow", 0);
+        PHP_V8_THROW_EXCEPTION("Failed to create startup blob due to blob size integer overflow");
         return;
     }
 

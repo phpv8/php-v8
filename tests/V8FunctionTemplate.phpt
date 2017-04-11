@@ -209,8 +209,8 @@ object(V8\ObjectTemplate)#8 (1) {
 V8\FunctionTemplate::InstanceTemplate() doesn't match expected value
 
 
-V8\Exceptions\GenericException: Isolates mismatch
-V8\Exceptions\GenericException: Isolates mismatch
+V8\Exceptions\Exception: Isolates mismatch
+V8\Exceptions\Exception: Isolates mismatch
 Expected value matches actual value
 Expected value is not identical to actual value
 Hello, world!

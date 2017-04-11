@@ -307,7 +307,7 @@ V8\ArrayObject(V8\Value)->ToInt32():
         bool(false)
       }
     }
-V8\ArrayObject(V8\Value)->ToArrayIndex(): V8\Exceptions\GenericException: Failed to convert
+V8\ArrayObject(V8\Value)->ToArrayIndex(): V8\Exceptions\Exception: Failed to convert
 
 
 typeof arr: object

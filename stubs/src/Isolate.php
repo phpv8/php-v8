@@ -96,11 +96,12 @@ class Isolate
      * operation; the caller must return immediately and only after the exception
      * has been handled does it become legal to invoke JavaScript operations.
      *
-     * @param \V8\Value $value
+     * @param Context $context
+     * @param Value $value
      *
-     * @return \V8\Value
+     * @return Value
      */
-    public function ThrowException(Value $value) : Value
+    public function ThrowException(Context $context, Value $value) : Value
     {
     }
 

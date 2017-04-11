@@ -51,4 +51,4 @@ Snapshot raw_size is the same as binary_string length: ok
 Context global is affected by snapshot blob: ok
 
 
-V8\Exceptions\GenericException: Failed to create startup blob
+V8\Exceptions\Exception: Failed to create startup blob

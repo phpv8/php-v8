@@ -16,7 +16,7 @@
 namespace V8;
 
 
-use V8\Exceptions\GenericException;
+use V8\Exceptions\Exception;
 use V8\StackTrace\StackTraceOptions;
 
 
@@ -67,12 +67,12 @@ class StackTrace
      *
      * @return StackFrame
      *
-     * @throws GenericException When index is out of range
+     * @throws Exception When index is out of range
      */
     public function GetFrame(int $index) : StackFrame
     {
         if ($index < 0 || !isset($this->frames[$index])) {
-            throw new GenericException('Frame index is out of range');
+            throw new Exception('Frame index is out of range');
         }
 
         return $this->frames[$index];
