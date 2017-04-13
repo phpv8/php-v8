@@ -164,3 +164,4 @@ Copyright (c) 2015-2017 Bogdan Padalko &lt;pinepain@gmail.com&gt;
 
 [v8-hello-world]: https://chromium.googlesource.com/v8/v8/+/master/samples/hello-world.cc
 [v8-intro]: https://developers.google.com/v8/intro
+[php-v8-stubs]: https://github.com/pinepain/php-v8-stubs
