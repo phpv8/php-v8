@@ -229,6 +229,6 @@ Expected 1445444940000.0 value is identical to actual value 1445444940000.0
 
 Timezone change (without notification to v8):
 ---------------------------------------------
-val: Wed Oct 21 2015 09:29:00 GMT-0700 (EDT)
+val: Wed Oct 21 2015 09:29:00 GMT-0700 (PDT)
 typeof val: object
 Expected 1445444940000.0 value is identical to actual value 1445444940000.0

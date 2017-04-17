@@ -139,38 +139,38 @@ totally 0 frames:
 
 totally 1 frames:
 [
-    {"column":17,"lineNumber":14,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","isEval":false,"functionName":"get_trace","isConstructor":false}
+    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
 ]
 
 totally 2 frames:
 [
-    {"column":17,"lineNumber":14,"scriptId":%d}
-    {"column":1,"lineNumber":46,"scriptId":%d}
+    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":47,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
 ]
 
 totally 1 frames:
 [
-    {"column":17,"lineNumber":14,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","isEval":false,"functionName":"get_trace","isConstructor":false}
+    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
 ]
 
 totally 10 frames:
 [
-    {"column":17,"lineNumber":14,"scriptName":"test.js","functionName":"get_trace"}
-    {"column":12,"lineNumber":28,"scriptName":"test.js","functionName":"recursive_get_trace"}
-    {"column":16,"lineNumber":25,"scriptName":"test.js","functionName":"recursive_get_trace"}
-    {"column":16,"lineNumber":25,"scriptName":"test.js","functionName":"recursive_get_trace"}
-    {"column":16,"lineNumber":25,"scriptName":"test.js","functionName":"recursive_get_trace"}
-    {"column":16,"lineNumber":25,"scriptName":"test.js","functionName":"recursive_get_trace"}
-    {"column":16,"lineNumber":25,"scriptName":"test.js","functionName":"recursive_get_trace"}
-    {"column":16,"lineNumber":25,"scriptName":"test.js","functionName":"recursive_get_trace"}
-    {"column":16,"lineNumber":25,"scriptName":"test.js","functionName":"recursive_get_trace"}
-    {"column":16,"lineNumber":25,"scriptName":"test.js","functionName":"recursive_get_trace"}
+    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":29,"column":13,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
 ]
 
 totally 2 frames:
 [
-    {"column":17,"lineNumber":14,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","isEval":false,"functionName":"get_trace","isConstructor":false}
-    {"column":1,"lineNumber":53,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","isEval":false,"functionName":"","isConstructor":false}
+    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":54,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
 ]
 
 JS-land stack trace:

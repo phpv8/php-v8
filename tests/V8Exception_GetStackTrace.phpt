@@ -118,11 +118,11 @@ V8\StackTrace->getFrames():
         ["column":"V8\StackFrame":private]=>
         int(15)
         ["script_id":"V8\StackFrame":private]=>
-        int(0)
+        int(19)
         ["script_name":"V8\StackFrame":private]=>
         string(7) "test.js"
         ["script_name_or_source_url":"V8\StackFrame":private]=>
-        string(0) ""
+        string(7) "test.js"
         ["function_name":"V8\StackFrame":private]=>
         string(0) ""
         ["is_eval":"V8\StackFrame":private]=>
