@@ -23,9 +23,10 @@ $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();
 
-$helper->assert('ObjectValue extends Value', $value instanceof \V8\Value);
-$helper->assert('ObjectValue does not extend PrimitiveValue', !($value instanceof \V8\PrimitiveValue));
-$helper->assert('ObjectValue implements AdjustableExternalMemoryInterface', $value instanceof \V8\AdjustableExternalMemoryInterface);
+$helper->assert('SetObject extends Value', $value instanceof \V8\Value);
+$helper->assert('SetObject does not extend PrimitiveValue', !($value instanceof \V8\PrimitiveValue));
+$helper->assert('SetObject implements AdjustableExternalMemoryInterface', $value instanceof \V8\AdjustableExternalMemoryInterface);
+$helper->assert('SetObject is instanceof Set', $value->InstanceOf($context, $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'Set'))));
 $helper->line();
 
 $helper->header('Accessors');
@@ -139,9 +140,10 @@ object(V8\SetObject)#6 (2) {
 }
 
 
-ObjectValue extends Value: ok
-ObjectValue does not extend PrimitiveValue: ok
-ObjectValue implements AdjustableExternalMemoryInterface: ok
+SetObject extends Value: ok
+SetObject does not extend PrimitiveValue: ok
+SetObject implements AdjustableExternalMemoryInterface: ok
+SetObject is instanceof Set: ok
 
 Accessors:
 ----------
@@ -213,7 +215,7 @@ V8\SetObject(V8\Value)->IsProxy(): bool(false)
 Converters:
 -----------
 V8\SetObject(V8\Value)->ToBoolean():
-    object(V8\BooleanValue)#119 (1) {
+    object(V8\BooleanValue)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -229,7 +231,7 @@ V8\SetObject(V8\Value)->ToBoolean():
       }
     }
 V8\SetObject(V8\Value)->ToNumber():
-    object(V8\NumberValue)#119 (1) {
+    object(V8\NumberValue)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -245,7 +247,7 @@ V8\SetObject(V8\Value)->ToNumber():
       }
     }
 V8\SetObject(V8\Value)->ToString():
-    object(V8\StringValue)#119 (1) {
+    object(V8\StringValue)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -261,7 +263,7 @@ V8\SetObject(V8\Value)->ToString():
       }
     }
 V8\SetObject(V8\Value)->ToDetailString():
-    object(V8\StringValue)#119 (1) {
+    object(V8\StringValue)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -309,7 +311,7 @@ V8\SetObject(V8\Value)->ToObject():
       }
     }
 V8\SetObject(V8\Value)->ToInteger():
-    object(V8\Int32Value)#119 (1) {
+    object(V8\Int32Value)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -325,7 +327,7 @@ V8\SetObject(V8\Value)->ToInteger():
       }
     }
 V8\SetObject(V8\Value)->ToUint32():
-    object(V8\Int32Value)#119 (1) {
+    object(V8\Int32Value)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -341,7 +343,7 @@ V8\SetObject(V8\Value)->ToUint32():
       }
     }
 V8\SetObject(V8\Value)->ToInt32():
-    object(V8\Int32Value)#119 (1) {
+    object(V8\Int32Value)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

@@ -47,7 +47,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsUndefined() : bool
+    public function IsUndefined(): bool
     {
     }
 
@@ -56,7 +56,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsNull() : bool
+    public function IsNull(): bool
     {
     }
 
@@ -65,7 +65,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsTrue() : bool
+    public function IsTrue(): bool
     {
     }
 
@@ -74,7 +74,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsFalse() : bool
+    public function IsFalse(): bool
     {
     }
 
@@ -84,7 +84,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsName() : bool
+    public function IsName(): bool
     {
     }
 
@@ -93,7 +93,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsString() : bool
+    public function IsString(): bool
     {
     }
 
@@ -102,7 +102,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsSymbol() : bool
+    public function IsSymbol(): bool
     {
     }
 
@@ -111,7 +111,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsFunction() : bool
+    public function IsFunction(): bool
     {
     }
 
@@ -120,7 +120,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsArray() : bool
+    public function IsArray(): bool
     {
     }
 
@@ -129,7 +129,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsObject() : bool
+    public function IsObject(): bool
     {
     }
 
@@ -138,7 +138,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsBoolean() : bool
+    public function IsBoolean(): bool
     {
     }
 
@@ -147,7 +147,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsNumber() : bool
+    public function IsNumber(): bool
     {
     }
 
@@ -156,7 +156,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsInt32() : bool
+    public function IsInt32(): bool
     {
     }
 
@@ -165,7 +165,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsUint32() : bool
+    public function IsUint32(): bool
     {
     }
 
@@ -174,7 +174,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsDate() : bool
+    public function IsDate(): bool
     {
     }
 
@@ -183,7 +183,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsArgumentsObject() : bool
+    public function IsArgumentsObject(): bool
     {
     }
 
@@ -192,7 +192,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsBooleanObject() : bool
+    public function IsBooleanObject(): bool
     {
     }
 
@@ -201,7 +201,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsNumberObject() : bool
+    public function IsNumberObject(): bool
     {
     }
 
@@ -210,14 +210,14 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsStringObject() : bool
+    public function IsStringObject(): bool
     {
     }
 
     /**
      * Returns true if this value is a Symbol object.
      */
-    public function IsSymbolObject() : bool
+    public function IsSymbolObject(): bool
     {
     }
 
@@ -226,7 +226,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsNativeError() : bool
+    public function IsNativeError(): bool
     {
     }
 
@@ -235,7 +235,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function IsRegExp() : bool
+    public function IsRegExp(): bool
     {
     }
 
@@ -378,11 +378,11 @@ class Value extends Data
     /**
      * @param Context $context
      *
-     * @param Value   $that
+     * @param Value $that
      *
      * @return bool
      */
-    public function Equals(Context $context, Value $that)
+    public function Equals(Context $context, Value $that): bool
     {
     }
 
@@ -391,7 +391,7 @@ class Value extends Data
      *
      * @return bool
      */
-    public function StrictEquals(Value $that)
+    public function StrictEquals(Value $that): bool
     {
     }
 
@@ -400,16 +400,24 @@ class Value extends Data
      *
      * @return bool
      */
-    public function SameValue(Value $that)
+    public function SameValue(Value $that): bool
     {
     }
 
     /**
      * @return StringValue
      */
-    public function TypeOf() : StringValue
+    public function TypeOf(): StringValue
     {
     }
 
-    //public function
+    /**
+     * @param Context $context
+     * @param ObjectValue $object
+     *
+     * @return bool
+     */
+    public function InstanceOf (Context $context, ObjectValue $object): bool
+    {
+    }
 }

@@ -158,7 +158,7 @@ V8\NumberValue(V8\Value)->IsProxy(): bool(false)
 
 V8\NumberValue::ToString() converting:
 --------------------------------------
-object(V8\StringValue)#78 (1) {
+object(V8\StringValue)#79 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>

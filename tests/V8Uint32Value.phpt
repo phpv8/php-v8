@@ -151,7 +151,7 @@ V8\Uint32Value(V8\Value)->IsProxy(): bool(false)
 
 V8\Uint32Value::ToString() converting:
 --------------------------------------
-object(V8\StringValue)#78 (1) {
+object(V8\StringValue)#79 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>

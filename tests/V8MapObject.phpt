@@ -23,9 +23,10 @@ $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();
 
-$helper->assert('ObjectValue extends Value', $value instanceof \V8\Value);
-$helper->assert('ObjectValue does not extend PrimitiveValue', !($value instanceof \V8\PrimitiveValue));
-$helper->assert('ObjectValue implements AdjustableExternalMemoryInterface', $value instanceof \V8\AdjustableExternalMemoryInterface);
+$helper->assert('MapObject extends Value', $value instanceof \V8\Value);
+$helper->assert('MapObject does not extend PrimitiveValue', !($value instanceof \V8\PrimitiveValue));
+$helper->assert('MapObject implements AdjustableExternalMemoryInterface', $value instanceof \V8\AdjustableExternalMemoryInterface);
+$helper->assert('MapObject is instanceof Map', $value->InstanceOf($context, $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'Map'))));
 $helper->line();
 
 $helper->header('Accessors');
@@ -132,9 +133,10 @@ object(V8\MapObject)#6 (2) {
 }
 
 
-ObjectValue extends Value: ok
-ObjectValue does not extend PrimitiveValue: ok
-ObjectValue implements AdjustableExternalMemoryInterface: ok
+MapObject extends Value: ok
+MapObject does not extend PrimitiveValue: ok
+MapObject implements AdjustableExternalMemoryInterface: ok
+MapObject is instanceof Map: ok
 
 Accessors:
 ----------
@@ -206,7 +208,7 @@ V8\MapObject(V8\Value)->IsProxy(): bool(false)
 Converters:
 -----------
 V8\MapObject(V8\Value)->ToBoolean():
-    object(V8\BooleanValue)#118 (1) {
+    object(V8\BooleanValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -222,7 +224,7 @@ V8\MapObject(V8\Value)->ToBoolean():
       }
     }
 V8\MapObject(V8\Value)->ToNumber():
-    object(V8\NumberValue)#118 (1) {
+    object(V8\NumberValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -238,7 +240,7 @@ V8\MapObject(V8\Value)->ToNumber():
       }
     }
 V8\MapObject(V8\Value)->ToString():
-    object(V8\StringValue)#118 (1) {
+    object(V8\StringValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -254,7 +256,7 @@ V8\MapObject(V8\Value)->ToString():
       }
     }
 V8\MapObject(V8\Value)->ToDetailString():
-    object(V8\StringValue)#118 (1) {
+    object(V8\StringValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -302,7 +304,7 @@ V8\MapObject(V8\Value)->ToObject():
       }
     }
 V8\MapObject(V8\Value)->ToInteger():
-    object(V8\Int32Value)#118 (1) {
+    object(V8\Int32Value)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -318,7 +320,7 @@ V8\MapObject(V8\Value)->ToInteger():
       }
     }
 V8\MapObject(V8\Value)->ToUint32():
-    object(V8\Int32Value)#118 (1) {
+    object(V8\Int32Value)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -334,7 +336,7 @@ V8\MapObject(V8\Value)->ToUint32():
       }
     }
 V8\MapObject(V8\Value)->ToInt32():
-    object(V8\Int32Value)#118 (1) {
+    object(V8\Int32Value)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

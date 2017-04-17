@@ -889,6 +889,35 @@ static PHP_METHOD(V8Value, TypeOf) {
     php_v8_get_or_create_value(return_value, local_string, php_v8_value->php_v8_isolate);
 }
 
+static PHP_METHOD(V8Value, InstanceOf) {
+    zval *php_v8_context_zv;
+    zval *php_v8_value_object_zv;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "oo", &php_v8_context_zv, &php_v8_value_object_zv) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_value_object_zv, php_v8_value_object);
+
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_value_object);
+
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
+
+    PHP_V8_TRY_CATCH(isolate);
+    PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
+
+    v8::Maybe<bool> maybe_res = php_v8_value_get_local(php_v8_value)->InstanceOf(context, php_v8_value_get_local_as<v8::Object>(php_v8_value_object));
+
+    PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
+    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to check");
+
+    RETURN_BOOL(maybe_res.FromJust());
+}
+
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_value___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
@@ -1010,20 +1039,25 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_value_Uint32Value, ZEND_SEND_BY_VAL, ZEND_RETU
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_value_Equals, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_Equals, ZEND_RETURN_VALUE, 2, _IS_BOOL, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, that, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_value_StrictEquals, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_StrictEquals, ZEND_RETURN_VALUE, 1, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, that, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_value_SameValue, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_SameValue, ZEND_RETURN_VALUE, 1, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, that, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_value_TypeOf, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_value_InstanceOf, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, object, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
 
@@ -1101,6 +1135,7 @@ static const zend_function_entry php_v8_value_methods[] = {
         PHP_ME(V8Value, StrictEquals,       arginfo_v8_value_StrictEquals,      ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, SameValue,          arginfo_v8_value_SameValue,         ZEND_ACC_PUBLIC)
         PHP_ME(V8Value, TypeOf,             arginfo_v8_value_TypeOf,            ZEND_ACC_PUBLIC)
+        PHP_ME(V8Value, InstanceOf,         arginfo_v8_value_InstanceOf,        ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

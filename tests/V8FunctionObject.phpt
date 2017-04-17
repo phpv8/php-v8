@@ -15,16 +15,16 @@ $v8_helper = new PhpV8Helpers($helper);
 
 require '.tracking_dtors.php';
 
-$isolate1 = new v8Tests\TrackingDtors\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
-$context1 = new V8\Context($isolate1, $global_template1);
+$isolate = new v8Tests\TrackingDtors\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
+$context = new V8\Context($isolate, $global_template);
 
 
-$func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) {
+$func = new v8Tests\TrackingDtors\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) {
     echo 'Should output Hello World string', PHP_EOL;
 });
 
-$func->SetName(new \V8\StringValue($isolate1, 'custom_name'));
+$func->SetName(new \V8\StringValue($isolate, 'custom_name'));
 
 $helper->header('Object representation');
 $helper->dump($func);
@@ -32,19 +32,20 @@ $helper->space();
 
 $helper->assert('FunctionObject extends ObjectValue', $func instanceof \V8\ObjectValue);
 $helper->assert('FunctionObject implements AdjustableExternalMemoryInterface', $func instanceof \V8\AdjustableExternalMemoryInterface);
+$helper->assert('FunctionObject is instanceof Function', $func->InstanceOf($context, $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'Function'))));
 $helper->line();
 
 $v8_helper->run_checks($func, 'Checkers');
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'print'), $func);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'print'), $func);
 
 $source1 = 'print("Hello, world\n"); delete print; "Script done"';
 $file_name1 = 'test.js';
 
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script1 = new V8\Script($context, new \V8\StringValue($isolate, $source1), new \V8\ScriptOrigin($file_name1));
 
-$helper->dump($script1->Run($context1)->ToString($context1)->Value());
+$helper->dump($script1->Run($context)->ToString($context)->Value());
 $helper->line();
 
 $helper->dump_object_methods($func, [], new ArrayMapFilter(['GetScriptOrigin' => true]));
@@ -91,6 +92,7 @@ object(v8Tests\TrackingDtors\FunctionObject)#6 (2) {
 
 FunctionObject extends ObjectValue: ok
 FunctionObject implements AdjustableExternalMemoryInterface: ok
+FunctionObject is instanceof Function: ok
 
 Checkers:
 ---------
@@ -152,7 +154,7 @@ Should output Hello World string
 string(11) "Script done"
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
-    object(V8\ScriptOrigin)#126 (6) {
+    object(V8\ScriptOrigin)#127 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -160,7 +162,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#130 (4) {
+      object(V8\ScriptOriginOptions)#131 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>
