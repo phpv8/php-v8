@@ -404,21 +404,12 @@ class Value extends Data
     {
     }
 
-
-//    /**
-//     * @param Value $value
-//     * @return Value
-//     */
-////template <class T> V8_INLINE static Value* Cast(T* value);
-//    public static function Cast(Value $value) {}
-//  Local<String> TypeOf(v8::Isolate*);
-
     /**
-     * @param Isolate $isolate
-     *
      * @return StringValue
      */
-    public function TypeOf(Isolate $isolate) : StringValue
+    public function TypeOf() : StringValue
     {
     }
+
+    //public function
 }

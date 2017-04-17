@@ -23,7 +23,7 @@ $helper->dump($value);
 $helper->space();
 
 $helper->assert('Value extends Data', $value instanceof \V8\Data);
-$helper->assert('TypeOf returns StringValue', $value->TypeOf($isolate) instanceof \V8\StringValue);
+$helper->assert('TypeOf returns StringValue', $value->TypeOf() instanceof \V8\StringValue);
 $helper->line();
 
 $helper->header('Accessors');

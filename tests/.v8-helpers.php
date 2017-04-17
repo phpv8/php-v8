@@ -115,7 +115,7 @@ class PhpV8Helpers {
 
         $filter = new ArrayListFilter(['TypeOf'], false);
         $finalizer = new CallChainFinalizer([\V8\StringValue::class => 'Value'], [], false);
-        $this->testsuite->dump_object_methods($value, ['@@default' => [$value->GetIsolate()]], $filter, $finalizer);
+        $this->testsuite->dump_object_methods($value, [], $filter, $finalizer);
         $this->testsuite->line();
 
         $filter = new RegexpFilter('/^Is/');
