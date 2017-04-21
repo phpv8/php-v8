@@ -33,19 +33,13 @@ class StackTrace
      * @var array|StackFrame[]
      */
     private $frames;
-    /**
-     * @var ArrayObject
-     */
-    private $as_array;
 
     /**
      * @param StackFrame[] $frames
-     * @param ArrayObject  $as_array
      */
-    public function __construct(array $frames, ArrayObject $as_array)
+    public function __construct(array $frames)
     {
         $this->frames   = $frames;
-        $this->as_array = $as_array;
     }
 
 
@@ -85,16 +79,6 @@ class StackTrace
     public function GetFrameCount(): int
     {
         return count($this->frames);
-    }
-
-    /**
-     * Returns StackTrace as a v8::Array that contains StackFrame objects.
-     *
-     * @return ArrayObject | null
-     */
-    public function AsArray(): ArrayObject
-    {
-        return $this->as_array;
     }
 
     /**

@@ -31,6 +31,36 @@ class PhpV8Helpers {
         $this->testsuite = $testsuite;
     }
 
+    /**
+     * @param \V8\Context      $context
+     * @param \V8\StackFrame[] $frames
+     *
+     * @return \V8\ArrayObject
+     */
+    public function getStackTraceFramesAsArray(\V8\Context $context, array $frames)
+    {
+        $isolate = $context->GetIsolate();
+
+        $arr = new \V8\ArrayObject($context);
+
+        foreach ($frames as $i => $frame) {
+            $f = new \V8\ObjectValue($context);
+
+            $f->Set($context, new \V8\StringValue($isolate, 'line'), new \V8\NumberValue($isolate, $frame->GetLineNumber()));
+            $f->Set($context, new \V8\StringValue($isolate, 'column'), new \V8\NumberValue($isolate, $frame->GetColumn()));
+            $f->Set($context, new \V8\StringValue($isolate, 'scriptId'), new \V8\NumberValue($isolate, $frame->GetScriptId()));
+            $f->Set($context, new \V8\StringValue($isolate, 'scriptName'), new \V8\StringValue($isolate, $frame->GetScriptName()));
+            $f->Set($context, new \V8\StringValue($isolate, 'scriptNameOrSourceURL'), new \V8\StringValue($isolate, $frame->GetScriptNameOrSourceURL()));
+            $f->Set($context, new \V8\StringValue($isolate, 'functionName'), new \V8\StringValue($isolate, $frame->GetFunctionName()));
+            $f->Set($context, new \V8\StringValue($isolate, 'isEval'), new \V8\BooleanValue($isolate, $frame->IsEval()));
+            $f->Set($context, new \V8\StringValue($isolate, 'isConstructor'), new \V8\BooleanValue($isolate, $frame->IsConstructor()));
+
+            $arr->Set($context, new \V8\IntegerValue($isolate, $i), $f);
+        }
+
+        return $arr;
+    }
+
     public function getPrintFunctionTemplate(\V8\Isolate $isolate, $newline = false)
     {
         $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use ($newline) {

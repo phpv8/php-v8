@@ -18,7 +18,7 @@ $global_template = new v8Tests\TrackingDtors\ObjectTemplate($isolate);
 
 $stack_trace = null;
 
-$current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use (&$stack_trace) {
+$current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use ($v8_helper, &$stack_trace) {
     $isolate = $args->GetIsolate();
     $context = $args->GetContext();
 
@@ -32,7 +32,9 @@ $current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($iso
 
     echo 'totally ', $stack_trace->GetFrameCount(), ' frames:', PHP_EOL;
 
-    $args->GetReturnValue()->Set($stack_trace->AsArray());
+    $arr = $v8_helper->getStackTraceFramesAsArray($context, $stack_trace->GetFrames());
+
+    $args->GetReturnValue()->Set($arr);
 });
 
 $global_template->Set(new \V8\StringValue($isolate, 'current_stack_trace'), $current_stack_trace_func_tpl);
@@ -112,6 +114,9 @@ $isolate = null;
 
 
 echo 'END', PHP_EOL;
+
+// EXPECTF: ---/"scriptId"\:\d+/
+// EXPECTF: +++"scriptId":%d
 ?>
 --EXPECTF--
 totally 0 frames:
@@ -120,38 +125,38 @@ totally 0 frames:
 
 totally 1 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":14,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
 ]
 
 totally 2 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
-    {"line":34,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
+    {"line":14,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":33,"column":1,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
 ]
 
 totally 1 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":14,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
 ]
 
 totally 10 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
-    {"line":29,"column":13,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":14,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":28,"column":12,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":25,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":25,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":25,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":25,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":25,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":25,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":25,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":25,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
 ]
 
 totally 2 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
-    {"line":41,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
+    {"line":14,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":40,"column":1,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
 ]
 
 JS-land stack trace:

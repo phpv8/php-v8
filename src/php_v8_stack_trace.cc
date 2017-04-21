@@ -48,28 +48,19 @@ void php_v8_stack_trace_create_from_stack_trace(zval *return_value, php_v8_isola
 
     zend_update_property(this_ce, return_value, ZEND_STRL("frames"), &frames_array_zv);
     zval_ptr_dtor(&frames_array_zv);
-
-    /* v8::StackTrace::AsArray */
-    zval as_array_zv;
-    v8::Local<v8::Array> local_frames_array_v8 = trace->AsArray();
-    php_v8_get_or_create_value(&as_array_zv, local_frames_array_v8, php_v8_isolate);
-    zend_update_property(this_ce, return_value, ZEND_STRL("as_array"), &as_array_zv);
-    zval_ptr_dtor(&as_array_zv);
 }
 
 static PHP_METHOD(V8StackTrace, __construct)
 {
     zval *frames_zv = NULL;
-    zval *as_array_zv = NULL;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "ao", &frames_zv, &as_array_zv) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "a", &frames_zv) == FAILURE) {
         return;
     }
 
     // TODO: check that all frame items are instance of StackFrame
 
     zend_update_property(this_ce, getThis(), ZEND_STRL("frames"), frames_zv);
-    zend_update_property(this_ce, getThis(), ZEND_STRL("as_array"), as_array_zv);
 }
 
 static PHP_METHOD(V8StackTrace, getFrames)
@@ -130,17 +121,6 @@ static PHP_METHOD(V8StackTrace, GetFrameCount)
     RETURN_LONG(cnt);
 }
 
-static PHP_METHOD(V8StackTrace, AsArray)
-{
-    zval rv;
-
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("as_array"), 0, &rv), 1, 0);
-}
-
 static PHP_METHOD(V8StackTrace, CurrentStackTrace)
 {
     zval *isolate_zv;
@@ -162,9 +142,8 @@ static PHP_METHOD(V8StackTrace, CurrentStackTrace)
     php_v8_stack_trace_create_from_stack_trace(return_value, php_v8_isolate, trace);
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_stack_trace___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_stack_trace___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, frames, IS_ARRAY, 0)
-                ZEND_ARG_OBJ_INFO(0, frames, V8\\ArrayObject, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_stack_trace_getFrames, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
@@ -175,9 +154,6 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_stack_trace_GetFrame, Z
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_stack_trace_GetFrameCount, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_stack_trace_AsArray, ZEND_RETURN_VALUE, 0, V8\\ArrayObject, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_stack_trace_CurrentStackTrace, ZEND_RETURN_VALUE, 2, V8\\StackTrace, 0)
@@ -194,7 +170,6 @@ static const zend_function_entry php_v8_stack_trace_methods[] = {
         PHP_ME(V8StackTrace, GetFrame, arginfo_v8_stack_trace_GetFrame, ZEND_ACC_PUBLIC)
         PHP_ME(V8StackTrace, GetFrameCount, arginfo_v8_stack_trace_GetFrameCount, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8StackTrace, AsArray, arginfo_v8_stack_trace_AsArray, ZEND_ACC_PUBLIC)
         PHP_ME(V8StackTrace, CurrentStackTrace, arginfo_v8_stack_trace_CurrentStackTrace, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
         PHP_FE_END
@@ -210,7 +185,6 @@ PHP_MINIT_FUNCTION (php_v8_stack_trace) {
     zend_declare_class_constant_long(this_ce, ZEND_STRL("MAX_FRAME_LIMIT"), PHP_V8_STACK_TRACE_MAX_FRAME_LIMIT);
 
     zend_declare_property_null(this_ce, ZEND_STRL("frames"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("as_array"), ZEND_ACC_PRIVATE);
 
     return SUCCESS;
 }

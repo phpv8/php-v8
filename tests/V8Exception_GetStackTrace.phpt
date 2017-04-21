@@ -132,37 +132,5 @@ V8\StackTrace->getFrames():
       }
     }
 V8\StackTrace->GetFrameCount(): int(1)
-V8\StackTrace->AsArray():
-    object(V8\ArrayObject)#15 (2) {
-      ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-      ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#8 (1) {
-        ["isolate":"V8\Context":private]=>
-        object(V8\Isolate)#3 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
-    }
 
 Stack trace created from manually created value is null: ok

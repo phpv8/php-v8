@@ -35,7 +35,7 @@ $helper->space();
 
 
 $exception = new \V8\ObjectValue($context);
-$message = new \V8\Message('message', 'line', new \V8\ScriptOrigin('resource_name'), 'resource_name', new \V8\StackTrace([], new \V8\ArrayObject($context)));
+$message = new \V8\Message('message', 'line', new \V8\ScriptOrigin('resource_name'), 'resource_name', new \V8\StackTrace([]));
 $trace = new \V8\StringValue($isolate, 'trace');
 
 $obj = new \V8\TryCatch($isolate, $context, $exception, $trace, $message, true, true);
@@ -125,7 +125,7 @@ V8\TryCatch::HasTerminated() matches expected value
 
 Object representation:
 ----------------------
-object(V8\TryCatch)#12 (7) {
+object(V8\TryCatch)#11 (7) {
   ["isolate":"V8\TryCatch":private]=>
   object(v8Tests\TrackingDtors\Isolate)#2 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -188,7 +188,7 @@ object(V8\TryCatch)#12 (7) {
     }
   }
   ["stack_trace":"V8\TryCatch":private]=>
-  object(V8\StringValue)#11 (1) {
+  object(V8\StringValue)#10 (1) {
     ["isolate":"V8\Value":private]=>
     object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -236,41 +236,9 @@ object(V8\TryCatch)#12 (7) {
     ["resource_name":"V8\Message":private]=>
     string(13) "resource_name"
     ["stack_trace":"V8\Message":private]=>
-    object(V8\StackTrace)#9 (2) {
+    object(V8\StackTrace)#9 (1) {
       ["frames":"V8\StackTrace":private]=>
       array(0) {
-      }
-      ["as_array":"V8\StackTrace":private]=>
-      object(V8\ArrayObject)#10 (2) {
-        ["isolate":"V8\Value":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-        ["context":"V8\ObjectValue":private]=>
-        object(v8Tests\TrackingDtors\Context)#3 (1) {
-          ["isolate":"V8\Context":private]=>
-          object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-            ["snapshot":"V8\Isolate":private]=>
-            NULL
-            ["time_limit":"V8\Isolate":private]=>
-            float(0)
-            ["time_limit_hit":"V8\Isolate":private]=>
-            bool(false)
-            ["memory_limit":"V8\Isolate":private]=>
-            int(0)
-            ["memory_limit_hit":"V8\Isolate":private]=>
-            bool(false)
-          }
-        }
       }
     }
     ["line_number":"V8\Message":private]=>
