@@ -76,6 +76,26 @@ class SymbolValue extends NameValue
     {
     }
 
+    // Well-known symbols
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetHasInstance(Isolate $isolate): SymbolValue
+    {
+    }
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetIsConcatSpreadable(Isolate $isolate): SymbolValue
+    {
+    }
+
     /**
      * @param Isolate $isolate
      *
@@ -90,7 +110,34 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetUnscopables(Isolate $isolate): SymbolValue
+    public static function GetMatch(Isolate $isolate): SymbolValue
+    {
+    }
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetReplace(Isolate $isolate): SymbolValue
+    {
+    }
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetSearch(Isolate $isolate): SymbolValue
+    {
+    }
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetSplit(Isolate $isolate): SymbolValue
     {
     }
 
@@ -117,7 +164,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetIsConcatSpreadable(Isolate $isolate): SymbolValue
+    public static function GetUnscopables(Isolate $isolate): SymbolValue
     {
     }
 }

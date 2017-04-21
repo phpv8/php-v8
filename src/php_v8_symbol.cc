@@ -116,95 +116,37 @@ static PHP_METHOD(V8Symbol, ForApi)
     php_v8_get_or_create_value(return_value, local_symbol, php_v8_context->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Symbol, GetIterator)
-{
-    zval *php_v8_isolate_zv;
+// Well-known symbols
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
-        return;
-    }
+#define PHP_V8_SYMBOL_WELL_KNOWN_METHOD(classname, name)                                        \
+    PHP_METHOD(classname, name)                                                                 \
+    {                                                                                           \
+        zval *php_v8_isolate_zv;                                                                \
+                                                                                                \
+        if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {       \
+            return;                                                                             \
+        }                                                                                       \
+                                                                                                \
+        PHP_V8_ISOLATE_FETCH_WITH_CHECK(php_v8_isolate_zv, php_v8_isolate);                     \
+        PHP_V8_ENTER_ISOLATE(php_v8_isolate);                                                   \
+                                                                                                \
+        v8::Local<v8::Symbol> local_symbol = v8::Symbol::name(isolate);                         \
+                                                                                                \
+        PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value"); \
+                                                                                                \
+        php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);                 \
+    }                                                                                           \
 
-    PHP_V8_ISOLATE_FETCH_WITH_CHECK(php_v8_isolate_zv, php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
-
-    v8::Local<v8::Symbol> local_symbol = v8::Symbol::GetIterator(isolate);
-
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
-
-    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
-}
-
-static PHP_METHOD(V8Symbol, GetUnscopables)
-{
-    zval *php_v8_isolate_zv;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_ISOLATE_FETCH_WITH_CHECK(php_v8_isolate_zv, php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
-
-    v8::Local<v8::Symbol> local_symbol = v8::Symbol::GetUnscopables(isolate);
-
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
-
-    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
-}
-
-static PHP_METHOD(V8Symbol, GetToPrimitive)
-{
-    zval *php_v8_isolate_zv;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_ISOLATE_FETCH_WITH_CHECK(php_v8_isolate_zv, php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
-
-    v8::Local<v8::Symbol> local_symbol = v8::Symbol::GetToPrimitive(isolate);
-
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
-
-    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
-}
-
-static PHP_METHOD(V8Symbol, GetToStringTag)
-{
-    zval *php_v8_isolate_zv;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_ISOLATE_FETCH_WITH_CHECK(php_v8_isolate_zv, php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
-
-    v8::Local<v8::Symbol> local_symbol = v8::Symbol::GetToStringTag(isolate);
-
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
-
-    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
-}
-
-static PHP_METHOD(V8Symbol, GetIsConcatSpreadable)
-{
-    zval *php_v8_isolate_zv;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_ISOLATE_FETCH_WITH_CHECK(php_v8_isolate_zv, php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
-
-    v8::Local<v8::Symbol> local_symbol = v8::Symbol::GetIsConcatSpreadable(isolate);
-
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_symbol, "Failed to create Symbol value");
-
-    php_v8_get_or_create_value(return_value, local_symbol, php_v8_isolate);
-}
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetHasInstance);
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetIsConcatSpreadable);
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetIterator);
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetMatch);
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetReplace);
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetSearch);
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetSplit);
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetToPrimitive);
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetToStringTag);
+static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(V8Symbol, GetUnscopables);
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_symbol___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
@@ -225,25 +167,22 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_ForApi, ZEND_RET
                 ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_GetIterator, ZEND_RETURN_VALUE, 1, V8\\SymbolValue, 0)
-                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
-ZEND_END_ARG_INFO()
+#define PHP_V8_SYMBOL_WELL_KNOWN_ARGS(name)                                                          \
+    PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(name, ZEND_RETURN_VALUE, 1, V8\\SymbolValue, 0)    \
+                    ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)                                           \
+    ZEND_END_ARG_INFO()                                                                                     \
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_GetUnscopables, ZEND_RETURN_VALUE, 1, V8\\SymbolValue, 0)
-                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_GetToPrimitive, ZEND_RETURN_VALUE, 1, V8\\SymbolValue, 0)
-                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_GetToStringTag, ZEND_RETURN_VALUE, 1, V8\\SymbolValue, 0)
-                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_GetIsConcatSpreadable, ZEND_RETURN_VALUE, 1, V8\\SymbolValue, 0)
-                ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
-ZEND_END_ARG_INFO()
+// Well-known symbols
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetHasInstance);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetIsConcatSpreadable);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetIterator);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetMatch);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetReplace);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetSearch);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetSplit);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetToPrimitive);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetToStringTag);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetUnscopables);
 
 
 static const zend_function_entry php_v8_symbol_methods[] = {
@@ -254,11 +193,17 @@ static const zend_function_entry php_v8_symbol_methods[] = {
     PHP_ME(V8Symbol, For,       arginfo_v8_symbol_For, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(V8Symbol, ForApi,    arginfo_v8_symbol_ForApi, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
-    PHP_ME(V8Symbol, GetIterator,           arginfo_v8_symbol_GetIterator, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(V8Symbol, GetUnscopables,        arginfo_v8_symbol_GetUnscopables, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(V8Symbol, GetToPrimitive,        arginfo_v8_symbol_GetToPrimitive, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(V8Symbol, GetToStringTag,        arginfo_v8_symbol_GetToStringTag, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(V8Symbol, GetIsConcatSpreadable, arginfo_v8_symbol_GetIsConcatSpreadable, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    // Well-known symbols
+    PHP_ME(V8Symbol, GetHasInstance,        arginfo_v8_symbol_GetHasInstance,           ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetIsConcatSpreadable, arginfo_v8_symbol_GetIsConcatSpreadable,    ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetIterator,           arginfo_v8_symbol_GetIterator,              ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetMatch,              arginfo_v8_symbol_GetMatch,                 ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetReplace,            arginfo_v8_symbol_GetReplace,               ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetSearch,             arginfo_v8_symbol_GetSearch,                ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetSplit,              arginfo_v8_symbol_GetSplit,                 ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetToPrimitive,        arginfo_v8_symbol_GetToPrimitive,           ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetToStringTag,        arginfo_v8_symbol_GetToStringTag,           ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(V8Symbol, GetUnscopables,        arginfo_v8_symbol_GetUnscopables,           ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
     PHP_FE_END
 };
