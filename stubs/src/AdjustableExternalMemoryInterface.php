@@ -44,12 +44,12 @@ interface AdjustableExternalMemoryInterface
      *
      * NOTE: returned adjusted value can't be less then zero.
      */
-    public function AdjustExternalAllocatedMemory(int $change_in_bytes) : int;
+    public function AdjustExternalAllocatedMemory(int $change_in_bytes): int;
 
     /**
      * Get external allocated memory hint value.
      *
      * @return int
      */
-    public function GetExternalAllocatedMemory() : int;
+    public function GetExternalAllocatedMemory(): int;
 }

@@ -22,7 +22,7 @@ class NumberValue extends PrimitiveValue
 {
     /**
      * @param Isolate $isolate
-     * @param float  $value
+     * @param float   $value
      */
     public function __construct(Isolate $isolate, float $value)
     {

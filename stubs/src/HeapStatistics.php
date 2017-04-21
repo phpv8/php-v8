@@ -82,58 +82,58 @@ class  HeapStatistics
         float $peak_malloced_memory,
         bool $does_zap_garbage
     ) {
-        $this->total_heap_size = $total_heap_size;
+        $this->total_heap_size            = $total_heap_size;
         $this->total_heap_size_executable = $total_heap_size_executable;
-        $this->total_physical_size = $total_physical_size;
-        $this->total_available_size = $total_available_size;
-        $this->used_heap_size = $used_heap_size;
-        $this->heap_size_limit = $heap_size_limit;
-        $this->malloced_memory = $malloced_memory;
-        $this->peak_malloced_memory = $peak_malloced_memory;
-        $this->does_zap_garbage = $does_zap_garbage;
+        $this->total_physical_size        = $total_physical_size;
+        $this->total_available_size       = $total_available_size;
+        $this->used_heap_size             = $used_heap_size;
+        $this->heap_size_limit            = $heap_size_limit;
+        $this->malloced_memory            = $malloced_memory;
+        $this->peak_malloced_memory       = $peak_malloced_memory;
+        $this->does_zap_garbage           = $does_zap_garbage;
     }
 
-    public function total_heap_size() : float
+    public function total_heap_size(): float
     {
         return $this->total_heap_size;
     }
 
-    public function total_heap_size_executable() : float
+    public function total_heap_size_executable(): float
     {
         return $this->total_heap_size_executable;
     }
 
-    public function total_physical_size() : float
+    public function total_physical_size(): float
     {
         return $this->total_physical_size;
     }
 
-    public function total_available_size() : float
+    public function total_available_size(): float
     {
         return $this->total_available_size;
     }
 
-    public function used_heap_size() : float
+    public function used_heap_size(): float
     {
         return $this->used_heap_size;
     }
 
-    public function heap_size_limit() : float
+    public function heap_size_limit(): float
     {
         return $this->heap_size_limit;
     }
 
-    public function malloced_memory() : float
+    public function malloced_memory(): float
     {
         return $this->malloced_memory;
     }
 
-    public function peak_malloced_memory() : float
+    public function peak_malloced_memory(): float
     {
         return $this->peak_malloced_memory;
     }
 
-    public function does_zap_garbage() : bool
+    public function does_zap_garbage(): bool
     {
         return $this->does_zap_garbage;
     }

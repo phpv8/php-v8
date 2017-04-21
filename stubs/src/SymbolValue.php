@@ -39,7 +39,7 @@ class SymbolValue extends NameValue
      *
      * @return StringValue | Value
      */
-    public function Name() : Value
+    public function Name(): Value
     {
     }
 
@@ -57,7 +57,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function For(Context $context, StringValue $name) : SymbolValue
+    public static function For (Context $context, StringValue $name): SymbolValue
     {
     }
 
@@ -72,7 +72,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function ForApi(Context $context, StringValue $name) : SymbolValue
+    public static function ForApi(Context $context, StringValue $name): SymbolValue
     {
     }
 
@@ -81,7 +81,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetIterator(Isolate $isolate) : SymbolValue
+    public static function GetIterator(Isolate $isolate): SymbolValue
     {
     }
 
@@ -90,7 +90,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetUnscopables(Isolate $isolate) : SymbolValue
+    public static function GetUnscopables(Isolate $isolate): SymbolValue
     {
     }
 
@@ -99,7 +99,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetToPrimitive(Isolate $isolate) : SymbolValue
+    public static function GetToPrimitive(Isolate $isolate): SymbolValue
     {
     }
 
@@ -108,7 +108,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetToStringTag(Isolate $isolate) : SymbolValue
+    public static function GetToStringTag(Isolate $isolate): SymbolValue
     {
     }
 
@@ -117,7 +117,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetIsConcatSpreadable(Isolate $isolate) : SymbolValue
+    public static function GetIsConcatSpreadable(Isolate $isolate): SymbolValue
     {
     }
 }

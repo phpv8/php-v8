@@ -34,7 +34,7 @@ class Template extends Data
     /**
      * @return \V8\Isolate
      */
-    public function GetIsolate() : Isolate
+    public function GetIsolate(): Isolate
     {
         return $this->isolate;
     }

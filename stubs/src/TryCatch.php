@@ -61,28 +61,29 @@ class TryCatch
      * @param bool    $can_continue
      * @param bool    $has_terminated
      */
-    public function __construct(Isolate $isolate,
-                                Context $context,
-                                Value $exception = null,
-                                Value $stack_trace = null,
-                                Message $message = null,
-                                bool $can_continue = false,
-                                bool $has_terminated = false)
-    {
-        $this->isolate = $isolate;
-        $this->exception = $exception;
-        $this->stack_trace = $stack_trace;
-        $this->message = $message;
-        $this->can_continue = $can_continue;
+    public function __construct(
+        Isolate $isolate,
+        Context $context,
+        Value $exception = null,
+        Value $stack_trace = null,
+        Message $message = null,
+        bool $can_continue = false,
+        bool $has_terminated = false
+    ) {
+        $this->isolate        = $isolate;
+        $this->exception      = $exception;
+        $this->stack_trace    = $stack_trace;
+        $this->message        = $message;
+        $this->can_continue   = $can_continue;
         $this->has_terminated = $has_terminated;
     }
 
-    public function GetIsolate() : Isolate
+    public function GetIsolate(): Isolate
     {
         return $this->isolate;
     }
 
-    public function GetContext() : Context
+    public function GetContext(): Context
     {
         return $this->context;
     }
@@ -136,7 +137,7 @@ class TryCatch
      *
      * @return bool
      */
-    public function CanContinue() : bool
+    public function CanContinue(): bool
     {
         return $this->can_continue;
     }
@@ -155,7 +156,7 @@ class TryCatch
      *
      * @return bool
      */
-    public function HasTerminated() : bool
+    public function HasTerminated(): bool
     {
         return $this->has_terminated;
     }

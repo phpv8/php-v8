@@ -40,7 +40,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\ObjectValue
      */
-    public function NewInstance(Context $context, array $arguments = []) : ObjectValue
+    public function NewInstance(Context $context, array $arguments = []): ObjectValue
     {
     }
 
@@ -51,7 +51,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\Value
      */
-    public function Call(Context $context, Value $recv, array $arguments = []) : Value
+    public function Call(Context $context, Value $recv, array $arguments = []): Value
     {
     }
 
@@ -65,7 +65,7 @@ class  FunctionObject extends ObjectValue
     /**
      * @return \V8\Value | StringValue
      */
-    public function GetName() : Value
+    public function GetName(): Value
     {
     }
 
@@ -77,7 +77,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\Value | StringValue
      */
-    public function GetInferredName() : Value
+    public function GetInferredName(): Value
     {
     }
 
@@ -87,7 +87,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\Value | StringValue
      */
-    public function GetDisplayName() : Value
+    public function GetDisplayName(): Value
     {
     }
 
@@ -126,14 +126,14 @@ class  FunctionObject extends ObjectValue
      *
      * @return Value
      */
-    public function GetBoundFunction() : Value
+    public function GetBoundFunction(): Value
     {
     }
 
     /**
      * @return ScriptOrigin
      */
-    public function GetScriptOrigin() : ScriptOrigin
+    public function GetScriptOrigin(): ScriptOrigin
     {
     }
 }

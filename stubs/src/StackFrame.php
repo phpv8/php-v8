@@ -73,14 +73,14 @@ class StackFrame
         bool $is_eval = false,
         bool $is_constructor = false
     ) {
-        $this->line_number = $line_number;
-        $this->column = $column;
-        $this->script_id = $script_id;
-        $this->script_name = $script_name;
+        $this->line_number               = $line_number;
+        $this->column                    = $column;
+        $this->script_id                 = $script_id;
+        $this->script_name               = $script_name;
         $this->script_name_or_source_url = $script_name_or_source_url;
-        $this->function_name = $function_name;
-        $this->is_eval = $is_eval;
-        $this->is_constructor = $is_constructor;
+        $this->function_name             = $function_name;
+        $this->is_eval                   = $is_eval;
+        $this->is_constructor            = $is_constructor;
     }
 
     /**
@@ -91,7 +91,7 @@ class StackFrame
      *
      * @return int
      */
-    public function GetLineNumber() : int
+    public function GetLineNumber(): int
     {
         return $this->line_number;
     }
@@ -105,7 +105,7 @@ class StackFrame
      *
      * @return int
      */
-    public function GetColumn() : int
+    public function GetColumn(): int
     {
         return $this->column;
     }
@@ -118,7 +118,7 @@ class StackFrame
      *
      * @return int
      */
-    public function GetScriptId() : int
+    public function GetScriptId(): int
     {
         return $this->script_id;
     }
@@ -129,7 +129,7 @@ class StackFrame
      *
      * @return string
      */
-    public function GetScriptName() : string
+    public function GetScriptName(): string
     {
         return $this->script_name;
     }
@@ -142,7 +142,7 @@ class StackFrame
      *
      * @return string
      */
-    public function GetScriptNameOrSourceURL() : string
+    public function GetScriptNameOrSourceURL(): string
     {
         return $this->script_name_or_source_url;
     }
@@ -152,7 +152,7 @@ class StackFrame
      *
      * @return string
      */
-    public function GetFunctionName() : string
+    public function GetFunctionName(): string
     {
         return $this->function_name;
     }
@@ -163,7 +163,7 @@ class StackFrame
      *
      * @return bool
      */
-    public function IsEval() : bool
+    public function IsEval(): bool
     {
         return $this->is_eval;
     }
@@ -174,7 +174,7 @@ class StackFrame
      *
      * @return bool
      */
-    public function IsConstructor() : bool
+    public function IsConstructor(): bool
     {
         return $this->is_constructor;
     }

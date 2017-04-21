@@ -40,7 +40,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function Set(Context $context, Value $key, Value $value) : bool
+    public function Set(Context $context, Value $key, Value $value): bool
     {
     }
 
@@ -58,7 +58,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function CreateDataProperty(Context $context, NameValue $key, Value $value) : bool
+    public function CreateDataProperty(Context $context, NameValue $key, Value $value): bool
     {
     }
 
@@ -88,7 +88,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return \V8\Value | \V8\ObjectValue | \V8\FunctionObject | ArrayObject | StringValue | NumberValue
      */
-    public function Get(Context $context, Value $key) : Value
+    public function Get(Context $context, Value $key): Value
     {
     }
 
@@ -124,7 +124,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function Has(Context $context, Value $key) : bool
+    public function Has(Context $context, Value $key): bool
     {
     }
 
@@ -134,7 +134,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function Delete(Context $context, Value $key) : bool
+    public function Delete(Context $context, Value $key): bool
     {
     }
 

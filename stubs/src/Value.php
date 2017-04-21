@@ -378,7 +378,7 @@ class Value extends Data
     /**
      * @param Context $context
      *
-     * @param Value $that
+     * @param Value   $that
      *
      * @return bool
      */
@@ -412,7 +412,7 @@ class Value extends Data
     }
 
     /**
-     * @param Context $context
+     * @param Context     $context
      * @param ObjectValue $object
      *
      * @return bool

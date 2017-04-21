@@ -31,7 +31,7 @@ class MapObject extends ObjectValue
 
     /**
      * @param Context $context
-     * @param Value $key
+     * @param Value   $key
      *
      * //TODO: add throws
      *
@@ -43,8 +43,8 @@ class MapObject extends ObjectValue
 
     /**
      * @param Context $context
-     * @param Value $key
-     * @param Value $value
+     * @param Value   $key
+     * @param Value   $value
      *
      * //TODO: add throws
      *
@@ -56,7 +56,7 @@ class MapObject extends ObjectValue
 
     /**
      * @param Context $context
-     * @param Value $key
+     * @param Value   $key
      *
      * @return bool
      */
@@ -66,7 +66,7 @@ class MapObject extends ObjectValue
 
     /**
      * @param Context $context
-     * @param Value $key
+     * @param Value   $key
      *
      * @return bool
      */

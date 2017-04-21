@@ -33,7 +33,7 @@ class BooleanObject extends ObjectValue
     /**
      * @return bool
      */
-    public function ValueOf() : bool
+    public function ValueOf(): bool
     {
     }
 }

@@ -45,7 +45,7 @@ class StackTrace
      */
     public function __construct(array $frames, ArrayObject $as_array)
     {
-        $this->frames = $frames;
+        $this->frames   = $frames;
         $this->as_array = $as_array;
     }
 
@@ -55,7 +55,7 @@ class StackTrace
      *
      * @return StackFrame[]
      */
-    public function GetFrames() : array
+    public function GetFrames(): array
     {
         return $this->frames;
     }
@@ -69,7 +69,7 @@ class StackTrace
      *
      * @throws Exception When index is out of range
      */
-    public function GetFrame(int $index) : StackFrame
+    public function GetFrame(int $index): StackFrame
     {
         if ($index < 0 || !isset($this->frames[$index])) {
             throw new Exception('Frame index is out of range');
@@ -83,7 +83,7 @@ class StackTrace
      *
      * @return int
      */
-    public function GetFrameCount() : int
+    public function GetFrameCount(): int
     {
         return count($this->frames);
     }
@@ -93,7 +93,7 @@ class StackTrace
      *
      * @return ArrayObject | null
      */
-    public function AsArray() : ArrayObject
+    public function AsArray(): ArrayObject
     {
         return $this->as_array;
     }
@@ -119,7 +119,6 @@ class StackTrace
         Isolate $isolate,
         int $frame_limit,
         int $options = StackTraceOptions::kOverview
-    ) : StackTrace
-    {
+    ): StackTrace {
     }
 }

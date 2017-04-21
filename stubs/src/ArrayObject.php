@@ -36,7 +36,7 @@ class ArrayObject extends ObjectValue
     /**
      * @return int
      */
-    public function Length() : int
+    public function Length(): int
     {
     }
 }

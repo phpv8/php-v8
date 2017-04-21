@@ -18,7 +18,8 @@ namespace V8;
 /**
  * A JavaScript value representing a 32-bit unsigned integer.
  */
-class Uint32Value extends IntegerValue {
+class Uint32Value extends IntegerValue
+{
     /**
      * @param Isolate $isolate
      * @param int     $value Should be valid uint32 value
@@ -31,7 +32,7 @@ class Uint32Value extends IntegerValue {
     /**
      * @return int uint32 value
      */
-    public function Value() : int
+    public function Value(): int
     {
     }
 }

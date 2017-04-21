@@ -122,7 +122,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
     //  Handle<Value> data = Handle<Value>(),
     //  Handle<Signature> signature = Handle<Signature>(),
     //  int length = 0);
-    public function __construct(Isolate $isolate, callable $callback = null, int $length=0)
+    public function __construct(Isolate $isolate, callable $callback = null, int $length = 0)
     {
         parent::__construct($isolate);
     }
@@ -139,7 +139,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @return FunctionObject
      */
-    public function GetFunction(Context $context) : FunctionObject
+    public function GetFunction(Context $context): FunctionObject
     {
     }
 
@@ -164,7 +164,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @return \V8\ObjectTemplate
      */
-    public function InstanceTemplate() : ObjectTemplate
+    public function InstanceTemplate(): ObjectTemplate
     {
     }
 
@@ -183,7 +183,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @return \V8\ObjectTemplate
      */
-    public function PrototypeTemplate() : ObjectTemplate
+    public function PrototypeTemplate(): ObjectTemplate
     {
     }
 
@@ -245,21 +245,21 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @return bool
      */
-    public function HasInstance(Value $object) : bool
+    public function HasInstance(Value $object): bool
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function AdjustExternalAllocatedMemory(int $change_in_bytes) : int
+    public function AdjustExternalAllocatedMemory(int $change_in_bytes): int
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function GetExternalAllocatedMemory() : int
+    public function GetExternalAllocatedMemory(): int
     {
     }
 }

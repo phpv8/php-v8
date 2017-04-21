@@ -27,25 +27,25 @@ class FunctionCallbackInfo extends CallbackInfo
     /**
      * @return int
      */
-    public function Length() : int
+    public function Length(): int
     {
     }
 
     /**
      * @return Value[] | StringValue[] | SymbolValue[] | NumberValue[] | ObjectValue[] | ArrayObject[] | FunctionObject[] | StringObject[] | SymbolObject[]
      */
-    public function Arguments() : array
+    public function Arguments(): array
     {
     }
 
-    public function NewTarget() : Value
+    public function NewTarget(): Value
     {
     }
 
     /**
      * @return bool
      */
-    public function IsConstructCall() : bool
+    public function IsConstructCall(): bool
     {
     }
 }

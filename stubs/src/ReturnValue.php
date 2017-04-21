@@ -32,7 +32,7 @@ class ReturnValue
      *
      * @return Value | StringValue | NumberValue | ObjectValue | ArrayObject | FunctionObject
      */
-    public function Get() : Value
+    public function Get(): Value
     {
     }
 
@@ -72,14 +72,14 @@ class ReturnValue
     /**
      * @return \V8\Isolate
      */
-    public function GetIsolate() : Isolate
+    public function GetIsolate(): Isolate
     {
     }
 
     /**
      * @return \V8\Context
      */
-    public function GetContext() : Context
+    public function GetContext(): Context
     {
     }
 
@@ -88,7 +88,7 @@ class ReturnValue
      *
      * @return bool
      */
-    public function InContext() : bool
+    public function InContext(): bool
     {
     }
 }

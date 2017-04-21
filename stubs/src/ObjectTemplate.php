@@ -35,7 +35,7 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      *
      * @return \V8\ObjectValue
      */
-    public function NewInstance(Context $context) : ObjectValue
+    public function NewInstance(Context $context): ObjectValue
     {
     }
 
@@ -183,14 +183,14 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function AdjustExternalAllocatedMemory(int $change_in_bytes) : int
+    public function AdjustExternalAllocatedMemory(int $change_in_bytes): int
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function GetExternalAllocatedMemory() : int
+    public function GetExternalAllocatedMemory(): int
     {
     }
 }
