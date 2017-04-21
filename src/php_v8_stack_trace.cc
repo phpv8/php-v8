@@ -20,7 +20,6 @@
 #include "php_v8.h"
 
 zend_class_entry* php_v8_stack_trace_class_entry;
-zend_class_entry* php_v8_stack_trace_options_class_entry;
 
 #define this_ce php_v8_stack_trace_class_entry
 
@@ -146,9 +145,8 @@ static PHP_METHOD(V8StackTrace, CurrentStackTrace)
 {
     zval *isolate_zv;
     zend_long frame_limit = 0;
-    zend_long options = static_cast<zend_long>(v8::StackTrace::StackTraceOptions::kOverview);
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "ol|l", &isolate_zv, &frame_limit, &options) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "ol", &isolate_zv, &frame_limit) == FAILURE) {
         return;
     }
 
@@ -157,11 +155,7 @@ static PHP_METHOD(V8StackTrace, CurrentStackTrace)
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(isolate_zv, php_v8_isolate);
     PHP_V8_DECLARE_ISOLATE(php_v8_isolate);
 
-    v8::Local<v8::StackTrace> trace = v8::StackTrace::CurrentStackTrace(
-            isolate,
-            static_cast<int>(frame_limit),
-            static_cast<v8::StackTrace::StackTraceOptions>(options & PHP_V8_STACK_TRACE_OPTIONS)
-    );
+    v8::Local<v8::StackTrace> trace = v8::StackTrace::CurrentStackTrace(isolate, static_cast<int>(frame_limit));
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(trace, "Failed to get current stack trace");
 
@@ -186,12 +180,11 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_stack_trace_AsArray, ZEND_RETURN_VALUE, 0, V8\\ArrayObject, 0)
 ZEND_END_ARG_INFO()
 
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_stack_trace_CurrentStackTrace, ZEND_RETURN_VALUE, 2, V8\\StackTrace, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_stack_trace_CurrentStackTrace, ZEND_RETURN_VALUE, 2, V8\\StackTrace, 0)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_TYPE_INFO(0, frame_limit, IS_LONG, 0)
-                ZEND_ARG_TYPE_INFO(0, options, IS_LONG, 0)
 ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_stack_trace_methods[] = {
         PHP_ME(V8StackTrace, __construct, arginfo_v8_stack_trace___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
@@ -207,10 +200,6 @@ static const zend_function_entry php_v8_stack_trace_methods[] = {
         PHP_FE_END
 };
 
-static const zend_function_entry php_v8_stack_trace_options_methods[] = {
-        PHP_FE_END
-};
-
 
 PHP_MINIT_FUNCTION (php_v8_stack_trace) {
     zend_class_entry ce;
@@ -222,22 +211,6 @@ PHP_MINIT_FUNCTION (php_v8_stack_trace) {
 
     zend_declare_property_null(this_ce, ZEND_STRL("frames"), ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("as_array"), ZEND_ACC_PRIVATE);
-
-    INIT_NS_CLASS_ENTRY(ce, "V8\\StackTrace", "StackTraceOptions", php_v8_stack_trace_options_methods);
-    php_v8_stack_trace_options_class_entry = zend_register_internal_class(&ce);
-
-
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kLineNumber"), v8::StackTrace::StackTraceOptions::kLineNumber);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kColumnOffset"), v8::StackTrace::StackTraceOptions::kColumnOffset);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kScriptName"), v8::StackTrace::StackTraceOptions::kScriptName);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kFunctionName"), v8::StackTrace::StackTraceOptions::kFunctionName);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kIsEval"), v8::StackTrace::StackTraceOptions::kIsEval);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kIsConstructor"), v8::StackTrace::StackTraceOptions::kIsConstructor);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kScriptNameOrSourceURL"), v8::StackTrace::StackTraceOptions::kScriptNameOrSourceURL);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kScriptId"), v8::StackTrace::StackTraceOptions::kScriptId);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kExposeFramesAcrossSecurityOrigins"), v8::StackTrace::StackTraceOptions::kExposeFramesAcrossSecurityOrigins);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kOverview"), v8::StackTrace::StackTraceOptions::kOverview);
-    zend_declare_class_constant_long(php_v8_stack_trace_options_class_entry, ZEND_STRL("kDetailed"), v8::StackTrace::StackTraceOptions::kDetailed);
 
     return SUCCESS;
 }

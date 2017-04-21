@@ -28,13 +28,7 @@ $current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($iso
         $frame_limit = 10;
     }
 
-    if (count($args->Arguments()) > 1) {
-        $options = $args->Arguments()[1]->NumberValue($context);
-    } else {
-        $options = \V8\StackTrace\StackTraceOptions::kOverview;
-    }
-
-    $stack_trace = \V8\StackTrace::CurrentStackTrace($isolate, $frame_limit, $options);
+    $stack_trace = \V8\StackTrace::CurrentStackTrace($isolate, $frame_limit);
 
     echo 'totally ', $stack_trace->GetFrameCount(), ' frames:', PHP_EOL;
 
@@ -76,27 +70,14 @@ function recursive_get_trace(depth, frame_limit, options) {
     return get_trace(frame_limit, options);
 }
 
-
-var kLineNumber = 1;
-var kColumnOffset = 3;
-var kScriptName = 4;
-var kFunctionName = 8;
-var kIsEval = 16;
-var kIsConstructor = 32;
-var kScriptNameOrSourceURL = 64;
-var kScriptId = 128;
-var kExposeFramesAcrossSecurityOrigins = 256;
-var kOverview = 15;
-var kDetailed = 127;
-
-get_trace(0, kDetailed); // zero trace is fine, though, makes no sense
-get_trace(1, kDetailed);
-get_trace(2, kColumnOffset | kScriptId);
+get_trace(0); // zero trace is fine, though, makes no sense
+get_trace(1);
+get_trace(2);
 
 
 new TestWithConstructor(1, -1);
 
-recursive_get_trace(100, 10, kOverview);
+recursive_get_trace(100, 10);
 
 get_trace(2, -1); // as option are bit flags, -1 will lead to all options set
 
@@ -145,7 +126,7 @@ totally 1 frames:
 totally 2 frames:
 [
     {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
-    {"line":47,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
+    {"line":34,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
 ]
 
 totally 1 frames:
@@ -170,13 +151,13 @@ totally 10 frames:
 totally 2 frames:
 [
     {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
-    {"line":54,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
+    {"line":41,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
 ]
 
 JS-land stack trace:
 Error
-    at stackTrace (test.js:58:15)
-    at test.js:64:7
+    at stackTrace (test.js:45:15)
+    at test.js:51:7
 
 Script dies now!
 ObjectTemplate dies now!

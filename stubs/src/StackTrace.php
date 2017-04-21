@@ -17,7 +17,6 @@ namespace V8;
 
 
 use V8\Exceptions\Exception;
-use V8\StackTrace\StackTraceOptions;
 
 
 /**
@@ -107,7 +106,6 @@ class StackTrace
      *
      * @param Isolate $isolate
      * @param int     $frame_limit
-     * @param int     $options One or more \v8\StackTrace\StackTraceOptions const flags
      *
      * TODO: try to minimize effect of invalid args
      * Note, that having large (or negative) $frame_limit number may cause OutOfMemory error.
@@ -115,10 +113,7 @@ class StackTrace
      *
      * @return StackTrace
      */
-    public static function CurrentStackTrace(
-        Isolate $isolate,
-        int $frame_limit,
-        int $options = StackTraceOptions::kOverview
-    ): StackTrace {
+    public static function CurrentStackTrace(Isolate $isolate, int $frame_limit): StackTrace
+    {
     }
 }

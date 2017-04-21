@@ -15,8 +15,6 @@
 namespace V8;
 
 
-use V8\StackTrace\StackTraceOptions;
-
 class Isolate
 {
     /**
@@ -219,12 +217,8 @@ class Isolate
      *
      * @param bool $capture
      * @param int  $frame_limit
-     * @param int  $options
      */
-    public function SetCaptureStackTraceForUncaughtExceptions(
-        bool $capture,
-        int $frame_limit = 10,
-        int $options = StackTraceOptions::kOverview
-    ) {
+    public function SetCaptureStackTraceForUncaughtExceptions(bool $capture, int $frame_limit = 10)
+    {
     }
 }

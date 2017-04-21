@@ -480,9 +480,8 @@ static PHP_METHOD(V8Isolate, CancelTerminateExecution) {
 static PHP_METHOD(V8Isolate, SetCaptureStackTraceForUncaughtExceptions) {
     zend_bool capture;
     zend_long frame_limit = 10;
-    zend_long options = static_cast<zend_long>(v8::StackTrace::StackTraceOptions::kOverview);
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "b|ll", &capture, &frame_limit, &options) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "b|ll", &capture, &frame_limit) == FAILURE) {
         return;
     }
 
@@ -491,9 +490,7 @@ static PHP_METHOD(V8Isolate, SetCaptureStackTraceForUncaughtExceptions) {
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
     PHP_V8_ENTER_ISOLATE(php_v8_isolate);
 
-    isolate->SetCaptureStackTraceForUncaughtExceptions(static_cast<bool>(capture),
-                                                       static_cast<int>(frame_limit),
-                                                       static_cast<v8::StackTrace::StackTraceOptions>(options & PHP_V8_STACK_TRACE_OPTIONS));
+    isolate->SetCaptureStackTraceForUncaughtExceptions(static_cast<bool>(capture), static_cast<int>(frame_limit));
 }
 
 static PHP_METHOD(V8Isolate, IsDead) {
@@ -586,7 +583,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_SetCaptureStackTraceForUncaughtExceptions, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, capture, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, frame_limit, IS_LONG, 0)
-                ZEND_ARG_TYPE_INFO(0, options, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsDead, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
