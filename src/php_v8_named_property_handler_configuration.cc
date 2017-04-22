@@ -15,7 +15,7 @@
 #endif
 
 #include "php_v8_named_property_handler_configuration.h"
-#include "php_v8_property_handler_flags.h"
+#include "php_v8_enums.h"
 #include "php_v8.h"
 
 zend_class_entry* php_v8_named_property_handler_configuration_class_entry;

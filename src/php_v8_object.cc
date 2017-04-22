@@ -15,18 +15,16 @@
 #endif
 
 #include "php_v8_object.h"
-#include "php_v8_integrity_level.h"
 #include "php_v8_exceptions.h"
 #include "php_v8_function_template.h"
 #include "php_v8_function.h"
-#include "php_v8_property_attribute.h"
-#include "php_v8_access_control.h"
 #include "php_v8_string.h"
 #include "php_v8_uint32.h"
 #include "php_v8_name.h"
 #include "php_v8_value.h"
 #include "php_v8_context.h"
 #include "php_v8_ext_mem_interface.h"
+#include "php_v8_enums.h"
 #include "php_v8.h"
 
 

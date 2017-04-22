@@ -31,11 +31,9 @@
 #include "php_v8_context.h"
 #include "php_v8_object_template.h"
 #include "php_v8_function_template.h"
-#include "php_v8_constructor_behavior.h"
 #include "php_v8_script.h"
 #include "php_v8_unbound_script.h"
 #include "php_v8_cached_data.h"
-#include "php_v8_compile_options.h"
 #include "php_v8_source.h"
 #include "php_v8_script_compiler.h"
 #include "php_v8_null.h"
@@ -48,7 +46,6 @@
 #include "php_v8_int32.h"
 #include "php_v8_uint32.h"
 #include "php_v8_primitive.h"
-#include "php_v8_integrity_level.h"
 #include "php_v8_function.h"
 #include "php_v8_array.h"
 #include "php_v8_map.h"
@@ -60,20 +57,17 @@
 #include "php_v8_string_object.h"
 #include "php_v8_symbol_object.h"
 #include "php_v8_object.h"
-#include "php_v8_property_attribute.h"
 #include "php_v8_template.h"
 #include "php_v8_return_value.h"
 #include "php_v8_callback_info.h"
 #include "php_v8_property_callback_info.h"
 #include "php_v8_function_callback_info.h"
-#include "php_v8_access_control.h"
-#include "php_v8_property_handler_flags.h"
 #include "php_v8_named_property_handler_configuration.h"
 #include "php_v8_indexed_property_handler_configuration.h"
-#include "php_v8_access_type.h"
 
 #include "php_v8_value.h"
 #include "php_v8_data.h"
+#include "php_v8_enums.h"
 #include "php_v8_ext_mem_interface.h"
 
 #include <v8.h>
@@ -105,6 +99,8 @@ PHP_INI_END()
  */
 PHP_MINIT_FUNCTION(v8)
 {
+    PHP_MINIT(php_v8_enums)(INIT_FUNC_ARGS_PASSTHRU);
+
     PHP_MINIT(php_v8_exceptions)(INIT_FUNC_ARGS_PASSTHRU);    /* Exceptions */
     PHP_MINIT(php_v8_ext_mem_interface)(INIT_FUNC_ARGS_PASSTHRU);    /* AdjustableExternalMemoryInterface */
 
@@ -116,7 +112,6 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_script)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_unbound_script)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_cached_data)(INIT_FUNC_ARGS_PASSTHRU);
-    PHP_MINIT(php_v8_compile_options)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_source)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_script_compiler)(INIT_FUNC_ARGS_PASSTHRU);
 
@@ -140,7 +135,6 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_integer)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_int32)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_uint32)(INIT_FUNC_ARGS_PASSTHRU);
-    PHP_MINIT(php_v8_integrity_level)(INIT_FUNC_ARGS_PASSTHRU);
 
     PHP_MINIT(php_v8_object)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_function)(INIT_FUNC_ARGS_PASSTHRU);
@@ -155,25 +149,19 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_string_object)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_symbol_object)(INIT_FUNC_ARGS_PASSTHRU);
 
-    PHP_MINIT(php_v8_constructor_behavior)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_template)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_object_template)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_function_template)(INIT_FUNC_ARGS_PASSTHRU);
 
 
-    PHP_MINIT(php_v8_property_attribute)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants for v8 internals similarity/compatibility */
-    PHP_MINIT(php_v8_access_control)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants */
     PHP_MINIT(php_v8_return_value)(INIT_FUNC_ARGS_PASSTHRU);
 
     PHP_MINIT(php_v8_callback_info)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_property_callback_info)(INIT_FUNC_ARGS_PASSTHRU); /* PropertyCallbackInfo inherits CallbackInfo */
     PHP_MINIT(php_v8_function_callback_info)(INIT_FUNC_ARGS_PASSTHRU); /* FunctionCallbackInfo inherits CallbackInfo */
 
-    PHP_MINIT(php_v8_property_handler_flags)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants */
     PHP_MINIT(php_v8_named_property_handler_configuration)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_indexed_property_handler_configuration)(INIT_FUNC_ARGS_PASSTHRU);
-
-    PHP_MINIT(php_v8_access_type)(INIT_FUNC_ARGS_PASSTHRU); /* Helper class, holds constants */
 
     /* If you have INI entries, uncomment these lines
     REGISTER_INI_ENTRIES();

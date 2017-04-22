@@ -149,6 +149,7 @@ if test "$PHP_V8" != "no"; then
   PHP_NEW_EXTENSION(v8, [                                 \
     v8.cc                                                 \
     src/php_v8_a.cc                                       \
+    src/php_v8_enums.cc                                   \
     src/php_v8_exception.cc                               \
     src/php_v8_ext_mem_interface.cc                       \
     src/php_v8_try_catch.cc                               \
@@ -166,11 +167,9 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_context.cc                                 \
     src/php_v8_object_template.cc                         \
     src/php_v8_function_template.cc                       \
-    src/php_v8_constructor_behavior.cc                    \
     src/php_v8_script.cc                                  \
     src/php_v8_unbound_script.cc                          \
     src/php_v8_cached_data.cc                             \
-    src/php_v8_compile_options.cc                         \
     src/php_v8_script_compiler.cc                         \
     src/php_v8_source.cc                                  \
     src/php_v8_data.cc                                    \
@@ -185,7 +184,6 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_integer.cc                                 \
     src/php_v8_int32.cc                                   \
     src/php_v8_uint32.cc                                  \
-    src/php_v8_integrity_level.cc                         \
     src/php_v8_object.cc                                  \
     src/php_v8_function.cc                                \
     src/php_v8_array.cc                                   \
@@ -197,17 +195,13 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_boolean_object.cc                          \
     src/php_v8_string_object.cc                           \
     src/php_v8_symbol_object.cc                           \
-    src/php_v8_property_attribute.cc                      \
     src/php_v8_template.cc                                \
     src/php_v8_return_value.cc                            \
     src/php_v8_callback_info.cc                           \
     src/php_v8_function_callback_info.cc                  \
     src/php_v8_property_callback_info.cc                  \
-    src/php_v8_access_control.cc                          \
-    src/php_v8_property_handler_flags.cc                  \
     src/php_v8_named_property_handler_configuration.cc    \
     src/php_v8_indexed_property_handler_configuration.cc  \
-    src/php_v8_access_type.cc                             \
   ], $ext_shared, , -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
   PHP_ADD_BUILD_DIR($ext_builddir/src)

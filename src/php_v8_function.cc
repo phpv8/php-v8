@@ -20,7 +20,7 @@
 #include "php_v8_string.h"
 #include "php_v8_object.h"
 #include "php_v8_context.h"
-#include "php_v8_constructor_behavior.h"
+#include "php_v8_enums.h"
 #include "php_v8.h"
 
 zend_class_entry *php_v8_function_class_entry;

@@ -17,11 +17,10 @@
 #include "php_v8_template.h"
 #include "php_v8_object_template.h"
 #include "php_v8_function_template.h"
-#include "php_v8_property_attribute.h"
-#include "php_v8_access_control.h"
 #include "php_v8_name.h"
 #include "php_v8_data.h"
 #include "php_v8_value.h"
+#include "php_v8_enums.h"
 #include "php_v8.h"
 
 zend_class_entry *php_v8_template_ce;
