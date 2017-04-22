@@ -28,8 +28,9 @@ class  FunctionObject extends ObjectValue
      * @param \V8\Context $context
      * @param callable    $callback
      * @param int         $length
+     * @param int         $behavior
      */
-    public function __construct(Context $context, callable $callback, int $length = 0)
+    public function __construct(Context $context, callable $callback, int $length = 0, int $behavior = ConstructorBehavior::kAllow)
     {
         parent::__construct($context);
     }

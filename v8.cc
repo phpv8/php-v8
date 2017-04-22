@@ -31,6 +31,7 @@
 #include "php_v8_context.h"
 #include "php_v8_object_template.h"
 #include "php_v8_function_template.h"
+#include "php_v8_constructor_behavior.h"
 #include "php_v8_script.h"
 #include "php_v8_unbound_script.h"
 #include "php_v8_cached_data.h"
@@ -154,6 +155,7 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_string_object)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_symbol_object)(INIT_FUNC_ARGS_PASSTHRU);
 
+    PHP_MINIT(php_v8_constructor_behavior)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_template)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_object_template)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_function_template)(INIT_FUNC_ARGS_PASSTHRU);

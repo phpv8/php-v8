@@ -25,7 +25,7 @@ namespace V8;
  * preferred.
  *
  * Any modification of a FunctionTemplate after first instantiation will trigger
- *a crash.
+ * a crash.
  *
  * A FunctionTemplate can have properties, these properties are added to the
  * function object when it is created.
@@ -41,17 +41,21 @@ namespace V8;
  * The following example shows how to use a FunctionTemplate:
  *
  * \code
- *    v8::Local<v8::FunctionTemplate> t = v8::FunctionTemplate::New();
- *    t->Set("func_property", v8::Number::New(1));
+ *    v8::Local<v8::FunctionTemplate> t = v8::FunctionTemplate::New(isolate);
+ *    t->Set(isolate, "func_property", v8::Number::New(isolate, 1));
  *
  *    v8::Local<v8::Template> proto_t = t->PrototypeTemplate();
- *    proto_t->Set("proto_method", v8::FunctionTemplate::New(InvokeCallback));
- *    proto_t->Set("proto_const", v8::Number::New(2));
+ *    proto_t->Set(isolate,
+ *                 "proto_method",
+ *                 v8::FunctionTemplate::New(isolate, InvokeCallback));
+ *    proto_t->Set(isolate, "proto_const", v8::Number::New(isolate, 2));
  *
  *    v8::Local<v8::ObjectTemplate> instance_t = t->InstanceTemplate();
- *    instance_t->SetAccessor("instance_accessor", InstanceAccessorCallback);
- *    instance_t->SetNamedPropertyHandler(PropertyHandlerCallback, ...);
- *    instance_t->Set("instance_property", Number::New(3));
+ *    instance_t->SetAccessor(String::NewFromUtf8(isolate, "instance_accessor"),
+ *                            InstanceAccessorCallback);
+ *    instance_t->SetNamedPropertyHandler(PropertyHandlerCallback);
+ *    instance_t->Set(String::NewFromUtf8(isolate, "instance_property"),
+ *                    Number::New(isolate, 3));
  *
  *    v8::Local<v8::Function> function = t->GetFunction();
  *    v8::Local<v8::Object> instance = function->NewInstance();
@@ -111,25 +115,17 @@ namespace V8;
  *   child_instance.instance_property == 3;
  * \endcode
  */
-//class FunctionTemplateInterface extends TemplateInterface
 class FunctionTemplate extends Template implements AdjustableExternalMemoryInterface
 {
-    private $isolate;
-
-    //static Local<FunctionTemplate> New(
-    //    Isolate* isolate,
-    //    FunctionCallback callback = 0,
-    //  Handle<Value> data = Handle<Value>(),
-    //  Handle<Signature> signature = Handle<Signature>(),
-    //  int length = 0);
-    public function __construct(Isolate $isolate, callable $callback = null, int $length = 0)
+    /**
+     * @param Isolate       $isolate
+     * @param callable|null $callback
+     * @param int           $length
+     * @param int           $behavior
+     */
+    public function __construct(Isolate $isolate, callable $callback = null, int $length = 0, int $behavior = ConstructorBehavior::kAllow)
     {
         parent::__construct($isolate);
-    }
-
-    public function GetIsolate()
-    {
-        return $this->isolate;
     }
 
     /**

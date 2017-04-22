@@ -22,6 +22,7 @@
 #include "php_v8_value.h"
 #include "php_v8_context.h"
 #include "php_v8_ext_mem_interface.h"
+#include "php_v8_constructor_behavior.h"
 #include "php_v8.h"
 
 zend_class_entry *php_v8_function_template_class_entry;
@@ -131,15 +132,18 @@ static PHP_METHOD(V8FunctionTemplate, __construct) {
     zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
 
     zend_long length = 0;
+    zend_long behavior = static_cast<zend_long>(v8::ConstructorBehavior::kAllow);
 
     v8::FunctionCallback callback = 0;
     v8::Local<v8::External> data;
     v8::Local<v8::Signature> signature;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|f!l", &php_v8_isolate_zv, &fci, &fci_cache, &length) ==
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|f!ll", &php_v8_isolate_zv, &fci, &fci_cache, &length, &behavior) ==
         FAILURE) {
         return;
     }
+
+    behavior = behavior ? behavior & PHP_V8_CONSTRUCTOR_BEHAVIOR_FLAGS : behavior;
 
     PHP_V8_CHECK_FUNCTION_LENGTH_RANGE(length, "Length is out of range");
 
@@ -160,7 +164,12 @@ static PHP_METHOD(V8FunctionTemplate, __construct) {
         callback = php_v8_callback_function;
     }
 
-    v8::Local<v8::FunctionTemplate> local_template = v8::FunctionTemplate::New(isolate, callback, data, signature, static_cast<int>(length));
+    v8::Local<v8::FunctionTemplate> local_template = v8::FunctionTemplate::New(isolate,
+                                                                               callback,
+                                                                               data,
+                                                                               signature,
+                                                                               static_cast<int>(length),
+                                                                               static_cast<v8::ConstructorBehavior>(behavior));
 
     PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(local_template, "Failed to create FunctionTemplate value");
 
@@ -437,6 +446,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function_template___construct, ZEND_SEND_BY_VA
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_CALLABLE_INFO(0, callback, 1)
                 ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
+                ZEND_ARG_TYPE_INFO(0, behavior, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_function_template_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)

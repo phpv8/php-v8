@@ -73,10 +73,6 @@ $helper->dump($instance_template);
 $helper->method_matches($function_template, 'InstanceTemplate', $instance_template);
 $helper->space();
 
-$instance_template_1 = $function_template->InstanceTemplate();
-
-$instance_template_2 = $function_template->InstanceTemplate();
-
 $global_template = new V8\ObjectTemplate($isolate);
 
 $value = new V8\StringValue($isolate, 'TEST VALUE 111');
@@ -136,9 +132,6 @@ if ($res->IsFunction()) {
 }
 
 $helper->dump($res->ToString($context)->Value());
-
-
-
 
 
 ?>
