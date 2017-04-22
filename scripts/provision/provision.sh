@@ -10,6 +10,10 @@ sudo add-apt-repository ppa:pinepain/libv8-6.0
 # Let's update packages list:
 sudo apt-get update
 
+# Remove unused
+sudo apt-get remove -y liblxc1 lxc-common lxd lxcfs
+
+
 # Make sure this system tools installed:
 sudo apt-get install -y git htop curl pkgconf
 
