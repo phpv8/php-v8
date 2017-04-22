@@ -118,13 +118,19 @@ namespace V8;
 class FunctionTemplate extends Template implements AdjustableExternalMemoryInterface
 {
     /**
-     * @param Isolate       $isolate
-     * @param callable|null $callback
-     * @param int           $length
-     * @param int           $behavior
+     * @param Isolate               $isolate
+     * @param callable|null         $callback
+     * @param FunctionTemplate|null $receiver Specifies which receiver is valid for a function
+     * @param int                   $length
+     * @param int                   $behavior
      */
-    public function __construct(Isolate $isolate, callable $callback = null, int $length = 0, int $behavior = ConstructorBehavior::kAllow)
-    {
+    public function __construct(
+        Isolate $isolate,
+        callable $callback = null,
+        FunctionTemplate $receiver = null,
+        int $length = 0,
+        int $behavior = ConstructorBehavior::kAllow
+    ) {
         parent::__construct($isolate);
     }
 

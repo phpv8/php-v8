@@ -131,6 +131,8 @@ static PHP_METHOD(V8FunctionTemplate, __construct) {
     zend_fcall_info fci = empty_fcall_info;
     zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
 
+    zval *php_v8_receiver_zv = NULL;
+
     zend_long length = 0;
     zend_long behavior = static_cast<zend_long>(v8::ConstructorBehavior::kAllow);
 
@@ -138,8 +140,7 @@ static PHP_METHOD(V8FunctionTemplate, __construct) {
     v8::Local<v8::External> data;
     v8::Local<v8::Signature> signature;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|f!ll", &php_v8_isolate_zv, &fci, &fci_cache, &length, &behavior) ==
-        FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|f!o!ll", &php_v8_isolate_zv, &fci, &fci_cache, &php_v8_receiver_zv, &length, &behavior) == FAILURE) {
         return;
     }
 
@@ -154,6 +155,13 @@ static PHP_METHOD(V8FunctionTemplate, __construct) {
     PHP_V8_STORE_POINTER_TO_ISOLATE(php_v8_function_template, php_v8_isolate);
 
     PHP_V8_ENTER_ISOLATE(php_v8_isolate);
+
+    if (php_v8_receiver_zv) {
+        PHP_V8_FETCH_FUNCTION_TEMPLATE_WITH_CHECK(php_v8_receiver_zv, php_v8_receiver);
+        PHP_V8_DATA_ISOLATES_CHECK(php_v8_function_template, php_v8_receiver);
+
+        signature = v8::Signature::New(isolate, php_v8_function_template_get_local(php_v8_receiver));
+    }
 
     if (fci.size) {
         phpv8::CallbacksBucket *bucket= php_v8_function_template->persistent_data->bucket("callback");
@@ -445,6 +453,7 @@ static PHP_METHOD(V8FunctionTemplate, GetExternalAllocatedMemory) {
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_function_template___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_CALLABLE_INFO(0, callback, 1)
+                ZEND_ARG_OBJ_INFO(0, receiver, V8\\FunctionTemplate, 1)
                 ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, behavior, IS_LONG, 0)
 ZEND_END_ARG_INFO()
