@@ -23,7 +23,11 @@ class StringValue extends NameValue
 {
     const kMaxLength = (1 << 28) - 16;
 
-    public function __construct(Isolate $isolate, $data = '', $attributes = null)
+    /**
+     * @param Isolate $isolate
+     * @param string  $data
+     */
+    public function __construct(Isolate $isolate, $data = '')
     {
         parent::__construct($isolate);
     }
