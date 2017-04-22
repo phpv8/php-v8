@@ -15,10 +15,10 @@
 
 namespace V8;
 
-
 class AccessControl
 {
-    const DEFAULT_ACCESS = 0;
-    const ALL_CAN_READ = 1;
-    const ALL_CAN_WRITE = 2;
+    const DEFAULT_ACCESS = 0; // do not allow cross-context access
+    const ALL_CAN_READ = 1; // all cross-context reads are allowed
+    const ALL_CAN_WRITE = 2; // all cross-context writes are allowed
+    // ALL_CAN_READ | ALL_CAN_WRITE could be use allow all cross-context access
 }

@@ -47,41 +47,33 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      * are called instead of getting and setting the property directly
      * on the JavaScript object.
      *
-     * \param name The name of the property for which an accessor is added.
-     * \param getter The callback to invoke when getting the property.
-     * \param setter The callback to invoke when setting the property.
-     * \param data A piece of data that will be passed to the getter and setter
-     *   callbacks whenever they are invoked.
-     * \param settings Access control settings for the accessor. This is a bit
-     *   field consisting of one of more of
-     *   DEFAULT = 0, ALL_CAN_READ = 1, or ALL_CAN_WRITE = 2.
-     *   The default is to not allow cross-context access.
-     *   ALL_CAN_READ means that all cross-context reads are allowed.
-     *   ALL_CAN_WRITE means that all cross-context writes are allowed.
-     *   The combination ALL_CAN_READ | ALL_CAN_WRITE can be used to allow all
-     *   cross-context access.
-     * \param attribute The attributes of the property for which an accessor
-     *   is added.
-     * \param signature The signature describes valid receivers for the accessor
-     *   and is used to perform implicit instance checks against them. If the
-     *   receiver is incompatible (i.e. is not an instance of the constructor as
-     *   defined by FunctionTemplate::HasInstance()), an implicit TypeError is
-     *   thrown and no callback is invoked.
+     * @param NameValue        $name
+     * @param NameValue        $name       The name of the property for which an accessor is added.
      *
-     * @param NameValue $name
-     * @param callable  $getter
-     * @param callable  $setter
-     * @param int       $settings  \v8\AccessControl constants (one or many)
-     * @param int       $attribute \v8\PropertyAttribute constants (one or many)
+     * @param callable         $getter     The callback to invoke when getting the property.
+     *                                     Callback signature should be (NameValue $property, PropertyCallbackInfo $info)
      *
-     * TODO: add signature support
+     * @param callable         $setter     The callback to invoke when setting the property.
+     *                                     Callback signature should be (NameValue $property, PropertyCallbackInfo $info)
+     *
+     * @param int              $settings   Access control settings for the accessor.
+     *
+     * @param int              $attributes The attributes of the property for which an accessor is added.
+     *
+     * @param FunctionTemplate $receiver   The signature describes valid receivers for the accessor
+     *                                     and is used to perform implicit instance checks against them. If the
+     *                                     receiver is incompatible (i.e. is not an instance of the constructor as
+     *                                     defined by FunctionTemplate::HasInstance()), an implicit TypeError is
+     *                                     thrown and no callback is invoked.
      */
+
     public function SetAccessor(
         NameValue $name,
         callable $getter,
         callable $setter,
         $settings = AccessControl::DEFAULT_ACCESS,
-        $attribute = PropertyAttribute::None
+        $attributes = PropertyAttribute::None,
+        FunctionTemplate $receiver
     ) {
     }
 

@@ -209,8 +209,11 @@ static PHP_METHOD(V8ObjectTemplate, NewInstance) {
 
 static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     zval *php_v8_name_zv;
+    zval *php_v8_receiver_zv = NULL;
+
     zend_long attributes = 0;
     zend_long settings = 0;
+    v8::Local<v8::AccessorSignature> signature;
 
     zend_fcall_info getter_fci = empty_fcall_info;
     zend_fcall_info_cache getter_fci_cache = empty_fcall_info_cache;
@@ -218,12 +221,13 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     zend_fcall_info setter_fci = empty_fcall_info;
     zend_fcall_info_cache setter_fci_cache = empty_fcall_info_cache;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "of|f!ll",
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "of|f!llo!",
                               &php_v8_name_zv,
                               &getter_fci, &getter_fci_cache,
                               &setter_fci, &setter_fci_cache,
                               &settings,
-                              &attributes
+                              &attributes,
+                              &php_v8_receiver_zv
     ) == FAILURE) {
         return;
     }
@@ -247,7 +251,6 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     v8::AccessorNameGetterCallback getter;
     v8::AccessorNameSetterCallback setter = 0;
     v8::Local<v8::External> data;
-    v8::Local<v8::AccessorSignature> signature; // TODO: add AccessorSignature support
 
     phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("accessor_",
                                                                                      local_name->IsSymbol(), name);
@@ -259,6 +262,13 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     if (setter_fci.size) {
         bucket->add(phpv8::CallbacksBucket::Index::Setter, setter_fci, setter_fci_cache);
         setter = php_v8_callback_accessor_name_setter;
+    }
+
+    if (php_v8_receiver_zv) {
+        PHP_V8_FETCH_FUNCTION_TEMPLATE_WITH_CHECK(php_v8_receiver_zv, php_v8_receiver);
+        PHP_V8_DATA_ISOLATES_CHECK(php_v8_object_template, php_v8_receiver);
+
+        signature = v8::AccessorSignature::New(isolate, php_v8_function_template_get_local(php_v8_receiver));
     }
 
     local_obj_tpl->SetAccessor(local_name,
@@ -404,6 +414,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetNativeDataProperty, ZEN
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
+                ZEND_ARG_OBJ_INFO(0, receiver, V8\\FunctionTemplate, 1)
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
@@ -420,6 +431,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessor, ZEND_SEND_BY_
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
+                ZEND_ARG_OBJ_INFO(0, receiver, V8\\FunctionTemplate, 1)
 ZEND_END_ARG_INFO()
 
 // void method

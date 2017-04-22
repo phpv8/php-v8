@@ -1,5 +1,5 @@
 --TEST--
-V8\FunctionTemplate - constructor receiver
+V8\FunctionTemplate::__construct() - with receiver
 --SKIPIF--
 <?php if (!extension_loaded("v8")) {
     print "skip";

@@ -482,6 +482,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_function_template_SetNativeDataProperty, Z
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
+                ZEND_ARG_OBJ_INFO(0, receiver, V8\\FunctionTemplate, 1)
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
