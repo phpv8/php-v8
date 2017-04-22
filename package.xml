@@ -26,11 +26,11 @@
         <email>pinepain@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2017-03-05</date>
-    <time>20:48:11</time>
+    <date>2017-04-22</date>
+    <time>18:58:58</time>
     <version>
-        <release>0.1.3</release>
-        <api>0.1.3</api>
+        <release>0.1.4</release>
+        <api>0.1.4</api>
     </version>
     <stability>
         <release>stable</release>
@@ -38,35 +38,39 @@
     </stability>
     <license uri="https://opensource.org/licenses/mit">The MIT License (MIT)</license>
     <notes>
-        This release adds low-level optimizations, simplify some internal methods and fix few bugs. For more details see
-        change list below.
+        This release adds low-level optimizations, simplify some internal methods and fix few bugs. For more details see change list below.
 
-        As of this release, V8 >= 5.9.5 required.
+        As of this release, V8 >= 6.0.45 required.
 
         * - BC-breaking or potentially BC-breaking changes
 
         Changes to public API and other important changes which may affect end-user:
 
-        - * Replace V8\Isolate::GetCurrentContext with V8\Isolate::GetEnteredContext();
-        - * Remove V8\ObjectValue::CreationContext(), use V8\ObjectValue::GetContext();
-        - Add V8\PropertyCallbackInfo::ShouldThrowOnError() method;
-        - Add V8\FunctionCallbackInfo::NewTarget() method;
-        - V8\ReturnValue now explicitly holds isolate and context which could be accessed outside of calling context;
-        - Fix potential problems with V8\FunctionCallbackInfo and V8\PropertyCallbackInfo when used outside calling scope;
-        - Fix leak when V8\ScriptCompiler::CompileFunctionInContext() invoked with arguments and/or context extensions;
-        - Fix segfault when abruptly exiting from isolate which entered multiple time or from multiple nested isolates;
-        - Add V8\Exceptions\ValueException to stubs;
-        - Remove $global_template and $global_object private props from V8\Context.
+            - Raise libv8 required version to 6.0.45;
+            - Add V8\Value::InstanceOf() method;
+            - Add V8\ObjectValue::SetNativeDataProperty() method;
+            - Add V8\PropertyFilter, V8\KeyCollectionMode and V8\IndexFilter enums;
+            - Add property filtering support to V8\ObjectValue::Get{Property,OwnProperty}Names();
+            - Consistently expose all well-known symbols on V8\SymbolValue;
+            - Setting boolean props on StackFrame with valid type;
+            - Remove non-working and non-supporting $attributes argument from V8\StringValue constructor in stubs;
+            - * Add V8\ConstructorBehavior and support for it in V8\FunctionTemplate constructor;
+            - * Add signature support in V8\FunctionTemplate constructor via $receiver;
+            - * Add signature support to Template:SetNativeDataProperty() and ObjectTemplate::SetAccessor() via $receiver;
+            - * Remove require $isolate parameter from V8\Value::TypeOf();
+            - * Remove deprecated V8\Context::EstimatedSize() method;
+            - * Remove deprecated V8\StackTrace\StackTraceOptions;
+            - * Remove deprecated V8\StackTrace::AsArray();
+            - * Require Context explicitly in V8\Isolate::ThrowException();
+            - * Rename V8\Exceptions\GenericException to V8\Exceptions\Exception;
+            - * Rename V8\Exceptions\AbstractResourceLimitException to V8\Exceptions\ResourceLimitException;
+            - internal: Check whether returned context is empty in V8\Isolate\GetEnteredContext() instead of checking InContext();
     </notes>
     <contents>
         <dir name="/">
             <!-- begin files list -->
             <file name="src/php_v8_a.cc" role="src" />
             <file name="src/php_v8_a.h" role="src" />
-            <file name="src/php_v8_access_control.cc" role="src" />
-            <file name="src/php_v8_access_control.h" role="src" />
-            <file name="src/php_v8_access_type.cc" role="src" />
-            <file name="src/php_v8_access_type.h" role="src" />
             <file name="src/php_v8_array.cc" role="src" />
             <file name="src/php_v8_array.h" role="src" />
             <file name="src/php_v8_boolean.cc" role="src" />
@@ -79,14 +83,14 @@
             <file name="src/php_v8_callback_info.h" role="src" />
             <file name="src/php_v8_callbacks.cc" role="src" />
             <file name="src/php_v8_callbacks.h" role="src" />
-            <file name="src/php_v8_compile_options.cc" role="src" />
-            <file name="src/php_v8_compile_options.h" role="src" />
             <file name="src/php_v8_context.cc" role="src" />
             <file name="src/php_v8_context.h" role="src" />
             <file name="src/php_v8_data.cc" role="src" />
             <file name="src/php_v8_data.h" role="src" />
             <file name="src/php_v8_date.cc" role="src" />
             <file name="src/php_v8_date.h" role="src" />
+            <file name="src/php_v8_enums.cc" role="src" />
+            <file name="src/php_v8_enums.h" role="src" />
             <file name="src/php_v8_exception.cc" role="src" />
             <file name="src/php_v8_exception.h" role="src" />
             <file name="src/php_v8_exceptions.cc" role="src" />
@@ -107,8 +111,6 @@
             <file name="src/php_v8_int32.h" role="src" />
             <file name="src/php_v8_integer.cc" role="src" />
             <file name="src/php_v8_integer.h" role="src" />
-            <file name="src/php_v8_integrity_level.cc" role="src" />
-            <file name="src/php_v8_integrity_level.h" role="src" />
             <file name="src/php_v8_isolate.cc" role="src" />
             <file name="src/php_v8_isolate.h" role="src" />
             <file name="src/php_v8_isolate_limits.cc" role="src" />
@@ -133,12 +135,8 @@
             <file name="src/php_v8_object_template.h" role="src" />
             <file name="src/php_v8_primitive.cc" role="src" />
             <file name="src/php_v8_primitive.h" role="src" />
-            <file name="src/php_v8_property_attribute.cc" role="src" />
-            <file name="src/php_v8_property_attribute.h" role="src" />
             <file name="src/php_v8_property_callback_info.cc" role="src" />
             <file name="src/php_v8_property_callback_info.h" role="src" />
-            <file name="src/php_v8_property_handler_flags.cc" role="src" />
-            <file name="src/php_v8_property_handler_flags.h" role="src" />
             <file name="src/php_v8_regexp.cc" role="src" />
             <file name="src/php_v8_regexp.h" role="src" />
             <file name="src/php_v8_return_value.cc" role="src" />
@@ -188,6 +186,7 @@
             <file name="tests/.v8-helpers.php" role="test" />
             <file name="tests/001-verify-method-parameters-type.phpt" role="test" />
             <file name="tests/001.phpt" role="test" />
+            <file name="tests/002-enums.phpt" role="test" />
             <file name="tests/003-V8ObjectTemplate_recursive_chain.phpt" role="test" />
             <file name="tests/003-V8ObjectTemplate_recursive_global.phpt" role="test" />
             <file name="tests/003-V8ObjectTemplate_recursive_self.phpt" role="test" />
@@ -197,15 +196,14 @@
             <file name="tests/005-V8FunctionTemplate_external_memory.phpt" role="test" />
             <file name="tests/005-V8ObjectTemplate_external_memory.phpt" role="test" />
             <file name="tests/005-V8ObjectValue_external_memory.phpt" role="test" />
-            <file name="tests/V8AccessControl.phpt" role="test" />
             <file name="tests/V8ArrayObject.phpt" role="test" />
             <file name="tests/V8ArrayObject_Length.phpt" role="test" />
             <file name="tests/V8Boolean.phpt" role="test" />
             <file name="tests/V8BooleanObject.phpt" role="test" />
             <file name="tests/V8CachedData.phpt" role="test" />
-            <file name="tests/V8CompileOptions.phpt" role="test" />
             <file name="tests/V8Context.phpt" role="test" />
             <file name="tests/V8Context_GlobalObject.phpt" role="test" />
+            <file name="tests/V8Context_SetSecurityToken.phpt" role="test" />
             <file name="tests/V8Context_invalid_ctor_arg_type.phpt" role="test" />
             <file name="tests/V8Context_reference_lifecycle.phpt" role="test" />
             <file name="tests/V8Context_weakness.phpt" role="test" />
@@ -223,6 +221,7 @@
             <file name="tests/V8FunctionObject.phpt" role="test" />
             <file name="tests/V8FunctionObject_Call.phpt" role="test" />
             <file name="tests/V8FunctionObject_Call_bad_args.phpt" role="test" />
+            <file name="tests/V8FunctionObject_constructor_behavior.phpt" role="test" />
             <file name="tests/V8FunctionObject_die.phpt" role="test" />
             <file name="tests/V8FunctionObject_die_different_isolates.phpt" role="test" />
             <file name="tests/V8FunctionObject_die_nested.phpt" role="test" />
@@ -231,6 +230,8 @@
             <file name="tests/V8FunctionTemplate_GetFunction.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_SetCallHandler.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_callback_weakness.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_constructor_behavior.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_constructor_receiver.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_exception_in_php.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_invalid_ctor_arg_type.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_require_implementation.phpt" role="test" />
@@ -239,8 +240,8 @@
             <file name="tests/V8IndexedPropertyHandlerConfiguration.phpt" role="test" />
             <file name="tests/V8Int32Value.phpt" role="test" />
             <file name="tests/V8IntegerValue.phpt" role="test" />
-            <file name="tests/V8IntegrityLevel.phpt" role="test" />
             <file name="tests/V8Isolate.phpt" role="test" />
+            <file name="tests/V8Isolate_GetEnteredContext.phpt" role="test" />
             <file name="tests/V8Isolate_IsDead.phpt" role="test" />
             <file name="tests/V8Isolate_IsInUse.phpt" role="test" />
             <file name="tests/V8Isolate_ThrowException.phpt" role="test" />
@@ -262,14 +263,13 @@
             <file name="tests/V8NumberObject.phpt" role="test" />
             <file name="tests/V8NumberValue.phpt" role="test" />
             <file name="tests/V8ObjectTemplate.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_MarkAsUndetectable.phpt" role="test" />
             <file name="tests/V8ObjectTemplate_Set.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_SetAccessCheckCallback.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_SetAccessCheckCallback_func_args.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_SetAccessor_receiver.phpt" role="test" />
             <file name="tests/V8ObjectTemplate_SetCallAsFunctionHandler.phpt" role="test" />
             <file name="tests/V8ObjectTemplate_SetHandlerForIndexedProperty.phpt" role="test" />
             <file name="tests/V8ObjectTemplate_SetHandlerForNamedProperty.phpt" role="test" />
             <file name="tests/V8ObjectTemplate_SetHandler_both.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_SetNativeDataProperty.phpt" role="test" />
             <file name="tests/V8ObjectTemplate_invalid_ctor_arg_type.phpt" role="test" />
             <file name="tests/V8ObjectValue.phpt" role="test" />
             <file name="tests/V8ObjectValue_Get.phpt" role="test" />
@@ -277,11 +277,10 @@
             <file name="tests/V8ObjectValue_IsNativeError.phpt" role="test" />
             <file name="tests/V8ObjectValue_SetAccessor.phpt" role="test" />
             <file name="tests/V8ObjectValue_SetIntegrityLevel.phpt" role="test" />
+            <file name="tests/V8ObjectValue_SetNativeDataProperty.phpt" role="test" />
+            <file name="tests/V8ObjectValue_SetNativeDataProperty_from_template.phpt" role="test" />
             <file name="tests/V8PrimitiveValue.phpt" role="test" />
-            <file name="tests/V8PropertyAttribute.phpt" role="test" />
             <file name="tests/V8PropertyCallbackInfo.phpt" role="test" />
-            <file name="tests/V8PropertyHandlerFlags.phpt" role="test" />
-            <file name="tests/V8RegExpFlags.phpt" role="test" />
             <file name="tests/V8RegExpObject.phpt" role="test" />
             <file name="tests/V8ReturnValue.phpt" role="test" />
             <file name="tests/V8ReturnValue_context.phpt" role="test" />
@@ -301,7 +300,6 @@
             <file name="tests/V8Source.phpt" role="test" />
             <file name="tests/V8StackFrame.phpt" role="test" />
             <file name="tests/V8StackTrace.phpt" role="test" />
-            <file name="tests/V8StackTraceOptions.phpt" role="test" />
             <file name="tests/V8StackTrace_CurrentStackTrace.phpt" role="test" />
             <file name="tests/V8StartupData_CreateFromSource.phpt" role="test" />
             <file name="tests/V8StringObject.phpt" role="test" />
@@ -327,13 +325,14 @@
             <file name="stubs/src/BooleanObject.php" role="doc" />
             <file name="stubs/src/BooleanValue.php" role="doc" />
             <file name="stubs/src/CallbackInfo.php" role="doc" />
+            <file name="stubs/src/ConstructorBehavior.php" role="doc" />
             <file name="stubs/src/Context.php" role="doc" />
             <file name="stubs/src/Data.php" role="doc" />
             <file name="stubs/src/DateObject.php" role="doc" />
             <file name="stubs/src/Exception.php" role="doc" />
-            <file name="stubs/src/Exceptions/AbstractResourceLimitException.php" role="doc" />
-            <file name="stubs/src/Exceptions/GenericException.php" role="doc" />
+            <file name="stubs/src/Exceptions/Exception.php" role="doc" />
             <file name="stubs/src/Exceptions/MemoryLimitException.php" role="doc" />
+            <file name="stubs/src/Exceptions/ResourceLimitException.php" role="doc" />
             <file name="stubs/src/Exceptions/TerminationException.php" role="doc" />
             <file name="stubs/src/Exceptions/TimeLimitException.php" role="doc" />
             <file name="stubs/src/Exceptions/TryCatchException.php" role="doc" />
@@ -342,11 +341,13 @@
             <file name="stubs/src/FunctionObject.php" role="doc" />
             <file name="stubs/src/FunctionTemplate.php" role="doc" />
             <file name="stubs/src/HeapStatistics.php" role="doc" />
+            <file name="stubs/src/IndexFilter.php" role="doc" />
             <file name="stubs/src/IndexedPropertyHandlerConfiguration.php" role="doc" />
             <file name="stubs/src/Int32Value.php" role="doc" />
             <file name="stubs/src/IntegerValue.php" role="doc" />
             <file name="stubs/src/IntegrityLevel.php" role="doc" />
             <file name="stubs/src/Isolate.php" role="doc" />
+            <file name="stubs/src/KeyCollectionMode.php" role="doc" />
             <file name="stubs/src/MapObject.php" role="doc" />
             <file name="stubs/src/Message.php" role="doc" />
             <file name="stubs/src/NameValue.php" role="doc" />
@@ -359,6 +360,7 @@
             <file name="stubs/src/PrimitiveValue.php" role="doc" />
             <file name="stubs/src/PropertyAttribute.php" role="doc" />
             <file name="stubs/src/PropertyCallbackInfo.php" role="doc" />
+            <file name="stubs/src/PropertyFilter.php" role="doc" />
             <file name="stubs/src/PropertyHandlerFlags.php" role="doc" />
             <file name="stubs/src/RegExp/Flags.php" role="doc" />
             <file name="stubs/src/RegExpObject.php" role="doc" />
@@ -373,7 +375,6 @@
             <file name="stubs/src/SetObject.php" role="doc" />
             <file name="stubs/src/StackFrame.php" role="doc" />
             <file name="stubs/src/StackTrace.php" role="doc" />
-            <file name="stubs/src/StackTrace/StackTraceOptions.php" role="doc" />
             <file name="stubs/src/StartupData.php" role="doc" />
             <file name="stubs/src/StringObject.php" role="doc" />
             <file name="stubs/src/StringValue.php" role="doc" />
