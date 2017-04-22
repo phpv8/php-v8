@@ -17,6 +17,6 @@ namespace V8;
 
 class IndexFilter
 {
-    const kIncludesIndices = 0; // allows for integer indices to be collected, while
+    const kIncludeIndices = 0; // allows for integer indices to be collected, while
     const kSkipIndices = 1; // will exclude integer indicies from being collected.
 }

@@ -202,12 +202,18 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * be enumerated by a for-in statement over this object.
      *
      * @param Context $context
+     * @param int     $mode            One of KeyCollectionMode options
+     * @param int     $property_filter One or multiple PropertyFilter options
+     * @param int     $index_filter    One or multiple IndexFilter options
      *
-     *
-     * @return \V8\ArrayObject
+     * @return ArrayObject
      */
-    public function GetPropertyNames(Context $context): ArrayObject
-    {
+    public function GetPropertyNames(
+        Context $context,
+        int $mode = KeyCollectionMode::kOwnOnly,
+        int $property_filter = PropertyFilter::ALL_PROPERTIES,
+        int $index_filter = IndexFilter::kIncludeIndices
+    ): ArrayObject {
     }
 
     /**
@@ -216,11 +222,11 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * prototype objects.
      *
      * @param Context $context
+     * @param int     $filter One or multiple PropertyFilter options
      *
-     *
-     * @return \V8\ArrayObject
+     * @return ArrayObject
      */
-    public function GetOwnPropertyNames(Context $context): ArrayObject
+    public function GetOwnPropertyNames(Context $context, int $filter = PropertyFilter::ALL_PROPERTIES): ArrayObject
     {
     }
 
