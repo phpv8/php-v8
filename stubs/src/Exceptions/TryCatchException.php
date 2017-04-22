@@ -37,15 +37,15 @@ class TryCatchException extends Exception
 
     public function __construct(Isolate $isolate, Context $context, TryCatch $try_catch)
     {
-        $this->isolate = $isolate;
-        $this->context = $context;
+        $this->isolate   = $isolate;
+        $this->context   = $context;
         $this->try_catch = $try_catch;
     }
 
     /**
      * @return Isolate
      */
-    public function GetIsolate() : Isolate
+    public function GetIsolate(): Isolate
     {
         return $this->isolate;
     }
@@ -53,7 +53,7 @@ class TryCatchException extends Exception
     /**
      * @return Context
      */
-    public function GetContext() : Context
+    public function GetContext(): Context
     {
         return $this->context;
     }
@@ -61,7 +61,7 @@ class TryCatchException extends Exception
     /**
      * @return TryCatch
      */
-    public function GetTryCatch() : TryCatch
+    public function GetTryCatch(): TryCatch
     {
         return $this->try_catch;
     }

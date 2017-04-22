@@ -50,7 +50,7 @@ class MyObjectTemplate extends \V8\ObjectTemplate
     }
 }
 
-$isolate1 = new Isolate();
+$isolate = new Isolate();
 
 
 class MyCallaback
@@ -66,28 +66,28 @@ class MyCallaback
     }
 }
 
-$print_func_tpl = new MyFunctionTemplate($isolate1, new MyCallaback());
+$print_func_tpl = new MyFunctionTemplate($isolate, new MyCallaback());
 
-$global_template1 = new MyObjectTemplate($isolate1);
-$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $print_func_tpl);
+$global_template = new MyObjectTemplate($isolate);
+$global_template->Set(new \V8\StringValue($isolate, 'print'), $print_func_tpl);
 $print_func_tpl = null;
 
-$context1 = new Context($isolate1, $global_template1);
-$global_template1 = null;
+$context = new Context($isolate, $global_template);
+$global_template = null;
 
-$source1 = 'print("Hello, world\n"); delete print; "Script done"';
-$file_name1 = 'test.js';
+$source = 'print("Hello, world"); delete print; "Script done"';
+$file_name = 'test.js';
 try {
-    $script1 = new Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+    $script = new Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-    $script1->Run($context1)->Value();
+    $script->Run($context)->Value();
 } catch (Exception $e) {
     $helper->exception_export($e);
 }
 
-$script1 = null;
-$context1 = null;
-$isolate1 = null;
+$script = null;
+$context = null;
+$isolate = null;
 
 
 echo 'We are done for now', PHP_EOL;

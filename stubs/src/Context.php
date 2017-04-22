@@ -55,7 +55,7 @@ class Context
     /**
      * @return \V8\Isolate
      */
-    public function GetIsolate() : Isolate
+    public function GetIsolate(): Isolate
     {
         return $this->isolate;
     }
@@ -74,7 +74,7 @@ class Context
      *
      * @return \V8\ObjectValue
      */
-    public function GlobalObject() : ObjectValue
+    public function GlobalObject(): ObjectValue
     {
     }
 
@@ -86,7 +86,6 @@ class Context
     public function DetachGlobal()
     {
     }
-
 
     /**
      * Sets the security token for the context.  To access an object in
@@ -110,7 +109,7 @@ class Context
      *
      * @return \V8\Value
      */
-    public function GetSecurityToken() : Value
+    public function GetSecurityToken(): Value
     {
     }
 
@@ -139,7 +138,7 @@ class Context
      *
      * @return bool
      */
-    public function IsCodeGenerationFromStringsAllowed() : bool
+    public function IsCodeGenerationFromStringsAllowed(): bool
     {
     }
 
@@ -151,13 +150,6 @@ class Context
      * @param StringValue $message
      */
     public function SetErrorMessageForCodeGenerationFromStrings(StringValue $message)
-    {
-    }
-
-    /**
-     * Estimate the memory in bytes retained by this context.
-     */
-    public function EstimatedSize() : int
     {
     }
 }

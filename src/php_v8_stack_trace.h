@@ -25,25 +25,11 @@ extern "C" {
 }
 
 extern zend_class_entry* php_v8_stack_trace_class_entry;
-extern zend_class_entry* php_v8_stack_trace_options_class_entry;
 
 extern void php_v8_stack_trace_create_from_stack_trace(zval *return_value, php_v8_isolate_t *php_v8_isolate, v8::Local<v8::StackTrace> trace);
 
 #define PHP_V8_STACK_TRACE_MIN_FRAME_LIMIT 0
 #define PHP_V8_STACK_TRACE_MAX_FRAME_LIMIT 1000
-
-#define PHP_V8_STACK_TRACE_OPTIONS ( 0                                      \
-    | v8::StackTrace::StackTraceOptions::kLineNumber                        \
-    | v8::StackTrace::StackTraceOptions::kColumnOffset                      \
-    | v8::StackTrace::StackTraceOptions::kScriptName                        \
-    | v8::StackTrace::StackTraceOptions::kFunctionName                      \
-    | v8::StackTrace::StackTraceOptions::kIsEval                            \
-    | v8::StackTrace::StackTraceOptions::kIsConstructor                     \
-    | v8::StackTrace::StackTraceOptions::kScriptNameOrSourceURL             \
-    | v8::StackTrace::StackTraceOptions::kScriptId                          \
-    | v8::StackTrace::StackTraceOptions::kExposeFramesAcrossSecurityOrigins \
-    | v8::StackTrace::StackTraceOptions::kOverview                          \
-    | v8::StackTrace::StackTraceOptions::kDetailed )
 
 #define PHP_V8_CHECK_STACK_TRACE_RANGE(val, message) \
     if ((val) > PHP_V8_STACK_TRACE_MAX_FRAME_LIMIT || (val) < PHP_V8_STACK_TRACE_MIN_FRAME_LIMIT) { \

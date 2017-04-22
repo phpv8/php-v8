@@ -149,7 +149,7 @@ V8\PrimitiveValue(V8\Value)->NumberValue(): float(NAN)
 
 V8\PrimitiveValue::ToString() converting:
 -----------------------------------------
-object(V8\StringValue)#77 (1) {
+object(V8\StringValue)#78 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>

@@ -87,38 +87,39 @@ class Message
      * @param bool         $is_shared_cross_origin
      * @param bool         $is_opaque
      */
-    public function __construct(string $message,
-                                string $source_line,
-                                ScriptOrigin $script_origin,
-                                string $resource_name,
-                                StackTrace $stack_trace,
-                                int $line_number = self::kNoLineNumberInfo,
-                                int $start_position = -1,
-                                int $end_position = -1,
-                                int $start_column = self::kNoColumnInfo,
-                                int $end_column = self::kNoColumnInfo,
-                                bool $is_shared_cross_origin = false,
-                                bool $is_opaque = false)
-    {
-        $this->message = $message;
-        $this->source_line = $source_line;
-        $this->script_origin = $script_origin;
-        $this->resource_name = $resource_name;
-        $this->stack_trace = $stack_trace;
-        $this->line_number = $line_number;
-        $this->start_position = $start_position;
-        $this->end_position = $end_position;
-        $this->start_column = $start_column;
-        $this->end_column = $end_column;
+    public function __construct(
+        string $message,
+        string $source_line,
+        ScriptOrigin $script_origin,
+        string $resource_name,
+        StackTrace $stack_trace,
+        int $line_number = self::kNoLineNumberInfo,
+        int $start_position = -1,
+        int $end_position = -1,
+        int $start_column = self::kNoColumnInfo,
+        int $end_column = self::kNoColumnInfo,
+        bool $is_shared_cross_origin = false,
+        bool $is_opaque = false
+    ) {
+        $this->message                = $message;
+        $this->source_line            = $source_line;
+        $this->script_origin          = $script_origin;
+        $this->resource_name          = $resource_name;
+        $this->stack_trace            = $stack_trace;
+        $this->line_number            = $line_number;
+        $this->start_position         = $start_position;
+        $this->end_position           = $end_position;
+        $this->start_column           = $start_column;
+        $this->end_column             = $end_column;
         $this->is_shared_cross_origin = $is_shared_cross_origin;
-        $this->is_opaque = $is_opaque;
+        $this->is_opaque              = $is_opaque;
     }
 
 
     /**
      * @return string
      */
-    public function Get() : string
+    public function Get(): string
     {
     }
 
@@ -127,7 +128,7 @@ class Message
      *
      * @return string
      */
-    public function GetSourceLine() : string
+    public function GetSourceLine(): string
     {
     }
 
@@ -137,7 +138,7 @@ class Message
      *
      * @return ScriptOrigin
      */
-    public function GetScriptOrigin() : ScriptOrigin
+    public function GetScriptOrigin(): ScriptOrigin
     {
     }
 
@@ -147,7 +148,7 @@ class Message
      *
      * @return string
      */
-    public function GetScriptResourceName() : string
+    public function GetScriptResourceName(): string
     {
     }
 
@@ -158,7 +159,7 @@ class Message
      *
      * @return StackTrace
      */
-    public function GetStackTrace() : StackTrace
+    public function GetStackTrace(): StackTrace
     {
     }
 
@@ -167,7 +168,7 @@ class Message
      *
      * @return int
      */
-    public function GetLineNumber() : int
+    public function GetLineNumber(): int
     {
     }
 
@@ -177,7 +178,7 @@ class Message
      *
      * @return int
      */
-    public function GetStartPosition() : int
+    public function GetStartPosition(): int
     {
     }
 
@@ -187,7 +188,7 @@ class Message
      *
      * @return int
      */
-    public function GetEndPosition() : int
+    public function GetEndPosition(): int
     {
     }
 
@@ -197,7 +198,7 @@ class Message
      *
      * @return int
      */
-    public function GetStartColumn() : int
+    public function GetStartColumn(): int
     {
     }
 
@@ -207,7 +208,7 @@ class Message
      *
      * @return int
      */
-    public function GetEndColumn() : int
+    public function GetEndColumn(): int
     {
     }
 
@@ -217,14 +218,14 @@ class Message
      *
      * @return bool
      */
-    public function IsSharedCrossOrigin() : bool
+    public function IsSharedCrossOrigin(): bool
     {
     }
 
     /**
      * @return bool
      */
-    public function IsOpaque() : bool
+    public function IsOpaque(): bool
     {
     }
 }

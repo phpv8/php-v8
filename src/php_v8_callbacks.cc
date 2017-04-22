@@ -89,7 +89,7 @@ namespace phpv8 {
         }
     }
 
-    phpv8::Callback *CallbacksBucket::get(size_t index) {
+    phpv8::Callback *CallbacksBucket::get(Index index) {
         auto it = callbacks.find(index);
 
         if (it != callbacks.end()) {
@@ -99,7 +99,7 @@ namespace phpv8 {
         return NULL;
     }
 
-    void CallbacksBucket::add(size_t index, zend_fcall_info fci, zend_fcall_info_cache fci_cache) {
+    void CallbacksBucket::add(Index index, zend_fcall_info fci, zend_fcall_info_cache fci_cache) {
         callbacks[index] = std::make_shared<Callback>(fci, fci_cache);
     }
 
@@ -235,7 +235,7 @@ static inline void php_v8_callback_set_retval_from_callback_info(v8::ReturnValue
 }
 
 
-void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Value> data, zval *args, zval *retval) {
+void php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index index, v8::Local<v8::Value> data, zval *args, zval *retval) {
     phpv8::CallbacksBucket *bucket;
 
     if (data.IsEmpty() || !data->IsExternal()) {
@@ -275,7 +275,7 @@ void php_v8_callback_call_from_bucket_with_zargs(size_t index, v8::Local<v8::Val
 }
 
 template<class T, class M>
-void php_v8_callback_call_from_bucket_with_zargs(size_t index, const T &info, M rv, zval *args) {
+void php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index index, const T &info, M rv, zval *args) {
     zval callback_info;
     php_v8_return_value_t *php_v8_return_value;
     // Wrap callback info
@@ -304,7 +304,7 @@ void php_v8_callback_function(const v8::FunctionCallbackInfo<v8::Value> &info) {
     /* Build the parameter array */
     array_init_size(&args, 1);
 
-    php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Callback, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -322,7 +322,7 @@ void php_v8_callback_accessor_name_getter(v8::Local<v8::Name> property, const v8
     php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Getter, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -344,7 +344,7 @@ void php_v8_callback_accessor_name_setter(v8::Local<v8::Name> property, v8::Loca
     add_index_zval(&args, 0, &property_name);
     add_index_zval(&args, 1, &property_value);
 
-    php_v8_callback_call_from_bucket_with_zargs(1, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Setter, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -363,7 +363,7 @@ void php_v8_callback_generic_named_property_getter(v8::Local<v8::Name> property,
     php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Getter, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -385,7 +385,7 @@ void php_v8_callback_generic_named_property_setter(v8::Local<v8::Name> property,
     add_index_zval(&args, 0, &property_name);
     add_index_zval(&args, 1, &property_value);
 
-    php_v8_callback_call_from_bucket_with_zargs(1, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Setter, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -403,7 +403,7 @@ void php_v8_callback_generic_named_property_query(v8::Local<v8::Name> property, 
     php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(2, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Query, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -421,7 +421,7 @@ void php_v8_callback_generic_named_property_deleter(v8::Local<v8::Name> property
     php_v8_get_or_create_value(&property_name, property, php_v8_isolate);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(3, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Deleter, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -434,7 +434,7 @@ void php_v8_callback_generic_named_property_enumerator(const v8::PropertyCallbac
     /* Build the parameter array */
     array_init_size(&args, 1);
 
-    php_v8_callback_call_from_bucket_with_zargs(4, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Enumerator, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -453,7 +453,7 @@ void php_v8_callback_indexed_property_getter(uint32_t index, const v8::PropertyC
     ZVAL_LONG(&property_name, index);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(0, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Getter, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -475,7 +475,7 @@ void php_v8_callback_indexed_property_setter(uint32_t index, v8::Local<v8::Value
     add_index_zval(&args, 0, &property_name);
     add_index_zval(&args, 1, &property_value);
 
-    php_v8_callback_call_from_bucket_with_zargs(1, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Setter, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -492,7 +492,7 @@ void php_v8_callback_indexed_property_query(uint32_t index, const v8::PropertyCa
     ZVAL_LONG(&property_name, index);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(2, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Query, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -509,7 +509,7 @@ void php_v8_callback_indexed_property_deleter(uint32_t index, const v8::Property
     ZVAL_LONG(&property_name, index);
     add_index_zval(&args, 0, &property_name);
 
-    php_v8_callback_call_from_bucket_with_zargs(3, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Deleter, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
 }
@@ -522,48 +522,7 @@ void php_v8_callback_indexed_property_enumerator(const v8::PropertyCallbackInfo<
     /* Build the parameter array */
     array_init_size(&args, 1);
 
-    php_v8_callback_call_from_bucket_with_zargs(4, info, info.GetReturnValue(), &args);
+    php_v8_callback_call_from_bucket_with_zargs(phpv8::CallbacksBucket::Index::Enumerator, info, info.GetReturnValue(), &args);
 
     zval_ptr_dtor(&args);
-}
-
-bool php_v8_callback_access_check(v8::Local<v8::Context> accessing_context, v8::Local<v8::Object> accessed_object, v8::Local<v8::Value> data) {
-    PHP_V8_THROW_EXCEPTION("Broken due to problem (see https://groups.google.com/forum/?fromgroups#!topic/v8-dev/c7LhW2bNabY)");
-    return false;
-
-    PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(v8::Isolate::GetCurrent());
-    php_v8_isolate_t *php_v8_isolate = PHP_V8_ISOLATE_FETCH_REFERENCE(isolate);
-
-
-    zval args;
-    zval accessed_object_zv;
-    zval retval;
-    zval context_zv;
-
-    bool security_retval = false;
-
-    ZVAL_BOOL(&retval, false);
-
-    array_init_size(&args, 2);
-
-    php_v8_context_t *php_v8_context = php_v8_context_get_reference(accessing_context);
-
-    assert(NULL != php_v8_context);
-
-    php_v8_get_or_create_value(&accessed_object_zv, accessed_object, php_v8_isolate);
-
-    ZVAL_OBJ(&context_zv, &php_v8_context->std);
-    add_index_zval(&args, 0, &context_zv);
-    add_index_zval(&args, 1, &accessed_object_zv);
-
-    php_v8_callback_call_from_bucket_with_zargs(0, data, &args, &retval);
-
-    if (Z_TYPE(retval) == IS_TRUE) {
-        security_retval = true;
-    }
-
-    zval_ptr_dtor(&args);
-    zval_ptr_dtor(&retval);
-
-    return security_retval;
 }

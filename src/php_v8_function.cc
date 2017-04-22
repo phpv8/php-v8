@@ -20,6 +20,7 @@
 #include "php_v8_string.h"
 #include "php_v8_object.h"
 #include "php_v8_context.h"
+#include "php_v8_enums.h"
 #include "php_v8.h"
 
 zend_class_entry *php_v8_function_class_entry;
@@ -302,13 +303,16 @@ static PHP_METHOD(V8Function, __construct) {
     zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
 
     zend_long length = 0;
+    zend_long behavior = static_cast<zend_long>(v8::ConstructorBehavior::kAllow);
 
     v8::FunctionCallback callback = 0;
     v8::Local<v8::External> data;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "of|l", &php_v8_context_zv, &fci, &fci_cache, &length) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "of|ll", &php_v8_context_zv, &fci, &fci_cache, &length, &behavior) == FAILURE) {
         return;
     }
+
+    behavior = behavior ? behavior & PHP_V8_CONSTRUCTOR_BEHAVIOR_FLAGS : behavior;
 
     PHP_V8_CHECK_FUNCTION_LENGTH_RANGE(length, "Length is out of range");
 
@@ -328,12 +332,16 @@ static PHP_METHOD(V8Function, __construct) {
         phpv8::CallbacksBucket *bucket = php_v8_value->persistent_data->bucket("callback");
         data = v8::External::New(isolate, bucket);
 
-        bucket->add(0, fci, fci_cache);
+        bucket->add(phpv8::CallbacksBucket::Index::Getter, fci, fci_cache);
 
         callback = php_v8_callback_function;
     }
 
-    v8::MaybeLocal<v8::Function> maybe_local_function = v8::Function::New(context, callback, data, static_cast<int>(length));
+    v8::MaybeLocal<v8::Function> maybe_local_function = v8::Function::New(context,
+                                                                          callback,
+                                                                          data,
+                                                                          static_cast<int>(length),
+                                                                          static_cast<v8::ConstructorBehavior>(behavior));
 
     if (maybe_local_function.IsEmpty()) {
         PHP_V8_THROW_EXCEPTION("Failed to create Function value");

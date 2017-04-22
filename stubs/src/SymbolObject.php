@@ -33,7 +33,7 @@ class SymbolObject extends ObjectValue
     /**
      * @return SymbolValue
      */
-    public function ValueOf() : SymbolValue
+    public function ValueOf(): SymbolValue
     {
     }
 }

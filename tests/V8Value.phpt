@@ -15,6 +15,7 @@ $v8_helper = new PhpV8Helpers($helper);
 
 
 $isolate = new V8\Isolate();
+$context = new V8\Context($isolate);
 $value = new V8\Value($isolate);
 
 
@@ -23,7 +24,16 @@ $helper->dump($value);
 $helper->space();
 
 $helper->assert('Value extends Data', $value instanceof \V8\Data);
-$helper->assert('TypeOf returns StringValue', $value->TypeOf($isolate) instanceof \V8\StringValue);
+$helper->assert('TypeOf returns StringValue', $value->TypeOf() instanceof \V8\StringValue);
+$helper->line();
+
+$helper->header('InstanceOf');
+try {
+    $value->InstanceOf($context, new \V8\ObjectValue($context));
+} catch (\V8\Exceptions\TryCatchException $e) {
+    $helper->exception_export($e);
+}
+$helper->assert('Default Value is not an instance of Function', !$value->InstanceOf($context, new \V8\FunctionObject($context, function(){})));
 $helper->line();
 
 $helper->header('Accessors');
@@ -64,7 +74,7 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(V8\Value)#4 (1) {
+object(V8\Value)#5 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -83,6 +93,11 @@ object(V8\Value)#4 (1) {
 
 Value extends Data: ok
 TypeOf returns StringValue: ok
+
+InstanceOf:
+-----------
+V8\Exceptions\TryCatchException: TypeError: Right-hand side of 'instanceof' is not callable
+Default Value is not an instance of Function: ok
 
 Accessors:
 ----------
@@ -151,7 +166,7 @@ V8\Value->NumberValue(): float(NAN)
 
 V8\Value::ToString() converting:
 --------------------------------
-object(V8\StringValue)#77 (1) {
+object(V8\StringValue)#88 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>

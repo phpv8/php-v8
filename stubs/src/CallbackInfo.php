@@ -20,35 +20,35 @@ class CallbackInfo
     /**
      * @return \V8\Isolate
      */
-    public function GetIsolate() : Isolate
+    public function GetIsolate(): Isolate
     {
     }
 
     /**
      * @return \V8\Context
      */
-    public function GetContext() : Context
+    public function GetContext(): Context
     {
     }
 
     /**
      * @return \V8\ObjectValue
      */
-    public function This() : ObjectValue
+    public function This(): ObjectValue
     {
     }
 
     /**
      * @return \V8\ObjectValue
      */
-    public function Holder() : ObjectValue
+    public function Holder(): ObjectValue
     {
     }
 
     /**
      * @return \V8\ReturnValue
      */
-    public function GetReturnValue() : ReturnValue
+    public function GetReturnValue(): ReturnValue
     {
     }
 }

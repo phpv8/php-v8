@@ -17,7 +17,6 @@ namespace V8;
 
 
 use V8\Exceptions\Exception;
-use V8\StackTrace\StackTraceOptions;
 
 
 /**
@@ -34,19 +33,13 @@ class StackTrace
      * @var array|StackFrame[]
      */
     private $frames;
-    /**
-     * @var ArrayObject
-     */
-    private $as_array;
 
     /**
      * @param StackFrame[] $frames
-     * @param ArrayObject  $as_array
      */
-    public function __construct(array $frames, ArrayObject $as_array)
+    public function __construct(array $frames)
     {
-        $this->frames = $frames;
-        $this->as_array = $as_array;
+        $this->frames   = $frames;
     }
 
 
@@ -55,7 +48,7 @@ class StackTrace
      *
      * @return StackFrame[]
      */
-    public function GetFrames() : array
+    public function GetFrames(): array
     {
         return $this->frames;
     }
@@ -69,7 +62,7 @@ class StackTrace
      *
      * @throws Exception When index is out of range
      */
-    public function GetFrame(int $index) : StackFrame
+    public function GetFrame(int $index): StackFrame
     {
         if ($index < 0 || !isset($this->frames[$index])) {
             throw new Exception('Frame index is out of range');
@@ -83,19 +76,9 @@ class StackTrace
      *
      * @return int
      */
-    public function GetFrameCount() : int
+    public function GetFrameCount(): int
     {
         return count($this->frames);
-    }
-
-    /**
-     * Returns StackTrace as a v8::Array that contains StackFrame objects.
-     *
-     * @return ArrayObject | null
-     */
-    public function AsArray() : ArrayObject
-    {
-        return $this->as_array;
     }
 
     /**
@@ -107,7 +90,6 @@ class StackTrace
      *
      * @param Isolate $isolate
      * @param int     $frame_limit
-     * @param int     $options One or more \v8\StackTrace\StackTraceOptions const flags
      *
      * TODO: try to minimize effect of invalid args
      * Note, that having large (or negative) $frame_limit number may cause OutOfMemory error.
@@ -115,11 +97,7 @@ class StackTrace
      *
      * @return StackTrace
      */
-    public static function CurrentStackTrace(
-        Isolate $isolate,
-        int $frame_limit,
-        int $options = StackTraceOptions::kOverview
-    ) : StackTrace
+    public static function CurrentStackTrace(Isolate $isolate, int $frame_limit): StackTrace
     {
     }
 }

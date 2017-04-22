@@ -35,7 +35,7 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      *
      * @return \V8\ObjectValue
      */
-    public function NewInstance(Context $context) : ObjectValue
+    public function NewInstance(Context $context): ObjectValue
     {
     }
 
@@ -47,55 +47,35 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      * are called instead of getting and setting the property directly
      * on the JavaScript object.
      *
-     * \param name The name of the property for which an accessor is added.
-     * \param getter The callback to invoke when getting the property.
-     * \param setter The callback to invoke when setting the property.
-     * \param data A piece of data that will be passed to the getter and setter
-     *   callbacks whenever they are invoked.
-     * \param settings Access control settings for the accessor. This is a bit
-     *   field consisting of one of more of
-     *   DEFAULT = 0, ALL_CAN_READ = 1, or ALL_CAN_WRITE = 2.
-     *   The default is to not allow cross-context access.
-     *   ALL_CAN_READ means that all cross-context reads are allowed.
-     *   ALL_CAN_WRITE means that all cross-context writes are allowed.
-     *   The combination ALL_CAN_READ | ALL_CAN_WRITE can be used to allow all
-     *   cross-context access.
-     * \param attribute The attributes of the property for which an accessor
-     *   is added.
-     * \param signature The signature describes valid receivers for the accessor
-     *   and is used to perform implicit instance checks against them. If the
-     *   receiver is incompatible (i.e. is not an instance of the constructor as
-     *   defined by FunctionTemplate::HasInstance()), an implicit TypeError is
-     *   thrown and no callback is invoked.
+     * @param NameValue        $name
+     * @param NameValue        $name       The name of the property for which an accessor is added.
      *
-     * @param NameValue $name
-     * @param callable  $getter
-     * @param callable  $setter
-     * @param int       $settings  \v8\AccessControl constants (one or many)
-     * @param int       $attribute \v8\PropertyAttribute constants (one or many)
+     * @param callable         $getter     The callback to invoke when getting the property.
+     *                                     Callback signature should be (NameValue $property, PropertyCallbackInfo $info)
      *
-     * TODO: add signature support
+     * @param callable         $setter     The callback to invoke when setting the property.
+     *                                     Callback signature should be (NameValue $property, PropertyCallbackInfo $info)
+     *
+     * @param int              $settings   Access control settings for the accessor.
+     *
+     * @param int              $attributes The attributes of the property for which an accessor is added.
+     *
+     * @param FunctionTemplate $receiver   The signature describes valid receivers for the accessor
+     *                                     and is used to perform implicit instance checks against them. If the
+     *                                     receiver is incompatible (i.e. is not an instance of the constructor as
+     *                                     defined by FunctionTemplate::HasInstance()), an implicit TypeError is
+     *                                     thrown and no callback is invoked.
      */
+
     public function SetAccessor(
         NameValue $name,
         callable $getter,
         callable $setter,
         $settings = AccessControl::DEFAULT_ACCESS,
-        $attribute = PropertyAttribute::None
+        $attributes = PropertyAttribute::None,
+        FunctionTemplate $receiver
     ) {
     }
-
-    ///**
-    // * Sets a named or indexed property handler on the object template.
-    // *
-    // * See \v8\NamedPropertyHandlerConfiguration and \v8\IndexedPropertyHandlerConfiguration constructor argument
-    // * description for details
-    // *
-    // * @param \v8\NamedPropertyHandlerConfiguration | \v8\IndexedPropertyHandlerConfiguration $configuration
-    // */
-    //public function SetHandler(NamedPropertyHandlerConfiguration $configuration)
-    //{
-    //}
 
     /**
      * Sets a named property handler on the object template.
@@ -140,57 +120,17 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
     {
     }
 
-    // Method is not supported anymore due to a limited use and a way it implemented (causes segfault under certain conditions)
-    // see v8/src/api-natives.cc:677
-    //  // Mark as undetectable if needed.
-    //  if (obj->undetectable()) {
-    //    // We only allow callable undetectable receivers here, since this whole
-    //    // undetectable business is only to support document.all, which is both
-    //    // undetectable and callable. If we ever see the need to have an object
-    //    // that is undetectable but not callable, we need to update the types.h
-    //    // to allow encoding this.
-    //    CHECK(!obj->instance_call_handler()->IsUndefined(isolate));
-    //    map->set_is_undetectable();
-    //  }
-
-
-    ///**
-    // * Mark object instances of the template as undetectable.
-    // *
-    // * In many ways, undetectable objects behave as though they are not
-    // * there.  They behave like 'undefined' in conditionals and when
-    // * printed.  However, properties can be accessed and called as on
-    // * normal objects.
-    // */
-    //public function MarkAsUndetectable()
-    //{
-    //}
-
-    // Disabled due to https://groups.google.com/forum/#!topic/v8-dev/c7LhW2bNabY and it should be not necessary to use
-    // it in other then browser setup in most cases, though It would be nice to have it for API consistency reason.
-    ///**
-    // * Sets access check callback on the object template and enables access
-    // * checks.
-    // *
-    // * When accessing properties on instances of this object template,
-    // * the access check callback will be called to determine whether or
-    // * not to allow cross-context access to the properties.
-    // */
-    //public function SetAccessCheckCallback(callable $callback)
-    //{
-    //}
-
     /**
      * {@inheritdoc}
      */
-    public function AdjustExternalAllocatedMemory(int $change_in_bytes) : int
+    public function AdjustExternalAllocatedMemory(int $change_in_bytes): int
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function GetExternalAllocatedMemory() : int
+    public function GetExternalAllocatedMemory(): int
     {
     }
 }

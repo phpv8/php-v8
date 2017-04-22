@@ -5,19 +5,19 @@ V8\ObjectTemplate::Set() - FunctionTemplate
 --FILE--
 <?php
 
-$isolate1 = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$isolate = new \V8\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
 
 $fnc = function (\V8\FunctionCallbackInfo $info) {
    echo 'Should output "test"', PHP_EOL;
 };
 
-$test = new \V8\FunctionTemplate($isolate1, $fnc);
-$test2 = new \V8\FunctionTemplate($isolate1, $fnc);
+$test = new \V8\FunctionTemplate($isolate, $fnc);
+$test2 = new \V8\FunctionTemplate($isolate, $fnc);
 
 
-$global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test);
-$global_template1->Set(new \V8\StringValue($isolate1, 'test2'), $test2);
+$global_template->Set(new \V8\StringValue($isolate, 'test'), $test);
+$global_template->Set(new \V8\StringValue($isolate, 'test2'), $test2);
 
 echo 'Done here for now', PHP_EOL;
 ?>

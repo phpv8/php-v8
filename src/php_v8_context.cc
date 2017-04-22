@@ -262,20 +262,6 @@ static PHP_METHOD(V8Context, SetErrorMessageForCodeGenerationFromStrings)
     context->SetErrorMessageForCodeGenerationFromStrings(local_string);
 }
 
-static PHP_METHOD(V8Context, EstimatedSize)
-{
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_CONTEXT_FETCH_WITH_CHECK(getThis(), php_v8_context);
-
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
-    PHP_V8_ENTER_CONTEXT(php_v8_context);
-
-    RETURN_LONG(context->EstimatedSize());
-}
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_OBJ_INFO(0, global_template, V8\\ObjectTemplate, 1)
@@ -318,9 +304,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_SetErrorMessageForCodeGenerationFromSt
                 ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_EstimatedSize, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
 
 static const zend_function_entry php_v8_context_methods[] = {
     PHP_ME(V8Context, __construct, arginfo_v8_context___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
@@ -336,8 +319,6 @@ static const zend_function_entry php_v8_context_methods[] = {
     PHP_ME(V8Context, AllowCodeGenerationFromStrings, arginfo_v8_context_AllowCodeGenerationFromStrings, ZEND_ACC_PUBLIC)
     PHP_ME(V8Context, IsCodeGenerationFromStringsAllowed, arginfo_v8_context_IsCodeGenerationFromStringsAllowed, ZEND_ACC_PUBLIC)
     PHP_ME(V8Context, SetErrorMessageForCodeGenerationFromStrings, arginfo_v8_context_SetErrorMessageForCodeGenerationFromStrings, ZEND_ACC_PUBLIC)
-
-    PHP_ME(V8Context, EstimatedSize, arginfo_v8_context_EstimatedSize, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

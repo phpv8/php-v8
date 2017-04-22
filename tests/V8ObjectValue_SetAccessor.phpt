@@ -11,12 +11,14 @@ V8\ObjectValue::SetAccessor
 
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
+require '.v8-helpers.php';
+$v8_helper = new PhpV8Helpers($helper);
 
-$isolate1         = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$isolate         = new \V8\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
 
 
-$print_func_tpl = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) {
+$print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
     $context = $info->GetContext();
 
     $out = [];
@@ -33,12 +35,12 @@ $print_func_tpl = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCall
         }
     }
 
-    echo implode('', $out);
+    echo implode('', $out), PHP_EOL;
 });
 
-$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
+$global_template->Set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
 
-$context1 = new V8\Context($isolate1, $global_template1);
+$context = new V8\Context($isolate, $global_template);
 
 $prop_value = 'foo';
 
@@ -57,25 +59,25 @@ $setter = function (\V8\NameValue $property, \V8\Value $value, \V8\PropertyCallb
 };
 
 
-$obj = new \V8\ObjectValue($context1);
+$obj = new \V8\ObjectValue($context);
 
 
-$obj->SetAccessor($context1, new \V8\StringValue($isolate1, 'test'), $getter, $setter);
+$obj->SetAccessor($context, new \V8\StringValue($isolate, 'test'), $getter, $setter);
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj'), $obj);
-$source1    = '
-print(obj.test, "\n");
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $obj);
+$source    = '
+print(obj.test);
 obj.test = "bar";
-print(obj.test, "\n");
+print(obj.test);
 
 "Script done";
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$helper->dump($script1->Run($context1)->ToString($context1)->Value());
+$helper->dump($script->Run($context)->ToString($context)->Value());
 
 ?>
 --EXPECT--

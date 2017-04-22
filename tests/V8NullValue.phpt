@@ -139,7 +139,7 @@ V8\NullValue(V8\Value)->NumberValue(): float(0)
 
 V8\NullValue::ToString() converting:
 ------------------------------------
-object(V8\StringValue)#78 (1) {
+object(V8\StringValue)#79 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#1 (5) {
     ["snapshot":"V8\Isolate":private]=>

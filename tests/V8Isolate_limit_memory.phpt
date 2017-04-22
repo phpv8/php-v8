@@ -22,18 +22,15 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $isolate = new V8\Isolate();
-$global_template = new V8\ObjectTemplate($isolate);
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
-
-$context = new V8\Context($isolate, $global_template);
-
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
 $source    = '
     var str = " ".repeat(1024); // 1kb
     var blob = [];
     while(true) {
       blob.push(str);
-      //print(blob.length, "\n");
+      //console.log(blob.length);
     }
 ';
 $file_name = 'test.js';
@@ -98,23 +95,23 @@ object(V8\Isolate)#3 (5) {
   ["memory_limit_hit":"V8\Isolate":private]=>
   bool(true)
 }
-object(V8\HeapStatistics)#11 (9) {
+object(V8\HeapStatistics)#10 (9) {
   ["total_heap_size":"V8\HeapStatistics":private]=>
-  float(%d)
+  float(14737408)
   ["total_heap_size_executable":"V8\HeapStatistics":private]=>
-  float(%d)
+  float(3670016)
   ["total_physical_size":"V8\HeapStatistics":private]=>
-  float(%d)
+  float(12383272)
   ["total_available_size":"V8\HeapStatistics":private]=>
-  float(%d)
+  float(1486132752)
   ["used_heap_size":"V8\HeapStatistics":private]=>
-  float(%d)
+  float(12226176)
   ["heap_size_limit":"V8\HeapStatistics":private]=>
-  float(%d)
+  float(1501560832)
   ["malloced_memory":"V8\HeapStatistics":private]=>
-  float(%d)
+  float(8192)
   ["peak_malloced_memory":"V8\HeapStatistics":private]=>
-  float(%d)
+  float(187880)
   ["does_zap_garbage":"V8\HeapStatistics":private]=>
   bool(false)
 }

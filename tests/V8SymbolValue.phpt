@@ -109,8 +109,7 @@ $source = 'Symbol("foo")';
 $file_name = 'test.js';
 $context = new V8\Context($isolate);
 
-$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
-$res = $script->Run($context);
+$res = $v8_helper->CompileRun($context, $source);
 
 $v8_helper->run_checks($res, 'Checkers on Symbol value from script');
 
@@ -145,35 +144,26 @@ $helper->assert('Symbol ForApi(string) returned', $value instanceof \V8\SymbolVa
 $helper->pretty_dump('Symbol ForApi(string) name', $value->Name()->Value());
 $helper->line();
 
-$helper->assert('Isolate not in context', !$isolate->InContext());
-$value = V8\SymbolValue::GetIterator($isolate);
-$helper->assert('Symbol GetIterator() returned', $value instanceof \V8\SymbolValue);
-$helper->pretty_dump('Symbol GetIterator() name', $value->Name()->Value());
-$helper->line();
+$static_getters = [
+    'GetHasInstance',
+    'GetIsConcatSpreadable',
+    'GetIterator',
+    'GetMatch',
+    'GetReplace',
+    'GetSearch',
+    'GetSplit',
+    'GetToPrimitive',
+    'GetToStringTag',
+    'GetUnscopables',
+];
 
-$helper->assert('Isolate not in context', !$isolate->InContext());
-$value = V8\SymbolValue::GetUnscopables($isolate);
-$helper->assert('Symbol GetUnscopables() returned', $value instanceof \V8\SymbolValue);
-$helper->pretty_dump('Symbol GetUnscopables() name', $value->Name()->Value());
-$helper->line();
-
-$helper->assert('Isolate not in context', !$isolate->InContext());
-$value = V8\SymbolValue::GetToPrimitive($isolate);
-$helper->assert('Symbol GetToPrimitive() returned', $value instanceof \V8\SymbolValue);
-$helper->pretty_dump('Symbol GetToPrimitive() name', $value->Name()->Value());
-$helper->line();
-
-$helper->assert('Isolate not in context', !$isolate->InContext());
-$value = V8\SymbolValue::GetToStringTag($isolate);
-$helper->assert('Symbol GetToStringTag() returned', $value instanceof \V8\SymbolValue);
-$helper->pretty_dump('Symbol GetToStringTag() name', $value->Name()->Value());
-$helper->line();
-
-$helper->assert('Isolate not in context', !$isolate->InContext());
-$value = V8\SymbolValue::GetIsConcatSpreadable($isolate);
-$helper->assert('Symbol GetIsConcatSpreadable() returned', $value instanceof \V8\SymbolValue);
-$helper->pretty_dump('Symbol GetIsConcatSpreadable() name', $value->Name()->Value());
-$helper->line();
+foreach ($static_getters as $static_getter) {
+    $helper->assert('Isolate not in context', !$isolate->InContext());
+    $value = V8\SymbolValue::$static_getter($isolate);
+    $helper->assert("Symbol {$static_getter}() returned", $value instanceof \V8\SymbolValue);
+    $helper->pretty_dump("Symbol {$static_getter}() name", $value->Name()->Value());
+    $helper->line();
+}
 
 ?>
 --EXPECT--
@@ -205,7 +195,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\Value)#86 (1) {
+    object(V8\Value)#92 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -282,7 +272,7 @@ Null constructor:
 
 Object representation:
 ----------------------
-object(V8\SymbolValue)#86 (1) {
+object(V8\SymbolValue)#92 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -509,7 +499,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\StringValue)#87 (1) {
+    object(V8\StringValue)#93 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -705,12 +695,32 @@ Symbol ForApi(string) returned: ok
 Symbol ForApi(string) name: string(4) "test"
 
 Isolate not in context: ok
+Symbol GetHasInstance() returned: ok
+Symbol GetHasInstance() name: string(18) "Symbol.hasInstance"
+
+Isolate not in context: ok
+Symbol GetIsConcatSpreadable() returned: ok
+Symbol GetIsConcatSpreadable() name: string(25) "Symbol.isConcatSpreadable"
+
+Isolate not in context: ok
 Symbol GetIterator() returned: ok
 Symbol GetIterator() name: string(15) "Symbol.iterator"
 
 Isolate not in context: ok
-Symbol GetUnscopables() returned: ok
-Symbol GetUnscopables() name: string(18) "Symbol.unscopables"
+Symbol GetMatch() returned: ok
+Symbol GetMatch() name: string(12) "Symbol.match"
+
+Isolate not in context: ok
+Symbol GetReplace() returned: ok
+Symbol GetReplace() name: string(14) "Symbol.replace"
+
+Isolate not in context: ok
+Symbol GetSearch() returned: ok
+Symbol GetSearch() name: string(13) "Symbol.search"
+
+Isolate not in context: ok
+Symbol GetSplit() returned: ok
+Symbol GetSplit() name: string(12) "Symbol.split"
 
 Isolate not in context: ok
 Symbol GetToPrimitive() returned: ok
@@ -721,5 +731,5 @@ Symbol GetToStringTag() returned: ok
 Symbol GetToStringTag() name: string(18) "Symbol.toStringTag"
 
 Isolate not in context: ok
-Symbol GetIsConcatSpreadable() returned: ok
-Symbol GetIsConcatSpreadable() name: string(25) "Symbol.isConcatSpreadable"
+Symbol GetUnscopables() returned: ok
+Symbol GetUnscopables() name: string(18) "Symbol.unscopables"

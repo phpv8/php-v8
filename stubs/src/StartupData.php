@@ -25,11 +25,11 @@ class StartupData
     {
     }
 
-    public function GetData() : string
+    public function GetData(): string
     {
     }
 
-    public function GetRawSize() : int
+    public function GetRawSize(): int
     {
     }
 
@@ -40,7 +40,7 @@ class StartupData
      *
      * @return StartupData
      */
-    public static function CreateFromSource(string $source) : StartupData
+    public static function CreateFromSource(string $source): StartupData
     {
         $blob = '/* convert source to blob*/';
 

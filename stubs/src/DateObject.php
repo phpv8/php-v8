@@ -33,7 +33,7 @@ class DateObject extends ObjectValue
     /**
      * @return double
      */
-    public function ValueOf() : double
+    public function ValueOf(): double
     {
     }
 
@@ -51,5 +51,7 @@ class DateObject extends ObjectValue
      *
      * @param \V8\Isolate $isolate
      */
-    public static function DateTimeConfigurationChangeNotification(Isolate $isolate){}
+    public static function DateTimeConfigurationChangeNotification(Isolate $isolate)
+    {
+    }
 }

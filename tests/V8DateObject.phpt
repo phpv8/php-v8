@@ -17,25 +17,19 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
-
-// TODO: fix it, this cause segfault due to FunctionTemplate object destruction and all it internal structures cleanup
-//$global_template1->Set('print', $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
-$print_func_tpl = $v8_helper->getPrintFunctionTemplate($isolate1);
-$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
-
-$context1 = new V8\Context($isolate1, $global_template1);
+$isolate = new \V8\Isolate();
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
 $test_time = 1445444940000.0;
-$value = new V8\DateObject($context1, $test_time);
+$value = new V8\DateObject($context, $test_time);
 
 $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();
 
 $helper->assert('DateObject extends ObjectValue', $value instanceof \V8\ObjectValue);
-$helper->line();
+$helper->assert('ObjectValue is instanceof Date', $value->InstanceOf($context, $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'Date'))));$helper->line();
 
 $helper->header('Getters');
 $helper->method_export($value, 'ValueOf');
@@ -43,22 +37,22 @@ $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'val'), $value);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
 
-$source1 = '
+$source = '
 var orig = val;
-print("val: ", val, "\n");
-print("typeof val: ", typeof val, "\n");
+console.log("val: ", val);
+console.log("typeof val: ", typeof val);
 orig
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 $helper->space();
 
 $helper->header('Returned value should be the same');
-$helper->value_matches_with_no_output($res1, $value);
+$helper->value_matches_with_no_output($res, $value);
 $helper->space();
 
 $helper->header('Timezone change (with notification to v8)');
@@ -68,21 +62,21 @@ $helper->header('Timezone change (with notification to v8)');
 $old_tz = getenv('TZ');
 
 putenv('TZ=America/Los_Angeles'); // UTC offset DST (ISO 8601)‎: ‎−07:00, UTC offset (ISO 8601)‎: ‎−08:00
-\V8\DateObject::DateTimeConfigurationChangeNotification($isolate1);
-$value = new V8\DateObject($context1, $test_time);
+\V8\DateObject::DateTimeConfigurationChangeNotification($isolate);
+$value = new V8\DateObject($context, $test_time);
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'val'), $value);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
 
-$source1 = '
-print("val: ", val, "\n");
-print("typeof val: ", typeof val, "\n");
+$source = '
+console.log("val: ", val);
+console.log("typeof val: ", typeof val);
 val
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 $helper->value_matches($test_time, $value->ValueOf());
 $helper->space();
 
@@ -91,20 +85,20 @@ $helper->header('Timezone change (without notification to v8)');
 
 putenv('TZ=America/New_York'); // UTC offset DST (ISO 8601)‎: ‎−05:00, UTC offset (ISO 8601)‎: ‎−04:00
 
-$value = new V8\DateObject($context1, $test_time);
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'val'), $value);
+$value = new V8\DateObject($context, $test_time);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
 
-$source1 = '
-print("val: ", val, "\n");
-print("typeof val: ", typeof val, "\n");
+$source = '
+console.log("val: ", val);
+console.log("typeof val: ", typeof val);
 val
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
 // TODO: for some reason v8 still be notified about TZ changes, see https://groups.google.com/forum/?fromgroups#!topic/v8-users/f249jR67ANk
 // TODO: we temporary set EDT instead of PDT which was before
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 $helper->value_matches($test_time, $value->ValueOf());
 $helper->space();
 
@@ -115,7 +109,7 @@ putenv("TZ={$old_tz}"); // Go back
 --EXPECT--
 Object representation:
 ----------------------
-object(V8\DateObject)#8 (2) {
+object(V8\DateObject)#6 (2) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -130,7 +124,7 @@ object(V8\DateObject)#8 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#7 (1) {
+  object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -149,6 +143,7 @@ object(V8\DateObject)#8 (2) {
 
 
 DateObject extends ObjectValue: ok
+ObjectValue is instanceof Date: ok
 
 Getters:
 --------

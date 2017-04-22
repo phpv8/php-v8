@@ -22,6 +22,15 @@ extern "C" {
 }
 
 extern zend_class_entry *php_v8_script_compiler_class_entry;
+extern zend_class_entry* php_v8_compile_options_class_entry;
+
+#define PHP_V8_CHECK_COMPILER_OPTIONS_RANGE(options, message) \
+    if (options < static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kNoCompileOptions) \
+         || options > static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kConsumeCodeCache)) { \
+        PHP_V8_THROW_VALUE_EXCEPTION(message); \
+        return; \
+    }
+
 
 PHP_MINIT_FUNCTION(php_v8_script_compiler);
 

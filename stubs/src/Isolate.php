@@ -15,8 +15,6 @@
 namespace V8;
 
 
-use V8\StackTrace\StackTraceOptions;
-
 class Isolate
 {
     /**
@@ -37,11 +35,11 @@ class Isolate
     {
     }
 
-    public function GetMemoryLimit() : int
+    public function GetMemoryLimit(): int
     {
     }
 
-    public function IsMemoryLimitHit() : bool
+    public function IsMemoryLimitHit(): bool
     {
     }
 
@@ -49,13 +47,14 @@ class Isolate
     {
     }
 
-    public function GetTimeLimit() : float
+    public function GetTimeLimit(): float
     {
     }
 
-    public function IsTimeLimitHit() : bool
+    public function IsTimeLimitHit(): bool
     {
     }
+
     /**
      * @return StartupData | null
      */
@@ -68,7 +67,7 @@ class Isolate
      *
      * @return HeapStatistics
      */
-    public function GetHeapStatistics() : HeapStatistics
+    public function GetHeapStatistics(): HeapStatistics
     {
     }
 
@@ -77,7 +76,7 @@ class Isolate
      *
      * @return bool
      */
-    public function InContext() : bool
+    public function InContext(): bool
     {
     }
 
@@ -86,7 +85,7 @@ class Isolate
      *
      * @return \V8\Context
      */
-    public function GetEnteredContext() : Context
+    public function GetEnteredContext(): Context
     {
     }
 
@@ -97,11 +96,11 @@ class Isolate
      * has been handled does it become legal to invoke JavaScript operations.
      *
      * @param Context $context
-     * @param Value $value
+     * @param Value   $value
      *
      * @return Value
      */
-    public function ThrowException(Context $context, Value $value) : Value
+    public function ThrowException(Context $context, Value $value): Value
     {
     }
 
@@ -126,7 +125,7 @@ class Isolate
      *
      * @return bool
      */
-    public function IsExecutionTerminating() : bool
+    public function IsExecutionTerminating(): bool
     {
     }
 
@@ -180,7 +179,7 @@ class Isolate
      *
      * @return bool
      */
-    public function IdleNotificationDeadline($deadline_in_seconds) : bool
+    public function IdleNotificationDeadline($deadline_in_seconds): bool
     {
     }
 
@@ -198,7 +197,7 @@ class Isolate
      *
      * @return bool
      */
-    public function IsDead() : bool
+    public function IsDead(): bool
     {
     }
 
@@ -208,7 +207,7 @@ class Isolate
      *
      * @return bool
      */
-    public function IsInUse() : bool
+    public function IsInUse(): bool
     {
     }
 
@@ -218,13 +217,8 @@ class Isolate
      *
      * @param bool $capture
      * @param int  $frame_limit
-     * @param int  $options
      */
-    public function SetCaptureStackTraceForUncaughtExceptions(
-        bool $capture,
-        int $frame_limit = 10,
-        int $options = StackTraceOptions::kOverview
-    )
+    public function SetCaptureStackTraceForUncaughtExceptions(bool $capture, int $frame_limit = 10)
     {
     }
 }

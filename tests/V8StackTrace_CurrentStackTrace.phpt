@@ -18,7 +18,7 @@ $global_template = new v8Tests\TrackingDtors\ObjectTemplate($isolate);
 
 $stack_trace = null;
 
-$current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use (&$stack_trace) {
+$current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use ($v8_helper, &$stack_trace) {
     $isolate = $args->GetIsolate();
     $context = $args->GetContext();
 
@@ -28,40 +28,35 @@ $current_stack_trace_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($iso
         $frame_limit = 10;
     }
 
-    if (count($args->Arguments()) > 1) {
-        $options = $args->Arguments()[1]->NumberValue($context);
-    } else {
-        $options = \V8\StackTrace\StackTraceOptions::kOverview;
-    }
-
-    $stack_trace = \V8\StackTrace::CurrentStackTrace($isolate, $frame_limit, $options);
+    $stack_trace = \V8\StackTrace::CurrentStackTrace($isolate, $frame_limit);
 
     echo 'totally ', $stack_trace->GetFrameCount(), ' frames:', PHP_EOL;
 
-    $args->GetReturnValue()->Set($stack_trace->AsArray());
+    $arr = $v8_helper->getStackTraceFramesAsArray($context, $stack_trace->GetFrames());
+
+    $args->GetReturnValue()->Set($arr);
 });
 
 $global_template->Set(new \V8\StringValue($isolate, 'current_stack_trace'), $current_stack_trace_func_tpl);
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $context = new v8Tests\TrackingDtors\Context($isolate, $global_template);
+$v8_helper->injectConsoleLog($context);
 
-$source    = /** @lang JavaScript */
+$source    =
 '
 "use strict";
 
 function print_trace(trace) {
-    print("[\\n");
+    console.log("[");
     for (var frame in trace) {
-        print("    ", JSON.stringify(trace[frame]));
-        print("\\n");
+        console.log("    ", JSON.stringify(trace[frame]));
     }
-    print("]\\n");
+    console.log("]");
 }
 
 function get_trace(frame_limit, options) {
     var trace = current_stack_trace(frame_limit, options);
     print_trace(trace);
-    print("\\n");
+    console.log();
 }
 
 function TestWithConstructor (frame_limit, options) {
@@ -76,27 +71,14 @@ function recursive_get_trace(depth, frame_limit, options) {
     return get_trace(frame_limit, options);
 }
 
-
-var kLineNumber = 1;
-var kColumnOffset = 3;
-var kScriptName = 4;
-var kFunctionName = 8;
-var kIsEval = 16;
-var kIsConstructor = 32;
-var kScriptNameOrSourceURL = 64;
-var kScriptId = 128;
-var kExposeFramesAcrossSecurityOrigins = 256;
-var kOverview = 15;
-var kDetailed = 127;
-
-get_trace(0, kDetailed); // zero trace is fine, though, makes no sense
-get_trace(1, kDetailed);
-get_trace(2, kColumnOffset | kScriptId);
+get_trace(0); // zero trace is fine, though, makes no sense
+get_trace(1);
+get_trace(2);
 
 
 new TestWithConstructor(1, -1);
 
-recursive_get_trace(100, 10, kOverview);
+recursive_get_trace(100, 10);
 
 get_trace(2, -1); // as option are bit flags, -1 will lead to all options set
 
@@ -108,10 +90,10 @@ function stackTrace() {
     return err.stack;
 }
 
-print("JS-land stack trace:\\n");
-print(stackTrace());
-print("\\n");
-print("\\n");
+console.log("JS-land stack trace:");
+console.log(stackTrace());
+console.log();
+console.log();
 
 ';
 $file_name = 'test.js';
@@ -131,6 +113,9 @@ $isolate = null;
 
 
 echo 'END', PHP_EOL;
+
+// EXPECTF: ---/"scriptId"\:\d+/
+// EXPECTF: +++"scriptId":%d
 ?>
 --EXPECTF--
 totally 0 frames:
@@ -139,44 +124,45 @@ totally 0 frames:
 
 totally 1 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":13,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
 ]
 
 totally 2 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
-    {"line":47,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
+    {"line":13,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":32,"column":1,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
 ]
 
 totally 1 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":13,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
 ]
 
 totally 10 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
-    {"line":29,"column":13,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
-    {"line":26,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":13,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":27,"column":12,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":24,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":24,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":24,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":24,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":24,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":24,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":24,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
+    {"line":24,"column":16,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"recursive_get_trace","isEval":false,"isConstructor":false}
 ]
 
 totally 2 frames:
 [
-    {"line":15,"column":18,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
-    {"line":54,"column":2,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
+    {"line":13,"column":17,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"get_trace","isEval":false,"isConstructor":false}
+    {"line":39,"column":1,"scriptId":%d,"scriptName":"test.js","scriptNameOrSourceURL":"test.js","functionName":"","isEval":false,"isConstructor":false}
 ]
 
 JS-land stack trace:
 Error
-    at stackTrace (test.js:58:15)
-    at test.js:64:7
+    at stackTrace (test.js:44:15)
+    at test.js:50:13
+
 
 Script dies now!
 ObjectTemplate dies now!

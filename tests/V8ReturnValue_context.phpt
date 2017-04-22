@@ -44,13 +44,13 @@ $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info
 
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
 
-$source1 = 'test(); "Script done";';
-$file_name1 = 'test.js';
+$source = 'test(); "Script done";';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context, new \V8\StringValue($isolate, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$script1->Run($context);
+$script->Run($context);
 $helper->space();
 
 $helper->assert('Return value object is out of context', false === $retval->InContext());

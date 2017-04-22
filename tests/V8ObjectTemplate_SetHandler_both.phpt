@@ -11,10 +11,8 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
-
-$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
+$isolate = new \V8\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
 
 $allow_named = false;
 $allow_indexed = false;
@@ -63,7 +61,7 @@ $enumerator = function (\V8\PropertyCallbackInfo $info) use (&$foo, &$allow_name
 };
 
 
-$test_obj_tpl = new \V8\ObjectTemplate($isolate1);
+$test_obj_tpl = new \V8\ObjectTemplate($isolate);
 $test_obj_tpl->SetHandlerForNamedProperty(new \V8\NamedPropertyHandlerConfiguration($getter, $setter, $query, $deleter, $enumerator));
 
 
@@ -117,62 +115,62 @@ $test_obj_tpl->SetHandlerForIndexedProperty(new \V8\IndexedPropertyHandlerConfig
 
 
 
-$global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_obj_tpl);
+$global_template->Set(new \V8\StringValue($isolate, 'test'), $test_obj_tpl);
 
-$context1 = new V8\Context($isolate1, $global_template1);
+$context = new V8\Context($isolate, $global_template);
+$v8_helper->injectConsoleLog($context);
 
+$source    = '
+console.log("\"foo\" in test: ", "foo" in test);
+console.log("\"bar\" in test: ", "bar" in test);
 
-$source1    = '
-print("\"foo\" in test: ", "foo" in test, "\n");
-print("\"bar\" in test: ", "bar" in test, "\n");
+console.log("test.foo: ", test.foo);
+console.log("test.foo = 42: ", test.foo = 42);
+console.log("test.foo: ", test.foo);
 
-print("test.foo: ", test.foo, "\n");
-print("test.foo = 42: ", test.foo = 42, "\n");
-print("test.foo: ", test.foo, "\n");
-
-print("delete test.foo: ", delete test.foo, "\n");
-print("\"foo\" in test: ", "foo" in test, "\n");
+console.log("delete test.foo: ", delete test.foo);
+console.log("\"foo\" in test: ", "foo" in test);
 
 for (i in test) {
-    print("test["+i+"]: ", test[i], "\n");
+    console.log("test["+i+"]: ", test[i]);
 }
 
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
 $allow_named = true;
 $allow_indexed = false;
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 $helper->space();
 
 
-$source1    = '
+$source    = '
 
-print("\"0\" in test: ", "0" in test, "\n");
-print("0 in test: ", 0 in test, "\n");
+console.log("\"0\" in test: ", "0" in test);
+console.log("0 in test: ", 0 in test);
 
-print("\"1\" in test: ", "1" in test, "\n");
-print("1 in test: ", 1 in test, "\n");
+console.log("\"1\" in test: ", "1" in test);
+console.log("1 in test: ", 1 in test);
 
-print("test[0] = 42: ", test[0] = 42, "\n");
-print("test[0]: ", test[0], "\n");
+console.log("test[0] = 42: ", test[0] = 42);
+console.log("test[0]: ", test[0]);
 
-print("delete test[0]: ", delete test[0], "\n");
-print("test[0]: ", test[0], "\n");
+console.log("delete test[0]: ", delete test[0]);
+console.log("test[0]: ", test[0]);
 
 for (i in test) {
-    print("test["+i+"]: ", test[i], "\n");
+    console.log("test["+i+"]: ", test[i]);
 }
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
 $allow_named = false;
 $allow_indexed = true;
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 
 ?>
 --EXPECT--

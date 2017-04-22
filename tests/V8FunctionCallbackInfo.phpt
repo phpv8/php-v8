@@ -12,19 +12,19 @@ $helper = require '.testsuite.php';
 
 require '.tracking_dtors.php';
 
-$isolate1 = new v8Tests\TrackingDtors\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
-$context1 = new V8\Context($isolate1, $global_template1);
+$isolate = new v8Tests\TrackingDtors\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
+$context = new V8\Context($isolate, $global_template);
 
 // TEST: Pass context instead of isolate to FunctionTemplate
 
-$scalar = new \V8\StringValue($isolate1, "test");
-$object = new \V8\ObjectValue($context1);
+$scalar = new \V8\StringValue($isolate, "test");
+$object = new \V8\ObjectValue($context);
 
 /** @var V8\FunctionCallbackInfo $callback_info */
 $callback_info = null;
 
-$func = new v8Tests\TrackingDtors\FunctionObject($context1, function (V8\FunctionCallbackInfo $info) use ($helper, &$callback_info, $scalar, $object, $isolate1, $context1) {
+$func = new v8Tests\TrackingDtors\FunctionObject($context, function (V8\FunctionCallbackInfo $info) use ($helper, &$callback_info, $scalar, $object, $isolate, $context) {
     echo 'Function called', PHP_EOL;
 
     $helper->header('Object representation');
@@ -35,24 +35,24 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context1, function (V8\Functio
     $helper->assert('Original arguments number passed', count($info->Arguments()) == 2);
     $helper->assert('Arguments number matches Length() method output', count($info->Arguments()) == $info->Length());
 
-    $helper->assert('Callback info holds original isolate object', $info->GetIsolate(), $isolate1);
-    $helper->assert('Callback info holds original isolate object', $info->GetContext(), $context1);
+    $helper->assert('Callback info holds original isolate object', $info->GetIsolate(), $isolate);
+    $helper->assert('Callback info holds original isolate object', $info->GetContext(), $context);
 
     $helper->assert('Scalars hold no info about their zval, so that their zvals are recreated on each access', $scalar !== $info->Arguments()[0]);
     $helper->assert("Objects can hold info about their zval and keep it until zval's get free() ", $object === $info->Arguments()[1]);
 });
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'print'), $func);
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'scalar'), $scalar);
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj'), $object);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'print'), $func);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'scalar'), $scalar);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $object);
 
-$source1 = 'print(scalar, obj); "Script done";';
-$file_name1 = 'test.js';
+$source = 'print(scalar, obj); "Script done";';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$helper->dump($script1->Run($context1)->ToString($context1)->Value());
+$helper->dump($script->Run($context)->ToString($context)->Value());
 
 $helper->space();
 

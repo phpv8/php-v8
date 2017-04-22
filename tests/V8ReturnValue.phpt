@@ -15,31 +15,31 @@ $v8_helper = new PhpV8Helpers($helper);
 
 require '.tracking_dtors.php';
 
-$isolate1 = new v8Tests\TrackingDtors\Isolate();
+$isolate = new v8Tests\TrackingDtors\Isolate();
 
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$global_template = new V8\ObjectTemplate($isolate);
 
-//$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
+//$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
 
-$context1 = new V8\Context($isolate1, $global_template1);
+$context = new V8\Context($isolate, $global_template);
 
-$scalar = new \V8\StringValue($isolate1, "test");
-$object = new \V8\ObjectValue($context1);
+$scalar = new \V8\StringValue($isolate, "test");
+$object = new \V8\ObjectValue($context);
 
 
 $method = null;
 $checker = null;
 $args = [];
 
-$func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) use ($helper, $scalar, $object, $isolate1, $context1, &$method, &$checker, &$args) {
+$func = new v8Tests\TrackingDtors\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use ($helper, $scalar, $object, $isolate, $context, &$method, &$checker, &$args) {
 
     $retval = $info->GetReturnValue();
 
     if (!$method) {
         echo 'Function called', PHP_EOL;
 
-        $helper->assert('Return value holds original isolate object', $retval->GetIsolate(), $isolate1);
-        $helper->assert('Return value holds original context object', $retval->GetContext(), $context1);
+        $helper->assert('Return value holds original isolate object', $retval->GetIsolate(), $isolate);
+        $helper->assert('Return value holds original context object', $retval->GetContext(), $context);
     }
 
     $helper->assert('Return value holds no value', $retval->Get()->IsUndefined());
@@ -51,46 +51,46 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\Functi
     }
 });
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'test'), $func);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
 
-$source1 = 'test(); "Script done";';
-$file_name1 = 'test.js';
+$source = 'test(); "Script done";';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$helper->dump($script1->Run($context1)->ToString($context1)->Value());
+$helper->dump($script->Run($context)->ToString($context)->Value());
 
 $helper->space();
 
 $method = 'SetUndefined';
 $checker = 'IsUndefined';
 $args = [];
-$res = $v8_helper->CompileRun($context1, "test()");
+$res = $v8_helper->CompileRun($context, "test()");
 $helper->assert('Returns undefined', $res->IsUndefined());
 
 $method = 'SetNull';
 $checker = 'IsNull';
 $args = [];
-$res = $v8_helper->CompileRun($context1, "test()");
+$res = $v8_helper->CompileRun($context, "test()");
 $helper->assert('Returns null', $res->IsNull());
 
 $method = 'SetBool';
 $checker = 'IsBoolean';
 $args = [true];
-$res = $v8_helper->CompileRun($context1, "test()");
+$res = $v8_helper->CompileRun($context, "test()");
 $helper->assert('Returns boolean', $res->IsBoolean() && $res->IsTrue());
 
 $method = 'SetInteger';
 $checker = 'IsInt32';
 $args = [42];
-$res = $v8_helper->CompileRun($context1, "test()");
+$res = $v8_helper->CompileRun($context, "test()");
 $helper->assert('Returns integer', $res->IsNumber() && $res->IsInt32());
 
 $method = 'SetFloat';
 $checker = 'IsNumber';
 $args = [PHP_INT_MAX + 0.22];
-$res = $v8_helper->CompileRun($context1, "test()");
+$res = $v8_helper->CompileRun($context, "test()");
 $helper->assert('Returns float', $res->IsNumber() && !$res->IsInt32() && !$res->IsUint32());
 $helper->pretty_dump('Returns float', $res->Value());
 

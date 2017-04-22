@@ -159,7 +159,7 @@ V8\NameValue(V8\Value)->NumberValue(): float(NAN)
 
 V8\NameValue::ToString() converting:
 ------------------------------------
-object(V8\StringValue)#78 (1) {
+object(V8\StringValue)#79 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>

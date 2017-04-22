@@ -10,29 +10,26 @@ V8\Context weakness
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
 
-class Context extends V8\Context {
-    public function __destruct() {
-        echo 'Context dies now', PHP_EOL;
-    }
-}
+require '.tracking_dtors.php';
 
-$isolate1 = new \V8\Isolate();
 
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$isolate = new \V8\Isolate();
 
-$source1 = 'var obj = {}; obj';
-$file_name1 = 'test.js';
+$global_template = new V8\ObjectTemplate($isolate);
 
-$script1 = new \V8\Script(
-    new Context($isolate1, $global_template1),
-    new \V8\StringValue($isolate1, $source1),
-    new \V8\ScriptOrigin($file_name1)
+$source = 'var obj = {}; obj';
+$file_name = 'test.js';
+
+$script = new \V8\Script(
+    new \v8Tests\TrackingDtors\Context($isolate, $global_template),
+    new \V8\StringValue($isolate, $source),
+    new \V8\ScriptOrigin($file_name)
 );
 
 
-$obj = $script1->Run($script1->GetContext())->ToObject($script1->GetContext()); // contest should be stored in object
+$obj = $script->Run($script->GetContext())->ToObject($script->GetContext()); // contest should be stored in object
 
-$script1 = null;
+$script = null;
 
 echo 'We are done for now', PHP_EOL;
 ?>
@@ -40,4 +37,4 @@ EOF
 --EXPECT--
 We are done for now
 EOF
-Context dies now
+Context dies now!

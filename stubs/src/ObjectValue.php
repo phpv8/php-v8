@@ -40,7 +40,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function Set(Context $context, Value $key, Value $value) : bool
+    public function Set(Context $context, Value $key, Value $value): bool
     {
     }
 
@@ -58,7 +58,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function CreateDataProperty(Context $context, NameValue $key, Value $value) : bool
+    public function CreateDataProperty(Context $context, NameValue $key, Value $value): bool
     {
     }
 
@@ -88,7 +88,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return \V8\Value | \V8\ObjectValue | \V8\FunctionObject | ArrayObject | StringValue | NumberValue
      */
-    public function Get(Context $context, Value $key) : Value
+    public function Get(Context $context, Value $key): Value
     {
     }
 
@@ -124,7 +124,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function Has(Context $context, Value $key) : bool
+    public function Has(Context $context, Value $key): bool
     {
     }
 
@@ -134,7 +134,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function Delete(Context $context, Value $key) : bool
+    public function Delete(Context $context, Value $key): bool
     {
     }
 
@@ -175,18 +175,45 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
     }
 
     /**
+     * Sets a native data property like Template::SetNativeDataProperty, but
+     * this method sets on this object directly.
+     *
+     * @param Context   $context
+     * @param NameValue $name
+     * @param callable  $getter
+     * @param callable  $setter
+     * @param int       $attributes
+     *
+     * @return bool
+     */
+    public function SetNativeDataProperty(
+        Context $context,
+        NameValue $name,
+        callable $getter,
+        callable $setter = null,
+        int $attributes = PropertyAttribute::None
+    ): bool {
+    }
+
+    /**
      * Returns an array containing the names of the enumerable properties
      * of this object, including properties from prototype objects.  The
      * array returned by this method contains the same values as would
      * be enumerated by a for-in statement over this object.
      *
      * @param Context $context
+     * @param int     $mode            One of KeyCollectionMode options
+     * @param int     $property_filter One or multiple PropertyFilter options
+     * @param int     $index_filter    One or multiple IndexFilter options
      *
-     *
-     * @return \V8\ArrayObject
+     * @return ArrayObject
      */
-    public function GetPropertyNames(Context $context): ArrayObject
-    {
+    public function GetPropertyNames(
+        Context $context,
+        int $mode = KeyCollectionMode::kOwnOnly,
+        int $property_filter = PropertyFilter::ALL_PROPERTIES,
+        int $index_filter = IndexFilter::kIncludeIndices
+    ): ArrayObject {
     }
 
     /**
@@ -195,11 +222,11 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * prototype objects.
      *
      * @param Context $context
+     * @param int     $filter One or multiple PropertyFilter options
      *
-     *
-     * @return \V8\ArrayObject
+     * @return ArrayObject
      */
-    public function GetOwnPropertyNames(Context $context): ArrayObject
+    public function GetOwnPropertyNames(Context $context, int $filter = PropertyFilter::ALL_PROPERTIES): ArrayObject
     {
     }
 

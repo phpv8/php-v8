@@ -33,7 +33,7 @@ class BooleanValue extends PrimitiveValue
     /**
      * @return bool
      */
-    public function Value() : bool
+    public function Value(): bool
     {
     }
 }

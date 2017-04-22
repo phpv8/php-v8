@@ -28,8 +28,9 @@ class  FunctionObject extends ObjectValue
      * @param \V8\Context $context
      * @param callable    $callback
      * @param int         $length
+     * @param int         $behavior
      */
-    public function __construct(Context $context, callable $callback, int $length = 0)
+    public function __construct(Context $context, callable $callback, int $length = 0, int $behavior = ConstructorBehavior::kAllow)
     {
         parent::__construct($context);
     }
@@ -40,7 +41,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\ObjectValue
      */
-    public function NewInstance(Context $context, array $arguments = []) : ObjectValue
+    public function NewInstance(Context $context, array $arguments = []): ObjectValue
     {
     }
 
@@ -51,7 +52,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\Value
      */
-    public function Call(Context $context, Value $recv, array $arguments = []) : Value
+    public function Call(Context $context, Value $recv, array $arguments = []): Value
     {
     }
 
@@ -65,7 +66,7 @@ class  FunctionObject extends ObjectValue
     /**
      * @return \V8\Value | StringValue
      */
-    public function GetName() : Value
+    public function GetName(): Value
     {
     }
 
@@ -77,7 +78,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\Value | StringValue
      */
-    public function GetInferredName() : Value
+    public function GetInferredName(): Value
     {
     }
 
@@ -87,7 +88,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\Value | StringValue
      */
-    public function GetDisplayName() : Value
+    public function GetDisplayName(): Value
     {
     }
 
@@ -126,14 +127,14 @@ class  FunctionObject extends ObjectValue
      *
      * @return Value
      */
-    public function GetBoundFunction() : Value
+    public function GetBoundFunction(): Value
     {
     }
 
     /**
      * @return ScriptOrigin
      */
-    public function GetScriptOrigin() : ScriptOrigin
+    public function GetScriptOrigin(): ScriptOrigin
     {
     }
 }

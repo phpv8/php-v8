@@ -14,8 +14,8 @@ $v8_helper = new PhpV8Helpers($helper);
 
 require '.tracking_dtors.php';
 
-$isolate1 = new \V8\Isolate();
-$context = new \V8\Context($isolate1);
+$isolate = new \V8\Isolate();
+$context = new \V8\Context($isolate);
 
 $helper->method_matches_instanceof($context, 'GlobalObject', \V8\ObjectValue::class);
 
@@ -29,7 +29,7 @@ $helper->assert('Global object on repeatable calls holds extra props', $global1-
 
 $context->DetachGlobal();
 
-$context2 = new \V8\Context($isolate1, null, $global2);
+$context2 = new \V8\Context($isolate, null, $global2);
 $helper->method_matches_instanceof($context2, 'GlobalObject', \V8\ObjectValue::class);
 
 echo 'Global object passed from one context to another is ', ($global1 === $global2 ? 'the same' : 'not the same'), PHP_EOL;

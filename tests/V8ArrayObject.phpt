@@ -12,10 +12,8 @@ require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
 $isolate = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate);
-
-$global_template1->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
-$context = new V8\Context($isolate, $global_template1);
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
 $value = new V8\ArrayObject($context);
 
@@ -24,6 +22,7 @@ $helper->dump($value);
 $helper->space();
 
 $helper->assert('ArrayObject extends ObjectValue', $value instanceof \V8\ObjectValue);
+$helper->assert('ArrayObject is instanceof Array', $value->InstanceOf($context, $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'Array'))));
 $helper->line();
 
 $helper->header('Accessors');
@@ -47,18 +46,16 @@ $value->Set($context, new \V8\StringValue($isolate, 'test'), new \V8\StringValue
 
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'arr'), $value);
 
-$source1    = '
-print("typeof arr: ", typeof arr, "\n");
-print("arr: ", arr, "\n");
-print("arr.length: ", arr.length, "\n");
-print("arr[0]: ", arr[0], "\n");
-print("arr.test: ", arr.test, "\n");
-print("arr.slice(1): ", arr.slice(1), "\n");
+$source    = '
+console.log("typeof arr: ", typeof arr);
+console.log("arr: ", arr);
+console.log("arr.length: ", arr.length);
+console.log("arr[0]: ", arr[0]);
+console.log("arr.test: ", arr.test);
+console.log("arr.slice(1): ", arr.slice(1));
 ';
-$file_name1 = 'test.js';
 
-$script1 = new V8\Script($context, new \V8\StringValue($isolate, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context);
+$v8_helper->CompileRun($context, $source);
 
 ?>
 --EXPECT--
@@ -79,7 +76,7 @@ object(V8\ArrayObject)#6 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#5 (1) {
+  object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -98,6 +95,7 @@ object(V8\ArrayObject)#6 (2) {
 
 
 ArrayObject extends ObjectValue: ok
+ArrayObject is instanceof Array: ok
 
 Accessors:
 ----------
@@ -164,7 +162,7 @@ V8\ArrayObject(V8\Value)->IsProxy(): bool(false)
 Converters:
 -----------
 V8\ArrayObject(V8\Value)->ToBoolean():
-    object(V8\BooleanValue)#117 (1) {
+    object(V8\BooleanValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -180,7 +178,7 @@ V8\ArrayObject(V8\Value)->ToBoolean():
       }
     }
 V8\ArrayObject(V8\Value)->ToNumber():
-    object(V8\Int32Value)#117 (1) {
+    object(V8\Int32Value)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -196,7 +194,7 @@ V8\ArrayObject(V8\Value)->ToNumber():
       }
     }
 V8\ArrayObject(V8\Value)->ToString():
-    object(V8\StringValue)#117 (1) {
+    object(V8\StringValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -212,7 +210,7 @@ V8\ArrayObject(V8\Value)->ToString():
       }
     }
 V8\ArrayObject(V8\Value)->ToDetailString():
-    object(V8\StringValue)#117 (1) {
+    object(V8\StringValue)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -243,7 +241,7 @@ V8\ArrayObject(V8\Value)->ToObject():
         bool(false)
       }
       ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#5 (1) {
+      object(V8\Context)#4 (1) {
         ["isolate":"V8\Context":private]=>
         object(V8\Isolate)#3 (5) {
           ["snapshot":"V8\Isolate":private]=>
@@ -260,7 +258,7 @@ V8\ArrayObject(V8\Value)->ToObject():
       }
     }
 V8\ArrayObject(V8\Value)->ToInteger():
-    object(V8\Int32Value)#117 (1) {
+    object(V8\Int32Value)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -276,7 +274,7 @@ V8\ArrayObject(V8\Value)->ToInteger():
       }
     }
 V8\ArrayObject(V8\Value)->ToUint32():
-    object(V8\Int32Value)#117 (1) {
+    object(V8\Int32Value)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -292,7 +290,7 @@ V8\ArrayObject(V8\Value)->ToUint32():
       }
     }
 V8\ArrayObject(V8\Value)->ToInt32():
-    object(V8\Int32Value)#117 (1) {
+    object(V8\Int32Value)#118 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

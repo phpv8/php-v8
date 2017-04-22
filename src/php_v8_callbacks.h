@@ -56,8 +56,6 @@ extern void php_v8_callback_indexed_property_query(uint32_t index, const v8::Pro
 extern void php_v8_callback_indexed_property_deleter(uint32_t index, const v8::PropertyCallbackInfo<v8::Boolean>& info);
 extern void php_v8_callback_indexed_property_enumerator(const v8::PropertyCallbackInfo<v8::Array>& info);
 
-extern bool php_v8_callback_access_check(v8::Local<v8::Context> accessing_context, v8::Local<v8::Object> accessed_object, v8::Local<v8::Value> data);
-
 //#define PHP_V8_DEBUG_EXTERNAL_MEM 1
 
 #ifdef PHP_V8_DEBUG_EXTERNAL_MEM
@@ -92,10 +90,18 @@ namespace phpv8 {
 
     class CallbacksBucket {
     public:
-        phpv8::Callback *get(size_t index);
+        enum class Index {
+            Callback = 0,
+            Getter = 0,
+            Setter = 1,
+            Query = 2,
+            Deleter = 3,
+            Enumerator = 4,
+        };
+        phpv8::Callback *get(Index index);
         void reset(CallbacksBucket *bucket);
 
-        void add(size_t index, zend_fcall_info fci, zend_fcall_info_cache fci_cache);
+        void add(Index index, zend_fcall_info fci, zend_fcall_info_cache fci_cache);
         int getGcCount();
 
         void collectGcZvals(zval *& zv);
@@ -109,7 +115,7 @@ namespace phpv8 {
         }
 
     private:
-        std::map<size_t, std::shared_ptr<Callback>> callbacks;
+        std::map<Index, std::shared_ptr<Callback>> callbacks;
     };
 
 

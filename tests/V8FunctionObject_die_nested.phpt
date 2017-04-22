@@ -13,19 +13,19 @@ $v8_helper = new PhpV8Helpers($helper);
 
 require '.tracking_dtors.php';
 
-$isolate1         = new v8Tests\TrackingDtors\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
-$context1         = new V8\Context($isolate1, $global_template1);
+$isolate         = new v8Tests\TrackingDtors\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
+$context         = new V8\Context($isolate, $global_template);
 
 
-$die_func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) {
+$die_func = new v8Tests\TrackingDtors\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) {
     echo 'going to die...', PHP_EOL;
     die();
 });
 
 $die_func->destructor_test_message = 'die() function dtored';
 
-$teste_nested_func = new v8Tests\TrackingDtors\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) {
+$teste_nested_func = new v8Tests\TrackingDtors\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) {
     echo 'calling nested...', PHP_EOL;
     $context = $info->GetContext();
 
@@ -35,13 +35,13 @@ $teste_nested_func = new v8Tests\TrackingDtors\FunctionObject($context1, functio
 $teste_nested_func->destructor_test_message = 'test_nested() function dtored';
 
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'die'), $die_func);
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'test_nested'), $teste_nested_func);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'die'), $die_func);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test_nested'), $teste_nested_func);
 
 
-$res = $v8_helper->CompileRun($context1, 'test_nested(); "Script done"');
+$res = $v8_helper->CompileRun($context, 'test_nested(); "Script done"');
 
-$helper->pretty_dump('Script result', $res->ToString($context1)->Value());
+$helper->pretty_dump('Script result', $res->ToString($context)->Value());
 
 echo 'We are done for now', PHP_EOL;
 

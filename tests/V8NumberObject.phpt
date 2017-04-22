@@ -13,23 +13,18 @@ $v8_helper = new PhpV8Helpers($helper);
 
 // Tests:
 
-$isolate1 = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$isolate = new \V8\Isolate();
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
-// TODO: fix it, this cause segfault due to FunctionTemplate object destruction and all it internal structures cleanup
-//$global_template1->Set('print', $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
-$print_func_tpl = $v8_helper->getPrintFunctionTemplate($isolate1);
-$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
-
-$context1 = new V8\Context($isolate1, $global_template1);
-
-$value = new V8\NumberObject($context1, 42.12);
+$value = new V8\NumberObject($context, 42.12);
 
 $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();
 
 $helper->assert('NumberObject extends ObjectValue', $value instanceof \V8\ObjectValue);
+$helper->assert('NumberObject is instanceof Number', $value->InstanceOf($context, $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'Number'))));
 $helper->line();
 
 $helper->header('Getters');
@@ -38,37 +33,37 @@ $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'val'), $value);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
 
-$source1    = '
-print("val: ", val, "\n");
-print("typeof val: ", typeof val, "\n");
+$source    = '
+console.log("val: ", val);
+console.log("typeof val: ", typeof val);
 
 val';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 $helper->space();
 
 $helper->header('Returned value should be the same');
-$helper->value_matches_with_no_output($res1, $value);
+$helper->value_matches_with_no_output($res, $value);
 $helper->space();
 
-$source1    = 'new Number(11.22);';
-$file_name1 = 'test.js';
+$source    = 'new Number(11.22);';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 
-$v8_helper->run_checks($res1, 'Checkers on boxed from script');
+$v8_helper->run_checks($res, 'Checkers on boxed from script');
 
 
 ?>
 --EXPECT--
 Object representation:
 ----------------------
-object(V8\NumberObject)#8 (2) {
+object(V8\NumberObject)#6 (2) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -83,7 +78,7 @@ object(V8\NumberObject)#8 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#7 (1) {
+  object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -102,6 +97,7 @@ object(V8\NumberObject)#8 (2) {
 
 
 NumberObject extends ObjectValue: ok
+NumberObject is instanceof Number: ok
 
 Getters:
 --------

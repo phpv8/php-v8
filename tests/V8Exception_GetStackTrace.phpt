@@ -55,10 +55,10 @@ $func_test_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallba
 });
 
 $global_tpl = new \V8\ObjectTemplate($isolate);
-$global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $global_tpl->Set(new \V8\StringValue($isolate, 'test'), $func_test_tpl);
 
 $context = new \V8\Context($isolate, $global_tpl);
+$v8_helper->injectConsoleLog($context);
 
 
 $source = '
@@ -67,9 +67,9 @@ $source = '
     try {
         throw new Error("test");
     } catch (exception) {
-        print("exception: ", "\'", exception, "\'", "\n");
-        print("exception.stack: ", exception.stack, "\n");
-        print("\n");
+        console.log("exception: ", "\'", exception, "\'");
+        console.log("exception.stack: ", exception.stack);
+        console.log();
 
         test(exception);
 
@@ -112,7 +112,7 @@ Stack trace created from thrown value:
 V8\StackTrace->getFrames():
     array(1) {
       [0]=>
-      object(V8\StackFrame)#19 (8) {
+      object(V8\StackFrame)#14 (8) {
         ["line_number":"V8\StackFrame":private]=>
         int(5)
         ["column":"V8\StackFrame":private]=>
@@ -126,43 +126,11 @@ V8\StackTrace->getFrames():
         ["function_name":"V8\StackFrame":private]=>
         string(0) ""
         ["is_eval":"V8\StackFrame":private]=>
-        int(0)
+        bool(false)
         ["is_constructor":"V8\StackFrame":private]=>
-        int(0)
+        bool(false)
       }
     }
 V8\StackTrace->GetFrameCount(): int(1)
-V8\StackTrace->AsArray():
-    object(V8\ArrayObject)#15 (2) {
-      ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-      ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#8 (1) {
-        ["isolate":"V8\Context":private]=>
-        object(V8\Isolate)#3 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
-    }
 
 Stack trace created from manually created value is null: ok

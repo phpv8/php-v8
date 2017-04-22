@@ -127,4 +127,7 @@ if [[ -e ~/.phpbrew/bashrc ]]; then
     fi
 fi
 
-EDITOR=vim
+export EDITOR=vim
+
+# To prevent a PHP test suite from asking to send results to the PHP QA team:
+export NO_INTERACTION=1

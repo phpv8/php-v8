@@ -17,11 +17,10 @@
 #include "php_v8_template.h"
 #include "php_v8_object_template.h"
 #include "php_v8_function_template.h"
-#include "php_v8_property_attribute.h"
-#include "php_v8_access_control.h"
 #include "php_v8_name.h"
 #include "php_v8_data.h"
 #include "php_v8_value.h"
+#include "php_v8_enums.h"
 #include "php_v8.h"
 
 zend_class_entry *php_v8_template_ce;
@@ -217,9 +216,7 @@ void php_v8_template_SetAccessorProperty(v8::Isolate *isolate, v8::Local<T> loca
 template<class T, typename N>
 void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> local_template, N* php_v8_template, INTERNAL_FUNCTION_PARAMETERS) {
     zval *php_v8_name_zv;
-
-    zend_long attributes = v8::PropertyAttribute::None;
-    zend_long settings = v8::AccessControl::DEFAULT;
+    zval *php_v8_receiver_zv = NULL;
 
     zend_fcall_info getter_fci = empty_fcall_info;
     zend_fcall_info_cache getter_fci_cache = empty_fcall_info_cache;
@@ -227,8 +224,20 @@ void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> lo
     zend_fcall_info setter_fci = empty_fcall_info;
     zend_fcall_info_cache setter_fci_cache = empty_fcall_info_cache;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "of|f!ll", &php_v8_name_zv, &getter_fci, &getter_fci_cache, &setter_fci, &setter_fci_cache, &attributes, &settings) ==
-        FAILURE) {
+    v8::AccessorNameGetterCallback getter;
+    v8::AccessorNameSetterCallback setter = 0;
+
+    zend_long attributes = v8::PropertyAttribute::None;
+    v8::Local<v8::AccessorSignature> signature;
+    zend_long settings = v8::AccessControl::DEFAULT;
+
+    v8::Local<v8::External> data;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(),
+                              "of|f!lo!l",
+                              &php_v8_name_zv, &getter_fci, &getter_fci_cache, &setter_fci, &setter_fci_cache,
+                              &attributes, &php_v8_receiver_zv, &settings
+                             ) == FAILURE) {
         return;
     }
 
@@ -240,22 +249,24 @@ void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> lo
 
     v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
-    v8::AccessorNameGetterCallback getter;
-    v8::AccessorNameSetterCallback setter = 0;
-    v8::Local<v8::External> data;
-    v8::Local<v8::AccessorSignature> signature; // TODO: add AccessorSignature support
-
     PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(name, local_name);
 
     phpv8::CallbacksBucket *bucket = php_v8_template->persistent_data->bucket("native_data_property_", local_name->IsSymbol(), name);
     data = v8::External::New(isolate, bucket);
 
-    bucket->add(0, getter_fci, getter_fci_cache);
+    bucket->add(phpv8::CallbacksBucket::Index::Getter, getter_fci, getter_fci_cache);
     getter = php_v8_callback_accessor_name_getter;
 
     if (setter_fci.size) {
-        bucket->add(1, setter_fci, setter_fci_cache);
+        bucket->add(phpv8::CallbacksBucket::Index::Setter, setter_fci, setter_fci_cache);
         setter = php_v8_callback_accessor_name_setter;
+    }
+
+    if (php_v8_receiver_zv) {
+        PHP_V8_FETCH_FUNCTION_TEMPLATE_WITH_CHECK(php_v8_receiver_zv, php_v8_receiver);
+        PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_receiver);
+
+        signature = v8::AccessorSignature::New(isolate, php_v8_function_template_get_local(php_v8_receiver));
     }
 
     local_template->SetNativeDataProperty(local_name,
@@ -290,6 +301,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_template_SetNativeDataProperty, ZEND_SEND_
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
+                ZEND_ARG_OBJ_INFO(0, receiver, V8\\FunctionTemplate, 1)
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 

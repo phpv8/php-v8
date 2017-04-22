@@ -62,11 +62,10 @@ void php_v8_stack_frame_create_from_stack_frame(zval *return_value, v8::Local<v8
     }
 
     /* v8::StackFrame::IsEval */
-    zend_update_property_long(this_ce, return_value, ZEND_STRL("is_eval"), static_cast<zend_bool >(frame->IsEval()));
+    zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_eval"), static_cast<zend_bool >(frame->IsEval()));
 
     /* v8::StackFrame::IsConstructor */
-    zend_update_property_long(this_ce, return_value, ZEND_STRL("is_constructor"),
-                              static_cast<zend_bool >(frame->IsConstructor()));
+    zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_constructor"), static_cast<zend_bool >(frame->IsConstructor()));
 }
 
 static PHP_METHOD(V8StackFrame, __construct) {

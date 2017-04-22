@@ -56,8 +56,8 @@ $context = new \V8\Context($isolate);
 $helper->assert('Context should have test function', $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'test_snapshot'))->IsFunction());
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test_snapshot'), new \V8\StringValue($isolate, 'garbage'));
 
-$context1 = new \V8\Context($isolate);
-$helper->assert('Contexts from the same snapshot doesn\'t affected by each other', $context1->GlobalObject()->Get($context1, new \V8\StringValue($isolate, 'test_snapshot'))->IsFunction());
+$context = new \V8\Context($isolate);
+$helper->assert('Contexts from the same snapshot doesn\'t affected by each other', $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'test_snapshot'))->IsFunction());
 
 $isolate2 = new \v8Tests\TrackingDtors\Isolate($data);
 $context2 = new \V8\Context($isolate2);
@@ -71,7 +71,7 @@ $helper->assert('Deleting reference to snapshot is OK after creating Isolate ins
 $helper->line();
 
 $context = null;
-$context1 = null;
+$context = null;
 $context2 = null;
 $context3 = null;
 $isolate = null;

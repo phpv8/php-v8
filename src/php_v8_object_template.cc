@@ -18,12 +18,11 @@
 #include "php_v8_function_template.h"
 #include "php_v8_named_property_handler_configuration.h"
 #include "php_v8_indexed_property_handler_configuration.h"
-#include "php_v8_property_attribute.h"
-#include "php_v8_access_control.h"
 #include "php_v8_name.h"
 #include "php_v8_context.h"
 #include "php_v8_value.h"
 #include "php_v8_ext_mem_interface.h"
+#include "php_v8_enums.h"
 #include "php_v8.h"
 
 zend_class_entry *php_v8_object_template_class_entry;
@@ -209,8 +208,11 @@ static PHP_METHOD(V8ObjectTemplate, NewInstance) {
 
 static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     zval *php_v8_name_zv;
+    zval *php_v8_receiver_zv = NULL;
+
     zend_long attributes = 0;
     zend_long settings = 0;
+    v8::Local<v8::AccessorSignature> signature;
 
     zend_fcall_info getter_fci = empty_fcall_info;
     zend_fcall_info_cache getter_fci_cache = empty_fcall_info_cache;
@@ -218,12 +220,13 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     zend_fcall_info setter_fci = empty_fcall_info;
     zend_fcall_info_cache setter_fci_cache = empty_fcall_info_cache;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "of|f!ll",
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "of|f!llo!",
                               &php_v8_name_zv,
                               &getter_fci, &getter_fci_cache,
                               &setter_fci, &setter_fci_cache,
                               &settings,
-                              &attributes
+                              &attributes,
+                              &php_v8_receiver_zv
     ) == FAILURE) {
         return;
     }
@@ -247,18 +250,24 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     v8::AccessorNameGetterCallback getter;
     v8::AccessorNameSetterCallback setter = 0;
     v8::Local<v8::External> data;
-    v8::Local<v8::AccessorSignature> signature; // TODO: add AccessorSignature support
 
     phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("accessor_",
                                                                                      local_name->IsSymbol(), name);
     data = v8::External::New(isolate, bucket);
 
-    bucket->add(0, getter_fci, getter_fci_cache);
+    bucket->add(phpv8::CallbacksBucket::Index::Getter, getter_fci, getter_fci_cache);
     getter = php_v8_callback_accessor_name_getter;
 
     if (setter_fci.size) {
-        bucket->add(1, setter_fci, setter_fci_cache);
+        bucket->add(phpv8::CallbacksBucket::Index::Setter, setter_fci, setter_fci_cache);
         setter = php_v8_callback_accessor_name_setter;
+    }
+
+    if (php_v8_receiver_zv) {
+        PHP_V8_FETCH_FUNCTION_TEMPLATE_WITH_CHECK(php_v8_receiver_zv, php_v8_receiver);
+        PHP_V8_DATA_ISOLATES_CHECK(php_v8_object_template, php_v8_receiver);
+
+        signature = v8::AccessorSignature::New(isolate, php_v8_function_template_get_local(php_v8_receiver));
     }
 
     local_obj_tpl->SetAccessor(local_name,
@@ -353,7 +362,7 @@ static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
         phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("callback");
         data = v8::External::New(isolate, bucket);
 
-        bucket->add(0, fci, fci_cache);
+        bucket->add(phpv8::CallbacksBucket::Index::Callback, fci, fci_cache);
 
         callback = php_v8_callback_function;
     }
@@ -361,41 +370,6 @@ static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
     v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_object_template);
 
     local_template->SetCallAsFunctionHandler(callback, data);
-}
-// NOTE: Method is not supported anymore due to a limited use and a way it implemented (causes segfault under certain conditions)
-/*
-static PHP_METHOD(V8ObjectTemplate, MarkAsUndetectable) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(getThis(), php_v8_object_template);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
-
-    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(isolate, php_v8_object_template);
-
-    local_template->MarkAsUndetectable();
-}
-*/
-
-// not used currently
-static PHP_METHOD(V8ObjectTemplate, SetAccessCheckCallback) {
-    zend_fcall_info fci_callback = empty_fcall_info;
-    zend_fcall_info_cache fci_cache_callback = empty_fcall_info_cache;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "f", &fci_callback, &fci_cache_callback) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(getThis(), php_v8_object_template);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
-
-    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("access_check");
-    bucket->add(0, fci_callback, fci_cache_callback);
-
-    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_object_template);
-
-    local_template->SetAccessCheckCallback(php_v8_callback_access_check, v8::External::New(isolate, bucket));
 }
 
 /* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
@@ -439,6 +413,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetNativeDataProperty, ZEN
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
+                ZEND_ARG_OBJ_INFO(0, receiver, V8\\FunctionTemplate, 1)
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
@@ -455,6 +430,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessor, ZEND_SEND_BY_
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
+                ZEND_ARG_OBJ_INFO(0, receiver, V8\\FunctionTemplate, 1)
 ZEND_END_ARG_INFO()
 
 // void method
@@ -471,21 +447,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetCallAsFunctionHandler, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
-
-// not used
-// void method
-/*
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_MarkAsUndetectable, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
-ZEND_END_ARG_INFO()
-*/
-
-// not used
-// void method
-/*
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessCheckCallback, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_CALLABLE_INFO(0, callback, 1)
-ZEND_END_ARG_INFO()
-*/
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
@@ -511,8 +472,6 @@ static const zend_function_entry php_v8_object_template_methods[] = {
         PHP_ME(V8ObjectTemplate, SetHandlerForNamedProperty, arginfo_php_v8_object_template_SetHandlerForNamedProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8ObjectTemplate, SetHandlerForIndexedProperty, arginfo_php_v8_object_template_SetHandlerForIndexedProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8ObjectTemplate, SetCallAsFunctionHandler, arginfo_php_v8_object_template_SetCallAsFunctionHandler, ZEND_ACC_PUBLIC)
-//        PHP_ME(V8ObjectTemplate, MarkAsUndetectable, arginfo_php_v8_object_template_MarkAsUndetectable, ZEND_ACC_PUBLIC)
-//        PHP_ME(V8ObjectTemplate, SetAccessCheckCallback, arginfo_php_v8_object_template_SetAccessCheckCallback, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8ObjectTemplate, AdjustExternalAllocatedMemory, arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
         PHP_ME(V8ObjectTemplate, GetExternalAllocatedMemory,    arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_ACC_PUBLIC)

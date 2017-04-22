@@ -12,7 +12,7 @@ $isolate = new \V8\Isolate();
 $context = new \V8\Context($isolate);
 
 $origin = new \V8\ScriptOrigin('resource_name');
-$trace = new \V8\StackTrace([], new \V8\ArrayObject($context));
+$trace = new \V8\StackTrace([]);
 
 $obj = new V8\Message('message', 'source_line', $origin, 'resource_name', $trace);
 
@@ -61,7 +61,7 @@ $helper->space();
 --EXPECT--
 Object representation (default):
 --------------------------------
-object(V8\Message)#8 (12) {
+object(V8\Message)#7 (12) {
   ["message":"V8\Message":private]=>
   string(7) "message"
   ["script_origin":"V8\Message":private]=>
@@ -93,41 +93,9 @@ object(V8\Message)#8 (12) {
   ["resource_name":"V8\Message":private]=>
   string(13) "resource_name"
   ["stack_trace":"V8\Message":private]=>
-  object(V8\StackTrace)#6 (2) {
+  object(V8\StackTrace)#6 (1) {
     ["frames":"V8\StackTrace":private]=>
     array(0) {
-    }
-    ["as_array":"V8\StackTrace":private]=>
-    object(V8\ArrayObject)#7 (2) {
-      ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-      ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#3 (1) {
-        ["isolate":"V8\Context":private]=>
-        object(V8\Isolate)#2 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
     }
   }
   ["line_number":"V8\Message":private]=>
@@ -165,7 +133,7 @@ V8\Message::IsOpaque() matches expected false
 
 Object representation:
 ----------------------
-object(V8\Message)#9 (12) {
+object(V8\Message)#8 (12) {
   ["message":"V8\Message":private]=>
   string(7) "message"
   ["script_origin":"V8\Message":private]=>
@@ -197,41 +165,9 @@ object(V8\Message)#9 (12) {
   ["resource_name":"V8\Message":private]=>
   string(13) "resource_name"
   ["stack_trace":"V8\Message":private]=>
-  object(V8\StackTrace)#6 (2) {
+  object(V8\StackTrace)#6 (1) {
     ["frames":"V8\StackTrace":private]=>
     array(0) {
-    }
-    ["as_array":"V8\StackTrace":private]=>
-    object(V8\ArrayObject)#7 (2) {
-      ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#2 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-      }
-      ["context":"V8\ObjectValue":private]=>
-      object(V8\Context)#3 (1) {
-        ["isolate":"V8\Context":private]=>
-        object(V8\Isolate)#2 (5) {
-          ["snapshot":"V8\Isolate":private]=>
-          NULL
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-        }
-      }
     }
   }
   ["line_number":"V8\Message":private]=>

@@ -50,7 +50,7 @@ $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallb
         }
     }
 
-    echo implode('', $out);
+    echo implode('', $out), PHP_EOL;
 });
 
 
@@ -73,10 +73,6 @@ $helper->dump($instance_template);
 $helper->method_matches($function_template, 'InstanceTemplate', $instance_template);
 $helper->space();
 
-$instance_template_1 = $function_template->InstanceTemplate();
-
-$instance_template_2 = $function_template->InstanceTemplate();
-
 $global_template = new V8\ObjectTemplate($isolate);
 
 $value = new V8\StringValue($isolate, 'TEST VALUE 111');
@@ -90,8 +86,8 @@ $context = new V8\Context($isolate, $global_template);
 
 
 $source    = '
-print("Hello, world!\n");
-print(s, " ", o,"\n");
+print("Hello, world!");
+print(s, " ", o);
 typeof func()
 ';
 //$source    = 'func(); func(); func(); func()';
@@ -136,9 +132,6 @@ if ($res->IsFunction()) {
 }
 
 $helper->dump($res->ToString($context)->Value());
-
-
-
 
 
 ?>

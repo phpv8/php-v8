@@ -11,10 +11,9 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \V8\Isolate();
+$isolate = new \V8\Isolate();
 
-$context = new \V8\Context($isolate1);
-$helper->pretty_dump('Estimated memory usage size by this context', $context->EstimatedSize());
+$context = new \V8\Context($isolate);
 
 $helper->method_matches_instanceof($context, 'GlobalObject', \V8\ObjectValue::class);
 
@@ -34,14 +33,12 @@ $helper->assert('Code generation is not allowed', $context->IsCodeGenerationFrom
 $helper->method_matches_with_output($context, 'IsCodeGenerationFromStringsAllowed', false);
 $res = $v8_helper->CompileTryRun($context, 'eval("1+1")');
 
-$context->SetErrorMessageForCodeGenerationFromStrings(new \V8\StringValue($isolate1, 'Whoa! Nope. No eval this time, sorry.'));
+$context->SetErrorMessageForCodeGenerationFromStrings(new \V8\StringValue($isolate, 'Whoa! Nope. No eval this time, sorry.'));
 $res = $v8_helper->CompileTryRun($context, 'eval("2+2")');
 
-$helper->pretty_dump('Estimated memory usage size by this context', $context->EstimatedSize());
 
 ?>
---EXPECTF--
-Estimated memory usage size by this context: int(%d)
+--EXPECT--
 V8\Context::GlobalObject() result is instance of V8\ObjectValue
 CHECK $global->SameValue($context->GlobalObject()): OK
 V8\Context::IsCodeGenerationFromStringsAllowed() matches expected value
@@ -50,4 +47,3 @@ Code generation is not allowed: ok
 V8\Context::IsCodeGenerationFromStringsAllowed() matches expected false
 eval("1+1"): V8\Exceptions\TryCatchException: EvalError: Code generation from strings disallowed for this context
 eval("2+2"): V8\Exceptions\TryCatchException: EvalError: Whoa! Nope. No eval this time, sorry.
-Estimated memory usage size by this context: int(%d)

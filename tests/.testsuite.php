@@ -128,6 +128,10 @@ class PhpV8Testsuite
         }
     }
 
+    public function fail($message = null) {
+        echo $message ?: 'Should fail', PHP_EOL;
+    }
+
     public function value_matches($expected, $actual, $identical = true)
     {
         if ($identical) {

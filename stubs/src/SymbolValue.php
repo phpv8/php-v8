@@ -39,7 +39,7 @@ class SymbolValue extends NameValue
      *
      * @return StringValue | Value
      */
-    public function Name() : Value
+    public function Name(): Value
     {
     }
 
@@ -57,7 +57,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function For(Context $context, StringValue $name) : SymbolValue
+    public static function For (Context $context, StringValue $name): SymbolValue
     {
     }
 
@@ -72,7 +72,18 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function ForApi(Context $context, StringValue $name) : SymbolValue
+    public static function ForApi(Context $context, StringValue $name): SymbolValue
+    {
+    }
+
+    // Well-known symbols
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetHasInstance(Isolate $isolate): SymbolValue
     {
     }
 
@@ -81,7 +92,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetIterator(Isolate $isolate) : SymbolValue
+    public static function GetIsConcatSpreadable(Isolate $isolate): SymbolValue
     {
     }
 
@@ -90,7 +101,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetUnscopables(Isolate $isolate) : SymbolValue
+    public static function GetIterator(Isolate $isolate): SymbolValue
     {
     }
 
@@ -99,7 +110,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetToPrimitive(Isolate $isolate) : SymbolValue
+    public static function GetMatch(Isolate $isolate): SymbolValue
     {
     }
 
@@ -108,7 +119,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetToStringTag(Isolate $isolate) : SymbolValue
+    public static function GetReplace(Isolate $isolate): SymbolValue
     {
     }
 
@@ -117,7 +128,43 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function GetIsConcatSpreadable(Isolate $isolate) : SymbolValue
+    public static function GetSearch(Isolate $isolate): SymbolValue
+    {
+    }
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetSplit(Isolate $isolate): SymbolValue
+    {
+    }
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetToPrimitive(Isolate $isolate): SymbolValue
+    {
+    }
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetToStringTag(Isolate $isolate): SymbolValue
+    {
+    }
+
+    /**
+     * @param Isolate $isolate
+     *
+     * @return SymbolValue
+     */
+    public static function GetUnscopables(Isolate $isolate): SymbolValue
     {
     }
 }
