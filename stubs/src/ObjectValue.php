@@ -175,6 +175,27 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
     }
 
     /**
+     * Sets a native data property like Template::SetNativeDataProperty, but
+     * this method sets on this object directly.
+     *
+     * @param Context   $context
+     * @param NameValue $name
+     * @param callable  $getter
+     * @param callable  $setter
+     * @param int       $attributes
+     *
+     * @return bool
+     */
+    public function SetNativeDataProperty(
+        Context $context,
+        NameValue $name,
+        callable $getter,
+        callable $setter = null,
+        int $attributes = PropertyAttribute::None
+    ): bool {
+    }
+
+    /**
      * Returns an array containing the names of the enumerable properties
      * of this object, including properties from prototype objects.  The
      * array returned by this method contains the same values as would
