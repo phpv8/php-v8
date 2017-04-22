@@ -55,10 +55,10 @@ $func_test_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallba
 });
 
 $global_tpl = new \V8\ObjectTemplate($isolate);
-$global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $global_tpl->Set(new \V8\StringValue($isolate, 'test'), $func_test_tpl);
 
 $context = new \V8\Context($isolate, $global_tpl);
+$v8_helper->injectConsoleLog($context);
 
 
 $source = '
@@ -67,9 +67,9 @@ $source = '
     try {
         throw new Error("test");
     } catch (exception) {
-        print("exception: ", "\'", exception, "\'", "\n");
-        print("exception.stack: ", exception.stack, "\n");
-        print("\n");
+        console.log("exception: ", "\'", exception, "\'");
+        console.log("exception.stack: ", exception.stack);
+        console.log();
 
         test(exception);
 
@@ -112,7 +112,7 @@ Stack trace created from thrown value:
 V8\StackTrace->getFrames():
     array(1) {
       [0]=>
-      object(V8\StackFrame)#19 (8) {
+      object(V8\StackFrame)#14 (8) {
         ["line_number":"V8\StackFrame":private]=>
         int(5)
         ["column":"V8\StackFrame":private]=>

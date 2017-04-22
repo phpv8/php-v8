@@ -18,8 +18,8 @@ $global_template = new V8\ObjectTemplate($isolate);
 $value = new V8\StringValue($isolate, 'TEST VALUE 111');
 
 $global_template->Set(new \V8\StringValue($isolate, 'test'), $value);
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $context = new V8\Context($isolate, $global_template);
+$v8_helper->injectConsoleLog($context);
 
 // This causes segfault
 $source = '
@@ -28,17 +28,17 @@ var multiply = 25;
 
 while (multiply-- > 0){
  x = x+x;
- print(x.length, "\n");
+ console.log(x.length);
 }
 
 var arr = [];
 
-print("\n\n");
+console.log("\n");
 
 while (1) {
      arr.push(x);
      //if (!(arr.length % 10000)) {
-     //   print(arr.length, "\n");
+     //   console.log(arr.length);
      //}
 }
 ';

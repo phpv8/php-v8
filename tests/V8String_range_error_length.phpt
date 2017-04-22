@@ -14,27 +14,21 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $isolate = new V8\Isolate();
-$global_template = new V8\ObjectTemplate($isolate);
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
-
-$context = new V8\Context($isolate, $global_template);
-
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
 $source    = '
     var str = " ".repeat(1024); // 1kb
     var blob = "";
     while(true) {
       blob += str;
-      //print(blob.length, "\n");
+      //console.log(blob.length, "\n");
     }
 ';
-$file_name = 'test.js';
-
-$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 $t = microtime(true);
 try {
-  $res = $script->Run($context);
+  $res = $v8_helper->CompileRun($context, $source);
 } catch(\V8\Exceptions\TryCatchException $e) {
   $helper->exception_export($e);
 }

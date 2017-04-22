@@ -14,7 +14,7 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1         = new \V8\Isolate();
+$isolate         = new \V8\Isolate();
 
 $prop_value = 'foo';
 
@@ -43,27 +43,27 @@ $setter_tpl = function (\V8\NameValue $property, \V8\Value $value, \V8\PropertyC
 
     $prop_value = $val;
 };
-$context1 = new V8\Context($isolate1);
+$context = new V8\Context($isolate);
 
-$tpl = new V8\ObjectTemplate($isolate1);
-$tpl->SetNativeDataProperty(new \V8\StringValue($isolate1, 'test'), $getter_tpl, $setter_tpl);
+$tpl = new V8\ObjectTemplate($isolate);
+$tpl->SetNativeDataProperty(new \V8\StringValue($isolate, 'test'), $getter_tpl, $setter_tpl);
 
-$obj = new V8\ObjectValue($context1);
-$obj->SetNativeDataProperty($context1, new \V8\StringValue($isolate1, 'test'), $getter_obj, $setter_obj);
+$obj = new V8\ObjectValue($context);
+$obj->SetNativeDataProperty($context, new \V8\StringValue($isolate, 'test'), $getter_obj, $setter_obj);
 
-$obj1 = $tpl->NewInstance($context1);
-$obj1->SetNativeDataProperty($context1, new \V8\StringValue($isolate1, 'test'), $getter_obj, $setter_obj);
+$obj1 = $tpl->NewInstance($context);
+$obj1->SetNativeDataProperty($context, new \V8\StringValue($isolate, 'test'), $getter_obj, $setter_obj);
 
-$obj2 = $tpl->NewInstance($context1);
+$obj2 = $tpl->NewInstance($context);
 
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj'), $obj);
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj1'), $obj1);
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj2'), $obj2);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $obj);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj1'), $obj1);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj2'), $obj2);
 
-$v8_helper->injectConsoleLog($context1);
+$v8_helper->injectConsoleLog($context);
 
-$source1    = '
+$source    = '
 console.log(obj.test, "\n");
 obj.test = "bar";
 console.log(obj.test, "\n");
@@ -78,12 +78,12 @@ console.log(obj2.test, "\n");
 
 "Script done";
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$v8_helper->CompileRun($context1, $source1);
+$v8_helper->CompileRun($context, $source);
 
 ?>
 --EXPECT--

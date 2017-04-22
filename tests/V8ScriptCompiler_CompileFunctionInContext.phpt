@@ -94,10 +94,7 @@ $function = V8\ScriptCompiler::CompileFunctionInContext($context, $source);
 
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test_simple'), $function);
 
-$script = new \V8\Script($context, new \V8\StringValue($isolate, 'test_simple()'));
-
-$helper->dump($script->Run($context)->Value());
-
+$helper->dump($v8_helper->CompileRun($context, 'test_simple("passed")')->Value());
 
 
 $source_string = new V8\StringValue($isolate, 'return "test " + status;');
@@ -106,9 +103,7 @@ $function = V8\ScriptCompiler::CompileFunctionInContext($context, $source, [new 
 
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test_with_parameter'), $function);
 
-$script = new \V8\Script($context, new \V8\StringValue($isolate, 'test_with_parameter("passed")'));
-
-$helper->dump($script->Run($context)->Value());
+$helper->dump($v8_helper->CompileRun($context, 'test_with_parameter("passed")')->Value());
 
 
 $ctx_a = new \V8\ObjectValue($context);
@@ -125,10 +120,7 @@ $source = new \V8\ScriptCompiler\Source($source_string);
 $function = V8\ScriptCompiler::CompileFunctionInContext($context, $source, [new \V8\StringValue($isolate, 'status')], [$ctx_a, $ctx_b]);
 
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test_with_parameter_and_contexts'), $function);
-
-$script = new \V8\Script($context, new \V8\StringValue($isolate, 'test_with_parameter_and_contexts("passed")'));
-
-$helper->dump($script->Run($context)->Value());
+$helper->dump($v8_helper->CompileRun($context, 'test_with_parameter_and_contexts("passed")')->Value());
 
 ?>
 --EXPECT--

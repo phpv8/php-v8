@@ -7,28 +7,22 @@ V8\ArrayObject::Length
 
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
+require '.v8-helpers.php';
+$v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$isolate = new \V8\Isolate();
+$context = new V8\Context($isolate);
 
-$context1 = new V8\Context($isolate1, $global_template1);
+$res = $v8_helper->CompileRun($context, '[1,2,3]');
 
-$source1    = '
-[1,2,3]
-';
-$file_name1 = 'test.js';
-
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
-
-echo $res1->Length(), PHP_EOL;
+echo $res->Length(), PHP_EOL;
 
 
-$arr = new \V8\ArrayObject($context1, 5);
+$arr = new \V8\ArrayObject($context, 5);
 echo $arr->Length(), PHP_EOL;
 
 for ($i =0; $i < 7; $i++) {
-    $arr->Set($context1, new \V8\Uint32Value($isolate1, $i), new \V8\StringValue($isolate1, 'test-'.$i));
+    $arr->Set($context, new \V8\Uint32Value($isolate, $i), new \V8\StringValue($isolate, 'test-'.$i));
 }
 
 echo $arr->Length(), PHP_EOL;

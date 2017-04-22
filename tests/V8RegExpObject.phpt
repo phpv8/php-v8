@@ -13,17 +13,11 @@ $v8_helper = new PhpV8Helpers($helper);
 
 // Tests:
 
-$isolate1 = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$isolate = new \V8\Isolate();
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
-// TODO: fix it, this cause segfault due to FunctionTemplate object destruction and all it internal structures cleanup
-//$global_template1->Set('print', $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
-$print_func_tpl = $v8_helper->getPrintFunctionTemplate($isolate1);
-$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
-
-$context1 = new V8\Context($isolate1, $global_template1);
-
-$value = new V8\RegExpObject($context1, new \V8\StringValue($isolate1, '([a-z]{1,4})-([0-9]+)'), \V8\RegExpObject\Flags::kIgnoreCase);
+$value = new V8\RegExpObject($context, new \V8\StringValue($isolate, '([a-z]{1,4})-([0-9]+)'), \V8\RegExpObject\Flags::kIgnoreCase);
 
 $helper->header('Object representation');
 $helper->dump($value);
@@ -39,24 +33,24 @@ $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'val'), $value);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
 
-$source1    = '
-print("val: ", val, "\n");
-print("typeof val: ", typeof val, "\n");
-print("\"test-1\".replace(val, \"$2-$1\"): ", "test-1".replace(val, "$2-$1"), "\n");
+$source    = '
+console.log("val: ", val);
+console.log("typeof val: ", typeof val);
+console.log("\"test-1\".replace(val, \"$2-$1\"): ", "test-1".replace(val, "$2-$1"));
 
 val
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 $helper->space();
 
 
 $helper->header('Returned value should be the same');
-$helper->value_matches_with_no_output($res1, $value);
+$helper->value_matches_with_no_output($res, $value);
 $helper->space();
 
 
@@ -64,7 +58,7 @@ $helper->space();
 --EXPECT--
 Object representation:
 ----------------------
-object(V8\RegExpObject)#8 (2) {
+object(V8\RegExpObject)#6 (2) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -79,7 +73,7 @@ object(V8\RegExpObject)#8 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#7 (1) {
+  object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>

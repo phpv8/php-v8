@@ -10,25 +10,25 @@ V8\FunctionTemplate: exception in php thrown
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
 
-$isolate1 = new \V8\Isolate();
+$isolate = new \V8\Isolate();
 
-$test_func_tpl = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) {
+$test_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
     throw new Exception('Unexpected exception');
 });
 
 
-$global_template1 = new V8\ObjectTemplate($isolate1);
-$global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_func_tpl, \V8\PropertyAttribute::DontDelete);
+$global_template = new V8\ObjectTemplate($isolate);
+$global_template->Set(new \V8\StringValue($isolate, 'test'), $test_func_tpl, \V8\PropertyAttribute::DontDelete);
 
-$context1 = new V8\Context($isolate1, $global_template1);
+$context = new V8\Context($isolate, $global_template);
 
-$source1 = 'test(); "Script done"';
-$file_name1 = 'test.js';
+$source = 'test(); "Script done"';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 try {
-    $helper->dump($script1->Run($context1)->ToString($context1)->Value());
+    $helper->dump($script->Run($context)->ToString($context)->Value());
 } catch (Exception $e) {
     $helper->exception_export($e);
 }

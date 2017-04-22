@@ -14,14 +14,8 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $isolate = new \V8\Isolate();
-$global_template = new V8\ObjectTemplate($isolate);
-
-// TODO: fix it, this cause segfault due to FunctionTemplate object destruction and all it internal structures cleanup
-//$global_template->Set('print', $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
-$print_func_tpl = $v8_helper->getPrintFunctionTemplate($isolate);
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
-
-$context = new V8\Context($isolate, $global_template);
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
 $value = new V8\NumberObject($context, 42.12);
 
@@ -41,35 +35,35 @@ $v8_helper->run_checks($value, 'Checkers');
 
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
 
-$source1    = '
-print("val: ", val, "\n");
-print("typeof val: ", typeof val, "\n");
+$source    = '
+console.log("val: ", val);
+console.log("typeof val: ", typeof val);
 
 val';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context, new \V8\StringValue($isolate, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 $helper->space();
 
 $helper->header('Returned value should be the same');
-$helper->value_matches_with_no_output($res1, $value);
+$helper->value_matches_with_no_output($res, $value);
 $helper->space();
 
-$source1    = 'new Number(11.22);';
-$file_name1 = 'test.js';
+$source    = 'new Number(11.22);';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context, new \V8\StringValue($isolate, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 
-$v8_helper->run_checks($res1, 'Checkers on boxed from script');
+$v8_helper->run_checks($res, 'Checkers on boxed from script');
 
 
 ?>
 --EXPECT--
 Object representation:
 ----------------------
-object(V8\NumberObject)#8 (2) {
+object(V8\NumberObject)#6 (2) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -84,7 +78,7 @@ object(V8\NumberObject)#8 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#7 (1) {
+  object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>

@@ -10,13 +10,13 @@ $helper = require '.testsuite.php';
 
 require '.tracking_dtors.php';
 
-$isolate1 = new V8\Isolate();
+$isolate = new V8\Isolate();
 
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$global_template = new V8\ObjectTemplate($isolate);
 
-$context1 = new V8\Context($isolate1, $global_template1);
+$context = new V8\Context($isolate, $global_template);
 
-$func = new V8\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) use (&$helper) {
+$func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use (&$helper) {
     if (!$info->Arguments()) {
         $isolate = $info->GetIsolate();
 
@@ -45,16 +45,16 @@ $func = new V8\FunctionObject($context1, function (\V8\FunctionCallbackInfo $inf
 });
 
 
-$func->SetName(new \V8\StringValue($isolate1, 'custom_name'));
+$func->SetName(new \V8\StringValue($isolate, 'custom_name'));
 
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'test'), $func);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
 
-$source1 = 'test(test); delete print; "Script done"';
-$file_name1 = 'test.js';
+$source = 'test(test); delete print; "Script done"';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 if ($helper->need_more_time()) {
     // On travis when valgrind active it takes more time to complete all operations so we just increase initial limits
@@ -67,13 +67,13 @@ if ($helper->need_more_time()) {
     $high_range = 1.65;
 }
 
-$isolate1->SetTimeLimit($time_limit);
-$helper->dump($isolate1);
+$isolate->SetTimeLimit($time_limit);
+$helper->dump($isolate);
 $helper->line();
 
 $t = microtime(true);
 try {
-    $script1->Run($context1);
+    $script->Run($context);
 } catch(\V8\Exceptions\TimeLimitException $e) {
     $helper->exception_export($e);
     echo 'script execution terminated', PHP_EOL;
@@ -85,7 +85,7 @@ try {
 }
 
 $helper->line();
-$helper->dump($isolate1);
+$helper->dump($isolate);
 ?>
 --EXPECTF--
 object(V8\Isolate)#2 (5) {

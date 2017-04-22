@@ -13,14 +13,14 @@ $v8_helper = new PhpV8Helpers($helper);
 
 require '.tracking_dtors.php';
 
-$isolate1 = new v8Tests\TrackingDtors\Isolate();
+$isolate = new v8Tests\TrackingDtors\Isolate();
 
-//$isolate1->SetCaptureStackTraceForUncaughtExceptions(true);
+//$isolate->SetCaptureStackTraceForUncaughtExceptions(true);
 
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$global_template = new V8\ObjectTemplate($isolate);
 
 $timer = 0;
-$terminate = new V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) use (&$timer) {
+$terminate = new V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) use (&$timer) {
     echo 'Going to terminate', PHP_EOL;
     $isolate = $info->GetIsolate();
 
@@ -38,26 +38,26 @@ $terminate = new V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackIn
     $e = null;
 });
 
-$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
-$global_template1->Set(new \V8\StringValue($isolate1, 'terminate'), $terminate, \V8\PropertyAttribute::DontDelete);
+$global_template->Set(new \V8\StringValue($isolate, 'terminate'), $terminate, \V8\PropertyAttribute::DontDelete);
 
-$context1 = new V8\Context($isolate1, $global_template1);
-$global_template1 = null;
+$context = new V8\Context($isolate, $global_template);
+$v8_helper->injectConsoleLog($context);
 
-$source1 = '
+$global_template = null;
+
+$source = '
 cnt = 0;
-print("before terminate\n");
+console.log("before terminate");
 terminate();
 while (true) {
-    print("after terminate ", cnt, "\n");
+    console.log("after terminate ", cnt);
     cnt++;
 }
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
 try {
-$res1 = $script1->Run($context1);
+    $res = $v8_helper->CompileRun($context, $source);
 } catch (\V8\Exceptions\TerminationException $e) {
    $helper->exception_export($e);
 } finally {
@@ -70,10 +70,9 @@ $res1 = $script1->Run($context1);
 
 $e          = null;
 $terminate  = null;
-$res1       = null;
-$script1    = null;
-$context1   = null;
-$isolate1   = null;
+$res       = null;
+$context   = null;
+$isolate   = null;
 
 echo 'Done here', PHP_EOL;
 ?>

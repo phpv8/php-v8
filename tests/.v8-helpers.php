@@ -86,6 +86,8 @@ class PhpV8Helpers {
 
         $console_obj = $obj_tpl->NewInstance($context);
         $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'console'), $console_obj);
+
+        return $context;
     }
 
     /**

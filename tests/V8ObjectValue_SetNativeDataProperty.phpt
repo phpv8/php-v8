@@ -14,7 +14,7 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1         = new \V8\Isolate();
+$isolate         = new \V8\Isolate();
 
 $prop_value = 'foo';
 
@@ -33,28 +33,28 @@ $setter = function (\V8\NameValue $property, \V8\Value $value, \V8\PropertyCallb
 
 
 
-$context1 = new V8\Context($isolate1);
+$context = new V8\Context($isolate);
 
-$obj = new V8\ObjectValue($context1);
-$obj->SetNativeDataProperty($context1, new \V8\StringValue($isolate1, 'test'), $getter, $setter);
+$obj = new V8\ObjectValue($context);
+$obj->SetNativeDataProperty($context, new \V8\StringValue($isolate, 'test'), $getter, $setter);
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj'), $obj);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $obj);
 
-$v8_helper->injectConsoleLog($context1);
+$v8_helper->injectConsoleLog($context);
 
-$source1    = '
+$source    = '
 console.log(obj.test, "\n");
 obj.test = "bar";
 console.log(obj.test, "\n");
 
 "Script done";
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$v8_helper->CompileRun($context1, $source1);
+$v8_helper->CompileRun($context, $source);
 
 ?>
 --EXPECT--

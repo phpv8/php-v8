@@ -24,10 +24,8 @@ $v8_helper = new PhpV8Helpers($helper);
 // Tests:
 
 $isolate = new V8\Isolate();
-$global_template = new V8\ObjectTemplate($isolate);
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
-
-$context = new V8\Context($isolate, $global_template);
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
 $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use (&$helper) {
     if (!$info->Arguments()) {
@@ -38,7 +36,7 @@ $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info
             var blob = [];
             while(true) {
               blob.push(str);
-              //print(blob.length, "\n");
+              //console.log(blob.length);
             }
         ';
 

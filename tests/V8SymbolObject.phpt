@@ -1,7 +1,9 @@
 --TEST--
 V8\SymbolObject
 --SKIPIF--
-<?php if (!extension_loaded("v8")) { print "skip"; } ?>
+<?php if (!extension_loaded("v8")) {
+    print "skip";
+} ?>
 --FILE--
 <?php
 
@@ -15,11 +17,9 @@ $v8_helper = new PhpV8Helpers($helper);
 
 
 $isolate = new \V8\Isolate();
-$global_template = new V8\ObjectTemplate($isolate);
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
-
-$context = new V8\Context($isolate, $global_template);
 
 $value = new V8\SymbolObject($context, new \V8\SymbolValue($isolate, new \V8\StringValue($isolate, 'test')));
 
@@ -40,31 +40,26 @@ $v8_helper->run_checks($value, 'Checkers');
 
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
 
-$source1    = '
-print("val: ", val, "\n");
-print("typeof val: ", typeof val, "\n");
+$source    = '
+console.log("val: ", val);
+console.log("typeof val: ", typeof val);
 
 val
 ';
-$file_name1 = 'test.js';
 
-$script1 = new V8\Script($context, new \V8\StringValue($isolate, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context);
+$res = $v8_helper->CompileRun($context, $source);
+
 $helper->space();
 
 $helper->header('Returned value should be the same');
-$helper->value_matches_with_no_output($res1, $value);
+$helper->value_matches_with_no_output($res, $value);
 $helper->space();
 
-// This now not allowed, see https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Symbol
-$source1    = 'new Symbol("boxed")';
-$file_name1 = 'test.js';
-
-$script1 = new V8\Script($context, new \V8\StringValue($isolate, $source1), new \V8\ScriptOrigin($file_name1));
 try {
-  $res1 = $script1->Run($context);
-} catch(Exception $e) {
-  $helper->exception_export($e);
+    // This now not allowed, see https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+    $res = $v8_helper->CompileRun($context, 'new Symbol("boxed")');
+} catch (Exception $e) {
+    $helper->exception_export($e);
 }
 
 ?>
@@ -86,7 +81,7 @@ object(V8\SymbolObject)#6 (2) {
     bool(false)
   }
   ["context":"V8\ObjectValue":private]=>
-  object(V8\Context)#5 (1) {
+  object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#3 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -110,7 +105,7 @@ SymbolObject is instanceof Symbol: ok
 Getters:
 --------
 V8\SymbolObject->ValueOf():
-    object(V8\SymbolValue)#120 (1) {
+    object(V8\SymbolValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

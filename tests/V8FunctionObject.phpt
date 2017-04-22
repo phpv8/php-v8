@@ -39,13 +39,13 @@ $v8_helper->run_checks($func, 'Checkers');
 
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'print'), $func);
 
-$source1 = 'print("Hello, world\n"); delete print; "Script done"';
-$file_name1 = 'test.js';
+$source = 'print("Hello, world"); delete print; "Script done"';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context, new \V8\StringValue($isolate, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$helper->dump($script1->Run($context)->ToString($context)->Value());
+$helper->dump($script->Run($context)->ToString($context)->Value());
 $helper->line();
 
 $helper->dump_object_methods($func, [], new ArrayMapFilter(['GetScriptOrigin' => true]));

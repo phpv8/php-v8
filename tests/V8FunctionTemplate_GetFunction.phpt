@@ -10,23 +10,23 @@ V8\FunctionTemplate::GetFunction
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
 
-$isolate1 = new \V8\Isolate();
+$isolate = new \V8\Isolate();
 
 
-$print_func_tpl = new \V8\FunctionTemplate($isolate1, function (\V8\FunctionCallbackInfo $info) {
+$print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
     echo 'Should output Hello World string', PHP_EOL;
 });
 
 
-$global_template1 = new V8\ObjectTemplate($isolate1);
-$context1 = new \V8\Context($isolate1, $global_template1);
-$context2 = new \V8\Context($isolate1, $global_template1);
+$global_template = new V8\ObjectTemplate($isolate);
+$context = new \V8\Context($isolate, $global_template);
+$context2 = new \V8\Context($isolate, $global_template);
 
-$func_1 = $print_func_tpl->GetFunction($context1);
+$func_1 = $print_func_tpl->GetFunction($context);
 
 $helper->object_type($func_1);
 
-$func_2 = $print_func_tpl->GetFunction($context1);
+$func_2 = $print_func_tpl->GetFunction($context);
 
 if ($func_1 === $func_2) {
     echo 'Function instance is the same within single context', PHP_EOL;
@@ -41,16 +41,16 @@ if ($func_1 === $func_3) {
     echo 'Function instance is NOT the same between different contexts', PHP_EOL;
 }
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'print'), $func_1);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'print'), $func_1);
 
 
-$source1 = 'print("Hello, world\n"); "Script done"';
-$file_name1 = 'test.js';
+$source = 'print("Hello, world"); "Script done"';
+$file_name = 'test.js';
 
 
-$script1 = new \V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new \V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$helper->dump($script1->Run($context1)->ToString($context1)->Value());
+$helper->dump($script->Run($context)->ToString($context)->Value());
 
 echo 'We are done for now', PHP_EOL;
 

@@ -42,10 +42,10 @@ $func_test_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallba
 });
 
 $global_tpl = new \V8\ObjectTemplate($isolate);
-$global_tpl->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate));
 $global_tpl->Set(new \V8\StringValue($isolate, 'test'), $func_test_tpl);
 
 $context = new \V8\Context($isolate, $global_tpl);
+$v8_helper->injectConsoleLog($context);
 
 
 $source = '
@@ -54,9 +54,9 @@ $source = '
     try {
         throw {test: "error"};
     } catch (exception) {
-        print("exception: ", "\'", exception, "\'", "\n");
-        print("exception.stack: ", exception.stack, "\n");
-        print("\n");
+        console.log("exception: ", "\'", exception, "\'");
+        console.log("exception.stack: ", exception.stack);
+        console.log("");
 
         test(exception);
 
@@ -85,7 +85,7 @@ Message created from thrown value:
 V8\Message->Get(): string(18) "Uncaught #<Object>"
 V8\Message->GetSourceLine(): string(24) "        test(exception);"
 V8\Message->GetScriptOrigin():
-    object(V8\ScriptOrigin)#21 (6) {
+    object(V8\ScriptOrigin)#15 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(7) "test.js"
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -93,7 +93,7 @@ V8\Message->GetScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#15 (4) {
+      object(V8\ScriptOriginOptions)#13 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>
@@ -104,15 +104,15 @@ V8\Message->GetScriptOrigin():
         bool(false)
       }
       ["script_id":"V8\ScriptOrigin":private]=>
-      int(%d)
+      int(19)
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
     }
 V8\Message->GetScriptResourceName(): string(7) "test.js"
 V8\Message->GetStackTrace(): NULL
 V8\Message->GetLineNumber(): int(11)
-V8\Message->GetStartPosition(): int(227)
-V8\Message->GetEndPosition(): int(228)
+V8\Message->GetStartPosition(): int(231)
+V8\Message->GetEndPosition(): int(232)
 V8\Message->GetStartColumn(): int(8)
 V8\Message->GetEndColumn(): int(9)
 V8\Message->IsSharedCrossOrigin(): bool(false)
@@ -142,15 +142,15 @@ V8\Message->GetScriptOrigin():
         bool(false)
       }
       ["script_id":"V8\ScriptOrigin":private]=>
-      int(%d)
+      int(19)
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
     }
 V8\Message->GetScriptResourceName(): string(7) "test.js"
 V8\Message->GetStackTrace(): NULL
 V8\Message->GetLineNumber(): int(11)
-V8\Message->GetStartPosition(): int(227)
-V8\Message->GetEndPosition(): int(228)
+V8\Message->GetStartPosition(): int(231)
+V8\Message->GetEndPosition(): int(232)
 V8\Message->GetStartColumn(): int(8)
 V8\Message->GetEndColumn(): int(9)
 V8\Message->IsSharedCrossOrigin(): bool(false)

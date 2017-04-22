@@ -50,7 +50,7 @@ $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallb
         }
     }
 
-    echo implode('', $out);
+    echo implode('', $out), PHP_EOL;
 });
 
 
@@ -90,8 +90,8 @@ $context = new V8\Context($isolate, $global_template);
 
 
 $source    = '
-print("Hello, world!\n");
-print(s, " ", o,"\n");
+print("Hello, world!");
+print(s, " ", o);
 typeof func()
 ';
 //$source    = 'func(); func(); func(); func()';

@@ -11,10 +11,8 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
-
-$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
+$isolate = new \V8\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
 
 $callback = function (\V8\FunctionCallbackInfo $info) {
     $out = [];
@@ -30,41 +28,41 @@ $callback = function (\V8\FunctionCallbackInfo $info) {
     $info->GetReturnValue()->Set(new \V8\StringValue($info->GetIsolate(), 'done'));
 };
 
-$test_obj_tpl = new \V8\ObjectTemplate($isolate1);
+$test_obj_tpl = new \V8\ObjectTemplate($isolate);
 $test_obj_tpl->SetCallAsFunctionHandler($callback);
 
-$global_template1->Set(new \V8\StringValue($isolate1, 'func'), new \V8\FunctionTemplate($isolate1));
-$global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_obj_tpl);
-$global_template1->Set(new \V8\StringValue($isolate1, 'test2'), new \V8\ObjectTemplate($isolate1));
+$global_template->Set(new \V8\StringValue($isolate, 'func'), new \V8\FunctionTemplate($isolate));
+$global_template->Set(new \V8\StringValue($isolate, 'test'), $test_obj_tpl);
+$global_template->Set(new \V8\StringValue($isolate, 'test2'), new \V8\ObjectTemplate($isolate));
 
-$context1 = new V8\Context($isolate1, $global_template1);
+$context = new V8\Context($isolate, $global_template);
+$v8_helper->injectConsoleLog($context);
 
+$source    = '
+console.log("typeof func: ", typeof func);
+console.log("func: ", func);
+console.log("func(): ", func("should", "pass"));
 
-$source1    = '
-print("typeof func: ", typeof func, "\n");
-print("func: ", func, "\n");
-print("func(): ", func("should", "pass"), "\n");
+console.log();
+console.log("typeof test: ", typeof test);
+console.log("test: ", test);
+console.log("test(): ", test("should", "pass"));
 
-print("\n");
-print("typeof test: ", typeof test, "\n");
-print("test: ", test, "\n");
-print("test(): ", test("should", "pass"), "\n");
-
-print("\n");
-print("typeof test2: ", typeof test2, "\n");
-print("test2: ", test2, "\n");
+console.log();
+console.log("typeof test2: ", typeof test2);
+console.log("test2: ", test2);
 
 try {
-    print("test2(): ", test2("will", "fail"), "\n");
+    console.log("test2(): ", test2("will", "fail"));
 } catch (e) {
-    print(e, "\n");
+    console.log(e);
 }
 ';
 
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 
 ?>
 --EXPECT--

@@ -11,28 +11,28 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1         = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$isolate         = new \V8\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
 
-$context1 = new V8\Context($isolate1, $global_template1);
-$v8_helper->injectConsoleLog($context1);
+$context = new V8\Context($isolate, $global_template);
+$v8_helper->injectConsoleLog($context);
 
 
-$obj0 = new \V8\ObjectValue($context1);
-$obj0->Set($context1, new \V8\StringValue($isolate1, 'test'), new \V8\IntegerValue($isolate1, 42));
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj0'), $obj0);
+$obj0 = new \V8\ObjectValue($context);
+$obj0->Set($context, new \V8\StringValue($isolate, 'test'), new \V8\IntegerValue($isolate, 42));
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj0'), $obj0);
 
-$obj1 = new \V8\ObjectValue($context1);
-$obj1->Set($context1, new \V8\StringValue($isolate1, 'test'), new \V8\IntegerValue($isolate1, 42));
-$obj1->SetIntegrityLevel($context1, \V8\IntegrityLevel::kFrozen);
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj1'), $obj1);
+$obj1 = new \V8\ObjectValue($context);
+$obj1->Set($context, new \V8\StringValue($isolate, 'test'), new \V8\IntegerValue($isolate, 42));
+$obj1->SetIntegrityLevel($context, \V8\IntegrityLevel::kFrozen);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj1'), $obj1);
 
-$obj2 = new \V8\ObjectValue($context1);
-$obj2->Set($context1, new \V8\StringValue($isolate1, 'test'), new \V8\IntegerValue($isolate1, 42));
-$obj2->SetIntegrityLevel($context1, \V8\IntegrityLevel::kSealed);
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'obj2'), $obj2);
+$obj2 = new \V8\ObjectValue($context);
+$obj2->Set($context, new \V8\StringValue($isolate, 'test'), new \V8\IntegerValue($isolate, 42));
+$obj2->SetIntegrityLevel($context, \V8\IntegrityLevel::kSealed);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj2'), $obj2);
 
-$source1    = '
+$source    = '
 console.log(Object.isFrozen(obj0));
 console.log(Object.isSealed(obj0));
 console.log(obj0.test);
@@ -67,11 +67,11 @@ console.log();
 
 
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$script1->Run($context1);
+$script->Run($context);
 
 ?>
 --EXPECT--

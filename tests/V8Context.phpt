@@ -11,9 +11,9 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \V8\Isolate();
+$isolate = new \V8\Isolate();
 
-$context = new \V8\Context($isolate1);
+$context = new \V8\Context($isolate);
 
 $helper->method_matches_instanceof($context, 'GlobalObject', \V8\ObjectValue::class);
 
@@ -33,7 +33,7 @@ $helper->assert('Code generation is not allowed', $context->IsCodeGenerationFrom
 $helper->method_matches_with_output($context, 'IsCodeGenerationFromStringsAllowed', false);
 $res = $v8_helper->CompileTryRun($context, 'eval("1+1")');
 
-$context->SetErrorMessageForCodeGenerationFromStrings(new \V8\StringValue($isolate1, 'Whoa! Nope. No eval this time, sorry.'));
+$context->SetErrorMessageForCodeGenerationFromStrings(new \V8\StringValue($isolate, 'Whoa! Nope. No eval this time, sorry.'));
 $res = $v8_helper->CompileTryRun($context, 'eval("2+2")');
 
 

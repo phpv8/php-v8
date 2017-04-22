@@ -11,10 +11,8 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-$isolate1 = new \V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
-
-$global_template1->Set(new \V8\StringValue($isolate1, 'print'), $v8_helper->getPrintFunctionTemplate($isolate1), \V8\PropertyAttribute::DontDelete);
+$isolate = new \V8\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
 
 $foo = 100;
 
@@ -71,36 +69,37 @@ $test = function () {
 };
 
 
-$test_obj_tpl = new \V8\ObjectTemplate($isolate1);
+$test_obj_tpl = new \V8\ObjectTemplate($isolate);
 $test_obj_tpl->SetHandlerForIndexedProperty(new \V8\IndexedPropertyHandlerConfiguration($getter, $setter, $query, $deleter, $enumerator));
 
-$global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_obj_tpl);
+$global_template->Set(new \V8\StringValue($isolate, 'test'), $test_obj_tpl);
 
-$context1 = new V8\Context($isolate1, $global_template1);
+$context = new V8\Context($isolate, $global_template);
+$v8_helper->injectConsoleLog($context);
 
 
-$source1    = '
+$source    = '
 
-print("\"0\" in test: ", "0" in test, "\n");
-print("0 in test: ", 0 in test, "\n");
+console.log("\"0\" in test: ", "0" in test);
+console.log("0 in test: ", 0 in test);
 
-print("\"1\" in test: ", "1" in test, "\n");
-print("1 in test: ", 1 in test, "\n");
+console.log("\"1\" in test: ", "1" in test);
+console.log("1 in test: ", 1 in test);
 
-print("test[0] = 42: ", test[0] = 42, "\n");
-print("test[0]: ", test[0], "\n");
+console.log("test[0] = 42: ", test[0] = 42);
+console.log("test[0]: ", test[0]);
 
-print("delete test[0]: ", delete test[0], "\n");
-print("test[0]: ", test[0], "\n");
+console.log("delete test[0]: ", delete test[0]);
+console.log("test[0]: ", test[0]);
 
 for (i in test) {
-    print("test["+i+"]: ", test[i], "\n");
+    console.log("test["+i+"]: ", test[i]);
 }
 ';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
-$res1 = $script1->Run($context1);
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
+$res = $script->Run($context);
 
 ?>
 --EXPECT--

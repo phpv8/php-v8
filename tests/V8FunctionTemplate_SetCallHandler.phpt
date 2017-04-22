@@ -10,10 +10,10 @@ V8\FunctionTemplate::SetCallHandler
 /** @var \Phpv8Testsuite $helper */
 $helper = require '.testsuite.php';
 
-$isolate1 = new \V8\Isolate();
+$isolate = new \V8\Isolate();
 
 
-$test_func_tpl = new \V8\FunctionTemplate($isolate1, function () {echo 'callback 1', PHP_EOL;});
+$test_func_tpl = new \V8\FunctionTemplate($isolate, function () {echo 'callback 1', PHP_EOL;});
 $test_func_tpl->SetCallHandler(function () {echo 'callback test()', PHP_EOL;});
 
 try {
@@ -23,26 +23,26 @@ try {
     $helper->line();
 }
 
-$change_func_tpl = new \V8\FunctionTemplate($isolate1, function () use ($test_func_tpl){
+$change_func_tpl = new \V8\FunctionTemplate($isolate, function () use ($test_func_tpl){
     $test_func_tpl->SetCallHandler(function () {echo 'callback change()', PHP_EOL;});
 });
 
-$global_template1 = new \V8\ObjectTemplate($isolate1);
+$global_template = new \V8\ObjectTemplate($isolate);
 
-$global_template1->Set(new \V8\StringValue($isolate1, 'test'), $test_func_tpl);
-$global_template1->Set(new \V8\StringValue($isolate1, 'change'), $change_func_tpl);
+$global_template->Set(new \V8\StringValue($isolate, 'test'), $test_func_tpl);
+$global_template->Set(new \V8\StringValue($isolate, 'change'), $change_func_tpl);
 
-$context1 = new \V8\Context($isolate1, $global_template1);
-
-
-$source1 = 'test(); change(); test(); "Script done"';
-$file_name1 = 'test.js';
+$context = new \V8\Context($isolate, $global_template);
 
 
-$script1 = new \V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$source = 'test(); change(); test(); "Script done"';
+$file_name = 'test.js';
+
+
+$script = new \V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 try {
-    $helper->dump($script1->Run($context1)->ToString($context1)->Value());
+    $helper->dump($script->Run($context)->ToString($context)->Value());
 } catch (Exception $e) {
     $helper->exception_export($e);
 }

@@ -13,7 +13,15 @@
  */
 
 $tests_dir = realpath(__DIR__ . '/../tests');
-$iterator = new GlobIterator($tests_dir . '/*.out', FilesystemIterator::KEY_AS_FILENAME);
+
+
+if ($argc == 2) {
+    $mask = str_replace(['tests/', '.phpt', '.diff'], '', $argv[1]);
+} else {
+    $mask = '*';
+}
+
+$iterator = new GlobIterator($tests_dir . "/{$mask}.out", FilesystemIterator::KEY_AS_FILENAME);
 
 foreach ($iterator as $item) {
     //var_dump($item);

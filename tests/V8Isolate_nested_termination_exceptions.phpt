@@ -10,12 +10,12 @@ $helper = require '.testsuite.php';
 
 require '.tracking_dtors.php';
 
-$isolate1 = new V8\Isolate();
-$global_template1 = new V8\ObjectTemplate($isolate1);
+$isolate = new V8\Isolate();
+$global_template = new V8\ObjectTemplate($isolate);
 
-$context1 = new V8\Context($isolate1, $global_template1);
+$context = new V8\Context($isolate, $global_template);
 
-$func = new V8\FunctionObject($context1, function (\V8\FunctionCallbackInfo $info) {
+$func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) {
     if (!$info->Arguments()) {
         $isolate = $info->GetIsolate();
 
@@ -41,19 +41,19 @@ $func = new V8\FunctionObject($context1, function (\V8\FunctionCallbackInfo $inf
 });
 
 
-$func->SetName(new \V8\StringValue($isolate1, 'custom_name'));
+$func->SetName(new \V8\StringValue($isolate, 'custom_name'));
 
 
-$context1->GlobalObject()->Set($context1, new \V8\StringValue($isolate1, 'test'), $func);
+$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
 
-$source1 = 'test(test); delete print; "Script done"';
-$file_name1 = 'test.js';
+$source = 'test(test); delete print; "Script done"';
+$file_name = 'test.js';
 
 
-$script1 = new V8\Script($context1, new \V8\StringValue($isolate1, $source1), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 try {
-    $script1->Run($context1);
+    $script->Run($context);
 } catch (\V8\Exceptions\TerminationException $e) {
     echo 'script execution terminated', PHP_EOL;
 }

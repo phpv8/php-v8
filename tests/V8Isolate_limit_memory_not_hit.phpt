@@ -12,19 +12,17 @@ require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
 $isolate = new V8\Isolate();
-$global_template = new V8\ObjectTemplate($isolate);
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $v8_helper->getPrintFunctionTemplate($isolate), \V8\PropertyAttribute::DontDelete);
-
-$context = new V8\Context($isolate, $global_template);
+$context = new V8\Context($isolate);
+$v8_helper->injectConsoleLog($context);
 
 $source = '
-print("start\n"); 
-print("end\n");
+console.log("start"); 
+console.log("end");
 "Script done"';
-$file_name1 = 'test.js';
+$file_name = 'test.js';
 
 
-$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name1));
+$script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 $memory_limit = 1024 * 1024 * 10;
 $helper->assert('Memory limit accessor report no hit', false === $isolate->IsMemoryLimitHit());

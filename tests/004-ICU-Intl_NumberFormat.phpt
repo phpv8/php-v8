@@ -43,7 +43,7 @@ console.log(new Intl.NumberFormat(['ban', 'id']).format(number));
 // → 123.456,789
 HEREDOC;
 
-(new \V8\Script($context, new \V8\StringValue($isolate, $source)))->Run($context);
+$v8_helper->CompileRun($context, $source);
 
 $helper->line();
 
@@ -66,8 +66,7 @@ console.log(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).form
 // → 1,23,000
 HEREDOC;
 
-(new \V8\Script($context, new \V8\StringValue($isolate, $source)))->Run($context);
-
+$v8_helper->CompileRun($context, $source)
 
 ?>
 --EXPECT--

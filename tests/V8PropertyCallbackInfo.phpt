@@ -46,10 +46,10 @@ $obj->SetAccessor($context, new StringValue($isolate, 'test'), $getter);
 
 $context->GlobalObject()->Set($context, new StringValue($isolate, 'obj'), $obj);
 
-$script1 = new Script($context, new StringValue($isolate, 'obj.test'));
+$script = new Script($context, new StringValue($isolate, 'obj.test'));
 
 
-$helper->dump($script1->Run($context)->ToString($context)->Value());
+$helper->dump($script->Run($context)->ToString($context)->Value());
 
 ?>
 --EXPECT--
