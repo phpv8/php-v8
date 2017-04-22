@@ -90,7 +90,7 @@ and macOS 10.12.1. Windows is not supported at this time.
 $ sudo add-apt-repository -y ppa:ondrej/php
 $ sudo add-apt-repository -y ppa:pinepain/php
 $ sudo apt-get update -y
-$ sudo apt-get install -y php7.0 php-v8
+$ sudo apt-get install -y php7.1 php-v8
 $ php --ri v8
 ```
 
@@ -107,9 +107,7 @@ extensions with dependencies, you may find
 $ brew tap homebrew/dupes
 $ brew tap homebrew/php
 $ brew tap pinepain/devtools
-$ brew install php70 
-$ brew install v8@6.0
-$ brew install php70-v8
+$ brew install php71 php71-v8
 $ php --ri v8
 ```
 
