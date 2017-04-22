@@ -126,9 +126,9 @@ V8\StackTrace->getFrames():
         ["function_name":"V8\StackFrame":private]=>
         string(0) ""
         ["is_eval":"V8\StackFrame":private]=>
-        int(0)
+        bool(false)
         ["is_constructor":"V8\StackFrame":private]=>
-        int(0)
+        bool(false)
       }
     }
 V8\StackTrace->GetFrameCount(): int(1)
