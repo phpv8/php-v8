@@ -362,41 +362,6 @@ static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
 
     local_template->SetCallAsFunctionHandler(callback, data);
 }
-// NOTE: Method is not supported anymore due to a limited use and a way it implemented (causes segfault under certain conditions)
-/*
-static PHP_METHOD(V8ObjectTemplate, MarkAsUndetectable) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(getThis(), php_v8_object_template);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
-
-    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(isolate, php_v8_object_template);
-
-    local_template->MarkAsUndetectable();
-}
-*/
-
-// not used currently
-static PHP_METHOD(V8ObjectTemplate, SetAccessCheckCallback) {
-    zend_fcall_info fci_callback = empty_fcall_info;
-    zend_fcall_info_cache fci_cache_callback = empty_fcall_info_cache;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "f", &fci_callback, &fci_cache_callback) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(getThis(), php_v8_object_template);
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
-
-    phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("access_check");
-    bucket->add(phpv8::CallbacksBucket::Index::Callback, fci_callback, fci_cache_callback);
-
-    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_object_template);
-
-    local_template->SetAccessCheckCallback(php_v8_callback_access_check, v8::External::New(isolate, bucket));
-}
 
 /* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
 static PHP_METHOD(V8ObjectTemplate, AdjustExternalAllocatedMemory) {
@@ -472,21 +437,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetCallAsFunctionHandler, 
                 ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
-// not used
-// void method
-/*
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_MarkAsUndetectable, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
-ZEND_END_ARG_INFO()
-*/
-
-// not used
-// void method
-/*
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessCheckCallback, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_CALLABLE_INFO(0, callback, 1)
-ZEND_END_ARG_INFO()
-*/
-
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -511,8 +461,6 @@ static const zend_function_entry php_v8_object_template_methods[] = {
         PHP_ME(V8ObjectTemplate, SetHandlerForNamedProperty, arginfo_php_v8_object_template_SetHandlerForNamedProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8ObjectTemplate, SetHandlerForIndexedProperty, arginfo_php_v8_object_template_SetHandlerForIndexedProperty, ZEND_ACC_PUBLIC)
         PHP_ME(V8ObjectTemplate, SetCallAsFunctionHandler, arginfo_php_v8_object_template_SetCallAsFunctionHandler, ZEND_ACC_PUBLIC)
-//        PHP_ME(V8ObjectTemplate, MarkAsUndetectable, arginfo_php_v8_object_template_MarkAsUndetectable, ZEND_ACC_PUBLIC)
-//        PHP_ME(V8ObjectTemplate, SetAccessCheckCallback, arginfo_php_v8_object_template_SetAccessCheckCallback, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8ObjectTemplate, AdjustExternalAllocatedMemory, arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
         PHP_ME(V8ObjectTemplate, GetExternalAllocatedMemory,    arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_ACC_PUBLIC)

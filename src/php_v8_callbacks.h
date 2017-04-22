@@ -56,8 +56,6 @@ extern void php_v8_callback_indexed_property_query(uint32_t index, const v8::Pro
 extern void php_v8_callback_indexed_property_deleter(uint32_t index, const v8::PropertyCallbackInfo<v8::Boolean>& info);
 extern void php_v8_callback_indexed_property_enumerator(const v8::PropertyCallbackInfo<v8::Array>& info);
 
-extern bool php_v8_callback_access_check(v8::Local<v8::Context> accessing_context, v8::Local<v8::Object> accessed_object, v8::Local<v8::Value> data);
-
 //#define PHP_V8_DEBUG_EXTERNAL_MEM 1
 
 #ifdef PHP_V8_DEBUG_EXTERNAL_MEM
