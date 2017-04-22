@@ -328,7 +328,7 @@ static PHP_METHOD(V8Function, __construct) {
         phpv8::CallbacksBucket *bucket = php_v8_value->persistent_data->bucket("callback");
         data = v8::External::New(isolate, bucket);
 
-        bucket->add(0, fci, fci_cache);
+        bucket->add(phpv8::CallbacksBucket::Index::Getter, fci, fci_cache);
 
         callback = php_v8_callback_function;
     }

@@ -92,10 +92,18 @@ namespace phpv8 {
 
     class CallbacksBucket {
     public:
-        phpv8::Callback *get(size_t index);
+        enum class Index {
+            Callback = 0,
+            Getter = 0,
+            Setter = 1,
+            Query = 2,
+            Deleter = 3,
+            Enumerator = 4,
+        };
+        phpv8::Callback *get(Index index);
         void reset(CallbacksBucket *bucket);
 
-        void add(size_t index, zend_fcall_info fci, zend_fcall_info_cache fci_cache);
+        void add(Index index, zend_fcall_info fci, zend_fcall_info_cache fci_cache);
         int getGcCount();
 
         void collectGcZvals(zval *& zv);
@@ -109,7 +117,7 @@ namespace phpv8 {
         }
 
     private:
-        std::map<size_t, std::shared_ptr<Callback>> callbacks;
+        std::map<Index, std::shared_ptr<Callback>> callbacks;
     };
 
 

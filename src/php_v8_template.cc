@@ -250,11 +250,11 @@ void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> lo
     phpv8::CallbacksBucket *bucket = php_v8_template->persistent_data->bucket("native_data_property_", local_name->IsSymbol(), name);
     data = v8::External::New(isolate, bucket);
 
-    bucket->add(0, getter_fci, getter_fci_cache);
+    bucket->add(phpv8::CallbacksBucket::Index::Getter, getter_fci, getter_fci_cache);
     getter = php_v8_callback_accessor_name_getter;
 
     if (setter_fci.size) {
-        bucket->add(1, setter_fci, setter_fci_cache);
+        bucket->add(phpv8::CallbacksBucket::Index::Setter, setter_fci, setter_fci_cache);
         setter = php_v8_callback_accessor_name_setter;
     }
 

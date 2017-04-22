@@ -253,11 +253,11 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
                                                                                      local_name->IsSymbol(), name);
     data = v8::External::New(isolate, bucket);
 
-    bucket->add(0, getter_fci, getter_fci_cache);
+    bucket->add(phpv8::CallbacksBucket::Index::Getter, getter_fci, getter_fci_cache);
     getter = php_v8_callback_accessor_name_getter;
 
     if (setter_fci.size) {
-        bucket->add(1, setter_fci, setter_fci_cache);
+        bucket->add(phpv8::CallbacksBucket::Index::Setter, setter_fci, setter_fci_cache);
         setter = php_v8_callback_accessor_name_setter;
     }
 
@@ -353,7 +353,7 @@ static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
         phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("callback");
         data = v8::External::New(isolate, bucket);
 
-        bucket->add(0, fci, fci_cache);
+        bucket->add(phpv8::CallbacksBucket::Index::Callback, fci, fci_cache);
 
         callback = php_v8_callback_function;
     }
@@ -391,7 +391,7 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessCheckCallback) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
 
     phpv8::CallbacksBucket *bucket = php_v8_object_template->persistent_data->bucket("access_check");
-    bucket->add(0, fci_callback, fci_cache_callback);
+    bucket->add(phpv8::CallbacksBucket::Index::Callback, fci_callback, fci_cache_callback);
 
     v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_object_template);
 

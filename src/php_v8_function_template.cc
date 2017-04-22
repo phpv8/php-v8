@@ -155,7 +155,7 @@ static PHP_METHOD(V8FunctionTemplate, __construct) {
         phpv8::CallbacksBucket *bucket= php_v8_function_template->persistent_data->bucket("callback");
         data = v8::External::New(isolate, bucket);
 
-        bucket->add(0, fci, fci_cache);
+        bucket->add(phpv8::CallbacksBucket::Index::Callback, fci, fci_cache);
 
         callback = php_v8_callback_function;
     }
@@ -237,7 +237,7 @@ static PHP_METHOD(V8FunctionTemplate, SetCallHandler) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_function_template);
 
     phpv8::CallbacksBucket *bucket= php_v8_function_template->persistent_data->bucket("callback");
-    bucket->add(0, fci, fci_cache);
+    bucket->add(phpv8::CallbacksBucket::Index::Callback, fci, fci_cache);
 
     v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_function_template);
 
