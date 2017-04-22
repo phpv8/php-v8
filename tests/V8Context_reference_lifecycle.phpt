@@ -13,22 +13,18 @@ $helper = require '.testsuite.php';
 require '.v8-helpers.php';
 $v8_helper = new PhpV8Helpers($helper);
 
-class Context extends V8\Context {
-    public function __destruct() {
-        echo 'Context dies now', PHP_EOL;
-    }
-}
+require '.tracking_dtors.php';
 
 $isolate = new \V8\Isolate();
 
 
-$obj = $v8_helper->CompileRun(new Context($isolate), 'var obj = {}; obj');
+$obj = $v8_helper->CompileRun(new \v8Tests\TrackingDtors\Context($isolate), 'var obj = {}; obj');
 
 //$helper->dump($obj);
 $helper->dump($obj->GetContext());
 
 
-$context = new Context($isolate);
+$context = new \v8Tests\TrackingDtors\Context($isolate);
 $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $obj);
 
 $helper->line();
@@ -45,7 +41,7 @@ $helper->dump($obj->GetContext());
 $obj = null;
 ?>
 --EXPECT--
-object(Context)#4 (1) {
+object(v8Tests\TrackingDtors\Context)#4 (1) {
   ["isolate":"V8\Context":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -61,11 +57,11 @@ object(Context)#4 (1) {
   }
 }
 
-Context dies now
+Context dies now!
 
 Previous context should be dead, creating zval for object from old context
 
-object(Context)#6 (1) {
+object(v8Tests\TrackingDtors\Context)#6 (1) {
   ["isolate":"V8\Context":private]=>
   object(V8\Isolate)#3 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -80,4 +76,4 @@ object(Context)#6 (1) {
     bool(false)
   }
 }
-Context dies now
+Context dies now!

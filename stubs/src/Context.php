@@ -87,7 +87,6 @@ class Context
     {
     }
 
-
     /**
      * Sets the security token for the context.  To access an object in
      * another context, the security tokens must match.
