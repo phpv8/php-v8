@@ -19,6 +19,9 @@ $helper->line();
 $helper->method_export($isolate, 'GetHeapStatistics');
 
 $isolate = null;
+
+// EXPECTF: ---/float\([^)]{2,\)"/
+// EXPECTF: +++float(%f)
 ?>
 --EXPECTF--
 Object representation:
@@ -37,23 +40,23 @@ object(V8\Isolate)#2 (5) {
 }
 
 V8\Isolate->GetHeapStatistics():
-    object(V8\HeapStatistics)#28 (9) {
+    object(V8\HeapStatistics)#27 (9) {
       ["total_heap_size":"V8\HeapStatistics":private]=>
-      float(%d)
+      float(3244032)
       ["total_heap_size_executable":"V8\HeapStatistics":private]=>
-      float(%d)
+      float(3145728)
       ["total_physical_size":"V8\HeapStatistics":private]=>
-      float(%d)
+      float(1676112)
       ["total_available_size":"V8\HeapStatistics":private]=>
-      float(%d)
+      float(1496291688)
       ["used_heap_size":"V8\HeapStatistics":private]=>
-      float(%d)
+      float(1583440)
       ["heap_size_limit":"V8\HeapStatistics":private]=>
-      float(%d)
+      float(1501560832)
       ["malloced_memory":"V8\HeapStatistics":private]=>
-      float(%d)
+      float(8192)
       ["peak_malloced_memory":"V8\HeapStatistics":private]=>
-      float(%d)
+      float(8192)
       ["does_zap_garbage":"V8\HeapStatistics":private]=>
       bool(false)
     }

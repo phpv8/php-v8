@@ -424,18 +424,6 @@ static PHP_METHOD(V8Isolate, LowMemoryNotification) {
     isolate->LowMemoryNotification();
 }
 
-
-static PHP_METHOD(V8Isolate, ContextDisposedNotification) {
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
-    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
-
-    RETURN_LONG((long) isolate->ContextDisposedNotification());
-}
-
 static PHP_METHOD(V8Isolate, TerminateExecution) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -563,9 +551,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_LowMemoryNotification, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_ContextDisposedNotification, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
 // void method
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_TerminateExecution, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
@@ -611,7 +596,6 @@ static const zend_function_entry php_v8_isolate_methods[] = {
         PHP_ME(V8Isolate, ThrowException, arginfo_v8_isolate_ThrowException, ZEND_ACC_PUBLIC)
         PHP_ME(V8Isolate, IdleNotificationDeadline, arginfo_v8_isolate_IdleNotificationDeadline, ZEND_ACC_PUBLIC)
         PHP_ME(V8Isolate, LowMemoryNotification, arginfo_v8_isolate_LowMemoryNotification, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, ContextDisposedNotification, arginfo_v8_isolate_ContextDisposedNotification, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Isolate, TerminateExecution, arginfo_v8_isolate_TerminateExecution, ZEND_ACC_PUBLIC)
         PHP_ME(V8Isolate, IsExecutionTerminating, arginfo_v8_isolate_IsExecutionTerminating, ZEND_ACC_PUBLIC)
