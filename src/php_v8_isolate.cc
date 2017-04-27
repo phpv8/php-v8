@@ -396,10 +396,8 @@ static PHP_METHOD(V8Isolate, ThrowException) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
-    v8::Local<v8::Value> local_return_value = isolate->ThrowException(local_value);
 
-    /* From v8 source code, Isolate::ThrowException() returns v8::Undefined() */
-    php_v8_get_or_create_value(return_value, local_return_value, php_v8_value->php_v8_isolate);
+    isolate->ThrowException(local_value);
 }
 
 static PHP_METHOD(V8Isolate, IdleNotificationDeadline) {
@@ -552,7 +550,7 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetEnteredContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()

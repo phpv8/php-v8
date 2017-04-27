@@ -98,9 +98,9 @@ class Isolate
      * @param Context $context
      * @param Value   $value
      *
-     * @return Value
+     * @return void
      */
-    public function ThrowException(Context $context, Value $value): Value
+    public function ThrowException(Context $context, Value $value)
     {
     }
 

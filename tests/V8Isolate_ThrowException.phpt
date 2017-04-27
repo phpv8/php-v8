@@ -16,9 +16,7 @@ $isolate = new \V8\Isolate();
 $func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
     $value = count($info->Arguments()) ? $info->Arguments()[0] : new \V8\StringValue($info->GetIsolate(), "exception");
 
-    $e = $info->GetIsolate()->ThrowException($info->GetContext(), $value);
-
-    $info->GetReturnValue()->Set($e);
+    $info->GetIsolate()->ThrowException($info->GetContext(), $value);
 });
 
 
