@@ -25,7 +25,7 @@ extern "C" {
 #endif
 }
 
-extern zend_class_entry* php_v8_stack_frame_class_entry;
+extern zend_class_entry* php_v8_startup_data_class_entry;
 
 inline php_v8_startup_data_t * php_v8_startup_data_fetch_object(zend_object *obj);
 
