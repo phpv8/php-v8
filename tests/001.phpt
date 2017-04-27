@@ -3,7 +3,7 @@ Check for v8 presence
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
-<?php 
+<?php
 echo "v8 extension is available";
 ?>
 --EXPECT--

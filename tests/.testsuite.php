@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -23,8 +23,6 @@ set_error_handler('exception_error_handler');
 
 class PhpV8Testsuite
 {
-    private $dumper = 'var_dump';
-
     public function header($title)
     {
         echo $title, ':', PHP_EOL;
