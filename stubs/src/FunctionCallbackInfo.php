@@ -32,17 +32,26 @@ class FunctionCallbackInfo extends CallbackInfo
     }
 
     /**
+     * Get available arguments
+     *
      * @return Value[] | StringValue[] | SymbolValue[] | NumberValue[] | ObjectValue[] | ArrayObject[] | FunctionObject[] | StringObject[] | SymbolObject[]
      */
     public function Arguments(): array
     {
     }
 
+    /**
+     * For construct calls, this returns the "new.target" value.
+     *
+     * @return Value
+     */
     public function NewTarget(): Value
     {
     }
 
     /**
+     * Indicates whether this is a regular call or a construct call.
+     *
      * @return bool
      */
     public function IsConstructCall(): bool

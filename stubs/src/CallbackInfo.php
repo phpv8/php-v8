@@ -32,6 +32,8 @@ class CallbackInfo
     }
 
     /**
+     * Returns the receiver. This corresponds to the "this" value.
+     *
      * @return \V8\ObjectValue
      */
     public function This(): ObjectValue
@@ -39,6 +41,15 @@ class CallbackInfo
     }
 
     /**
+     * If the callback was created without a Signature, this is the same
+     * value as This(). If there is a signature, and the signature didn't match
+     * This() but one of its hidden prototypes, this will be the respective
+     * hidden prototype.
+     *
+     * Note that this is not the prototype of This() on which the accessor
+     * referencing this callback was found (which in V8 internally is often
+     * referred to as holder [sic]).
+     *
      * @return \V8\ObjectValue
      */
     public function Holder(): ObjectValue
@@ -46,6 +57,8 @@ class CallbackInfo
     }
 
     /**
+     * The ReturnValue for the call
+     *
      * @return \V8\ReturnValue
      */
     public function GetReturnValue(): ReturnValue
