@@ -52,7 +52,7 @@ console.log(nt.foo);
 
 ?>
 --EXPECT--
-TypeError: Argument 3 passed to V8\ObjectTemplate::Set() should be instance of \V8\PrimitiveValue or \V8\Template, instance of V8\FunctionObject given
+TypeError: Argument 3 passed to V8\ObjectTemplate::Set() must be an instance of \V8\PrimitiveValue or \V8\Template, instance of V8\FunctionObject given
 function Test() { [native code] }
 [object Test]
 function foo() { [native code] }

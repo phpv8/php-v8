@@ -52,7 +52,7 @@ bool php_v8_function_unpack_args(zval *arguments_zv, int arg_position, v8::Isola
     ZEND_HASH_FOREACH_VAL(myht, pzval) {
         if (Z_TYPE_P(pzval) != IS_OBJECT) {
             zend_throw_error(zend_ce_type_error,
-                             "Argument %d passed to %s::%s() should be array of \\V8\\Value objects, %s given at %d offset",
+                             "Argument %d passed to %s::%s() must be an array of \\V8\\Value objects, %s given at %d offset",
                              arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
                              zend_zval_type_name(pzval), i);
 
@@ -62,7 +62,7 @@ bool php_v8_function_unpack_args(zval *arguments_zv, int arg_position, v8::Isola
 
         if (!instanceof_function(Z_OBJCE_P(pzval), php_v8_value_class_entry)) {
             zend_throw_error(zend_ce_type_error,
-                             "Argument %d passed to %s::%s() should be array of \\V8\\Value objects, instance of %s given at %d offset",
+                             "Argument %d passed to %s::%s() must be an array of \\V8\\Value objects, instance of %s given at %d offset",
                              arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
                              ZSTR_VAL(Z_OBJCE_P(pzval)->name), i);
 
@@ -137,7 +137,7 @@ bool php_v8_function_unpack_string_args(zval* arguments_zv, int arg_position, v8
     ZEND_HASH_FOREACH_VAL(myht, pzval) {
                 if (Z_TYPE_P(pzval) != IS_OBJECT) {
                     zend_throw_error(zend_ce_type_error,
-                                     "Argument %d passed to %s::%s() should be array of \\V8\\StringValue objects, %s given at %d offset",
+                                     "Argument %d passed to %s::%s() must be an array of \\V8\\StringValue objects, %s given at %d offset",
                                      arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
                                      zend_zval_type_name(pzval), i);
 
@@ -147,7 +147,7 @@ bool php_v8_function_unpack_string_args(zval* arguments_zv, int arg_position, v8
 
                 if (!instanceof_function(Z_OBJCE_P(pzval), php_v8_string_class_entry)) {
                     zend_throw_error(zend_ce_type_error,
-                                     "Argument %d passed to %s::%s() should be array of \\V8\\StringValue, instance of %s given at %d offset",
+                                     "Argument %d passed to %s::%s() must be an array of \\V8\\StringValue, instance of %s given at %d offset",
                                      arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
                                      ZSTR_VAL(Z_OBJCE_P(pzval)->name), i);
 
@@ -222,7 +222,7 @@ bool php_v8_function_unpack_object_args(zval* arguments_zv, int arg_position, v8
     ZEND_HASH_FOREACH_VAL(myht, pzval) {
                 if (Z_TYPE_P(pzval) != IS_OBJECT) {
                     zend_throw_error(zend_ce_type_error,
-                                     "Argument %d passed to %s::%s() should be array of \\V8\\ObjectValue objects, %s given at %d offset",
+                                     "Argument %d passed to %s::%s() must be an array of \\V8\\ObjectValue objects, %s given at %d offset",
                                      arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
                                      zend_zval_type_name(pzval), i);
 
@@ -232,7 +232,7 @@ bool php_v8_function_unpack_object_args(zval* arguments_zv, int arg_position, v8
 
                 if (!instanceof_function(Z_OBJCE_P(pzval), php_v8_object_class_entry)) {
                     zend_throw_error(zend_ce_type_error,
-                                     "Argument %d passed to %s::%s() should be array of \\V8\\ObjectValue, instance of %s given at %d offset",
+                                     "Argument %d passed to %s::%s() must be an array of \\V8\\ObjectValue, instance of %s given at %d offset",
                                      arg_position, ZSTR_VAL(ce_name), get_active_function_name(),
                                      ZSTR_VAL(Z_OBJCE_P(pzval)->name), i);
 

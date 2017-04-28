@@ -147,7 +147,7 @@ void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* p
             zend_string *ce_name = zend_get_executed_scope()->name;
 
             zend_throw_error(zend_ce_type_error,
-                             "Argument %d passed to %s::%s() should be instance of \\V8\\PrimitiveValue or \\V8\\Template, instance of %s given",
+                             "Argument %d passed to %s::%s() must be an instance of \\V8\\PrimitiveValue or \\V8\\Template, instance of %s given",
                              arg_position, ZSTR_VAL(ce_name), get_active_function_name(), ZSTR_VAL(Z_OBJCE_P(php_v8_value_zv)->name));
             return;
         }

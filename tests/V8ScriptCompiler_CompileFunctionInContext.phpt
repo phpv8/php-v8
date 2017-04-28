@@ -134,8 +134,8 @@ Compile function: ok
 Compile function: ok
 Compile function: ok
 Compile function: ok
-TypeError: Argument 3 passed to V8\ScriptCompiler::CompileFunctionInContext() should be array of \V8\StringValue, instance of V8\StringObject given at 0 offset
-TypeError: Argument 4 passed to V8\ScriptCompiler::CompileFunctionInContext() should be array of \V8\ObjectValue, instance of V8\StringValue given at 0 offset
+TypeError: Argument 3 passed to V8\ScriptCompiler::CompileFunctionInContext() must be an array of \V8\StringValue, instance of V8\StringObject given at 0 offset
+TypeError: Argument 4 passed to V8\ScriptCompiler::CompileFunctionInContext() must be an array of \V8\ObjectValue, instance of V8\StringValue given at 0 offset
 
 
 Testing:
