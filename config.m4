@@ -175,6 +175,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_data.cc                                    \
     src/php_v8_value.cc                                   \
     src/php_v8_primitive.cc                               \
+    src/php_v8_undefined.cc                               \
     src/php_v8_null.cc                                    \
     src/php_v8_boolean.cc                                 \
     src/php_v8_name.cc                                    \

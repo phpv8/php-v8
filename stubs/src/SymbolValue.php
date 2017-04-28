@@ -31,7 +31,6 @@ class SymbolValue extends NameValue
      */
     public function __construct(Isolate $isolate, StringValue $name = null)
     {
-        parent::__construct($isolate);
     }
 
     /**

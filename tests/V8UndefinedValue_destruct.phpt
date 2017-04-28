@@ -1,5 +1,5 @@
 --TEST--
-V8\Value (destruct)
+V8\UndefinedValue (destruct)
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -11,7 +11,7 @@ $helper = require '.testsuite.php';
 require '.tracking_dtors.php';
 
 $isolate = new V8\Isolate();
-$value = new \v8Tests\TrackingDtors\Value($isolate);
+$value = new \v8Tests\TrackingDtors\UndefinedValue($isolate);
 
 
 $helper->dump($value);
@@ -21,7 +21,7 @@ $value = null;
 echo "Done here", PHP_EOL;
 ?>
 --EXPECT--
-object(v8Tests\TrackingDtors\Value)#3 (1) {
+object(v8Tests\TrackingDtors\UndefinedValue)#3 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#2 (5) {
     ["snapshot":"V8\Isolate":private]=>
@@ -36,5 +36,5 @@ object(v8Tests\TrackingDtors\Value)#3 (1) {
     bool(false)
   }
 }
-Value dies now!
+UndefinedValue dies now!
 Done here

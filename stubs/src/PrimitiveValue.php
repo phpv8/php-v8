@@ -19,6 +19,6 @@ namespace V8;
 /**
  * The superclass of primitive values.  See ECMA-262 4.3.2.
  */
-class PrimitiveValue extends Value
+abstract class PrimitiveValue extends Value
 {
 }

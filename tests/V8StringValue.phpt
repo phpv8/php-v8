@@ -29,6 +29,7 @@ $helper->dump($value);
 $helper->space();
 
 $helper->assert('StringValue extends NameValue', $value instanceof \V8\NameValue);
+$helper->assert('StringValue extends Value', $value instanceof \V8\Value);
 $helper->line();
 
 $helper->header('Accessors');
@@ -131,6 +132,7 @@ object(V8\StringValue)#5 (1) {
 
 
 StringValue extends NameValue: ok
+StringValue extends Value: ok
 
 Accessors:
 ----------

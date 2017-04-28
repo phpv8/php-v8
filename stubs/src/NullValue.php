@@ -16,8 +16,12 @@
 namespace V8;
 
 
-class NullValue extends Value
+class NullValue extends PrimitiveValue
 {
+    public function __construct(Isolate $isolate)
+    {
+    }
+
     /**
      * @return null
      */

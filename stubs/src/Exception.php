@@ -66,7 +66,7 @@ class Exception
      * @param Context         $context
      * @param \V8\StringValue $message
      *
-     * @return Value
+     * @return Value | ObjectValue
      */
     public static function Error(Context $context, StringValue $message): Value
     {

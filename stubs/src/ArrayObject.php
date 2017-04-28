@@ -30,7 +30,6 @@ class ArrayObject extends ObjectValue
      */
     public function __construct(Context $context, int $length = 0)
     {
-        parent::__construct($context);
     }
 
     /**

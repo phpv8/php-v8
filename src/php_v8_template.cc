@@ -140,7 +140,19 @@ void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* p
 
         PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_value_to_set);
 
-        local_template->Set(local_name, php_v8_value_get_local(php_v8_value_to_set), static_cast<v8::PropertyAttribute>(attributes));
+        v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value_to_set);
+
+        if (local_value->IsObject()) {
+            int arg_position = 3;
+            zend_string *ce_name = zend_get_executed_scope()->name;
+
+            zend_throw_error(zend_ce_type_error,
+                             "Argument %d passed to %s::%s() must be an instance of \\V8\\PrimitiveValue or \\V8\\Template, instance of %s given",
+                             arg_position, ZSTR_VAL(ce_name), get_active_function_name(), ZSTR_VAL(Z_OBJCE_P(php_v8_value_zv)->name));
+            return;
+        }
+
+        local_template->Set(local_name, local_value, static_cast<v8::PropertyAttribute>(attributes));
     } else if (instanceof_function(Z_OBJCE_P(php_v8_value_zv), php_v8_object_template_class_entry)) {
         // set object template
         PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(php_v8_value_zv, php_v8_object_template_to_set);

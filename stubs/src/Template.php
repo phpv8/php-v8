@@ -42,11 +42,13 @@ class Template extends Data
     /**
      * Adds a property to each instance created by this template.
      *
-     * @param NameValue $name
-     * @param \V8\Data  $value
-     * @param int       $attributes One of \v8\PropertyAttribute constants
+     * @param NameValue               $name
+     * @param PrimitiveValue|Template $value
+     * @param int                     $attributes One of \v8\PropertyAttribute constants
+     *
+     * @return void
      */
-    public function Set(NameValue $name, Data $value, int $attributes = PropertyAttribute::None)
+    public function Set(NameValue $name, /*Data*/ $value, int $attributes = PropertyAttribute::None)
     {
     }
 

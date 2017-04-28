@@ -26,7 +26,6 @@ class NumberValue extends PrimitiveValue
      */
     public function __construct(Isolate $isolate, float $value)
     {
-        parent::__construct($isolate);
     }
 
     /**

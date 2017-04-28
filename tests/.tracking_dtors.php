@@ -58,6 +58,6 @@ class FunctionObject extends \V8\FunctionObject {
     use DestructMessageAwareTrait;
 }
 
-class Value extends \V8\Value {
+class UndefinedValue extends \V8\UndefinedValue {
     use DestructMessageAwareTrait;
 }
