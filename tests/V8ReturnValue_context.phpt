@@ -75,28 +75,12 @@ Object representation:
 ----------------------
 object(V8\ReturnValue)#12 (2) {
   ["isolate":"V8\ReturnValue":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
   ["context":"V8\ReturnValue":private]=>
   object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
-    object(V8\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#3 (0) {
     }
   }
 }
@@ -116,28 +100,12 @@ Object representation (outside of context):
 -------------------------------------------
 object(V8\ReturnValue)#12 (2) {
   ["isolate":"V8\ReturnValue":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
   ["context":"V8\ReturnValue":private]=>
   object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
-    object(V8\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#3 (0) {
     }
   }
 }

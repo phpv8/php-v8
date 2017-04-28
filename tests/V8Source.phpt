@@ -78,15 +78,7 @@ object(V8\ScriptCompiler\Source)#8 (3) {
   ["source_string":"V8\ScriptCompiler\Source":private]=>
   object(V8\StringValue)#4 (1) {
     ["isolate":"V8\Value":private]=>
-    object(V8\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#3 (0) {
     }
   }
   ["origin":"V8\ScriptCompiler\Source":private]=>
@@ -109,15 +101,7 @@ object(V8\ScriptCompiler\Source)#9 (3) {
   ["source_string":"V8\ScriptCompiler\Source":private]=>
   object(V8\StringValue)#4 (1) {
     ["isolate":"V8\Value":private]=>
-    object(V8\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#3 (0) {
     }
   }
   ["origin":"V8\ScriptCompiler\Source":private]=>
@@ -162,15 +146,7 @@ object(V8\ScriptCompiler\Source)#8 (3) {
   ["source_string":"V8\ScriptCompiler\Source":private]=>
   object(V8\StringValue)#4 (1) {
     ["isolate":"V8\Value":private]=>
-    object(V8\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#3 (0) {
     }
   }
   ["origin":"V8\ScriptCompiler\Source":private]=>
@@ -194,15 +170,7 @@ object(V8\ScriptCompiler\Source)#9 (3) {
   ["source_string":"V8\ScriptCompiler\Source":private]=>
   object(V8\StringValue)#4 (1) {
     ["isolate":"V8\Value":private]=>
-    object(V8\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#3 (0) {
     }
   }
   ["origin":"V8\ScriptCompiler\Source":private]=>

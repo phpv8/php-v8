@@ -77,15 +77,7 @@ Object representation:
 ----------------------
 object(V8\UndefinedValue)#5 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
 }
 
@@ -168,15 +160,7 @@ V8\UndefinedValue::ToString() converting:
 -----------------------------------------
 object(V8\StringValue)#88 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
 }
 string(9) "undefined"

@@ -26,6 +26,8 @@ $helper->method_matches($value, 'GetContext', $context);
 $helper->method_matches($value, 'GetTryCatch', $try_catch);
 $helper->space();
 
+// EXPECTF: ---/string\(.+\) ".+\/V8ExceptionsTryCatchException\.php"/
+// EXPECTF: +++string(%d) "%s/V8ExceptionsTryCatchException.php"
 ?>
 --EXPECTF--
 Object representation:
@@ -47,55 +49,23 @@ object(V8\Exceptions\TryCatchException)#5 (10) {
   ["previous":"Exception":private]=>
   NULL
   ["isolate":"V8\Exceptions\TryCatchException":private]=>
-  object(V8\Isolate)#2 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#2 (0) {
   }
   ["context":"V8\Exceptions\TryCatchException":private]=>
   object(V8\Context)#3 (1) {
     ["isolate":"V8\Context":private]=>
-    object(V8\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#2 (0) {
     }
   }
   ["try_catch":"V8\Exceptions\TryCatchException":private]=>
   object(V8\TryCatch)#4 (7) {
     ["isolate":"V8\TryCatch":private]=>
-    object(V8\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#2 (0) {
     }
     ["context":"V8\TryCatch":private]=>
     object(V8\Context)#3 (1) {
       ["isolate":"V8\Context":private]=>
-      object(V8\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#2 (0) {
       }
     }
     ["exception":"V8\TryCatch":private]=>

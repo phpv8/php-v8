@@ -50,7 +50,6 @@ extern void php_v8_throw_try_catch_exception(php_v8_context_t *php_v8_context, v
 #define PHP_V8_CATCH_END() } assert(!try_catch.HasCaught());
 
 #define PHP_V8_MAYBE_CATCH(php_v8_context, try_catch) \
-    php_v8_isolate_maybe_update_limits_hit((php_v8_context)->php_v8_isolate);\
     php_v8_isolate_limits_maybe_stop_timer((php_v8_context)->php_v8_isolate);\
     if ((try_catch).HasCaught()) { \
         php_v8_throw_try_catch_exception((php_v8_context), &(try_catch)); \

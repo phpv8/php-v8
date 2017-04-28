@@ -61,28 +61,12 @@ Object representation:
 ----------------------
 object(V8\StringObject)#6 (2) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
   ["context":"V8\ObjectValue":private]=>
   object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
-    object(V8\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#3 (0) {
     }
   }
 }
@@ -96,15 +80,7 @@ Getters:
 V8\StringObject->ValueOf():
     object(V8\StringValue)#119 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#3 (0) {
       }
     }
 V8\StringValue->Value(): string(11) "test string"

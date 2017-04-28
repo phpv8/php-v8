@@ -68,15 +68,7 @@ UnboundScript representation:
 -----------------------------
 object(V8\UnboundScript)#6 (1) {
   ["isolate":"V8\UnboundScript":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
 }
 

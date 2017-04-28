@@ -74,15 +74,7 @@ echo 'END', PHP_EOL;
 --EXPECT--
 Object representation (no snapshot):
 ------------------------------------
-object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-  ["time_limit":"V8\Isolate":private]=>
-  float(0)
-  ["time_limit_hit":"V8\Isolate":private]=>
-  bool(false)
-  ["memory_limit":"V8\Isolate":private]=>
-  int(0)
-  ["memory_limit_hit":"V8\Isolate":private]=>
-  bool(false)
+object(v8Tests\TrackingDtors\Isolate)#2 (0) {
 }
 
 

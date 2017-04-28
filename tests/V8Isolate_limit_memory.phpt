@@ -61,20 +61,14 @@ $helper->line();
 $helper->dump($isolate);
 $helper->dump($isolate->GetHeapStatistics());
 
+// EXPECTF: ---/float\(.+\)/
+// EXPECTF: +++float(%f)
 ?>
 --EXPECTF--
 Memory limit accessor report no hit: ok
 Get memory limit default value is zero: ok
 Get memory limit returns valid value: ok
-object(V8\Isolate)#3 (4) {
-  ["time_limit":"V8\Isolate":private]=>
-  float(0)
-  ["time_limit_hit":"V8\Isolate":private]=>
-  bool(false)
-  ["memory_limit":"V8\Isolate":private]=>
-  int(10485760)
-  ["memory_limit_hit":"V8\Isolate":private]=>
-  bool(false)
+object(V8\Isolate)#3 (0) {
 }
 
 V8\Exceptions\MemoryLimitException: Memory limit exceeded
@@ -82,33 +76,25 @@ script execution terminated
 Get memory limit returns valid value: ok
 Memory limit accessor report hit: ok
 
-object(V8\Isolate)#3 (4) {
-  ["time_limit":"V8\Isolate":private]=>
-  float(0)
-  ["time_limit_hit":"V8\Isolate":private]=>
-  bool(false)
-  ["memory_limit":"V8\Isolate":private]=>
-  int(10485760)
-  ["memory_limit_hit":"V8\Isolate":private]=>
-  bool(true)
+object(V8\Isolate)#3 (0) {
 }
 object(V8\HeapStatistics)#10 (9) {
   ["total_heap_size":"V8\HeapStatistics":private]=>
-  float(14737408)
+  float(%f)
   ["total_heap_size_executable":"V8\HeapStatistics":private]=>
-  float(3670016)
+  float(%f)
   ["total_physical_size":"V8\HeapStatistics":private]=>
-  float(12383272)
+  float(%f)
   ["total_available_size":"V8\HeapStatistics":private]=>
-  float(1486132752)
+  float(%f)
   ["used_heap_size":"V8\HeapStatistics":private]=>
-  float(12226176)
+  float(%f)
   ["heap_size_limit":"V8\HeapStatistics":private]=>
-  float(1501560832)
+  float(%f)
   ["malloced_memory":"V8\HeapStatistics":private]=>
-  float(8192)
+  float(%f)
   ["peak_malloced_memory":"V8\HeapStatistics":private]=>
-  float(187880)
+  float(%f)
   ["does_zap_garbage":"V8\HeapStatistics":private]=>
   bool(false)
 }

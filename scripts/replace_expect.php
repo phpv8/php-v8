@@ -15,8 +15,25 @@
 $tests_dir = realpath(__DIR__ . '/../tests');
 
 
-if ($argc == 2) {
-    $mask = str_replace(['tests/', '.phpt', '.diff'], '', $argv[1]);
+$mode = 'write';
+
+$args = $argv;
+unset($args[0]);
+
+foreach ($argv as $i => $item) {
+    if ($item == '--pretend') {
+        $mode = 'pretend';
+        unset($args[$i]);
+    }
+}
+
+if (count($args) > 1) {
+    echo 'Invalid options', PHP_EOL;
+    exit(1);
+}
+
+if ($args) {
+    $mask = str_replace(['tests/', '.phpt', '.diff'], '', array_pop($args));
 } else {
     $mask = '*';
 }
@@ -25,41 +42,41 @@ $iterator = new GlobIterator($tests_dir . "/{$mask}.out", FilesystemIterator::KE
 
 foreach ($iterator as $item) {
     //var_dump($item);
-    $out_file = $iterator->key();
+    $out_file  = $iterator->key();
     $base_name = preg_replace('/\.out$/i', '', $iterator->key());
-    $test_file = $base_name .'.phpt';
+    $test_file = $base_name . '.phpt';
 
     $test_content = file_get_contents($tests_dir . '/' . $test_file);
 
     if (false !== ($pos = strpos($test_content, '--EXPECT--'))) {
-        printf("--EXPECT--  [%s]".PHP_EOL, $iterator->key());
+        printf("--EXPECT--  [%s]" . PHP_EOL, $iterator->key());
 
         $test_content = substr($test_content, 0, $pos);
-        $test_content .= '--EXPECT--'.PHP_EOL;
+        $test_content .= '--EXPECT--' . PHP_EOL;
         $test_content .= file_get_contents($tests_dir . '/' . $out_file);
         $test_content .= PHP_EOL;
         file_put_contents($tests_dir . '/' . $test_file, $test_content);
 
         foreach (['.diff', '.exp', '.log', '.mem', '.out', '.php', '.sh'] as $ext) {
-            @unlink($tests_dir. '/'.$base_name . $ext);
+            @unlink($tests_dir . '/' . $base_name . $ext);
         }
 
         continue;
-    //} elseif (0) {
+        //} elseif (0) {
     } elseif (false !== ($pos = strpos($test_content, '--EXPECTF--'))) {
 
-        printf("--EXPECTF--  [%s]".PHP_EOL, $iterator->key());
+        printf("--EXPECTF--  [%s]" . PHP_EOL, $iterator->key());
 
         // get replacements
 
-        $tests = substr($test_content, 0, $pos);
+        $tests  = substr($test_content, 0, $pos);
         $result = file_get_contents($tests_dir . '/' . $out_file);
 
         preg_match_all('#// EXPECTF: \-\-\-(.+)#', $tests, $expectf_search);
         preg_match_all('#// EXPECTF: \+\+\+(.+)#', $tests, $expectf_replace);
 
         if (count($expectf_search) != count($expectf_replace)) {
-            printf("please, edit manually [%s]: searches and replaces count doesn't match".PHP_EOL, $iterator->key());
+            printf("please, edit manually [%s]: searches and replaces count doesn't match" . PHP_EOL, $iterator->key());
             continue;
         }
 
@@ -68,18 +85,24 @@ foreach ($iterator as $item) {
         }
 
         $test_content = $tests;
-        $test_content .= '--EXPECTF--'.PHP_EOL;
+        $test_content .= '--EXPECTF--' . PHP_EOL;
         $test_content .= $result;
         $test_content .= PHP_EOL;
 
-        file_put_contents($tests_dir . '/' . $test_file, $test_content);
+        if ($mode == 'pretend') {
+            echo $result, PHP_EOL;
+            echo PHP_EOL;
 
-        foreach (['.diff', '.exp', '.log', '.mem', '.out', '.php', '.sh'] as $ext) {
-            @unlink($tests_dir. '/'.$base_name . $ext);
+        } elseif ($mode = 'write') {
+            file_put_contents($tests_dir . '/' . $test_file, $test_content);
+
+            foreach (['.diff', '.exp', '.log', '.mem', '.out', '.php', '.sh'] as $ext) {
+                @unlink($tests_dir . '/' . $base_name . $ext);
+            }
         }
 
         continue;
     }
 
-    printf("please, edit manually [%s]".PHP_EOL, $iterator->key());
+    printf("please, edit manually [%s]" . PHP_EOL, $iterator->key());
 }

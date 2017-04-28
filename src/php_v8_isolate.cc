@@ -236,39 +236,26 @@ static PHP_METHOD(V8Isolate, SetTimeLimit) {
     }
 
     php_v8_isolate_limits_set_time_limit(php_v8_isolate, time_limit_in_seconds);
-
-    zend_update_property_double(this_ce, getThis(), ZEND_STRL("time_limit"), time_limit_in_seconds);
-    zend_update_property_bool(this_ce, getThis(), ZEND_STRL("time_limit_hit"), 0);
 }
 
 static PHP_METHOD(V8Isolate, GetTimeLimit) {
-    zval rv;
-
-    zval *prop = NULL;
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
 
-    prop = zend_read_property(this_ce, getThis(), ZEND_STRL("time_limit"), 0, &rv);
-
-    RETVAL_ZVAL(prop, 1, 0);
+    RETVAL_DOUBLE(php_v8_isolate->limits.time_limit);
 }
 
 static PHP_METHOD(V8Isolate, IsTimeLimitHit) {
-    zval rv;
-
-    zval *prop = NULL;
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
 
-    prop = zend_read_property(this_ce, getThis(), ZEND_STRL("time_limit_hit"), 0, &rv);
-
-    RETVAL_ZVAL(prop, 1, 0);
+    RETVAL_BOOL(php_v8_isolate->limits.time_limit_hit);
 }
 
 static PHP_METHOD(V8Isolate, SetMemoryLimit) {
@@ -286,39 +273,26 @@ static PHP_METHOD(V8Isolate, SetMemoryLimit) {
     }
 
     php_v8_isolate_limits_set_memory_limit(php_v8_isolate, static_cast<size_t>(memory_limit_in_bytes));
-
-    zend_update_property_long(this_ce, getThis(), ZEND_STRL("memory_limit"), memory_limit_in_bytes);
-    zend_update_property_bool(this_ce, getThis(), ZEND_STRL("memory_limit_hit"), 0);
 }
 
 static PHP_METHOD(V8Isolate, GetMemoryLimit) {
-    zval rv;
-
-    zval *prop = NULL;
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
 
-    prop = zend_read_property(this_ce, getThis(), ZEND_STRL("memory_limit"), 0, &rv);
-
-    RETVAL_ZVAL(prop, 1, 0);
+    RETURN_LONG(php_v8_isolate->limits.memory_limit);
 }
 
 static PHP_METHOD(V8Isolate, IsMemoryLimitHit) {
-    zval rv;
-
-    zval *prop = NULL;
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
 
-    prop = zend_read_property(this_ce, getThis(), ZEND_STRL("memory_limit_hit"), 0, &rv);
-
-    RETVAL_ZVAL(prop, 1, 0);
+    RETVAL_BOOL(php_v8_isolate->limits.memory_limit_hit);
 }
 
 static PHP_METHOD(V8Isolate, GetHeapStatistics) {
@@ -603,12 +577,6 @@ PHP_MINIT_FUNCTION (php_v8_isolate) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "Isolate", php_v8_isolate_methods);
     this_ce = zend_register_internal_class(&ce);
     this_ce->create_object = php_v8_isolate_ctor;
-
-    zend_declare_property_double(this_ce, ZEND_STRL("time_limit"), 0.0, ZEND_ACC_PRIVATE);
-    zend_declare_property_bool(this_ce, ZEND_STRL("time_limit_hit"), 0, ZEND_ACC_PRIVATE);
-
-    zend_declare_property_long(this_ce, ZEND_STRL("memory_limit"), 0, ZEND_ACC_PRIVATE);
-    zend_declare_property_bool(this_ce, ZEND_STRL("memory_limit_hit"), 0, ZEND_ACC_PRIVATE);
 
     memcpy(&php_v8_isolate_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 

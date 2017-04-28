@@ -59,28 +59,12 @@ Object representation:
 ----------------------
 object(v8Tests\TrackingDtors\FunctionObject)#6 (2) {
   ["isolate":"V8\Value":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(v8Tests\TrackingDtors\Isolate)#3 (0) {
   }
   ["context":"V8\ObjectValue":private]=>
   object(V8\Context)#5 (1) {
     ["isolate":"V8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#3 (0) {
     }
   }
 }

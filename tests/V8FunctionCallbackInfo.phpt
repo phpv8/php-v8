@@ -78,111 +78,47 @@ Object representation:
 ----------------------
 object(V8\FunctionCallbackInfo)#10 (8) {
   ["isolate":"V8\CallbackInfo":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(v8Tests\TrackingDtors\Isolate)#2 (0) {
   }
   ["context":"V8\CallbackInfo":private]=>
   object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
   }
   ["this":"V8\CallbackInfo":private]=>
   object(V8\ObjectValue)#11 (2) {
     ["isolate":"V8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
     ["context":"V8\ObjectValue":private]=>
     object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
     }
   }
   ["holder":"V8\CallbackInfo":private]=>
   object(V8\ObjectValue)#11 (2) {
     ["isolate":"V8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
     ["context":"V8\ObjectValue":private]=>
     object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
     }
   }
   ["return_value":"V8\CallbackInfo":private]=>
   object(V8\ReturnValue)#12 (2) {
     ["isolate":"V8\ReturnValue":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
     ["context":"V8\ReturnValue":private]=>
     object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
     }
   }
@@ -191,42 +127,18 @@ object(V8\FunctionCallbackInfo)#10 (8) {
     [0]=>
     object(V8\StringValue)#13 (1) {
       ["isolate":"V8\Value":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
     }
     [1]=>
     object(V8\ObjectValue)#6 (2) {
       ["isolate":"V8\Value":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
       ["context":"V8\ObjectValue":private]=>
       object(V8\Context)#4 (1) {
         ["isolate":"V8\Context":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
+        object(v8Tests\TrackingDtors\Isolate)#2 (0) {
         }
       }
     }
@@ -234,15 +146,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
   ["new_target":"V8\FunctionCallbackInfo":private]=>
   object(V8\UndefinedValue)#14 (1) {
     ["isolate":"V8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
   }
   ["is_constructor_call":"V8\FunctionCallbackInfo":private]=>
@@ -261,28 +165,12 @@ string(11) "Script done"
 
 object(V8\ReturnValue)#12 (2) {
   ["isolate":"V8\ReturnValue":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(v8Tests\TrackingDtors\Isolate)#2 (0) {
   }
   ["context":"V8\ReturnValue":private]=>
   object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
   }
 }
@@ -291,111 +179,47 @@ Object representation (outside of context):
 -------------------------------------------
 object(V8\FunctionCallbackInfo)#10 (8) {
   ["isolate":"V8\CallbackInfo":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(v8Tests\TrackingDtors\Isolate)#2 (0) {
   }
   ["context":"V8\CallbackInfo":private]=>
   object(V8\Context)#4 (1) {
     ["isolate":"V8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
   }
   ["this":"V8\CallbackInfo":private]=>
   object(V8\ObjectValue)#11 (2) {
     ["isolate":"V8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
     ["context":"V8\ObjectValue":private]=>
     object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
     }
   }
   ["holder":"V8\CallbackInfo":private]=>
   object(V8\ObjectValue)#11 (2) {
     ["isolate":"V8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
     ["context":"V8\ObjectValue":private]=>
     object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
     }
   }
   ["return_value":"V8\CallbackInfo":private]=>
   object(V8\ReturnValue)#12 (2) {
     ["isolate":"V8\ReturnValue":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
     ["context":"V8\ReturnValue":private]=>
     object(V8\Context)#4 (1) {
       ["isolate":"V8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
     }
   }
@@ -404,42 +228,18 @@ object(V8\FunctionCallbackInfo)#10 (8) {
     [0]=>
     object(V8\StringValue)#13 (1) {
       ["isolate":"V8\Value":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
     }
     [1]=>
     object(V8\ObjectValue)#6 (2) {
       ["isolate":"V8\Value":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(v8Tests\TrackingDtors\Isolate)#2 (0) {
       }
       ["context":"V8\ObjectValue":private]=>
       object(V8\Context)#4 (1) {
         ["isolate":"V8\Context":private]=>
-        object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
+        object(v8Tests\TrackingDtors\Isolate)#2 (0) {
         }
       }
     }
@@ -447,15 +247,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
   ["new_target":"V8\FunctionCallbackInfo":private]=>
   object(V8\UndefinedValue)#14 (1) {
     ["isolate":"V8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(v8Tests\TrackingDtors\Isolate)#2 (0) {
     }
   }
   ["is_constructor_call":"V8\FunctionCallbackInfo":private]=>

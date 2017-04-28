@@ -48,20 +48,15 @@ $helper->assert('Memory limit accessor report not hit', false === $isolate->IsMe
 
 $helper->line();
 $helper->dump($isolate);
+
+// EXPECTF: ---/float\(0\..+\)/
+// EXPECTF: +++float(0.%d)
 ?>
 --EXPECTF--
 Memory limit accessor report no hit: ok
 Get memory limit default value is zero: ok
 Get memory limit returns valid value: ok
-object(V8\Isolate)#3 (4) {
-  ["time_limit":"V8\Isolate":private]=>
-  float(0)
-  ["time_limit_hit":"V8\Isolate":private]=>
-  bool(false)
-  ["memory_limit":"V8\Isolate":private]=>
-  int(10485760)
-  ["memory_limit_hit":"V8\Isolate":private]=>
-  bool(false)
+object(V8\Isolate)#3 (0) {
 }
 
 start
@@ -72,13 +67,5 @@ Script execution time is less than 0.5 sec: ok
 Get memory limit returns valid value: ok
 Memory limit accessor report not hit: ok
 
-object(V8\Isolate)#3 (4) {
-  ["time_limit":"V8\Isolate":private]=>
-  float(0)
-  ["time_limit_hit":"V8\Isolate":private]=>
-  bool(false)
-  ["memory_limit":"V8\Isolate":private]=>
-  int(10485760)
-  ["memory_limit_hit":"V8\Isolate":private]=>
-  bool(false)
+object(V8\Isolate)#3 (0) {
 }

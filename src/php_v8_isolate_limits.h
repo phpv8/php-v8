@@ -29,7 +29,6 @@ extern void php_v8_isolate_limits_maybe_stop_timer(php_v8_isolate_t *php_v8_isol
 extern void php_v8_isolate_limits_free(php_v8_isolate_t *php_v8_isolate);
 extern void php_v8_isolate_limits_ctor(php_v8_isolate_t *php_v8_isolate);
 
-extern void php_v8_isolate_maybe_update_limits_hit(php_v8_isolate_t *php_v8_isolate);
 extern void php_v8_isolate_limits_set_time_limit(php_v8_isolate_t *php_v8_isolate, double time_limit_in_seconds);
 extern void php_v8_isolate_limits_set_memory_limit(php_v8_isolate_t *php_v8_isolate, size_t memory_limit_in_bytes);
 

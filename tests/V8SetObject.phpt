@@ -109,28 +109,12 @@ Object representation:
 ----------------------
 object(V8\SetObject)#6 (2) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
   ["context":"V8\ObjectValue":private]=>
   object(V8\Context)#5 (1) {
     ["isolate":"V8\Context":private]=>
-    object(V8\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#3 (0) {
     }
   }
 }
@@ -213,127 +197,55 @@ Converters:
 V8\SetObject(V8\Value)->ToBoolean():
     object(V8\BooleanValue)#121 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#3 (0) {
       }
     }
 V8\SetObject(V8\Value)->ToNumber():
     object(V8\NumberValue)#121 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#3 (0) {
       }
     }
 V8\SetObject(V8\Value)->ToString():
     object(V8\StringValue)#121 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#3 (0) {
       }
     }
 V8\SetObject(V8\Value)->ToDetailString():
     object(V8\StringValue)#121 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#3 (0) {
       }
     }
 V8\SetObject(V8\Value)->ToObject():
     object(V8\SetObject)#6 (2) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#3 (0) {
       }
       ["context":"V8\ObjectValue":private]=>
       object(V8\Context)#5 (1) {
         ["isolate":"V8\Context":private]=>
-        object(V8\Isolate)#3 (4) {
-          ["time_limit":"V8\Isolate":private]=>
-          float(0)
-          ["time_limit_hit":"V8\Isolate":private]=>
-          bool(false)
-          ["memory_limit":"V8\Isolate":private]=>
-          int(0)
-          ["memory_limit_hit":"V8\Isolate":private]=>
-          bool(false)
+        object(V8\Isolate)#3 (0) {
         }
       }
     }
 V8\SetObject(V8\Value)->ToInteger():
     object(V8\Int32Value)#121 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#3 (0) {
       }
     }
 V8\SetObject(V8\Value)->ToUint32():
     object(V8\Int32Value)#121 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#3 (0) {
       }
     }
 V8\SetObject(V8\Value)->ToInt32():
     object(V8\Int32Value)#121 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (4) {
-        ["time_limit":"V8\Isolate":private]=>
-        float(0)
-        ["time_limit_hit":"V8\Isolate":private]=>
-        bool(false)
-        ["memory_limit":"V8\Isolate":private]=>
-        int(0)
-        ["memory_limit_hit":"V8\Isolate":private]=>
-        bool(false)
+      object(V8\Isolate)#3 (0) {
       }
     }
 V8\SetObject(V8\Value)->ToArrayIndex(): V8\Exceptions\Exception: Failed to convert

@@ -43,15 +43,7 @@ $obj = null;
 --EXPECT--
 object(v8Tests\TrackingDtors\Context)#4 (1) {
   ["isolate":"V8\Context":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
 }
 
@@ -61,15 +53,7 @@ Previous context should be dead, creating zval for object from old context
 
 object(v8Tests\TrackingDtors\Context)#6 (1) {
   ["isolate":"V8\Context":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
 }
 Context dies now!

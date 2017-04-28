@@ -54,15 +54,7 @@ Object representation:
 ----------------------
 object(V8\NullValue)#2 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#1 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#1 (0) {
   }
 }
 
@@ -139,15 +131,7 @@ V8\NullValue::ToString() converting:
 ------------------------------------
 object(V8\StringValue)#79 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#1 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#1 (0) {
   }
 }
 string(4) "null"

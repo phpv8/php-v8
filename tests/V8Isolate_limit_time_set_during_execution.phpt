@@ -61,17 +61,14 @@ try {
 $helper->line();
 $helper->dump($isolate);
 
+// EXPECTF: ---/float\(.+\)/
+// EXPECTF: +++float(%f)
+
+// EXPECTF: ---/range \(.+, .+\)/
+// EXPECTF: +++range (%f, %f)
 ?>
 --EXPECTF--
-object(V8\Isolate)#2 (4) {
-  ["time_limit":"V8\Isolate":private]=>
-  float(0)
-  ["time_limit_hit":"V8\Isolate":private]=>
-  bool(false)
-  ["memory_limit":"V8\Isolate":private]=>
-  int(0)
-  ["memory_limit_hit":"V8\Isolate":private]=>
-  bool(false)
+object(V8\Isolate)#2 (0) {
 }
 
 V8\Exceptions\TimeLimitException: Time limit exceeded
@@ -80,13 +77,5 @@ script execution terminated
 float(%f)
 Script execution time is within specified range (%f, %f): ok
 
-object(V8\Isolate)#2 (4) {
-  ["time_limit":"V8\Isolate":private]=>
-  float(%f)
-  ["time_limit_hit":"V8\Isolate":private]=>
-  bool(true)
-  ["memory_limit":"V8\Isolate":private]=>
-  int(0)
-  ["memory_limit_hit":"V8\Isolate":private]=>
-  bool(false)
+object(V8\Isolate)#2 (0) {
 }

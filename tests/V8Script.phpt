@@ -53,28 +53,12 @@ $v8_helper->run_checks($res, 'Checkers');
 --EXPECT--
 object(V8\Script)#7 (2) {
   ["isolate":"V8\Script":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
   ["context":"V8\Script":private]=>
   object(V8\Context)#6 (1) {
     ["isolate":"V8\Context":private]=>
-    object(V8\Isolate)#3 (4) {
-      ["time_limit":"V8\Isolate":private]=>
-      float(0)
-      ["time_limit_hit":"V8\Isolate":private]=>
-      bool(false)
-      ["memory_limit":"V8\Isolate":private]=>
-      int(0)
-      ["memory_limit_hit":"V8\Isolate":private]=>
-      bool(false)
+    object(V8\Isolate)#3 (0) {
     }
   }
 }
@@ -88,15 +72,7 @@ Get unbound script:
 V8\Script::GetUnboundScript() result is instance of V8\UnboundScript
 object(V8\UnboundScript)#8 (1) {
   ["isolate":"V8\UnboundScript":private]=>
-  object(V8\Isolate)#3 (4) {
-    ["time_limit":"V8\Isolate":private]=>
-    float(0)
-    ["time_limit_hit":"V8\Isolate":private]=>
-    bool(false)
-    ["memory_limit":"V8\Isolate":private]=>
-    int(0)
-    ["memory_limit_hit":"V8\Isolate":private]=>
-    bool(false)
+  object(V8\Isolate)#3 (0) {
   }
 }
 
