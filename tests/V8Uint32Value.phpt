@@ -72,9 +72,7 @@ Object representation:
 ----------------------
 object(V8\Uint32Value)#4 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
+  object(V8\Isolate)#3 (4) {
     ["time_limit":"V8\Isolate":private]=>
     float(0)
     ["time_limit_hit":"V8\Isolate":private]=>
@@ -153,9 +151,7 @@ V8\Uint32Value::ToString() converting:
 --------------------------------------
 object(V8\StringValue)#79 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
+  object(V8\Isolate)#3 (4) {
     ["time_limit":"V8\Isolate":private]=>
     float(0)
     ["time_limit_hit":"V8\Isolate":private]=>

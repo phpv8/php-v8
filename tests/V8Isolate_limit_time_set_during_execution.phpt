@@ -63,9 +63,7 @@ $helper->dump($isolate);
 
 ?>
 --EXPECTF--
-object(V8\Isolate)#2 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(V8\Isolate)#2 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(0)
   ["time_limit_hit":"V8\Isolate":private]=>
@@ -82,9 +80,7 @@ script execution terminated
 float(%f)
 Script execution time is within specified range (%f, %f): ok
 
-object(V8\Isolate)#2 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(V8\Isolate)#2 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(%f)
   ["time_limit_hit":"V8\Isolate":private]=>

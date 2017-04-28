@@ -53,9 +53,7 @@ $helper->dump($isolate);
 Memory limit accessor report no hit: ok
 Get memory limit default value is zero: ok
 Get memory limit returns valid value: ok
-object(V8\Isolate)#3 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(V8\Isolate)#3 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(0)
   ["time_limit_hit":"V8\Isolate":private]=>
@@ -74,9 +72,7 @@ Script execution time is less than 0.5 sec: ok
 Get memory limit returns valid value: ok
 Memory limit accessor report not hit: ok
 
-object(V8\Isolate)#3 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(V8\Isolate)#3 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(0)
   ["time_limit_hit":"V8\Isolate":private]=>

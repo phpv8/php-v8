@@ -71,9 +71,7 @@ Object representation (default):
 --------------------------------
 object(V8\TryCatch)#4 (7) {
   ["isolate":"V8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
+  object(v8Tests\TrackingDtors\Isolate)#2 (4) {
     ["time_limit":"V8\Isolate":private]=>
     float(0)
     ["time_limit_hit":"V8\Isolate":private]=>
@@ -86,9 +84,7 @@ object(V8\TryCatch)#4 (7) {
   ["context":"V8\TryCatch":private]=>
   object(v8Tests\TrackingDtors\Context)#3 (1) {
     ["isolate":"V8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
+    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
       ["time_limit":"V8\Isolate":private]=>
       float(0)
       ["time_limit_hit":"V8\Isolate":private]=>
@@ -127,9 +123,7 @@ Object representation:
 ----------------------
 object(V8\TryCatch)#11 (7) {
   ["isolate":"V8\TryCatch":private]=>
-  object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
+  object(v8Tests\TrackingDtors\Isolate)#2 (4) {
     ["time_limit":"V8\Isolate":private]=>
     float(0)
     ["time_limit_hit":"V8\Isolate":private]=>
@@ -142,9 +136,7 @@ object(V8\TryCatch)#11 (7) {
   ["context":"V8\TryCatch":private]=>
   object(v8Tests\TrackingDtors\Context)#3 (1) {
     ["isolate":"V8\Context":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
+    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
       ["time_limit":"V8\Isolate":private]=>
       float(0)
       ["time_limit_hit":"V8\Isolate":private]=>
@@ -158,9 +150,7 @@ object(V8\TryCatch)#11 (7) {
   ["exception":"V8\TryCatch":private]=>
   object(V8\ObjectValue)#5 (2) {
     ["isolate":"V8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
+    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
       ["time_limit":"V8\Isolate":private]=>
       float(0)
       ["time_limit_hit":"V8\Isolate":private]=>
@@ -173,9 +163,7 @@ object(V8\TryCatch)#11 (7) {
     ["context":"V8\ObjectValue":private]=>
     object(v8Tests\TrackingDtors\Context)#3 (1) {
       ["isolate":"V8\Context":private]=>
-      object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
+      object(v8Tests\TrackingDtors\Isolate)#2 (4) {
         ["time_limit":"V8\Isolate":private]=>
         float(0)
         ["time_limit_hit":"V8\Isolate":private]=>
@@ -190,9 +178,7 @@ object(V8\TryCatch)#11 (7) {
   ["stack_trace":"V8\TryCatch":private]=>
   object(V8\StringValue)#10 (1) {
     ["isolate":"V8\Value":private]=>
-    object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
+    object(v8Tests\TrackingDtors\Isolate)#2 (4) {
       ["time_limit":"V8\Isolate":private]=>
       float(0)
       ["time_limit_hit":"V8\Isolate":private]=>

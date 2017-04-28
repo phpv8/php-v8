@@ -92,9 +92,7 @@ $helper->line();
 $helper->dump($isolate);
 ?>
 --EXPECT--
-object(V8\Isolate)#3 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(V8\Isolate)#3 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(0)
   ["time_limit_hit":"V8\Isolate":private]=>
@@ -114,9 +112,7 @@ function call terminated
 V8\Exceptions\MemoryLimitException: Memory limit exceeded
 script execution terminated
 
-object(V8\Isolate)#3 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(V8\Isolate)#3 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(0)
   ["time_limit_hit":"V8\Isolate":private]=>

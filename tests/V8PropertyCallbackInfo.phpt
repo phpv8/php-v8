@@ -59,9 +59,7 @@ Object representation:
 ----------------------
 object(V8\PropertyCallbackInfo)#8 (6) {
   ["isolate":"V8\CallbackInfo":private]=>
-  object(V8\Isolate)#2 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
+  object(V8\Isolate)#2 (4) {
     ["time_limit":"V8\Isolate":private]=>
     float(0)
     ["time_limit_hit":"V8\Isolate":private]=>
@@ -74,9 +72,7 @@ object(V8\PropertyCallbackInfo)#8 (6) {
   ["context":"V8\CallbackInfo":private]=>
   object(V8\Context)#3 (1) {
     ["isolate":"V8\Context":private]=>
-    object(V8\Isolate)#2 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
+    object(V8\Isolate)#2 (4) {
       ["time_limit":"V8\Isolate":private]=>
       float(0)
       ["time_limit_hit":"V8\Isolate":private]=>
@@ -90,9 +86,7 @@ object(V8\PropertyCallbackInfo)#8 (6) {
   ["this":"V8\CallbackInfo":private]=>
   object(V8\ObjectValue)#5 (2) {
     ["isolate":"V8\Value":private]=>
-    object(V8\Isolate)#2 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
+    object(V8\Isolate)#2 (4) {
       ["time_limit":"V8\Isolate":private]=>
       float(0)
       ["time_limit_hit":"V8\Isolate":private]=>
@@ -105,9 +99,7 @@ object(V8\PropertyCallbackInfo)#8 (6) {
     ["context":"V8\ObjectValue":private]=>
     object(V8\Context)#3 (1) {
       ["isolate":"V8\Context":private]=>
-      object(V8\Isolate)#2 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
+      object(V8\Isolate)#2 (4) {
         ["time_limit":"V8\Isolate":private]=>
         float(0)
         ["time_limit_hit":"V8\Isolate":private]=>
@@ -122,9 +114,7 @@ object(V8\PropertyCallbackInfo)#8 (6) {
   ["holder":"V8\CallbackInfo":private]=>
   object(V8\ObjectValue)#5 (2) {
     ["isolate":"V8\Value":private]=>
-    object(V8\Isolate)#2 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
+    object(V8\Isolate)#2 (4) {
       ["time_limit":"V8\Isolate":private]=>
       float(0)
       ["time_limit_hit":"V8\Isolate":private]=>
@@ -137,9 +127,7 @@ object(V8\PropertyCallbackInfo)#8 (6) {
     ["context":"V8\ObjectValue":private]=>
     object(V8\Context)#3 (1) {
       ["isolate":"V8\Context":private]=>
-      object(V8\Isolate)#2 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
+      object(V8\Isolate)#2 (4) {
         ["time_limit":"V8\Isolate":private]=>
         float(0)
         ["time_limit_hit":"V8\Isolate":private]=>
@@ -154,9 +142,7 @@ object(V8\PropertyCallbackInfo)#8 (6) {
   ["return_value":"V8\CallbackInfo":private]=>
   object(V8\ReturnValue)#9 (2) {
     ["isolate":"V8\ReturnValue":private]=>
-    object(V8\Isolate)#2 (5) {
-      ["snapshot":"V8\Isolate":private]=>
-      NULL
+    object(V8\Isolate)#2 (4) {
       ["time_limit":"V8\Isolate":private]=>
       float(0)
       ["time_limit_hit":"V8\Isolate":private]=>
@@ -169,9 +155,7 @@ object(V8\PropertyCallbackInfo)#8 (6) {
     ["context":"V8\ReturnValue":private]=>
     object(V8\Context)#3 (1) {
       ["isolate":"V8\Context":private]=>
-      object(V8\Isolate)#2 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
+      object(V8\Isolate)#2 (4) {
         ["time_limit":"V8\Isolate":private]=>
         float(0)
         ["time_limit_hit":"V8\Isolate":private]=>

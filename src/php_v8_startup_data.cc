@@ -31,15 +31,16 @@ void php_v8_startup_data_create(zval *return_value, v8::StartupData *blob) {
 
     PHP_V8_STARTUP_DATA_FETCH_INTO(return_value, php_v8_startup_data);
 
-    php_v8_startup_data->blob = blob;
+    php_v8_startup_data->blob = new phpv8::StartupData(blob);
 }
 
 static void php_v8_startup_data_free(zend_object *object) {
     php_v8_startup_data_t *php_v8_startup_data = php_v8_startup_data_fetch_object(object);
 
-    if (php_v8_startup_data->blob) {
+    if (php_v8_startup_data->blob && php_v8_startup_data->blob->release()) {
         delete php_v8_startup_data->blob;
     }
+    php_v8_startup_data->blob = nullptr;
 
     zend_object_std_dtor(&php_v8_startup_data->std);
 }
@@ -61,27 +62,28 @@ static zend_object *php_v8_startup_data_ctor(zend_class_entry *ce) {
 }
 
 static PHP_METHOD(V8StartupData, __construct) {
-    zend_string *blob = NULL;
+    zend_string *blob_string = NULL;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "S", &blob) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "S", &blob_string) == FAILURE) {
         return;
     }
 
-    if (ZSTR_LEN(blob) > INT_MAX) {
+    if (ZSTR_LEN(blob_string) > INT_MAX) {
         PHP_V8_THROW_EXCEPTION("Failed to create startup blob due to blob size integer overflow");
         return;
     }
 
-    if (!ZSTR_LEN(blob)) {
+    if (!ZSTR_LEN(blob_string)) {
         return;
     }
 
     PHP_V8_STARTUP_DATA_FETCH_INTO(getThis(), php_v8_startup_data);
 
-    php_v8_startup_data->blob = new v8::StartupData();
+    v8::StartupData *blob = new v8::StartupData();
+    blob->data = (const char *) estrndup(ZSTR_VAL(blob_string), ZSTR_LEN(blob_string));
+    blob->raw_size = static_cast<int>(ZSTR_LEN(blob_string));
 
-    php_v8_startup_data->blob->data = (const char *) estrndup(ZSTR_VAL(blob), ZSTR_LEN(blob));
-    php_v8_startup_data->blob->raw_size = static_cast<int>(ZSTR_LEN(blob));
+    php_v8_startup_data->blob = new phpv8::StartupData(blob);
 }
 
 static PHP_METHOD(V8StartupData, GetData) {
@@ -91,8 +93,8 @@ static PHP_METHOD(V8StartupData, GetData) {
 
     PHP_V8_STARTUP_DATA_FETCH_INTO(getThis(), php_v8_startup_data);
 
-    if (php_v8_startup_data->blob->data != NULL) {
-        zend_string *out = zend_string_init(php_v8_startup_data->blob->data, static_cast<size_t>(php_v8_startup_data->blob->raw_size), 0);
+    if (php_v8_startup_data->blob && php_v8_startup_data->blob->hasData()) {
+        zend_string *out = zend_string_init(php_v8_startup_data->blob->data()->data, static_cast<size_t>(php_v8_startup_data->blob->data()->raw_size), 0);
         RETURN_STR(out);
     }
 
@@ -106,7 +108,12 @@ static PHP_METHOD(V8StartupData, GetRawSize) {
 
     PHP_V8_STARTUP_DATA_FETCH_INTO(getThis(), php_v8_startup_data);
 
-    RETVAL_LONG(static_cast<zend_long>(php_v8_startup_data->blob->raw_size));
+    if (php_v8_startup_data->blob && php_v8_startup_data->blob->hasData()) {
+        RETVAL_LONG(static_cast<zend_long>(php_v8_startup_data->blob->data()->raw_size));
+        return;
+    }
+
+    RETURN_LONG(0);
 }
 
 static PHP_METHOD(V8StartupData, CreateFromSource) {

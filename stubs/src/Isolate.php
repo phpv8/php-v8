@@ -17,16 +17,6 @@ namespace V8;
 
 class Isolate
 {
-    /**
-     * @var StartupData | null
-     */
-    private $snapshot;
-
-    private $time_limit = 0.0;
-    private $time_limit_hit = false;
-    private $memory_limit = 0;
-    private $memory_limit_hit = false;
-
     public function __construct(StartupData $snapshot = null)
     {
     }
@@ -52,13 +42,6 @@ class Isolate
     }
 
     public function IsTimeLimitHit(): bool
-    {
-    }
-
-    /**
-     * @return StartupData | null
-     */
-    public function GetSnapshot()
     {
     }
 

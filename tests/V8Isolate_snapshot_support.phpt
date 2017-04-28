@@ -17,10 +17,6 @@ $helper->dump($isolate);
 $helper->space();
 
 
-$helper->header('Accessors (no snapshot)');
-$helper->method_matches($isolate, 'GetSnapshot', null);
-$helper->space();
-
 $context = new \V8\Context($isolate);
 
 $helper->assert('Context should have no test data', $context->GlobalObject()->Has($context, new \V8\StringValue($isolate, 'test_snapshot')), false);
@@ -41,15 +37,10 @@ $data = V8\StartupData::CreateFromSource($source);
 $isolate = new \v8Tests\TrackingDtors\Isolate($data);
 
 
-
 $helper->header('Object representation (with snapshot)');
 $helper->dump($isolate);
 $helper->space();
 
-
-$helper->header('Accessors (with snapshot)');
-$helper->method_matches_instanceof($isolate, 'GetSnapshot', V8\StartupData::class);
-$helper->space();
 
 $context = new \V8\Context($isolate);
 
@@ -83,9 +74,7 @@ echo 'END', PHP_EOL;
 --EXPECT--
 Object representation (no snapshot):
 ------------------------------------
-object(v8Tests\TrackingDtors\Isolate)#2 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(v8Tests\TrackingDtors\Isolate)#2 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(0)
   ["time_limit_hit":"V8\Isolate":private]=>
@@ -95,11 +84,6 @@ object(v8Tests\TrackingDtors\Isolate)#2 (5) {
   ["memory_limit_hit":"V8\Isolate":private]=>
   bool(false)
 }
-
-
-Accessors (no snapshot):
-------------------------
-v8Tests\TrackingDtors\Isolate::GetSnapshot() matches expected value
 
 
 Context should have no test data: ok
@@ -109,24 +93,8 @@ Isolate dies now!
 
 Object representation (with snapshot):
 --------------------------------------
-object(v8Tests\TrackingDtors\Isolate)#3 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  object(V8\StartupData)#2 (0) {
-  }
-  ["time_limit":"V8\Isolate":private]=>
-  float(0)
-  ["time_limit_hit":"V8\Isolate":private]=>
-  bool(false)
-  ["memory_limit":"V8\Isolate":private]=>
-  int(0)
-  ["memory_limit_hit":"V8\Isolate":private]=>
-  bool(false)
+object(v8Tests\TrackingDtors\Isolate)#3 (0) {
 }
-
-
-Accessors (with snapshot):
---------------------------
-v8Tests\TrackingDtors\Isolate::GetSnapshot() result is instance of V8\StartupData
 
 
 Context should have test function: ok

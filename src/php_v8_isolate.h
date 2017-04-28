@@ -15,6 +15,7 @@
 
 typedef struct _php_v8_isolate_t php_v8_isolate_t;
 
+#include "php_v8_startup_data.h"
 #include "php_v8_isolate_limits.h"
 #include "php_v8_exceptions.h"
 #include "php_v8_callbacks.h"
@@ -119,6 +120,7 @@ inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php
 struct _php_v8_isolate_t {
     v8::Isolate *isolate;
     v8::Isolate::CreateParams *create_params;
+    phpv8::StartupData *blob;
 
     phpv8::PersistentCollection<v8::FunctionTemplate> *weak_function_templates;
     phpv8::PersistentCollection<v8::ObjectTemplate> *weak_object_templates;

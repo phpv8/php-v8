@@ -20,15 +20,13 @@ $helper->method_export($isolate, 'GetHeapStatistics');
 
 $isolate = null;
 
-// EXPECTF: ---/float\([^)]{2,\)"/
+// EXPECTF: ---/float\(.+\)"/
 // EXPECTF: +++float(%f)
 ?>
 --EXPECTF--
 Object representation:
 ----------------------
-object(V8\Isolate)#2 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(V8\Isolate)#2 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(0)
   ["time_limit_hit":"V8\Isolate":private]=>
@@ -40,7 +38,7 @@ object(V8\Isolate)#2 (5) {
 }
 
 V8\Isolate->GetHeapStatistics():
-    object(V8\HeapStatistics)#27 (9) {
+    object(V8\HeapStatistics)#26 (9) {
       ["total_heap_size":"V8\HeapStatistics":private]=>
       float(3244032)
       ["total_heap_size_executable":"V8\HeapStatistics":private]=>

@@ -128,6 +128,12 @@ static void php_v8_isolate_free(zend_object *object) {
 
         delete php_v8_isolate->create_params;
     }
+
+    if (php_v8_isolate->blob && php_v8_isolate->blob->release()) {
+        delete php_v8_isolate->blob;
+    }
+
+    php_v8_isolate->blob = nullptr;
 }
 
 static void php_v8_isolate_oom_error_callback(const char *location, bool is_heap_oom) {
@@ -144,6 +150,7 @@ static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
 
     php_v8_init();
 
+    php_v8_isolate->blob = nullptr;
     php_v8_isolate->create_params = new v8::Isolate::CreateParams();
     php_v8_isolate->create_params->array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
 
@@ -191,9 +198,10 @@ static PHP_METHOD(V8Isolate, __construct) {
 
     if (snapshot_zv != NULL) {
         PHP_V8_STARTUP_DATA_FETCH_INTO(snapshot_zv, php_v8_startup_data);
-        zend_update_property(this_ce, getThis(), ZEND_STRL("snapshot"), snapshot_zv);
-
-        php_v8_isolate->create_params->snapshot_blob = php_v8_startup_data->blob;
+        if (php_v8_startup_data->blob && php_v8_startup_data->blob->hasData()) {
+            php_v8_isolate->blob = php_v8_startup_data->blob;
+            php_v8_isolate->create_params->snapshot_blob = php_v8_isolate->blob->acquire();
+        }
     }
 
     php_v8_isolate->isolate = v8::Isolate::New(*php_v8_isolate->create_params);
@@ -309,21 +317,6 @@ static PHP_METHOD(V8Isolate, IsMemoryLimitHit) {
     PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
 
     prop = zend_read_property(this_ce, getThis(), ZEND_STRL("memory_limit_hit"), 0, &rv);
-
-    RETVAL_ZVAL(prop, 1, 0);
-}
-
-static PHP_METHOD(V8Isolate, GetSnapshot) {
-    zval rv;
-
-    zval *prop = NULL;
-    if (zend_parse_parameters_none() == FAILURE) {
-        return;
-    }
-
-    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
-
-    prop = zend_read_property(this_ce, getThis(), ZEND_STRL("snapshot"), 0, &rv);
 
     RETVAL_ZVAL(prop, 1, 0);
 }
@@ -526,9 +519,6 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsMemoryLimitHit, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetSnapshot, ZEND_RETURN_VALUE, 0, V8\\StartupData, 1)
-ZEND_END_ARG_INFO()
-
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetHeapStatistics, ZEND_RETURN_VALUE, 0, V8\\HeapStatistics, 0)
 ZEND_END_ARG_INFO()
 
@@ -586,8 +576,6 @@ static const zend_function_entry php_v8_isolate_methods[] = {
         PHP_ME(V8Isolate, GetMemoryLimit, arginfo_v8_isolate_GetMemoryLimit, ZEND_ACC_PUBLIC)
         PHP_ME(V8Isolate, IsMemoryLimitHit, arginfo_v8_isolate_IsMemoryLimitHit, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8Isolate, GetSnapshot, arginfo_v8_isolate_GetSnapshot, ZEND_ACC_PUBLIC)
-
         PHP_ME(V8Isolate, GetHeapStatistics, arginfo_v8_isolate_GetHeapStatistics, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Isolate, InContext, arginfo_v8_isolate_InContext, ZEND_ACC_PUBLIC)
@@ -615,8 +603,6 @@ PHP_MINIT_FUNCTION (php_v8_isolate) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "Isolate", php_v8_isolate_methods);
     this_ce = zend_register_internal_class(&ce);
     this_ce->create_object = php_v8_isolate_ctor;
-
-    zend_declare_property_null(this_ce, ZEND_STRL("snapshot"), ZEND_ACC_PRIVATE);
 
     zend_declare_property_double(this_ce, ZEND_STRL("time_limit"), 0.0, ZEND_ACC_PRIVATE);
     zend_declare_property_bool(this_ce, ZEND_STRL("time_limit_hit"), 0, ZEND_ACC_PRIVATE);

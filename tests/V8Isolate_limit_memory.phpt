@@ -60,14 +60,13 @@ $helper->assert('Memory limit accessor report hit', true === $isolate->IsMemoryL
 $helper->line();
 $helper->dump($isolate);
 $helper->dump($isolate->GetHeapStatistics());
+
 ?>
 --EXPECTF--
 Memory limit accessor report no hit: ok
 Get memory limit default value is zero: ok
 Get memory limit returns valid value: ok
-object(V8\Isolate)#3 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(V8\Isolate)#3 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(0)
   ["time_limit_hit":"V8\Isolate":private]=>
@@ -83,9 +82,7 @@ script execution terminated
 Get memory limit returns valid value: ok
 Memory limit accessor report hit: ok
 
-object(V8\Isolate)#3 (5) {
-  ["snapshot":"V8\Isolate":private]=>
-  NULL
+object(V8\Isolate)#3 (4) {
   ["time_limit":"V8\Isolate":private]=>
   float(0)
   ["time_limit_hit":"V8\Isolate":private]=>

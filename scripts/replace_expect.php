@@ -45,6 +45,7 @@ foreach ($iterator as $item) {
         }
 
         continue;
+    //} elseif (0) {
     } elseif (false !== ($pos = strpos($test_content, '--EXPECTF--'))) {
 
         printf("--EXPECTF--  [%s]".PHP_EOL, $iterator->key());

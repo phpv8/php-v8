@@ -175,9 +175,7 @@ Object representation:
 ----------------------
 object(V8\SymbolValue)#4 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
+  object(V8\Isolate)#3 (4) {
     ["time_limit":"V8\Isolate":private]=>
     float(0)
     ["time_limit_hit":"V8\Isolate":private]=>
@@ -199,9 +197,7 @@ V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
     object(V8\UndefinedValue)#92 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
+      object(V8\Isolate)#3 (4) {
         ["time_limit":"V8\Isolate":private]=>
         float(0)
         ["time_limit_hit":"V8\Isolate":private]=>
@@ -276,9 +272,7 @@ Object representation:
 ----------------------
 object(V8\SymbolValue)#92 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
+  object(V8\Isolate)#3 (4) {
     ["time_limit":"V8\Isolate":private]=>
     float(0)
     ["time_limit_hit":"V8\Isolate":private]=>
@@ -299,9 +293,7 @@ V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
     object(V8\UndefinedValue)#7 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
+      object(V8\Isolate)#3 (4) {
         ["time_limit":"V8\Isolate":private]=>
         float(0)
         ["time_limit_hit":"V8\Isolate":private]=>
@@ -376,9 +368,7 @@ Object representation:
 ----------------------
 object(V8\SymbolValue)#7 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
+  object(V8\Isolate)#3 (4) {
     ["time_limit":"V8\Isolate":private]=>
     float(0)
     ["time_limit_hit":"V8\Isolate":private]=>
@@ -399,9 +389,7 @@ V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
     object(V8\StringValue)#8 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
+      object(V8\Isolate)#3 (4) {
         ["time_limit":"V8\Isolate":private]=>
         float(0)
         ["time_limit_hit":"V8\Isolate":private]=>
@@ -480,9 +468,7 @@ Object representation:
 ----------------------
 object(V8\SymbolValue)#8 (1) {
   ["isolate":"V8\Value":private]=>
-  object(V8\Isolate)#3 (5) {
-    ["snapshot":"V8\Isolate":private]=>
-    NULL
+  object(V8\Isolate)#3 (4) {
     ["time_limit":"V8\Isolate":private]=>
     float(0)
     ["time_limit_hit":"V8\Isolate":private]=>
@@ -503,9 +489,7 @@ V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
     object(V8\StringValue)#93 (1) {
       ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (5) {
-        ["snapshot":"V8\Isolate":private]=>
-        NULL
+      object(V8\Isolate)#3 (4) {
         ["time_limit":"V8\Isolate":private]=>
         float(0)
         ["time_limit_hit":"V8\Isolate":private]=>
