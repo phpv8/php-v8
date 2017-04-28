@@ -19,27 +19,13 @@ namespace V8;
 /**
  * The superclass of all JavaScript values and objects.
  */
-class Value extends Data
+abstract class Value extends Data
 {
-    /**
-     * @var \V8\Isolate
-     */
-    private $isolate;
-
-    /**
-     * @param Isolate $isolate
-     */
-    public function __construct(\V8\Isolate $isolate)
-    {
-        $this->isolate = $isolate;
-    }
-
     /**
      * @return \V8\Isolate
      */
-    public function GetIsolate()
+    public function GetIsolate(): Isolate
     {
-        return $this->isolate;
     }
 
     /**

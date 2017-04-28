@@ -39,7 +39,7 @@ $helper->method_matches($unbound, 'GetIsolate', $isolate);
 $helper->method_matches_instanceof($unbound, 'BindToContext', V8\Script::class, [$context]);
 
 $filter = new ArrayListFilter(['GetId', 'GetScriptName', 'GetSourceURL', 'GetSourceMappingURL'], false);
-$finalizer = new CallChainFinalizer([\V8\StringValue::class => 'Value', \V8\Value::class => 'IsUndefined'], [], false);
+$finalizer = new CallChainFinalizer([\V8\StringValue::class => 'Value', \V8\UndefinedValue::class => 'IsUndefined'], [], false);
 $helper->dump_object_methods($unbound, [], $filter, $finalizer);
 
 $helper->space();
@@ -92,9 +92,9 @@ Accessors:
 ----------
 V8\UnboundScript::GetIsolate() matches expected value
 V8\UnboundScript::BindToContext() result is instance of V8\Script
-V8\UnboundScript->GetId(): int(%d)
+V8\UnboundScript->GetId(): int(19)
 V8\UnboundScript->GetScriptName(): V8\StringValue->Value(): string(7) "test.js"
-V8\UnboundScript->GetSourceURL(): V8\Value->IsUndefined(): bool(true)
+V8\UnboundScript->GetSourceURL(): V8\UndefinedValue->IsUndefined(): bool(true)
 V8\UnboundScript->GetSourceMappingURL(): V8\StringValue->Value(): string(0) ""
 
 

@@ -25,6 +25,7 @@ $helper->dump($value);
 $helper->space();
 
 $helper->assert('SymbolValue extends NameValue', $value instanceof \V8\NameValue);
+$helper->assert('SymbolValue extends Value', $value instanceof \V8\Value);
 $helper->line();
 
 $helper->header('Accessors');
@@ -190,12 +191,13 @@ object(V8\SymbolValue)#4 (1) {
 
 
 SymbolValue extends NameValue: ok
+SymbolValue extends Value: ok
 
 Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\Value)#92 (1) {
+    object(V8\UndefinedValue)#92 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>
@@ -295,7 +297,7 @@ Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
 V8\SymbolValue->Name():
-    object(V8\Value)#7 (1) {
+    object(V8\UndefinedValue)#7 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (5) {
         ["snapshot":"V8\Isolate":private]=>

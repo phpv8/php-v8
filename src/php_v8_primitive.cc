@@ -32,6 +32,7 @@ PHP_MINIT_FUNCTION(php_v8_primitive)
     zend_class_entry ce;
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "PrimitiveValue", php_v8_primitive_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_value_class_entry);
+    this_ce->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
 
     return SUCCESS;
 }

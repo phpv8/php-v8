@@ -254,7 +254,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
     }
   }
   ["new_target":"V8\FunctionCallbackInfo":private]=>
-  object(V8\Value)#14 (1) {
+  object(V8\UndefinedValue)#14 (1) {
     ["isolate":"V8\Value":private]=>
     object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"V8\Isolate":private]=>
@@ -495,7 +495,7 @@ object(V8\FunctionCallbackInfo)#10 (8) {
     }
   }
   ["new_target":"V8\FunctionCallbackInfo":private]=>
-  object(V8\Value)#14 (1) {
+  object(V8\UndefinedValue)#14 (1) {
     ["isolate":"V8\Value":private]=>
     object(v8Tests\TrackingDtors\Isolate)#2 (5) {
       ["snapshot":"V8\Isolate":private]=>

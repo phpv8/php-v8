@@ -29,7 +29,6 @@ class StringValue extends NameValue
      */
     public function __construct(Isolate $isolate, $data = '')
     {
-        parent::__construct($isolate);
     }
 
     /**

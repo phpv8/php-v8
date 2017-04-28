@@ -27,7 +27,6 @@ class BooleanValue extends PrimitiveValue
      */
     public function __construct(Isolate $isolate, bool $value)
     {
-        parent::__construct($isolate);
     }
 
     /**

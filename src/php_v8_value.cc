@@ -38,6 +38,7 @@
 #include "php_v8_uint32.h"
 #include "php_v8_integer.h"
 #include "php_v8_number.h"
+#include "php_v8_undefined.h"
 /* end of type listing */
 
 #include "php_v8_data.h"
@@ -231,7 +232,7 @@ zend_class_entry *php_v8_get_class_entry_from_value(v8::Local<v8::Value> value) 
     // working with scalars
 
     if (value->IsUndefined()) {
-        return php_v8_value_class_entry;
+        return php_v8_undefined_class_entry;
     }
 
     if (value->IsNull()) {
@@ -313,17 +314,15 @@ php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<v8::Val
 }
 
 
-static PHP_METHOD (V8Value, __construct) {
-    zval *php_v8_isolate_zv;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_CONSTRUCT(getThis(), php_v8_isolate_zv, php_v8_isolate, php_v8_value);
-
-    php_v8_value->persistent->Reset(isolate, v8::Undefined(isolate));
-}
+//static PHP_METHOD (V8Value, __construct) {
+//    zval *php_v8_isolate_zv;
+//
+//    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
+//        return;
+//    }
+//
+//    PHP_V8_THROW_EXCEPTION("V8\\Value::__construct() should not be called. Use specific values instead.")
+//}
 
 static PHP_METHOD(V8Value, GetIsolate) {
     zval rv;
@@ -1062,7 +1061,8 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_value_methods[] = {
-        PHP_ME(V8Value, __construct, arginfo_v8_value___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+//        PHP_ME(V8Value, __construct, arginfo_v8_value___construct, ZEND_ACC_PRIVATE | ZEND_ACC_CTOR)
+
         PHP_ME(V8Value, GetIsolate, arginfo_v8_value_GetIsolate, ZEND_ACC_PUBLIC)
 
         PHP_ME(V8Value, IsUndefined,                    arginfo_v8_value_IsUndefined,                   ZEND_ACC_PUBLIC)
@@ -1146,6 +1146,7 @@ PHP_MINIT_FUNCTION (php_v8_value) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "Value", php_v8_value_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_data_class_entry);
     this_ce->create_object = php_v8_value_ctor;
+    this_ce->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
 

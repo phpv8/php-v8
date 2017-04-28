@@ -127,7 +127,7 @@ $v8_helper->CHECK_EQ(10.11, $a4->Get($context, new \V8\IntegerValue($isolate, 3)
 $helper->line();
 
 //  Local<v8::Value> r1 = ReturnThisSloppy->Call(v8::Undefined(isolate), 0, NULL);
-$r1 = $ReturnThisSloppy->Call($context, new \V8\Value($isolate), []);
+$r1 = $ReturnThisSloppy->Call($context, new \V8\UndefinedValue($isolate), []);
 //  CHECK(r1->StrictEquals(context->Global()));
 $v8_helper->CHECK($r1->StrictEquals($context->GlobalObject()), '$r1->StrictEquals($context->GlobalObject())');
 //  Local<v8::Value> r2 = ReturnThisSloppy->Call(v8::Null(isolate), 0, NULL);
@@ -165,7 +165,7 @@ $v8_helper->CHECK($r5->ValueOf(), '$r5->ValueOf()');
 $helper->line();
 
 //  Local<v8::Value> r6 = ReturnThisStrict->Call(v8::Undefined(isolate), 0, NULL);
-$r6 = $ReturnThisStrict->Call($context, new \V8\Value($isolate), []);
+$r6 = $ReturnThisStrict->Call($context, new \V8\UndefinedValue($isolate), []);
 //  CHECK(r6->IsUndefined());
 $v8_helper->CHECK($r6->IsUndefined(), '$r6->IsUndefined()');
 //  Local<v8::Value> r7 = ReturnThisStrict->Call(v8::Null(isolate), 0, NULL);

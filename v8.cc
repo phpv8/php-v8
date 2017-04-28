@@ -36,6 +36,7 @@
 #include "php_v8_cached_data.h"
 #include "php_v8_source.h"
 #include "php_v8_script_compiler.h"
+#include "php_v8_undefined.h"
 #include "php_v8_null.h"
 #include "php_v8_boolean.h"
 #include "php_v8_symbol.h"
@@ -126,6 +127,7 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_data)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_value)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_primitive)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_undefined)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_null)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_boolean)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_name)(INIT_FUNC_ARGS_PASSTHRU);

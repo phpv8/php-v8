@@ -15,20 +15,12 @@
 
 namespace V8;
 
-
 /**
- * A superclass for symbols and strings.
+ * A primitive undefined value (ECMA-262, 4.3.10). Sole value is the undefined value.
  */
-abstract class NameValue extends PrimitiveValue
+class UndefinedValue extends PrimitiveValue
 {
-    /**
-     * Returns the identity hash for this object. The current implementation
-     * uses an inline property on the object to store the identity hash.
-     *
-     * The return value will never be 0. Also, it is not guaranteed to be
-     * unique.
-     */
-    public function GetIdentityHash(): int
+    public function __construct(Isolate $isolate)
     {
     }
 }
