@@ -47,11 +47,7 @@ bool php_v8_function_unpack_args(zval *arguments_zv, int arg_position, v8::Isola
 
     char *exception_message;
 
-    #if PHP_VERSION_ID >= 70100
     zend_string *ce_name = zend_get_executed_scope()->name;
-    #else
-    zend_string *ce_name = EG(scope)->name;
-    #endif
 
     ZEND_HASH_FOREACH_VAL(myht, pzval) {
         if (Z_TYPE_P(pzval) != IS_OBJECT) {
@@ -136,11 +132,7 @@ bool php_v8_function_unpack_string_args(zval* arguments_zv, int arg_position, v8
 
     char *exception_message;
 
-    #if PHP_VERSION_ID >= 70100
-        zend_string *ce_name = zend_get_executed_scope()->name;
-    #else
-        zend_string *ce_name = EG(scope)->name;
-    #endif
+    zend_string *ce_name = zend_get_executed_scope()->name;
 
     ZEND_HASH_FOREACH_VAL(myht, pzval) {
                 if (Z_TYPE_P(pzval) != IS_OBJECT) {
@@ -225,11 +217,7 @@ bool php_v8_function_unpack_object_args(zval* arguments_zv, int arg_position, v8
 
     char *exception_message;
 
-    #if PHP_VERSION_ID >= 70100
     zend_string *ce_name = zend_get_executed_scope()->name;
-    #else
-    zend_string *ce_name = EG(scope)->name;
-    #endif
 
     ZEND_HASH_FOREACH_VAL(myht, pzval) {
                 if (Z_TYPE_P(pzval) != IS_OBJECT) {

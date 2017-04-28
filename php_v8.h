@@ -71,6 +71,10 @@ ZEND_END_MODULE_GLOBALS(v8)
         ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, type, NULL, allow_null)
 #endif
 
+#if PHP_VERSION_ID < 70100
+    #define zend_get_executed_scope() EG(scope)
+#endif
+
 
 /* Always refer to the globals in your function as PHP_V8_G(variable).
    You are encouraged to rename these macros something shorter, see
