@@ -31,6 +31,7 @@ extern void php_v8_isolate_limits_ctor(php_v8_isolate_t *php_v8_isolate);
 
 extern void php_v8_isolate_limits_set_time_limit(php_v8_isolate_t *php_v8_isolate, double time_limit_in_seconds);
 extern void php_v8_isolate_limits_set_memory_limit(php_v8_isolate_t *php_v8_isolate, size_t memory_limit_in_bytes);
+extern void php_v8_isolate_limits_set_limits(php_v8_isolate_t *php_v8_isolate, double time_limit_in_seconds, size_t memory_limit_in_bytes);
 
 #define PHP_V8_DECLARE_ISOLATE_LOCAL_ALIAS(i) v8::Isolate *isolate = (i);
 

@@ -299,6 +299,19 @@ class PhpV8Testsuite
         // NOTE: this check is a bit fragile but should fits our need
         return isset($_ENV['TRAVIS']) && isset($_ENV['TEST_PHP_ARGS']) && $_ENV['TEST_PHP_ARGS'] == '-m';
     }
+
+    public function is_memory_test() {
+        // NOTE: this check is a bit fragile but should fits our need
+        if (!isset($_SERVER['ZEND_DONT_UNLOAD_MODULES']) || !$_SERVER['ZEND_DONT_UNLOAD_MODULES']) {
+            return false;
+        }
+
+        if (isset($_SERVER['USE_ZEND_ALLOC']) && $_SERVER['USE_ZEND_ALLOC']) {
+            return false;
+        }
+
+        return isset($_SERVER['LD_PRELOAD']) && false != strpos($_SERVER['LD_PRELOAD'], '/valgrind/');
+    }
 }
 
 interface FilterInterface
