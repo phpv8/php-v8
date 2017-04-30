@@ -38,33 +38,20 @@
     </stability>
     <license uri="https://opensource.org/licenses/mit">The MIT License (MIT)</license>
     <notes>
-        This release adds low-level optimizations, simplify some internal methods and fix few bugs. For more details see change list below.
-
-        As of this release, V8 >= 6.0.45 required.
+        This release introduces separate representation for undefined value and fixes some bugs.
+        Please, see change list below for more details.
 
         * - BC-breaking or potentially BC-breaking changes
 
         Changes to public API and other important changes which may affect end-user:
 
-            - Raise libv8 required version to 6.0.45;
-            - Add V8\Value::InstanceOf() method;
-            - Add V8\ObjectValue::SetNativeDataProperty() method;
-            - Add V8\PropertyFilter, V8\KeyCollectionMode and V8\IndexFilter enums;
-            - Add property filtering support to V8\ObjectValue::Get{Property,OwnProperty}Names();
-            - Consistently expose all well-known symbols on V8\SymbolValue;
-            - Setting boolean props on StackFrame with valid type;
-            - Remove non-working and non-supporting $attributes argument from V8\StringValue constructor in stubs;
-            - * Add V8\ConstructorBehavior and support for it in V8\FunctionTemplate constructor;
-            - * Add signature support in V8\FunctionTemplate constructor via $receiver;
-            - * Add signature support to Template:SetNativeDataProperty() and ObjectTemplate::SetAccessor() via $receiver;
-            - * Remove require $isolate parameter from V8\Value::TypeOf();
-            - * Remove deprecated V8\Context::EstimatedSize() method;
-            - * Remove deprecated V8\StackTrace\StackTraceOptions;
-            - * Remove deprecated V8\StackTrace::AsArray();
-            - * Require Context explicitly in V8\Isolate::ThrowException();
-            - * Rename V8\Exceptions\GenericException to V8\Exceptions\Exception;
-            - * Rename V8\Exceptions\AbstractResourceLimitException to V8\Exceptions\ResourceLimitException;
-            - internal: Check whether returned context is empty in V8\Isolate\GetEnteredContext() instead of checking InContext();
+         - * Make V8\Isolate::ThrowException() method void;
+         - * Remove non-documented V8Isolate::ContextDisposedNotification();
+         - * Make V8\Value, V8\PrimitiveValue and V8\NameValue abstract;
+         - V8\Isolate time limit affects js runtime only;
+         - Introduce separate class for undefined value - V8UndefenedValue;
+         - Fix V8\Tempalte::Set() to do not accept non-primitive values;
+         - Remove all private properties from V8\Isolate;
     </notes>
     <contents>
         <dir name="/">
@@ -175,6 +162,8 @@
             <file name="src/php_v8_uint32.h" role="src" />
             <file name="src/php_v8_unbound_script.cc" role="src" />
             <file name="src/php_v8_unbound_script.h" role="src" />
+            <file name="src/php_v8_undefined.cc" role="src" />
+            <file name="src/php_v8_undefined.h" role="src" />
             <file name="src/php_v8_value.cc" role="src" />
             <file name="src/php_v8_value.h" role="src" />
             <file name="config.m4" role="src" />
@@ -184,6 +173,7 @@
             <file name="tests/.testsuite.php" role="test" />
             <file name="tests/.tracking_dtors.php" role="test" />
             <file name="tests/.v8-helpers.php" role="test" />
+            <file name="tests/001-V8_extension_info.phpt" role="test" />
             <file name="tests/001-verify-method-parameters-type.phpt" role="test" />
             <file name="tests/001.phpt" role="test" />
             <file name="tests/002-enums.phpt" role="test" />
@@ -228,6 +218,7 @@
             <file name="tests/V8FunctionObject_weakness_multiple.phpt" role="test" />
             <file name="tests/V8FunctionTemplate.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_GetFunction.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_Set.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_SetCallHandler.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_callback_weakness.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_constructor_behavior.phpt" role="test" />
@@ -250,6 +241,8 @@
             <file name="tests/V8Isolate_limit_memory_nested.phpt" role="test" />
             <file name="tests/V8Isolate_limit_memory_not_hit.phpt" role="test" />
             <file name="tests/V8Isolate_limit_time.phpt" role="test" />
+            <file name="tests/V8Isolate_limit_time_affects_js_runtime_only.phpt" role="test" />
+            <file name="tests/V8Isolate_limit_time_changed_at_runtime.phpt" role="test" />
             <file name="tests/V8Isolate_limit_time_nested.phpt" role="test" />
             <file name="tests/V8Isolate_limit_time_not_hit.phpt" role="test" />
             <file name="tests/V8Isolate_limit_time_set_during_execution.phpt" role="test" />
@@ -257,7 +250,6 @@
             <file name="tests/V8Isolate_snapshot_support.phpt" role="test" />
             <file name="tests/V8MapObject.phpt" role="test" />
             <file name="tests/V8Message.phpt" role="test" />
-            <file name="tests/V8NameValue.phpt" role="test" />
             <file name="tests/V8NamedPropertyHandlerConfiguration.phpt" role="test" />
             <file name="tests/V8NullValue.phpt" role="test" />
             <file name="tests/V8NumberObject.phpt" role="test" />
@@ -279,7 +271,6 @@
             <file name="tests/V8ObjectValue_SetIntegrityLevel.phpt" role="test" />
             <file name="tests/V8ObjectValue_SetNativeDataProperty.phpt" role="test" />
             <file name="tests/V8ObjectValue_SetNativeDataProperty_from_template.phpt" role="test" />
-            <file name="tests/V8PrimitiveValue.phpt" role="test" />
             <file name="tests/V8PropertyCallbackInfo.phpt" role="test" />
             <file name="tests/V8RegExpObject.phpt" role="test" />
             <file name="tests/V8ReturnValue.phpt" role="test" />
@@ -311,11 +302,10 @@
             <file name="tests/V8TryCatch_from_script.phpt" role="test" />
             <file name="tests/V8Uint32Value.phpt" role="test" />
             <file name="tests/V8UnboundScript.phpt" role="test" />
-            <file name="tests/V8Value.phpt" role="test" />
-            <file name="tests/V8Value_destruct.phpt" role="test" />
+            <file name="tests/V8Undefined.phpt" role="test" />
+            <file name="tests/V8UndefinedValue_destruct.phpt" role="test" />
+            <file name="tests/V8UndefinedValue_invalid_ctor_arg_type.phpt" role="test" />
             <file name="tests/V8Value_empty.phpt" role="test" />
-            <file name="tests/V8Value_invalid_ctor_arg_type.phpt" role="test" />
-            <file name="tests/V8_extension_info.phpt" role="test" />
             <file name="stubs/LICENSE" role="doc" />
             <file name="stubs/README.md" role="doc" />
             <file name="stubs/composer.json" role="doc" />
@@ -384,6 +374,7 @@
             <file name="stubs/src/TryCatch.php" role="doc" />
             <file name="stubs/src/Uint32Value.php" role="doc" />
             <file name="stubs/src/UnboundScript.php" role="doc" />
+            <file name="stubs/src/UndefinedValue.php" role="doc" />
             <file name="stubs/src/Value.php" role="doc" />
             <file name="LICENSE" role="doc" />
             <file name="README.md" role="doc" />
