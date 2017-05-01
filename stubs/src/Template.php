@@ -52,12 +52,6 @@ class Template extends Data
     {
     }
 
-    //public function void SetAccessorProperty(
-    //      Local<Name> name,
-    //   Local<FunctionTemplate> getter = Local<FunctionTemplate>(),
-    //   Local<FunctionTemplate> setter = Local<FunctionTemplate>(),
-    //   PropertyAttribute attribute = None,
-    //   AccessControl settings = DEFAULT);
     /**
      * @param NameValue            $name
      * @param \V8\FunctionTemplate $getter
@@ -103,20 +97,8 @@ class Template extends Data
         callable $getter,
         callable $setter = null,
         $attribute = PropertyAttribute::None,
-        FunctionTemplate $receiver,
+        FunctionTemplate $receiver = null,
         $settings = AccessControl::DEFAULT_ACCESS
     ) {
     }
-
-    //public function void SetNativeDataProperty(Local<Name> name,
-    //                           AccessorNameGetterCallback getter,
-    //                           AccessorNameSetterCallback setter = 0,
-    //                           // TODO(dcarney): gcc can't handle Local below
-    //                           Handle<Value> data = Handle<Value>(),
-    //                           PropertyAttribute attribute = None,
-    //                           Local<AccessorSignature> signature =
-    //      Local<AccessorSignature>(),
-    //                           AccessControl settings = DEFAULT);
-
-
 }

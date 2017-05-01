@@ -16,7 +16,9 @@ namespace V8;
 
 class Script
 {
-    //private $isolate;
+    /**
+     * @var Context
+     */
     private $context;
 
     /**
@@ -26,7 +28,6 @@ class Script
      */
     public function __construct(Context $context, StringValue $source, ScriptOrigin $origin = null)
     {
-        // $this->isolate = $context->isolate;
         $this->context = $context;
     }
 

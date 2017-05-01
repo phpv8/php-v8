@@ -33,8 +33,6 @@ class MapObject extends ObjectValue
      * @param Context $context
      * @param Value   $key
      *
-     * //TODO: add throws
-     *
      * @return Value
      */
     public function Get(Context $context, Value $key): Value
@@ -45,8 +43,6 @@ class MapObject extends ObjectValue
      * @param Context $context
      * @param Value   $key
      * @param Value   $value
-     *
-     * //TODO: add throws
      *
      * @return MapObject
      */
