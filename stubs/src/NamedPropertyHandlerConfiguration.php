@@ -20,10 +20,25 @@ class NamedPropertyHandlerConfiguration
 {
     /**
      * @param callable $getter     The callback to invoke when getting a property.
+     *                             Callback signature is (NameValue $name, PropertyCallbackInfo $args)
+     *                             ReturnValue from $args->GetReturnValue() accepts any value.
+     *
      * @param callable $setter     The callback to invoke when setting a property.
+     *                             Callback signature is (\V8\NameValue $name, \V8\Value $value, PropertyCallbackInfo $args)
+     *                             ReturnValue from $args->GetReturnValue() accepts any value
+     *
      * @param callable $query      The callback to invoke to check if a property is present, and if present, get its attributes.
+     *                             Callback signature is (\V8\NameValue $name, PropertyCallbackInfo $args)
+     *                             ReturnValue from $args->GetReturnValue() accepts integer only
+     *
      * @param callable $deleter    The callback to invoke when deleting a property.
+     *                             Callback signature is (\V8\NameValue $name, PropertyCallbackInfo $args)
+     *                             ReturnValue from $args->GetReturnValue() accepts boolean only
+     *
      * @param callable $enumerator The callback to invoke to enumerate all the named properties of an object.
+     *                             Callback signature is (PropertyCallbackInfo $args).
+     *                             ReturnValue from $args->GetReturnValue() accepts ArrayObject only
+     *
      * @param int      $flags      One of \v8\PropertyHandlerFlags constants
      */
     public function __construct(
