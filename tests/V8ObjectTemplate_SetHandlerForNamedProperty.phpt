@@ -27,7 +27,7 @@ $getter = function (\V8\NameValue $name, \V8\PropertyCallbackInfo $info) use (&$
     $info->GetReturnValue()->Set(new \V8\NumberValue($info->GetIsolate(), $foo));
 };
 
-$setter = function (\V8\NameValue$name, \V8\Value $value, \V8\PropertyCallbackInfo $info) use (&$foo) {
+$setter = function (\V8\NameValue $name, \V8\Value $value, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am named setter for ', $name->ToString($info->GetContext())->Value(), '!', PHP_EOL;
 
     $foo = $value->ToNumber($info->GetContext())->Value() / 2;

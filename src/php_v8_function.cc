@@ -345,7 +345,7 @@ static PHP_METHOD(V8Function, __construct) {
 
 static PHP_METHOD(V8Function, NewInstance) {
     zval *php_v8_context_zv;
-    zval* arguments_zv;
+    zval *arguments_zv = NULL;
 
     int argc = 0;
     v8::Local<v8::Value> *argv = NULL;
@@ -388,7 +388,7 @@ static PHP_METHOD(V8Function, NewInstance) {
 
 static PHP_METHOD(V8Function, Call) {
     zval *php_v8_context_zv;
-    zval *php_v8_recv_zv = NULL;
+    zval *php_v8_recv_zv;
     zval *arguments_zv = NULL;
 
     int argc = 0;
