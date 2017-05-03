@@ -35,14 +35,29 @@ static PHP_METHOD(V8Undefined, __construct) {
     php_v8_value->persistent->Reset(isolate, v8::Undefined(isolate));
 }
 
+static PHP_METHOD(V8Undefined, Value)
+{
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+
+    RETURN_NULL()
+}
+
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_undefined___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_undefined_Value, ZEND_RETURN_VALUE, 0, IS_NULL, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_undefined_methods[] = {
         PHP_ME(V8Undefined, __construct, arginfo_v8_undefined___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_ME(V8Undefined, Value, arginfo_v8_undefined_Value, ZEND_ACC_PUBLIC)
+
         PHP_FE_END
 };
 

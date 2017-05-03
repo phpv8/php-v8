@@ -30,7 +30,8 @@ $helper->line();
 
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_export($value, 'Name');
+$helper->method_export($value, 'Value');
+$helper->assert('Name() is undefined', $value->Name() instanceof \V8\UndefinedValue);
 $helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
@@ -50,7 +51,8 @@ $helper->line();
 
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_export($value, 'Name');
+$helper->method_export($value, 'Value');
+$helper->assert('Name() is undefined', $value->Name() instanceof \V8\UndefinedValue);
 $helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
@@ -69,7 +71,8 @@ $helper->line();
 
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_export($value, 'Name');
+$helper->method_export($value, 'Value');
+$helper->assert('Name() is String', $value->Name() instanceof \V8\StringValue);
 $helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
@@ -93,7 +96,8 @@ $helper->line();
 
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_export($value, 'Name');
+$helper->method_export($value, 'Value');
+$helper->assert('Name() is String', $value->Name() instanceof \V8\StringValue);
 $helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
 $helper->space();
 
@@ -186,12 +190,8 @@ SymbolValue extends Value: ok
 Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
-V8\SymbolValue->Name():
-    object(V8\UndefinedValue)#92 (1) {
-      ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (0) {
-      }
-    }
+V8\SymbolValue->Value(): string(0) ""
+Name() is undefined: ok
 GetIdentityHash is integer: ok
 
 
@@ -266,12 +266,8 @@ SymbolValue extends NameValue: ok
 Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
-V8\SymbolValue->Name():
-    object(V8\UndefinedValue)#7 (1) {
-      ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (0) {
-      }
-    }
+V8\SymbolValue->Value(): string(0) ""
+Name() is undefined: ok
 GetIdentityHash is integer: ok
 
 
@@ -334,7 +330,7 @@ Empty StringValue constructor:
 
 Object representation:
 ----------------------
-object(V8\SymbolValue)#7 (1) {
+object(V8\SymbolValue)#5 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (0) {
   }
@@ -346,12 +342,8 @@ SymbolValue extends NameValue: ok
 Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
-V8\SymbolValue->Name():
-    object(V8\StringValue)#8 (1) {
-      ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (0) {
-      }
-    }
+V8\SymbolValue->Value(): string(0) ""
+Name() is String: ok
 GetIdentityHash is integer: ok
 
 
@@ -418,7 +410,7 @@ Non-empty StringValue constructor:
 
 Object representation:
 ----------------------
-object(V8\SymbolValue)#8 (1) {
+object(V8\SymbolValue)#4 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (0) {
   }
@@ -430,12 +422,8 @@ SymbolValue extends NameValue: ok
 Accessors:
 ----------
 V8\SymbolValue::GetIsolate() matches expected value
-V8\SymbolValue->Name():
-    object(V8\StringValue)#93 (1) {
-      ["isolate":"V8\Value":private]=>
-      object(V8\Isolate)#3 (0) {
-      }
-    }
+V8\SymbolValue->Value(): string(4) "test"
+Name() is String: ok
 GetIdentityHash is integer: ok
 
 

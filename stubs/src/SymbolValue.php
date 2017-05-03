@@ -34,9 +34,16 @@ class SymbolValue extends NameValue
     }
 
     /**
+     * @return string
+     */
+    public function Value(): string
+    {
+    }
+
+    /**
      * Returns the print name string of the symbol, or undefined if none.
      *
-     * @return StringValue | Value
+     * @return StringValue | UndefinedValue | Value
      */
     public function Name(): Value
     {

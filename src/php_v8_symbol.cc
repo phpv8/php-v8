@@ -53,6 +53,29 @@ static PHP_METHOD(V8Symbol, __construct) {
     php_v8_value->persistent->Reset(isolate, local_symbol);
 }
 
+static PHP_METHOD(V8Symbol, Value)
+{
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+
+    v8::Local<v8::Symbol> local_symbol = php_v8_value_get_local_as<v8::Symbol>(php_v8_value);
+    v8::Local<v8::Value> local_name = local_symbol->Name();
+
+    if (local_name->IsUndefined()) {
+        RETURN_EMPTY_STRING();
+    }
+
+    v8::String::Utf8Value str(local_name);
+
+    PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(str, cstr);
+
+    RETVAL_STRINGL(cstr, str.length());
+}
+
 static PHP_METHOD(V8Symbol, Name)
 {
     if (zend_parse_parameters_none() == FAILURE) {
@@ -154,6 +177,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_symbol___construct, ZEND_SEND_BY_VAL, ZEND_RET
     ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 1)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_symbol_Value, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_symbol_Name, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
@@ -187,6 +213,8 @@ PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_v8_symbol_GetUnscopables);
 
 static const zend_function_entry php_v8_symbol_methods[] = {
     PHP_ME(V8Symbol, __construct, arginfo_v8_symbol___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+
+    PHP_ME(V8Symbol, Value, arginfo_v8_symbol_Value, ZEND_ACC_PUBLIC)
 
     PHP_ME(V8Symbol, Name, arginfo_v8_symbol_Name, ZEND_ACC_PUBLIC)
 

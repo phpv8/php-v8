@@ -39,6 +39,7 @@ $helper->line();
 
 $helper->header('Accessors');
 $helper->method_matches($value, 'GetIsolate', $isolate);
+$helper->method_export($value, 'Value');
 $helper->space();
 
 $v8_helper->run_checks($value);
@@ -94,6 +95,7 @@ Default Value is not an instance of Function: ok
 Accessors:
 ----------
 V8\UndefinedValue::GetIsolate() matches expected value
+V8\UndefinedValue->Value(): NULL
 
 
 Checks on V8\UndefinedValue:
@@ -158,7 +160,7 @@ V8\UndefinedValue(V8\Value)->NumberValue(): float(NAN)
 
 V8\UndefinedValue::ToString() converting:
 -----------------------------------------
-object(V8\StringValue)#88 (1) {
+object(V8\StringValue)#89 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (0) {
   }

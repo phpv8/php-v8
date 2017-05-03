@@ -34,35 +34,35 @@ class StringValue extends NameValue
     /**
      * @return string
      */
-    public function Value()
+    public function Value(): string
     {
     }
 
     /**
      * @return int
      */
-    public function Length()
+    public function Length(): int
     {
     }
 
     /**
      * @return int
      */
-    public function Utf8Length()
+    public function Utf8Length(): int
     {
     }
 
     /**
      * @return bool
      */
-    public function IsOneByte()
+    public function IsOneByte(): bool
     {
     }
 
     /**
      * @return bool
      */
-    public function ContainsOnlyOneByte()
+    public function ContainsOnlyOneByte():bool
     {
     }
 }

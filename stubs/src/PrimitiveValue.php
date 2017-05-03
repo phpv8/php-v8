@@ -21,4 +21,5 @@ namespace V8;
  */
 abstract class PrimitiveValue extends Value
 {
+    abstract function Value();
 }
