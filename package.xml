@@ -26,11 +26,11 @@
         <email>pinepain@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2017-04-30</date>
-    <time>20:34:47</time>
+    <date>2017-05-03</date>
+    <time>16:59:56</time>
     <version>
-        <release>0.1.5</release>
-        <api>0.1.5</api>
+        <release>0.1.6</release>
+        <api>0.1.6</api>
     </version>
     <stability>
         <release>stable</release>
@@ -38,20 +38,10 @@
     </stability>
     <license uri="https://opensource.org/licenses/mit">The MIT License (MIT)</license>
     <notes>
-        This release introduces separate representation for undefined value and fixes some bugs.
-        Please, see change list below for more details.
-
-        * - BC-breaking or potentially BC-breaking changes
-
         Changes to public API and other important changes which may affect end-user:
-
-         - * Make V8\Isolate::ThrowException() method void;
-         - * Remove non-documented V8Isolate::ContextDisposedNotification();
-         - * Make V8\Value, V8\PrimitiveValue and V8\NameValue abstract;
-         - V8\Isolate time limit affects js runtime only;
-         - Introduce separate class for undefined value - V8UndefenedValue;
-         - Fix V8\Tempalte::Set() to do not accept non-primitive values;
-         - Remove all private properties from V8\Isolate;
+        
+         - Enforce `Value()` method on all `V8\Primitive` values;
+         - Fix segfault when zero args passed to `V8\FunctionObject::NewInstance()`;
     </notes>
     <contents>
         <dir name="/">
@@ -211,6 +201,7 @@
             <file name="tests/V8FunctionObject.phpt" role="test" />
             <file name="tests/V8FunctionObject_Call.phpt" role="test" />
             <file name="tests/V8FunctionObject_Call_bad_args.phpt" role="test" />
+            <file name="tests/V8FunctionObject_NewInstance.phpt" role="test" />
             <file name="tests/V8FunctionObject_constructor_behavior.phpt" role="test" />
             <file name="tests/V8FunctionObject_die.phpt" role="test" />
             <file name="tests/V8FunctionObject_die_different_isolates.phpt" role="test" />
