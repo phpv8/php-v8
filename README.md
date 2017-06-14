@@ -73,14 +73,14 @@ in your IDE and other code-analysis tools.
 ### Requirements
 
 #### V8
-You will need a recent v8 Google JavaScript engine version installed. At this time the extension is tested on 6.0.45.
+You will need a recent v8 Google JavaScript engine version installed. At this time the extension is tested on 6.1.170.
 
 #### PHP
 This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.
 
 #### OS
 This extension works and tested on x64 Linux and macOS. As of written it is Ubuntu 16.04 LTS Xenial Xerus, amd64
-and macOS 10.12.1. Windows is not supported at this time.
+and macOS 10.12.5. Windows is not supported at this time.
 
 ### Quick guide
 
@@ -96,7 +96,7 @@ $ php --ri v8
 
 While [pinepain/php](https://launchpad.net/~pinepain/+archive/ubuntu/php) PPA targets to contain all necessary
 extensions with dependencies, you may find
-[pinepain/libv8-6.0](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-6.0),
+[pinepain/libv8-6.1](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-6.1),
 [pinepain/libv8-experimental](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental) and
 [pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) standalone PPAs useful.
 

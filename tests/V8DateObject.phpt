@@ -96,7 +96,9 @@ val
 $file_name = 'test.js';
 
 // TODO: for some reason v8 still be notified about TZ changes, see https://groups.google.com/forum/?fromgroups#!topic/v8-users/f249jR67ANk
-// TODO: we temporary set EDT instead of PDT which was before
+// We temporary set EDT instead of PDT which was before, this should lead to no error, but the output date value is
+// undefined, it's a must to invoke \V8\DateObject::DateTimeConfigurationChangeNotification($isolate); as we did before.
+// This case is verify that no segfault or exception thrown and to demonstrate that result is not what you expect to get.
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 $res = $script->Run($context);
 $helper->value_matches($test_time, $value->ValueOf());
@@ -106,7 +108,7 @@ putenv("TZ={$old_tz}"); // Go back
 
 
 ?>
---EXPECT--
+--EXPECTF--
 Object representation:
 ----------------------
 object(V8\DateObject)#6 (2) {
@@ -204,6 +206,6 @@ Expected 1445444940000.0 value is identical to actual value 1445444940000.0
 
 Timezone change (without notification to v8):
 ---------------------------------------------
-val: Wed Oct 21 2015 09:29:00 GMT-0700 (PDT)
+val: Wed Oct 21 2015 09:29:00 GMT-0700 (%sDT)
 typeof val: object
 Expected 1445444940000.0 value is identical to actual value 1445444940000.0
