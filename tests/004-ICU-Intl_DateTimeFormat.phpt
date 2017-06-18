@@ -75,7 +75,7 @@ console.log(new Intl.DateTimeFormat('de-DE', options).format(date));
 options.timeZone = 'UTC';
 options.timeZoneName = 'short';
 console.log(new Intl.DateTimeFormat('en-US', options).format(date));
-// → "Thursday, December 20, 2012, GMT"
+// → "Thursday, December 20, 2012, UTC"
 
 // sometimes you want to be more precise
 var options = {
@@ -129,8 +129,8 @@ HEREDOC;
 20/12/2012
 
 Donnerstag, 20. Dezember 2012
-Thursday, December 20, 2012, GMT
-3:00:00 am GMT
+Thursday, December 20, 2012, UTC
+3:00:00 am UTC
 12/20/2012, 03:00:00
 
 Wednesday, December 19, 2012

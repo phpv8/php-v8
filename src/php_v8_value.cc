@@ -314,16 +314,6 @@ php_v8_value_t *php_v8_get_or_create_value(zval *return_value, v8::Local<v8::Val
 }
 
 
-//static PHP_METHOD (V8Value, __construct) {
-//    zval *php_v8_isolate_zv;
-//
-//    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_isolate_zv) == FAILURE) {
-//        return;
-//    }
-//
-//    PHP_V8_THROW_EXCEPTION("V8\\Value::__construct() should not be called. Use specific values instead.")
-//}
-
 static PHP_METHOD(V8Value, GetIsolate) {
     zval rv;
 
