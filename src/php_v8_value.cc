@@ -122,7 +122,7 @@ static void php_v8_value_free(zend_object *object) {
 
 
     // TODO: making weak makes sense for objects only
-    if (zend_is_executing() && !CG(unclean_shutdown) && php_v8_value->persistent_data && !php_v8_value->persistent_data->empty()) {
+    if (PHP_V8_IS_UP_AND_RUNNING() && php_v8_value->persistent_data && !php_v8_value->persistent_data->empty()) {
         php_v8_value_make_weak(php_v8_value); // TODO: refactor logic for make weak to include checking whether it can be weak -> maybe_make_weak
     }
 
@@ -135,7 +135,7 @@ static void php_v8_value_free(zend_object *object) {
         }
 
         if (php_v8_value->persistent) {
-            if (PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_value)) {
+            if (PHP_V8_IS_UP_AND_RUNNING() && PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_value)) {
                 php_v8_value->persistent->Reset();
             }
 

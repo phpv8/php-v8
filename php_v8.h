@@ -75,6 +75,7 @@ ZEND_END_MODULE_GLOBALS(v8)
     #define zend_get_executed_scope() EG(scope)
 #endif
 
+#define PHP_V8_IS_UP_AND_RUNNING() (zend_is_executing() && !CG(unclean_shutdown))
 
 /* Always refer to the globals in your function as PHP_V8_G(variable).
    You are encouraged to rename these macros something shorter, see

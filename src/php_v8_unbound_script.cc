@@ -50,7 +50,7 @@ static void php_v8_unbound_script_free(zend_object *object)
     php_v8_unbound_script_t *php_v8_unbound_script = php_v8_unbound_script_fetch_object(object);
 
     if (php_v8_unbound_script->persistent) {
-        if (PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_unbound_script)) {
+        if (PHP_V8_IS_UP_AND_RUNNING() && PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_unbound_script)) {
             php_v8_unbound_script->persistent->Reset();
         }
         delete php_v8_unbound_script->persistent;

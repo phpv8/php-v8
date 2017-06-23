@@ -31,7 +31,7 @@ static void php_v8_context_free(zend_object *object)
     php_v8_context_t *php_v8_context = php_v8_context_fetch_object(object);
 
     if (php_v8_context->context) {
-        if (PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_context)) {
+        if (PHP_V8_IS_UP_AND_RUNNING() && PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_context)) {
             {
                 PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
                 PHP_V8_DECLARE_CONTEXT(php_v8_context);

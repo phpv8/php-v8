@@ -79,7 +79,7 @@ static void php_v8_function_template_free(zend_object *object) {
      * unmark it as weak and do all that cleanings in free handler. What about if object will be reused after being
      * unmarked as week? Note, that the only action on weak handler callback is Reset()ing persistent handler.
      */
-    if (zend_is_executing() && !CG(unclean_shutdown) && php_v8_function_template->persistent_data && !php_v8_function_template->persistent_data->empty()) {
+    if (PHP_V8_IS_UP_AND_RUNNING() && php_v8_function_template->persistent_data && !php_v8_function_template->persistent_data->empty()) {
         php_v8_function_template_make_weak(php_v8_function_template);
     }
 
@@ -89,7 +89,7 @@ static void php_v8_function_template_free(zend_object *object) {
         }
 
         if (php_v8_function_template->persistent) {
-            if (PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_function_template)) {
+            if (PHP_V8_IS_UP_AND_RUNNING() && PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_function_template)) {
                 php_v8_function_template->persistent->Reset();
             }
 

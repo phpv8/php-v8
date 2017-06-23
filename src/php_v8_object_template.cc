@@ -71,7 +71,7 @@ static HashTable * php_v8_object_template_gc(zval *object, zval **table, int *n)
 static void php_v8_object_template_free(zend_object *object) {
     php_v8_object_template_t *php_v8_object_template = php_v8_object_template_fetch_object(object);
 
-    if (zend_is_executing() && !CG(unclean_shutdown) && php_v8_object_template->persistent_data && !php_v8_object_template->persistent_data->empty()) {
+    if (PHP_V8_IS_UP_AND_RUNNING() && php_v8_object_template->persistent_data && !php_v8_object_template->persistent_data->empty()) {
         php_v8_object_template_make_weak(php_v8_object_template);
     }
 
@@ -81,7 +81,7 @@ static void php_v8_object_template_free(zend_object *object) {
             php_v8_object_template->persistent_data = NULL;
         }
 
-        if (php_v8_object_template->persistent) {
+        if (PHP_V8_IS_UP_AND_RUNNING() && php_v8_object_template->persistent) {
             if (PHP_V8_ISOLATE_HAS_VALID_HANDLE(php_v8_object_template)) {
                 php_v8_object_template->persistent->Reset();
             }
