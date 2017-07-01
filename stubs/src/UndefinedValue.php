@@ -23,4 +23,11 @@ class UndefinedValue extends PrimitiveValue
     public function __construct(Isolate $isolate)
     {
     }
+
+    /**
+     * @return null
+     */
+    public function Value()
+    {
+    }
 }
