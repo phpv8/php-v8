@@ -14,6 +14,9 @@
 
 namespace V8;
 
+use Throwable;
+
+
 /**
  * An external exception handler.
  */
@@ -47,6 +50,10 @@ class TryCatch
      * @var bool
      */
     private $has_terminated;
+    /**
+     * @var null|Throwable
+     */
+    private $external_exception;
 
     /**
      * Creates a new try/catch block and registers it with v8.  Note that
@@ -55,11 +62,12 @@ class TryCatch
      *
      * @param Isolate $isolate
      * @param Context $context
-     * @param Value   $exception
-     * @param Value   $stack_trace
+     * @param Value $exception
+     * @param Value $stack_trace
      * @param Message $message
-     * @param bool    $can_continue
-     * @param bool    $has_terminated
+     * @param bool $can_continue
+     * @param bool $has_terminated
+     * @param Throwable|null $external_exception
      */
     public function __construct(
         Isolate $isolate,
@@ -68,7 +76,8 @@ class TryCatch
         Value $stack_trace = null,
         Message $message = null,
         bool $can_continue = false,
-        bool $has_terminated = false
+        bool $has_terminated = false,
+        Throwable $external_exception = null
     ) {
         $this->isolate        = $isolate;
         $this->exception      = $exception;
@@ -76,6 +85,7 @@ class TryCatch
         $this->message        = $message;
         $this->can_continue   = $can_continue;
         $this->has_terminated = $has_terminated;
+        $this->external_exception = $external_exception;
     }
 
     public function GetIsolate(): Isolate
@@ -159,5 +169,13 @@ class TryCatch
     public function HasTerminated(): bool
     {
         return $this->has_terminated;
+    }
+
+    /**
+     * @return null|Throwable
+     */
+    public function getExternalException()
+    {
+        return $this->external_exception;
     }
 }

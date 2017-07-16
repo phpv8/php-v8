@@ -111,6 +111,7 @@ struct _php_v8_value_t {
     bool is_weak;
     v8::Persistent<v8::Value> *persistent;
     phpv8::PersistentData *persistent_data;
+    zval exception;
 
     zval *gc_data;
     int   gc_data_count;
