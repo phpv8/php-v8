@@ -113,7 +113,6 @@ if (!preg_match('/#define PHP_V8_VERSION "(.+)"/', $header, $matches)) {
     throw new RuntimeException("Unable to get release version");
 }
 $version = $matches[1];
-var_dump($version);
 
 $package = preg_replace("/\<release\>\d+\.\d+.\d+\<\/release\>/", '<release>' . $version . '</release>', $package);
 $package = preg_replace("/\<api\>\d+\.\d+.\d+\<\/api\>/", '<api>' . $version . '</api>', $package);
