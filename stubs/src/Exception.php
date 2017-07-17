@@ -26,9 +26,9 @@ class Exception
      * @param Context         $context
      * @param \V8\StringValue $message
      *
-     * @return Value
+     * @return \V8\ObjectValue
      */
-    public static function RangeError(Context $context, StringValue $message): Value
+    public static function RangeError(Context $context, StringValue $message): ObjectValue
     {
     }
 
@@ -36,9 +36,9 @@ class Exception
      * @param Context         $context
      * @param \V8\StringValue $message
      *
-     * @return Value
+     * @return \V8\ObjectValue
      */
-    public static function ReferenceError(Context $context, StringValue $message): Value
+    public static function ReferenceError(Context $context, StringValue $message): ObjectValue
     {
     }
 
@@ -46,9 +46,9 @@ class Exception
      * @param Context         $context
      * @param \V8\StringValue $message
      *
-     * @return Value
+     * @return \V8\ObjectValue
      */
-    public static function SyntaxError(Context $context, StringValue $message): Value
+    public static function SyntaxError(Context $context, StringValue $message): ObjectValue
     {
     }
 
@@ -56,9 +56,9 @@ class Exception
      * @param Context         $context
      * @param \V8\StringValue $message
      *
-     * @return Value
+     * @return \V8\ObjectValue
      */
-    public static function TypeError(Context $context, StringValue $message): Value
+    public static function TypeError(Context $context, StringValue $message): ObjectValue
     {
     }
 
@@ -66,9 +66,9 @@ class Exception
      * @param Context         $context
      * @param \V8\StringValue $message
      *
-     * @return Value | ObjectValue
+     * @return ObjectValue
      */
-    public static function Error(Context $context, StringValue $message): Value
+    public static function Error(Context $context, StringValue $message): ObjectValue
     {
     }
 

@@ -21,6 +21,7 @@
 #include "php_v8_context.h"
 #include "php_v8_exceptions.h"
 #include "php_v8_stack_trace.h"
+#include "php_v8_object.h"
 #include "php_v8_value.h"
 #include "php_v8_a.h"
 #include "php_v8.h"
@@ -346,8 +347,9 @@ static PHP_METHOD(V8Isolate, GetEnteredContext) {
 static PHP_METHOD(V8Isolate, ThrowException) {
     zval *php_v8_context_zv;
     zval *php_v8_value_zv;
+    zval *exception_zv = NULL;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "oo", &php_v8_context_zv, &php_v8_value_zv) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "oo|o", &php_v8_context_zv, &php_v8_value_zv, &exception_zv) == FAILURE) {
         return;
     }
 
@@ -363,6 +365,22 @@ static PHP_METHOD(V8Isolate, ThrowException) {
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
     v8::Local<v8::Value> local_value = php_v8_value_get_local(php_v8_value);
+
+    if (NULL != exception_zv) {
+        if (!local_value->IsObject()) {
+            PHP_V8_THROW_VALUE_EXCEPTION("Unable to associate external exception with non-object value");
+            return;
+        }
+
+        php_v8_value_t *php_v8_value = php_v8_object_get_self_ptr(php_v8_isolate, local_value.As<v8::Object>());
+
+        if (!Z_ISUNDEF(php_v8_value->exception)) {
+            PHP_V8_THROW_VALUE_EXCEPTION("Another external exception is already associated with a given value");
+            return;
+        }
+
+        ZVAL_COPY(&php_v8_value->exception, exception_zv);
+    }
 
     isolate->ThrowException(local_value);
 }
@@ -505,6 +523,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
+                ZEND_ARG_OBJ_INFO(0, e, Throwable, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IdleNotificationDeadline, ZEND_RETURN_VALUE, 1, _IS_BOOL, 0)

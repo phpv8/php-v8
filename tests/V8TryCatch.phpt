@@ -38,7 +38,7 @@ $exception = new \V8\ObjectValue($context);
 $message = new \V8\Message('message', 'line', new \V8\ScriptOrigin('resource_name'), 'resource_name', new \V8\StackTrace([]));
 $trace = new \V8\StringValue($isolate, 'trace');
 
-$obj = new \V8\TryCatch($isolate, $context, $exception, $trace, $message, true, true);
+$obj = new \V8\TryCatch($isolate, $context, $exception, $trace, $message, true, true, $php_exception = new RuntimeException('test'));
 
 $helper->header('Object representation');
 $helper->dump($obj);
@@ -53,6 +53,8 @@ $helper->method_matches($obj, 'StackTrace', $trace);
 
 $helper->method_matches($obj, 'CanContinue', true);
 $helper->method_matches($obj, 'HasTerminated', true);
+
+$helper->method_matches($obj, 'getExternalException', $php_exception);
 $helper->space();
 
 
@@ -66,10 +68,10 @@ $context = null;
 
 echo 'END', PHP_EOL;
 ?>
---EXPECT--
+--EXPECTF--
 Object representation (default):
 --------------------------------
-object(V8\TryCatch)#4 (7) {
+object(V8\TryCatch)#4 (8) {
   ["isolate":"V8\TryCatch":private]=>
   object(v8Tests\TrackingDtors\Isolate)#2 (0) {
   }
@@ -89,6 +91,8 @@ object(V8\TryCatch)#4 (7) {
   bool(false)
   ["has_terminated":"V8\TryCatch":private]=>
   bool(false)
+  ["external_exception":"V8\TryCatch":private]=>
+  NULL
 }
 
 
@@ -105,7 +109,7 @@ V8\TryCatch::HasTerminated() matches expected value
 
 Object representation:
 ----------------------
-object(V8\TryCatch)#11 (7) {
+object(V8\TryCatch)#11 (8) {
   ["isolate":"V8\TryCatch":private]=>
   object(v8Tests\TrackingDtors\Isolate)#2 (0) {
   }
@@ -190,6 +194,24 @@ object(V8\TryCatch)#11 (7) {
   bool(true)
   ["has_terminated":"V8\TryCatch":private]=>
   bool(true)
+  ["external_exception":"V8\TryCatch":private]=>
+  object(RuntimeException)#12 (7) {
+    ["message":protected]=>
+    string(4) "test"
+    ["string":"Exception":private]=>
+    string(0) ""
+    ["code":protected]=>
+    int(0)
+    ["file":protected]=>
+    string(%d) "%s/V8TryCatch.php"
+    ["line":protected]=>
+    int(%d)
+    ["trace":"Exception":private]=>
+    array(0) {
+    }
+    ["previous":"Exception":private]=>
+    NULL
+  }
 }
 
 
@@ -202,6 +224,7 @@ V8\TryCatch::Message() matches expected value
 V8\TryCatch::StackTrace() matches expected value
 V8\TryCatch::CanContinue() matches expected value
 V8\TryCatch::HasTerminated() matches expected value
+V8\TryCatch::getExternalException() matches expected value
 
 
 Context dies now!

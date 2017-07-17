@@ -91,6 +91,16 @@ static HashTable * php_v8_value_gc(zval *object, zval **table, int *n) {
 
     php_v8_callbacks_gc(php_v8_value->persistent_data, &php_v8_value->gc_data, &php_v8_value->gc_data_count, table, n);
 
+    if(!Z_ISUNDEF(php_v8_value->exception)) {
+        *n = *n + 1;
+
+        if (php_v8_value->gc_data_count < *n) {
+            php_v8_value->gc_data = (zval *)safe_erealloc(php_v8_value->gc_data, *n, sizeof(zval), 0);
+        }
+
+        ZVAL_COPY_VALUE(&php_v8_value->gc_data[*n-1], &php_v8_value->exception);
+    }
+
     return zend_std_get_properties(object);
 }
 
@@ -112,6 +122,11 @@ static void php_v8_value_free(zend_object *object) {
              */
             php_v8_object_delete_self_ptr(php_v8_value, v8::Local<v8::Object>::Cast(local_value));
         }
+    }
+
+    if (!Z_ISUNDEF(php_v8_value->exception)) {
+        zval_ptr_dtor(&php_v8_value->exception);
+        ZVAL_UNDEF(&php_v8_value->exception);
     }
 
     if (php_v8_value->gc_data) {

@@ -15,6 +15,10 @@
 namespace V8;
 
 
+use Throwable;
+use V8\Exceptions\ValueException;
+
+
 class Isolate
 {
     public function __construct(StartupData $snapshot = null)
@@ -79,11 +83,17 @@ class Isolate
      * has been handled does it become legal to invoke JavaScript operations.
      *
      * @param Context $context
-     * @param Value   $value
+     * @param Value $value
+     * @param Throwable|null $e Exception to associate with a given value.
+     *                          Because how underlying object wiring done, wiring PHP to V8 exceptions
+     *                          is possible only for V8 exception that are instances of ObjectValue.
      *
      * @return void
+     *
+     * @throws ValueException When trying to associate external exception with non-object value
+     * @throws ValueException When another external exception is already associated with a given value
      */
-    public function ThrowException(Context $context, Value $value)
+    public function ThrowException(Context $context, Value $value, Throwable $e = null)
     {
     }
 
@@ -129,20 +139,6 @@ class Isolate
     public function CancelTerminateExecution()
     {
     }
-
-//    /**
-//     * Request V8 to interrupt long running JavaScript code and invoke
-//     * the given |callback| passing the given |data| to it. After |callback|
-//     * returns control will be returned to the JavaScript code.
-//     * There may be a number of interrupt requests in flight.
-//     * Can be called from another thread without acquiring a |Locker|.
-//     * Registered |callback| must not reenter interrupted Isolate.
-//     */
-////    void RequestInterrupt(InterruptCallback callback, void* data);
-//    public function RequestInterrupt()
-//    {
-//
-//    }
 
     /**
      * Optional notification that the embedder is idle.
@@ -199,7 +195,7 @@ class Isolate
      * and report it to the message listeners. The option is off by default.
      *
      * @param bool $capture
-     * @param int  $frame_limit
+     * @param int $frame_limit
      */
     public function SetCaptureStackTraceForUncaughtExceptions(bool $capture, int $frame_limit = 10)
     {

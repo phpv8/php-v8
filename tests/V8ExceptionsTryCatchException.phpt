@@ -58,7 +58,7 @@ object(V8\Exceptions\TryCatchException)#5 (10) {
     }
   }
   ["try_catch":"V8\Exceptions\TryCatchException":private]=>
-  object(V8\TryCatch)#4 (7) {
+  object(V8\TryCatch)#4 (8) {
     ["isolate":"V8\TryCatch":private]=>
     object(V8\Isolate)#2 (0) {
     }
@@ -78,6 +78,8 @@ object(V8\Exceptions\TryCatchException)#5 (10) {
     bool(false)
     ["has_terminated":"V8\TryCatch":private]=>
     bool(false)
+    ["external_exception":"V8\TryCatch":private]=>
+    NULL
   }
 }
 
