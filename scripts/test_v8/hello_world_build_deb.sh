@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT=/opt/libv8-5.7
+ROOT=/opt/libv8-6.2
 LIB_DIR=$ROOT/lib/
 
 SRC_DIR=$ROOT

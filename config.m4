@@ -8,7 +8,7 @@ if test "$PHP_V8" != "no"; then
   SEARCH_PATH="/usr/local /usr"
   SEARCH_FOR="include/v8.h"
 
-  V8_MIN_API_VERSION_STR=6.1.170
+  V8_MIN_API_VERSION_STR=6.2.2
 
   DESIRED_V8_VERSION=`echo "${V8_MIN_API_VERSION_STR}" | $AWK 'BEGIN { FS = "."; } { printf "%s.%s", [$]1, [$]2;}'`
 

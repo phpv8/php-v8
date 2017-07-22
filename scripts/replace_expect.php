@@ -81,6 +81,10 @@ foreach ($iterator as $item) {
         }
 
         foreach (array_combine($expectf_search[1], $expectf_replace[1]) as $search => $replace) {
+            $replace = str_replace('\\\\n', '!!(ಠ_ಠ)!!', $replace);
+            $replace = str_replace('\\n', "\n", $replace);
+            $replace = str_replace('!!(ಠ_ಠ)!!', '\\\\n', $replace);
+
             $result = preg_replace($search, $replace, $result);
         }
 

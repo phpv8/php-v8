@@ -70,6 +70,9 @@ $res = $v8_helper->CompileRun($context, $source);
 $helper->line();
 
 $v8_helper->run_checks($res);
+
+// EXPECTF: ---/\["script_id":"V8\\ScriptOrigin":private\]=>\n      int\(\d+\)/
+// EXPECTF: +++["script_id":"V8\ScriptOrigin":private]=>\n      int(%d)
 ?>
 EOF
 --EXPECTF--
@@ -104,7 +107,7 @@ V8\Message->GetScriptOrigin():
         bool(false)
       }
       ["script_id":"V8\ScriptOrigin":private]=>
-      int(19)
+      int(%d)
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
     }
@@ -142,7 +145,7 @@ V8\Message->GetScriptOrigin():
         bool(false)
       }
       ["script_id":"V8\ScriptOrigin":private]=>
-      int(19)
+      int(%d)
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
     }

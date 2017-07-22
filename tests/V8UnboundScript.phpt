@@ -62,8 +62,10 @@ $new_script = $unbound->BindToContext($context);
 $helper->dump($new_script->Run($context)->Value());
 $helper->space();
 
+// EXPECTF: ---/V8\\UnboundScript->GetId\(\): int\(\d+\)/
+// EXPECTF: +++V8\UnboundScript->GetId(): int(%d)
 ?>
---EXPECT--
+--EXPECTF--
 UnboundScript representation:
 -----------------------------
 object(V8\UnboundScript)#6 (1) {
@@ -82,7 +84,7 @@ Accessors:
 ----------
 V8\UnboundScript::GetIsolate() matches expected value
 V8\UnboundScript::BindToContext() result is instance of V8\Script
-V8\UnboundScript->GetId(): int(19)
+V8\UnboundScript->GetId(): int(%d)
 V8\UnboundScript->GetScriptName(): V8\StringValue->Value(): string(7) "test.js"
 V8\UnboundScript->GetSourceURL(): V8\UndefinedValue->IsUndefined(): bool(true)
 V8\UnboundScript->GetSourceMappingURL(): V8\StringValue->Value(): string(0) ""

@@ -88,8 +88,10 @@ $isolate->SetCaptureStackTraceForUncaughtExceptions($stack_trace_generation_allo
 $res = $v8_helper->CompileRun($context, $source);
 
 
+// EXPECTF: ---/\["script_id":"V8\\StackFrame":private\]=>\n        int\(\d+\)/
+// EXPECTF: +++["script_id":"V8\StackFrame":private]=>\n        int(%d)
 ?>
---EXPECT--
+--EXPECTF--
 Can get stack trace when out of context: ok
 
 exception: 'Error: test'
@@ -118,7 +120,7 @@ V8\StackTrace->getFrames():
         ["column":"V8\StackFrame":private]=>
         int(15)
         ["script_id":"V8\StackFrame":private]=>
-        int(19)
+        int(%d)
         ["script_name":"V8\StackFrame":private]=>
         string(7) "test.js"
         ["script_name_or_source_url":"V8\StackFrame":private]=>
