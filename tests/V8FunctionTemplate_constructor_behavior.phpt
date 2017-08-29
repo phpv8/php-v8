@@ -27,8 +27,8 @@ $ftpl_throw = new \V8\FunctionTemplate($isolate, function () {
     echo 'Throw', PHP_EOL;
 }, null, 0, \V8\ConstructorBehavior::kThrow);
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'f_allow'), $ftpl_allow->GetFunction($context));
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'f_throw'), $ftpl_throw->GetFunction($context));
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'f_allow'), $ftpl_allow->getFunction($context));
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'f_throw'), $ftpl_throw->getFunction($context));
 
 
 $v8_helper->CompileRun($context, 'f_allow(); new f_allow();');

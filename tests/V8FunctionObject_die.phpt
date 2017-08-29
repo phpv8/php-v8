@@ -23,7 +23,7 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context, function (\V8\Functio
 });
 
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test'), $func);
 
 $source = 'test(); "Script done"';
 $file_name = 'test.js';
@@ -31,7 +31,7 @@ $file_name = 'test.js';
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$res = $script->Run($context)->ToString($context)->Value();
+$res = $script->run($context)->toString($context)->value();
 $helper->pretty_dump('Script result', $res);
 
 echo 'We are done for now', PHP_EOL;

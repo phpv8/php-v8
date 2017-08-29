@@ -20,7 +20,7 @@ $isolate = new \V8\Isolate();
 $template = new \V8\ObjectTemplate($isolate);
 
 try {
-    $template->Set(new \V8\StringValue($isolate, 'self'), $template);
+    $template->set(new \V8\StringValue($isolate, 'self'), $template);
 } catch (Exception $e) {
     $helper->exception_export($e);
 }

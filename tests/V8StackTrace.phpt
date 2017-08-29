@@ -33,9 +33,9 @@ $helper->space();
 
 $helper->header('Test getters');
 
-$helper->method_matches($obj, 'GetFrames', $frames);
-$helper->method_matches($obj, 'GetFrame', $frame_1, [0]);
-$helper->method_matches_with_output($obj, 'GetFrameCount', 2);
+$helper->method_matches($obj, 'getFrames', $frames);
+$helper->method_matches($obj, 'getFrame', $frame_1, [0]);
+$helper->method_matches_with_output($obj, 'getFrameCount', 2);
 $helper->space();
 
 $obj = null;
@@ -101,9 +101,9 @@ V8\StackTrace::MAX_FRAME_LIMIT = 1000
 
 Test getters:
 -------------
-V8\StackTrace::GetFrames() matches expected value
-V8\StackTrace::GetFrame() matches expected value
-V8\StackTrace::GetFrameCount() matches expected 2
+V8\StackTrace::getFrames() matches expected value
+V8\StackTrace::getFrame() matches expected value
+V8\StackTrace::getFrameCount() matches expected 2
 
 
 Context dies now!

@@ -27,21 +27,21 @@ $die_func->destructor_test_message = 'die() function dtored';
 
 $teste_nested_func = new v8Tests\TrackingDtors\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) {
     echo 'calling nested...', PHP_EOL;
-    $context = $info->GetContext();
+    $context = $info->getContext();
 
-    $context->GlobalObject()->Get($context, new \V8\StringValue($context->GetIsolate(), 'die'))->Call($context, $context->GlobalObject());
+    $context->globalObject()->get($context, new \V8\StringValue($context->getIsolate(), 'die'))->call($context, $context->globalObject());
 });
 
 $teste_nested_func->destructor_test_message = 'test_nested() function dtored';
 
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'die'), $die_func);
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test_nested'), $teste_nested_func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'die'), $die_func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test_nested'), $teste_nested_func);
 
 
 $res = $v8_helper->CompileRun($context, 'test_nested(); "Script done"');
 
-$helper->pretty_dump('Script result', $res->ToString($context)->Value());
+$helper->pretty_dump('Script result', $res->toString($context)->value());
 
 echo 'We are done for now', PHP_EOL;
 

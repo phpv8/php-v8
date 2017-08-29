@@ -1,5 +1,5 @@
 --TEST--
-V8\ObjectTemplate::Set() - recursive self
+V8\ObjectTemplate::set() - recursive self
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -20,13 +20,13 @@ $isolate = new \V8\Isolate();
 $template = new \V8\ObjectTemplate($isolate);
 
 try {
-    $template->Set(new \V8\StringValue($isolate, 'self'), $template);
+    $template->set(new \V8\StringValue($isolate, 'self'), $template);
 } catch (Exception $e) {
     $helper->exception_export($e);
 }
 
 $context = new \V8\Context($isolate);
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $template->NewInstance($context));
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test'), $template->newInstance($context));
 
 ?>
 --EXPECT--

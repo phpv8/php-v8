@@ -25,24 +25,24 @@ $retval = null;
 
 
 $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use ($helper, $isolate, $context, &$retval) {
-    $retval = $info->GetReturnValue();
+    $retval = $info->getReturnValue();
 
     $helper->header('Object representation');
     $helper->dump($retval);
     $helper->space();
 
-    $helper->assert('Return value object is in context', $retval->InContext());
+    $helper->assert('Return value object is in context', $retval->inContext());
 
-    $helper->assert('Return value holds original isolate object', $retval->GetIsolate(), $isolate);
-    $helper->assert('Return value holds original isolate object', $retval->GetContext(), $context);
-    $helper->assert('Return value holds no value', $retval->Get()->IsUndefined());
+    $helper->assert('Return value holds original isolate object', $retval->getIsolate(), $isolate);
+    $helper->assert('Return value holds original isolate object', $retval->getContext(), $context);
+    $helper->assert('Return value holds no value', $retval->get()->isUndefined());
 
-    $retval->SetInteger(42);
+    $retval->setInteger(42);
 
-    $helper->inline('Return value holds value', $retval->Get()->Value());
+    $helper->inline('Return value holds value', $retval->get()->value());
 });
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test'), $func);
 
 $source = 'test(); "Script done";';
 $file_name = 'test.js';
@@ -50,13 +50,13 @@ $file_name = 'test.js';
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$script->Run($context);
+$script->run($context);
 $helper->space();
 
-$helper->assert('Return value object is out of context', false === $retval->InContext());
+$helper->assert('Return value object is out of context', false === $retval->inContext());
 
 try {
-    $retval->Get();
+    $retval->get();
 } catch (Exception $e) {
     $helper->exception_export($e);
 }

@@ -79,7 +79,7 @@ php_v8_context_t * php_v8_context_get_reference(v8::Local<v8::Context> context) 
 }
 
 
-static PHP_METHOD(V8Context, __construct)
+static PHP_METHOD(Context, __construct)
 {
     zval *php_v8_isolate_zv;
     zval *php_v8_global_template_zv = NULL;
@@ -123,7 +123,7 @@ static PHP_METHOD(V8Context, __construct)
     php_v8_context->context->Reset(isolate, context);
 }
 
-static PHP_METHOD(V8Context, GetIsolate)
+static PHP_METHOD(Context, getIsolate)
 {
     zval rv;
 
@@ -136,7 +136,7 @@ static PHP_METHOD(V8Context, GetIsolate)
     RETVAL_ZVAL(PHP_V8_CONTEXT_READ_ISOLATE(getThis()), 1, 0);
 }
 
-static PHP_METHOD(V8Context, GlobalObject)
+static PHP_METHOD(Context, globalObject)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -151,7 +151,7 @@ static PHP_METHOD(V8Context, GlobalObject)
     php_v8_get_or_create_value(return_value, local_object, php_v8_context->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Context, DetachGlobal)
+static PHP_METHOD(Context, detachGlobal)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -164,7 +164,7 @@ static PHP_METHOD(V8Context, DetachGlobal)
     context->DetachGlobal();
 }
 
-static PHP_METHOD(V8Context, SetSecurityToken)
+static PHP_METHOD(Context, setSecurityToken)
 {
     zval *php_v8_value_zv;
 
@@ -184,7 +184,7 @@ static PHP_METHOD(V8Context, SetSecurityToken)
     context->SetSecurityToken(local_token);
 }
 
-static PHP_METHOD(V8Context, UseDefaultSecurityToken)
+static PHP_METHOD(Context, useDefaultSecurityToken)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -197,7 +197,7 @@ static PHP_METHOD(V8Context, UseDefaultSecurityToken)
     context->UseDefaultSecurityToken();
 }
 
-static PHP_METHOD(V8Context, GetSecurityToken)
+static PHP_METHOD(Context, getSecurityToken)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -213,7 +213,7 @@ static PHP_METHOD(V8Context, GetSecurityToken)
     php_v8_get_or_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Context, AllowCodeGenerationFromStrings)
+static PHP_METHOD(Context, allowCodeGenerationFromStrings)
 {
     zend_bool allow = '\1';
 
@@ -228,7 +228,7 @@ static PHP_METHOD(V8Context, AllowCodeGenerationFromStrings)
     context->AllowCodeGenerationFromStrings((bool) allow);
 }
 
-static PHP_METHOD(V8Context, IsCodeGenerationFromStringsAllowed)
+static PHP_METHOD(Context, isCodeGenerationFromStringsAllowed)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -241,7 +241,7 @@ static PHP_METHOD(V8Context, IsCodeGenerationFromStringsAllowed)
     RETURN_BOOL(context->IsCodeGenerationFromStringsAllowed());
 }
 
-static PHP_METHOD(V8Context, SetErrorMessageForCodeGenerationFromStrings)
+static PHP_METHOD(Context, setErrorMessageForCodeGenerationFromStrings)
 {
     zval *php_v8_string_zv;
 
@@ -262,63 +262,63 @@ static PHP_METHOD(V8Context, SetErrorMessageForCodeGenerationFromStrings)
     context->SetErrorMessageForCodeGenerationFromStrings(local_string);
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_context___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_OBJ_INFO(0, global_template, V8\\ObjectTemplate, 1)
     ZEND_ARG_OBJ_INFO(0, global_object, V8\\ObjectValue, 1)
 ZEND_END_ARG_INFO()
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_context_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_context_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_context_GlobalObject, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
-ZEND_END_ARG_INFO()
-
-// void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_DetachGlobal, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_context_globalObject, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_SetSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_context_detachGlobal, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_END_ARG_INFO()
+
+// void method
+ZEND_BEGIN_ARG_INFO_EX(arginfo_context_setSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
     ZEND_ARG_OBJ_INFO(0, token, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_UseDefaultSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_context_useDefaultSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_context_GetSecurityToken, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_context_getSecurityToken, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_AllowCodeGenerationFromStrings, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_context_allowCodeGenerationFromStrings, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, allow, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_context_IsCodeGenerationFromStringsAllowed, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_context_isCodeGenerationFromStringsAllowed, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_context_SetErrorMessageForCodeGenerationFromStrings, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_context_setErrorMessageForCodeGenerationFromStrings, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_context_methods[] = {
-    PHP_ME(V8Context, __construct, arginfo_v8_context___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(V8Context, GetIsolate, arginfo_v8_context_GetIsolate, ZEND_ACC_PUBLIC)
+    PHP_ME(Context, __construct, arginfo_context___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_ME(Context, getIsolate, arginfo_context_getIsolate, ZEND_ACC_PUBLIC)
 
-    PHP_ME(V8Context, GlobalObject, arginfo_v8_context_GlobalObject, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Context, DetachGlobal, arginfo_v8_context_DetachGlobal, ZEND_ACC_PUBLIC)
+    PHP_ME(Context, globalObject, arginfo_context_globalObject, ZEND_ACC_PUBLIC)
+    PHP_ME(Context, detachGlobal, arginfo_context_detachGlobal, ZEND_ACC_PUBLIC)
 
-    PHP_ME(V8Context, SetSecurityToken, arginfo_v8_context_SetSecurityToken, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Context, UseDefaultSecurityToken, arginfo_v8_context_UseDefaultSecurityToken, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Context, GetSecurityToken, arginfo_v8_context_GetSecurityToken, ZEND_ACC_PUBLIC)
+    PHP_ME(Context, setSecurityToken, arginfo_context_setSecurityToken, ZEND_ACC_PUBLIC)
+    PHP_ME(Context, useDefaultSecurityToken, arginfo_context_useDefaultSecurityToken, ZEND_ACC_PUBLIC)
+    PHP_ME(Context, getSecurityToken, arginfo_context_getSecurityToken, ZEND_ACC_PUBLIC)
 
-    PHP_ME(V8Context, AllowCodeGenerationFromStrings, arginfo_v8_context_AllowCodeGenerationFromStrings, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Context, IsCodeGenerationFromStringsAllowed, arginfo_v8_context_IsCodeGenerationFromStringsAllowed, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Context, SetErrorMessageForCodeGenerationFromStrings, arginfo_v8_context_SetErrorMessageForCodeGenerationFromStrings, ZEND_ACC_PUBLIC)
+    PHP_ME(Context, allowCodeGenerationFromStrings, arginfo_context_allowCodeGenerationFromStrings, ZEND_ACC_PUBLIC)
+    PHP_ME(Context, isCodeGenerationFromStringsAllowed, arginfo_context_isCodeGenerationFromStringsAllowed, ZEND_ACC_PUBLIC)
+    PHP_ME(Context, setErrorMessageForCodeGenerationFromStrings, arginfo_context_setErrorMessageForCodeGenerationFromStrings, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

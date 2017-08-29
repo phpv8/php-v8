@@ -38,29 +38,29 @@ if (!$helper->need_more_time() && $helper->is_memory_test()) {
 $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $args) use ($helper) {
     $t = microtime(true);
 
-    $isolate = $args->GetIsolate();
+    $isolate = $args->getIsolate();
 
-    $sleep_1 = $isolate->GetTimeLimit() + $isolate->GetTimeLimit()/10; // +10% to make 100% sure we hit time limit
-    $sleep_2 = $isolate->GetTimeLimit() + $isolate->GetTimeLimit()/10;
+    $sleep_1 = $isolate->getTimeLimit() + $isolate->getTimeLimit()/10; // +10% to make 100% sure we hit time limit
+    $sleep_2 = $isolate->getTimeLimit() + $isolate->getTimeLimit()/10;
 
-    $helper->assert('Time limit is not hit', !$isolate->IsTimeLimitHit());
+    $helper->assert('Time limit is not hit', !$isolate->isTimeLimitHit());
     echo 'sleep ', $sleep_1, 'sec', PHP_EOL;
     usleep($sleep_1*1000000);
-    $helper->assert('Time limit is hit', $isolate->IsTimeLimitHit());
+    $helper->assert('Time limit is hit', $isolate->isTimeLimitHit());
 
-    $args->GetIsolate()->SetTimeLimit($isolate->GetTimeLimit()); // Setting timeout will reset any previous timeout
+    $args->getIsolate()->setTimeLimit($isolate->getTimeLimit()); // Setting timeout will reset any previous timeout
 
-    $helper->assert('Setting time limit from php resets time limit hit', !$isolate->IsTimeLimitHit());
+    $helper->assert('Setting time limit from php resets time limit hit', !$isolate->isTimeLimitHit());
     echo 'sleep ', $sleep_2, 'sec', PHP_EOL;
     usleep($sleep_2*1000000);
-    $helper->assert('However, it is hit once again', $isolate->IsTimeLimitHit());
+    $helper->assert('However, it is hit once again', $isolate->isTimeLimitHit());
 
     echo 'total in function: ', microtime(true) - $t, 'sec', PHP_EOL;
 });
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'sleep'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'sleep'), $func);
 
-$isolate->SetTimeLimit($time_limit);
+$isolate->setTimeLimit($time_limit);
 
 $t = microtime(true);
 try {

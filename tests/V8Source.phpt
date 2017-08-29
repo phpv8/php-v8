@@ -27,9 +27,9 @@ $helper->dump($value);
 $helper->space();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetSourceString', $source_string);
-$helper->method_matches($value, 'GetCachedData', null);
-$helper->method_matches($value, 'GetScriptOrigin', null);
+$helper->method_matches($value, 'getSourceString', $source_string);
+$helper->method_matches($value, 'getCachedData', null);
+$helper->method_matches($value, 'getScriptOrigin', null);
 $helper->space();
 
 
@@ -40,9 +40,9 @@ $helper->dump($value);
 $helper->space();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetSourceString', $source_string);
-$helper->method_matches($value, 'GetScriptOrigin', $origin);
-$helper->method_matches($value, 'GetCachedData', null);
+$helper->method_matches($value, 'getSourceString', $source_string);
+$helper->method_matches($value, 'getScriptOrigin', $origin);
+$helper->method_matches($value, 'getCachedData', null);
 $helper->space();
 
 
@@ -53,9 +53,9 @@ $helper->dump($value);
 $helper->space();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetSourceString', $source_string);
-$helper->method_matches($value, 'GetScriptOrigin', null);
-$helper->method_matches($value, 'GetCachedData', $cache_data);
+$helper->method_matches($value, 'getSourceString', $source_string);
+$helper->method_matches($value, 'getScriptOrigin', null);
+$helper->method_matches($value, 'getCachedData', $cache_data);
 $helper->space();
 
 $value = new \V8\ScriptCompiler\Source($source_string, $origin, $cache_data);
@@ -65,9 +65,9 @@ $helper->dump($value);
 $helper->space();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetSourceString', $source_string);
-$helper->method_matches($value, 'GetScriptOrigin', $origin);
-$helper->method_matches($value, 'GetCachedData', $cache_data);
+$helper->method_matches($value, 'getSourceString', $source_string);
+$helper->method_matches($value, 'getScriptOrigin', $origin);
+$helper->method_matches($value, 'getCachedData', $cache_data);
 $helper->space();
 
 ?>
@@ -90,9 +90,9 @@ object(V8\ScriptCompiler\Source)#8 (3) {
 
 Accessors:
 ----------
-V8\ScriptCompiler\Source::GetSourceString() matches expected value
-V8\ScriptCompiler\Source::GetCachedData() matches expected value
-V8\ScriptCompiler\Source::GetScriptOrigin() matches expected value
+V8\ScriptCompiler\Source::getSourceString() matches expected value
+V8\ScriptCompiler\Source::getCachedData() matches expected value
+V8\ScriptCompiler\Source::getScriptOrigin() matches expected value
 
 
 Object representation:
@@ -135,9 +135,9 @@ object(V8\ScriptCompiler\Source)#9 (3) {
 
 Accessors:
 ----------
-V8\ScriptCompiler\Source::GetSourceString() matches expected value
-V8\ScriptCompiler\Source::GetScriptOrigin() matches expected value
-V8\ScriptCompiler\Source::GetCachedData() matches expected value
+V8\ScriptCompiler\Source::getSourceString() matches expected value
+V8\ScriptCompiler\Source::getScriptOrigin() matches expected value
+V8\ScriptCompiler\Source::getCachedData() matches expected value
 
 
 Object representation:
@@ -159,9 +159,9 @@ object(V8\ScriptCompiler\Source)#8 (3) {
 
 Accessors:
 ----------
-V8\ScriptCompiler\Source::GetSourceString() matches expected value
-V8\ScriptCompiler\Source::GetScriptOrigin() matches expected value
-V8\ScriptCompiler\Source::GetCachedData() matches expected value
+V8\ScriptCompiler\Source::getSourceString() matches expected value
+V8\ScriptCompiler\Source::getScriptOrigin() matches expected value
+V8\ScriptCompiler\Source::getCachedData() matches expected value
 
 
 Object representation:
@@ -205,6 +205,6 @@ object(V8\ScriptCompiler\Source)#9 (3) {
 
 Accessors:
 ----------
-V8\ScriptCompiler\Source::GetSourceString() matches expected value
-V8\ScriptCompiler\Source::GetScriptOrigin() matches expected value
-V8\ScriptCompiler\Source::GetCachedData() matches expected value
+V8\ScriptCompiler\Source::getSourceString() matches expected value
+V8\ScriptCompiler\Source::getScriptOrigin() matches expected value
+V8\ScriptCompiler\Source::getCachedData() matches expected value

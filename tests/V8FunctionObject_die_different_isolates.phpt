@@ -23,7 +23,7 @@ $die_func = new v8Tests\TrackingDtors\FunctionObject($context_inner, function (\
     die();
 });
 
-$context_inner->GlobalObject()->Set($context_inner, new \V8\StringValue($isolate_inner, 'die'), $die_func);
+$context_inner->globalObject()->set($context_inner, new \V8\StringValue($isolate_inner, 'die'), $die_func);
 
 $die_func->destructor_test_message      = 'die() function from inner isolate dtored';
 $isolate_inner->destructor_test_message = 'inner isolate dtored';
@@ -35,22 +35,22 @@ $context_outer = new V8\Context($isolate_outer);
 
 $test_other_func = new v8Tests\TrackingDtors\FunctionObject($context_outer, function (\V8\FunctionCallbackInfo $info) use ($context_inner) {
     echo 'calling inner...', PHP_EOL;
-    $isolate_inner = $context_inner->GetIsolate();
-    $global_inner = $context_inner->GlobalObject();
+    $isolate_inner = $context_inner->getIsolate();
+    $global_inner = $context_inner->globalObject();
 
-    $global_inner->Get($context_inner, new \V8\StringValue($isolate_inner, 'die'))->Call($context_inner, $global_inner);
+    $global_inner->get($context_inner, new \V8\StringValue($isolate_inner, 'die'))->call($context_inner, $global_inner);
 });
 
 $test_other_func->destructor_test_message = 'test_other() function from outer isolate dtored';
 $isolate_outer->destructor_test_message = 'outer isolate dtored';
 
 
-$context_outer->GlobalObject()->Set($context_outer, new \V8\StringValue($isolate_outer, 'test_other'), $test_other_func);
+$context_outer->globalObject()->set($context_outer, new \V8\StringValue($isolate_outer, 'test_other'), $test_other_func);
 
 
 $res = $v8_helper->CompileRun($context_outer, 'test_other(); "Script done"');
 
-$helper->pretty_dump('Script result', $res->ToString($context_outer)->Value());
+$helper->pretty_dump('Script result', $res->toString($context_outer)->value());
 
 echo 'We are done for now', PHP_EOL;
 

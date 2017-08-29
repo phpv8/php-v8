@@ -25,7 +25,7 @@ zend_class_entry *php_v8_string_object_class_entry;
 #define this_ce php_v8_string_object_class_entry
 
 
-static PHP_METHOD(V8StringObject, __construct) {
+static PHP_METHOD(StringObject, __construct) {
     zval rv;
     zval *php_v8_context_zv;
     zval *php_v8_string_zv;
@@ -48,7 +48,7 @@ static PHP_METHOD(V8StringObject, __construct) {
     php_v8_value->persistent->Reset(isolate, local_string_obj);
 }
 
-static PHP_METHOD(V8StringObject, ValueOf) {
+static PHP_METHOD(StringObject, valueOf) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -62,19 +62,19 @@ static PHP_METHOD(V8StringObject, ValueOf) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_string_object___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_string_object___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_string_object_ValueOf, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_string_object_valueOf, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_string_object_methods[] = {
-        PHP_ME(V8StringObject, __construct, arginfo_v8_string_object___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_ME(StringObject, __construct, arginfo_string_object___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
-        PHP_ME(V8StringObject, ValueOf, arginfo_v8_string_object_ValueOf, ZEND_ACC_PUBLIC)
+        PHP_ME(StringObject, valueOf, arginfo_string_object_valueOf, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

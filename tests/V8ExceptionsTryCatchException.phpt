@@ -21,9 +21,9 @@ $helper->dump($value);
 $helper->space();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_matches($value, 'GetContext', $context);
-$helper->method_matches($value, 'GetTryCatch', $try_catch);
+$helper->method_matches($value, 'getIsolate', $isolate);
+$helper->method_matches($value, 'getContext', $context);
+$helper->method_matches($value, 'getTryCatch', $try_catch);
 $helper->space();
 
 // EXPECTF: ---/string\(.+\) ".+\/V8ExceptionsTryCatchException\.php"/
@@ -86,6 +86,6 @@ object(V8\Exceptions\TryCatchException)#5 (10) {
 
 Accessors:
 ----------
-V8\Exceptions\TryCatchException::GetIsolate() matches expected value
-V8\Exceptions\TryCatchException::GetContext() matches expected value
-V8\Exceptions\TryCatchException::GetTryCatch() matches expected value
+V8\Exceptions\TryCatchException::getIsolate() matches expected value
+V8\Exceptions\TryCatchException::getContext() matches expected value
+V8\Exceptions\TryCatchException::getTryCatch() matches expected value

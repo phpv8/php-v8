@@ -34,10 +34,6 @@ make any assumptions for you, so you stay in control, it does exactly what you a
 
 With php-v8 you can even implement nodejs in PHP. Not sure whether anyone should/will do this anyway, but it's doable.
 
-*NOTE: Most, if not all, methods are named like in the V8 API - starting from capital letter. This PSR violation is done
-intentionally with the purpose to provide a more solid experience between the native V8 C++ API and the V8 PHP API.*
-
-
 ## Demo
 
 Here is a [Hello World][v8-hello-world]
@@ -50,9 +46,9 @@ $context = new \V8\Context($isolate);
 $source = new \V8\StringValue($isolate, "'Hello' + ', World!'");
 
 $script = new \V8\Script($context, $source);
-$result = $script->Run($context);
+$result = $script->run($context);
 
-echo $result->ToString($context)->Value(), PHP_EOL;
+echo $result->toString($context)->value(), PHP_EOL;
 ```
 
 which will output `Hello, World!`. See how it's shorter and more readable than [that C++ version][v8-hello-world]?

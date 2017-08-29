@@ -97,7 +97,7 @@ php_v8_value_t * php_v8_object_get_self_ptr(php_v8_isolate_t *php_v8_isolate, v8
 }
 
 
-static PHP_METHOD(V8Object, __construct) {
+static PHP_METHOD(Object, __construct) {
     zval rv;
     zval *php_v8_context_zv;
 
@@ -116,7 +116,7 @@ static PHP_METHOD(V8Object, __construct) {
     php_v8_value->persistent->Reset(isolate, local_object);
 }
 
-static PHP_METHOD(V8Object, GetContext) {
+static PHP_METHOD(Object, getContext) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -128,7 +128,7 @@ static PHP_METHOD(V8Object, GetContext) {
     RETURN_ZVAL(PHP_V8_OBJECT_READ_CONTEXT(getThis()), 1, 0);
 }
 
-static PHP_METHOD(V8Object, Set) {
+static PHP_METHOD(Object, set) {
     zval *php_v8_context_zv;
     zval *php_v8_key_or_index_zv;
     zval *php_v8_value_zv;
@@ -164,7 +164,7 @@ static PHP_METHOD(V8Object, Set) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, CreateDataProperty) {
+static PHP_METHOD(Object, createDataProperty) {
     zval *php_v8_context_zv;
     zval *php_v8_key_or_index_zv;
     zval *php_v8_value_zv;
@@ -200,7 +200,7 @@ static PHP_METHOD(V8Object, CreateDataProperty) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, DefineOwnProperty) {
+static PHP_METHOD(Object, defineOwnProperty) {
     zval *php_v8_context_zv;
     zval *php_v8_value_zv;
     zval *php_v8_key_zv;
@@ -245,7 +245,7 @@ static PHP_METHOD(V8Object, DefineOwnProperty) {
     RETURN_BOOL(maybe.FromJust())
 }
 
-static PHP_METHOD(V8Object, Get) {
+static PHP_METHOD(Object, get) {
     zval *php_v8_context_zv;
     zval *php_v8_key_or_index_zv;
     v8::MaybeLocal<v8::Value> maybe_local;
@@ -280,7 +280,7 @@ static PHP_METHOD(V8Object, Get) {
     php_v8_get_or_create_value(return_value, local_value, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, GetPropertyAttributes) {
+static PHP_METHOD(Object, getPropertyAttributes) {
     zval *php_v8_context_zv;
     zval *php_v8_string_zv;
 
@@ -312,7 +312,7 @@ static PHP_METHOD(V8Object, GetPropertyAttributes) {
     RETURN_LONG(static_cast<zend_long>(maybe.FromJust()));
 }
 
-static PHP_METHOD(V8Object, GetOwnPropertyDescriptor) {
+static PHP_METHOD(Object, getOwnPropertyDescriptor) {
     zval *php_v8_context_zv;
     zval *php_v8_string_zv;
 
@@ -346,7 +346,7 @@ static PHP_METHOD(V8Object, GetOwnPropertyDescriptor) {
     php_v8_get_or_create_value(return_value, local_value, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, Has) {
+static PHP_METHOD(Object, has) {
     zval *php_v8_context_zv;
     zval *php_v8_key_or_index_zv;
 
@@ -378,7 +378,7 @@ static PHP_METHOD(V8Object, Has) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, Delete) {
+static PHP_METHOD(Object, delete) {
     zval *php_v8_context_zv;
     zval *php_v8_key_or_index_zv;
 
@@ -410,7 +410,7 @@ static PHP_METHOD(V8Object, Delete) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, SetAccessor) {
+static PHP_METHOD(Object, setAccessor) {
     zval *context_zv;
     zval *php_v8_name_zv;
 
@@ -483,7 +483,7 @@ static PHP_METHOD(V8Object, SetAccessor) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, SetAccessorProperty) {
+static PHP_METHOD(Object, setAccessorProperty) {
     zval *php_v8_name_zv;
     zval *getter_zv;
     zval *setter_zv;
@@ -539,7 +539,7 @@ static PHP_METHOD(V8Object, SetAccessorProperty) {
 //        AccessorNameSetterCallback setter = nullptr,
 //        Local<Value> data = Local<Value>(), PropertyAttribute attributes = None);
 
-static PHP_METHOD(V8Object, SetNativeDataProperty) {
+static PHP_METHOD(Object, setNativeDataProperty) {
     zval *context_zv;
     zval *php_v8_name_zv;
 
@@ -609,7 +609,7 @@ static PHP_METHOD(V8Object, SetNativeDataProperty) {
 
 /* NOTE: we skip functionality for private properties for now */
 
-static PHP_METHOD(V8Object, GetPropertyNames) {
+static PHP_METHOD(Object, getPropertyNames) {
     zval *context_zv;
     zend_long mode            = static_cast<zend_long>(v8::KeyCollectionMode::kOwnOnly);
     zend_long property_filter = static_cast<zend_long>(v8::PropertyFilter::ALL_PROPERTIES);
@@ -649,7 +649,7 @@ static PHP_METHOD(V8Object, GetPropertyNames) {
     php_v8_get_or_create_value(return_value, local_array, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, GetOwnPropertyNames) {
+static PHP_METHOD(Object, getOwnPropertyNames) {
     zval *context_zv;
     zend_long filter = static_cast<zend_long>(v8::PropertyFilter::ALL_PROPERTIES);
 
@@ -681,7 +681,7 @@ static PHP_METHOD(V8Object, GetOwnPropertyNames) {
     php_v8_get_or_create_value(return_value, local_array, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, GetPrototype) {
+static PHP_METHOD(Object, getPrototype) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -703,7 +703,7 @@ static PHP_METHOD(V8Object, GetPrototype) {
     php_v8_get_or_create_value(return_value, local_prototype, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, SetPrototype) {
+static PHP_METHOD(Object, setPrototype) {
     zval *context_zv;
     zval *value_zv;
 
@@ -736,7 +736,7 @@ static PHP_METHOD(V8Object, SetPrototype) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, FindInstanceInPrototypeChain) {
+static PHP_METHOD(Object, findInstanceInPrototypeChain) {
     zval *function_template_zv;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &function_template_zv) == FAILURE) {
@@ -765,7 +765,7 @@ static PHP_METHOD(V8Object, FindInstanceInPrototypeChain) {
     php_v8_get_or_create_value(return_value, local_found, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, ObjectProtoToString) {
+static PHP_METHOD(Object, objectProtoToString) {
     zval *context_zv;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &context_zv) == FAILURE) {
@@ -795,7 +795,7 @@ static PHP_METHOD(V8Object, ObjectProtoToString) {
     php_v8_get_or_create_value(return_value, local_string, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, GetConstructorName) {
+static PHP_METHOD(Object, getConstructorName) {
 
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -809,7 +809,7 @@ static PHP_METHOD(V8Object, GetConstructorName) {
     php_v8_get_or_create_value(return_value, local_object->GetConstructorName(), php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, SetIntegrityLevel) {
+static PHP_METHOD(Object, setIntegrityLevel) {
     zval *php_v8_context_zv;
     zend_long level;
 
@@ -840,7 +840,7 @@ static PHP_METHOD(V8Object, SetIntegrityLevel) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, HasOwnProperty) {
+static PHP_METHOD(Object, hasOwnProperty) {
     zval *php_v8_context_zv;
     zval *php_v8_name_zv;
 
@@ -872,7 +872,7 @@ static PHP_METHOD(V8Object, HasOwnProperty) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, HasRealNamedProperty) {
+static PHP_METHOD(Object, hasRealNamedProperty) {
     zval *php_v8_context_zv;
     zval *php_v8_name_zv;
 
@@ -904,7 +904,7 @@ static PHP_METHOD(V8Object, HasRealNamedProperty) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, HasRealIndexedProperty) {
+static PHP_METHOD(Object, hasRealIndexedProperty) {
     zval *php_v8_context_zv;
     zend_long index;
 
@@ -935,7 +935,7 @@ static PHP_METHOD(V8Object, HasRealIndexedProperty) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, HasRealNamedCallbackProperty) {
+static PHP_METHOD(Object, hasRealNamedCallbackProperty) {
     zval *php_v8_context_zv;
     zval *php_v8_name_zv;
 
@@ -967,7 +967,7 @@ static PHP_METHOD(V8Object, HasRealNamedCallbackProperty) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, GetRealNamedPropertyInPrototypeChain) {
+static PHP_METHOD(Object, getRealNamedPropertyInPrototypeChain) {
     zval *php_v8_context_zv;
     zval *php_v8_name_zv;
 
@@ -1001,7 +1001,7 @@ static PHP_METHOD(V8Object, GetRealNamedPropertyInPrototypeChain) {
     php_v8_get_or_create_value(return_value, local_value, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, GetRealNamedPropertyAttributesInPrototypeChain) {
+static PHP_METHOD(Object, getRealNamedPropertyAttributesInPrototypeChain) {
     zval *php_v8_context_zv;
     zval *php_v8_name_zv;
 
@@ -1033,7 +1033,7 @@ static PHP_METHOD(V8Object, GetRealNamedPropertyAttributesInPrototypeChain) {
     RETURN_LONG((zend_long) maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, GetRealNamedProperty) {
+static PHP_METHOD(Object, getRealNamedProperty) {
     zval *php_v8_context_zv;
     zval *php_v8_name_zv;
 
@@ -1063,7 +1063,7 @@ static PHP_METHOD(V8Object, GetRealNamedProperty) {
     php_v8_get_or_create_value(return_value, local_value, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, GetRealNamedPropertyAttributes) {
+static PHP_METHOD(Object, getRealNamedPropertyAttributes) {
     zval *php_v8_context_zv;
     zval *php_v8_name_zv;
 
@@ -1095,7 +1095,7 @@ static PHP_METHOD(V8Object, GetRealNamedPropertyAttributes) {
     RETURN_LONG((zend_long) maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Object, HasNamedLookupInterceptor) {
+static PHP_METHOD(Object, hasNamedLookupInterceptor) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -1109,7 +1109,7 @@ static PHP_METHOD(V8Object, HasNamedLookupInterceptor) {
     RETURN_BOOL(local_object->HasNamedLookupInterceptor());
 }
 
-static PHP_METHOD(V8Object, HasIndexedLookupInterceptor) {
+static PHP_METHOD(Object, hasIndexedLookupInterceptor) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -1123,7 +1123,7 @@ static PHP_METHOD(V8Object, HasIndexedLookupInterceptor) {
     RETURN_BOOL(local_object->HasIndexedLookupInterceptor());
 }
 
-static PHP_METHOD(V8Object, GetIdentityHash)
+static PHP_METHOD(Object, getIdentityHash)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -1138,7 +1138,7 @@ static PHP_METHOD(V8Object, GetIdentityHash)
     RETVAL_LONG(local_object->GetIdentityHash());
 }
 
-static PHP_METHOD(V8Object, Clone) {
+static PHP_METHOD(Object, clone) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -1160,7 +1160,7 @@ static PHP_METHOD(V8Object, Clone) {
     php_v8_get_or_create_value(return_value, local_cloned_object, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, IsCallable) {
+static PHP_METHOD(Object, isCallable) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -1175,7 +1175,7 @@ static PHP_METHOD(V8Object, IsCallable) {
 }
 
 
-static PHP_METHOD(V8Object, IsConstructor) {
+static PHP_METHOD(Object, isConstructor) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -1189,7 +1189,7 @@ static PHP_METHOD(V8Object, IsConstructor) {
     RETURN_BOOL(local_object->IsConstructor());
 }
 
-static PHP_METHOD(V8Object, CallAsFunction) {
+static PHP_METHOD(Object, callAsFunction) {
     zval *php_v8_context_zv;
     zval *php_v8_recv_zv;
     zval* arguments_zv = NULL;
@@ -1236,7 +1236,7 @@ static PHP_METHOD(V8Object, CallAsFunction) {
     php_v8_get_or_create_value(return_value, local_res, php_v8_value->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Object, CallAsConstructor) {
+static PHP_METHOD(Object, callAsConstructor) {
     zval *php_v8_context_zv;
     zval* arguments_zv = NULL;
 
@@ -1279,69 +1279,69 @@ static PHP_METHOD(V8Object, CallAsConstructor) {
 }
 
 /* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
-static PHP_METHOD(V8Object, AdjustExternalAllocatedMemory) {
+static PHP_METHOD(Object, adjustExternalAllocatedMemory) {
     php_v8_ext_mem_interface_value_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
 /* Non-standard, implementations of AdjustableExternalMemoryInterface::GetExternalAllocatedMemory */
-static PHP_METHOD(V8Object, GetExternalAllocatedMemory) {
+static PHP_METHOD(Object, getExternalAllocatedMemory) {
     php_v8_ext_mem_interface_value_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_object___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object_Set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_object_set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 3)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_CreateDataProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_createDataProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_DefineOwnProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_defineOwnProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
                 ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_Get, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_get, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_GetPropertyAttributes, ZEND_RETURN_VALUE, 2, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_getPropertyAttributes, ZEND_RETURN_VALUE, 2, IS_LONG, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_GetOwnPropertyDescriptor, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_getOwnPropertyDescriptor, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_Has, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_has, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_Delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 // bool
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_SetAccessor, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_setAccessor, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
@@ -1351,7 +1351,7 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_SetAccessor, ZE
 ZEND_END_ARG_INFO()
 
 //void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_SetAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_setAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, getter, V8\\FunctionObject, 0)
                 ZEND_ARG_OBJ_INFO(0, setter, V8\\FunctionObject, 0)
@@ -1359,7 +1359,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_SetAccessorProperty, ZEND_SEND_BY_V
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_object_SetNativeDataProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_object_setNativeDataProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
@@ -1367,167 +1367,167 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_object_SetNativeDa
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_GetPropertyNames, ZEND_RETURN_VALUE, 1, V8\\ArrayObject, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_getPropertyNames, ZEND_RETURN_VALUE, 1, V8\\ArrayObject, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, mode, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, property_filter, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, index_filter, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_GetOwnPropertyNames, ZEND_RETURN_VALUE, 1, V8\\ArrayObject, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_getOwnPropertyNames, ZEND_RETURN_VALUE, 1, V8\\ArrayObject, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, filter, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_GetPrototype, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_getPrototype, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_object_SetPrototype, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_object_setPrototype, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, prototype, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_FindInstanceInPrototypeChain, ZEND_RETURN_VALUE, 1, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_findInstanceInPrototypeChain, ZEND_RETURN_VALUE, 1, V8\\ObjectValue, 0)
                 ZEND_ARG_OBJ_INFO(0, tmpl, V8\\FunctionTemplate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_ObjectProtoToString, ZEND_RETURN_VALUE, 1, V8\\StringValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_php_v8_object_objectProtoToString, ZEND_RETURN_VALUE, 1, V8\\StringValue, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_GetConstructorName, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_getConstructorName, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_SetIntegrityLevel, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_setIntegrityLevel, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, level, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_HasOwnProperty, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_hasOwnProperty, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_HasRealNamedProperty, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_hasRealNamedProperty, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_HasRealIndexedProperty, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_hasRealIndexedProperty, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_HasRealNamedCallbackProperty, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_hasRealNamedCallbackProperty, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_GetRealNamedPropertyInPrototypeChain, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_getRealNamedPropertyInPrototypeChain, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_GetRealNamedPropertyAttributesInPrototypeChain, ZEND_RETURN_VALUE, 2, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_getRealNamedPropertyAttributesInPrototypeChain, ZEND_RETURN_VALUE, 2, IS_LONG, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_GetRealNamedProperty, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_getRealNamedProperty, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_GetRealNamedPropertyAttributes, ZEND_RETURN_VALUE, 2, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_getRealNamedPropertyAttributes, ZEND_RETURN_VALUE, 2, IS_LONG, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_HasNamedLookupInterceptor, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_hasNamedLookupInterceptor, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_HasIndexedLookupInterceptor, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_hasIndexedLookupInterceptor, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_GetIdentityHash, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_getIdentityHash, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_Clone, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_clone, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_IsCallable, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_isCallable, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_IsConstructor, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_isConstructor, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_CallAsFunction, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_callAsFunction, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, recv, V8\\Value, 0)
                 ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_CallAsConstructor, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_callAsConstructor, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
 // static methods
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_adjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_getExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_object_methods[] = {
-        PHP_ME(V8Object, __construct, arginfo_v8_object___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_ME(V8Object, GetContext, arginfo_v8_object_GetContext, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, Set, arginfo_v8_object_Set, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, CreateDataProperty, arginfo_v8_object_CreateDataProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, DefineOwnProperty, arginfo_v8_object_DefineOwnProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, Get, arginfo_v8_object_Get, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetPropertyAttributes, arginfo_v8_object_GetPropertyAttributes, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetOwnPropertyDescriptor, arginfo_v8_object_GetOwnPropertyDescriptor, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, Has, arginfo_v8_object_Has, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, Delete, arginfo_v8_object_Delete, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, SetAccessor, arginfo_v8_object_SetAccessor, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, SetAccessorProperty, arginfo_php_v8_object_SetAccessorProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, SetNativeDataProperty, arginfo_php_v8_object_SetNativeDataProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetPropertyNames, arginfo_php_v8_object_GetPropertyNames, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetOwnPropertyNames, arginfo_php_v8_object_GetOwnPropertyNames, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetPrototype, arginfo_php_v8_object_GetPrototype, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, SetPrototype, arginfo_php_v8_object_SetPrototype, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, FindInstanceInPrototypeChain, arginfo_php_v8_object_FindInstanceInPrototypeChain, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, ObjectProtoToString, arginfo_php_v8_object_ObjectProtoToString, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetConstructorName, arginfo_v8_object_GetConstructorName, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, SetIntegrityLevel, arginfo_v8_object_SetIntegrityLevel, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, __construct, arginfo_object___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_ME(Object, getContext, arginfo_object_getContext, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, set, arginfo_object_set, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, createDataProperty, arginfo_object_createDataProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, defineOwnProperty, arginfo_object_defineOwnProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, get, arginfo_object_get, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getPropertyAttributes, arginfo_object_getPropertyAttributes, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getOwnPropertyDescriptor, arginfo_object_getOwnPropertyDescriptor, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, has, arginfo_object_has, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, delete, arginfo_object_delete, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, setAccessor, arginfo_object_setAccessor, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, setAccessorProperty, arginfo_php_v8_object_setAccessorProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, setNativeDataProperty, arginfo_php_v8_object_setNativeDataProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getPropertyNames, arginfo_php_v8_object_getPropertyNames, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getOwnPropertyNames, arginfo_php_v8_object_getOwnPropertyNames, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getPrototype, arginfo_php_v8_object_getPrototype, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, setPrototype, arginfo_php_v8_object_setPrototype, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, findInstanceInPrototypeChain, arginfo_php_v8_object_findInstanceInPrototypeChain, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, objectProtoToString, arginfo_php_v8_object_objectProtoToString, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getConstructorName, arginfo_object_getConstructorName, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, setIntegrityLevel, arginfo_object_setIntegrityLevel, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8Object, HasOwnProperty, arginfo_v8_object_HasOwnProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, HasRealNamedProperty, arginfo_v8_object_HasRealNamedProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, HasRealIndexedProperty, arginfo_v8_object_HasRealIndexedProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, HasRealNamedCallbackProperty, arginfo_v8_object_HasRealNamedCallbackProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, hasOwnProperty, arginfo_object_hasOwnProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, hasRealNamedProperty, arginfo_object_hasRealNamedProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, hasRealIndexedProperty, arginfo_object_hasRealIndexedProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, hasRealNamedCallbackProperty, arginfo_object_hasRealNamedCallbackProperty, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8Object, GetRealNamedPropertyInPrototypeChain, arginfo_v8_object_GetRealNamedPropertyInPrototypeChain, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetRealNamedPropertyAttributesInPrototypeChain, arginfo_v8_object_GetRealNamedPropertyAttributesInPrototypeChain, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetRealNamedProperty, arginfo_v8_object_GetRealNamedProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetRealNamedPropertyAttributes, arginfo_v8_object_GetRealNamedPropertyAttributes, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getRealNamedPropertyInPrototypeChain, arginfo_object_getRealNamedPropertyInPrototypeChain, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getRealNamedPropertyAttributesInPrototypeChain, arginfo_object_getRealNamedPropertyAttributesInPrototypeChain, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getRealNamedProperty, arginfo_object_getRealNamedProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getRealNamedPropertyAttributes, arginfo_object_getRealNamedPropertyAttributes, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8Object, HasNamedLookupInterceptor, arginfo_v8_object_HasNamedLookupInterceptor, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, HasIndexedLookupInterceptor, arginfo_v8_object_HasIndexedLookupInterceptor, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetIdentityHash, arginfo_v8_object_GetIdentityHash, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, Clone, arginfo_v8_object_Clone, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, hasNamedLookupInterceptor, arginfo_object_hasNamedLookupInterceptor, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, hasIndexedLookupInterceptor, arginfo_object_hasIndexedLookupInterceptor, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getIdentityHash, arginfo_object_getIdentityHash, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, clone, arginfo_object_clone, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8Object, IsCallable, arginfo_v8_object_IsCallable, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, IsConstructor, arginfo_v8_object_IsConstructor, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, CallAsFunction, arginfo_v8_object_CallAsFunction, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, CallAsConstructor, arginfo_v8_object_CallAsConstructor, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, isCallable, arginfo_object_isCallable, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, isConstructor, arginfo_object_isConstructor, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, callAsFunction, arginfo_object_callAsFunction, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, callAsConstructor, arginfo_object_callAsConstructor, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8Object, AdjustExternalAllocatedMemory, arginfo_v8_object_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Object, GetExternalAllocatedMemory, arginfo_v8_object_GetExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, adjustExternalAllocatedMemory, arginfo_object_adjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+        PHP_ME(Object, getExternalAllocatedMemory, arginfo_object_getExternalAllocatedMemory, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

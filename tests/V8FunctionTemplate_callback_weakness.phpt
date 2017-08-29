@@ -29,7 +29,7 @@ $helper->header('Functions after f1 was set as a callback');
 debug_zval_dump($f1);
 debug_zval_dump($f2);
 
-$fnc->SetCallHandler($f2);
+$fnc->setCallHandler($f2);
 
 $helper->header('Functions after f2 was set as a callback');
 debug_zval_dump($f1);
@@ -43,7 +43,7 @@ debug_zval_dump($f2);
 
 $isolate = null;
 //for($i = 0; $i<1000; $i++) {
-//  $isolate->LowMemoryNotification();
+//  $isolate->lowMemoryNotification();
 //}
 $helper->header('Functions after isolate was destroyed');
 

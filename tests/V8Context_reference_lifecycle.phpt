@@ -21,11 +21,11 @@ $isolate = new \V8\Isolate();
 $obj = $v8_helper->CompileRun(new \v8Tests\TrackingDtors\Context($isolate), 'var obj = {}; obj');
 
 //$helper->dump($obj);
-$helper->dump($obj->GetContext());
+$helper->dump($obj->getContext());
 
 
 $context = new \v8Tests\TrackingDtors\Context($isolate);
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $obj);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'obj'), $obj);
 
 $helper->line();
 $obj = null;
@@ -37,7 +37,7 @@ $helper->line();
 $obj = $v8_helper->CompileRun($context, 'var obj2 = obj; obj2');
 
 //$helper->dump($obj);
-$helper->dump($obj->GetContext());
+$helper->dump($obj->getContext());
 $obj = null;
 ?>
 --EXPECT--

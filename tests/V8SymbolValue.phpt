@@ -29,10 +29,10 @@ $helper->assert('SymbolValue extends Value', $value instanceof \V8\Value);
 $helper->line();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_export($value, 'Value');
-$helper->assert('Name() is undefined', $value->Name() instanceof \V8\UndefinedValue);
-$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
+$helper->method_matches($value, 'getIsolate', $isolate);
+$helper->method_export($value, 'value');
+$helper->assert('Name() is undefined', $value->name() instanceof \V8\UndefinedValue);
+$helper->assert('GetIdentityHash is integer', gettype($value->getIdentityHash()), 'integer');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
@@ -50,10 +50,10 @@ $helper->assert('SymbolValue extends NameValue', $value instanceof \V8\NameValue
 $helper->line();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_export($value, 'Value');
-$helper->assert('Name() is undefined', $value->Name() instanceof \V8\UndefinedValue);
-$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
+$helper->method_matches($value, 'getIsolate', $isolate);
+$helper->method_export($value, 'value');
+$helper->assert('Name() is undefined', $value->name() instanceof \V8\UndefinedValue);
+$helper->assert('GetIdentityHash is integer', gettype($value->getIdentityHash()), 'integer');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
@@ -70,16 +70,16 @@ $helper->assert('SymbolValue extends NameValue', $value instanceof \V8\NameValue
 $helper->line();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_export($value, 'Value');
-$helper->assert('Name() is String', $value->Name() instanceof \V8\StringValue);
-$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
+$helper->method_matches($value, 'getIsolate', $isolate);
+$helper->method_export($value, 'value');
+$helper->assert('Name() is String', $value->name() instanceof \V8\StringValue);
+$helper->assert('GetIdentityHash is integer', gettype($value->getIdentityHash()), 'integer');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
 
 $helper->header('Symbol name');
-$helper->dump($value->Name()->Value());
+$helper->dump($value->name()->value());
 $helper->line();
 
 
@@ -95,19 +95,19 @@ $helper->assert('SymbolValue extends NameValue', $value instanceof \V8\NameValue
 $helper->line();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_export($value, 'Value');
-$helper->assert('Name() is String', $value->Name() instanceof \V8\StringValue);
-$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
+$helper->method_matches($value, 'getIsolate', $isolate);
+$helper->method_export($value, 'value');
+$helper->assert('Name() is String', $value->name() instanceof \V8\StringValue);
+$helper->assert('GetIdentityHash is integer', gettype($value->getIdentityHash()), 'integer');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
 
 $helper->header('Symbol name');
-$helper->dump($value->Name()->Value());
+$helper->dump($value->name()->value());
 $helper->line();
 
-$v8_helper->run_checks($value->Name(), 'Checkers on name');
+$v8_helper->run_checks($value->name(), 'Checkers on name');
 
 
 $source = 'Symbol("foo")';
@@ -121,15 +121,15 @@ $v8_helper->run_checks($res, 'Checkers on Symbol value from script');
 
 function test_For(\V8\Context $context, PhpV8Testsuite $helper)
 {
-    $value = V8\SymbolValue::For($context, new \V8\StringValue($context->GetIsolate(), 'test'));
+    $value = V8\SymbolValue::for($context, new \V8\StringValue($context->getIsolate(), 'test'));
     $helper->assert('Symbol For(string) returned', $value instanceof \V8\SymbolValue);
-    $helper->pretty_dump('Symbol For(string) name', $value->Name()->Value());
+    $helper->pretty_dump('Symbol For(string) name', $value->name()->value());
     $helper->line();
 }
 
 function getFunctionForTesting(\V8\Context $context, PhpV8Testsuite $helper, callable $fnc, array $extra_args = []) {
     return new \V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $args) use ($helper, $fnc) {
-        $fnc($args->GetContext(), $helper);
+        $fnc($args->getContext(), $helper);
     });
 }
 
@@ -139,14 +139,14 @@ try {
     $helper->exception_export($e);
 }
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test_For'), getFunctionForTesting($context, $helper, 'test_For'));
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test_For'), getFunctionForTesting($context, $helper, 'test_For'));
 $v8_helper->CompileRun($context, 'test_For()');
 
 
-$helper->assert('Isolate not in context', !$isolate->InContext());
-$value = V8\SymbolValue::ForApi($context, new \V8\StringValue($isolate, 'test'));
+$helper->assert('Isolate not in context', !$isolate->inContext());
+$value = V8\SymbolValue::forApi($context, new \V8\StringValue($isolate, 'test'));
 $helper->assert('Symbol ForApi(string) returned', $value instanceof \V8\SymbolValue);
-$helper->pretty_dump('Symbol ForApi(string) name', $value->Name()->Value());
+$helper->pretty_dump('Symbol ForApi(string) name', $value->name()->value());
 $helper->line();
 
 $static_getters = [
@@ -163,10 +163,10 @@ $static_getters = [
 ];
 
 foreach ($static_getters as $static_getter) {
-    $helper->assert('Isolate not in context', !$isolate->InContext());
+    $helper->assert('Isolate not in context', !$isolate->inContext());
     $value = V8\SymbolValue::$static_getter($isolate);
     $helper->assert("Symbol {$static_getter}() returned", $value instanceof \V8\SymbolValue);
-    $helper->pretty_dump("Symbol {$static_getter}() name", $value->Name()->Value());
+    $helper->pretty_dump("Symbol {$static_getter}() name", $value->Name()->value());
     $helper->line();
 }
 
@@ -189,64 +189,64 @@ SymbolValue extends Value: ok
 
 Accessors:
 ----------
-V8\SymbolValue::GetIsolate() matches expected value
-V8\SymbolValue->Value(): string(0) ""
+V8\SymbolValue::getIsolate() matches expected value
+V8\SymbolValue->value(): string(0) ""
 Name() is undefined: ok
 GetIdentityHash is integer: ok
 
 
 Checkers:
 ---------
-V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+V8\SymbolValue(V8\Value)->typeOf(): V8\StringValue->value(): string(6) "symbol"
 
-V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsNull(): bool(false)
-V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
-V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
-V8\SymbolValue(V8\Value)->IsName(): bool(true)
-V8\SymbolValue(V8\Value)->IsString(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbol(): bool(true)
-V8\SymbolValue(V8\Value)->IsFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBoolean(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumber(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32(): bool(false)
-V8\SymbolValue(V8\Value)->IsDate(): bool(false)
-V8\SymbolValue(V8\Value)->IsArgumentsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBooleanObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumberObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
-V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
-V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
-V8\SymbolValue(V8\Value)->IsMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
-V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
-V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
+V8\SymbolValue(V8\Value)->isUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isNull(): bool(false)
+V8\SymbolValue(V8\Value)->isNullOrUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isTrue(): bool(false)
+V8\SymbolValue(V8\Value)->isFalse(): bool(false)
+V8\SymbolValue(V8\Value)->isName(): bool(true)
+V8\SymbolValue(V8\Value)->isString(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbol(): bool(true)
+V8\SymbolValue(V8\Value)->isFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isArray(): bool(false)
+V8\SymbolValue(V8\Value)->isObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBoolean(): bool(false)
+V8\SymbolValue(V8\Value)->isNumber(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32(): bool(false)
+V8\SymbolValue(V8\Value)->isDate(): bool(false)
+V8\SymbolValue(V8\Value)->isArgumentsObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBooleanObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNumberObject(): bool(false)
+V8\SymbolValue(V8\Value)->isStringObject(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbolObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNativeError(): bool(false)
+V8\SymbolValue(V8\Value)->isRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->isAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->isPromise(): bool(false)
+V8\SymbolValue(V8\Value)->isMap(): bool(false)
+V8\SymbolValue(V8\Value)->isSet(): bool(false)
+V8\SymbolValue(V8\Value)->isMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->isTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->isDataView(): bool(false)
+V8\SymbolValue(V8\Value)->isSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isProxy(): bool(false)
 
 
 Null constructor:
@@ -265,64 +265,64 @@ SymbolValue extends NameValue: ok
 
 Accessors:
 ----------
-V8\SymbolValue::GetIsolate() matches expected value
-V8\SymbolValue->Value(): string(0) ""
+V8\SymbolValue::getIsolate() matches expected value
+V8\SymbolValue->value(): string(0) ""
 Name() is undefined: ok
 GetIdentityHash is integer: ok
 
 
 Checkers:
 ---------
-V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+V8\SymbolValue(V8\Value)->typeOf(): V8\StringValue->value(): string(6) "symbol"
 
-V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsNull(): bool(false)
-V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
-V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
-V8\SymbolValue(V8\Value)->IsName(): bool(true)
-V8\SymbolValue(V8\Value)->IsString(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbol(): bool(true)
-V8\SymbolValue(V8\Value)->IsFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBoolean(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumber(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32(): bool(false)
-V8\SymbolValue(V8\Value)->IsDate(): bool(false)
-V8\SymbolValue(V8\Value)->IsArgumentsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBooleanObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumberObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
-V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
-V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
-V8\SymbolValue(V8\Value)->IsMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
-V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
-V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
+V8\SymbolValue(V8\Value)->isUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isNull(): bool(false)
+V8\SymbolValue(V8\Value)->isNullOrUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isTrue(): bool(false)
+V8\SymbolValue(V8\Value)->isFalse(): bool(false)
+V8\SymbolValue(V8\Value)->isName(): bool(true)
+V8\SymbolValue(V8\Value)->isString(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbol(): bool(true)
+V8\SymbolValue(V8\Value)->isFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isArray(): bool(false)
+V8\SymbolValue(V8\Value)->isObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBoolean(): bool(false)
+V8\SymbolValue(V8\Value)->isNumber(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32(): bool(false)
+V8\SymbolValue(V8\Value)->isDate(): bool(false)
+V8\SymbolValue(V8\Value)->isArgumentsObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBooleanObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNumberObject(): bool(false)
+V8\SymbolValue(V8\Value)->isStringObject(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbolObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNativeError(): bool(false)
+V8\SymbolValue(V8\Value)->isRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->isAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->isPromise(): bool(false)
+V8\SymbolValue(V8\Value)->isMap(): bool(false)
+V8\SymbolValue(V8\Value)->isSet(): bool(false)
+V8\SymbolValue(V8\Value)->isMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->isTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->isDataView(): bool(false)
+V8\SymbolValue(V8\Value)->isSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isProxy(): bool(false)
 
 
 Empty StringValue constructor:
@@ -341,64 +341,64 @@ SymbolValue extends NameValue: ok
 
 Accessors:
 ----------
-V8\SymbolValue::GetIsolate() matches expected value
-V8\SymbolValue->Value(): string(0) ""
+V8\SymbolValue::getIsolate() matches expected value
+V8\SymbolValue->value(): string(0) ""
 Name() is String: ok
 GetIdentityHash is integer: ok
 
 
 Checkers:
 ---------
-V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+V8\SymbolValue(V8\Value)->typeOf(): V8\StringValue->value(): string(6) "symbol"
 
-V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsNull(): bool(false)
-V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
-V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
-V8\SymbolValue(V8\Value)->IsName(): bool(true)
-V8\SymbolValue(V8\Value)->IsString(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbol(): bool(true)
-V8\SymbolValue(V8\Value)->IsFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBoolean(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumber(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32(): bool(false)
-V8\SymbolValue(V8\Value)->IsDate(): bool(false)
-V8\SymbolValue(V8\Value)->IsArgumentsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBooleanObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumberObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
-V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
-V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
-V8\SymbolValue(V8\Value)->IsMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
-V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
-V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
+V8\SymbolValue(V8\Value)->isUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isNull(): bool(false)
+V8\SymbolValue(V8\Value)->isNullOrUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isTrue(): bool(false)
+V8\SymbolValue(V8\Value)->isFalse(): bool(false)
+V8\SymbolValue(V8\Value)->isName(): bool(true)
+V8\SymbolValue(V8\Value)->isString(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbol(): bool(true)
+V8\SymbolValue(V8\Value)->isFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isArray(): bool(false)
+V8\SymbolValue(V8\Value)->isObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBoolean(): bool(false)
+V8\SymbolValue(V8\Value)->isNumber(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32(): bool(false)
+V8\SymbolValue(V8\Value)->isDate(): bool(false)
+V8\SymbolValue(V8\Value)->isArgumentsObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBooleanObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNumberObject(): bool(false)
+V8\SymbolValue(V8\Value)->isStringObject(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbolObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNativeError(): bool(false)
+V8\SymbolValue(V8\Value)->isRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->isAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->isPromise(): bool(false)
+V8\SymbolValue(V8\Value)->isMap(): bool(false)
+V8\SymbolValue(V8\Value)->isSet(): bool(false)
+V8\SymbolValue(V8\Value)->isMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->isTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->isDataView(): bool(false)
+V8\SymbolValue(V8\Value)->isSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isProxy(): bool(false)
 
 
 Symbol name:
@@ -421,64 +421,64 @@ SymbolValue extends NameValue: ok
 
 Accessors:
 ----------
-V8\SymbolValue::GetIsolate() matches expected value
-V8\SymbolValue->Value(): string(4) "test"
+V8\SymbolValue::getIsolate() matches expected value
+V8\SymbolValue->value(): string(4) "test"
 Name() is String: ok
 GetIdentityHash is integer: ok
 
 
 Checkers:
 ---------
-V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+V8\SymbolValue(V8\Value)->typeOf(): V8\StringValue->value(): string(6) "symbol"
 
-V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsNull(): bool(false)
-V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
-V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
-V8\SymbolValue(V8\Value)->IsName(): bool(true)
-V8\SymbolValue(V8\Value)->IsString(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbol(): bool(true)
-V8\SymbolValue(V8\Value)->IsFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBoolean(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumber(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32(): bool(false)
-V8\SymbolValue(V8\Value)->IsDate(): bool(false)
-V8\SymbolValue(V8\Value)->IsArgumentsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBooleanObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumberObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
-V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
-V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
-V8\SymbolValue(V8\Value)->IsMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
-V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
-V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
+V8\SymbolValue(V8\Value)->isUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isNull(): bool(false)
+V8\SymbolValue(V8\Value)->isNullOrUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isTrue(): bool(false)
+V8\SymbolValue(V8\Value)->isFalse(): bool(false)
+V8\SymbolValue(V8\Value)->isName(): bool(true)
+V8\SymbolValue(V8\Value)->isString(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbol(): bool(true)
+V8\SymbolValue(V8\Value)->isFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isArray(): bool(false)
+V8\SymbolValue(V8\Value)->isObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBoolean(): bool(false)
+V8\SymbolValue(V8\Value)->isNumber(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32(): bool(false)
+V8\SymbolValue(V8\Value)->isDate(): bool(false)
+V8\SymbolValue(V8\Value)->isArgumentsObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBooleanObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNumberObject(): bool(false)
+V8\SymbolValue(V8\Value)->isStringObject(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbolObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNativeError(): bool(false)
+V8\SymbolValue(V8\Value)->isRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->isAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->isPromise(): bool(false)
+V8\SymbolValue(V8\Value)->isMap(): bool(false)
+V8\SymbolValue(V8\Value)->isSet(): bool(false)
+V8\SymbolValue(V8\Value)->isMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->isTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->isDataView(): bool(false)
+V8\SymbolValue(V8\Value)->isSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isProxy(): bool(false)
 
 
 Symbol name:
@@ -487,111 +487,111 @@ string(4) "test"
 
 Checkers on name:
 -----------------
-V8\StringValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "string"
+V8\StringValue(V8\Value)->typeOf(): V8\StringValue->value(): string(6) "string"
 
-V8\StringValue->IsOneByte(): bool(true)
-V8\StringValue(V8\Value)->IsUndefined(): bool(false)
-V8\StringValue(V8\Value)->IsNull(): bool(false)
-V8\StringValue(V8\Value)->IsNullOrUndefined(): bool(false)
-V8\StringValue(V8\Value)->IsTrue(): bool(false)
-V8\StringValue(V8\Value)->IsFalse(): bool(false)
-V8\StringValue(V8\Value)->IsName(): bool(true)
-V8\StringValue(V8\Value)->IsString(): bool(true)
-V8\StringValue(V8\Value)->IsSymbol(): bool(false)
-V8\StringValue(V8\Value)->IsFunction(): bool(false)
-V8\StringValue(V8\Value)->IsArray(): bool(false)
-V8\StringValue(V8\Value)->IsObject(): bool(false)
-V8\StringValue(V8\Value)->IsBoolean(): bool(false)
-V8\StringValue(V8\Value)->IsNumber(): bool(false)
-V8\StringValue(V8\Value)->IsInt32(): bool(false)
-V8\StringValue(V8\Value)->IsUint32(): bool(false)
-V8\StringValue(V8\Value)->IsDate(): bool(false)
-V8\StringValue(V8\Value)->IsArgumentsObject(): bool(false)
-V8\StringValue(V8\Value)->IsBooleanObject(): bool(false)
-V8\StringValue(V8\Value)->IsNumberObject(): bool(false)
-V8\StringValue(V8\Value)->IsStringObject(): bool(false)
-V8\StringValue(V8\Value)->IsSymbolObject(): bool(false)
-V8\StringValue(V8\Value)->IsNativeError(): bool(false)
-V8\StringValue(V8\Value)->IsRegExp(): bool(false)
-V8\StringValue(V8\Value)->IsAsyncFunction(): bool(false)
-V8\StringValue(V8\Value)->IsGeneratorFunction(): bool(false)
-V8\StringValue(V8\Value)->IsGeneratorObject(): bool(false)
-V8\StringValue(V8\Value)->IsPromise(): bool(false)
-V8\StringValue(V8\Value)->IsMap(): bool(false)
-V8\StringValue(V8\Value)->IsSet(): bool(false)
-V8\StringValue(V8\Value)->IsMapIterator(): bool(false)
-V8\StringValue(V8\Value)->IsSetIterator(): bool(false)
-V8\StringValue(V8\Value)->IsWeakMap(): bool(false)
-V8\StringValue(V8\Value)->IsWeakSet(): bool(false)
-V8\StringValue(V8\Value)->IsArrayBuffer(): bool(false)
-V8\StringValue(V8\Value)->IsArrayBufferView(): bool(false)
-V8\StringValue(V8\Value)->IsTypedArray(): bool(false)
-V8\StringValue(V8\Value)->IsUint8Array(): bool(false)
-V8\StringValue(V8\Value)->IsUint8ClampedArray(): bool(false)
-V8\StringValue(V8\Value)->IsInt8Array(): bool(false)
-V8\StringValue(V8\Value)->IsUint16Array(): bool(false)
-V8\StringValue(V8\Value)->IsInt16Array(): bool(false)
-V8\StringValue(V8\Value)->IsUint32Array(): bool(false)
-V8\StringValue(V8\Value)->IsInt32Array(): bool(false)
-V8\StringValue(V8\Value)->IsFloat32Array(): bool(false)
-V8\StringValue(V8\Value)->IsFloat64Array(): bool(false)
-V8\StringValue(V8\Value)->IsDataView(): bool(false)
-V8\StringValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
-V8\StringValue(V8\Value)->IsProxy(): bool(false)
+V8\StringValue->isOneByte(): bool(true)
+V8\StringValue(V8\Value)->isUndefined(): bool(false)
+V8\StringValue(V8\Value)->isNull(): bool(false)
+V8\StringValue(V8\Value)->isNullOrUndefined(): bool(false)
+V8\StringValue(V8\Value)->isTrue(): bool(false)
+V8\StringValue(V8\Value)->isFalse(): bool(false)
+V8\StringValue(V8\Value)->isName(): bool(true)
+V8\StringValue(V8\Value)->isString(): bool(true)
+V8\StringValue(V8\Value)->isSymbol(): bool(false)
+V8\StringValue(V8\Value)->isFunction(): bool(false)
+V8\StringValue(V8\Value)->isArray(): bool(false)
+V8\StringValue(V8\Value)->isObject(): bool(false)
+V8\StringValue(V8\Value)->isBoolean(): bool(false)
+V8\StringValue(V8\Value)->isNumber(): bool(false)
+V8\StringValue(V8\Value)->isInt32(): bool(false)
+V8\StringValue(V8\Value)->isUint32(): bool(false)
+V8\StringValue(V8\Value)->isDate(): bool(false)
+V8\StringValue(V8\Value)->isArgumentsObject(): bool(false)
+V8\StringValue(V8\Value)->isBooleanObject(): bool(false)
+V8\StringValue(V8\Value)->isNumberObject(): bool(false)
+V8\StringValue(V8\Value)->isStringObject(): bool(false)
+V8\StringValue(V8\Value)->isSymbolObject(): bool(false)
+V8\StringValue(V8\Value)->isNativeError(): bool(false)
+V8\StringValue(V8\Value)->isRegExp(): bool(false)
+V8\StringValue(V8\Value)->isAsyncFunction(): bool(false)
+V8\StringValue(V8\Value)->isGeneratorFunction(): bool(false)
+V8\StringValue(V8\Value)->isGeneratorObject(): bool(false)
+V8\StringValue(V8\Value)->isPromise(): bool(false)
+V8\StringValue(V8\Value)->isMap(): bool(false)
+V8\StringValue(V8\Value)->isSet(): bool(false)
+V8\StringValue(V8\Value)->isMapIterator(): bool(false)
+V8\StringValue(V8\Value)->isSetIterator(): bool(false)
+V8\StringValue(V8\Value)->isWeakMap(): bool(false)
+V8\StringValue(V8\Value)->isWeakSet(): bool(false)
+V8\StringValue(V8\Value)->isArrayBuffer(): bool(false)
+V8\StringValue(V8\Value)->isArrayBufferView(): bool(false)
+V8\StringValue(V8\Value)->isTypedArray(): bool(false)
+V8\StringValue(V8\Value)->isUint8Array(): bool(false)
+V8\StringValue(V8\Value)->isUint8ClampedArray(): bool(false)
+V8\StringValue(V8\Value)->isInt8Array(): bool(false)
+V8\StringValue(V8\Value)->isUint16Array(): bool(false)
+V8\StringValue(V8\Value)->isInt16Array(): bool(false)
+V8\StringValue(V8\Value)->isUint32Array(): bool(false)
+V8\StringValue(V8\Value)->isInt32Array(): bool(false)
+V8\StringValue(V8\Value)->isFloat32Array(): bool(false)
+V8\StringValue(V8\Value)->isFloat64Array(): bool(false)
+V8\StringValue(V8\Value)->isDataView(): bool(false)
+V8\StringValue(V8\Value)->isSharedArrayBuffer(): bool(false)
+V8\StringValue(V8\Value)->isProxy(): bool(false)
 
 
 Checkers on Symbol value from script:
 -------------------------------------
-V8\SymbolValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "symbol"
+V8\SymbolValue(V8\Value)->typeOf(): V8\StringValue->value(): string(6) "symbol"
 
-V8\SymbolValue(V8\Value)->IsUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsNull(): bool(false)
-V8\SymbolValue(V8\Value)->IsNullOrUndefined(): bool(false)
-V8\SymbolValue(V8\Value)->IsTrue(): bool(false)
-V8\SymbolValue(V8\Value)->IsFalse(): bool(false)
-V8\SymbolValue(V8\Value)->IsName(): bool(true)
-V8\SymbolValue(V8\Value)->IsString(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbol(): bool(true)
-V8\SymbolValue(V8\Value)->IsFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBoolean(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumber(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32(): bool(false)
-V8\SymbolValue(V8\Value)->IsDate(): bool(false)
-V8\SymbolValue(V8\Value)->IsArgumentsObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsBooleanObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNumberObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsStringObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsSymbolObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsNativeError(): bool(false)
-V8\SymbolValue(V8\Value)->IsRegExp(): bool(false)
-V8\SymbolValue(V8\Value)->IsAsyncFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorFunction(): bool(false)
-V8\SymbolValue(V8\Value)->IsGeneratorObject(): bool(false)
-V8\SymbolValue(V8\Value)->IsPromise(): bool(false)
-V8\SymbolValue(V8\Value)->IsMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsMapIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsSetIterator(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakMap(): bool(false)
-V8\SymbolValue(V8\Value)->IsWeakSet(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsArrayBufferView(): bool(false)
-V8\SymbolValue(V8\Value)->IsTypedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint8ClampedArray(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt8Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt16Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsUint32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsInt32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat32Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsFloat64Array(): bool(false)
-V8\SymbolValue(V8\Value)->IsDataView(): bool(false)
-V8\SymbolValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
-V8\SymbolValue(V8\Value)->IsProxy(): bool(false)
+V8\SymbolValue(V8\Value)->isUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isNull(): bool(false)
+V8\SymbolValue(V8\Value)->isNullOrUndefined(): bool(false)
+V8\SymbolValue(V8\Value)->isTrue(): bool(false)
+V8\SymbolValue(V8\Value)->isFalse(): bool(false)
+V8\SymbolValue(V8\Value)->isName(): bool(true)
+V8\SymbolValue(V8\Value)->isString(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbol(): bool(true)
+V8\SymbolValue(V8\Value)->isFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isArray(): bool(false)
+V8\SymbolValue(V8\Value)->isObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBoolean(): bool(false)
+V8\SymbolValue(V8\Value)->isNumber(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32(): bool(false)
+V8\SymbolValue(V8\Value)->isDate(): bool(false)
+V8\SymbolValue(V8\Value)->isArgumentsObject(): bool(false)
+V8\SymbolValue(V8\Value)->isBooleanObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNumberObject(): bool(false)
+V8\SymbolValue(V8\Value)->isStringObject(): bool(false)
+V8\SymbolValue(V8\Value)->isSymbolObject(): bool(false)
+V8\SymbolValue(V8\Value)->isNativeError(): bool(false)
+V8\SymbolValue(V8\Value)->isRegExp(): bool(false)
+V8\SymbolValue(V8\Value)->isAsyncFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorFunction(): bool(false)
+V8\SymbolValue(V8\Value)->isGeneratorObject(): bool(false)
+V8\SymbolValue(V8\Value)->isPromise(): bool(false)
+V8\SymbolValue(V8\Value)->isMap(): bool(false)
+V8\SymbolValue(V8\Value)->isSet(): bool(false)
+V8\SymbolValue(V8\Value)->isMapIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isSetIterator(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakMap(): bool(false)
+V8\SymbolValue(V8\Value)->isWeakSet(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isArrayBufferView(): bool(false)
+V8\SymbolValue(V8\Value)->isTypedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint8ClampedArray(): bool(false)
+V8\SymbolValue(V8\Value)->isInt8Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt16Array(): bool(false)
+V8\SymbolValue(V8\Value)->isUint32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isInt32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat32Array(): bool(false)
+V8\SymbolValue(V8\Value)->isFloat64Array(): bool(false)
+V8\SymbolValue(V8\Value)->isDataView(): bool(false)
+V8\SymbolValue(V8\Value)->isSharedArrayBuffer(): bool(false)
+V8\SymbolValue(V8\Value)->isProxy(): bool(false)
 
 
 Symbol For(string) returned: ok

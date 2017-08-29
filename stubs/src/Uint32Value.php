@@ -32,7 +32,7 @@ class Uint32Value extends IntegerValue
     /**
      * @return int uint32 value
      */
-    public function Value(): int
+    public function value(): int
     {
     }
 }

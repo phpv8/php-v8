@@ -21,21 +21,21 @@ class UnboundScript
      *
      * @return Script
      */
-    public function BindToContext(Context $context): Script
+    public function bindToContext(Context $context): Script
     {
     }
 
     /**
      * @return int
      */
-    public function GetId(): int
+    public function getId(): int
     {
     }
 
     /**
      * @return Value
      */
-    public function GetScriptName(): Value
+    public function getScriptName(): Value
     {
     }
 
@@ -44,7 +44,7 @@ class UnboundScript
      *
      * @return Value
      */
-    public function GetSourceURL(): Value
+    public function getSourceURL(): Value
     {
     }
 
@@ -53,7 +53,7 @@ class UnboundScript
      *
      * @return Value
      */
-    public function GetSourceMappingURL(): Value
+    public function getSourceMappingURL(): Value
     {
     }
 
@@ -65,7 +65,7 @@ class UnboundScript
      *
      * @return int
      */
-    public function GetLineNumber(int $code_pos): int
+    public function getLineNumber(int $code_pos): int
     {
     }
 }

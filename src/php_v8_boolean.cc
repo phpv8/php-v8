@@ -23,7 +23,7 @@ zend_class_entry *php_v8_boolean_class_entry;
 #define this_ce php_v8_boolean_class_entry
 
 
-static PHP_METHOD(V8BooleanValue, __construct) {
+static PHP_METHOD(BooleanValue, __construct) {
     zval *php_v8_isolate_zv;
 
     zend_bool value = '\0';
@@ -41,7 +41,7 @@ static PHP_METHOD(V8BooleanValue, __construct) {
     php_v8_value->persistent->Reset(isolate, local_value);
 }
 
-static PHP_METHOD(V8BooleanValue, Value) {
+static PHP_METHOD(BooleanValue, value) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -55,18 +55,18 @@ static PHP_METHOD(V8BooleanValue, Value) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_boolean___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_boolean___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_TYPE_INFO(0, value, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_boolean_Value, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_boolean_value, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_boolean_methods[] = {
-        PHP_ME(V8BooleanValue, __construct, arginfo_v8_boolean___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_ME(V8BooleanValue, Value, arginfo_v8_boolean_Value, ZEND_ACC_PUBLIC)
+        PHP_ME(BooleanValue, __construct, arginfo_boolean___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_ME(BooleanValue, value, arginfo_boolean_value, ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
 

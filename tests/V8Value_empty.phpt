@@ -25,12 +25,12 @@ $bad = new class extends \V8\Value {
 };
 
 try {
-  $bad->BooleanValue($context);
+  $bad->booleanValue($context);
 } catch (Throwable $e) {
   $helper->exception_export($e);
 }
 try {
-  $bad->GetIsolate();
+  $bad->getIsolate();
 } catch (Throwable $e) {
   $helper->exception_export($e);
 }

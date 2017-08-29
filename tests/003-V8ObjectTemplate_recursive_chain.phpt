@@ -21,18 +21,18 @@ $template1 = new \V8\ObjectTemplate($isolate);
 $template2 = new \V8\ObjectTemplate($isolate);
 $template3 = new \V8\ObjectTemplate($isolate);
 
-$template1->Set(new \V8\StringValue($isolate, 'that2'), $template2);
-$template2->Set(new \V8\StringValue($isolate, 'that3'), $template3);
+$template1->set(new \V8\StringValue($isolate, 'that2'), $template2);
+$template2->set(new \V8\StringValue($isolate, 'that3'), $template3);
 
 try {
-    $template3->Set(new \V8\StringValue($isolate, 'that1'), $template2);
+    $template3->set(new \V8\StringValue($isolate, 'that1'), $template2);
 } catch (Exception $e) {
     $helper->exception_export($e);
 }
 
 
 $context = new \V8\Context($isolate);
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $template1->NewInstance($context));
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test'), $template1->newInstance($context));
 
 ?>
 --EXPECT--

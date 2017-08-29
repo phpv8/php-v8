@@ -34,14 +34,14 @@ class Script
     /**
      * @return Isolate
      */
-    public function GetIsolate(): Isolate
+    public function getIsolate(): Isolate
     {
     }
 
     /**
      * @return \V8\Context
      */
-    public function GetContext(): Context
+    public function getContext(): Context
     {
     }
 
@@ -52,7 +52,7 @@ class Script
      *
      * @return BooleanValue | FunctionObject | NumberValue | ObjectValue | StringValue | Value
      */
-    public function Run(Context $context): Value
+    public function run(Context $context): Value
     {
     }
 
@@ -61,7 +61,7 @@ class Script
      *
      * @return \V8\UnboundScript
      */
-    public function GetUnboundScript(): UnboundScript
+    public function getUnboundScript(): UnboundScript
     {
     }
 }

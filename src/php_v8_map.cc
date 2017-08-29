@@ -24,7 +24,7 @@ zend_class_entry *php_v8_map_class_entry;
 #define this_ce php_v8_map_class_entry
 
 
-static PHP_METHOD(V8Map, __construct) {
+static PHP_METHOD(Map, __construct) {
     zval rv;
     zval *php_v8_context_zv;
 
@@ -43,7 +43,7 @@ static PHP_METHOD(V8Map, __construct) {
     php_v8_value->persistent->Reset(isolate, local_map);
 }
 
-static PHP_METHOD(V8Map, Size) {
+static PHP_METHOD(Map, size) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -55,7 +55,7 @@ static PHP_METHOD(V8Map, Size) {
     RETURN_DOUBLE(php_v8_value_get_local_as<v8::Map>(php_v8_value)->Size());
 }
 
-static PHP_METHOD(V8Map, Clear) {
+static PHP_METHOD(Map, clear) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -67,7 +67,7 @@ static PHP_METHOD(V8Map, Clear) {
     php_v8_value_get_local_as<v8::Map>(php_v8_value)->Clear();
 }
 
-static PHP_METHOD(V8Map, Get) {
+static PHP_METHOD(Map, get) {
     zval *php_v8_context_zv;
     zval *php_v8_key_zv;
     v8::MaybeLocal<v8::Value> maybe_local;
@@ -103,7 +103,7 @@ static PHP_METHOD(V8Map, Get) {
 }
 
 
-static PHP_METHOD(V8Map, Set) {
+static PHP_METHOD(Map, set) {
     zval *php_v8_context_zv;
     zval *php_v8_key_zv;
     zval *php_v8_value_zv;
@@ -140,7 +140,7 @@ static PHP_METHOD(V8Map, Set) {
 }
 
 
-static PHP_METHOD(V8Map, Has) {
+static PHP_METHOD(Map, has) {
     zval *php_v8_context_zv;
     zval *php_v8_key_zv;
 
@@ -172,7 +172,7 @@ static PHP_METHOD(V8Map, Has) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Map, Delete) {
+static PHP_METHOD(Map, delete) {
     zval *php_v8_context_zv;
     zval *php_v8_key_zv;
 
@@ -204,7 +204,7 @@ static PHP_METHOD(V8Map, Delete) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Map, AsArray) {
+static PHP_METHOD(Map, asArray) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -225,53 +225,53 @@ static PHP_METHOD(V8Map, AsArray) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_map___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_map___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_map_Size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_map_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_map_Clear, ZEND_RETURN_VALUE, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_map_clear, ZEND_RETURN_VALUE, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_map_Get, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_map_get, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_map_Set, ZEND_RETURN_VALUE, 3, V8\\MapObject, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_map_set, ZEND_RETURN_VALUE, 3, V8\\MapObject, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_map_Has, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_map_has, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_map_Delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_map_delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_map_AsArray, ZEND_RETURN_VALUE, 0, V8\\ArrayObject, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_map_asArray, ZEND_RETURN_VALUE, 0, V8\\ArrayObject, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_map_methods[] = {
-        PHP_ME(V8Map, __construct, arginfo_v8_map___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_ME(Map, __construct, arginfo_map___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
-        PHP_ME(V8Map, Size,     arginfo_v8_map_Size,    ZEND_ACC_PUBLIC)
-        PHP_ME(V8Map, Clear,    arginfo_v8_map_Clear,   ZEND_ACC_PUBLIC)
+        PHP_ME(Map, size,     arginfo_map_size,    ZEND_ACC_PUBLIC)
+        PHP_ME(Map, clear,    arginfo_map_clear,   ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8Map, Get,      arginfo_v8_map_Get,     ZEND_ACC_PUBLIC)
-        PHP_ME(V8Map, Set,      arginfo_v8_map_Set,     ZEND_ACC_PUBLIC)
-        PHP_ME(V8Map, Has,      arginfo_v8_map_Has,     ZEND_ACC_PUBLIC)
-        PHP_ME(V8Map, Delete,   arginfo_v8_map_Delete,  ZEND_ACC_PUBLIC)
+        PHP_ME(Map, get,      arginfo_map_get,     ZEND_ACC_PUBLIC)
+        PHP_ME(Map, set,      arginfo_map_set,     ZEND_ACC_PUBLIC)
+        PHP_ME(Map, has,      arginfo_map_has,     ZEND_ACC_PUBLIC)
+        PHP_ME(Map, delete,   arginfo_map_delete,  ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8Map, AsArray,  arginfo_v8_map_AsArray,  ZEND_ACC_PUBLIC)
+        PHP_ME(Map, asArray,  arginfo_map_asArray,  ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

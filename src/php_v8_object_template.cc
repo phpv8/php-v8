@@ -117,7 +117,7 @@ static zend_object * php_v8_object_template_ctor(zend_class_entry *ce) {
     return &php_v8_object_template->std;
 }
 
-static PHP_METHOD(V8ObjectTemplate, __construct) {
+static PHP_METHOD(ObjectTemplate, __construct) {
     zval *php_v8_isolate_zv;
     zval *php_v8_function_template_zv = NULL;
     v8::Local<v8::FunctionTemplate> constructor = v8::Local<v8::FunctionTemplate>();
@@ -150,7 +150,7 @@ static PHP_METHOD(V8ObjectTemplate, __construct) {
 }
 
 
-static PHP_METHOD(V8ObjectTemplate, GetIsolate) {
+static PHP_METHOD(ObjectTemplate, getIsolate) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -165,22 +165,22 @@ static PHP_METHOD(V8ObjectTemplate, GetIsolate) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static PHP_METHOD(V8ObjectTemplate, Set) {
+static PHP_METHOD(ObjectTemplate, set) {
     php_v8_object_template_Set(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
-static PHP_METHOD(V8ObjectTemplate, SetAccessorProperty) {
+static PHP_METHOD(ObjectTemplate, setAccessorProperty) {
     php_v8_object_template_SetAccessorProperty(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
-static PHP_METHOD(V8ObjectTemplate, SetNativeDataProperty) {
+static PHP_METHOD(ObjectTemplate, setNativeDataProperty) {
     php_v8_object_template_SetNativeDataProperty(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-static PHP_METHOD(V8ObjectTemplate, NewInstance) {
+static PHP_METHOD(ObjectTemplate, newInstance) {
     zval *php_v8_context_zv;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &php_v8_context_zv) == FAILURE) {
@@ -206,7 +206,7 @@ static PHP_METHOD(V8ObjectTemplate, NewInstance) {
     php_v8_get_or_create_value(return_value, local_obj, php_v8_context->php_v8_isolate);
 }
 
-static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
+static PHP_METHOD(ObjectTemplate, setAccessor) {
     zval *php_v8_name_zv;
     zval *php_v8_receiver_zv = NULL;
 
@@ -280,7 +280,7 @@ static PHP_METHOD(V8ObjectTemplate, SetAccessor) {
     );
 }
 
-static PHP_METHOD(V8ObjectTemplate, SetHandlerForNamedProperty) {
+static PHP_METHOD(ObjectTemplate, setHandlerForNamedProperty) {
     zval *handler_zv;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &handler_zv) == FAILURE) {
@@ -312,7 +312,7 @@ static PHP_METHOD(V8ObjectTemplate, SetHandlerForNamedProperty) {
     );
 }
 
-static PHP_METHOD(V8ObjectTemplate, SetHandlerForIndexedProperty) {
+static PHP_METHOD(ObjectTemplate, setHandlerForIndexedProperty) {
     zval *handler_zv;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "o", &handler_zv) == FAILURE) {
@@ -344,7 +344,7 @@ static PHP_METHOD(V8ObjectTemplate, SetHandlerForIndexedProperty) {
     );
 }
 
-static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
+static PHP_METHOD(ObjectTemplate, setCallAsFunctionHandler) {
     zend_fcall_info fci = empty_fcall_info;
     zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
 
@@ -373,33 +373,33 @@ static PHP_METHOD(V8ObjectTemplate, SetCallAsFunctionHandler) {
 }
 
 /* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
-static PHP_METHOD(V8ObjectTemplate, AdjustExternalAllocatedMemory) {
+static PHP_METHOD(ObjectTemplate, adjustExternalAllocatedMemory) {
     php_v8_ext_mem_interface_object_template_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
 /* Non-standard, implementations of AdjustableExternalMemoryInterface::GetExternalAllocatedMemory */
-static PHP_METHOD(V8ObjectTemplate, GetExternalAllocatedMemory) {
+static PHP_METHOD(ObjectTemplate, getExternalAllocatedMemory) {
     php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_object_template___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_object_template___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_OBJ_INFO(0, constructor, V8\\FunctionTemplate, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_template_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_template_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_Set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Data, 0)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_setAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, getter, V8\\FunctionTemplate, 0)
                 ZEND_ARG_OBJ_INFO(0, setter, V8\\FunctionTemplate, 0)
@@ -408,7 +408,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessorProperty, ZEND_
 ZEND_END_ARG_INFO()
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetNativeDataProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_setNativeDataProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
@@ -419,12 +419,12 @@ ZEND_END_ARG_INFO()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_object_template_NewInstance, ZEND_RETURN_VALUE, 1, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_object_template_newInstance, ZEND_RETURN_VALUE, 1, V8\\ObjectValue, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessor, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_setAccessor, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
@@ -434,47 +434,47 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetAccessor, ZEND_SEND_BY_
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetHandlerForNamedProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_setHandlerForNamedProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, configuration, V8\\NamedPropertyHandlerConfiguration, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetHandlerForIndexedProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_setHandlerForIndexedProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, configuration, V8\\IndexedPropertyHandlerConfiguration, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_SetCallAsFunctionHandler, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_object_template_setCallAsFunctionHandler, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_template_adjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_object_template_getExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_object_template_methods[] = {
-        PHP_ME(V8ObjectTemplate, __construct, arginfo_v8_object_template___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_ME(ObjectTemplate, __construct, arginfo_object_template___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
-        PHP_ME(V8ObjectTemplate, GetIsolate, arginfo_v8_object_template_GetIsolate, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, getIsolate, arginfo_object_template_getIsolate, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8ObjectTemplate, Set, arginfo_php_v8_object_template_Set, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ObjectTemplate, SetAccessorProperty, arginfo_php_v8_object_template_SetAccessorProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ObjectTemplate, SetNativeDataProperty, arginfo_php_v8_object_template_SetNativeDataProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, set, arginfo_php_v8_object_template_set, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, setAccessorProperty, arginfo_php_v8_object_template_setAccessorProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, setNativeDataProperty, arginfo_php_v8_object_template_setNativeDataProperty, ZEND_ACC_PUBLIC)
 
 
-        PHP_ME(V8ObjectTemplate, NewInstance, arginfo_v8_object_template_NewInstance, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ObjectTemplate, SetAccessor, arginfo_php_v8_object_template_SetAccessor, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ObjectTemplate, SetHandlerForNamedProperty, arginfo_php_v8_object_template_SetHandlerForNamedProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ObjectTemplate, SetHandlerForIndexedProperty, arginfo_php_v8_object_template_SetHandlerForIndexedProperty, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ObjectTemplate, SetCallAsFunctionHandler, arginfo_php_v8_object_template_SetCallAsFunctionHandler, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, newInstance, arginfo_object_template_newInstance, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, setAccessor, arginfo_php_v8_object_template_setAccessor, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, setHandlerForNamedProperty, arginfo_php_v8_object_template_setHandlerForNamedProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, setHandlerForIndexedProperty, arginfo_php_v8_object_template_setHandlerForIndexedProperty, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, setCallAsFunctionHandler, arginfo_php_v8_object_template_setCallAsFunctionHandler, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8ObjectTemplate, AdjustExternalAllocatedMemory, arginfo_v8_object_template_AdjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ObjectTemplate, GetExternalAllocatedMemory,    arginfo_v8_object_template_GetExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, adjustExternalAllocatedMemory, arginfo_object_template_adjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+        PHP_ME(ObjectTemplate, getExternalAllocatedMemory,    arginfo_object_template_getExternalAllocatedMemory, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

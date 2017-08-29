@@ -20,14 +20,14 @@ class CallbackInfo
     /**
      * @return \V8\Isolate
      */
-    public function GetIsolate(): Isolate
+    public function getIsolate(): Isolate
     {
     }
 
     /**
      * @return \V8\Context
      */
-    public function GetContext(): Context
+    public function getContext(): Context
     {
     }
 
@@ -36,7 +36,7 @@ class CallbackInfo
      *
      * @return \V8\ObjectValue
      */
-    public function This(): ObjectValue
+    public function this(): ObjectValue
     {
     }
 
@@ -52,7 +52,7 @@ class CallbackInfo
      *
      * @return \V8\ObjectValue
      */
-    public function Holder(): ObjectValue
+    public function holder(): ObjectValue
     {
     }
 
@@ -61,7 +61,7 @@ class CallbackInfo
      *
      * @return \V8\ReturnValue
      */
-    public function GetReturnValue(): ReturnValue
+    public function getReturnValue(): ReturnValue
     {
     }
 }

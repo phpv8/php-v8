@@ -1,5 +1,5 @@
 --TEST--
-V8\ObjectTemplate::Set() - recursive tree
+V8\ObjectTemplate::set() - recursive tree
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -33,42 +33,42 @@ $t9 = new \V8\ObjectTemplate($isolate); $s9 = new \V8\StringValue($isolate, 't9'
 //                  / \
 //                 8   9
 
-$t1->Set($s2, $t2);
+$t1->set($s2, $t2);
 
-$t2->Set($s3, $t3);
-$t2->Set($s4, $t4);
+$t2->set($s3, $t3);
+$t2->set($s4, $t4);
 
-$t1->Set($s5, $t5);
+$t1->set($s5, $t5);
 
-$t5->Set($s6, $t6);
-$t5->Set($s7, $t7);
+$t5->set($s6, $t6);
+$t5->set($s7, $t7);
 
-$t7->Set($s8, $t8);
-$t7->Set($s9, $t9);
+$t7->set($s8, $t8);
+$t7->set($s9, $t9);
 
 try {
-    $t9->Set($s1, $t1);
+    $t9->set($s1, $t1);
 } catch (\V8\Exceptions\Exception $e) {
     $helper->exception_export($e);
 }
 
 
 try {
-    $t7->Set($s1, $t1);
+    $t7->set($s1, $t1);
 } catch (\V8\Exceptions\Exception $e) {
     $helper->exception_export($e);
 }
 
-$t4->Set($s6, $t6);
+$t4->set($s6, $t6);
 
 try {
-    $t6->Set($s4, $t4);
+    $t6->set($s4, $t4);
 } catch (\V8\Exceptions\Exception $e) {
     $helper->exception_export($e);
 }
 
 $context = new \V8\Context($isolate);
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $t1->NewInstance($context));
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test'), $t1->newInstance($context));
 
 ?>
 --EXPECT--

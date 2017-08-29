@@ -23,13 +23,13 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
 {
     public function __construct(Context $context)
     {
-        parent::__construct($context->GetIsolate());
+        parent::__construct($context->getIsolate());
     }
 
     /**
      * @return \V8\Context
      */
-    public function GetContext()
+    public function getContext()
     {
     }
 
@@ -40,7 +40,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function Set(Context $context, Value $key, Value $value): bool
+    public function set(Context $context, Value $key, Value $value): bool
     {
     }
 
@@ -58,7 +58,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function CreateDataProperty(Context $context, NameValue $key, Value $value): bool
+    public function createDataProperty(Context $context, NameValue $key, Value $value): bool
     {
     }
 
@@ -74,7 +74,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function DefineOwnProperty(
+    public function defineOwnProperty(
         Context $context,
         NameValue $key,
         Value $value,
@@ -88,7 +88,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return \V8\Value | \V8\ObjectValue | \V8\FunctionObject | ArrayObject | StringValue | NumberValue
      */
-    public function Get(Context $context, Value $key): Value
+    public function get(Context $context, Value $key): Value
     {
     }
 
@@ -102,7 +102,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return int
      */
-    public function GetPropertyAttributes(Context $context, NameValue $key): int
+    public function getPropertyAttributes(Context $context, NameValue $key): int
     {
     }
 
@@ -114,7 +114,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return \V8\Value
      */
-    public function GetOwnPropertyDescriptor(Context $context, NameValue $key): Value
+    public function getOwnPropertyDescriptor(Context $context, NameValue $key): Value
     {
     }
 
@@ -124,7 +124,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function Has(Context $context, Value $key): bool
+    public function has(Context $context, Value $key): bool
     {
     }
 
@@ -134,7 +134,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function Delete(Context $context, Value $key): bool
+    public function delete(Context $context, Value $key): bool
     {
     }
 
@@ -148,7 +148,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function SetAccessor(
+    public function setAccessor(
         Context $context,
         NameValue $name,
         callable $getter,
@@ -165,7 +165,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param int                 $attributes
      * @param int                 $settings
      */
-    public function SetAccessorProperty(
+    public function setAccessorProperty(
         NameValue $name,
         FunctionObject $getter,
         FunctionObject $setter = null,
@@ -186,7 +186,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function SetNativeDataProperty(
+    public function setNativeDataProperty(
         Context $context,
         NameValue $name,
         callable $getter,
@@ -208,7 +208,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return ArrayObject
      */
-    public function GetPropertyNames(
+    public function getPropertyNames(
         Context $context,
         int $mode = KeyCollectionMode::kOwnOnly,
         int $property_filter = PropertyFilter::ALL_PROPERTIES,
@@ -226,7 +226,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return ArrayObject
      */
-    public function GetOwnPropertyNames(Context $context, int $filter = PropertyFilter::ALL_PROPERTIES): ArrayObject
+    public function getOwnPropertyNames(Context $context, int $filter = PropertyFilter::ALL_PROPERTIES): ArrayObject
     {
     }
 
@@ -237,7 +237,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return \V8\Value
      */
-    public function GetPrototype(): Value
+    public function getPrototype(): Value
     {
     }
 
@@ -251,7 +251,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function SetPrototype(Context $context, Value $prototype): bool
+    public function setPrototype(Context $context, Value $prototype): bool
     {
     }
 
@@ -263,7 +263,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return Object
      */
-    public function FindInstanceInPrototypeChain(FunctionTemplate $tmpl): Object
+    public function findInstanceInPrototypeChain(FunctionTemplate $tmpl): Object
     {
     }
 
@@ -276,7 +276,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return StringValue
      */
-    public function ObjectProtoToString(Context $context): StringValue
+    public function objectProtoToString(Context $context): StringValue
     {
     }
 
@@ -285,7 +285,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return StringValue
      */
-    public function GetConstructorName(): StringValue
+    public function getConstructorName(): StringValue
     {
     }
 
@@ -297,7 +297,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function SetIntegrityLevel(Context $context, int $level): bool
+    public function setIntegrityLevel(Context $context, int $level): bool
     {
     }
 
@@ -307,7 +307,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function HasOwnProperty(Context $context, $key): bool
+    public function hasOwnProperty(Context $context, $key): bool
     {
     }
 
@@ -317,7 +317,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function HasRealNamedProperty(Context $context, $key): bool
+    public function hasRealNamedProperty(Context $context, $key): bool
     {
     }
 
@@ -327,7 +327,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function HasRealIndexedProperty(Context $context, $index): bool
+    public function hasRealIndexedProperty(Context $context, $index): bool
     {
     }
 
@@ -337,7 +337,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function HasRealNamedCallbackProperty(Context $context, $key): bool
+    public function hasRealNamedCallbackProperty(Context $context, $key): bool
     {
     }
 
@@ -350,7 +350,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return \V8\Value
      */
-    public function GetRealNamedPropertyInPrototypeChain(Context $context, $key): Value
+    public function getRealNamedPropertyInPrototypeChain(Context $context, $key): Value
     {
     }
 
@@ -364,7 +364,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return int
      */
-    public function GetRealNamedPropertyAttributesInPrototypeChain(Context $context, NameValue $key): int
+    public function getRealNamedPropertyAttributesInPrototypeChain(Context $context, NameValue $key): int
     {
     }
 
@@ -378,7 +378,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return \V8\Value
      */
-    public function GetRealNamedProperty(Context $context, $key): Value
+    public function getRealNamedProperty(Context $context, $key): Value
     {
     }
 
@@ -392,7 +392,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return int
      */
-    public function GetRealNamedPropertyAttributes(Context $context, NameValue $key): int
+    public function getRealNamedPropertyAttributes(Context $context, NameValue $key): int
     {
     }
 
@@ -402,7 +402,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function HasNamedLookupInterceptor(): bool
+    public function hasNamedLookupInterceptor(): bool
     {
     }
 
@@ -411,7 +411,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function HasIndexedLookupInterceptor(): bool
+    public function hasIndexedLookupInterceptor(): bool
     {
     }
 
@@ -424,7 +424,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return int
      */
-    public function GetIdentityHash(): int
+    public function getIdentityHash(): int
     {
     }
 
@@ -434,7 +434,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return ObjectValue
      */
-    public function Clone(): ObjectValue
+    public function clone(): ObjectValue
     {
     }
 
@@ -445,7 +445,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function IsCallable(): bool
+    public function isCallable(): bool
     {
     }
 
@@ -454,7 +454,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return bool
      */
-    public function IsConstructor(): bool
+    public function isConstructor(): bool
     {
     }
 
@@ -468,7 +468,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return \V8\Value
      */
-    public function CallAsFunction(Context $context, Value $recv, array $arguments = []): Value
+    public function callAsFunction(Context $context, Value $recv, array $arguments = []): Value
     {
     }
 
@@ -482,21 +482,21 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @return \V8\Value
      */
-    public function CallAsConstructor(Context $context, array $arguments = []): Value
+    public function callAsConstructor(Context $context, array $arguments = []): Value
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function AdjustExternalAllocatedMemory(int $change_in_bytes): int
+    public function adjustExternalAllocatedMemory(int $change_in_bytes): int
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function GetExternalAllocatedMemory(): int
+    public function getExternalAllocatedMemory(): int
     {
     }
 }

@@ -65,7 +65,7 @@ static zend_object * php_v8_indexed_property_handler_configuration_ctor(zend_cla
     return &php_v8_handler->std;
 }
 
-static PHP_METHOD (V8IndexedPropertyHandlerConfiguration, __construct) {
+static PHP_METHOD(IndexedPropertyHandlerConfiguration, __construct) {
     zend_fcall_info fci_getter = empty_fcall_info;
     zend_fcall_info_cache fci_cache_getter = empty_fcall_info_cache;
 
@@ -134,7 +134,7 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_indexed_property_handler_configuration_methods[] = {
-        PHP_ME(V8IndexedPropertyHandlerConfiguration, __construct, php_v8_indexed_property_handler_configuration___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_ME(IndexedPropertyHandlerConfiguration, __construct, php_v8_indexed_property_handler_configuration___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
         PHP_FE_END
 };

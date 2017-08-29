@@ -141,7 +141,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @return FunctionObject
      */
-    public function GetFunction(Context $context): FunctionObject
+    public function getFunction(Context $context): FunctionObject
     {
     }
 
@@ -152,12 +152,12 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @param callable $callback
      */
-    public function SetCallHandler(callable $callback)
+    public function setCallHandler(callable $callback)
     {
     }
 
     /** Set the predefined length property for the FunctionTemplate. */
-    public function SetLength(int $length)
+    public function setLength(int $length)
     {
     }
 
@@ -166,7 +166,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @return \V8\ObjectTemplate
      */
-    public function InstanceTemplate(): ObjectTemplate
+    public function instanceTemplate(): ObjectTemplate
     {
     }
 
@@ -175,7 +175,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @param FunctionTemplate $parent
      */
-    public function Inherit(FunctionTemplate $parent)
+    public function inherit(FunctionTemplate $parent)
     {
     }
 
@@ -185,7 +185,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @return \V8\ObjectTemplate
      */
-    public function PrototypeTemplate(): ObjectTemplate
+    public function prototypeTemplate(): ObjectTemplate
     {
     }
 
@@ -196,7 +196,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @param StringValue $name
      */
-    public function SetClassName(StringValue $name)
+    public function setClassName(StringValue $name)
     {
     }
 
@@ -219,7 +219,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      * function template.  By default, instances of a function template
      * are not ignored.
      */
-    public function SetHiddenPrototype($value)
+    public function setHiddenPrototype($value)
     {
     }
 
@@ -227,7 +227,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      * Sets the ReadOnly flag in the attributes of the 'prototype' property
      * of functions created from this FunctionTemplate to true.
      */
-    public function ReadOnlyPrototype()
+    public function readOnlyPrototype()
     {
     }
 
@@ -235,7 +235,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      * Removes the prototype property from functions created from this
      * FunctionTemplate.
      */
-    public function RemovePrototype()
+    public function removePrototype()
     {
     }
 
@@ -247,21 +247,21 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      *
      * @return bool
      */
-    public function HasInstance(Value $object): bool
+    public function hasInstance(Value $object): bool
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function AdjustExternalAllocatedMemory(int $change_in_bytes): int
+    public function adjustExternalAllocatedMemory(int $change_in_bytes): int
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function GetExternalAllocatedMemory(): int
+    public function getExternalAllocatedMemory(): int
     {
     }
 }

@@ -29,15 +29,15 @@ $helper->dump($value);
 $helper->space();
 
 $helper->assert('DateObject extends ObjectValue', $value instanceof \V8\ObjectValue);
-$helper->assert('ObjectValue is instanceof Date', $value->InstanceOf($context, $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'Date'))));$helper->line();
+$helper->assert('ObjectValue is instanceof Date', $value->instanceOf($context, $context->globalObject()->get($context, new \V8\StringValue($isolate, 'Date'))));$helper->line();
 
 $helper->header('Getters');
-$helper->method_export($value, 'ValueOf');
+$helper->method_export($value, 'valueOf');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'val'), $value);
 
 $source = '
 var orig = val;
@@ -48,7 +48,7 @@ orig
 $file_name = 'test.js';
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
-$res = $script->Run($context);
+$res = $script->run($context);
 $helper->space();
 
 $helper->header('Returned value should be the same');
@@ -62,10 +62,10 @@ $helper->header('Timezone change (with notification to v8)');
 $old_tz = getenv('TZ');
 
 putenv('TZ=America/Los_Angeles'); // UTC offset DST (ISO 8601)‎: ‎−07:00, UTC offset (ISO 8601)‎: ‎−08:00
-\V8\DateObject::DateTimeConfigurationChangeNotification($isolate);
+\V8\DateObject::dateTimeConfigurationChangeNotification($isolate);
 $value = new V8\DateObject($context, $test_time);
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'val'), $value);
 
 $source = '
 console.log("val: ", val);
@@ -76,8 +76,8 @@ $file_name = 'test.js';
 
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
-$res = $script->Run($context);
-$helper->value_matches($test_time, $value->ValueOf());
+$res = $script->run($context);
+$helper->value_matches($test_time, $value->valueOf());
 $helper->space();
 
 
@@ -86,7 +86,7 @@ $helper->header('Timezone change (without notification to v8)');
 putenv('TZ=America/New_York'); // UTC offset DST (ISO 8601)‎: ‎−05:00, UTC offset (ISO 8601)‎: ‎−04:00
 
 $value = new V8\DateObject($context, $test_time);
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'val'), $value);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'val'), $value);
 
 $source = '
 console.log("val: ", val);
@@ -97,11 +97,11 @@ $file_name = 'test.js';
 
 // TODO: for some reason v8 still be notified about TZ changes, see https://groups.google.com/forum/?fromgroups#!topic/v8-users/f249jR67ANk
 // We temporary set EDT instead of PDT which was before, this should lead to no error, but the output date value is
-// undefined, it's a must to invoke \V8\DateObject::DateTimeConfigurationChangeNotification($isolate); as we did before.
+// undefined, it's a must to invoke \V8\DateObject::dateTimeConfigurationChangeNotification($isolate); as we did before.
 // This case is verify that no segfault or exception thrown and to demonstrate that result is not what you expect to get.
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
-$res = $script->Run($context);
-$helper->value_matches($test_time, $value->ValueOf());
+$res = $script->run($context);
+$helper->value_matches($test_time, $value->valueOf());
 $helper->space();
 
 putenv("TZ={$old_tz}"); // Go back
@@ -129,63 +129,63 @@ ObjectValue is instanceof Date: ok
 
 Getters:
 --------
-V8\DateObject->ValueOf(): float(1445444940000)
+V8\DateObject->valueOf(): float(1445444940000)
 
 
 Checkers:
 ---------
-V8\DateObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "object"
+V8\DateObject(V8\Value)->typeOf(): V8\StringValue->value(): string(6) "object"
 
-V8\DateObject(V8\ObjectValue)->IsCallable(): bool(false)
-V8\DateObject(V8\ObjectValue)->IsConstructor(): bool(false)
-V8\DateObject(V8\Value)->IsUndefined(): bool(false)
-V8\DateObject(V8\Value)->IsNull(): bool(false)
-V8\DateObject(V8\Value)->IsNullOrUndefined(): bool(false)
-V8\DateObject(V8\Value)->IsTrue(): bool(false)
-V8\DateObject(V8\Value)->IsFalse(): bool(false)
-V8\DateObject(V8\Value)->IsName(): bool(false)
-V8\DateObject(V8\Value)->IsString(): bool(false)
-V8\DateObject(V8\Value)->IsSymbol(): bool(false)
-V8\DateObject(V8\Value)->IsFunction(): bool(false)
-V8\DateObject(V8\Value)->IsArray(): bool(false)
-V8\DateObject(V8\Value)->IsObject(): bool(true)
-V8\DateObject(V8\Value)->IsBoolean(): bool(false)
-V8\DateObject(V8\Value)->IsNumber(): bool(false)
-V8\DateObject(V8\Value)->IsInt32(): bool(false)
-V8\DateObject(V8\Value)->IsUint32(): bool(false)
-V8\DateObject(V8\Value)->IsDate(): bool(true)
-V8\DateObject(V8\Value)->IsArgumentsObject(): bool(false)
-V8\DateObject(V8\Value)->IsBooleanObject(): bool(false)
-V8\DateObject(V8\Value)->IsNumberObject(): bool(false)
-V8\DateObject(V8\Value)->IsStringObject(): bool(false)
-V8\DateObject(V8\Value)->IsSymbolObject(): bool(false)
-V8\DateObject(V8\Value)->IsNativeError(): bool(false)
-V8\DateObject(V8\Value)->IsRegExp(): bool(false)
-V8\DateObject(V8\Value)->IsAsyncFunction(): bool(false)
-V8\DateObject(V8\Value)->IsGeneratorFunction(): bool(false)
-V8\DateObject(V8\Value)->IsGeneratorObject(): bool(false)
-V8\DateObject(V8\Value)->IsPromise(): bool(false)
-V8\DateObject(V8\Value)->IsMap(): bool(false)
-V8\DateObject(V8\Value)->IsSet(): bool(false)
-V8\DateObject(V8\Value)->IsMapIterator(): bool(false)
-V8\DateObject(V8\Value)->IsSetIterator(): bool(false)
-V8\DateObject(V8\Value)->IsWeakMap(): bool(false)
-V8\DateObject(V8\Value)->IsWeakSet(): bool(false)
-V8\DateObject(V8\Value)->IsArrayBuffer(): bool(false)
-V8\DateObject(V8\Value)->IsArrayBufferView(): bool(false)
-V8\DateObject(V8\Value)->IsTypedArray(): bool(false)
-V8\DateObject(V8\Value)->IsUint8Array(): bool(false)
-V8\DateObject(V8\Value)->IsUint8ClampedArray(): bool(false)
-V8\DateObject(V8\Value)->IsInt8Array(): bool(false)
-V8\DateObject(V8\Value)->IsUint16Array(): bool(false)
-V8\DateObject(V8\Value)->IsInt16Array(): bool(false)
-V8\DateObject(V8\Value)->IsUint32Array(): bool(false)
-V8\DateObject(V8\Value)->IsInt32Array(): bool(false)
-V8\DateObject(V8\Value)->IsFloat32Array(): bool(false)
-V8\DateObject(V8\Value)->IsFloat64Array(): bool(false)
-V8\DateObject(V8\Value)->IsDataView(): bool(false)
-V8\DateObject(V8\Value)->IsSharedArrayBuffer(): bool(false)
-V8\DateObject(V8\Value)->IsProxy(): bool(false)
+V8\DateObject(V8\ObjectValue)->isCallable(): bool(false)
+V8\DateObject(V8\ObjectValue)->isConstructor(): bool(false)
+V8\DateObject(V8\Value)->isUndefined(): bool(false)
+V8\DateObject(V8\Value)->isNull(): bool(false)
+V8\DateObject(V8\Value)->isNullOrUndefined(): bool(false)
+V8\DateObject(V8\Value)->isTrue(): bool(false)
+V8\DateObject(V8\Value)->isFalse(): bool(false)
+V8\DateObject(V8\Value)->isName(): bool(false)
+V8\DateObject(V8\Value)->isString(): bool(false)
+V8\DateObject(V8\Value)->isSymbol(): bool(false)
+V8\DateObject(V8\Value)->isFunction(): bool(false)
+V8\DateObject(V8\Value)->isArray(): bool(false)
+V8\DateObject(V8\Value)->isObject(): bool(true)
+V8\DateObject(V8\Value)->isBoolean(): bool(false)
+V8\DateObject(V8\Value)->isNumber(): bool(false)
+V8\DateObject(V8\Value)->isInt32(): bool(false)
+V8\DateObject(V8\Value)->isUint32(): bool(false)
+V8\DateObject(V8\Value)->isDate(): bool(true)
+V8\DateObject(V8\Value)->isArgumentsObject(): bool(false)
+V8\DateObject(V8\Value)->isBooleanObject(): bool(false)
+V8\DateObject(V8\Value)->isNumberObject(): bool(false)
+V8\DateObject(V8\Value)->isStringObject(): bool(false)
+V8\DateObject(V8\Value)->isSymbolObject(): bool(false)
+V8\DateObject(V8\Value)->isNativeError(): bool(false)
+V8\DateObject(V8\Value)->isRegExp(): bool(false)
+V8\DateObject(V8\Value)->isAsyncFunction(): bool(false)
+V8\DateObject(V8\Value)->isGeneratorFunction(): bool(false)
+V8\DateObject(V8\Value)->isGeneratorObject(): bool(false)
+V8\DateObject(V8\Value)->isPromise(): bool(false)
+V8\DateObject(V8\Value)->isMap(): bool(false)
+V8\DateObject(V8\Value)->isSet(): bool(false)
+V8\DateObject(V8\Value)->isMapIterator(): bool(false)
+V8\DateObject(V8\Value)->isSetIterator(): bool(false)
+V8\DateObject(V8\Value)->isWeakMap(): bool(false)
+V8\DateObject(V8\Value)->isWeakSet(): bool(false)
+V8\DateObject(V8\Value)->isArrayBuffer(): bool(false)
+V8\DateObject(V8\Value)->isArrayBufferView(): bool(false)
+V8\DateObject(V8\Value)->isTypedArray(): bool(false)
+V8\DateObject(V8\Value)->isUint8Array(): bool(false)
+V8\DateObject(V8\Value)->isUint8ClampedArray(): bool(false)
+V8\DateObject(V8\Value)->isInt8Array(): bool(false)
+V8\DateObject(V8\Value)->isUint16Array(): bool(false)
+V8\DateObject(V8\Value)->isInt16Array(): bool(false)
+V8\DateObject(V8\Value)->isUint32Array(): bool(false)
+V8\DateObject(V8\Value)->isInt32Array(): bool(false)
+V8\DateObject(V8\Value)->isFloat32Array(): bool(false)
+V8\DateObject(V8\Value)->isFloat64Array(): bool(false)
+V8\DateObject(V8\Value)->isDataView(): bool(false)
+V8\DateObject(V8\Value)->isSharedArrayBuffer(): bool(false)
+V8\DateObject(V8\Value)->isProxy(): bool(false)
 
 
 val: Wed Oct 21 2015 16:29:00 GMT+0000 (UTC)

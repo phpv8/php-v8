@@ -28,7 +28,7 @@ abstract class NameValue extends PrimitiveValue
      * The return value will never be 0. Also, it is not guaranteed to be
      * unique.
      */
-    public function GetIdentityHash(): int
+    public function getIdentityHash(): int
     {
     }
 }

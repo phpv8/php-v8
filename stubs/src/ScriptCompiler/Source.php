@@ -36,17 +36,17 @@ class Source
         $this->cached_data   = $cached_data;
     }
 
-    public function GetSourceString(): StringValue
+    public function getSourceString(): StringValue
     {
         return $this->source_string;
     }
 
-    public function GetScriptOrigin(): ScriptOrigin
+    public function getScriptOrigin(): ScriptOrigin
     {
         return $this->origin;
     }
 
-    public function GetCachedData(): CachedData
+    public function getCachedData(): CachedData
     {
         return $this->cached_data;
     }

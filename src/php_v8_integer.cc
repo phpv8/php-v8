@@ -24,7 +24,7 @@ zend_class_entry *php_v8_integer_class_entry;
 #define this_ce php_v8_integer_class_entry
 
 
-static PHP_METHOD(V8Integer, __construct) {
+static PHP_METHOD(Integer, __construct) {
     zval *php_v8_isolate_zv;
 
     zend_long value = 0;
@@ -50,7 +50,7 @@ static PHP_METHOD(V8Integer, __construct) {
 }
 
 
-static PHP_METHOD(V8Integer, Value) {
+static PHP_METHOD(Integer, value) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -64,18 +64,18 @@ static PHP_METHOD(V8Integer, Value) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_integer___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_integer___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_TYPE_INFO(0, value, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_integer_Value, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_integer_value, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_integer_methods[] = {
-        PHP_ME(V8Integer, __construct, arginfo_v8_integer___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_ME(V8Integer, Value, arginfo_v8_integer_Value, ZEND_ACC_PUBLIC)
+        PHP_ME(Integer, __construct, arginfo_integer___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_ME(Integer, value, arginfo_integer_value, ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
 

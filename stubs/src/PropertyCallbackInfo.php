@@ -29,7 +29,7 @@ class PropertyCallbackInfo extends CallbackInfo
      *
      * @return bool
      */
-    public function ShouldThrowOnError(): bool
+    public function shouldThrowOnError(): bool
     {
     }
 }

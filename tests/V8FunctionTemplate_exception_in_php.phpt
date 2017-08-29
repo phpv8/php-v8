@@ -18,7 +18,7 @@ $test_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallba
 
 
 $global_template = new V8\ObjectTemplate($isolate);
-$global_template->Set(new \V8\StringValue($isolate, 'test'), $test_func_tpl, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'test'), $test_func_tpl, \V8\PropertyAttribute::DontDelete);
 
 $context = new V8\Context($isolate, $global_template);
 
@@ -28,7 +28,7 @@ $file_name = 'test.js';
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 try {
-    $helper->dump($script->Run($context)->ToString($context)->Value());
+    $helper->dump($script->run($context)->toString($context)->value());
 } catch (Exception $e) {
     $helper->exception_export($e);
 }

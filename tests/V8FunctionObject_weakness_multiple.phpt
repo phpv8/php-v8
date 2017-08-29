@@ -24,34 +24,34 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context, function (\V8\Functio
     echo 'Should output Hello World string', PHP_EOL;
 });
 
-$func->SetAccessor($context, new \V8\StringValue($isolate, 'nonexistent'), function () { echo 'get nonexistent 1', PHP_EOL; } );
+$func->setAccessor($context, new \V8\StringValue($isolate, 'nonexistent'), function () { echo 'get nonexistent 1', PHP_EOL; } );
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'print'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'print'), $func);
 $func = null;
 
 $v8_helper->CompileRun($context, 'print("test"); print.nonexistent; ');
 
 
-$fnc1 = $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'print'));
+$fnc1 = $context->globalObject()->get($context, new \V8\StringValue($isolate, 'print'));
 /** @var $fnc1 \V8\FunctionObject  */
-$fnc1->SetAccessor($context, new \V8\StringValue($isolate, 'nonexistent'), function () { echo 'get nonexistent 2', PHP_EOL; } );
+$fnc1->setAccessor($context, new \V8\StringValue($isolate, 'nonexistent'), function () { echo 'get nonexistent 2', PHP_EOL; } );
 $v8_helper->CompileRun($context, 'print("test"); print.nonexistent; ');
 $fnc1 = null;
 
 
-$fnc2 = $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'print'));
+$fnc2 = $context->globalObject()->get($context, new \V8\StringValue($isolate, 'print'));
 /** @var $fnc1 \V8\FunctionObject  */
-$fnc2->SetAccessor($context, new \V8\StringValue($isolate, 'nonexistent'), function () { echo 'get nonexistent 3', PHP_EOL; } );
+$fnc2->setAccessor($context, new \V8\StringValue($isolate, 'nonexistent'), function () { echo 'get nonexistent 3', PHP_EOL; } );
 $v8_helper->CompileRun($context, 'print("test"); print.nonexistent; ');
 $fnc2 = null;
 
 echo 'Persistent should be removed', PHP_EOL;
-$isolate->LowMemoryNotification();
+$isolate->lowMemoryNotification();
 
 
 // Here newly create object internally linked to specific callback and persistent, but as it has no own callback, free'ing
 // it shouldn't affect functionality
-$fnc3 = $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'print'));
+$fnc3 = $context->globalObject()->get($context, new \V8\StringValue($isolate, 'print'));
 $v8_helper->CompileRun($context, 'print("test"); print.nonexistent;');
 $fnc3 = null;
 $v8_helper->CompileRun($context, 'print("test"); print.nonexistent;');
@@ -59,7 +59,7 @@ $v8_helper->CompileRun($context, 'print("test"); print.nonexistent;');
 $context = null;
 echo 'Context should be removed', PHP_EOL;
 
-$isolate->LowMemoryNotification();
+$isolate->lowMemoryNotification();
 
 
 echo 'We are done for now', PHP_EOL;

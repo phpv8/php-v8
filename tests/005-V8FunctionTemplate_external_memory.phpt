@@ -16,11 +16,11 @@ $isolate = new \V8\Isolate();
 
 $value = new \V8\FunctionTemplate($isolate);
 
-$helper->inline('Adjusted external memory size by default', $value->GetExternalAllocatedMemory());
-$helper->inline('After adjusting from zero to 1kb', $value->AdjustExternalAllocatedMemory(1024));
-$helper->inline('After adjusting from 1kb to 2kb', $value->AdjustExternalAllocatedMemory(1024));
-$helper->inline('After adjusting down from 2kb to 1kb', $value->AdjustExternalAllocatedMemory(-1024));
-$helper->inline('After adjusting down to more that was adjusted initially', $value->AdjustExternalAllocatedMemory(-9999999999));
+$helper->inline('Adjusted external memory size by default', $value->getExternalAllocatedMemory());
+$helper->inline('After adjusting from zero to 1kb', $value->adjustExternalAllocatedMemory(1024));
+$helper->inline('After adjusting from 1kb to 2kb', $value->adjustExternalAllocatedMemory(1024));
+$helper->inline('After adjusting down from 2kb to 1kb', $value->adjustExternalAllocatedMemory(-1024));
+$helper->inline('After adjusting down to more that was adjusted initially', $value->adjustExternalAllocatedMemory(-9999999999));
 $helper->line();
 
 ?>

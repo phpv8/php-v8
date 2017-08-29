@@ -119,7 +119,7 @@ class Message
     /**
      * @return string
      */
-    public function Get(): string
+    public function get(): string
     {
     }
 
@@ -128,7 +128,7 @@ class Message
      *
      * @return string
      */
-    public function GetSourceLine(): string
+    public function getSourceLine(): string
     {
     }
 
@@ -138,7 +138,7 @@ class Message
      *
      * @return ScriptOrigin
      */
-    public function GetScriptOrigin(): ScriptOrigin
+    public function getScriptOrigin(): ScriptOrigin
     {
     }
 
@@ -148,7 +148,7 @@ class Message
      *
      * @return string
      */
-    public function GetScriptResourceName(): string
+    public function getScriptResourceName(): string
     {
     }
 
@@ -159,7 +159,7 @@ class Message
      *
      * @return StackTrace
      */
-    public function GetStackTrace(): StackTrace
+    public function getStackTrace(): StackTrace
     {
     }
 
@@ -168,7 +168,7 @@ class Message
      *
      * @return int
      */
-    public function GetLineNumber(): int
+    public function getLineNumber(): int
     {
     }
 
@@ -178,7 +178,7 @@ class Message
      *
      * @return int
      */
-    public function GetStartPosition(): int
+    public function getStartPosition(): int
     {
     }
 
@@ -188,7 +188,7 @@ class Message
      *
      * @return int
      */
-    public function GetEndPosition(): int
+    public function getEndPosition(): int
     {
     }
 
@@ -198,7 +198,7 @@ class Message
      *
      * @return int
      */
-    public function GetStartColumn(): int
+    public function getStartColumn(): int
     {
     }
 
@@ -208,7 +208,7 @@ class Message
      *
      * @return int
      */
-    public function GetEndColumn(): int
+    public function getEndColumn(): int
     {
     }
 
@@ -218,14 +218,14 @@ class Message
      *
      * @return bool
      */
-    public function IsSharedCrossOrigin(): bool
+    public function isSharedCrossOrigin(): bool
     {
     }
 
     /**
      * @return bool
      */
-    public function IsOpaque(): bool
+    public function isOpaque(): bool
     {
     }
 }

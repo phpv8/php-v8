@@ -17,13 +17,13 @@ $global_template = new V8\ObjectTemplate($isolate);
 $context = new V8\Context($isolate, $global_template);
 
 $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use (&$helper) {
-    if (!$info->Arguments()) {
-        $isolate = $info->GetIsolate();
+    if (!$info->arguments()) {
+        $isolate = $info->getIsolate();
 
-        $script = new V8\Script($info->GetContext(), new \V8\StringValue($isolate, 'for(;;);'), new \V8\ScriptOrigin('wait_for_termination.js'));
+        $script = new V8\Script($info->getContext(), new \V8\StringValue($isolate, 'for(;;);'), new \V8\ScriptOrigin('wait_for_termination.js'));
 
         try {
-            $script->Run($info->GetContext());
+            $script->run($info->getContext());
         } catch (\V8\Exceptions\TimeLimitException $e) {
             $helper->exception_export($e);
             echo 'wait loop terminated', PHP_EOL;
@@ -33,10 +33,10 @@ $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info
         return;
     }
 
-    $fnc= $info->Arguments()[0];
+    $fnc= $info->arguments()[0];
 
     try {
-        $fnc->Call($info->GetContext(), $fnc);
+        $fnc->call($info->getContext(), $fnc);
     } catch (\V8\Exceptions\TimeLimitException $e) {
         $helper->exception_export($e);
         echo 'function call terminated', PHP_EOL;
@@ -45,10 +45,10 @@ $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info
 });
 
 
-$func->SetName(new \V8\StringValue($isolate, 'custom_name'));
+$func->setName(new \V8\StringValue($isolate, 'custom_name'));
 
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test'), $func);
 
 $source = 'test(test); delete print; "Script done"';
 $file_name = 'test.js';
@@ -67,13 +67,13 @@ if ($helper->need_more_time()) {
     $high_range = 1.65;
 }
 
-$isolate->SetTimeLimit($time_limit);
+$isolate->setTimeLimit($time_limit);
 $helper->dump($isolate);
 $helper->line();
 
 $t = microtime(true);
 try {
-    $script->Run($context);
+    $script->run($context);
 } catch(\V8\Exceptions\TimeLimitException $e) {
     $helper->exception_export($e);
     echo 'script execution terminated', PHP_EOL;

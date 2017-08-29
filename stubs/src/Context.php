@@ -48,14 +48,16 @@ class Context
      * @internal param array|null $extensions Currently unused as there are not extensions support
      */
     public function __construct(
-        Isolate $isolate, ObjectTemplate $global_template = null, ObjectValue $global_object = null
+        Isolate $isolate,
+        ObjectTemplate $global_template = null,
+        ObjectValue $global_object = null
     ) {
     }
 
     /**
      * @return \V8\Isolate
      */
-    public function GetIsolate(): Isolate
+    public function getIsolate(): Isolate
     {
         return $this->isolate;
     }
@@ -74,7 +76,7 @@ class Context
      *
      * @return \V8\ObjectValue
      */
-    public function GlobalObject(): ObjectValue
+    public function globalObject(): ObjectValue
     {
     }
 
@@ -83,7 +85,7 @@ class Context
      * Detaches the global object from its context before
      * the global object can be reused to create a new context.
      */
-    public function DetachGlobal()
+    public function detachGlobal()
     {
     }
 
@@ -93,14 +95,14 @@ class Context
      *
      * @param \V8\Value $token
      */
-    public function SetSecurityToken(Value $token)
+    public function setSecurityToken(Value $token)
     {
     }
 
     /**
      * Restores the security token to the default value.
      */
-    public function UseDefaultSecurityToken()
+    public function useDefaultSecurityToken()
     {
     }
 
@@ -109,7 +111,7 @@ class Context
      *
      * @return \V8\Value
      */
-    public function GetSecurityToken(): Value
+    public function getSecurityToken(): Value
     {
     }
 
@@ -128,7 +130,7 @@ class Context
      *
      * @param bool $allow
      */
-    public function AllowCodeGenerationFromStrings(bool $allow)
+    public function allowCodeGenerationFromStrings(bool $allow)
     {
     }
 
@@ -138,7 +140,7 @@ class Context
      *
      * @return bool
      */
-    public function IsCodeGenerationFromStringsAllowed(): bool
+    public function isCodeGenerationFromStringsAllowed(): bool
     {
     }
 
@@ -149,7 +151,7 @@ class Context
      *
      * @param StringValue $message
      */
-    public function SetErrorMessageForCodeGenerationFromStrings(StringValue $message)
+    public function setErrorMessageForCodeGenerationFromStrings(StringValue $message)
     {
     }
 }

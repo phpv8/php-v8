@@ -18,10 +18,34 @@ namespace V8;
 
 class ReturnValue
 {
+
+    /**
+     * @return \V8\Isolate
+     */
+    public function getIsolate(): Isolate
+    {
+    }
+
+    /**
+     * @return \V8\Context
+     */
+    public function getContext(): Context
+    {
+    }
+
+    /**
+     * Check whether return value is in current calling context and thus is usable
+     *
+     * @return bool
+     */
+    public function inContext(): bool
+    {
+    }
+
     /**
      * @param \V8\Value $value
      */
-    public function Set(Value $value)
+    public function set(Value $value)
     {
     }
 
@@ -30,65 +54,57 @@ class ReturnValue
      *
      * If the ReturnValue was not yet set, this will return the undefined value.
      *
-     * @return Value | StringValue | NumberValue | ObjectValue | ArrayObject | FunctionObject
+     * @return Value|StringValue|NumberValue|ObjectValue|ArrayObject|FunctionObject|DateObject|RegExpObject
      */
-    public function Get(): Value
-    {
-    }
-
-    public function SetNull()
-    {
-    }
-
-    public function SetUndefined()
-    {
-    }
-
-    public function SetEmptyString()
+    public function get(): Value
     {
     }
 
     /**
+     * Quick setter to set return value to null
+     */
+    public function setNull()
+    {
+    }
+
+    /**
+     * Quick setter to set return value to undefined
+     */
+    public function setUndefined()
+    {
+    }
+
+    /**
+     * Quick setter to set return value to an empty string
+     */
+    public function setEmptyString()
+    {
+    }
+
+    /**
+     * Quick setter to set return value to the provided boolean value
+     *
      * @param bool $value
      */
-    public function SetBool(bool $value)
+    public function setBool(bool $value)
     {
     }
 
     /**
+     * Quick setter to set return value to the provided integer value
+     *
      * @param int $i
      */
-    public function SetInteger(int $i)
+    public function setInteger(int $i)
     {
     }
 
     /**
+     * Quick setter to set return value to the provided float value
+     *
      * @param float $i
      */
-    public function SetFloat(float $i)
-    {
-    }
-
-    /**
-     * @return \V8\Isolate
-     */
-    public function GetIsolate(): Isolate
-    {
-    }
-
-    /**
-     * @return \V8\Context
-     */
-    public function GetContext(): Context
-    {
-    }
-
-    /**
-     * Check whether object is in current calling context and thus is usable
-     *
-     * @return bool
-     */
-    public function InContext(): bool
+    public function setFloat(float $i)
     {
     }
 }

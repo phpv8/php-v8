@@ -34,19 +34,19 @@ $helper->assert('FunctionTemplate implements AdjustableExternalMemoryInterface',
 $helper->line();
 
 $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
-    $context = $info->GetContext();
+    $context = $info->getContext();
 
     $out = [];
 
-    foreach ($info->Arguments() as $arg) {
-        if ($arg->IsUndefined()) {
+    foreach ($info->arguments() as $arg) {
+        if ($arg->isUndefined()) {
             $out[] = '<undefined>';
-        } elseif ($arg->IsNull()) {
+        } elseif ($arg->isNull()) {
             $out[] = var_export(null, true);
-        } elseif ($arg->IsTrue() || $arg->IsFalse()) {
-            $out[] = var_export($arg->BooleanValue($context), true);
+        } elseif ($arg->isTrue() || $arg->isFalse()) {
+            $out[] = var_export($arg->booleanValue($context), true);
         } else {
-            $out[] = $arg->ToString($context)->Value();
+            $out[] = $arg->toString($context)->value();
         }
     }
 
@@ -55,7 +55,7 @@ $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallb
 
 
 
-$function_template->SetClassName(new \V8\StringValue($isolate, 'TestFunction'));
+$function_template->setClassName(new \V8\StringValue($isolate, 'TestFunction'));
 
 
 $helper->header('Object representation');
@@ -63,23 +63,23 @@ $helper->dump($function_template);
 $helper->space();
 
 $helper->header('Accessors');
-$helper->method_matches($function_template, 'GetIsolate', $isolate);
+$helper->method_matches($function_template, 'getIsolate', $isolate);
 $helper->space();
 
 
 $helper->header('Instance template');
-$instance_template = $function_template->InstanceTemplate();
+$instance_template = $function_template->instanceTemplate();
 $helper->dump($instance_template);
-$helper->method_matches($function_template, 'InstanceTemplate', $instance_template);
+$helper->method_matches($function_template, 'instanceTemplate', $instance_template);
 $helper->space();
 
 $global_template = new V8\ObjectTemplate($isolate);
 
 $value = new V8\StringValue($isolate, 'TEST VALUE 111');
 
-$global_template->Set(new \V8\StringValue($isolate, 'test'), $value);
-$global_template->Set(new \V8\StringValue($isolate, 'func'), $function_template);
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'test'), $value);
+$global_template->set(new \V8\StringValue($isolate, 'func'), $function_template);
+$global_template->set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
 
 
 $context = new V8\Context($isolate, $global_template);
@@ -96,7 +96,7 @@ $file_name = 'test.js';
 $isolate2 = new \V8\Isolate();
 $context2 = new V8\Context($isolate2);
 
-$global = $context->GlobalObject();
+$global = $context->globalObject();
 
 $s = new \V8\StringValue($isolate, 'test');
 $s2 = new \V8\StringValue($isolate2, 'test 2');
@@ -104,17 +104,17 @@ $s2 = new \V8\StringValue($isolate2, 'test 2');
 $o = new \V8\ObjectValue($context);
 $o2 = new \V8\ObjectValue($context2);
 
-$global->Set($context, new \V8\StringValue($isolate, 's'), $s);
+$global->set($context, new \V8\StringValue($isolate, 's'), $s);
 try {
-  $global->Set($context, new \V8\StringValue($isolate, 's2'), $s2);
+  $global->set($context, new \V8\StringValue($isolate, 's2'), $s2);
 } catch (Exception $e) {
   $helper->exception_export($e);
 }
 
-$global->Set($context, new \V8\StringValue($isolate, 'o'), $o);
+$global->set($context, new \V8\StringValue($isolate, 'o'), $o);
 
 try {
-  $global->Set($context, new \V8\StringValue($isolate, 'o2'), $o2);
+  $global->set($context, new \V8\StringValue($isolate, 'o2'), $o2);
 } catch (Exception $e) {
   $helper->exception_export($e);
 }
@@ -124,14 +124,14 @@ $helper->value_matches_with_no_output($isolate, $isolate2, true);
 
 $res = $v8_helper->CompileRun($context, $source);
 
-$helper->dump($res->IsFunction());
+$helper->dump($res->isFunction());
 
-if ($res->IsFunction()) {
-    $func = $res->ToObject($context)->GetConstructorName();
+if ($res->isFunction()) {
+    $func = $res->toObject($context)->getConstructorName();
     $helper->dump($func);
 }
 
-$helper->dump($res->ToString($context)->Value());
+$helper->dump($res->toString($context)->value());
 
 
 ?>
@@ -159,7 +159,7 @@ object(V8\FunctionTemplate)#5 (1) {
 
 Accessors:
 ----------
-V8\FunctionTemplate::GetIsolate() matches expected value
+V8\FunctionTemplate::getIsolate() matches expected value
 
 
 Instance template:
@@ -169,7 +169,7 @@ object(V8\ObjectTemplate)#8 (1) {
   object(V8\Isolate)#3 (0) {
   }
 }
-V8\FunctionTemplate::InstanceTemplate() doesn't match expected value
+V8\FunctionTemplate::instanceTemplate() doesn't match expected value
 
 
 V8\Exceptions\Exception: Isolates mismatch

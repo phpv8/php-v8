@@ -24,7 +24,7 @@ abstract class Value extends Data
     /**
      * @return \V8\Isolate
      */
-    public function GetIsolate(): Isolate
+    public function getIsolate(): Isolate
     {
     }
 
@@ -33,7 +33,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsUndefined(): bool
+    public function isUndefined(): bool
     {
     }
 
@@ -42,7 +42,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsNull(): bool
+    public function isNull(): bool
     {
     }
 
@@ -51,7 +51,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsTrue(): bool
+    public function isTrue(): bool
     {
     }
 
@@ -60,7 +60,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsFalse(): bool
+    public function isFalse(): bool
     {
     }
 
@@ -70,7 +70,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsName(): bool
+    public function isName(): bool
     {
     }
 
@@ -79,7 +79,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsString(): bool
+    public function isString(): bool
     {
     }
 
@@ -88,7 +88,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsSymbol(): bool
+    public function isSymbol(): bool
     {
     }
 
@@ -97,7 +97,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsFunction(): bool
+    public function isFunction(): bool
     {
     }
 
@@ -106,7 +106,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsArray(): bool
+    public function isArray(): bool
     {
     }
 
@@ -115,7 +115,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsObject(): bool
+    public function isObject(): bool
     {
     }
 
@@ -124,7 +124,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsBoolean(): bool
+    public function isBoolean(): bool
     {
     }
 
@@ -133,7 +133,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsNumber(): bool
+    public function isNumber(): bool
     {
     }
 
@@ -142,7 +142,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsInt32(): bool
+    public function isInt32(): bool
     {
     }
 
@@ -151,7 +151,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsUint32(): bool
+    public function isUint32(): bool
     {
     }
 
@@ -160,7 +160,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsDate(): bool
+    public function isDate(): bool
     {
     }
 
@@ -169,7 +169,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsArgumentsObject(): bool
+    public function isArgumentsObject(): bool
     {
     }
 
@@ -178,7 +178,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsBooleanObject(): bool
+    public function isBooleanObject(): bool
     {
     }
 
@@ -187,7 +187,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsNumberObject(): bool
+    public function isNumberObject(): bool
     {
     }
 
@@ -196,14 +196,14 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsStringObject(): bool
+    public function isStringObject(): bool
     {
     }
 
     /**
      * Returns true if this value is a Symbol object.
      */
-    public function IsSymbolObject(): bool
+    public function isSymbolObject(): bool
     {
     }
 
@@ -212,7 +212,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsNativeError(): bool
+    public function isNativeError(): bool
     {
     }
 
@@ -221,7 +221,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function IsRegExp(): bool
+    public function isRegExp(): bool
     {
     }
 
@@ -231,7 +231,7 @@ abstract class Value extends Data
      *
      * @return \V8\BooleanValue
      */
-    public function ToBoolean(Context $context)
+    public function toBoolean(Context $context)
     {
     }
 
@@ -240,7 +240,7 @@ abstract class Value extends Data
      *
      * @return \V8\NumberValue
      */
-    public function ToNumber(Context $context)
+    public function toNumber(Context $context)
     {
     }
 
@@ -249,7 +249,7 @@ abstract class Value extends Data
      *
      * @return \V8\StringValue
      */
-    public function ToString(Context $context)
+    public function toString(Context $context)
     {
     }
 
@@ -258,7 +258,7 @@ abstract class Value extends Data
      *
      * @return \V8\StringValue
      */
-    public function ToDetailString(Context $context)
+    public function toDetailString(Context $context)
     {
     }
 
@@ -268,7 +268,7 @@ abstract class Value extends Data
      *
      * @return \V8\ObjectValue
      */
-    public function ToObject(Context $context)
+    public function toObject(Context $context)
     {
     }
 
@@ -278,7 +278,7 @@ abstract class Value extends Data
      *
      * @return \V8\IntegerValue
      */
-    public function ToInteger(Context $context)
+    public function toInteger(Context $context)
     {
     }
 
@@ -288,7 +288,7 @@ abstract class Value extends Data
      *
      * @return \V8\Uint32Value
      */
-    public function ToUint32(Context $context)
+    public function toUint32(Context $context)
     {
     }
 
@@ -297,7 +297,7 @@ abstract class Value extends Data
      *
      * @return \V8\Int32Value
      */
-    public function ToInt32(Context $context)
+    public function toInt32(Context $context)
     {
     }
 
@@ -309,7 +309,7 @@ abstract class Value extends Data
      *
      * @return \V8\Uint32Value
      */
-    public function ToArrayIndex(Context $context)
+    public function toArrayIndex(Context $context)
     {
     }
 
@@ -318,7 +318,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function BooleanValue(Context $context)
+    public function booleanValue(Context $context)
     {
     }
 
@@ -327,7 +327,7 @@ abstract class Value extends Data
      *
      * @return double
      */
-    public function NumberValue(Context $context)
+    public function numberValue(Context $context)
     {
     }
 
@@ -336,7 +336,7 @@ abstract class Value extends Data
      *
      * @return int | double
      */
-    public function IntegerValue(Context $context)
+    public function integerValue(Context $context)
     {
     }
 
@@ -345,7 +345,7 @@ abstract class Value extends Data
      *
      * @return int
      */
-    public function Uint32Value(Context $context)
+    public function uint32Value(Context $context)
     {
     }
 
@@ -354,7 +354,7 @@ abstract class Value extends Data
      *
      * @return int
      */
-    public function Int32Value(Context $context)
+    public function int32Value(Context $context)
     {
     }
 
@@ -368,7 +368,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function Equals(Context $context, Value $that): bool
+    public function equals(Context $context, Value $that): bool
     {
     }
 
@@ -377,7 +377,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function StrictEquals(Value $that): bool
+    public function strictEquals(Value $that): bool
     {
     }
 
@@ -386,14 +386,14 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function SameValue(Value $that): bool
+    public function sameValue(Value $that): bool
     {
     }
 
     /**
      * @return StringValue
      */
-    public function TypeOf(): StringValue
+    public function typeOf(): StringValue
     {
     }
 
@@ -403,7 +403,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function InstanceOf (Context $context, ObjectValue $object): bool
+    public function instanceOf (Context $context, ObjectValue $object): bool
     {
     }
 }

@@ -34,7 +34,7 @@ class Template extends Data
     /**
      * @return \V8\Isolate
      */
-    public function GetIsolate(): Isolate
+    public function getIsolate(): Isolate
     {
         return $this->isolate;
     }
@@ -48,7 +48,7 @@ class Template extends Data
      *
      * @return void
      */
-    public function Set(NameValue $name, /*Data*/ $value, int $attributes = PropertyAttribute::None)
+    public function set(NameValue $name, /*Data*/ $value, int $attributes = PropertyAttribute::None)
     {
     }
 
@@ -59,7 +59,7 @@ class Template extends Data
      * @param int                  $attribute
      * @param int                  $settings
      */
-    public function SetAccessorProperty(
+    public function setAccessorProperty(
         NameValue $name,
         FunctionTemplate $getter = null,
         FunctionTemplate $setter = null,
@@ -92,7 +92,7 @@ class Template extends Data
      *
      * @param int              $settings  Access control settings for the accessor.
      */
-    public function SetNativeDataProperty(
+    public function setNativeDataProperty(
         NameValue $name,
         callable $getter,
         callable $setter = null,

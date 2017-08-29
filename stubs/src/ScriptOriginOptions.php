@@ -59,7 +59,7 @@ class ScriptOriginOptions
     /**
      * @return bool
      */
-    public function IsSharedCrossOrigin(): bool
+    public function isSharedCrossOrigin(): bool
     {
         return $this->is_shared_cross_origin;
     }
@@ -67,7 +67,7 @@ class ScriptOriginOptions
     /**
      * @return bool
      */
-    public function IsOpaque(): bool
+    public function isOpaque(): bool
     {
         return $this->is_opaque;
     }
@@ -75,7 +75,7 @@ class ScriptOriginOptions
     /**
      * @return bool
      */
-    public function IsWasm(): bool
+    public function isWasm(): bool
     {
         return $this->is_wasm;
     }
@@ -83,7 +83,7 @@ class ScriptOriginOptions
     /**
      * @return bool
      */
-    public function IsModule(): bool
+    public function isModule(): bool
     {
         return $this->is_module;
     }

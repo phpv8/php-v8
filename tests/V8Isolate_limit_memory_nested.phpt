@@ -28,8 +28,8 @@ $context = new V8\Context($isolate);
 $v8_helper->injectConsoleLog($context);
 
 $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use (&$helper) {
-    if (!$info->Arguments()) {
-        $isolate = $info->GetIsolate();
+    if (!$info->arguments()) {
+        $isolate = $info->getIsolate();
 
         $source = '
             var str = " ".repeat(1024); // 1kb
@@ -40,10 +40,10 @@ $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info
             }
         ';
 
-        $script = new V8\Script($info->GetContext(), new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin('wait_for_termination.js'));
+        $script = new V8\Script($info->getContext(), new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin('wait_for_termination.js'));
 
         try {
-            $script->Run($info->GetContext());
+            $script->run($info->getContext());
         } catch (\V8\Exceptions\MemoryLimitException $e) {
             $helper->exception_export($e);
             echo 'wait loop terminated', PHP_EOL;
@@ -53,10 +53,10 @@ $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info
         return;
     }
 
-    $fnc= $info->Arguments()[0];
+    $fnc= $info->arguments()[0];
 
     try {
-        $fnc->Call($info->GetContext(), $fnc);
+        $fnc->call($info->getContext(), $fnc);
     } catch (\V8\Exceptions\MemoryLimitException $e) {
         $helper->exception_export($e);
         echo 'function call terminated', PHP_EOL;
@@ -65,10 +65,10 @@ $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info
 });
 
 
-$func->SetName(new \V8\StringValue($isolate, 'custom_name'));
+$func->setName(new \V8\StringValue($isolate, 'custom_name'));
 
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test'), $func);
 
 $source = 'test(test); delete print; "Script done"';
 $file_name = 'test.js';
@@ -76,13 +76,13 @@ $file_name = 'test.js';
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$isolate->SetMemoryLimit(1024 * 1024 * 10);
+$isolate->setMemoryLimit(1024 * 1024 * 10);
 $helper->dump($isolate);
 $helper->line();
 
 $t = microtime(true);
 try {
-    $script->Run($context);
+    $script->run($context);
 } catch(\V8\Exceptions\MemoryLimitException $e) {
     $helper->exception_export($e);
     echo 'script execution terminated', PHP_EOL;

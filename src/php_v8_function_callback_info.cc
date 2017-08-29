@@ -86,7 +86,7 @@ php_v8_return_value_t * php_v8_callback_info_create_from_info(zval *return_value
     return php_v8_return_value;
 }
 
-static PHP_METHOD(V8FunctionCallbackInfo, Length) {
+static PHP_METHOD(FunctionCallbackInfo, length) {
     zval rv;
     zval *tmp;
 
@@ -99,7 +99,7 @@ static PHP_METHOD(V8FunctionCallbackInfo, Length) {
     RETURN_LONG(zend_array_count(Z_ARRVAL_P(tmp)));
 }
 
-static PHP_METHOD(V8FunctionCallbackInfo, Arguments) {
+static PHP_METHOD(FunctionCallbackInfo, arguments) {
     zval rv;
     zval *tmp;
 
@@ -111,7 +111,7 @@ static PHP_METHOD(V8FunctionCallbackInfo, Arguments) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(V8FunctionCallbackInfo, NewTarget) {
+static PHP_METHOD(FunctionCallbackInfo, newTarget) {
     zval rv;
     zval *tmp;
 
@@ -123,7 +123,7 @@ static PHP_METHOD(V8FunctionCallbackInfo, NewTarget) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(V8FunctionCallbackInfo, IsConstructCall) {
+static PHP_METHOD(FunctionCallbackInfo, isConstructCall) {
     zval rv;
     zval *tmp;
 
@@ -136,24 +136,24 @@ static PHP_METHOD(V8FunctionCallbackInfo, IsConstructCall) {
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_callback_info_Length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_function_callback_info_length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_callback_info_Arguments, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_function_callback_info_arguments, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_function_callback_info_NewTarget, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_function_callback_info_newTarget, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_function_callback_info_IsConstructCall, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_function_callback_info_isConstructCall, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_function_callback_info_methods[] = {
-        PHP_ME(V8FunctionCallbackInfo, Length, arginfo_v8_function_callback_info_Length, ZEND_ACC_PUBLIC)
-        PHP_ME(V8FunctionCallbackInfo, Arguments, arginfo_v8_function_callback_info_Arguments, ZEND_ACC_PUBLIC)
-        PHP_ME(V8FunctionCallbackInfo, NewTarget, arginfo_v8_function_callback_info_NewTarget, ZEND_ACC_PUBLIC)
-        PHP_ME(V8FunctionCallbackInfo, IsConstructCall, arginfo_v8_function_callback_info_IsConstructCall, ZEND_ACC_PUBLIC)
+        PHP_ME(FunctionCallbackInfo, length, arginfo_function_callback_info_length, ZEND_ACC_PUBLIC)
+        PHP_ME(FunctionCallbackInfo, arguments, arginfo_function_callback_info_arguments, ZEND_ACC_PUBLIC)
+        PHP_ME(FunctionCallbackInfo, newTarget, arginfo_function_callback_info_newTarget, ZEND_ACC_PUBLIC)
+        PHP_ME(FunctionCallbackInfo, isConstructCall, arginfo_function_callback_info_isConstructCall, ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
 

@@ -75,7 +75,7 @@ static zend_object * php_v8_script_ctor(zend_class_entry *ce)
     return &php_v8_script->std;
 }
 
-static PHP_METHOD(V8Script, __construct)
+static PHP_METHOD(Script, __construct)
 {
     zval rv;
     zval *php_v8_context_zv;
@@ -128,7 +128,7 @@ static PHP_METHOD(V8Script, __construct)
     php_v8_script->persistent->Reset(isolate, maybe_script.ToLocalChecked());
 }
 
-static PHP_METHOD(V8Script, GetIsolate)
+static PHP_METHOD(Script, getIsolate)
 {
     zval rv;
 
@@ -141,7 +141,7 @@ static PHP_METHOD(V8Script, GetIsolate)
     RETVAL_ZVAL(PHP_V8_SCRIPT_READ_ISOLATE(getThis()), 1, 0);
 }
 
-static PHP_METHOD(V8Script, GetContext)
+static PHP_METHOD(Script, getContext)
 {
     zval rv;
 
@@ -154,7 +154,7 @@ static PHP_METHOD(V8Script, GetContext)
     RETVAL_ZVAL(PHP_V8_SCRIPT_READ_CONTEXT(getThis()), 1, 0);
 }
 
-static PHP_METHOD(V8Script, Run)
+static PHP_METHOD(Script, run)
 {
     zval *php_v8_context_zv;
 
@@ -185,7 +185,7 @@ static PHP_METHOD(V8Script, Run)
     php_v8_get_or_create_value(return_value, local_result, php_v8_script->php_v8_isolate);
 }
 
-static PHP_METHOD(V8Script, GetUnboundScript)
+static PHP_METHOD(Script, getUnboundScript)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -203,33 +203,33 @@ static PHP_METHOD(V8Script, GetUnboundScript)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_script___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_script___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
     ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
     ZEND_ARG_OBJ_INFO(0, source, V8\\StringValue, 0)
     ZEND_ARG_OBJ_INFO(0, origin, V8\\ScriptOrigin, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_Run, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_run, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_script_GetUnboundScript, ZEND_RETURN_VALUE, 0, V8\\UnboundScript, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_getUnboundScript, ZEND_RETURN_VALUE, 0, V8\\UnboundScript, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_script_methods[] = {
-    PHP_ME(V8Script, __construct, arginfo_v8_script___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(V8Script, GetIsolate, arginfo_v8_script_GetIsolate, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Script, GetContext, arginfo_v8_script_GetContext, ZEND_ACC_PUBLIC)
+    PHP_ME(Script, __construct, arginfo_script___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_ME(Script, getIsolate, arginfo_script_getIsolate, ZEND_ACC_PUBLIC)
+    PHP_ME(Script, getContext, arginfo_script_getContext, ZEND_ACC_PUBLIC)
 
-    PHP_ME(V8Script, Run, arginfo_v8_script_Run, ZEND_ACC_PUBLIC)
-    PHP_ME(V8Script, GetUnboundScript, arginfo_v8_script_GetUnboundScript, ZEND_ACC_PUBLIC)
+    PHP_ME(Script, run, arginfo_script_run, ZEND_ACC_PUBLIC)
+    PHP_ME(Script, getUnboundScript, arginfo_script_getUnboundScript, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

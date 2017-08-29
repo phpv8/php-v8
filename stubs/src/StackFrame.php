@@ -91,7 +91,7 @@ class StackFrame
      *
      * @return int
      */
-    public function GetLineNumber(): int
+    public function getLineNumber(): int
     {
         return $this->line_number;
     }
@@ -105,7 +105,7 @@ class StackFrame
      *
      * @return int
      */
-    public function GetColumn(): int
+    public function getColumn(): int
     {
         return $this->column;
     }
@@ -118,7 +118,7 @@ class StackFrame
      *
      * @return int
      */
-    public function GetScriptId(): int
+    public function getScriptId(): int
     {
         return $this->script_id;
     }
@@ -129,7 +129,7 @@ class StackFrame
      *
      * @return string
      */
-    public function GetScriptName(): string
+    public function getScriptName(): string
     {
         return $this->script_name;
     }
@@ -142,7 +142,7 @@ class StackFrame
      *
      * @return string
      */
-    public function GetScriptNameOrSourceURL(): string
+    public function getScriptNameOrSourceURL(): string
     {
         return $this->script_name_or_source_url;
     }
@@ -152,7 +152,7 @@ class StackFrame
      *
      * @return string
      */
-    public function GetFunctionName(): string
+    public function getFunctionName(): string
     {
         return $this->function_name;
     }
@@ -163,7 +163,7 @@ class StackFrame
      *
      * @return bool
      */
-    public function IsEval(): bool
+    public function isEval(): bool
     {
         return $this->is_eval;
     }
@@ -174,7 +174,7 @@ class StackFrame
      *
      * @return bool
      */
-    public function IsConstructor(): bool
+    public function isConstructor(): bool
     {
         return $this->is_constructor;
     }

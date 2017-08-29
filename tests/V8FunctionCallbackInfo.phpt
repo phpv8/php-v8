@@ -32,19 +32,19 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context, function (V8\Function
     $helper->space();
 
     $callback_info = $info;
-    $helper->assert('Original arguments number passed', count($info->Arguments()) == 2);
-    $helper->assert('Arguments number matches Length() method output', count($info->Arguments()) == $info->Length());
+    $helper->assert('Original arguments number passed', count($info->arguments()) == 2);
+    $helper->assert('Arguments number matches Length() method output', count($info->arguments()) == $info->length());
 
-    $helper->assert('Callback info holds original isolate object', $info->GetIsolate(), $isolate);
-    $helper->assert('Callback info holds original isolate object', $info->GetContext(), $context);
+    $helper->assert('Callback info holds original isolate object', $info->getIsolate(), $isolate);
+    $helper->assert('Callback info holds original isolate object', $info->getContext(), $context);
 
-    $helper->assert('Scalars hold no info about their zval, so that their zvals are recreated on each access', $scalar !== $info->Arguments()[0]);
-    $helper->assert("Objects can hold info about their zval and keep it until zval's get free() ", $object === $info->Arguments()[1]);
+    $helper->assert('Scalars hold no info about their zval, so that their zvals are recreated on each access', $scalar !== $info->arguments()[0]);
+    $helper->assert("Objects can hold info about their zval and keep it until zval's get free() ", $object === $info->arguments()[1]);
 });
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'print'), $func);
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'scalar'), $scalar);
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'obj'), $object);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'print'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'scalar'), $scalar);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'obj'), $object);
 
 $source = 'print(scalar, obj); "Script done";';
 $file_name = 'test.js';
@@ -52,12 +52,12 @@ $file_name = 'test.js';
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$helper->dump($script->Run($context)->ToString($context)->Value());
+$helper->dump($script->run($context)->toString($context)->value());
 
 $helper->space();
 
 //try {
-$retval = $callback_info->GetReturnValue();
+$retval = $callback_info->getReturnValue();
 $helper->dump($retval);
 //} catch (Exception $e) {
 //    $helper->exception_export($e);
