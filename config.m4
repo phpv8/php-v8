@@ -2,6 +2,17 @@ PHP_ARG_WITH(v8, for V8 Javascript Engine,
 [  --with-v8               Include V8 JavaScript Engine])
 
 if test "$PHP_V8" != "no"; then
+
+  AC_MSG_CHECKING([Check for supported PHP versions])
+  PHP_REF_FOUND_VERSION=`${PHP_CONFIG} --version`
+  PHP_REF_FOUND_VERNUM=`${PHP_CONFIG} --vernum`
+
+  if test "$PHP_REF_FOUND_VERNUM" -lt "70100"; then
+    AC_MSG_ERROR([not supported. PHP version >= 7.1 required (found $PHP_REF_FOUND_VERSION)])
+  else
+    AC_MSG_RESULT([supported ($PHP_REF_FOUND_VERSION)])
+  fi
+
   V8_LIB_DIR=""
   V8_INCLUDE_DIR=""
 
