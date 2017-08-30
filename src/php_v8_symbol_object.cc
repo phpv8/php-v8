@@ -63,19 +63,18 @@ static PHP_METHOD(SymbolObject, valueOf) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_symbol_object___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\SymbolValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_symbol_object_valueOf, ZEND_RETURN_VALUE, 0, V8\\SymbolValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_valueOf, ZEND_RETURN_VALUE, 0, V8\\SymbolValue, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_symbol_object_methods[] = {
-        PHP_ME(SymbolObject, __construct, arginfo_symbol_object___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(SymbolObject, valueOf, arginfo_symbol_object_valueOf, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(SymbolObject, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(SymbolObject, valueOf,     ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

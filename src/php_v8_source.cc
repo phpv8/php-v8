@@ -99,27 +99,27 @@ static PHP_METHOD(Source, getCachedData)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_source___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, source_string, V8\\StringValue, 0)
                 ZEND_ARG_OBJ_INFO(0, origin, V8\\ScriptOrigin, 1)
                 ZEND_ARG_OBJ_INFO(0, cached_data, V8\\ScriptCompiler\\CachedData, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_source_getSourceString, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getSourceString, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_source_getScriptOrigin, ZEND_RETURN_VALUE, 0, V8\\ScriptOrigin, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getScriptOrigin, ZEND_RETURN_VALUE, 0, V8\\ScriptOrigin, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_source_getCachedData, ZEND_RETURN_VALUE, 0, V8\\ScriptCompiler\\CachedData, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getCachedData, ZEND_RETURN_VALUE, 0, V8\\ScriptCompiler\\CachedData, 1)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_source_methods[] = {
-    PHP_ME(Source, __construct,       arginfo_source___construct,      ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(Source, getSourceString,   arginfo_source_getSourceString,  ZEND_ACC_PUBLIC)
-    PHP_ME(Source, getScriptOrigin,   arginfo_source_getScriptOrigin,  ZEND_ACC_PUBLIC)
-    PHP_ME(Source, getCachedData,     arginfo_source_getCachedData,    ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Source, __construct,     ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_V8_ME(Source, getSourceString, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Source, getScriptOrigin, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Source, getCachedData,   ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

@@ -86,27 +86,27 @@ static PHP_METHOD(CallbackInfo, getReturnValue) {
     ZVAL_COPY(return_value, tmp);
 }
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_callback_info_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_callback_info_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_callback_info_this, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_this, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_callback_info_holder, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_holder, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_callback_info_getReturnValue, ZEND_RETURN_VALUE, 0, V8\\ReturnValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getReturnValue, ZEND_RETURN_VALUE, 0, V8\\ReturnValue, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_callback_info_methods[] = {
-        PHP_ME(CallbackInfo, this, arginfo_callback_info_this, ZEND_ACC_PUBLIC)
-        PHP_ME(CallbackInfo, holder, arginfo_callback_info_holder, ZEND_ACC_PUBLIC)
-        PHP_ME(CallbackInfo, getIsolate, arginfo_callback_info_getIsolate, ZEND_ACC_PUBLIC)
-        PHP_ME(CallbackInfo, getContext, arginfo_callback_info_getContext, ZEND_ACC_PUBLIC)
-        PHP_ME(CallbackInfo, getReturnValue, arginfo_callback_info_getReturnValue, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, this,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, holder,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, getIsolate,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, getContext,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, getReturnValue, ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
 

@@ -106,21 +106,21 @@ static PHP_METHOD(CachedData, isRejected)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_cached_data___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_cached_data_getData, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getData, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_cached_data_isRejected, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isRejected, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_cached_data_methods[] = {
-    PHP_ME(CachedData, __construct,   arginfo_cached_data___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(CachedData, getData,       arginfo_cached_data_getData,     ZEND_ACC_PUBLIC)
-    PHP_ME(CachedData, isRejected,    arginfo_cached_data_isRejected,  ZEND_ACC_PUBLIC)
+    PHP_V8_ME(CachedData, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_V8_ME(CachedData, getData,     ZEND_ACC_PUBLIC)
+    PHP_V8_ME(CachedData, isRejected,  ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

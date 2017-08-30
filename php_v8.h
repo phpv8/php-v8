@@ -77,6 +77,9 @@ ZEND_END_MODULE_GLOBALS(v8)
 
 #define PHP_V8_IS_UP_AND_RUNNING() (zend_is_executing() && !CG(unclean_shutdown))
 
+#define PHP_V8_ME(classname, name, flags)   PHP_ME(classname, name, arginfo_##name, flags)
+#define PHP_V8_ABSTRACT_ME(classname, name) PHP_ABSTRACT_ME(classname, name, arginfo_##name)
+
 /* Always refer to the globals in your function as PHP_V8_G(variable).
    You are encouraged to rename these macros something shorter, see
    examples in any other php module directory.

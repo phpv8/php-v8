@@ -127,34 +127,35 @@ static PHP_METHOD(String, containsOnlyOneByte)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_string___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_string_value, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_value, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_string_length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_string_utf8Length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_utf8Length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_string_isOneByte, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isOneByte, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_string_containsOnlyOneByte, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_containsOnlyOneByte, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_string_methods[] = {
-    PHP_ME(String, __construct, arginfo_string___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(String, value, arginfo_string_value, ZEND_ACC_PUBLIC)
-    PHP_ME(String, length, arginfo_string_length, ZEND_ACC_PUBLIC)
-    PHP_ME(String, utf8Length, arginfo_string_utf8Length, ZEND_ACC_PUBLIC)
-    PHP_ME(String, isOneByte, arginfo_string_isOneByte, ZEND_ACC_PUBLIC)
-    PHP_ME(String, containsOnlyOneByte, arginfo_string_containsOnlyOneByte, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, __construct,         ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_V8_ME(String, value,               ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, length,              ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, utf8Length,          ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, isOneByte,           ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, containsOnlyOneByte, ZEND_ACC_PUBLIC)
+
     PHP_FE_END
 };
 

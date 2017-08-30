@@ -142,35 +142,32 @@ static PHP_METHOD(StackTrace, currentStackTrace)
     php_v8_stack_trace_create_from_stack_trace(return_value, php_v8_isolate, trace);
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_stack_trace___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, frames, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_trace_getFrames, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getFrames, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_stack_trace_getFrame, ZEND_RETURN_VALUE, 1, V8\\StackFrame, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getFrame, ZEND_RETURN_VALUE, 1, V8\\StackFrame, 0)
                 ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_trace_getFrameCount, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getFrameCount, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_stack_trace_currentStackTrace, ZEND_RETURN_VALUE, 2, V8\\StackTrace, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_currentStackTrace, ZEND_RETURN_VALUE, 2, V8\\StackTrace, 0)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_TYPE_INFO(0, frame_limit, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_stack_trace_methods[] = {
-        PHP_ME(StackTrace, __construct, arginfo_stack_trace___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(StackTrace, getFrames, arginfo_stack_trace_getFrames, ZEND_ACC_PUBLIC)
-
-        PHP_ME(StackTrace, getFrame, arginfo_stack_trace_getFrame, ZEND_ACC_PUBLIC)
-        PHP_ME(StackTrace, getFrameCount, arginfo_stack_trace_getFrameCount, ZEND_ACC_PUBLIC)
-
-        PHP_ME(StackTrace, currentStackTrace, arginfo_stack_trace_currentStackTrace, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(StackTrace, __construct,       ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(StackTrace, getFrames,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackTrace, getFrame,          ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackTrace, getFrameCount,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackTrace, currentStackTrace, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
         PHP_FE_END
 };

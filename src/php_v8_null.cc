@@ -43,16 +43,16 @@ static PHP_METHOD(NullValue, value) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_null___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_null_value, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_value, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_null_methods[] = {
-        PHP_ME(NullValue, __construct, arginfo_null___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_ME(NullValue, value, arginfo_null_value, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(NullValue, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(NullValue, value,       ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
 

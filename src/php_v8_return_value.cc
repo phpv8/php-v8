@@ -355,55 +355,56 @@ static PHP_METHOD(ReturnValue, inContext) {
     RETURN_BOOL(PHP_V8_RETURN_VALUE_IN_CONTEXT(php_v8_return_value));
 }
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_get, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_return_value_set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_return_value_setNull, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setNull, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_return_value_setUndefined, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setUndefined, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_return_value_setEmptyString, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setEmptyString, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_return_value_setBool, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setBool, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, value, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_return_value_setInteger, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setInteger, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, i, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_return_value_setFloat, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setFloat, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, i, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_return_value_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_return_value_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_return_value_inContext, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_inContext, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_return_value_methods[] = {
-        PHP_ME(ReturnValue, get, arginfo_return_value_set, ZEND_ACC_PUBLIC)
-        PHP_ME(ReturnValue, set, arginfo_return_value_set, ZEND_ACC_PUBLIC)
-        PHP_ME(ReturnValue, setNull, arginfo_return_value_setNull, ZEND_ACC_PUBLIC)
-        PHP_ME(ReturnValue, setUndefined, arginfo_return_value_setUndefined, ZEND_ACC_PUBLIC)
-        PHP_ME(ReturnValue, setEmptyString, arginfo_return_value_setEmptyString, ZEND_ACC_PUBLIC)
-        PHP_ME(ReturnValue, setBool, arginfo_return_value_setBool, ZEND_ACC_PUBLIC)
-        PHP_ME(ReturnValue, setInteger, arginfo_return_value_setInteger, ZEND_ACC_PUBLIC)
-        PHP_ME(ReturnValue, setFloat, arginfo_return_value_setFloat, ZEND_ACC_PUBLIC)
-
-        PHP_ME(ReturnValue, getIsolate, arginfo_return_value_getIsolate, ZEND_ACC_PUBLIC)
-        PHP_ME(ReturnValue, getContext, arginfo_return_value_getContext, ZEND_ACC_PUBLIC)
-        PHP_ME(ReturnValue, inContext, arginfo_return_value_inContext, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, get,            ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, set,            ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, setNull,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, setUndefined,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, setEmptyString, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, setBool,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, setInteger,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, setFloat,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, getIsolate,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, getContext,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ReturnValue, inContext,      ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

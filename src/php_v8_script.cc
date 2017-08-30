@@ -203,33 +203,32 @@ static PHP_METHOD(Script, getUnboundScript)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_script___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
     ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
     ZEND_ARG_OBJ_INFO(0, source, V8\\StringValue, 0)
     ZEND_ARG_OBJ_INFO(0, origin, V8\\ScriptOrigin, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_run, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_run, ZEND_RETURN_VALUE, 1, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_getUnboundScript, ZEND_RETURN_VALUE, 0, V8\\UnboundScript, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getUnboundScript, ZEND_RETURN_VALUE, 0, V8\\UnboundScript, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_script_methods[] = {
-    PHP_ME(Script, __construct, arginfo_script___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(Script, getIsolate, arginfo_script_getIsolate, ZEND_ACC_PUBLIC)
-    PHP_ME(Script, getContext, arginfo_script_getContext, ZEND_ACC_PUBLIC)
-
-    PHP_ME(Script, run, arginfo_script_run, ZEND_ACC_PUBLIC)
-    PHP_ME(Script, getUnboundScript, arginfo_script_getUnboundScript, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Script, __construct,      ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_V8_ME(Script, getIsolate,       ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Script, getContext,       ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Script, run,              ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Script, getUnboundScript, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

@@ -58,19 +58,18 @@ static PHP_METHOD(BooleanObject, valueOf) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_boolean_object___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, value, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_boolean_object_valueOf, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_valueOf, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_boolean_object_methods[] = {
-        PHP_ME(BooleanObject, __construct, arginfo_boolean_object___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(BooleanObject, valueOf, arginfo_boolean_object_valueOf, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(BooleanObject, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(BooleanObject, valueOf,     ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

@@ -262,63 +262,63 @@ static PHP_METHOD(Context, setErrorMessageForCodeGenerationFromStrings)
     context->SetErrorMessageForCodeGenerationFromStrings(local_string);
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_context___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_OBJ_INFO(0, global_template, V8\\ObjectTemplate, 1)
     ZEND_ARG_OBJ_INFO(0, global_object, V8\\ObjectValue, 1)
 ZEND_END_ARG_INFO()
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_context_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_context_globalObject, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
-ZEND_END_ARG_INFO()
-
-// void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_context_detachGlobal, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_globalObject, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_context_setSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_detachGlobal, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_END_ARG_INFO()
+
+// void method
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
     ZEND_ARG_OBJ_INFO(0, token, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_context_useDefaultSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_useDefaultSecurityToken, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_context_getSecurityToken, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getSecurityToken, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_context_allowCodeGenerationFromStrings, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_allowCodeGenerationFromStrings, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, allow, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_context_isCodeGenerationFromStringsAllowed, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isCodeGenerationFromStringsAllowed, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_context_setErrorMessageForCodeGenerationFromStrings, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setErrorMessageForCodeGenerationFromStrings, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_context_methods[] = {
-    PHP_ME(Context, __construct, arginfo_context___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(Context, getIsolate, arginfo_context_getIsolate, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Context, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_V8_ME(Context, getIsolate,  ZEND_ACC_PUBLIC)
 
-    PHP_ME(Context, globalObject, arginfo_context_globalObject, ZEND_ACC_PUBLIC)
-    PHP_ME(Context, detachGlobal, arginfo_context_detachGlobal, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Context, globalObject, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Context, detachGlobal, ZEND_ACC_PUBLIC)
 
-    PHP_ME(Context, setSecurityToken, arginfo_context_setSecurityToken, ZEND_ACC_PUBLIC)
-    PHP_ME(Context, useDefaultSecurityToken, arginfo_context_useDefaultSecurityToken, ZEND_ACC_PUBLIC)
-    PHP_ME(Context, getSecurityToken, arginfo_context_getSecurityToken, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Context, setSecurityToken,        ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Context, useDefaultSecurityToken, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Context, getSecurityToken,        ZEND_ACC_PUBLIC)
 
-    PHP_ME(Context, allowCodeGenerationFromStrings, arginfo_context_allowCodeGenerationFromStrings, ZEND_ACC_PUBLIC)
-    PHP_ME(Context, isCodeGenerationFromStringsAllowed, arginfo_context_isCodeGenerationFromStringsAllowed, ZEND_ACC_PUBLIC)
-    PHP_ME(Context, setErrorMessageForCodeGenerationFromStrings, arginfo_context_setErrorMessageForCodeGenerationFromStrings, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Context, allowCodeGenerationFromStrings,              ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Context, isCodeGenerationFromStringsAllowed,          ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Context, setErrorMessageForCodeGenerationFromStrings, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

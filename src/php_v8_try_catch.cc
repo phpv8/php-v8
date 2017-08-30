@@ -228,7 +228,7 @@ static PHP_METHOD(TryCatch, getExternalException)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_try_catch___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, exception, V8\\Value, 1)
@@ -239,45 +239,42 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_try_catch___construct, ZEND_SEND_BY_VAL, ZEND_RET
                 ZEND_ARG_OBJ_INFO(0, external_exception, Throwable, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_try_catch_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_try_catch_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_try_catch_exception, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_exception, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_try_catch_stackTrace, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_stackTrace, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_try_catch_message, ZEND_RETURN_VALUE, 0, V8\\Message, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_message, ZEND_RETURN_VALUE, 0, V8\\Message, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_try_catch_canContinue, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_canContinue, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_try_catch_hasTerminated, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_hasTerminated, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_try_catch_getExternalException, ZEND_RETURN_VALUE, 0, Throwable, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getExternalException, ZEND_RETURN_VALUE, 0, Throwable, 1)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_try_catch_methods[] = {
-        PHP_ME(TryCatch, __construct,     arginfo_try_catch___construct,     ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(TryCatch, __construct,   ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(TryCatch, getIsolate,    ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, getContext,    ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, exception,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, stackTrace,    ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, message,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, canContinue,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, hasTerminated, ZEND_ACC_PUBLIC)
 
-        PHP_ME(TryCatch, getIsolate,      arginfo_try_catch_getIsolate,    ZEND_ACC_PUBLIC)
-        PHP_ME(TryCatch, getContext,      arginfo_try_catch_getContext,    ZEND_ACC_PUBLIC)
-
-        PHP_ME(TryCatch, exception,       arginfo_try_catch_exception,     ZEND_ACC_PUBLIC)
-        PHP_ME(TryCatch, stackTrace,      arginfo_try_catch_stackTrace,    ZEND_ACC_PUBLIC)
-        PHP_ME(TryCatch, message,         arginfo_try_catch_message,       ZEND_ACC_PUBLIC)
-
-        PHP_ME(TryCatch, canContinue,     arginfo_try_catch_canContinue,   ZEND_ACC_PUBLIC)
-        PHP_ME(TryCatch, hasTerminated,   arginfo_try_catch_hasTerminated, ZEND_ACC_PUBLIC)
-
-        PHP_ME(TryCatch, getExternalException, arginfo_try_catch_getExternalException, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, getExternalException, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

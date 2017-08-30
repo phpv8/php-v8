@@ -62,19 +62,18 @@ static PHP_METHOD(StringObject, valueOf) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_string_object___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_string_object_valueOf, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_valueOf, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_string_object_methods[] = {
-        PHP_ME(StringObject, __construct, arginfo_string_object___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(StringObject, valueOf, arginfo_string_object_valueOf, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StringObject, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(StringObject, valueOf,     ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

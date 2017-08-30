@@ -291,16 +291,16 @@ void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> lo
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_template_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_template_set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Data, 0)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_template_setAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, getter, V8\\FunctionTemplate, 0)
                 ZEND_ARG_OBJ_INFO(0, setter, V8\\FunctionTemplate, 0)
@@ -308,7 +308,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_template_setAccessorProperty, ZEND_SEND_BY
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_template_setNativeDataProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setNativeDataProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
@@ -318,10 +318,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_php_v8_template_setNativeDataProperty, ZEND_SEND_
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_template_methods[] = {
-        PHP_ABSTRACT_ME(Template, getIsolate, arginfo_template_getIsolate)
-        PHP_ABSTRACT_ME(Template, set, arginfo_php_v8_template_set)
-        PHP_ABSTRACT_ME(Template, setAccessorProperty, arginfo_php_v8_template_setAccessorProperty)
-        PHP_ABSTRACT_ME(Template, setNativeDataProperty, arginfo_php_v8_template_setNativeDataProperty)
+        PHP_V8_ABSTRACT_ME(Template, getIsolate)
+        PHP_V8_ABSTRACT_ME(Template, set)
+        PHP_V8_ABSTRACT_ME(Template, setAccessorProperty)
+        PHP_V8_ABSTRACT_ME(Template, setNativeDataProperty)
 
         PHP_FE_END
 };

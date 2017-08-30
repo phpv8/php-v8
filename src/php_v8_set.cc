@@ -184,46 +184,43 @@ static PHP_METHOD(Set, asArray) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_set___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_set_clear, ZEND_RETURN_VALUE, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_clear, ZEND_RETURN_VALUE, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_set_add, ZEND_RETURN_VALUE, 3, V8\\SetObject, 0)
-                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_has, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_add, ZEND_RETURN_VALUE, 3, V8\\SetObject, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_has, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_set_asArray, ZEND_RETURN_VALUE, 0, V8\\ArrayObject, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_asArray, ZEND_RETURN_VALUE, 0, V8\\ArrayObject, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_set_methods[] = {
-        PHP_ME(Set, __construct, arginfo_set___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(Set, size,     arginfo_set_size,    ZEND_ACC_PUBLIC)
-        PHP_ME(Set, clear,    arginfo_set_clear,   ZEND_ACC_PUBLIC)
-
-        PHP_ME(Set, add,      arginfo_set_add,     ZEND_ACC_PUBLIC)
-        PHP_ME(Set, has,      arginfo_set_has,     ZEND_ACC_PUBLIC)
-        PHP_ME(Set, delete,   arginfo_set_delete,  ZEND_ACC_PUBLIC)
-
-        PHP_ME(Set, asArray,  arginfo_set_asArray,  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Set, size,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, clear,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, add,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, has,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, delete,      ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, asArray,     ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

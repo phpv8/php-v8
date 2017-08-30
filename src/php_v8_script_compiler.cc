@@ -253,22 +253,22 @@ static PHP_METHOD(ScriptCompiler, compileFunctionInContext)
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_script_compiler_cachedDataVersionTag, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_cachedDataVersionTag, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_compiler_compileUnboundScript, ZEND_RETURN_VALUE, 2, V8\\UnboundScript, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_compileUnboundScript, ZEND_RETURN_VALUE, 2, V8\\UnboundScript, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, source, V8\\ScriptCompiler\\Source, 0)
                 ZEND_ARG_TYPE_INFO(0, options, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_compiler_compile, ZEND_RETURN_VALUE, 2, V8\\Script, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_compile, ZEND_RETURN_VALUE, 2, V8\\Script, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, source, V8\\ScriptCompiler\\Source, 0)
                 ZEND_ARG_TYPE_INFO(0, options, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_compiler_compileFunctionInContext, ZEND_RETURN_VALUE, 2, V8\\FunctionObject, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_compileFunctionInContext, ZEND_RETURN_VALUE, 2, V8\\FunctionObject, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, source, V8\\ScriptCompiler\\Source, 0)
                 ZEND_ARG_TYPE_INFO(0, arguments, IS_ARRAY, 0)
@@ -277,10 +277,10 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_script_compiler_methods[] = {
-    PHP_ME(ScriptCompiler, cachedDataVersionTag,      arginfo_script_compiler_cachedDataVersionTag,        ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(ScriptCompiler, compileUnboundScript,      arginfo_script_compiler_compileUnboundScript,        ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(ScriptCompiler, compile,                   arginfo_script_compiler_compile,                     ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(ScriptCompiler, compileFunctionInContext,  arginfo_script_compiler_compileFunctionInContext,    ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(ScriptCompiler, cachedDataVersionTag,     ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(ScriptCompiler, compileUnboundScript,     ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(ScriptCompiler, compile,                  ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(ScriptCompiler, compileFunctionInContext, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
     PHP_FE_END
 };

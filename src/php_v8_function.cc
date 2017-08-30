@@ -574,65 +574,63 @@ static PHP_METHOD(Function, getScriptOrigin) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_function___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_CALLABLE_INFO(0, callback, 0)
                 ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_function_newInstance, ZEND_RETURN_VALUE, 1, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_newInstance, ZEND_RETURN_VALUE, 1, V8\\ObjectValue, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_function_call, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_call, ZEND_RETURN_VALUE, 2, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, recv, V8\\Value, 0)
                 ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_function_setName, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setName, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_function_getName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_function_getInferredName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getInferredName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_function_getDisplayName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
-ZEND_END_ARG_INFO()
-
-// long or null
-ZEND_BEGIN_ARG_INFO_EX(arginfo_function_getScriptLineNumber, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getDisplayName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
 // long or null
-ZEND_BEGIN_ARG_INFO_EX(arginfo_function_getScriptColumnNumber, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_getScriptLineNumber, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_function_getBoundFunction, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+// long or null
+ZEND_BEGIN_ARG_INFO_EX(arginfo_getScriptColumnNumber, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_function_getScriptOrigin, ZEND_RETURN_VALUE, 0, V8\\ScriptOrigin, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getBoundFunction, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getScriptOrigin, ZEND_RETURN_VALUE, 0, V8\\ScriptOrigin, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_object_methods[] = {
-        PHP_ME(Function, __construct, arginfo_function___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_ME(Function, newInstance, arginfo_function_newInstance, ZEND_ACC_PUBLIC)
-        PHP_ME(Function, call, arginfo_function_call, ZEND_ACC_PUBLIC)
-        PHP_ME(Function, setName, arginfo_function_setName, ZEND_ACC_PUBLIC)
-        PHP_ME(Function, getName, arginfo_function_getName, ZEND_ACC_PUBLIC)
-        PHP_ME(Function, getInferredName, arginfo_function_getInferredName, ZEND_ACC_PUBLIC)
-        PHP_ME(Function, getDisplayName, arginfo_function_getDisplayName, ZEND_ACC_PUBLIC)
-
-        PHP_ME(Function, getScriptLineNumber, arginfo_function_getScriptLineNumber, ZEND_ACC_PUBLIC)
-        PHP_ME(Function, getScriptColumnNumber, arginfo_function_getScriptColumnNumber, ZEND_ACC_PUBLIC)
-
-        PHP_ME(Function, getBoundFunction, arginfo_function_getBoundFunction, ZEND_ACC_PUBLIC)
-        PHP_ME(Function, getScriptOrigin, arginfo_function_getScriptOrigin, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, __construct,           ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Function, newInstance,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, call,                  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, setName,               ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, getName,               ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, getInferredName,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, getDisplayName,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, getScriptLineNumber,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, getScriptColumnNumber, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, getBoundFunction,      ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, getScriptOrigin,       ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

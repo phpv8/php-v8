@@ -255,7 +255,7 @@ static PHP_METHOD(ScriptOrigin, options) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_script_origin___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, resource_name, IS_STRING, 0)
                 ZEND_ARG_TYPE_INFO(0, resource_line_offset, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, resource_column_offset, IS_LONG, 0)
@@ -265,34 +265,33 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_script_origin___construct, ZEND_SEND_BY_VAL, ZEND
                 ZEND_ARG_TYPE_INFO(0, resource_is_opaque, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_script_origin_resourceName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_script_origin_resourceLineOffset, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceLineOffset, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_script_origin_resourceColumnOffset, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceColumnOffset, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_script_origin_scriptID, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_scriptID, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_script_origin_sourceMapUrl, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_sourceMapUrl, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_script_origin_options, ZEND_RETURN_VALUE, 0, V8\\ScriptOriginOptions, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_options, ZEND_RETURN_VALUE, 0, V8\\ScriptOriginOptions, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_script_origin_methods[] = {
-        PHP_ME(ScriptOrigin, __construct, arginfo_script_origin___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(ScriptOrigin, resourceName, arginfo_script_origin_resourceName, ZEND_ACC_PUBLIC)
-        PHP_ME(ScriptOrigin, resourceLineOffset, arginfo_script_origin_resourceLineOffset, ZEND_ACC_PUBLIC)
-        PHP_ME(ScriptOrigin, resourceColumnOffset, arginfo_script_origin_resourceColumnOffset, ZEND_ACC_PUBLIC)
-        PHP_ME(ScriptOrigin, scriptID, arginfo_script_origin_scriptID, ZEND_ACC_PUBLIC)
-        PHP_ME(ScriptOrigin, sourceMapUrl, arginfo_script_origin_sourceMapUrl, ZEND_ACC_PUBLIC)
-        PHP_ME(ScriptOrigin, options, arginfo_script_origin_options, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOrigin, __construct,          ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(ScriptOrigin, resourceName,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOrigin, resourceLineOffset,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOrigin, resourceColumnOffset, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOrigin, scriptID,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOrigin, sourceMapUrl,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOrigin, options,              ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

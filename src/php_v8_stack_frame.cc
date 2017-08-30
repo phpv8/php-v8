@@ -187,7 +187,7 @@ static PHP_METHOD(StackFrame, isConstructor) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_constructor"), 0, &rv), 1, 0);
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_stack_frame___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
                 ZEND_ARG_TYPE_INFO(0, line_number, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, column, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, script_id, IS_LONG, 0)
@@ -198,44 +198,41 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_stack_frame___construct, ZEND_SEND_BY_VAL, ZEND_R
                 ZEND_ARG_TYPE_INFO(0, is_constructor, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_frame_getLineNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getLineNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_frame_getColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_frame_getScriptId, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getScriptId, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_frame_getScriptName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getScriptName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_frame_getScriptNameOrSourceURL, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getScriptNameOrSourceURL, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_frame_getFunctionName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getFunctionName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_frame_isEval, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isEval, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_stack_frame_isConstructor, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isConstructor, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_stack_frame_methods[] = {
-        PHP_ME(StackFrame, __construct, arginfo_stack_frame___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(StackFrame, getLineNumber, arginfo_stack_frame_getLineNumber, ZEND_ACC_PUBLIC)
-        PHP_ME(StackFrame, getColumn, arginfo_stack_frame_getColumn, ZEND_ACC_PUBLIC)
-        PHP_ME(StackFrame, getScriptId, arginfo_stack_frame_getScriptId, ZEND_ACC_PUBLIC)
-
-        PHP_ME(StackFrame, getScriptName, arginfo_stack_frame_getScriptName, ZEND_ACC_PUBLIC)
-        PHP_ME(StackFrame, getScriptNameOrSourceURL, arginfo_stack_frame_getScriptNameOrSourceURL, ZEND_ACC_PUBLIC)
-        PHP_ME(StackFrame, getFunctionName, arginfo_stack_frame_getFunctionName, ZEND_ACC_PUBLIC)
-
-        PHP_ME(StackFrame, isEval, arginfo_stack_frame_isEval, ZEND_ACC_PUBLIC)
-        PHP_ME(StackFrame, isConstructor, arginfo_stack_frame_isConstructor, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackFrame, __construct,              ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(StackFrame, getLineNumber,            ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackFrame, getColumn,                ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackFrame, getScriptId,              ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackFrame, getScriptName,            ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackFrame, getScriptNameOrSourceURL, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackFrame, getFunctionName,          ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackFrame, isEval,                   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackFrame, isConstructor,            ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

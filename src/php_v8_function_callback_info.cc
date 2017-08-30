@@ -136,24 +136,24 @@ static PHP_METHOD(FunctionCallbackInfo, isConstructCall) {
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_function_callback_info_length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_function_callback_info_arguments, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_arguments, ZEND_RETURN_VALUE, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_function_callback_info_newTarget, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_newTarget, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_function_callback_info_isConstructCall, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isConstructCall, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_function_callback_info_methods[] = {
-        PHP_ME(FunctionCallbackInfo, length, arginfo_function_callback_info_length, ZEND_ACC_PUBLIC)
-        PHP_ME(FunctionCallbackInfo, arguments, arginfo_function_callback_info_arguments, ZEND_ACC_PUBLIC)
-        PHP_ME(FunctionCallbackInfo, newTarget, arginfo_function_callback_info_newTarget, ZEND_ACC_PUBLIC)
-        PHP_ME(FunctionCallbackInfo, isConstructCall, arginfo_function_callback_info_isConstructCall, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionCallbackInfo, length,          ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionCallbackInfo, arguments,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionCallbackInfo, newTarget,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionCallbackInfo, isConstructCall, ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
 
@@ -163,8 +163,8 @@ PHP_MINIT_FUNCTION(php_v8_function_callback_info) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "FunctionCallbackInfo", php_v8_function_callback_info_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_callback_info_class_entry);
 
-    zend_declare_property_null(this_ce, ZEND_STRL("arguments"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("new_target"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("arguments"),           ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("new_target"),          ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("is_constructor_call"), ZEND_ACC_PRIVATE);
 
     return SUCCESS;

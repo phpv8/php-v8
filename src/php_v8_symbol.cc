@@ -172,23 +172,23 @@ static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(Symbol, ToStringTag);
 static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(Symbol, Unscopables);
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_symbol___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_symbol_value, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_value, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_symbol_name, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_name, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_symbol_for, ZEND_RETURN_VALUE, 2, V8\\SymbolValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_for, ZEND_RETURN_VALUE, 2, V8\\SymbolValue, 0)
     ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
     ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_symbol_forApi, ZEND_RETURN_VALUE, 2, V8\\SymbolValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_forApi, ZEND_RETURN_VALUE, 2, V8\\SymbolValue, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
@@ -199,39 +199,36 @@ ZEND_END_ARG_INFO()
     ZEND_END_ARG_INFO()                                                                                     \
 
 // Well-known symbols
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getHasInstance);
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getIsConcatSpreadable);
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getIterator);
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getMatch);
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getReplace);
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getSearch);
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getSplit);
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getToPrimitive);
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getToStringTag);
-PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_symbol_getUnscopables);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getHasInstance);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getIsConcatSpreadable);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getIterator);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getMatch);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getReplace);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getSearch);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getSplit);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getToPrimitive);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getToStringTag);
+PHP_V8_SYMBOL_WELL_KNOWN_ARGS(arginfo_getUnscopables);
 
 
 static const zend_function_entry php_v8_symbol_methods[] = {
-    PHP_ME(Symbol, __construct, arginfo_symbol___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-    PHP_ME(Symbol, value, arginfo_symbol_value, ZEND_ACC_PUBLIC)
-
-    PHP_ME(Symbol, name, arginfo_symbol_name, ZEND_ACC_PUBLIC)
-
-    PHP_ME(Symbol, for,       arginfo_symbol_for, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, forApi,    arginfo_symbol_forApi, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_V8_ME(Symbol, value,       ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Symbol, name,        ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Symbol, for,         ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, forApi,      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
     // Well-known symbols
-    PHP_ME(Symbol, getHasInstance,        arginfo_symbol_getHasInstance,           ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, getIsConcatSpreadable, arginfo_symbol_getIsConcatSpreadable,    ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, getIterator,           arginfo_symbol_getIterator,              ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, getMatch,              arginfo_symbol_getMatch,                 ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, getReplace,            arginfo_symbol_getReplace,               ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, getSearch,             arginfo_symbol_getSearch,                ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, getSplit,              arginfo_symbol_getSplit,                 ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, getToPrimitive,        arginfo_symbol_getToPrimitive,           ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, getToStringTag,        arginfo_symbol_getToStringTag,           ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(Symbol, getUnscopables,        arginfo_symbol_getUnscopables,           ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getHasInstance,        ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getIsConcatSpreadable, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getIterator,           ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getMatch,              ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getReplace,            ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getSearch,             ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getSplit,              ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getToPrimitive,        ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getToStringTag,        ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(Symbol, getUnscopables,        ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
     PHP_FE_END
 };

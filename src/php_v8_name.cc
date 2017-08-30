@@ -42,12 +42,12 @@ static PHP_METHOD(Name, getIdentityHash)
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_name_getIdentityHash, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getIdentityHash, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_name_methods[] = {
-    PHP_ME(Name, getIdentityHash, arginfo_name_getIdentityHash, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Name, getIdentityHash, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

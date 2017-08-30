@@ -72,26 +72,25 @@ static PHP_METHOD(Date, dateTimeConfigurationChangeNotification) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_date___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, time, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_date_valueOf, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_valueOf, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_date_dateTimeConfigurationChangeNotification, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_dateTimeConfigurationChangeNotification, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\isolate, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_date_methods[] = {
-        PHP_ME(Date, __construct, arginfo_date___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Date, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Date, valueOf,     ZEND_ACC_PUBLIC)
 
-        PHP_ME(Date, valueOf, arginfo_date_valueOf, ZEND_ACC_PUBLIC)
-
-        PHP_ME(Date, dateTimeConfigurationChangeNotification, arginfo_date_dateTimeConfigurationChangeNotification, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(Date, dateTimeConfigurationChangeNotification, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
         PHP_FE_END
 };

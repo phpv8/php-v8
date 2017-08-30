@@ -123,7 +123,7 @@ static PHP_METHOD(NamedPropertyHandlerConfiguration, __construct) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(php_v8_named_property_handler_configuration___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_INFO(0, getter)
                 ZEND_ARG_INFO(0, setter)
                 ZEND_ARG_INFO(0, query)
@@ -134,7 +134,7 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_named_property_handler_configuration_methods[] = {
-        PHP_ME(NamedPropertyHandlerConfiguration, __construct, php_v8_named_property_handler_configuration___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(NamedPropertyHandlerConfiguration, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
         PHP_FE_END
 };

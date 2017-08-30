@@ -277,7 +277,7 @@ static PHP_METHOD(Message, isOpaque)
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_opaque"), 0, &rv), 1, 0);
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_message___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 5)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 5)
                 ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
                 ZEND_ARG_TYPE_INFO(0, source_line, IS_STRING, 0)
                 ZEND_ARG_OBJ_INFO(0, script_origin, V8\\ScriptOrigin, 0)
@@ -292,62 +292,57 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_message___construct, ZEND_SEND_BY_VAL, ZEND_RETUR
                 ZEND_ARG_TYPE_INFO(0, is_opaque, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_get, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_get, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_getSourceLine, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getSourceLine, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_message_getScriptOrigin, ZEND_RETURN_VALUE, 0, V8\\ScriptOrigin, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getScriptOrigin, ZEND_RETURN_VALUE, 0, V8\\ScriptOrigin, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_getScriptResourceName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getScriptResourceName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_message_getStackTrace, ZEND_RETURN_VALUE, 0, V8\\StackTrace, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getStackTrace, ZEND_RETURN_VALUE, 0, V8\\StackTrace, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_getLineNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getLineNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_getStartPosition, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getStartPosition, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_getEndPosition, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getEndPosition, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_getStartColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getStartColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_getEndColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getEndColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_isSharedCrossOrigin, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isSharedCrossOrigin, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_message_isOpaque, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isOpaque, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_message_methods[] = {
-        PHP_ME(Message, __construct, arginfo_message___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(Message, get, arginfo_message_get, ZEND_ACC_PUBLIC)
-        PHP_ME(Message, getSourceLine, arginfo_message_getSourceLine, ZEND_ACC_PUBLIC)
-        PHP_ME(Message, getScriptOrigin, arginfo_message_getScriptOrigin, ZEND_ACC_PUBLIC)
-        PHP_ME(Message, getScriptResourceName, arginfo_message_getScriptResourceName, ZEND_ACC_PUBLIC)
-
-        PHP_ME(Message, getStackTrace, arginfo_message_getStackTrace, ZEND_ACC_PUBLIC)
-
-        PHP_ME(Message, getLineNumber, arginfo_message_getLineNumber, ZEND_ACC_PUBLIC)
-        PHP_ME(Message, getStartPosition, arginfo_message_getStartPosition, ZEND_ACC_PUBLIC)
-        PHP_ME(Message, getEndPosition, arginfo_message_getEndPosition, ZEND_ACC_PUBLIC)
-
-        PHP_ME(Message, getStartColumn, arginfo_message_getStartColumn, ZEND_ACC_PUBLIC)
-        PHP_ME(Message, getEndColumn, arginfo_message_getEndColumn, ZEND_ACC_PUBLIC)
-
-        PHP_ME(Message, isSharedCrossOrigin, arginfo_message_isSharedCrossOrigin, ZEND_ACC_PUBLIC)
-        PHP_ME(Message, isOpaque, arginfo_message_isOpaque, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, __construct,           ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Message, get,                   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getSourceLine,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getScriptOrigin,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getScriptResourceName, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getStackTrace,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getLineNumber,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getStartPosition,      ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getEndPosition,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getStartColumn,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getEndColumn,          ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, isSharedCrossOrigin,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, isOpaque,              ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

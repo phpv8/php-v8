@@ -82,24 +82,23 @@ static PHP_METHOD(RegExp, getFlags) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_regexp___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\StringValue, 0)
                 ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_regexp_getSource, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getSource, ZEND_RETURN_VALUE, 0, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_regexp_getFlags, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getFlags, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_regexp_methods[] = {
-        PHP_ME(RegExp, __construct, arginfo_regexp___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(RegExp, getSource, arginfo_regexp_getSource, ZEND_ACC_PUBLIC)
-        PHP_ME(RegExp, getFlags, arginfo_regexp_getFlags, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(RegExp, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(RegExp, getSource,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(RegExp, getFlags,    ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };
@@ -117,12 +116,12 @@ PHP_MINIT_FUNCTION(php_v8_regexp) {
     INIT_NS_CLASS_ENTRY(ce, "V8\\RegExpObject", "Flags", php_v8_regexp_flags_methods);
     php_v8_regexp_flags_class_entry = zend_register_internal_class(&ce);
 
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kNone"), v8::RegExp::Flags::kNone);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kGlobal"), v8::RegExp::Flags::kGlobal);
+    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kNone"),       v8::RegExp::Flags::kNone);
+    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kGlobal"),     v8::RegExp::Flags::kGlobal);
     zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kIgnoreCase"), v8::RegExp::Flags::kIgnoreCase);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kMultiline"), v8::RegExp::Flags::kMultiline);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kSticky"), v8::RegExp::Flags::kSticky);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kUnicode"), v8::RegExp::Flags::kUnicode);
+    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kMultiline"),  v8::RegExp::Flags::kMultiline);
+    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kSticky"),     v8::RegExp::Flags::kSticky);
+    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kUnicode"),    v8::RegExp::Flags::kUnicode);
 
     return SUCCESS;
 }

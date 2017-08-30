@@ -141,28 +141,26 @@ static PHP_METHOD(StartupData, createFromSource) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_startup_data___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, blob, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_startup_data_getData, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getData, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_startup_data_getRawSize, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getRawSize, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_startup_data_createFromSource, ZEND_RETURN_VALUE, 1, V8\\StartupData, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_createFromSource, ZEND_RETURN_VALUE, 1, V8\\StartupData, 0)
                 ZEND_ARG_TYPE_INFO(0, source, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_startup_data_methods[] = {
-        PHP_ME(StartupData, __construct, arginfo_startup_data___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(StartupData, getData, arginfo_startup_data_getData, ZEND_ACC_PUBLIC)
-        PHP_ME(StartupData, getRawSize, arginfo_startup_data_getRawSize, ZEND_ACC_PUBLIC)
-
-        PHP_ME(StartupData, createFromSource, arginfo_startup_data_createFromSource, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(StartupData, __construct,      ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(StartupData, getData,          ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StartupData, getRawSize,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StartupData, createFromSource, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
         PHP_FE_END
 };
