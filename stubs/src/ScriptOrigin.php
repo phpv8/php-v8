@@ -79,32 +79,32 @@ class ScriptOrigin
         $this->source_map_url = $source_map_url;
     }
 
-    public function ResourceName(): string
+    public function resourceName(): string
     {
         return $this->resource_name;
     }
 
-    public function ResourceLineOffset(): int
+    public function resourceLineOffset(): int
     {
         return $this->resource_line_offset;
     }
 
-    public function ResourceColumnOffset(): int
+    public function resourceColumnOffset(): int
     {
         return $this->resource_column_offset;
     }
 
-    public function ScriptID(): int
+    public function scriptId(): int
     {
         return $this->script_id;
     }
 
-    public function SourceMapUrl(): string
+    public function sourceMapUrl(): string
     {
         return $this->source_map_url;
     }
 
-    public function Options(): ScriptOriginOptions
+    public function options(): ScriptOriginOptions
     {
         return $this->options;
     }

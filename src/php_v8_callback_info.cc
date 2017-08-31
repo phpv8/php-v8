@@ -26,7 +26,7 @@ zend_class_entry *php_v8_callback_info_class_entry;
 static zend_object_handlers php_v8_callback_info_object_handlers;
 
 
-static PHP_METHOD(V8CallbackInfo, GetIsolate) {
+static PHP_METHOD(CallbackInfo, getIsolate) {
     zval rv;
     zval *tmp;
 
@@ -38,7 +38,7 @@ static PHP_METHOD(V8CallbackInfo, GetIsolate) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(V8CallbackInfo, GetContext) {
+static PHP_METHOD(CallbackInfo, getContext) {
     zval rv;
     zval *tmp;
 
@@ -50,7 +50,7 @@ static PHP_METHOD(V8CallbackInfo, GetContext) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(V8CallbackInfo, This) {
+static PHP_METHOD(CallbackInfo, this) {
     zval rv;
     zval *tmp;
 
@@ -62,7 +62,7 @@ static PHP_METHOD(V8CallbackInfo, This) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(V8CallbackInfo, Holder) {
+static PHP_METHOD(CallbackInfo, holder) {
     zval rv;
     zval *tmp;
 
@@ -74,7 +74,7 @@ static PHP_METHOD(V8CallbackInfo, Holder) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(V8CallbackInfo, GetReturnValue) {
+static PHP_METHOD(CallbackInfo, getReturnValue) {
     zval rv;
     zval *tmp;
 
@@ -86,27 +86,27 @@ static PHP_METHOD(V8CallbackInfo, GetReturnValue) {
     ZVAL_COPY(return_value, tmp);
 }
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_callback_info_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_callback_info_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_callback_info_This, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_this, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_callback_info_Holder, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_holder, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_callback_info_GetReturnValue, ZEND_RETURN_VALUE, 0, V8\\ReturnValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getReturnValue, ZEND_RETURN_VALUE, 0, V8\\ReturnValue, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_callback_info_methods[] = {
-        PHP_ME(V8CallbackInfo, This, arginfo_v8_callback_info_This, ZEND_ACC_PUBLIC)
-        PHP_ME(V8CallbackInfo, Holder, arginfo_v8_callback_info_Holder, ZEND_ACC_PUBLIC)
-        PHP_ME(V8CallbackInfo, GetIsolate, arginfo_v8_callback_info_GetIsolate, ZEND_ACC_PUBLIC)
-        PHP_ME(V8CallbackInfo, GetContext, arginfo_v8_callback_info_GetContext, ZEND_ACC_PUBLIC)
-        PHP_ME(V8CallbackInfo, GetReturnValue, arginfo_v8_callback_info_GetReturnValue, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, this,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, holder,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, getIsolate,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, getContext,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, getReturnValue, ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
 

@@ -19,7 +19,7 @@ $helper->space();
 
 $context = new \V8\Context($isolate);
 
-$helper->assert('Context should have no test data', $context->GlobalObject()->Has($context, new \V8\StringValue($isolate, 'test_snapshot')), false);
+$helper->assert('Context should have no test data', $context->globalObject()->has($context, new \V8\StringValue($isolate, 'test_snapshot')), false);
 
 $helper->line();
 
@@ -32,7 +32,7 @@ $helper->space();
 
 $source = 'function test_snapshot() { return "hello, world";}';
 
-$data = V8\StartupData::CreateFromSource($source);
+$data = V8\StartupData::createFromSource($source);
 
 $isolate = new \v8Tests\TrackingDtors\Isolate($data);
 
@@ -44,21 +44,21 @@ $helper->space();
 
 $context = new \V8\Context($isolate);
 
-$helper->assert('Context should have test function', $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'test_snapshot'))->IsFunction());
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test_snapshot'), new \V8\StringValue($isolate, 'garbage'));
+$helper->assert('Context should have test function', $context->globalObject()->get($context, new \V8\StringValue($isolate, 'test_snapshot'))->isFunction());
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test_snapshot'), new \V8\StringValue($isolate, 'garbage'));
 
 $context = new \V8\Context($isolate);
-$helper->assert('Contexts from the same snapshot doesn\'t affected by each other', $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'test_snapshot'))->IsFunction());
+$helper->assert('Contexts from the same snapshot doesn\'t affected by each other', $context->globalObject()->get($context, new \V8\StringValue($isolate, 'test_snapshot'))->isFunction());
 
 $isolate2 = new \v8Tests\TrackingDtors\Isolate($data);
 $context2 = new \V8\Context($isolate2);
-$helper->assert('Contexts between different isolates from the same snapshot doesn\'t affected by each other', $context2->GlobalObject()->Get($context2, new \V8\StringValue($isolate2, 'test_snapshot'))->IsFunction());
+$helper->assert('Contexts between different isolates from the same snapshot doesn\'t affected by each other', $context2->globalObject()->get($context2, new \V8\StringValue($isolate2, 'test_snapshot'))->isFunction());
 
 $isolate3 = new \v8Tests\TrackingDtors\Isolate($data);
 $data = null;
 
 $context3 = new \V8\Context($isolate3);
-$helper->assert('Deleting reference to snapshot is OK after creating Isolate instance', $context3->GlobalObject()->Get($context3, new \V8\StringValue($isolate3, 'test_snapshot'))->IsFunction());
+$helper->assert('Deleting reference to snapshot is OK after creating Isolate instance', $context3->globalObject()->get($context3, new \V8\StringValue($isolate3, 'test_snapshot'))->isFunction());
 $helper->line();
 
 $context = null;

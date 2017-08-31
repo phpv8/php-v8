@@ -18,7 +18,7 @@ $isolate = new \v8Tests\TrackingDtors\Isolate();
 
 
 $nested_try_catch_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use ($helper) {
-    $isolate = $args->GetIsolate();
+    $isolate = $args->getIsolate();
     $nested_context = new \V8\Context($isolate);
 
     $source = /** @lang JavaScript */
@@ -29,26 +29,26 @@ $nested_try_catch_func_tpl = new \v8Tests\TrackingDtors\FunctionTemplate($isolat
     $script = new v8Tests\TrackingDtors\Script($nested_context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
     try{
-      $script->Run($nested_context);
+      $script->run($nested_context);
     } catch (V8\Exceptions\TryCatchException $e) {
         $helper->exception_export($e);
         $helper->line();
 
-        $helper->assert('TryCatchException holds the same isolate it was thrown', $e->GetIsolate(), $isolate);
-        $helper->assert('TryCatchException holds the same context it was thrown', $e->GetContext(), $nested_context);
+        $helper->assert('TryCatchException holds the same isolate it was thrown', $e->getIsolate(), $isolate);
+        $helper->assert('TryCatchException holds the same context it was thrown', $e->getContext(), $nested_context);
 
-        $try_catch = $e->GetTryCatch();
+        $try_catch = $e->getTryCatch();
 
-        $helper->assert('TryCatch holds the same isolate it was thrown', $try_catch->GetIsolate(), $isolate);
-        $helper->assert('TryCatch holds the same context it was thrown', $try_catch->GetContext(), $nested_context);
+        $helper->assert('TryCatch holds the same isolate it was thrown', $try_catch->getIsolate(), $isolate);
+        $helper->assert('TryCatch holds the same context it was thrown', $try_catch->getContext(), $nested_context);
 
-        $helper->dump($e->GetTryCatch()->Message()->Get());
+        $helper->dump($e->getTryCatch()->message()->get());
         $helper->line();
     }
 });
 
 $global_object_tpl = new \v8Tests\TrackingDtors\ObjectTemplate($isolate);
-$global_object_tpl->Set(new \V8\StringValue($isolate, 'nested_throw'), $nested_try_catch_func_tpl);
+$global_object_tpl->set(new \V8\StringValue($isolate, 'nested_throw'), $nested_try_catch_func_tpl);
 $context = new v8Tests\TrackingDtors\Context($isolate, $global_object_tpl);
 
 $source = /** @lang JavaScript */
@@ -58,34 +58,34 @@ $file_name = 'test.js';
 $script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 try {
-    $res = $script->Run($context);
+    $res = $script->run($context);
 } catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();
 
-    $helper->assert('TryCatchException holds the same isolate it was thrown', $e->GetIsolate(), $script->GetIsolate());
-    $helper->assert('TryCatchException holds the same context it was thrown', $e->GetContext(), $script->GetContext());
+    $helper->assert('TryCatchException holds the same isolate it was thrown', $e->getIsolate(), $script->getIsolate());
+    $helper->assert('TryCatchException holds the same context it was thrown', $e->getContext(), $script->getContext());
 
-    $try_catch = $e->GetTryCatch();
-    $helper->assert('TryCatch holds the same isolate it was thrown', $try_catch->GetIsolate(), $script->GetIsolate());
-    $helper->assert('TryCatch holds the same context it was thrown', $try_catch->GetContext(), $script->GetContext());
+    $try_catch = $e->getTryCatch();
+    $helper->assert('TryCatch holds the same isolate it was thrown', $try_catch->getIsolate(), $script->getIsolate());
+    $helper->assert('TryCatch holds the same context it was thrown', $try_catch->getContext(), $script->getContext());
 
-    $helper->dump($e->GetTryCatch()->Message()->Get());
+    $helper->dump($e->getTryCatch()->message()->get());
 
     $helper->line();
-    $helper->assert('TryCatchException message has not stack trace', $e->GetTryCatch()->Message()->GetStackTrace() === null);
+    $helper->assert('TryCatchException message has not stack trace', $e->getTryCatch()->message()->getStackTrace() === null);
     $helper->line();
 }
 
-$isolate->SetCaptureStackTraceForUncaughtExceptions(true);
+$isolate->setCaptureStackTraceForUncaughtExceptions(true);
 
 try {
-    $res = $script->Run($context);
+    $res = $script->run($context);
 } catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();
 
-    $helper->assert('TryCatchException message has stack trace', $e->GetTryCatch()->Message()->GetStackTrace() instanceof \V8\StackTrace);
+    $helper->assert('TryCatchException message has stack trace', $e->getTryCatch()->message()->getStackTrace() instanceof \V8\StackTrace);
     $helper->line();
 }
 
@@ -101,19 +101,19 @@ $script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolat
 
 
 try {
-    $res = $script->Run($context);
+    $res = $script->run($context);
 } catch (V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
     $helper->line();
 
-    $helper->assert('TryCatchException holds the same isolate it was thrown', $e->GetIsolate(), $script->GetIsolate());
-    $helper->assert('TryCatchException holds the same context it was thrown', $e->GetContext(), $script->GetContext());
+    $helper->assert('TryCatchException holds the same isolate it was thrown', $e->getIsolate(), $script->getIsolate());
+    $helper->assert('TryCatchException holds the same context it was thrown', $e->getContext(), $script->getContext());
 
-    $try_catch = $e->GetTryCatch();
-    $helper->assert('TryCatch holds the same isolate it was thrown', $try_catch->GetIsolate(), $script->GetIsolate());
-    $helper->assert('TryCatch holds the same context it was thrown', $try_catch->GetContext(), $script->GetContext());
+    $try_catch = $e->getTryCatch();
+    $helper->assert('TryCatch holds the same isolate it was thrown', $try_catch->getIsolate(), $script->getIsolate());
+    $helper->assert('TryCatch holds the same context it was thrown', $try_catch->getContext(), $script->getContext());
 
-    $helper->dump($e->GetTryCatch()->Message()->Get());
+    $helper->dump($e->getTryCatch()->message()->get());
     $helper->line();
 }
 
@@ -124,10 +124,10 @@ try {
     $helper->exception_export($e);
     $helper->line();
 
-    $helper->assert('TryCatchException holds the same context it was thrown', $e->GetContext(), $context);
-    $helper->assert('TryCatchException holds the same isolate it was thrown', $e->GetIsolate(), $isolate);
+    $helper->assert('TryCatchException holds the same context it was thrown', $e->getContext(), $context);
+    $helper->assert('TryCatchException holds the same isolate it was thrown', $e->getIsolate(), $isolate);
 
-    $helper->dump($e->GetTryCatch()->Message()->Get());
+    $helper->dump($e->getTryCatch()->message()->get());
     $helper->line();
 }
 

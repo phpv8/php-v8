@@ -90,7 +90,7 @@ void php_v8_create_try_catch_exception(zval *return_value, php_v8_isolate_t *php
 }
 
 
-static PHP_METHOD(V8ExceptionsTryCatch, __construct)
+static PHP_METHOD(ExceptionsTryCatch, __construct)
 {
     zval rv;
 
@@ -120,7 +120,7 @@ static PHP_METHOD(V8ExceptionsTryCatch, __construct)
     PHP_V8_TRY_CATCH_EXCEPTION_STORE_TRY_CATCH(getThis(), try_catch_zv);
 }
 
-static PHP_METHOD(V8ExceptionsTryCatch, GetIsolate)
+static PHP_METHOD(ExceptionsTryCatch, getIsolate)
 {
     zval rv;
 
@@ -131,7 +131,7 @@ static PHP_METHOD(V8ExceptionsTryCatch, GetIsolate)
     RETVAL_ZVAL(PHP_V8_TRY_CATCH_EXCEPTION_READ_ISOLATE(getThis()), 1, 0);
 }
 
-static PHP_METHOD(V8ExceptionsTryCatch, GetContext)
+static PHP_METHOD(ExceptionsTryCatch, getContext)
 {
     zval rv;
 
@@ -142,7 +142,7 @@ static PHP_METHOD(V8ExceptionsTryCatch, GetContext)
     RETVAL_ZVAL(PHP_V8_TRY_CATCH_EXCEPTION_READ_CONTEXT(getThis()), 1, 0);
 }
 
-static PHP_METHOD(V8ExceptionsTryCatch, GetTryCatch)
+static PHP_METHOD(ExceptionsTryCatch, getTryCatch)
 {
     zval rv;
 
@@ -154,19 +154,19 @@ static PHP_METHOD(V8ExceptionsTryCatch, GetTryCatch)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_exceptions_try_catch___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 3)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
     ZEND_ARG_OBJ_INFO(0, try_catch, V8\\TryCatch, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_exceptions_try_catch_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_exceptions_try_catch_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_exceptions_try_catch_GetTryCatch, ZEND_RETURN_VALUE, 0, V8\\TryCatch, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getTryCatch, ZEND_RETURN_VALUE, 0, V8\\TryCatch, 0)
 ZEND_END_ARG_INFO()
 
 
@@ -176,11 +176,10 @@ static const zend_function_entry php_v8_exception_methods[] = {
 };
 
 static const zend_function_entry php_v8_try_catch_exception_methods[] = {
-        PHP_ME(V8ExceptionsTryCatch, __construct, arginfo_v8_exceptions_try_catch___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(V8ExceptionsTryCatch, GetIsolate, arginfo_v8_exceptions_try_catch_GetIsolate, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ExceptionsTryCatch, GetContext, arginfo_v8_exceptions_try_catch_GetContext, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ExceptionsTryCatch, GetTryCatch, arginfo_v8_exceptions_try_catch_GetTryCatch, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ExceptionsTryCatch, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(ExceptionsTryCatch, getIsolate,  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ExceptionsTryCatch, getContext,  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ExceptionsTryCatch, getTryCatch, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };
@@ -216,9 +215,9 @@ PHP_MINIT_FUNCTION(php_v8_exceptions) {
     INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "TryCatchException", php_v8_try_catch_exception_methods);
     php_v8_try_catch_exception_class_entry = zend_register_internal_class_ex(&ce, php_v8_generic_exception_class_entry);
 
-    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("isolate"),    ZEND_ACC_PRIVATE);
-    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("context"),    ZEND_ACC_PRIVATE);
-    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("try_catch"),    ZEND_ACC_PRIVATE);
+    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("isolate"),   ZEND_ACC_PRIVATE);
+    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("context"),   ZEND_ACC_PRIVATE);
+    zend_declare_property_null(php_v8_try_catch_exception_class_entry, ZEND_STRL("try_catch"), ZEND_ACC_PRIVATE);
 
 
     INIT_NS_CLASS_ENTRY(ce, "V8\\Exceptions", "TerminationException", php_v8_termination_exception_methods);

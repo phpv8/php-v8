@@ -91,18 +91,18 @@ void php_v8_ext_mem_interface_object_template_GetExternalAllocatedMemory(INTERNA
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_ext_mem_interface_AdjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_adjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_php_v8_ext_mem_interface_GetExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getExternalAllocatedMemory, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_ext_mem_interface_methods[] = {
-        PHP_ABSTRACT_ME(V8AdjustableExternalMemoryInterface, AdjustExternalAllocatedMemory, arginfo_php_v8_ext_mem_interface_AdjustExternalAllocatedMemory)
-        PHP_ABSTRACT_ME(V8AdjustableExternalMemoryInterface, GetExternalAllocatedMemory, arginfo_php_v8_ext_mem_interface_GetExternalAllocatedMemory)
+        PHP_V8_ABSTRACT_ME(AdjustableExternalMemoryInterface, adjustExternalAllocatedMemory)
+        PHP_V8_ABSTRACT_ME(AdjustableExternalMemoryInterface, getExternalAllocatedMemory)
 
         PHP_FE_END
 };

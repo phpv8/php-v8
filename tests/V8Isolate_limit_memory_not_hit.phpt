@@ -25,17 +25,17 @@ $file_name = 'test.js';
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 $memory_limit = 1024 * 1024 * 10;
-$helper->assert('Memory limit accessor report no hit', false === $isolate->IsMemoryLimitHit());
-$helper->assert('Get memory limit default value is zero', 0 === $isolate->GetMemoryLimit());
-$isolate->SetMemoryLimit($memory_limit);
-$helper->assert('Get memory limit returns valid value', $memory_limit === $isolate->GetMemoryLimit());
+$helper->assert('Memory limit accessor report no hit', false === $isolate->isMemoryLimitHit());
+$helper->assert('Get memory limit default value is zero', 0 === $isolate->getMemoryLimit());
+$isolate->setMemoryLimit($memory_limit);
+$helper->assert('Get memory limit returns valid value', $memory_limit === $isolate->getMemoryLimit());
 
 $helper->dump($isolate);
 $helper->line();
 
 $t = microtime(true);
 try {
-    $script->Run($context);
+    $script->run($context);
 } finally {
     $helper->line();
     $t = microtime(true) - $t;
@@ -43,8 +43,8 @@ try {
     $helper->assert('Script execution time is less than 0.5 sec', $t < 0.5);
 }
 
-$helper->assert('Get memory limit returns valid value', $memory_limit === $isolate->GetMemoryLimit());
-$helper->assert('Memory limit accessor report not hit', false === $isolate->IsMemoryLimitHit());
+$helper->assert('Get memory limit returns valid value', $memory_limit === $isolate->getMemoryLimit());
+$helper->assert('Memory limit accessor report not hit', false === $isolate->isMemoryLimitHit());
 
 $helper->line();
 $helper->dump($isolate);

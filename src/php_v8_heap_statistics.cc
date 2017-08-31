@@ -39,7 +39,7 @@ void php_v8_heap_statistics_create_from_heap_statistics(zval *return_value, v8::
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("does_zap_garbage"), static_cast<zend_long>(hs->does_zap_garbage()));
 }
 
-static PHP_METHOD(V8HeapStatistics, __construct) {
+static PHP_METHOD(HeapStatistics, __construct) {
     double total_heap_size = 0;
     double total_heap_size_executable = 0;
     double total_physical_size = 0;
@@ -70,7 +70,7 @@ static PHP_METHOD(V8HeapStatistics, __construct) {
     zend_update_property_bool(this_ce, getThis(), ZEND_STRL("does_zap_garbage"), does_zap_garbage);
 }
 
-static PHP_METHOD(V8HeapStatistics, total_heap_size) {
+static PHP_METHOD(HeapStatistics, total_heap_size) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -80,7 +80,7 @@ static PHP_METHOD(V8HeapStatistics, total_heap_size) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("total_heap_size"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8HeapStatistics, total_heap_size_executable) {
+static PHP_METHOD(HeapStatistics, total_heap_size_executable) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -90,7 +90,7 @@ static PHP_METHOD(V8HeapStatistics, total_heap_size_executable) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("total_heap_size_executable"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8HeapStatistics, total_physical_size) {
+static PHP_METHOD(HeapStatistics, total_physical_size) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -100,7 +100,7 @@ static PHP_METHOD(V8HeapStatistics, total_physical_size) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("total_physical_size"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8HeapStatistics, total_available_size) {
+static PHP_METHOD(HeapStatistics, total_available_size) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -110,7 +110,7 @@ static PHP_METHOD(V8HeapStatistics, total_available_size) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("total_available_size"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8HeapStatistics, used_heap_size) {
+static PHP_METHOD(HeapStatistics, used_heap_size) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -120,7 +120,7 @@ static PHP_METHOD(V8HeapStatistics, used_heap_size) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("used_heap_size"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8HeapStatistics, heap_size_limit) {
+static PHP_METHOD(HeapStatistics, heap_size_limit) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -130,7 +130,7 @@ static PHP_METHOD(V8HeapStatistics, heap_size_limit) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("heap_size_limit"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8HeapStatistics, malloced_memory) {
+static PHP_METHOD(HeapStatistics, malloced_memory) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -140,7 +140,7 @@ static PHP_METHOD(V8HeapStatistics, malloced_memory) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("malloced_memory"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8HeapStatistics, peak_malloced_memory) {
+static PHP_METHOD(HeapStatistics, peak_malloced_memory) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -150,7 +150,7 @@ static PHP_METHOD(V8HeapStatistics, peak_malloced_memory) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("peak_malloced_memory"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8HeapStatistics, does_zap_garbage) {
+static PHP_METHOD(HeapStatistics, does_zap_garbage) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -161,7 +161,7 @@ static PHP_METHOD(V8HeapStatistics, does_zap_garbage) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_heap_statistics___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
                 ZEND_ARG_TYPE_INFO(0, total_heap_size, IS_DOUBLE, 0)
                 ZEND_ARG_TYPE_INFO(0, total_heap_size_executable, IS_DOUBLE, 0)
                 ZEND_ARG_TYPE_INFO(0, total_physical_size, IS_DOUBLE, 0)
@@ -175,46 +175,46 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_heap_statistics___construct, ZEND_SEND_BY_VAL,
                 ZEND_ARG_TYPE_INFO(0, does_zap_garbage, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_heap_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_total_heap_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_heap_size_executable, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_total_heap_size_executable, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_physical_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_total_physical_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__total_available_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_total_available_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__used_heap_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_used_heap_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__heap_size_limit, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_heap_size_limit, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__malloced_memory, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_malloced_memory, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__peak_malloced_memory, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_peak_malloced_memory, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_heap_statistics__does_zap_garbage, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_does_zap_garbage, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_heap_statistics_methods[] = {
-        PHP_ME(V8HeapStatistics, __construct, arginfo_v8_heap_statistics___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(HeapStatistics, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
 
-        PHP_ME(V8HeapStatistics, total_heap_size, arginfo_v8_heap_statistics__total_heap_size, ZEND_ACC_PUBLIC)
-        PHP_ME(V8HeapStatistics, total_heap_size_executable, arginfo_v8_heap_statistics__total_heap_size_executable, ZEND_ACC_PUBLIC)
-        PHP_ME(V8HeapStatistics, total_physical_size, arginfo_v8_heap_statistics__total_physical_size, ZEND_ACC_PUBLIC)
-        PHP_ME(V8HeapStatistics, total_available_size, arginfo_v8_heap_statistics__total_available_size, ZEND_ACC_PUBLIC)
-        PHP_ME(V8HeapStatistics, used_heap_size, arginfo_v8_heap_statistics__used_heap_size, ZEND_ACC_PUBLIC)
-        PHP_ME(V8HeapStatistics, heap_size_limit, arginfo_v8_heap_statistics__heap_size_limit, ZEND_ACC_PUBLIC)
-        PHP_ME(V8HeapStatistics, malloced_memory, arginfo_v8_heap_statistics__malloced_memory, ZEND_ACC_PUBLIC)
-        PHP_ME(V8HeapStatistics, peak_malloced_memory, arginfo_v8_heap_statistics__peak_malloced_memory, ZEND_ACC_PUBLIC)
-        PHP_ME(V8HeapStatistics, does_zap_garbage, arginfo_v8_heap_statistics__does_zap_garbage, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, total_heap_size, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, total_heap_size_executable, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, total_physical_size, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, total_available_size, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, used_heap_size, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, heap_size_limit, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, malloced_memory, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, peak_malloced_memory, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, does_zap_garbage, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };
@@ -225,13 +225,13 @@ PHP_MINIT_FUNCTION (php_v8_heap_statistics) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "HeapStatistics", php_v8_heap_statistics_methods);
     this_ce = zend_register_internal_class(&ce);
 
-    zend_declare_property_double(this_ce, ZEND_STRL("total_heap_size"), 0, ZEND_ACC_PRIVATE);
+    zend_declare_property_double(this_ce, ZEND_STRL("total_heap_size"),      0, ZEND_ACC_PRIVATE);
     zend_declare_property_double(this_ce, ZEND_STRL("total_heap_size_executable"), 0, ZEND_ACC_PRIVATE);
-    zend_declare_property_double(this_ce, ZEND_STRL("total_physical_size"), 0, ZEND_ACC_PRIVATE);
+    zend_declare_property_double(this_ce, ZEND_STRL("total_physical_size"),  0, ZEND_ACC_PRIVATE);
     zend_declare_property_double(this_ce, ZEND_STRL("total_available_size"), 0, ZEND_ACC_PRIVATE);
-    zend_declare_property_double(this_ce, ZEND_STRL("used_heap_size"), 0, ZEND_ACC_PRIVATE);
-    zend_declare_property_double(this_ce, ZEND_STRL("heap_size_limit"), 0, ZEND_ACC_PRIVATE);
-    zend_declare_property_double(this_ce, ZEND_STRL("malloced_memory"), 0, ZEND_ACC_PRIVATE);
+    zend_declare_property_double(this_ce, ZEND_STRL("used_heap_size"),       0, ZEND_ACC_PRIVATE);
+    zend_declare_property_double(this_ce, ZEND_STRL("heap_size_limit"),      0, ZEND_ACC_PRIVATE);
+    zend_declare_property_double(this_ce, ZEND_STRL("malloced_memory"),      0, ZEND_ACC_PRIVATE);
     zend_declare_property_double(this_ce, ZEND_STRL("peak_malloced_memory"), 0, ZEND_ACC_PRIVATE);
 
     zend_declare_property_bool(this_ce, ZEND_STRL("does_zap_garbage"), false, ZEND_ACC_PRIVATE);

@@ -72,7 +72,7 @@ void php_v8_try_catch_create_from_try_catch(zval *return_value, php_v8_isolate_t
 }
 
 
-static PHP_METHOD(V8TryCatch, __construct) {
+static PHP_METHOD(TryCatch, __construct) {
     zval *php_v8_isolate_zv;
     zval *php_v8_context_zv;
     zval *php_v8_exception_zv = NULL;
@@ -129,7 +129,7 @@ static PHP_METHOD(V8TryCatch, __construct) {
     }
 }
 
-static PHP_METHOD(V8TryCatch, GetIsolate)
+static PHP_METHOD(TryCatch, getIsolate)
 {
     zval rv;
 
@@ -140,7 +140,7 @@ static PHP_METHOD(V8TryCatch, GetIsolate)
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("isolate"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8TryCatch, GetContext)
+static PHP_METHOD(TryCatch, getContext)
 {
     zval rv;
 
@@ -151,7 +151,7 @@ static PHP_METHOD(V8TryCatch, GetContext)
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("context"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8TryCatch, Exception)
+static PHP_METHOD(TryCatch, exception)
 {
     zval rv;
     zval *prop;
@@ -165,7 +165,7 @@ static PHP_METHOD(V8TryCatch, Exception)
     RETVAL_ZVAL(prop, 1, 0);
 }
 
-static PHP_METHOD(V8TryCatch, StackTrace)
+static PHP_METHOD(TryCatch, stackTrace)
 {
     zval rv;
     zval *prop;
@@ -179,7 +179,7 @@ static PHP_METHOD(V8TryCatch, StackTrace)
     RETVAL_ZVAL(prop, 1, 0);
 }
 
-static PHP_METHOD(V8TryCatch, Message)
+static PHP_METHOD(TryCatch, message)
 {
     zval rv;
     zval *prop;
@@ -193,7 +193,7 @@ static PHP_METHOD(V8TryCatch, Message)
     RETVAL_ZVAL(prop, 1, 0);
 }
 
-static PHP_METHOD(V8TryCatch, CanContinue)
+static PHP_METHOD(TryCatch, canContinue)
 {
     zval rv;
 
@@ -204,7 +204,7 @@ static PHP_METHOD(V8TryCatch, CanContinue)
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("can_continue"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8TryCatch, HasTerminated)
+static PHP_METHOD(TryCatch, hasTerminated)
 {
     zval rv;
 
@@ -216,7 +216,7 @@ static PHP_METHOD(V8TryCatch, HasTerminated)
 }
 
 
-static PHP_METHOD(V8TryCatch, getExternalException)
+static PHP_METHOD(TryCatch, getExternalException)
 {
     zval rv;
 
@@ -228,7 +228,7 @@ static PHP_METHOD(V8TryCatch, getExternalException)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_try_catch___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, exception, V8\\Value, 1)
@@ -239,45 +239,42 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_try_catch___construct, ZEND_SEND_BY_VAL, ZEND_
                 ZEND_ARG_OBJ_INFO(0, external_exception, Throwable, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_try_catch_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_try_catch_GetContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_try_catch_Exception, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_exception, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_try_catch_StackTrace, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_stackTrace, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_try_catch_Message, ZEND_RETURN_VALUE, 0, V8\\Message, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_message, ZEND_RETURN_VALUE, 0, V8\\Message, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_CanContinue, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_canContinue, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_try_catch_HasTerminated, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_hasTerminated, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_try_catch_getExternalException, ZEND_RETURN_VALUE, 0, Throwable, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getExternalException, ZEND_RETURN_VALUE, 0, Throwable, 1)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_try_catch_methods[] = {
-        PHP_ME(V8TryCatch, __construct,     arginfo_v8_try_catch___construct,     ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(TryCatch, __construct,   ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(TryCatch, getIsolate,    ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, getContext,    ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, exception,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, stackTrace,    ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, message,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, canContinue,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, hasTerminated, ZEND_ACC_PUBLIC)
 
-        PHP_ME(V8TryCatch, GetIsolate,      arginfo_v8_try_catch_GetIsolate,    ZEND_ACC_PUBLIC)
-        PHP_ME(V8TryCatch, GetContext,      arginfo_v8_try_catch_GetContext,    ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8TryCatch, Exception,       arginfo_v8_try_catch_Exception,     ZEND_ACC_PUBLIC)
-        PHP_ME(V8TryCatch, StackTrace,      arginfo_v8_try_catch_StackTrace,    ZEND_ACC_PUBLIC)
-        PHP_ME(V8TryCatch, Message,         arginfo_v8_try_catch_Message,       ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8TryCatch, CanContinue,     arginfo_v8_try_catch_CanContinue,   ZEND_ACC_PUBLIC)
-        PHP_ME(V8TryCatch, HasTerminated,   arginfo_v8_try_catch_HasTerminated, ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8TryCatch, getExternalException, arginfo_v8_try_catch_getExternalException, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, getExternalException, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

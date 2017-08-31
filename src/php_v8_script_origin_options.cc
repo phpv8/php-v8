@@ -31,7 +31,7 @@ void php_v8_create_script_origin_options(zval * return_value, v8::ScriptOriginOp
 }
 
 
-static PHP_METHOD(V8ScriptOriginOptions, __construct) {
+static PHP_METHOD(ScriptOriginOptions, __construct) {
     zend_bool is_shared_cross_origin = '\0';
     zend_bool is_opaque = '\0';
     zend_bool is_wasm = '\0';
@@ -47,7 +47,7 @@ static PHP_METHOD(V8ScriptOriginOptions, __construct) {
 }
 
 
-static PHP_METHOD(V8ScriptOriginOptions, IsSharedCrossOrigin) {
+static PHP_METHOD(ScriptOriginOptions, isSharedCrossOrigin) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -57,7 +57,7 @@ static PHP_METHOD(V8ScriptOriginOptions, IsSharedCrossOrigin) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_shared_cross_origin"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8ScriptOriginOptions, IsOpaque) {
+static PHP_METHOD(ScriptOriginOptions, isOpaque) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -67,7 +67,7 @@ static PHP_METHOD(V8ScriptOriginOptions, IsOpaque) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_opaque"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8ScriptOriginOptions, IsWasm) {
+static PHP_METHOD(ScriptOriginOptions, isWasm) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -77,7 +77,7 @@ static PHP_METHOD(V8ScriptOriginOptions, IsWasm) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_wasm"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(V8ScriptOriginOptions, IsModule) {
+static PHP_METHOD(ScriptOriginOptions, isModule) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -88,7 +88,7 @@ static PHP_METHOD(V8ScriptOriginOptions, IsModule) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_script_origin_options___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
                 ZEND_ARG_TYPE_INFO(0, is_shared_cross_origin, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, is_opaque, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, is_wasm, _IS_BOOL, 0)
@@ -96,26 +96,25 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_script_origin_options___construct, ZEND_SEND_B
 ZEND_END_ARG_INFO()
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsSharedCrossOrigin, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isSharedCrossOrigin, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsOpaque, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isOpaque, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsWasm, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isWasm, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_script_origin_options_IsModule, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isModule, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_script_origin_options_methods[] = {
-        PHP_ME(V8ScriptOriginOptions, __construct, arginfo_v8_script_origin_options___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(V8ScriptOriginOptions, IsSharedCrossOrigin, arginfo_v8_script_origin_options_IsSharedCrossOrigin, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ScriptOriginOptions, IsOpaque, arginfo_v8_script_origin_options_IsOpaque, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ScriptOriginOptions, IsWasm, arginfo_v8_script_origin_options_IsWasm, ZEND_ACC_PUBLIC)
-        PHP_ME(V8ScriptOriginOptions, IsModule, arginfo_v8_script_origin_options_IsModule, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOriginOptions, __construct,         ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(ScriptOriginOptions, isSharedCrossOrigin, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOriginOptions, isOpaque,            ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOriginOptions, isWasm,              ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOriginOptions, isModule,            ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

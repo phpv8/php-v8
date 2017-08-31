@@ -21,18 +21,18 @@ $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters (default)');
-$helper->method_matches_with_output($obj, 'Get', 'message');
-$helper->method_matches_with_output($obj, 'GetSourceLine', 'source_line');
-$helper->method_matches_instanceof($obj, 'GetScriptOrigin', V8\ScriptOrigin::class);
-$helper->method_matches_with_output($obj, 'GetScriptResourceName', 'resource_name');
-$helper->method_matches_instanceof($obj, 'GetStackTrace', V8\StackTrace::class);
-$helper->method_matches_with_output($obj, 'GetLineNumber', 0);
-$helper->method_matches_with_output($obj, 'GetStartPosition', -1);
-$helper->method_matches_with_output($obj, 'GetEndPosition', -1);
-$helper->method_matches_with_output($obj, 'GetStartColumn', 0);
-$helper->method_matches_with_output($obj, 'GetEndColumn', 0);
-$helper->method_matches_with_output($obj, 'IsSharedCrossOrigin', false);
-$helper->method_matches_with_output($obj, 'IsOpaque', false);
+$helper->method_matches_with_output($obj, 'get', 'message');
+$helper->method_matches_with_output($obj, 'getSourceLine', 'source_line');
+$helper->method_matches_instanceof($obj, 'getScriptOrigin', V8\ScriptOrigin::class);
+$helper->method_matches_with_output($obj, 'getScriptResourceName', 'resource_name');
+$helper->method_matches_instanceof($obj, 'getStackTrace', V8\StackTrace::class);
+$helper->method_matches_with_output($obj, 'getLineNumber', 0);
+$helper->method_matches_with_output($obj, 'getStartPosition', -1);
+$helper->method_matches_with_output($obj, 'getEndPosition', -1);
+$helper->method_matches_with_output($obj, 'getStartColumn', 0);
+$helper->method_matches_with_output($obj, 'getEndColumn', 0);
+$helper->method_matches_with_output($obj, 'isSharedCrossOrigin', false);
+$helper->method_matches_with_output($obj, 'isOpaque', false);
 $helper->space();
 
 
@@ -43,18 +43,18 @@ $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
-$helper->method_matches_with_output($obj, 'Get', 'message');
-$helper->method_matches_with_output($obj, 'GetSourceLine', 'source_line');
-$helper->method_matches_instanceof($obj, 'GetScriptOrigin', V8\ScriptOrigin::class);
-$helper->method_matches_with_output($obj, 'GetScriptResourceName', 'resource_name');
-$helper->method_matches_instanceof($obj, 'GetStackTrace', V8\StackTrace::class);
-$helper->method_matches_with_output($obj, 'GetLineNumber', 1);
-$helper->method_matches_with_output($obj, 'GetStartPosition', 2);
-$helper->method_matches_with_output($obj, 'GetEndPosition', 3);
-$helper->method_matches_with_output($obj, 'GetStartColumn', 4);
-$helper->method_matches_with_output($obj, 'GetEndColumn', 5);
-$helper->method_matches_with_output($obj, 'IsSharedCrossOrigin', true);
-$helper->method_matches_with_output($obj, 'IsOpaque', true);
+$helper->method_matches_with_output($obj, 'get', 'message');
+$helper->method_matches_with_output($obj, 'getSourceLine', 'source_line');
+$helper->method_matches_instanceof($obj, 'getScriptOrigin', V8\ScriptOrigin::class);
+$helper->method_matches_with_output($obj, 'getScriptResourceName', 'resource_name');
+$helper->method_matches_instanceof($obj, 'getStackTrace', V8\StackTrace::class);
+$helper->method_matches_with_output($obj, 'getLineNumber', 1);
+$helper->method_matches_with_output($obj, 'getStartPosition', 2);
+$helper->method_matches_with_output($obj, 'getEndPosition', 3);
+$helper->method_matches_with_output($obj, 'getStartColumn', 4);
+$helper->method_matches_with_output($obj, 'getEndColumn', 5);
+$helper->method_matches_with_output($obj, 'isSharedCrossOrigin', true);
+$helper->method_matches_with_output($obj, 'isOpaque', true);
 $helper->space();
 
 ?>
@@ -117,18 +117,18 @@ object(V8\Message)#7 (12) {
 
 Test getters (default):
 -----------------------
-V8\Message::Get() matches expected 'message'
-V8\Message::GetSourceLine() matches expected 'source_line'
-V8\Message::GetScriptOrigin() result is instance of V8\ScriptOrigin
-V8\Message::GetScriptResourceName() matches expected 'resource_name'
-V8\Message::GetStackTrace() result is instance of V8\StackTrace
-V8\Message::GetLineNumber() matches expected 0
-V8\Message::GetStartPosition() matches expected -1
-V8\Message::GetEndPosition() matches expected -1
-V8\Message::GetStartColumn() matches expected 0
-V8\Message::GetEndColumn() matches expected 0
-V8\Message::IsSharedCrossOrigin() matches expected false
-V8\Message::IsOpaque() matches expected false
+V8\Message::get() matches expected 'message'
+V8\Message::getSourceLine() matches expected 'source_line'
+V8\Message::getScriptOrigin() result is instance of V8\ScriptOrigin
+V8\Message::getScriptResourceName() matches expected 'resource_name'
+V8\Message::getStackTrace() result is instance of V8\StackTrace
+V8\Message::getLineNumber() matches expected 0
+V8\Message::getStartPosition() matches expected -1
+V8\Message::getEndPosition() matches expected -1
+V8\Message::getStartColumn() matches expected 0
+V8\Message::getEndColumn() matches expected 0
+V8\Message::isSharedCrossOrigin() matches expected false
+V8\Message::isOpaque() matches expected false
 
 
 Object representation:
@@ -189,15 +189,15 @@ object(V8\Message)#8 (12) {
 
 Test getters:
 -------------
-V8\Message::Get() matches expected 'message'
-V8\Message::GetSourceLine() matches expected 'source_line'
-V8\Message::GetScriptOrigin() result is instance of V8\ScriptOrigin
-V8\Message::GetScriptResourceName() matches expected 'resource_name'
-V8\Message::GetStackTrace() result is instance of V8\StackTrace
-V8\Message::GetLineNumber() matches expected 1
-V8\Message::GetStartPosition() matches expected 2
-V8\Message::GetEndPosition() matches expected 3
-V8\Message::GetStartColumn() matches expected 4
-V8\Message::GetEndColumn() matches expected 5
-V8\Message::IsSharedCrossOrigin() matches expected true
-V8\Message::IsOpaque() matches expected true
+V8\Message::get() matches expected 'message'
+V8\Message::getSourceLine() matches expected 'source_line'
+V8\Message::getScriptOrigin() result is instance of V8\ScriptOrigin
+V8\Message::getScriptResourceName() matches expected 'resource_name'
+V8\Message::getStackTrace() result is instance of V8\StackTrace
+V8\Message::getLineNumber() matches expected 1
+V8\Message::getStartPosition() matches expected 2
+V8\Message::getEndPosition() matches expected 3
+V8\Message::getStartColumn() matches expected 4
+V8\Message::getEndColumn() matches expected 5
+V8\Message::isSharedCrossOrigin() matches expected true
+V8\Message::isOpaque() matches expected true

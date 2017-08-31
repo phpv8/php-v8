@@ -27,12 +27,12 @@ if ($helper->need_more_time()) {
 }
 
 $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use (&$helper, $time_limit) {
-    $isolate = $info->GetIsolate();
-    $isolate->SetTimeLimit($time_limit);
+    $isolate = $info->getIsolate();
+    $isolate->setTimeLimit($time_limit);
 });
 
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test'), $func);
 
 $source = '
 test();
@@ -47,7 +47,7 @@ $helper->line();
 
 $t = microtime(true);
 try {
-    $script->Run($context);
+    $script->run($context);
 } catch(\V8\Exceptions\TimeLimitException $e) {
     $helper->exception_export($e);
     echo 'script execution terminated', PHP_EOL;

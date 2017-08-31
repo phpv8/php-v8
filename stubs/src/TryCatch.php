@@ -88,12 +88,18 @@ class TryCatch
         $this->external_exception = $external_exception;
     }
 
-    public function GetIsolate(): Isolate
+    /**
+     * @return \V8\Isolate
+     */
+    public function getIsolate(): Isolate
     {
         return $this->isolate;
     }
 
-    public function GetContext(): Context
+    /**
+     * @return \V8\Context
+     */
+    public function getContext(): Context
     {
         return $this->context;
     }
@@ -104,10 +110,10 @@ class TryCatch
      *
      * The returned handle is valid until this TryCatch block has been destroyed.
      *
-     * @return \V8\Value | null
+     * @return \V8\Value|null
      *
      */
-    public function Exception()
+    public function exception()
     {
         return $this->exception;
     }
@@ -116,9 +122,9 @@ class TryCatch
      * Returns the .stack property of the thrown object.  If no .stack
      * property is present an empty handle is returned.
      *
-     * @return Value | null
+     * @return \V8\Value|null
      */
-    public function StackTrace()
+    public function stackTrace()
     {
         return $this->stack_trace;
     }
@@ -130,9 +136,9 @@ class TryCatch
      * The returned handle is valid until this TryCatch block has been
      * destroyed.
      *
-     * @return Message | null
+     * @return Message|null
      */
-    public function Message()
+    public function message()
     {
         return $this->message;
     }
@@ -147,7 +153,7 @@ class TryCatch
      *
      * @return bool
      */
-    public function CanContinue(): bool
+    public function canContinue(): bool
     {
         return $this->can_continue;
     }
@@ -166,7 +172,7 @@ class TryCatch
      *
      * @return bool
      */
-    public function HasTerminated(): bool
+    public function hasTerminated(): bool
     {
         return $this->has_terminated;
     }

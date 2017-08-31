@@ -41,7 +41,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\ObjectValue
      */
-    public function NewInstance(Context $context, array $arguments = []): ObjectValue
+    public function newInstance(Context $context, array $arguments = []): ObjectValue
     {
     }
 
@@ -52,21 +52,21 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\Value
      */
-    public function Call(Context $context, Value $recv, array $arguments = []): Value
+    public function call(Context $context, Value $recv, array $arguments = []): Value
     {
     }
 
     /**
      * @param StringValue $name
      */
-    public function SetName(StringValue $name)
+    public function setName(StringValue $name)
     {
     }
 
     /**
      * @return \V8\Value | StringValue
      */
-    public function GetName(): Value
+    public function getName(): Value
     {
     }
 
@@ -78,7 +78,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\Value | StringValue
      */
-    public function GetInferredName(): Value
+    public function getInferredName(): Value
     {
     }
 
@@ -88,7 +88,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return \V8\Value | StringValue
      */
-    public function GetDisplayName(): Value
+    public function getDisplayName(): Value
     {
     }
 
@@ -100,7 +100,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return int | null
      */
-    public function GetScriptLineNumber()
+    public function getScriptLineNumber()
     {
     }
 
@@ -111,7 +111,7 @@ class  FunctionObject extends ObjectValue
      *
      * @return int | null
      */
-    public function GetScriptColumnNumber()
+    public function getScriptColumnNumber()
     {
     }
 
@@ -127,14 +127,14 @@ class  FunctionObject extends ObjectValue
      *
      * @return Value
      */
-    public function GetBoundFunction(): Value
+    public function getBoundFunction(): Value
     {
     }
 
     /**
      * @return ScriptOrigin
      */
-    public function GetScriptOrigin(): ScriptOrigin
+    public function getScriptOrigin(): ScriptOrigin
     {
     }
 }

@@ -32,7 +32,7 @@ class Int32Value extends IntegerValue
     /**
      * @return int int32 value
      */
-    public function Value(): int
+    public function value(): int
     {
     }
 }

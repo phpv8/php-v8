@@ -25,7 +25,7 @@ $helper->assert('ObjectTemplate implements AdjustableExternalMemoryInterface', $
 $helper->line();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetIsolate', $isolate);
+$helper->method_matches($value, 'getIsolate', $isolate);
 $helper->line();
 
 $callback = function() {
@@ -33,14 +33,14 @@ $callback = function() {
 };
 
 $fnc = new \V8\FunctionTemplate($isolate, $callback);
-$fnc->SetClassName(new \V8\StringValue($isolate, 'TestConstructor'));
+$fnc->setClassName(new \V8\StringValue($isolate, 'TestConstructor'));
 
 $context = new \V8\Context($isolate);
 
 $value = new \V8\ObjectTemplate($isolate, $fnc);
-$instance = $value->NewInstance($context);
+$instance = $value->newInstance($context);
 
-$helper->assert('ObjectTemplate instance has name from constructor', $instance->GetConstructorName()->Value() == 'TestConstructor');
+$helper->assert('ObjectTemplate instance has name from constructor', $instance->getConstructorName()->value() == 'TestConstructor');
 
 
 ?>
@@ -59,6 +59,6 @@ ObjectTemplate implements AdjustableExternalMemoryInterface: ok
 
 Accessors:
 ----------
-V8\ObjectTemplate::GetIsolate() matches expected value
+V8\ObjectTemplate::getIsolate() matches expected value
 
 ObjectTemplate instance has name from constructor: ok

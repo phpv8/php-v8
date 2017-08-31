@@ -93,7 +93,7 @@ php_v8_return_value_t *php_v8_callback_info_create_from_info_meta(zval *return_v
     return php_v8_return_value;
 }
 
-static PHP_METHOD(PropertyCallbackInfo, ShouldThrowOnError) {
+static PHP_METHOD(PropertyCallbackInfo, shouldThrowOnError) {
     zval rv;
     zval *tmp;
 
@@ -105,11 +105,11 @@ static PHP_METHOD(PropertyCallbackInfo, ShouldThrowOnError) {
     ZVAL_COPY(return_value, tmp);
 }
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_property_callback_info_ShouldThrowOnError, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_shouldThrowOnError, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_property_callback_info_methods[] = {
-        PHP_ME(PropertyCallbackInfo, ShouldThrowOnError, arginfo_v8_property_callback_info_ShouldThrowOnError, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(PropertyCallbackInfo, shouldThrowOnError, ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
 

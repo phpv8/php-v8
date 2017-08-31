@@ -33,10 +33,10 @@ $data = [
 
 foreach ($data as $d) {
     $value = new \V8\ScriptCompiler\CachedData($d);
-    $helper->method_matches_with_dump($value, 'GetData', $d);
+    $helper->method_matches_with_dump($value, 'getData', $d);
 }
 
-$helper->method_dump($value, 'IsRejected');
+$helper->method_dump($value, 'isRejected');
 
 
 
@@ -50,11 +50,11 @@ object(V8\ScriptCompiler\CachedData)#3 (0) {
 
 Methods:
 --------
-V8\ScriptCompiler\CachedData::GetData() matches expected string(0) ""
-V8\ScriptCompiler\CachedData::GetData() matches expected string(16) "test foo bar baz"
-V8\ScriptCompiler\CachedData::GetData() matches expected string(16) "%r.{16}%r"
-V8\ScriptCompiler\CachedData::GetData() matches expected string(31) "%r.{31}%r"
-V8\ScriptCompiler\CachedData::GetData() matches expected string(12) "Юникод"
-V8\ScriptCompiler\CachedData::GetData() matches expected string(45) "萬國碼、國際碼、統一碼、單一碼"
-V8\ScriptCompiler\CachedData::GetData() matches expected string(16) "یوونیکۆد"
-V8\ScriptCompiler\CachedData::IsRejected() false
+V8\ScriptCompiler\CachedData::getData() matches expected string(0) ""
+V8\ScriptCompiler\CachedData::getData() matches expected string(16) "test foo bar baz"
+V8\ScriptCompiler\CachedData::getData() matches expected string(16) "%r.{16}%r"
+V8\ScriptCompiler\CachedData::getData() matches expected string(31) "%r.{31}%r"
+V8\ScriptCompiler\CachedData::getData() matches expected string(12) "Юникод"
+V8\ScriptCompiler\CachedData::getData() matches expected string(45) "萬國碼、國際碼、統一碼、單一碼"
+V8\ScriptCompiler\CachedData::getData() matches expected string(16) "یوونیکۆد"
+V8\ScriptCompiler\CachedData::isRejected() false

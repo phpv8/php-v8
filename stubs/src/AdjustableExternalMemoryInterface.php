@@ -19,7 +19,6 @@ namespace V8;
 interface AdjustableExternalMemoryInterface
 {
     /**
-     *
      * Adjusts the amount of registered external memory. Used to give V8 an
      * indication of the amount of externally allocated memory that is kept alive
      * by JavaScript object. V8 uses this to decide when to perform global
@@ -44,12 +43,12 @@ interface AdjustableExternalMemoryInterface
      *
      * NOTE: returned adjusted value can't be less then zero.
      */
-    public function AdjustExternalAllocatedMemory(int $change_in_bytes): int;
+    public function adjustExternalAllocatedMemory(int $change_in_bytes): int;
 
     /**
      * Get external allocated memory hint value.
      *
      * @return int
      */
-    public function GetExternalAllocatedMemory(): int;
+    public function getExternalAllocatedMemory(): int;
 }

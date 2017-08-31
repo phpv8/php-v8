@@ -32,14 +32,14 @@ class RegExpObject extends ObjectValue
     /**
      * @return StringValue
      */
-    public function GetSource(): StringValue
+    public function getSource(): StringValue
     {
     }
 
     /**
      * @return int
      */
-    public function GetFlags(): int
+    public function getFlags(): int
     {
     }
 }

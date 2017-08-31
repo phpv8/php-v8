@@ -1,5 +1,5 @@
 --TEST--
-V8\Script::Run - exit during script execution
+V8\Script::run() - exit during script execution
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -26,7 +26,7 @@ $exit = new v8Tests\TrackingDtors\FunctionTemplate($isolate, function () {
     exit();
 });
 
-$global_template->Set(new \V8\StringValue($isolate, 'exit'), $exit, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'exit'), $exit, \V8\PropertyAttribute::DontDelete);
 
 $context = new v8Tests\TrackingDtors\Context($isolate, $global_template);
 $v8_helper->injectConsoleLog($context);
@@ -43,7 +43,7 @@ $script = new v8Tests\TrackingDtors\Script($context, new \V8\StringValue($isolat
 $isolate = null;
 $global_template = null;
 $exit = null;
-$script->Run($context);
+$script->run($context);
 
 $context = null;
 

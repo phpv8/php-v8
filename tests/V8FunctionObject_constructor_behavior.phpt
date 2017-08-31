@@ -27,8 +27,8 @@ $f_throw = new \V8\FunctionObject($context, function () {
     echo 'Throw', PHP_EOL;
 }, 0, \V8\ConstructorBehavior::kThrow);
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'f_allow'), $f_allow);
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'f_throw'), $f_throw);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'f_allow'), $f_allow);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'f_throw'), $f_throw);
 
 
 $v8_helper->CompileRun($context, 'f_allow(); new f_allow();');

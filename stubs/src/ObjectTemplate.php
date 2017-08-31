@@ -35,7 +35,7 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      *
      * @return \V8\ObjectValue
      */
-    public function NewInstance(Context $context): ObjectValue
+    public function newInstance(Context $context): ObjectValue
     {
     }
 
@@ -67,7 +67,7 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      *                                     thrown and no callback is invoked.
      */
 
-    public function SetAccessor(
+    public function setAccessor(
         NameValue $name,
         callable $getter,
         callable $setter,
@@ -89,7 +89,7 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      *
      * @param \v8\NamedPropertyHandlerConfiguration The NamedPropertyHandlerConfiguration that defines the callbacks to invoke when accessing a property.
      */
-    public function SetHandlerForNamedProperty(NamedPropertyHandlerConfiguration $configuration)
+    public function setHandlerForNamedProperty(NamedPropertyHandlerConfiguration $configuration)
     {
     }
 
@@ -104,7 +104,7 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      *
      * @param \V8\IndexedPropertyHandlerConfiguration $configuration The IndexedPropertyHandlerConfiguration that defines the callbacks to invoke when accessing a property.
      */
-    public function SetHandlerForIndexedProperty(IndexedPropertyHandlerConfiguration $configuration)
+    public function setHandlerForIndexedProperty(IndexedPropertyHandlerConfiguration $configuration)
     {
     }
 
@@ -116,21 +116,21 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      *
      * @param callable $callback
      */
-    public function SetCallAsFunctionHandler(callable $callback)
+    public function setCallAsFunctionHandler(callable $callback)
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function AdjustExternalAllocatedMemory(int $change_in_bytes): int
+    public function adjustExternalAllocatedMemory(int $change_in_bytes): int
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function GetExternalAllocatedMemory(): int
+    public function getExternalAllocatedMemory(): int
     {
     }
 }

@@ -36,10 +36,10 @@ if ($helper->need_more_time()) {
   $high_range = 1.65;
 }
 
-$helper->assert('Time limit accessor report no hit', false === $isolate->IsTimeLimitHit());
-$helper->assert('Get time limit default value is zero', 0.0 === $isolate->GetTimeLimit());
-$isolate->SetTimeLimit($time_limit);
-$helper->assert('Get time limit returns valid value', $time_limit === $isolate->GetTimeLimit());
+$helper->assert('Time limit accessor report no hit', false === $isolate->isTimeLimitHit());
+$helper->assert('Get time limit default value is zero', 0.0 === $isolate->getTimeLimit());
+$isolate->setTimeLimit($time_limit);
+$helper->assert('Get time limit returns valid value', $time_limit === $isolate->getTimeLimit());
 
 $helper->dump($isolate);
 $helper->line();
@@ -49,7 +49,7 @@ sleep($time_limit);
 
 $t = microtime(true);
 try {
-  $res = $script->Run($context);
+  $res = $script->run($context);
 } catch(\V8\Exceptions\TimeLimitException $e) {
   $helper->exception_export($e);
   echo 'script execution terminated', PHP_EOL;
@@ -60,8 +60,8 @@ try {
   $helper->assert("Script execution time is within specified range ({$low_range}, {$high_range})", $t >= $low_range && $t < $high_range);
 }
 
-$helper->assert('Get time limit returns valid value', $time_limit === $isolate->GetTimeLimit());
-$helper->assert('Time limit accessor report hit', true === $isolate->IsTimeLimitHit());
+$helper->assert('Get time limit returns valid value', $time_limit === $isolate->getTimeLimit());
+$helper->assert('Time limit accessor report hit', true === $isolate->isTimeLimitHit());
 
 $helper->line();
 $helper->dump($isolate);

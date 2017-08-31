@@ -22,14 +22,14 @@ $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters (default)');
-$helper->method_matches($obj, 'GetIsolate', $isolate);
-$helper->method_matches($obj, 'GetContext', $context);
-$helper->method_matches($obj, 'Exception', null);
-$helper->method_matches($obj, 'Message', null);
-$helper->method_matches($obj, 'StackTrace', null);
+$helper->method_matches($obj, 'getIsolate', $isolate);
+$helper->method_matches($obj, 'getContext', $context);
+$helper->method_matches($obj, 'exception', null);
+$helper->method_matches($obj, 'message', null);
+$helper->method_matches($obj, 'stackTrace', null);
 
-$helper->method_matches($obj, 'CanContinue', false);
-$helper->method_matches($obj, 'HasTerminated', false);
+$helper->method_matches($obj, 'canContinue', false);
+$helper->method_matches($obj, 'hasTerminated', false);
 $helper->space();
 
 
@@ -45,14 +45,14 @@ $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
-$helper->method_matches($obj, 'GetIsolate', $isolate);
-$helper->method_matches($obj, 'GetContext', $context);
-$helper->method_matches($obj, 'Exception', $exception);
-$helper->method_matches($obj, 'Message', $message);
-$helper->method_matches($obj, 'StackTrace', $trace);
+$helper->method_matches($obj, 'getIsolate', $isolate);
+$helper->method_matches($obj, 'getContext', $context);
+$helper->method_matches($obj, 'exception', $exception);
+$helper->method_matches($obj, 'message', $message);
+$helper->method_matches($obj, 'stackTrace', $trace);
 
-$helper->method_matches($obj, 'CanContinue', true);
-$helper->method_matches($obj, 'HasTerminated', true);
+$helper->method_matches($obj, 'canContinue', true);
+$helper->method_matches($obj, 'hasTerminated', true);
 
 $helper->method_matches($obj, 'getExternalException', $php_exception);
 $helper->space();
@@ -98,13 +98,13 @@ object(V8\TryCatch)#4 (8) {
 
 Test getters (default):
 -----------------------
-V8\TryCatch::GetIsolate() matches expected value
-V8\TryCatch::GetContext() matches expected value
-V8\TryCatch::Exception() matches expected value
-V8\TryCatch::Message() matches expected value
-V8\TryCatch::StackTrace() matches expected value
-V8\TryCatch::CanContinue() matches expected value
-V8\TryCatch::HasTerminated() matches expected value
+V8\TryCatch::getIsolate() matches expected value
+V8\TryCatch::getContext() matches expected value
+V8\TryCatch::exception() matches expected value
+V8\TryCatch::message() matches expected value
+V8\TryCatch::stackTrace() matches expected value
+V8\TryCatch::canContinue() matches expected value
+V8\TryCatch::hasTerminated() matches expected value
 
 
 Object representation:
@@ -217,13 +217,13 @@ object(V8\TryCatch)#11 (8) {
 
 Test getters:
 -------------
-V8\TryCatch::GetIsolate() matches expected value
-V8\TryCatch::GetContext() matches expected value
-V8\TryCatch::Exception() matches expected value
-V8\TryCatch::Message() matches expected value
-V8\TryCatch::StackTrace() matches expected value
-V8\TryCatch::CanContinue() matches expected value
-V8\TryCatch::HasTerminated() matches expected value
+V8\TryCatch::getIsolate() matches expected value
+V8\TryCatch::getContext() matches expected value
+V8\TryCatch::exception() matches expected value
+V8\TryCatch::message() matches expected value
+V8\TryCatch::stackTrace() matches expected value
+V8\TryCatch::canContinue() matches expected value
+V8\TryCatch::hasTerminated() matches expected value
 V8\TryCatch::getExternalException() matches expected value
 
 

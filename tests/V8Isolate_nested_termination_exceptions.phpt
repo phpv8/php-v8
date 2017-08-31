@@ -16,14 +16,14 @@ $global_template = new V8\ObjectTemplate($isolate);
 $context = new V8\Context($isolate, $global_template);
 
 $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) {
-    if (!$info->Arguments()) {
-        $isolate = $info->GetIsolate();
+    if (!$info->arguments()) {
+        $isolate = $info->getIsolate();
 
-        $script = new V8\Script($info->GetContext(), new \V8\StringValue($isolate, 'for(;;);'), new \V8\ScriptOrigin('wait_for_termination.js'));
-        $isolate->TerminateExecution();
+        $script = new V8\Script($info->getContext(), new \V8\StringValue($isolate, 'for(;;);'), new \V8\ScriptOrigin('wait_for_termination.js'));
+        $isolate->terminateExecution();
 
         try {
-            $script->Run($info->GetContext());
+            $script->run($info->getContext());
         } catch (\V8\Exceptions\TerminationException $e) {
             echo 'wait loop terminated', PHP_EOL;
         }
@@ -31,20 +31,20 @@ $func = new V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info
         return;
     }
 
-    $fnc= $info->Arguments()[0];
+    $fnc= $info->arguments()[0];
 
     try {
-        $fnc->Call($info->GetContext(), $fnc);
+        $fnc->call($info->getContext(), $fnc);
     } catch (\V8\Exceptions\TerminationException $e) {
         echo 'function call terminated', PHP_EOL;
     }
 });
 
 
-$func->SetName(new \V8\StringValue($isolate, 'custom_name'));
+$func->setName(new \V8\StringValue($isolate, 'custom_name'));
 
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'test'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'test'), $func);
 
 $source = 'test(test); delete print; "Script done"';
 $file_name = 'test.js';
@@ -53,7 +53,7 @@ $file_name = 'test.js';
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 try {
-    $script->Run($context);
+    $script->run($context);
 } catch (\V8\Exceptions\TerminationException $e) {
     echo 'script execution terminated', PHP_EOL;
 }

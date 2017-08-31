@@ -69,7 +69,7 @@ class MyCallaback
 $print_func_tpl = new MyFunctionTemplate($isolate, new MyCallaback());
 
 $global_template = new MyObjectTemplate($isolate);
-$global_template->Set(new \V8\StringValue($isolate, 'print'), $print_func_tpl);
+$global_template->set(new \V8\StringValue($isolate, 'print'), $print_func_tpl);
 $print_func_tpl = null;
 
 $context = new Context($isolate, $global_template);
@@ -80,7 +80,7 @@ $file_name = 'test.js';
 try {
     $script = new Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-    $script->Run($context)->Value();
+    $script->run($context)->value();
 } catch (Exception $e) {
     $helper->exception_export($e);
 }

@@ -75,7 +75,7 @@ static zend_object * php_v8_unbound_script_ctor(zend_class_entry *ce)
     return &php_v8_unbound_script->std;
 }
 
-static PHP_METHOD(V8UnboundScript, __construct)
+static PHP_METHOD(UnboundScript, __construct)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -84,7 +84,7 @@ static PHP_METHOD(V8UnboundScript, __construct)
     PHP_V8_THROW_EXCEPTION("V8\\UnboundScript::__construct() should not be called. Use other methods which yield V8\\UnboundScript object.")
 }
 
-static PHP_METHOD(V8UnboundScript, GetIsolate)
+static PHP_METHOD(UnboundScript, getIsolate)
 {
     zval rv;
 
@@ -97,7 +97,7 @@ static PHP_METHOD(V8UnboundScript, GetIsolate)
     RETVAL_ZVAL(PHP_V8_UNBOUND_SCRIPT_READ_ISOLATE(getThis()), 1, 0);
 }
 
-static PHP_METHOD(V8UnboundScript, BindToContext)
+static PHP_METHOD(UnboundScript, bindToContext)
 {
     zval *php_v8_context_zv;
 
@@ -119,7 +119,7 @@ static PHP_METHOD(V8UnboundScript, BindToContext)
     php_v8_create_script(return_value, local_script, php_v8_context);
 }
 
-static PHP_METHOD(V8UnboundScript, GetId)
+static PHP_METHOD(UnboundScript, getId)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -133,7 +133,7 @@ static PHP_METHOD(V8UnboundScript, GetId)
     RETURN_LONG(static_cast<zend_long>(local_unbound_script->GetId()));
 }
 
-static PHP_METHOD(V8UnboundScript, GetScriptName)
+static PHP_METHOD(UnboundScript, getScriptName)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -147,7 +147,7 @@ static PHP_METHOD(V8UnboundScript, GetScriptName)
     php_v8_get_or_create_value(return_value, local_unbound_script->GetScriptName(), php_v8_unbound_script->php_v8_isolate);
 }
 
-static PHP_METHOD(V8UnboundScript, GetSourceURL)
+static PHP_METHOD(UnboundScript, getSourceURL)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -161,7 +161,7 @@ static PHP_METHOD(V8UnboundScript, GetSourceURL)
     php_v8_get_or_create_value(return_value, local_unbound_script->GetSourceURL(), php_v8_unbound_script->php_v8_isolate);
 }
 
-static PHP_METHOD(V8UnboundScript, GetSourceMappingURL)
+static PHP_METHOD(UnboundScript, getSourceMappingURL)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -175,7 +175,7 @@ static PHP_METHOD(V8UnboundScript, GetSourceMappingURL)
     php_v8_get_or_create_value(return_value, local_unbound_script->GetSourceMappingURL(), php_v8_unbound_script->php_v8_isolate);
 }
 
-static PHP_METHOD(V8UnboundScript, GetLineNumber)
+static PHP_METHOD(UnboundScript, getLineNumber)
 {
     zend_long code_pos = 0;
 
@@ -194,42 +194,42 @@ static PHP_METHOD(V8UnboundScript, GetLineNumber)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_unbound_script___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_unbound_script_GetIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_unbound_script_BindToContext, ZEND_RETURN_VALUE, 1, V8\\Script, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_bindToContext, ZEND_RETURN_VALUE, 1, V8\\Script, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_unbound_script_GetId, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getId, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_unbound_script_GetScriptName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getScriptName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_unbound_script_GetSourceURL, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getSourceURL, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_unbound_script_GetSourceMappingURL, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getSourceMappingURL, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_unbound_script_GetLineNumber, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getLineNumber, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, code_pos, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_unbound_script_methods[] = {
-    PHP_ME(V8UnboundScript, __construct,            arginfo_v8_unbound_script___construct,          ZEND_ACC_PRIVATE | ZEND_ACC_CTOR)
-    PHP_ME(V8UnboundScript, GetIsolate,             arginfo_v8_unbound_script_GetIsolate,           ZEND_ACC_PUBLIC)
-    PHP_ME(V8UnboundScript, BindToContext,          arginfo_v8_unbound_script_BindToContext,        ZEND_ACC_PUBLIC)
-    PHP_ME(V8UnboundScript, GetId,                  arginfo_v8_unbound_script_GetId,                ZEND_ACC_PUBLIC)
-    PHP_ME(V8UnboundScript, GetScriptName,          arginfo_v8_unbound_script_GetScriptName,        ZEND_ACC_PUBLIC)
-    PHP_ME(V8UnboundScript, GetSourceURL,           arginfo_v8_unbound_script_GetSourceURL,         ZEND_ACC_PUBLIC)
-    PHP_ME(V8UnboundScript, GetSourceMappingURL,    arginfo_v8_unbound_script_GetSourceMappingURL,  ZEND_ACC_PUBLIC)
-    PHP_ME(V8UnboundScript, GetLineNumber,          arginfo_v8_unbound_script_GetLineNumber,        ZEND_ACC_PUBLIC)
+    PHP_V8_ME(UnboundScript, __construct,         ZEND_ACC_PRIVATE | ZEND_ACC_CTOR)
+    PHP_V8_ME(UnboundScript, getIsolate,          ZEND_ACC_PUBLIC)
+    PHP_V8_ME(UnboundScript, bindToContext,       ZEND_ACC_PUBLIC)
+    PHP_V8_ME(UnboundScript, getId,               ZEND_ACC_PUBLIC)
+    PHP_V8_ME(UnboundScript, getScriptName,       ZEND_ACC_PUBLIC)
+    PHP_V8_ME(UnboundScript, getSourceURL,        ZEND_ACC_PUBLIC)
+    PHP_V8_ME(UnboundScript, getSourceMappingURL, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(UnboundScript, getLineNumber,       ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

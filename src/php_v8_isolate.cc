@@ -188,7 +188,7 @@ static void php_v8_fatal_error_handler(const char *location, const char *message
 }
 
 
-static PHP_METHOD(V8Isolate, __construct) {
+static PHP_METHOD(Isolate, __construct) {
     zval *snapshot_zv = NULL;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "|o!", &snapshot_zv) == FAILURE) {
@@ -222,7 +222,7 @@ static PHP_METHOD(V8Isolate, __construct) {
     php_v8_isolate->key.Reset(isolate, local_private_key);
 }
 
-static PHP_METHOD(V8Isolate, SetTimeLimit) {
+static PHP_METHOD(Isolate, setTimeLimit) {
     double time_limit_in_seconds;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "d", &time_limit_in_seconds) == FAILURE) {
@@ -239,7 +239,7 @@ static PHP_METHOD(V8Isolate, SetTimeLimit) {
     php_v8_isolate_limits_set_time_limit(php_v8_isolate, time_limit_in_seconds);
 }
 
-static PHP_METHOD(V8Isolate, GetTimeLimit) {
+static PHP_METHOD(Isolate, getTimeLimit) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -249,7 +249,7 @@ static PHP_METHOD(V8Isolate, GetTimeLimit) {
     RETVAL_DOUBLE(php_v8_isolate->limits.time_limit);
 }
 
-static PHP_METHOD(V8Isolate, IsTimeLimitHit) {
+static PHP_METHOD(Isolate, isTimeLimitHit) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -259,7 +259,7 @@ static PHP_METHOD(V8Isolate, IsTimeLimitHit) {
     RETVAL_BOOL(php_v8_isolate->limits.time_limit_hit);
 }
 
-static PHP_METHOD(V8Isolate, SetMemoryLimit) {
+static PHP_METHOD(Isolate, setMemoryLimit) {
     long memory_limit_in_bytes;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &memory_limit_in_bytes) == FAILURE) {
@@ -276,7 +276,7 @@ static PHP_METHOD(V8Isolate, SetMemoryLimit) {
     php_v8_isolate_limits_set_memory_limit(php_v8_isolate, static_cast<size_t>(memory_limit_in_bytes));
 }
 
-static PHP_METHOD(V8Isolate, GetMemoryLimit) {
+static PHP_METHOD(Isolate, getMemoryLimit) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -286,7 +286,7 @@ static PHP_METHOD(V8Isolate, GetMemoryLimit) {
     RETURN_LONG(php_v8_isolate->limits.memory_limit);
 }
 
-static PHP_METHOD(V8Isolate, IsMemoryLimitHit) {
+static PHP_METHOD(Isolate, isMemoryLimitHit) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -296,7 +296,7 @@ static PHP_METHOD(V8Isolate, IsMemoryLimitHit) {
     RETVAL_BOOL(php_v8_isolate->limits.memory_limit_hit);
 }
 
-static PHP_METHOD(V8Isolate, GetHeapStatistics) {
+static PHP_METHOD(Isolate, getHeapStatistics) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -311,7 +311,7 @@ static PHP_METHOD(V8Isolate, GetHeapStatistics) {
     php_v8_heap_statistics_create_from_heap_statistics(return_value, &hs);
 }
 
-static PHP_METHOD(V8Isolate, InContext) {
+static PHP_METHOD(Isolate, inContext) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -323,7 +323,7 @@ static PHP_METHOD(V8Isolate, InContext) {
     RETURN_BOOL(php_v8_isolate->isolate->InContext())
 }
 
-static PHP_METHOD(V8Isolate, GetEnteredContext) {
+static PHP_METHOD(Isolate, getEnteredContext) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -344,7 +344,7 @@ static PHP_METHOD(V8Isolate, GetEnteredContext) {
     Z_ADDREF_P(return_value);
 }
 
-static PHP_METHOD(V8Isolate, ThrowException) {
+static PHP_METHOD(Isolate, throwException) {
     zval *php_v8_context_zv;
     zval *php_v8_value_zv;
     zval *exception_zv = NULL;
@@ -385,7 +385,7 @@ static PHP_METHOD(V8Isolate, ThrowException) {
     isolate->ThrowException(local_value);
 }
 
-static PHP_METHOD(V8Isolate, IdleNotificationDeadline) {
+static PHP_METHOD(Isolate, idleNotificationDeadline) {
     double deadline_in_seconds;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "d", &deadline_in_seconds) == FAILURE) {
@@ -398,7 +398,7 @@ static PHP_METHOD(V8Isolate, IdleNotificationDeadline) {
     RETURN_BOOL(isolate->IdleNotificationDeadline(deadline_in_seconds));
 }
 
-static PHP_METHOD(V8Isolate, LowMemoryNotification) {
+static PHP_METHOD(Isolate, lowMemoryNotification) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -409,7 +409,7 @@ static PHP_METHOD(V8Isolate, LowMemoryNotification) {
     isolate->LowMemoryNotification();
 }
 
-static PHP_METHOD(V8Isolate, TerminateExecution) {
+static PHP_METHOD(Isolate, terminateExecution) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -426,7 +426,7 @@ static PHP_METHOD(V8Isolate, TerminateExecution) {
     isolate->TerminateExecution();
 }
 
-static PHP_METHOD(V8Isolate, IsExecutionTerminating) {
+static PHP_METHOD(Isolate, isExecutionTerminating) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -437,7 +437,7 @@ static PHP_METHOD(V8Isolate, IsExecutionTerminating) {
     RETURN_BOOL(isolate->IsExecutionTerminating());
 }
 
-static PHP_METHOD(V8Isolate, CancelTerminateExecution) {
+static PHP_METHOD(Isolate, cancelTerminateExecution) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -448,7 +448,7 @@ static PHP_METHOD(V8Isolate, CancelTerminateExecution) {
     isolate->CancelTerminateExecution();
 }
 
-static PHP_METHOD(V8Isolate, SetCaptureStackTraceForUncaughtExceptions) {
+static PHP_METHOD(Isolate, setCaptureStackTraceForUncaughtExceptions) {
     zend_bool capture;
     zend_long frame_limit = 10;
 
@@ -464,7 +464,7 @@ static PHP_METHOD(V8Isolate, SetCaptureStackTraceForUncaughtExceptions) {
     isolate->SetCaptureStackTraceForUncaughtExceptions(static_cast<bool>(capture), static_cast<int>(frame_limit));
 }
 
-static PHP_METHOD(V8Isolate, IsDead) {
+static PHP_METHOD(Isolate, isDead) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -475,7 +475,7 @@ static PHP_METHOD(V8Isolate, IsDead) {
     RETURN_BOOL(isolate->IsDead());
 }
 
-static PHP_METHOD(V8Isolate, IsInUse) {
+static PHP_METHOD(Isolate, isInUse) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -487,104 +487,97 @@ static PHP_METHOD(V8Isolate, IsInUse) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
                 ZEND_ARG_OBJ_INFO(0, snapshot, V8\\StartupData, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_SetTimeLimit, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setTimeLimit, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, time_limit_in_seconds, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetTimeLimit, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getTimeLimit, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsTimeLimitHit, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isTimeLimitHit, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_SetMemoryLimit, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setMemoryLimit, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, memory_limit_in_bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_GetMemoryLimit, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getMemoryLimit, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsMemoryLimitHit, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isMemoryLimitHit, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetHeapStatistics, ZEND_RETURN_VALUE, 0, V8\\HeapStatistics, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getHeapStatistics, ZEND_RETURN_VALUE, 0, V8\\HeapStatistics, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_InContext, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_inContext, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_isolate_GetEnteredContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getEnteredContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_ThrowException, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_throwException, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
                 ZEND_ARG_OBJ_INFO(0, e, Throwable, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IdleNotificationDeadline, ZEND_RETURN_VALUE, 1, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_idleNotificationDeadline, ZEND_RETURN_VALUE, 1, _IS_BOOL, 0)
                 ZEND_ARG_INFO(0, deadline_in_seconds)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_LowMemoryNotification, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_lowMemoryNotification, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_TerminateExecution, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_terminateExecution, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsExecutionTerminating, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-// void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_CancelTerminateExecution, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isExecutionTerminating, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 // void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_isolate_SetCaptureStackTraceForUncaughtExceptions, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_cancelTerminateExecution, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_END_ARG_INFO()
+
+// void method
+ZEND_BEGIN_ARG_INFO_EX(arginfo_setCaptureStackTraceForUncaughtExceptions, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_TYPE_INFO(0, capture, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, frame_limit, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsDead, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isDead, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_isolate_IsInUse, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isInUse, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_isolate_methods[] = {
-        PHP_ME(V8Isolate, __construct, arginfo_v8_isolate___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(V8Isolate, SetTimeLimit, arginfo_v8_isolate_SetTimeLimit, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, GetTimeLimit, arginfo_v8_isolate_GetTimeLimit, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, IsTimeLimitHit, arginfo_v8_isolate_IsTimeLimitHit, ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8Isolate, SetMemoryLimit, arginfo_v8_isolate_SetMemoryLimit, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, GetMemoryLimit, arginfo_v8_isolate_GetMemoryLimit, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, IsMemoryLimitHit, arginfo_v8_isolate_IsMemoryLimitHit, ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8Isolate, GetHeapStatistics, arginfo_v8_isolate_GetHeapStatistics, ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8Isolate, InContext, arginfo_v8_isolate_InContext, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, GetEnteredContext, arginfo_v8_isolate_GetEnteredContext, ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8Isolate, ThrowException, arginfo_v8_isolate_ThrowException, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, IdleNotificationDeadline, arginfo_v8_isolate_IdleNotificationDeadline, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, LowMemoryNotification, arginfo_v8_isolate_LowMemoryNotification, ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8Isolate, TerminateExecution, arginfo_v8_isolate_TerminateExecution, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, IsExecutionTerminating, arginfo_v8_isolate_IsExecutionTerminating, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, CancelTerminateExecution, arginfo_v8_isolate_CancelTerminateExecution, ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8Isolate, SetCaptureStackTraceForUncaughtExceptions, arginfo_v8_isolate_SetCaptureStackTraceForUncaughtExceptions, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, IsDead, arginfo_v8_isolate_IsDead, ZEND_ACC_PUBLIC)
-        PHP_ME(V8Isolate, IsInUse, arginfo_v8_isolate_IsInUse, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, __construct,              ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Isolate, setTimeLimit,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, getTimeLimit,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isTimeLimitHit,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, setMemoryLimit,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, getMemoryLimit,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isMemoryLimitHit,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, getHeapStatistics,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, inContext,                ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, getEnteredContext,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, throwException,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, idleNotificationDeadline, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, lowMemoryNotification,    ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, terminateExecution,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isExecutionTerminating,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, cancelTerminateExecution, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isDead,                   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isInUse,                  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, setCaptureStackTraceForUncaughtExceptions, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

@@ -25,17 +25,17 @@ $file_name = 'test.js';
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 $time_limit = 1.5;
-$helper->assert('Time limit accessor report no hit', false === $isolate->IsTimeLimitHit());
-$helper->assert('Get time limit default value is zero', 0.0 === $isolate->GetTimeLimit());
-$isolate->SetTimeLimit($time_limit);
-$helper->assert('Get time limit returns valid value', $time_limit === $isolate->GetTimeLimit());
+$helper->assert('Time limit accessor report no hit', false === $isolate->isTimeLimitHit());
+$helper->assert('Get time limit default value is zero', 0.0 === $isolate->getTimeLimit());
+$isolate->setTimeLimit($time_limit);
+$helper->assert('Get time limit returns valid value', $time_limit === $isolate->getTimeLimit());
 
 $helper->dump($isolate);
 $helper->line();
 
 $t = microtime(true);
 try {
-    $script->Run($context);
+    $script->run($context);
 } finally {
     $helper->line();
     $t = microtime(true) - $t;
@@ -43,8 +43,8 @@ try {
     $helper->assert('Script execution time is less than 0.5 sec', $t < 0.5);
 }
 
-$helper->assert('Get time limit returns valid value', $time_limit === $isolate->GetTimeLimit());
-$helper->assert('Time limit accessor report not hit', false === $isolate->IsTimeLimitHit());
+$helper->assert('Get time limit returns valid value', $time_limit === $isolate->getTimeLimit());
+$helper->assert('Time limit accessor report not hit', false === $isolate->isTimeLimitHit());
 
 $helper->line();
 $helper->dump($isolate);

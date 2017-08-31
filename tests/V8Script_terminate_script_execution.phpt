@@ -1,5 +1,5 @@
 --TEST--
-V8\Script::Run - terminate script execution
+V8\Script::run() - terminate script execution
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -15,22 +15,22 @@ require '.tracking_dtors.php';
 
 $isolate = new v8Tests\TrackingDtors\Isolate();
 
-//$isolate->SetCaptureStackTraceForUncaughtExceptions(true);
+//$isolate->setCaptureStackTraceForUncaughtExceptions(true);
 
 $global_template = new V8\ObjectTemplate($isolate);
 
 $timer = 0;
 $terminate = new V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) use (&$timer) {
     echo 'Going to terminate', PHP_EOL;
-    $isolate = $info->GetIsolate();
+    $isolate = $info->getIsolate();
 
 //    throw new Exception('test');
 
     $timer = microtime(true);
-    $script = new V8\Script($info->GetContext(), new \V8\StringValue($isolate, 'for(;;);'), new \V8\ScriptOrigin('wait_for_termination.js'));
-    $isolate->TerminateExecution();
+    $script = new V8\Script($info->getContext(), new \V8\StringValue($isolate, 'for(;;);'), new \V8\ScriptOrigin('wait_for_termination.js'));
+    $isolate->terminateExecution();
     try {
-        $script->Run($info->GetContext());
+        $script->run($info->getContext());
     } catch (\V8\Exceptions\TerminationException $e) {
         echo 'wait loop terminated', PHP_EOL;
     }
@@ -38,7 +38,7 @@ $terminate = new V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInf
     $e = null;
 });
 
-$global_template->Set(new \V8\StringValue($isolate, 'terminate'), $terminate, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'terminate'), $terminate, \V8\PropertyAttribute::DontDelete);
 
 $context = new V8\Context($isolate, $global_template);
 $v8_helper->injectConsoleLog($context);

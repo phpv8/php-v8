@@ -16,7 +16,7 @@ $helper->header('Object representation');
 $helper->dump($isolate);
 $helper->line();
 
-$helper->method_export($isolate, 'GetHeapStatistics');
+$helper->method_export($isolate, 'getHeapStatistics');
 
 $isolate = null;
 
@@ -29,7 +29,7 @@ Object representation:
 object(V8\Isolate)#2 (0) {
 }
 
-V8\Isolate->GetHeapStatistics():
+V8\Isolate->getHeapStatistics():
     object(V8\HeapStatistics)#26 (9) {
       ["total_heap_size":"V8\HeapStatistics":private]=>
       float(%f)

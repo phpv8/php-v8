@@ -39,23 +39,23 @@ class PhpV8Helpers {
      */
     public function getStackTraceFramesAsArray(\V8\Context $context, array $frames)
     {
-        $isolate = $context->GetIsolate();
+        $isolate = $context->getIsolate();
 
         $arr = new \V8\ArrayObject($context);
 
         foreach ($frames as $i => $frame) {
             $f = new \V8\ObjectValue($context);
 
-            $f->Set($context, new \V8\StringValue($isolate, 'line'), new \V8\NumberValue($isolate, $frame->GetLineNumber()));
-            $f->Set($context, new \V8\StringValue($isolate, 'column'), new \V8\NumberValue($isolate, $frame->GetColumn()));
-            $f->Set($context, new \V8\StringValue($isolate, 'scriptId'), new \V8\NumberValue($isolate, $frame->GetScriptId()));
-            $f->Set($context, new \V8\StringValue($isolate, 'scriptName'), new \V8\StringValue($isolate, $frame->GetScriptName()));
-            $f->Set($context, new \V8\StringValue($isolate, 'scriptNameOrSourceURL'), new \V8\StringValue($isolate, $frame->GetScriptNameOrSourceURL()));
-            $f->Set($context, new \V8\StringValue($isolate, 'functionName'), new \V8\StringValue($isolate, $frame->GetFunctionName()));
-            $f->Set($context, new \V8\StringValue($isolate, 'isEval'), new \V8\BooleanValue($isolate, $frame->IsEval()));
-            $f->Set($context, new \V8\StringValue($isolate, 'isConstructor'), new \V8\BooleanValue($isolate, $frame->IsConstructor()));
+            $f->set($context, new \V8\StringValue($isolate, 'line'), new \V8\NumberValue($isolate, $frame->getLineNumber()));
+            $f->set($context, new \V8\StringValue($isolate, 'column'), new \V8\NumberValue($isolate, $frame->getColumn()));
+            $f->set($context, new \V8\StringValue($isolate, 'scriptId'), new \V8\NumberValue($isolate, $frame->getScriptId()));
+            $f->set($context, new \V8\StringValue($isolate, 'scriptName'), new \V8\StringValue($isolate, $frame->getScriptName()));
+            $f->set($context, new \V8\StringValue($isolate, 'scriptNameOrSourceURL'), new \V8\StringValue($isolate, $frame->getScriptNameOrSourceURL()));
+            $f->set($context, new \V8\StringValue($isolate, 'functionName'), new \V8\StringValue($isolate, $frame->getFunctionName()));
+            $f->set($context, new \V8\StringValue($isolate, 'isEval'), new \V8\BooleanValue($isolate, $frame->isEval()));
+            $f->set($context, new \V8\StringValue($isolate, 'isConstructor'), new \V8\BooleanValue($isolate, $frame->isConstructor()));
 
-            $arr->Set($context, new \V8\IntegerValue($isolate, $i), $f);
+            $arr->set($context, new \V8\IntegerValue($isolate, $i), $f);
         }
 
         return $arr;
@@ -65,11 +65,11 @@ class PhpV8Helpers {
     {
         $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $args) use ($newline) {
 
-            $context = $args->GetContext();
+            $context = $args->getContext();
 
             $out = [];
 
-            foreach ($args->Arguments() as $arg) {
+            foreach ($args->arguments() as $arg) {
                 $out[] = $this->toString($arg, $context);
             }
 
@@ -80,12 +80,12 @@ class PhpV8Helpers {
     }
 
     public function injectConsoleLog(\V8\Context $context) {
-        $isolate = $context->GetIsolate();
+        $isolate = $context->getIsolate();
         $obj_tpl = new \V8\ObjectTemplate($isolate);
-        $obj_tpl->Set(new \V8\StringValue($isolate, 'log'), $this->getPrintFunctionTemplate($isolate, true));
+        $obj_tpl->set(new \V8\StringValue($isolate, 'log'), $this->getPrintFunctionTemplate($isolate, true));
 
-        $console_obj = $obj_tpl->NewInstance($context);
-        $context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'console'), $console_obj);
+        $console_obj = $obj_tpl->newInstance($context);
+        $context->globalObject()->set($context, new \V8\StringValue($isolate, 'console'), $console_obj);
 
         return $context;
     }
@@ -98,27 +98,27 @@ class PhpV8Helpers {
      */
     public function toString(\V8\Value $arg, \V8\Context $context)
     {
-        if ($arg->IsUndefined()) {
+        if ($arg->isUndefined()) {
             return '<undefined>';
         }
 
-        if ($arg->IsNull()) {
+        if ($arg->isNull()) {
             return var_export(null, true);
         }
 
-        if ($arg->IsTrue() || $arg->IsFalse()) {
-            return var_export($arg->BooleanValue($context), true);
+        if ($arg->isTrue() || $arg->isFalse()) {
+            return var_export($arg->booleanValue($context), true);
         }
 
-        if ($arg->IsArray()) {
-            $len = $arg->Length();
+        if ($arg->isArray()) {
+            $len = $arg->length();
 
             $items = '<empty>';
 
             if ($len > 0) {
                 $items = [];
                 for($i =0; $i < $len; $i++) {
-                    $item = $arg->Get($context, new \V8\NumberValue($context->GetIsolate(), $i));
+                    $item = $arg->get($context, new \V8\NumberValue($context->getIsolate(), $i));
 
                     $items[] = $this->toString($item, $context);
                 }
@@ -129,28 +129,29 @@ class PhpV8Helpers {
             return '[' . $items . ']';
         }
 
-        if ($arg->IsSymbol()) {
-            return '{Symbol: ' . $arg->Name()->Value() . '}';
+        if ($arg->isSymbol()) {
+            return '{Symbol: ' . $arg->name()->value() . '}';
         }
 
-        if ($arg->IsSymbolObject()) {
-            return '{Symbol object: ' . $arg->ValueOf()->Name()->Value() . '}';
+        if ($arg->isSymbolObject()) {
+            /** @var \V8\SymbolObject $arg */
+            return '{Symbol object: ' . $arg->valueOf()->name()->value() . '}';
         }
 
 
-        return $arg->ToString($context)->Value();
+        return $arg->toString($context)->value();
     }
 
     public function run_checks(\V8\Value $value, $title=null) {
         $title = $title ?: 'Checks on ' . get_class($value);
         $this->testsuite->header($title);
 
-        $filter = new ArrayListFilter(['TypeOf'], false);
-        $finalizer = new CallChainFinalizer([\V8\StringValue::class => 'Value'], [], false);
+        $filter = new ArrayListFilter(['typeOf'], false);
+        $finalizer = new CallChainFinalizer([\V8\StringValue::class => 'value'], [], false);
         $this->testsuite->dump_object_methods($value, [], $filter, $finalizer);
         $this->testsuite->line();
 
-        $filter = new RegexpFilter('/^Is/');
+        $filter = new RegexpFilter('/^is/');
         $this->testsuite->dump_object_methods($value, [], $filter);
         $this->testsuite->space();
     }
@@ -158,12 +159,12 @@ class PhpV8Helpers {
     public function CompileRun(\V8\Context $context, $script) {
 
         if (!($script instanceof \V8\StringValue)) {
-            $script = new \V8\StringValue($context->GetIsolate(), $script);
+            $script = new \V8\StringValue($context->getIsolate(), $script);
         }
 
         $script = new \V8\Script($context, $script, new \V8\ScriptOrigin('test.js'));
 
-        return $script->Run($context);
+        return $script->run($context);
     }
 
     public function CompileTryRun(\V8\Context $context, $script) {
@@ -182,10 +183,10 @@ class PhpV8Helpers {
         $res = $this->CompileTryRun($context,$script);
 
         if ($res) {
-            if (!$res->IsString()) {
+            if (!$res->isString()) {
                 echo 'Actual result for expected ', var_export($expected, true), ' is not a string', PHP_EOL;
             } else {
-                $this->testsuite->value_matches($expected, $res->Value());
+                $this->testsuite->value_matches($expected, $res->value());
             }
         }
     }
@@ -194,12 +195,12 @@ class PhpV8Helpers {
         $res = $this->CompileTryRun($context, $script);
 
         if ($res) {
-            if (!$res->IsBoolean()) {
+            if (!$res->isBoolean()) {
                 echo 'Actual result for expected value is not a boolean', PHP_EOL;
                 return;
             }
 
-            $this->testsuite->value_matches($expected, $res->BooleanValue($context));
+            $this->testsuite->value_matches($expected, $res->booleanValue($context));
         }
     }
 
@@ -218,7 +219,7 @@ class PhpV8Helpers {
             return;
         }
 
-        if (!$res->SameValue($expected)) {
+        if (!$res->sameValue($expected)) {
             echo 'Actual and expected objects are not the same', PHP_EOL;
         } else {
             echo 'Actual and expected objects are the same', PHP_EOL;
@@ -232,7 +233,7 @@ class PhpV8Helpers {
             return;
         }
 
-        if (!$res->IsUndefined()) {
+        if (!$res->isUndefined()) {
             echo 'Actual result for expected value is not undefined', PHP_EOL;
         } else {
             echo 'Actual result for expected value is undefined', PHP_EOL;
@@ -246,13 +247,13 @@ class PhpV8Helpers {
             return;
         }
 
-        if (!$res->IsNumber()) {
+        if (!$res->isNumber()) {
             echo 'Actual result for expected value is not a number', PHP_EOL;
             return;
         }
 
         if ($expected !== null) {
-            $this->testsuite->value_matches($expected, $res->Int32Value($context));
+            $this->testsuite->value_matches($expected, $res->int32Value($context));
         }
     }
 

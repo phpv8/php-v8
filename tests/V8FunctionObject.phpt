@@ -24,7 +24,7 @@ $func = new v8Tests\TrackingDtors\FunctionObject($context, function (\V8\Functio
     echo 'Should output Hello World string', PHP_EOL;
 });
 
-$func->SetName(new \V8\StringValue($isolate, 'custom_name'));
+$func->setName(new \V8\StringValue($isolate, 'custom_name'));
 
 $helper->header('Object representation');
 $helper->dump($func);
@@ -32,12 +32,12 @@ $helper->space();
 
 $helper->assert('FunctionObject extends ObjectValue', $func instanceof \V8\ObjectValue);
 $helper->assert('FunctionObject implements AdjustableExternalMemoryInterface', $func instanceof \V8\AdjustableExternalMemoryInterface);
-$helper->assert('FunctionObject is instanceof Function', $func->InstanceOf($context, $context->GlobalObject()->Get($context, new \V8\StringValue($isolate, 'Function'))));
+$helper->assert('FunctionObject is instanceof Function', $func->instanceOf($context, $context->globalObject()->get($context, new \V8\StringValue($isolate, 'Function'))));
 $helper->line();
 
 $v8_helper->run_checks($func, 'Checkers');
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'print'), $func);
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'print'), $func);
 
 $source = 'print("Hello, world"); delete print; "Script done"';
 $file_name = 'test.js';
@@ -45,10 +45,10 @@ $file_name = 'test.js';
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
-$helper->dump($script->Run($context)->ToString($context)->Value());
+$helper->dump($script->run($context)->toString($context)->value());
 $helper->line();
 
-$helper->dump_object_methods($func, [], new ArrayMapFilter(['GetScriptOrigin' => true]));
+$helper->dump_object_methods($func, [], new ArrayMapFilter(['getScriptOrigin' => true]));
 $helper->line();
 
 echo 'We are done for now', PHP_EOL;
@@ -76,64 +76,64 @@ FunctionObject is instanceof Function: ok
 
 Checkers:
 ---------
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->TypeOf(): V8\StringValue->Value(): string(8) "function"
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->typeOf(): V8\StringValue->value(): string(8) "function"
 
-v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->IsCallable(): bool(true)
-v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->IsConstructor(): bool(true)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUndefined(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNull(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNullOrUndefined(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsTrue(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsFalse(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsName(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsString(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSymbol(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsFunction(): bool(true)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsArray(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsObject(): bool(true)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsBoolean(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNumber(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsInt32(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint32(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsDate(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsArgumentsObject(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsBooleanObject(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNumberObject(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsStringObject(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSymbolObject(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsNativeError(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsRegExp(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsAsyncFunction(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsGeneratorFunction(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsGeneratorObject(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsPromise(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsMap(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSet(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsMapIterator(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSetIterator(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsWeakMap(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsWeakSet(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsArrayBuffer(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsArrayBufferView(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsTypedArray(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint8Array(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint8ClampedArray(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsInt8Array(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint16Array(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsInt16Array(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsUint32Array(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsInt32Array(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsFloat32Array(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsFloat64Array(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsDataView(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsSharedArrayBuffer(): bool(false)
-v8Tests\TrackingDtors\FunctionObject(V8\Value)->IsProxy(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->isCallable(): bool(true)
+v8Tests\TrackingDtors\FunctionObject(V8\ObjectValue)->isConstructor(): bool(true)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isUndefined(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isNull(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isNullOrUndefined(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isTrue(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isFalse(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isName(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isString(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isSymbol(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isFunction(): bool(true)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isArray(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isObject(): bool(true)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isBoolean(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isNumber(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isInt32(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isUint32(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isDate(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isArgumentsObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isBooleanObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isNumberObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isStringObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isSymbolObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isNativeError(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isRegExp(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isAsyncFunction(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isGeneratorFunction(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isGeneratorObject(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isPromise(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isMap(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isSet(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isMapIterator(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isSetIterator(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isWeakMap(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isWeakSet(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isArrayBuffer(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isArrayBufferView(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isTypedArray(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isUint8Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isUint8ClampedArray(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isInt8Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isUint16Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isInt16Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isUint32Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isInt32Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isFloat32Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isFloat64Array(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isDataView(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isSharedArrayBuffer(): bool(false)
+v8Tests\TrackingDtors\FunctionObject(V8\Value)->isProxy(): bool(false)
 
 
 Should output Hello World string
 string(11) "Script done"
 
-v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->GetScriptOrigin():
+v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->getScriptOrigin():
     object(V8\ScriptOrigin)#128 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""

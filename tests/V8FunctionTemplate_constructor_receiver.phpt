@@ -22,15 +22,15 @@ $v8_helper->injectConsoleLog($context);
 
 $cb = function (\V8\FunctionCallbackInfo $args) {
     echo 'Callback', PHP_EOL;
-    $args->GetReturnValue()->Set(new \V8\IntegerValue($args->GetIsolate(), 42));
+    $args->getReturnValue()->set(new \V8\IntegerValue($args->getIsolate(), 42));
 };
 
 $sig_obj = new \V8\FunctionTemplate($isolate);
 
 $x = new \V8\FunctionTemplate($isolate, $cb, $sig_obj);
 
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'sig_obj'), $sig_obj->GetFunction($context));
-$context->GlobalObject()->Set($context, new \V8\StringValue($isolate, 'x'), $x->GetFunction($context));
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'sig_obj'), $sig_obj->getFunction($context));
+$context->globalObject()->set($context, new \V8\StringValue($isolate, 'x'), $x->getFunction($context));
 
 $v8_helper->CompileRun($context, "var s = new sig_obj();");
 
@@ -49,10 +49,10 @@ try {
 }
 
 $res = $v8_helper->CompileRun($context, "s.x = x; s.x()");
-$v8_helper->CHECK_EQ(42, $res->Value());
+$v8_helper->CHECK_EQ(42, $res->value());
 
 $res = $v8_helper->CompileRun($context, "x.call(s)");
-$v8_helper->CHECK_EQ(42, $res->Value());
+$v8_helper->CHECK_EQ(42, $res->value());
 
 
 ?>

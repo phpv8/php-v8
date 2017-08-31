@@ -23,7 +23,7 @@ zend_class_entry *php_v8_number_class_entry;
 #define this_ce php_v8_number_class_entry
 
 
-static PHP_METHOD(V8Number, __construct) {
+static PHP_METHOD(Number, __construct) {
     zval *php_v8_isolate_zv;
 
     double value = 0;
@@ -42,7 +42,7 @@ static PHP_METHOD(V8Number, __construct) {
 }
 
 
-static PHP_METHOD(V8Number, Value) {
+static PHP_METHOD(Number, value) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -56,19 +56,19 @@ static PHP_METHOD(V8Number, Value) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_number___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_TYPE_INFO(0, value, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
 // no strict typing while we'll inherit this class
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_number_Value, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_value, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_number_methods[] = {
-        PHP_ME(V8Number, __construct, arginfo_v8_number___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_ME(V8Number, Value, arginfo_v8_number_Value, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Number, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Number, value,       ZEND_ACC_PUBLIC)
         PHP_FE_END
 };
 

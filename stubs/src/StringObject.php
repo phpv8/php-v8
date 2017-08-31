@@ -33,7 +33,7 @@ class StringObject extends ObjectValue
     /**
      * @return \V8\StringValue
      */
-    public function ValueOf()
+    public function valueOf()
     {
     }
 }

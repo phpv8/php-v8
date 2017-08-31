@@ -31,25 +31,25 @@ $getter = function (NameValue $property, PropertyCallbackInfo $info) use (&$prop
     $helper->dump($info);
     $helper->space();
 
-    $helper->assert('Callback info holds original isolate object', $info->GetIsolate(), $isolate);
-    $helper->assert('Callback info holds original isolate object', $info->GetContext(), $context);
+    $helper->assert('Callback info holds original isolate object', $info->getIsolate(), $isolate);
+    $helper->assert('Callback info holds original isolate object', $info->getContext(), $context);
 
     $helper->space();
 
-    $info->GetReturnValue()->Set(new StringValue($info->GetIsolate(), $prop_value));
+    $info->getReturnValue()->set(new StringValue($info->getIsolate(), $prop_value));
 };
 
 
 $obj = new ObjectValue($context);
 
-$obj->SetAccessor($context, new StringValue($isolate, 'test'), $getter);
+$obj->setAccessor($context, new StringValue($isolate, 'test'), $getter);
 
-$context->GlobalObject()->Set($context, new StringValue($isolate, 'obj'), $obj);
+$context->globalObject()->set($context, new StringValue($isolate, 'obj'), $obj);
 
 $script = new Script($context, new StringValue($isolate, 'obj.test'));
 
 
-$helper->dump($script->Run($context)->ToString($context)->Value());
+$helper->dump($script->run($context)->toString($context)->value());
 
 ?>
 --EXPECT--

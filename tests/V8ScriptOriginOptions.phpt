@@ -78,10 +78,10 @@ object(V8\ScriptOriginOptions)#2 (4) {
 
 Test getters (default):
 -----------------------
-V8\ScriptOriginOptions->IsSharedCrossOrigin(): bool(false)
-V8\ScriptOriginOptions->IsOpaque(): bool(false)
-V8\ScriptOriginOptions->IsWasm(): bool(false)
-V8\ScriptOriginOptions->IsModule(): bool(false)
+V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(false)
+V8\ScriptOriginOptions->isOpaque(): bool(false)
+V8\ScriptOriginOptions->isWasm(): bool(false)
+V8\ScriptOriginOptions->isModule(): bool(false)
 
 
 Object representation:
@@ -100,10 +100,10 @@ object(V8\ScriptOriginOptions)#11 (4) {
 
 Test getters:
 -------------
-V8\ScriptOriginOptions->IsSharedCrossOrigin(): bool(true)
-V8\ScriptOriginOptions->IsOpaque(): bool(false)
-V8\ScriptOriginOptions->IsWasm(): bool(false)
-V8\ScriptOriginOptions->IsModule(): bool(false)
+V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(true)
+V8\ScriptOriginOptions->isOpaque(): bool(false)
+V8\ScriptOriginOptions->isWasm(): bool(false)
+V8\ScriptOriginOptions->isModule(): bool(false)
 
 
 Object representation:
@@ -122,10 +122,10 @@ object(V8\ScriptOriginOptions)#4 (4) {
 
 Test getters:
 -------------
-V8\ScriptOriginOptions->IsSharedCrossOrigin(): bool(false)
-V8\ScriptOriginOptions->IsOpaque(): bool(true)
-V8\ScriptOriginOptions->IsWasm(): bool(false)
-V8\ScriptOriginOptions->IsModule(): bool(false)
+V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(false)
+V8\ScriptOriginOptions->isOpaque(): bool(true)
+V8\ScriptOriginOptions->isWasm(): bool(false)
+V8\ScriptOriginOptions->isModule(): bool(false)
 
 
 Object representation:
@@ -144,10 +144,10 @@ object(V8\ScriptOriginOptions)#10 (4) {
 
 Test getters:
 -------------
-V8\ScriptOriginOptions->IsSharedCrossOrigin(): bool(false)
-V8\ScriptOriginOptions->IsOpaque(): bool(false)
-V8\ScriptOriginOptions->IsWasm(): bool(false)
-V8\ScriptOriginOptions->IsModule(): bool(false)
+V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(false)
+V8\ScriptOriginOptions->isOpaque(): bool(false)
+V8\ScriptOriginOptions->isWasm(): bool(false)
+V8\ScriptOriginOptions->isModule(): bool(false)
 
 
 Object representation:
@@ -166,7 +166,7 @@ object(V8\ScriptOriginOptions)#6 (4) {
 
 Test getters:
 -------------
-V8\ScriptOriginOptions->IsSharedCrossOrigin(): bool(false)
-V8\ScriptOriginOptions->IsOpaque(): bool(false)
-V8\ScriptOriginOptions->IsWasm(): bool(false)
-V8\ScriptOriginOptions->IsModule(): bool(false)
+V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(false)
+V8\ScriptOriginOptions->isOpaque(): bool(false)
+V8\ScriptOriginOptions->isWasm(): bool(false)
+V8\ScriptOriginOptions->isModule(): bool(false)

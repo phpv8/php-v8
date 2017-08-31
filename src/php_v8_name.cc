@@ -23,7 +23,7 @@ zend_class_entry* php_v8_name_class_entry;
 #define this_ce php_v8_name_class_entry
 
 
-static PHP_METHOD(V8Name, GetIdentityHash)
+static PHP_METHOD(Name, getIdentityHash)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -42,12 +42,12 @@ static PHP_METHOD(V8Name, GetIdentityHash)
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_name_GetIdentityHash, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getIdentityHash, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_name_methods[] = {
-    PHP_ME(V8Name, GetIdentityHash, arginfo_v8_name_GetIdentityHash, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(Name, getIdentityHash, ZEND_ACC_PUBLIC)
 
     PHP_FE_END
 };

@@ -20,30 +20,32 @@ namespace V8;
  */
 class SetObject extends ObjectValue
 {
-    public function Size(): float
+    public function size(): float
     {
     }
 
-    public function Clear()
+    public function clear()
     {
     }
 
-    public function Add(Context $context, Value $key): SetObject
+    public function add(Context $context, Value $key): SetObject
     {
     }
 
-    public function Has(Context $context, Value $key): bool
+    public function has(Context $context, Value $key): bool
     {
     }
 
-    public function Delete(Context $context, Value $key): bool
+    public function delete(Context $context, Value $key): bool
     {
     }
 
     /**
      * Returns an array of the keys in this Set.
+     *
+     * @return \V8\ArrayObject
      */
-    public function AsArray(): ArrayObject
+    public function asArray(): ArrayObject
     {
     }
 }

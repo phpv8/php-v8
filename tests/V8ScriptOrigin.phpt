@@ -16,19 +16,19 @@ $helper->space();
 
 $helper->header('Test getters (default)');
 
-$helper->method_matches_with_output($obj, 'ResourceName', 'test');
-$helper->method_matches_with_output($obj, 'ResourceLineOffset', 0);
-$helper->method_matches_with_output($obj, 'ResourceColumnOffset', 0);
-$helper->method_matches_with_output($obj, 'ScriptID', 0);
-$helper->method_matches_with_output($obj, 'SourceMapUrl', '');
-$helper->method_matches_instanceof($obj, 'Options', V8\ScriptOriginOptions::class);
+$helper->method_matches_with_output($obj, 'resourceName', 'test');
+$helper->method_matches_with_output($obj, 'resourceLineOffset', 0);
+$helper->method_matches_with_output($obj, 'resourceColumnOffset', 0);
+$helper->method_matches_with_output($obj, 'scriptID', 0);
+$helper->method_matches_with_output($obj, 'sourceMapUrl', '');
+$helper->method_matches_instanceof($obj, 'options', V8\ScriptOriginOptions::class);
 $helper->space();
 
-$options = $obj->Options();
+$options = $obj->options();
 
 $helper->header('Test options getters (default)');
-$helper->method_matches_with_output($options, 'IsSharedCrossOrigin', false);
-$helper->method_matches_with_output($options, 'IsOpaque', false);
+$helper->method_matches_with_output($options, 'isSharedCrossOrigin', false);
+$helper->method_matches_with_output($options, 'isOpaque', false);
 $helper->space();
 
 
@@ -40,21 +40,21 @@ $helper->space();
 
 $helper->header('Test getters');
 
-$helper->method_matches_with_output($obj, 'ResourceName', 'test');
-$helper->method_matches_with_output($obj, 'ResourceLineOffset', 1);
-$helper->method_matches_with_output($obj, 'ResourceColumnOffset', 2);
-$helper->method_matches_with_output($obj, 'ScriptID', 3);
-$helper->method_matches_with_output($obj, 'SourceMapUrl', 'map');
-$helper->method_matches_instanceof($obj, 'Options', V8\ScriptOriginOptions::class);
+$helper->method_matches_with_output($obj, 'resourceName', 'test');
+$helper->method_matches_with_output($obj, 'resourceLineOffset', 1);
+$helper->method_matches_with_output($obj, 'resourceColumnOffset', 2);
+$helper->method_matches_with_output($obj, 'scriptID', 3);
+$helper->method_matches_with_output($obj, 'sourceMapUrl', 'map');
+$helper->method_matches_instanceof($obj, 'options', V8\ScriptOriginOptions::class);
 $helper->space();
 
-$options = $obj->Options();
+$options = $obj->options();
 
 $helper->header('Test options getters');
-$helper->method_matches_with_output($options, 'IsSharedCrossOrigin', true);
-$helper->method_matches_with_output($options, 'IsOpaque', true);
-$helper->method_matches_with_output($options, 'IsWasm', true);
-$helper->method_matches_with_output($options, 'IsModule', true);
+$helper->method_matches_with_output($options, 'isSharedCrossOrigin', true);
+$helper->method_matches_with_output($options, 'isOpaque', true);
+$helper->method_matches_with_output($options, 'isWasm', true);
+$helper->method_matches_with_output($options, 'isModule', true);
 $helper->space();
 
 ?>
@@ -88,18 +88,18 @@ object(V8\ScriptOrigin)#2 (6) {
 
 Test getters (default):
 -----------------------
-V8\ScriptOrigin::ResourceName() matches expected 'test'
-V8\ScriptOrigin::ResourceLineOffset() matches expected 0
-V8\ScriptOrigin::ResourceColumnOffset() matches expected 0
-V8\ScriptOrigin::ScriptID() matches expected 0
-V8\ScriptOrigin::SourceMapUrl() matches expected ''
-V8\ScriptOrigin::Options() result is instance of V8\ScriptOriginOptions
+V8\ScriptOrigin::resourceName() matches expected 'test'
+V8\ScriptOrigin::resourceLineOffset() matches expected 0
+V8\ScriptOrigin::resourceColumnOffset() matches expected 0
+V8\ScriptOrigin::scriptID() matches expected 0
+V8\ScriptOrigin::sourceMapUrl() matches expected ''
+V8\ScriptOrigin::options() result is instance of V8\ScriptOriginOptions
 
 
 Test options getters (default):
 -------------------------------
-V8\ScriptOriginOptions::IsSharedCrossOrigin() matches expected false
-V8\ScriptOriginOptions::IsOpaque() matches expected false
+V8\ScriptOriginOptions::isSharedCrossOrigin() matches expected false
+V8\ScriptOriginOptions::isOpaque() matches expected false
 
 
 Object representation:
@@ -131,17 +131,17 @@ object(V8\ScriptOrigin)#4 (6) {
 
 Test getters:
 -------------
-V8\ScriptOrigin::ResourceName() matches expected 'test'
-V8\ScriptOrigin::ResourceLineOffset() matches expected 1
-V8\ScriptOrigin::ResourceColumnOffset() matches expected 2
-V8\ScriptOrigin::ScriptID() matches expected 3
-V8\ScriptOrigin::SourceMapUrl() matches expected 'map'
-V8\ScriptOrigin::Options() result is instance of V8\ScriptOriginOptions
+V8\ScriptOrigin::resourceName() matches expected 'test'
+V8\ScriptOrigin::resourceLineOffset() matches expected 1
+V8\ScriptOrigin::resourceColumnOffset() matches expected 2
+V8\ScriptOrigin::scriptID() matches expected 3
+V8\ScriptOrigin::sourceMapUrl() matches expected 'map'
+V8\ScriptOrigin::options() result is instance of V8\ScriptOriginOptions
 
 
 Test options getters:
 ---------------------
-V8\ScriptOriginOptions::IsSharedCrossOrigin() matches expected true
-V8\ScriptOriginOptions::IsOpaque() matches expected true
-V8\ScriptOriginOptions::IsWasm() matches expected true
-V8\ScriptOriginOptions::IsModule() matches expected true
+V8\ScriptOriginOptions::isSharedCrossOrigin() matches expected true
+V8\ScriptOriginOptions::isOpaque() matches expected true
+V8\ScriptOriginOptions::isWasm() matches expected true
+V8\ScriptOriginOptions::isModule() matches expected true

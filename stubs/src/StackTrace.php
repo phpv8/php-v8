@@ -48,7 +48,7 @@ class StackTrace
      *
      * @return StackFrame[]
      */
-    public function GetFrames(): array
+    public function getFrames(): array
     {
         return $this->frames;
     }
@@ -62,7 +62,7 @@ class StackTrace
      *
      * @throws Exception When index is out of range
      */
-    public function GetFrame(int $index): StackFrame
+    public function getFrame(int $index): StackFrame
     {
         if ($index < 0 || !isset($this->frames[$index])) {
             throw new Exception('Frame index is out of range');
@@ -76,7 +76,7 @@ class StackTrace
      *
      * @return int
      */
-    public function GetFrameCount(): int
+    public function getFrameCount(): int
     {
         return count($this->frames);
     }
@@ -97,7 +97,7 @@ class StackTrace
      *
      * @return StackTrace
      */
-    public static function CurrentStackTrace(Isolate $isolate, int $frame_limit): StackTrace
+    public static function currentStackTrace(Isolate $isolate, int $frame_limit): StackTrace
     {
     }
 }

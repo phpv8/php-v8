@@ -21,11 +21,11 @@ namespace V8;
  */
 class MapObject extends ObjectValue
 {
-    public function Size(): float
+    public function size(): float
     {
     }
 
-    public function Clear()
+    public function clear()
     {
     }
 
@@ -35,7 +35,7 @@ class MapObject extends ObjectValue
      *
      * @return Value
      */
-    public function Get(Context $context, Value $key): Value
+    public function get(Context $context, Value $key): Value
     {
     }
 
@@ -46,7 +46,7 @@ class MapObject extends ObjectValue
      *
      * @return MapObject
      */
-    public function Set(Context $context, Value $key, Value $value): MapObject
+    public function set(Context $context, Value $key, Value $value): MapObject
     {
     }
 
@@ -56,7 +56,7 @@ class MapObject extends ObjectValue
      *
      * @return bool
      */
-    public function Has(Context $context, Value $key): bool
+    public function has(Context $context, Value $key): bool
     {
     }
 
@@ -66,7 +66,7 @@ class MapObject extends ObjectValue
      *
      * @return bool
      */
-    public function Delete(Context $context, Value $key): bool
+    public function delete(Context $context, Value $key): bool
     {
     }
 
@@ -76,7 +76,7 @@ class MapObject extends ObjectValue
      *
      * @return ArrayObject
      */
-    public function AsArray(): ArrayObject
+    public function asArray(): ArrayObject
     {
     }
 

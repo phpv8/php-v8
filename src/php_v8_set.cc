@@ -24,7 +24,7 @@ zend_class_entry *php_v8_set_class_entry;
 #define this_ce php_v8_set_class_entry
 
 
-static PHP_METHOD(V8Set, __construct) {
+static PHP_METHOD(Set, __construct) {
     zval rv;
     zval *php_v8_context_zv;
 
@@ -43,7 +43,7 @@ static PHP_METHOD(V8Set, __construct) {
     php_v8_value->persistent->Reset(isolate, local_set);
 }
 
-static PHP_METHOD(V8Set, Size) {
+static PHP_METHOD(Set, size) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -55,7 +55,7 @@ static PHP_METHOD(V8Set, Size) {
     RETURN_DOUBLE(php_v8_value_get_local_as<v8::Set>(php_v8_value)->Size());
 }
 
-static PHP_METHOD(V8Set, Clear) {
+static PHP_METHOD(Set, clear) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -67,7 +67,7 @@ static PHP_METHOD(V8Set, Clear) {
     php_v8_value_get_local_as<v8::Set>(php_v8_value)->Clear();
 }
 
-static PHP_METHOD(V8Set, Add) {
+static PHP_METHOD(Set, add) {
     zval *php_v8_context_zv;
     zval *php_v8_key_zv;
 
@@ -99,7 +99,7 @@ static PHP_METHOD(V8Set, Add) {
     ZVAL_COPY(return_value, getThis());
 }
 
-static PHP_METHOD(V8Set, Has) {
+static PHP_METHOD(Set, has) {
     zval *php_v8_context_zv;
     zval *php_v8_key_zv;
 
@@ -131,7 +131,7 @@ static PHP_METHOD(V8Set, Has) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Set, Delete) {
+static PHP_METHOD(Set, delete) {
     zval *php_v8_context_zv;
     zval *php_v8_key_zv;
 
@@ -163,7 +163,7 @@ static PHP_METHOD(V8Set, Delete) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
-static PHP_METHOD(V8Set, AsArray) {
+static PHP_METHOD(Set, asArray) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
@@ -184,46 +184,43 @@ static PHP_METHOD(V8Set, AsArray) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_set___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_set_Size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_size, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_set_Clear, ZEND_RETURN_VALUE, ZEND_RETURN_VALUE, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_clear, ZEND_RETURN_VALUE, ZEND_RETURN_VALUE, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_set_Add, ZEND_RETURN_VALUE, 3, V8\\SetObject, 0)
-                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_set_Has, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_add, ZEND_RETURN_VALUE, 3, V8\\SetObject, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_set_Delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_has, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_v8_set_AsArray, ZEND_RETURN_VALUE, 0, V8\\ArrayObject, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_delete, ZEND_RETURN_VALUE, 2, _IS_BOOL, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, key, V8\\Value, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_asArray, ZEND_RETURN_VALUE, 0, V8\\ArrayObject, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_set_methods[] = {
-        PHP_ME(V8Set, __construct, arginfo_v8_set___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-
-        PHP_ME(V8Set, Size,     arginfo_v8_set_Size,    ZEND_ACC_PUBLIC)
-        PHP_ME(V8Set, Clear,    arginfo_v8_set_Clear,   ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8Set, Add,      arginfo_v8_set_Add,     ZEND_ACC_PUBLIC)
-        PHP_ME(V8Set, Has,      arginfo_v8_set_Has,     ZEND_ACC_PUBLIC)
-        PHP_ME(V8Set, Delete,   arginfo_v8_set_Delete,  ZEND_ACC_PUBLIC)
-
-        PHP_ME(V8Set, AsArray,  arginfo_v8_set_AsArray,  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Set, size,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, clear,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, add,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, has,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, delete,      ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Set, asArray,     ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

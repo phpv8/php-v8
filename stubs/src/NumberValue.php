@@ -31,7 +31,7 @@ class NumberValue extends PrimitiveValue
     /**
      * @return float
      */
-    public function Value()
+    public function value()
     {
     }
 }

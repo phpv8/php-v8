@@ -23,7 +23,7 @@ zend_class_entry* php_v8_string_class_entry;
 #define this_ce php_v8_string_class_entry
 
 
-static PHP_METHOD(V8String, __construct) {
+static PHP_METHOD(String, __construct) {
     zval *php_v8_isolate_zv;
 
     zend_string *string = NULL;
@@ -48,7 +48,7 @@ static PHP_METHOD(V8String, __construct) {
     php_v8_value->persistent->Reset(isolate, str_tpl_checked);
 }
 
-static PHP_METHOD(V8String, Value)
+static PHP_METHOD(String, value)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -67,7 +67,7 @@ static PHP_METHOD(V8String, Value)
 }
 
 
-static PHP_METHOD(V8String, Length)
+static PHP_METHOD(String, length)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -82,7 +82,7 @@ static PHP_METHOD(V8String, Length)
 }
 
 
-static PHP_METHOD(V8String, Utf8Length)
+static PHP_METHOD(String, utf8Length)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -97,7 +97,7 @@ static PHP_METHOD(V8String, Utf8Length)
 }
 
 
-static PHP_METHOD(V8String, IsOneByte)
+static PHP_METHOD(String, isOneByte)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -112,7 +112,7 @@ static PHP_METHOD(V8String, IsOneByte)
 }
 
 
-static PHP_METHOD(V8String, ContainsOnlyOneByte)
+static PHP_METHOD(String, containsOnlyOneByte)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -127,34 +127,35 @@ static PHP_METHOD(V8String, ContainsOnlyOneByte)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_v8_string___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_string_Value, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_value, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_string_Length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_string_Utf8Length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_utf8Length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_string_IsOneByte, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isOneByte, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_v8_string_ContainsOnlyOneByte, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_containsOnlyOneByte, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_string_methods[] = {
-    PHP_ME(V8String, __construct, arginfo_v8_string___construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(V8String, Value, arginfo_v8_string_Value, ZEND_ACC_PUBLIC)
-    PHP_ME(V8String, Length, arginfo_v8_string_Length, ZEND_ACC_PUBLIC)
-    PHP_ME(V8String, Utf8Length, arginfo_v8_string_Utf8Length, ZEND_ACC_PUBLIC)
-    PHP_ME(V8String, IsOneByte, arginfo_v8_string_IsOneByte, ZEND_ACC_PUBLIC)
-    PHP_ME(V8String, ContainsOnlyOneByte, arginfo_v8_string_ContainsOnlyOneByte, ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, __construct,         ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_V8_ME(String, value,               ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, length,              ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, utf8Length,          ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, isOneByte,           ZEND_ACC_PUBLIC)
+    PHP_V8_ME(String, containsOnlyOneByte, ZEND_ACC_PUBLIC)
+
     PHP_FE_END
 };
 

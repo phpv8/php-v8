@@ -18,7 +18,7 @@ $isolate = new V8\Isolate();
 $default = new V8\StringValue($isolate);
 $helper->header('Default constructor');
 $helper->dump($default);
-$helper->method_export($default, 'Value');
+$helper->method_export($default, 'value');
 $helper->space();
 
 
@@ -33,18 +33,18 @@ $helper->assert('StringValue extends Value', $value instanceof \V8\Value);
 $helper->line();
 
 $helper->header('Accessors');
-$helper->method_matches($value, 'GetIsolate', $isolate);
-$helper->method_export($value, 'Value');
+$helper->method_matches($value, 'getIsolate', $isolate);
+$helper->method_export($value, 'value');
 $helper->space();
 
 $v8_helper->run_checks($value, 'Checkers');
 
 $helper->header('Getters');
-$helper->assert('GetIdentityHash is integer', gettype($value->GetIdentityHash()), 'integer');
-$helper->method_export($value, 'Length');
-$helper->method_export($value, 'Utf8Length');
-$helper->method_export($value, 'IsOneByte');
-$helper->method_export($value, 'ContainsOnlyOneByte');
+$helper->assert('GetIdentityHash is integer', gettype($value->getIdentityHash()), 'integer');
+$helper->method_export($value, 'length');
+$helper->method_export($value, 'utf8Length');
+$helper->method_export($value, 'isOneByte');
+$helper->method_export($value, 'containsOnlyOneByte');
 $helper->space();
 
 $global_template = new \V8\ObjectTemplate($isolate);
@@ -52,25 +52,25 @@ $context = new \V8\Context($isolate, $global_template);
 
 
 $helper->header('Primitive converters');
-$helper->method_export($value, 'BooleanValue', [$context]);
-$helper->method_export($value, 'NumberValue', [$context]);
+$helper->method_export($value, 'booleanValue', [$context]);
+$helper->method_export($value, 'numberValue', [$context]);
 $helper->space();
 
 
 $value = new V8\StringValue($isolate, '');
 
 $helper->header('Test empty string constructor');
-$helper->method_export($value, 'Value');
-$helper->method_export($value, 'BooleanValue', [$context]);
-$helper->method_export($value, 'NumberValue', [$context]);
+$helper->method_export($value, 'value');
+$helper->method_export($value, 'booleanValue', [$context]);
+$helper->method_export($value, 'numberValue', [$context]);
 $helper->space();
 
 $value = new V8\StringValue($isolate);
 
 $helper->header('Test default constructor');
-$helper->method_export($value, 'Value');
-$helper->method_export($value, 'BooleanValue', [$context]);
-$helper->method_export($value, 'NumberValue', [$context]);
+$helper->method_export($value, 'value');
+$helper->method_export($value, 'booleanValue', [$context]);
+$helper->method_export($value, 'numberValue', [$context]);
 $helper->space();
 
 
@@ -79,13 +79,13 @@ $helper->header('Test encodings');
 foreach (['Hello, world!', 'Привет, мир!', 'こんにちは世界'] as $text ) {
   $value = new V8\StringValue($isolate, $text);
 
-  $helper->method_export($value, 'Value');
-  $helper->method_export($value, 'Length');
-  $helper->method_export($value, 'Utf8Length');
-  $helper->method_export($value, 'IsOneByte');
-  $helper->method_export($value, 'ContainsOnlyOneByte');
+  $helper->method_export($value, 'value');
+  $helper->method_export($value, 'length');
+  $helper->method_export($value, 'utf8Length');
+  $helper->method_export($value, 'isOneByte');
+  $helper->method_export($value, 'containsOnlyOneByte');
 
-  $helper->function_export('strlen', [$value->Value()]);
+  $helper->function_export('strlen', [$value->value()]);
   $helper->space();
 }
 
@@ -99,7 +99,7 @@ object(V8\StringValue)#4 (1) {
   object(V8\Isolate)#3 (0) {
   }
 }
-V8\StringValue->Value(): string(0) ""
+V8\StringValue->value(): string(0) ""
 
 
 Object representation:
@@ -116,115 +116,115 @@ StringValue extends Value: ok
 
 Accessors:
 ----------
-V8\StringValue::GetIsolate() matches expected value
-V8\StringValue->Value(): string(11) "test string"
+V8\StringValue::getIsolate() matches expected value
+V8\StringValue->value(): string(11) "test string"
 
 
 Checkers:
 ---------
-V8\StringValue(V8\Value)->TypeOf(): V8\StringValue->Value(): string(6) "string"
+V8\StringValue(V8\Value)->typeOf(): V8\StringValue->value(): string(6) "string"
 
-V8\StringValue->IsOneByte(): bool(true)
-V8\StringValue(V8\Value)->IsUndefined(): bool(false)
-V8\StringValue(V8\Value)->IsNull(): bool(false)
-V8\StringValue(V8\Value)->IsNullOrUndefined(): bool(false)
-V8\StringValue(V8\Value)->IsTrue(): bool(false)
-V8\StringValue(V8\Value)->IsFalse(): bool(false)
-V8\StringValue(V8\Value)->IsName(): bool(true)
-V8\StringValue(V8\Value)->IsString(): bool(true)
-V8\StringValue(V8\Value)->IsSymbol(): bool(false)
-V8\StringValue(V8\Value)->IsFunction(): bool(false)
-V8\StringValue(V8\Value)->IsArray(): bool(false)
-V8\StringValue(V8\Value)->IsObject(): bool(false)
-V8\StringValue(V8\Value)->IsBoolean(): bool(false)
-V8\StringValue(V8\Value)->IsNumber(): bool(false)
-V8\StringValue(V8\Value)->IsInt32(): bool(false)
-V8\StringValue(V8\Value)->IsUint32(): bool(false)
-V8\StringValue(V8\Value)->IsDate(): bool(false)
-V8\StringValue(V8\Value)->IsArgumentsObject(): bool(false)
-V8\StringValue(V8\Value)->IsBooleanObject(): bool(false)
-V8\StringValue(V8\Value)->IsNumberObject(): bool(false)
-V8\StringValue(V8\Value)->IsStringObject(): bool(false)
-V8\StringValue(V8\Value)->IsSymbolObject(): bool(false)
-V8\StringValue(V8\Value)->IsNativeError(): bool(false)
-V8\StringValue(V8\Value)->IsRegExp(): bool(false)
-V8\StringValue(V8\Value)->IsAsyncFunction(): bool(false)
-V8\StringValue(V8\Value)->IsGeneratorFunction(): bool(false)
-V8\StringValue(V8\Value)->IsGeneratorObject(): bool(false)
-V8\StringValue(V8\Value)->IsPromise(): bool(false)
-V8\StringValue(V8\Value)->IsMap(): bool(false)
-V8\StringValue(V8\Value)->IsSet(): bool(false)
-V8\StringValue(V8\Value)->IsMapIterator(): bool(false)
-V8\StringValue(V8\Value)->IsSetIterator(): bool(false)
-V8\StringValue(V8\Value)->IsWeakMap(): bool(false)
-V8\StringValue(V8\Value)->IsWeakSet(): bool(false)
-V8\StringValue(V8\Value)->IsArrayBuffer(): bool(false)
-V8\StringValue(V8\Value)->IsArrayBufferView(): bool(false)
-V8\StringValue(V8\Value)->IsTypedArray(): bool(false)
-V8\StringValue(V8\Value)->IsUint8Array(): bool(false)
-V8\StringValue(V8\Value)->IsUint8ClampedArray(): bool(false)
-V8\StringValue(V8\Value)->IsInt8Array(): bool(false)
-V8\StringValue(V8\Value)->IsUint16Array(): bool(false)
-V8\StringValue(V8\Value)->IsInt16Array(): bool(false)
-V8\StringValue(V8\Value)->IsUint32Array(): bool(false)
-V8\StringValue(V8\Value)->IsInt32Array(): bool(false)
-V8\StringValue(V8\Value)->IsFloat32Array(): bool(false)
-V8\StringValue(V8\Value)->IsFloat64Array(): bool(false)
-V8\StringValue(V8\Value)->IsDataView(): bool(false)
-V8\StringValue(V8\Value)->IsSharedArrayBuffer(): bool(false)
-V8\StringValue(V8\Value)->IsProxy(): bool(false)
+V8\StringValue->isOneByte(): bool(true)
+V8\StringValue(V8\Value)->isUndefined(): bool(false)
+V8\StringValue(V8\Value)->isNull(): bool(false)
+V8\StringValue(V8\Value)->isNullOrUndefined(): bool(false)
+V8\StringValue(V8\Value)->isTrue(): bool(false)
+V8\StringValue(V8\Value)->isFalse(): bool(false)
+V8\StringValue(V8\Value)->isName(): bool(true)
+V8\StringValue(V8\Value)->isString(): bool(true)
+V8\StringValue(V8\Value)->isSymbol(): bool(false)
+V8\StringValue(V8\Value)->isFunction(): bool(false)
+V8\StringValue(V8\Value)->isArray(): bool(false)
+V8\StringValue(V8\Value)->isObject(): bool(false)
+V8\StringValue(V8\Value)->isBoolean(): bool(false)
+V8\StringValue(V8\Value)->isNumber(): bool(false)
+V8\StringValue(V8\Value)->isInt32(): bool(false)
+V8\StringValue(V8\Value)->isUint32(): bool(false)
+V8\StringValue(V8\Value)->isDate(): bool(false)
+V8\StringValue(V8\Value)->isArgumentsObject(): bool(false)
+V8\StringValue(V8\Value)->isBooleanObject(): bool(false)
+V8\StringValue(V8\Value)->isNumberObject(): bool(false)
+V8\StringValue(V8\Value)->isStringObject(): bool(false)
+V8\StringValue(V8\Value)->isSymbolObject(): bool(false)
+V8\StringValue(V8\Value)->isNativeError(): bool(false)
+V8\StringValue(V8\Value)->isRegExp(): bool(false)
+V8\StringValue(V8\Value)->isAsyncFunction(): bool(false)
+V8\StringValue(V8\Value)->isGeneratorFunction(): bool(false)
+V8\StringValue(V8\Value)->isGeneratorObject(): bool(false)
+V8\StringValue(V8\Value)->isPromise(): bool(false)
+V8\StringValue(V8\Value)->isMap(): bool(false)
+V8\StringValue(V8\Value)->isSet(): bool(false)
+V8\StringValue(V8\Value)->isMapIterator(): bool(false)
+V8\StringValue(V8\Value)->isSetIterator(): bool(false)
+V8\StringValue(V8\Value)->isWeakMap(): bool(false)
+V8\StringValue(V8\Value)->isWeakSet(): bool(false)
+V8\StringValue(V8\Value)->isArrayBuffer(): bool(false)
+V8\StringValue(V8\Value)->isArrayBufferView(): bool(false)
+V8\StringValue(V8\Value)->isTypedArray(): bool(false)
+V8\StringValue(V8\Value)->isUint8Array(): bool(false)
+V8\StringValue(V8\Value)->isUint8ClampedArray(): bool(false)
+V8\StringValue(V8\Value)->isInt8Array(): bool(false)
+V8\StringValue(V8\Value)->isUint16Array(): bool(false)
+V8\StringValue(V8\Value)->isInt16Array(): bool(false)
+V8\StringValue(V8\Value)->isUint32Array(): bool(false)
+V8\StringValue(V8\Value)->isInt32Array(): bool(false)
+V8\StringValue(V8\Value)->isFloat32Array(): bool(false)
+V8\StringValue(V8\Value)->isFloat64Array(): bool(false)
+V8\StringValue(V8\Value)->isDataView(): bool(false)
+V8\StringValue(V8\Value)->isSharedArrayBuffer(): bool(false)
+V8\StringValue(V8\Value)->isProxy(): bool(false)
 
 
 Getters:
 --------
 GetIdentityHash is integer: ok
-V8\StringValue->Length(): int(11)
-V8\StringValue->Utf8Length(): int(11)
-V8\StringValue->IsOneByte(): bool(true)
-V8\StringValue->ContainsOnlyOneByte(): bool(true)
+V8\StringValue->length(): int(11)
+V8\StringValue->utf8Length(): int(11)
+V8\StringValue->isOneByte(): bool(true)
+V8\StringValue->containsOnlyOneByte(): bool(true)
 
 
 Primitive converters:
 ---------------------
-V8\StringValue(V8\Value)->BooleanValue(): bool(true)
-V8\StringValue(V8\Value)->NumberValue(): float(NAN)
+V8\StringValue(V8\Value)->booleanValue(): bool(true)
+V8\StringValue(V8\Value)->numberValue(): float(NAN)
 
 
 Test empty string constructor:
 ------------------------------
-V8\StringValue->Value(): string(0) ""
-V8\StringValue(V8\Value)->BooleanValue(): bool(false)
-V8\StringValue(V8\Value)->NumberValue(): float(0)
+V8\StringValue->value(): string(0) ""
+V8\StringValue(V8\Value)->booleanValue(): bool(false)
+V8\StringValue(V8\Value)->numberValue(): float(0)
 
 
 Test default constructor:
 -------------------------
-V8\StringValue->Value(): string(0) ""
-V8\StringValue(V8\Value)->BooleanValue(): bool(false)
-V8\StringValue(V8\Value)->NumberValue(): float(0)
+V8\StringValue->value(): string(0) ""
+V8\StringValue(V8\Value)->booleanValue(): bool(false)
+V8\StringValue(V8\Value)->numberValue(): float(0)
 
 
 Test encodings:
 ---------------
-V8\StringValue->Value(): string(13) "Hello, world!"
-V8\StringValue->Length(): int(13)
-V8\StringValue->Utf8Length(): int(13)
-V8\StringValue->IsOneByte(): bool(true)
-V8\StringValue->ContainsOnlyOneByte(): bool(true)
+V8\StringValue->value(): string(13) "Hello, world!"
+V8\StringValue->length(): int(13)
+V8\StringValue->utf8Length(): int(13)
+V8\StringValue->isOneByte(): bool(true)
+V8\StringValue->containsOnlyOneByte(): bool(true)
 strlen(): 13
 
 
-V8\StringValue->Value(): string(21) "Привет, мир!"
-V8\StringValue->Length(): int(12)
-V8\StringValue->Utf8Length(): int(21)
-V8\StringValue->IsOneByte(): bool(false)
-V8\StringValue->ContainsOnlyOneByte(): bool(false)
+V8\StringValue->value(): string(21) "Привет, мир!"
+V8\StringValue->length(): int(12)
+V8\StringValue->utf8Length(): int(21)
+V8\StringValue->isOneByte(): bool(false)
+V8\StringValue->containsOnlyOneByte(): bool(false)
 strlen(): 21
 
 
-V8\StringValue->Value(): string(21) "こんにちは世界"
-V8\StringValue->Length(): int(7)
-V8\StringValue->Utf8Length(): int(21)
-V8\StringValue->IsOneByte(): bool(false)
-V8\StringValue->ContainsOnlyOneByte(): bool(false)
+V8\StringValue->value(): string(21) "こんにちは世界"
+V8\StringValue->length(): int(7)
+V8\StringValue->utf8Length(): int(21)
+V8\StringValue->isOneByte(): bool(false)
+V8\StringValue->containsOnlyOneByte(): bool(false)
 strlen(): 21

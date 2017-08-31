@@ -15,14 +15,14 @@ $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters (default)');
-$helper->method_matches_with_output($obj, 'GetLineNumber', V8\Message::kNoLineNumberInfo);
-$helper->method_matches_with_output($obj, 'GetColumn', V8\Message::kNoColumnInfo);
-$helper->method_matches_with_output($obj, 'GetScriptId', V8\Message::kNoScriptIdInfo);
-$helper->method_matches_with_output($obj, 'GetScriptName', '');
-$helper->method_matches_with_output($obj, 'GetScriptNameOrSourceURL', '');
-$helper->method_matches_with_output($obj, 'GetFunctionName', '');
-$helper->method_matches_with_output($obj, 'IsEval', false);
-$helper->method_matches_with_output($obj, 'IsConstructor', false);
+$helper->method_matches_with_output($obj, 'getLineNumber', V8\Message::kNoLineNumberInfo);
+$helper->method_matches_with_output($obj, 'getColumn', V8\Message::kNoColumnInfo);
+$helper->method_matches_with_output($obj, 'getScriptId', V8\Message::kNoScriptIdInfo);
+$helper->method_matches_with_output($obj, 'getScriptName', '');
+$helper->method_matches_with_output($obj, 'getScriptNameOrSourceURL', '');
+$helper->method_matches_with_output($obj, 'getFunctionName', '');
+$helper->method_matches_with_output($obj, 'isEval', false);
+$helper->method_matches_with_output($obj, 'isConstructor', false);
 $helper->space();
 
 
@@ -34,14 +34,14 @@ $helper->dump($obj);
 $helper->space();
 
 $helper->header('Test getters');
-$helper->method_matches_with_output($obj, 'GetLineNumber', 1);
-$helper->method_matches_with_output($obj, 'GetColumn', 2);
-$helper->method_matches_with_output($obj, 'GetScriptId', 3);
-$helper->method_matches_with_output($obj, 'GetScriptName', 'script_name');
-$helper->method_matches_with_output($obj, 'GetScriptNameOrSourceURL', 'script_name_or_source_url');
-$helper->method_matches_with_output($obj, 'GetFunctionName', 'function_name');
-$helper->method_matches_with_output($obj, 'IsEval', true);
-$helper->method_matches_with_output($obj, 'IsConstructor', true);
+$helper->method_matches_with_output($obj, 'getLineNumber', 1);
+$helper->method_matches_with_output($obj, 'getColumn', 2);
+$helper->method_matches_with_output($obj, 'getScriptId', 3);
+$helper->method_matches_with_output($obj, 'getScriptName', 'script_name');
+$helper->method_matches_with_output($obj, 'getScriptNameOrSourceURL', 'script_name_or_source_url');
+$helper->method_matches_with_output($obj, 'getFunctionName', 'function_name');
+$helper->method_matches_with_output($obj, 'isEval', true);
+$helper->method_matches_with_output($obj, 'isConstructor', true);
 $helper->space();
 
 ?>
@@ -70,14 +70,14 @@ object(V8\StackFrame)#2 (8) {
 
 Test getters (default):
 -----------------------
-V8\StackFrame::GetLineNumber() matches expected 0
-V8\StackFrame::GetColumn() matches expected 0
-V8\StackFrame::GetScriptId() matches expected 0
-V8\StackFrame::GetScriptName() matches expected ''
-V8\StackFrame::GetScriptNameOrSourceURL() matches expected ''
-V8\StackFrame::GetFunctionName() matches expected ''
-V8\StackFrame::IsEval() matches expected false
-V8\StackFrame::IsConstructor() matches expected false
+V8\StackFrame::getLineNumber() matches expected 0
+V8\StackFrame::getColumn() matches expected 0
+V8\StackFrame::getScriptId() matches expected 0
+V8\StackFrame::getScriptName() matches expected ''
+V8\StackFrame::getScriptNameOrSourceURL() matches expected ''
+V8\StackFrame::getFunctionName() matches expected ''
+V8\StackFrame::isEval() matches expected false
+V8\StackFrame::isConstructor() matches expected false
 
 
 Object representation:
@@ -104,11 +104,11 @@ object(V8\StackFrame)#3 (8) {
 
 Test getters:
 -------------
-V8\StackFrame::GetLineNumber() matches expected 1
-V8\StackFrame::GetColumn() matches expected 2
-V8\StackFrame::GetScriptId() matches expected 3
-V8\StackFrame::GetScriptName() matches expected 'script_name'
-V8\StackFrame::GetScriptNameOrSourceURL() matches expected 'script_name_or_source_url'
-V8\StackFrame::GetFunctionName() matches expected 'function_name'
-V8\StackFrame::IsEval() matches expected true
-V8\StackFrame::IsConstructor() matches expected true
+V8\StackFrame::getLineNumber() matches expected 1
+V8\StackFrame::getColumn() matches expected 2
+V8\StackFrame::getScriptId() matches expected 3
+V8\StackFrame::getScriptName() matches expected 'script_name'
+V8\StackFrame::getScriptNameOrSourceURL() matches expected 'script_name_or_source_url'
+V8\StackFrame::getFunctionName() matches expected 'function_name'
+V8\StackFrame::isEval() matches expected true
+V8\StackFrame::isConstructor() matches expected true

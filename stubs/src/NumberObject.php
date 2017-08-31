@@ -33,7 +33,7 @@ class  NumberObject extends ObjectValue
     /**
      * @return double
      */
-    public function ValueOf()
+    public function valueOf()
     {
     }
 }

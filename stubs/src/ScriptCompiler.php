@@ -36,7 +36,7 @@ class  ScriptCompiler
      *
      * @return int
      */
-    public static function CachedDataVersionTag(): int
+    public static function cachedDataVersionTag(): int
     {
     }
 
@@ -59,7 +59,7 @@ class  ScriptCompiler
      *
      * @return UnboundScript
      */
-    public static function CompileUnboundScript(Context $context, Source $source, int $options = CompileOptions::kNoCompileOptions): UnboundScript
+    public static function compileUnboundScript(Context $context, Source $source, int $options = CompileOptions::kNoCompileOptions): UnboundScript
     {
     }
 
@@ -80,7 +80,7 @@ class  ScriptCompiler
      *
      * @return Script
      */
-    public static function Compile(Context $context, Source $source, int $options = CompileOptions::kNoCompileOptions): Script
+    public static function compile(Context $context, Source $source, int $options = CompileOptions::kNoCompileOptions): Script
     {
     }
 
@@ -101,7 +101,7 @@ class  ScriptCompiler
      *
      * @return FunctionObject
      */
-    public static function CompileFunctionInContext(Context $context, Source $source, array $arguments = [], array $context_extensions = []): FunctionObject
+    public static function compileFunctionInContext(Context $context, Source $source, array $arguments = [], array $context_extensions = []): FunctionObject
     {
     }
 }

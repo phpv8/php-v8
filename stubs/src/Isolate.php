@@ -25,27 +25,27 @@ class Isolate
     {
     }
 
-    public function SetMemoryLimit(int $memory_limit_in_bytes)
+    public function setMemoryLimit(int $memory_limit_in_bytes)
     {
     }
 
-    public function GetMemoryLimit(): int
+    public function getMemoryLimit(): int
     {
     }
 
-    public function IsMemoryLimitHit(): bool
+    public function isMemoryLimitHit(): bool
     {
     }
 
-    public function SetTimeLimit(float $time_limit_in_seconds)
+    public function setTimeLimit(float $time_limit_in_seconds)
     {
     }
 
-    public function GetTimeLimit(): float
+    public function getTimeLimit(): float
     {
     }
 
-    public function IsTimeLimitHit(): bool
+    public function isTimeLimitHit(): bool
     {
     }
 
@@ -54,7 +54,7 @@ class Isolate
      *
      * @return HeapStatistics
      */
-    public function GetHeapStatistics(): HeapStatistics
+    public function getHeapStatistics(): HeapStatistics
     {
     }
 
@@ -63,7 +63,7 @@ class Isolate
      *
      * @return bool
      */
-    public function InContext(): bool
+    public function inContext(): bool
     {
     }
 
@@ -72,7 +72,7 @@ class Isolate
      *
      * @return \V8\Context
      */
-    public function GetEnteredContext(): Context
+    public function getEnteredContext(): Context
     {
     }
 
@@ -93,7 +93,7 @@ class Isolate
      * @throws ValueException When trying to associate external exception with non-object value
      * @throws ValueException When another external exception is already associated with a given value
      */
-    public function ThrowException(Context $context, Value $value, Throwable $e = null)
+    public function throwException(Context $context, Value $value, Throwable $e = null)
     {
     }
 
@@ -104,7 +104,7 @@ class Isolate
      * This method can be used by any thread even if that thread has not
      * acquired the V8 lock with a Locker object.
      */
-    public function TerminateExecution()
+    public function terminateExecution()
     {
     }
 
@@ -118,7 +118,7 @@ class Isolate
      *
      * @return bool
      */
-    public function IsExecutionTerminating(): bool
+    public function isExecutionTerminating(): bool
     {
     }
 
@@ -136,7 +136,7 @@ class Isolate
      * This method can be used by any thread even if that thread has not
      * acquired the V8 lock with a Locker object.
      */
-    public function CancelTerminateExecution()
+    public function cancelTerminateExecution()
     {
     }
 
@@ -158,7 +158,7 @@ class Isolate
      *
      * @return bool
      */
-    public function IdleNotificationDeadline($deadline_in_seconds): bool
+    public function idleNotificationDeadline($deadline_in_seconds): bool
     {
     }
 
@@ -166,7 +166,7 @@ class Isolate
      * Optional notification that the system is running low on memory.
      * V8 uses these notifications to attempt to free memory.
      */
-    public function LowMemoryNotification()
+    public function lowMemoryNotification()
     {
     }
 
@@ -176,7 +176,7 @@ class Isolate
      *
      * @return bool
      */
-    public function IsDead(): bool
+    public function isDead(): bool
     {
     }
 
@@ -186,7 +186,7 @@ class Isolate
      *
      * @return bool
      */
-    public function IsInUse(): bool
+    public function isInUse(): bool
     {
     }
 
@@ -197,7 +197,7 @@ class Isolate
      * @param bool $capture
      * @param int $frame_limit
      */
-    public function SetCaptureStackTraceForUncaughtExceptions(bool $capture, int $frame_limit = 10)
+    public function setCaptureStackTraceForUncaughtExceptions(bool $capture, int $frame_limit = 10)
     {
     }
 }
