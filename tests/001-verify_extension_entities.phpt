@@ -721,6 +721,7 @@ class V8\FunctionObject
     public function getDisplayName(): V8\Value
     public function getScriptLineNumber(): ?int
     public function getScriptColumnNumber(): ?int
+    public function getScriptId(): ?int
     public function getBoundFunction(): V8\Value
     public function getScriptOrigin(): V8\ScriptOrigin
 

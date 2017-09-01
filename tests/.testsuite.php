@@ -197,11 +197,17 @@ class PhpV8Testsuite
         echo get_class($object), '::', $method, '() result', ($object->$method(...$args) instanceof $expected ? ' is' : ' not an'), ' instance of ', $expected, PHP_EOL;
     }
 
-
     public function method_matches_with_output($object, $method, $expected, array $args = [])
     {
-        echo get_class($object), '::', $method, '()', ' ', ($expected === $object->$method(...$args) ? 'matches' : 'doesn\'t match'), ' expected ', var_export($expected,
-            true), PHP_EOL;
+        echo get_class($object), '::', $method, '()', ' ';
+        echo ($expected === ($res = $object->$method(...$args)) ? 'matches' : 'doesn\'t match');
+        echo ' expected ', var_export($expected, true);
+
+        if ($expected !== $res) {
+            echo ', given ', var_export($res, true);
+        }
+
+        echo  PHP_EOL;
     }
 
     public function method_matches_with_dump($object, $method, $expected, array $args = [])

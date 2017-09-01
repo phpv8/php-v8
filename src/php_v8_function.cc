@@ -541,6 +541,27 @@ static PHP_METHOD(Function, getScriptColumnNumber) {
     RETURN_LONG((zend_long) column_number);
 }
 
+static PHP_METHOD(Function, getScriptId) {
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
+    PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
+
+    v8::Local<v8::Function> local_function = php_v8_value_get_local_as<v8::Function>(php_v8_value);
+
+    int script_id = local_function->ScriptId();
+
+    if (script_id == v8::Message::kNoScriptIdInfo) {
+        RETURN_NULL();
+    }
+
+    RETURN_LONG((zend_long) script_id);
+}
+
 static PHP_METHOD(Function, getBoundFunction) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -610,6 +631,9 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getScriptColumnNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getScriptId, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getBoundFunction, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
@@ -626,6 +650,7 @@ static const zend_function_entry php_v8_object_methods[] = {
         PHP_V8_ME(Function, getDisplayName,        ZEND_ACC_PUBLIC)
         PHP_V8_ME(Function, getScriptLineNumber,   ZEND_ACC_PUBLIC)
         PHP_V8_ME(Function, getScriptColumnNumber, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Function, getScriptId,           ZEND_ACC_PUBLIC)
         PHP_V8_ME(Function, getBoundFunction,      ZEND_ACC_PUBLIC)
         PHP_V8_ME(Function, getScriptOrigin,       ZEND_ACC_PUBLIC)
 

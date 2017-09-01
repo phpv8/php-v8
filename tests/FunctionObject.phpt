@@ -15,9 +15,9 @@ $v8_helper = new PhpV8Helpers($helper);
 
 require '.tracking_dtors.php';
 
-$isolate = new v8Tests\TrackingDtors\Isolate();
+$isolate         = new v8Tests\TrackingDtors\Isolate();
 $global_template = new V8\ObjectTemplate($isolate);
-$context = new V8\Context($isolate, $global_template);
+$context         = new V8\Context($isolate, $global_template);
 
 
 $func = new v8Tests\TrackingDtors\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) {
@@ -33,23 +33,31 @@ $helper->space();
 $helper->assert('FunctionObject extends ObjectValue', $func instanceof \V8\ObjectValue);
 $helper->assert('FunctionObject implements AdjustableExternalMemoryInterface', $func instanceof \V8\AdjustableExternalMemoryInterface);
 $helper->assert('FunctionObject is instanceof Function', $func->instanceOf($context, $context->globalObject()->get($context, new \V8\StringValue($isolate, 'Function'))));
+$helper->assert('Function created from php holds no script id', $func->getScriptId() === null);
 $helper->line();
 
 $v8_helper->run_checks($func, 'Checkers');
 
 $context->globalObject()->set($context, new \V8\StringValue($isolate, 'print'), $func);
 
-$source = 'print("Hello, world"); delete print; "Script done"';
+$source    = 'print("Hello, world"); delete print; "Script done"';
 $file_name = 'test.js';
 
 
 $script = new V8\Script($context, new \V8\StringValue($isolate, $source), new \V8\ScriptOrigin($file_name));
 
 $helper->dump($script->run($context)->toString($context)->value());
+
+$helper->assert('Function created from php still holds no script id after been passed to script', $func->getScriptId() === null);
+
 $helper->line();
 
 $helper->dump_object_methods($func, [], new ArrayMapFilter(['getScriptOrigin' => true]));
 $helper->line();
+
+$helper->line();
+$fnc2 = $v8_helper->CompileRun($context, 'function test() {}; test');
+$helper->assert('Function from script holds script id', $fnc2->getScriptId() !== null);
 
 echo 'We are done for now', PHP_EOL;
 
@@ -73,6 +81,7 @@ object(v8Tests\TrackingDtors\FunctionObject)#6 (2) {
 FunctionObject extends ObjectValue: ok
 FunctionObject implements AdjustableExternalMemoryInterface: ok
 FunctionObject is instanceof Function: ok
+Function created from php holds no script id: ok
 
 Checkers:
 ---------
@@ -132,9 +141,10 @@ v8Tests\TrackingDtors\FunctionObject(V8\Value)->isProxy(): bool(false)
 
 Should output Hello World string
 string(11) "Script done"
+Function created from php still holds no script id after been passed to script: ok
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->getScriptOrigin():
-    object(V8\ScriptOrigin)#128 (6) {
+    object(V8\ScriptOrigin)#129 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -142,7 +152,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->getScriptOrigin():
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       int(0)
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#132 (4) {
+      object(V8\ScriptOriginOptions)#133 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
         bool(false)
         ["is_opaque":"V8\ScriptOriginOptions":private]=>
@@ -158,6 +168,8 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->getScriptOrigin():
       string(0) ""
     }
 
+
+Function from script holds script id: ok
 We are done for now
 FunctionObject dies now!
 Isolate dies now!

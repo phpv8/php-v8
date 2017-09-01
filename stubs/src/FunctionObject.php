@@ -113,16 +113,19 @@ class  FunctionObject extends ObjectValue
     }
 
 
-    ///**
-    // * Returns scriptId.
-    // */
-    //int ScriptId() const;
+    /**
+     * Returns script id where function was created and null if no information available.
+     *
+     * @return int
+     */
+    public function getScriptId(): ?int
+    {
+    }
 
     /**
-     * Returns the original function if this function is bound, else returns
-     * v8::Undefined.
+     * Returns the original function if this function is bound, else returns UndefinedValue.
      *
-     * @return Value
+     * @return FunctionObject|UndefinedValue|Value
      */
     public function getBoundFunction(): Value
     {
