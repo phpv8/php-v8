@@ -301,7 +301,8 @@ PHP_MINIT_FUNCTION(php_v8_script_compiler)
     #define this_ce php_v8_compile_options_class_entry
 
     INIT_NS_CLASS_ENTRY(ce, "V8\\ScriptCompiler", "CompileOptions", php_v8_compile_options_methods);
-    php_v8_compile_options_class_entry = zend_register_internal_class(&ce);
+    this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("NO_COMPILE_OPTIONS"),   v8::ScriptCompiler::CompileOptions::kNoCompileOptions);
     zend_declare_class_constant_long(this_ce, ZEND_STRL("PRODUCE_PARSER_CACHE"), v8::ScriptCompiler::CompileOptions::kProduceParserCache);

@@ -24,10 +24,12 @@ $enums = [
 ];
 
 foreach ($enums as $enum) {
+    $rc = new ReflectionClass($enum);
+
     $helper->header('Object representation');
+    $helper->assert('Class is final', $rc->isFinal());
     $helper->dump($enum);
     $helper->space();
-
 
     $helper->header('Class constants');
     $helper->dump_object_constants($enum);
@@ -39,6 +41,7 @@ foreach ($enums as $enum) {
 --EXPECT--
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\AccessControl)#2 (0) {
 }
 
@@ -52,6 +55,7 @@ V8\AccessControl::ALL_CAN_WRITE = 2
 
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\ConstructorBehavior)#3 (0) {
 }
 
@@ -64,6 +68,7 @@ V8\ConstructorBehavior::ALLOW = 1
 
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\IntegrityLevel)#4 (0) {
 }
 
@@ -76,6 +81,7 @@ V8\IntegrityLevel::SEALED = 1
 
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\PropertyAttribute)#5 (0) {
 }
 
@@ -90,6 +96,7 @@ V8\PropertyAttribute::DONT_DELETE = 4
 
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\PropertyHandlerFlags)#6 (0) {
 }
 
@@ -104,6 +111,7 @@ V8\PropertyHandlerFlags::ONLY_INTERCEPT_STRINGS = 4
 
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\PropertyFilter)#7 (0) {
 }
 
@@ -120,6 +128,7 @@ V8\PropertyFilter::SKIP_SYMBOLS = 16
 
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\KeyCollectionMode)#8 (0) {
 }
 
@@ -132,6 +141,7 @@ V8\KeyCollectionMode::INCLUDE_PROTOTYPES = 1
 
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\IndexFilter)#9 (0) {
 }
 
@@ -144,6 +154,7 @@ V8\IndexFilter::SKIP_INDICES = 1
 
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\RegExpObject\Flags)#10 (0) {
 }
 
@@ -160,6 +171,7 @@ V8\RegExpObject\Flags::UNICODE = 16
 
 Object representation:
 ----------------------
+Class is final: ok
 object(V8\ScriptCompiler\CompileOptions)#11 (0) {
 }
 

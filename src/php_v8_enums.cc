@@ -39,6 +39,7 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
     #define this_ce php_v8_access_control_class_entry
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "AccessControl", php_v8_enum_methods);
     this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("DEFAULT_ACCESS"), v8::AccessControl::DEFAULT);
     zend_declare_class_constant_long(this_ce, ZEND_STRL("ALL_CAN_READ"),   v8::AccessControl::ALL_CAN_READ);
@@ -49,6 +50,7 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
     #define this_ce php_v8_constructor_behavior_class_entry
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "ConstructorBehavior", php_v8_enum_methods);
     this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("THROW"), static_cast<long>(v8::ConstructorBehavior::kThrow));
     zend_declare_class_constant_long(this_ce, ZEND_STRL("ALLOW"), static_cast<long>(v8::ConstructorBehavior::kAllow));
@@ -59,6 +61,7 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
     #define this_ce php_v8_integrity_level_class_entry
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "IntegrityLevel", php_v8_enum_methods);
     this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("FROZEN"), static_cast<zend_long>(v8::IntegrityLevel::kFrozen));
     zend_declare_class_constant_long(this_ce, ZEND_STRL("SEALED"), static_cast<zend_long>(v8::IntegrityLevel::kSealed));
@@ -68,6 +71,7 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
     #define this_ce php_v8_property_attribute_class_entry
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "PropertyAttribute", php_v8_enum_methods);
     this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("NONE"),        v8::PropertyAttribute::None);
     zend_declare_class_constant_long(this_ce, ZEND_STRL("READ_ONLY"),   v8::PropertyAttribute::ReadOnly);
@@ -80,6 +84,7 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
     #define this_ce php_v8_property_handler_flags_class_entry
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "PropertyHandlerFlags", php_v8_enum_methods);
     this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("NONE"),                   static_cast<zend_long>(v8::PropertyHandlerFlags::kNone));
     zend_declare_class_constant_long(this_ce, ZEND_STRL("ALL_CAN_READ"),           static_cast<zend_long>(v8::PropertyHandlerFlags::kAllCanRead));
@@ -91,6 +96,7 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
     #define this_ce php_v8_property_filter_class_entry
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "PropertyFilter", php_v8_enum_methods);
     this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("ALL_PROPERTIES"),    v8::PropertyFilter::ALL_PROPERTIES);
     zend_declare_class_constant_long(this_ce, ZEND_STRL("ONLY_WRITABLE"),     v8::PropertyFilter::ONLY_WRITABLE);
@@ -104,6 +110,7 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
     #define this_ce php_v8_key_collection_mode_class_entry
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "KeyCollectionMode", php_v8_enum_methods);
     this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("OWN_ONLY"),           static_cast<zend_long>(v8::KeyCollectionMode::kOwnOnly));
     zend_declare_class_constant_long(this_ce, ZEND_STRL("INCLUDE_PROTOTYPES"), static_cast<zend_long>(v8::KeyCollectionMode::kIncludePrototypes));
@@ -113,6 +120,7 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
     #define this_ce php_v8_index_filter_class_entry
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "IndexFilter", php_v8_enum_methods);
     this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("INCLUDE_INDICES"), static_cast<zend_long>(v8::IndexFilter::kIncludeIndices));
     zend_declare_class_constant_long(this_ce, ZEND_STRL("SKIP_INDICES"),    static_cast<zend_long>(v8::IndexFilter::kSkipIndices));

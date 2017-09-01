@@ -112,16 +112,19 @@ PHP_MINIT_FUNCTION(php_v8_regexp) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "RegExpObject", php_v8_regexp_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_object_class_entry);
 
+    #undef this_ce
+    #define this_ce php_v8_regexp_flags_class_entry
 
     INIT_NS_CLASS_ENTRY(ce, "V8\\RegExpObject", "Flags", php_v8_regexp_flags_methods);
-    php_v8_regexp_flags_class_entry = zend_register_internal_class(&ce);
+    this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("NONE"),        v8::RegExp::Flags::kNone);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("GLOBAL"),      v8::RegExp::Flags::kGlobal);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("IGNORE_CASE"), v8::RegExp::Flags::kIgnoreCase);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("MULTILINE"),   v8::RegExp::Flags::kMultiline);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("STICKY"),      v8::RegExp::Flags::kSticky);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("UNICODE"),     v8::RegExp::Flags::kUnicode);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("NONE"),        v8::RegExp::Flags::kNone);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("GLOBAL"),      v8::RegExp::Flags::kGlobal);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("IGNORE_CASE"), v8::RegExp::Flags::kIgnoreCase);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("MULTILINE"),   v8::RegExp::Flags::kMultiline);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("STICKY"),      v8::RegExp::Flags::kSticky);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("UNICODE"),     v8::RegExp::Flags::kUnicode);
 
     return SUCCESS;
 }
