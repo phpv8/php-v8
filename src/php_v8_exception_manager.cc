@@ -14,7 +14,7 @@
 #include "config.h"
 #endif
 
-#include "php_v8_exception.h"
+#include "php_v8_exception_manager.h"
 #include "php_v8_stack_trace.h"
 #include "php_v8_message.h"
 #include "php_v8_string.h"
@@ -22,11 +22,11 @@
 #include "php_v8_isolate.h"
 #include "php_v8.h"
 
-zend_class_entry *php_v8_exception_class_entry;
-#define this_ce php_v8_exception_class_entry
+zend_class_entry *php_v8_exception_manager_class_entry;
+#define this_ce php_v8_exception_manager_class_entry
 
 
-static PHP_METHOD(Exception, rangeError) {
+static PHP_METHOD(ExceptionManager, createRangeError) {
     zval *php_v8_message_zv;
     zval *php_v8_context_zv;
 
@@ -49,7 +49,7 @@ static PHP_METHOD(Exception, rangeError) {
     php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
-static PHP_METHOD(Exception, referenceError) {
+static PHP_METHOD(ExceptionManager, createReferenceError) {
     zval *php_v8_message_zv;
     zval *php_v8_context_zv;
 
@@ -72,7 +72,7 @@ static PHP_METHOD(Exception, referenceError) {
     php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
-static PHP_METHOD(Exception, syntaxError) {
+static PHP_METHOD(ExceptionManager, createSyntaxError) {
     zval *php_v8_message_zv;
     zval *php_v8_context_zv;
 
@@ -95,7 +95,7 @@ static PHP_METHOD(Exception, syntaxError) {
     php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
-static PHP_METHOD(Exception, typeError) {
+static PHP_METHOD(ExceptionManager, createTypeError) {
     zval *php_v8_message_zv;
     zval *php_v8_context_zv;
 
@@ -117,7 +117,7 @@ static PHP_METHOD(Exception, typeError) {
     php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
-static PHP_METHOD(Exception, error) {
+static PHP_METHOD(ExceptionManager, createError) {
     zval *php_v8_message_zv;
     zval *php_v8_context_zv;
 
@@ -140,7 +140,7 @@ static PHP_METHOD(Exception, error) {
     php_v8_create_value(return_value, local_value, php_v8_context->php_v8_isolate);
 }
 
-static PHP_METHOD(Exception, createMessage) {
+static PHP_METHOD(ExceptionManager, createMessage) {
     zval *php_v8_context_zv;
     zval *php_v8_exception_zv;
 
@@ -163,7 +163,7 @@ static PHP_METHOD(Exception, createMessage) {
     php_v8_message_create_from_message(return_value, php_v8_context->php_v8_isolate, local_message);
 }
 
-static PHP_METHOD(Exception, getStackTrace) {
+static PHP_METHOD(ExceptionManager, getStackTrace) {
     zval *php_v8_exception_zv;
     zval *php_v8_context_zv;
 
@@ -191,27 +191,27 @@ static PHP_METHOD(Exception, getStackTrace) {
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_rangeError, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_createRangeError, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_referenceError, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_createReferenceError, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_syntaxError, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_createSyntaxError, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_typeError, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_createTypeError, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_error, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_createError, ZEND_RETURN_VALUE, 2, V8\\ObjectValue, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, message, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
@@ -226,22 +226,22 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getStackTrace, ZEND_RETURN
                 ZEND_ARG_OBJ_INFO(0, exception, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-static const zend_function_entry php_v8_exception_methods[] = {
-        PHP_V8_ME(Exception, rangeError,     ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-        PHP_V8_ME(Exception, referenceError, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-        PHP_V8_ME(Exception, syntaxError,    ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-        PHP_V8_ME(Exception, typeError,      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-        PHP_V8_ME(Exception, error,          ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-        PHP_V8_ME(Exception, createMessage,  ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-        PHP_V8_ME(Exception, getStackTrace,  ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+static const zend_function_entry php_v8_exception_manger_methods[] = {
+        PHP_V8_ME(ExceptionManager, createRangeError,     ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(ExceptionManager, createReferenceError, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(ExceptionManager, createSyntaxError,    ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(ExceptionManager, createTypeError,      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(ExceptionManager, createError,          ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(ExceptionManager, createMessage,  ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(ExceptionManager, getStackTrace,        ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
         PHP_FE_END
 };
 
-PHP_MINIT_FUNCTION(php_v8_exception) {
+PHP_MINIT_FUNCTION(php_v8_exception_manger) {
     zend_class_entry ce;
-    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "Exception", php_v8_exception_methods);
-    this_ce = zend_register_internal_class_ex(&ce, php_v8_value_class_entry);
+    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "ExceptionManager", php_v8_exception_manger_methods);
+    this_ce = zend_register_internal_class(&ce);
 
     return SUCCESS;
 }

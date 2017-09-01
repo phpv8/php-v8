@@ -1,5 +1,5 @@
 --TEST--
-V8\Exception::getStackTrace()
+V8\ExceptionManager::createGetStackTrace()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -14,7 +14,7 @@ $context = new \V8\Context($isolate);
 
 
 try {
-    $stack_trace = V8\Exception::getStackTrace($context, new \V8\StringValue($isolate, 'test'));
+    $stack_trace = V8\ExceptionManager::getStackTrace($context, new \V8\StringValue($isolate, 'test'));
     $helper->assert('Can get stack trace when out of context', true);
 } catch (\Exception $e) {
     $helper->exception_export($e);
@@ -35,21 +35,21 @@ $func_test_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallba
 
 
     if (!$stack_trace_generation_allowed) {
-        $stack_trace = V8\Exception::getStackTrace($info->getContext(), $exception);
+        $stack_trace = V8\ExceptionManager::getStackTrace($info->getContext(), $exception);
         $helper->assert('Stack trace created from thrown value is null when capturing stack trace disabled', $stack_trace === null);
         $helper->line();
 
         return;
     }
 
-    $stack_trace = V8\Exception::getStackTrace($info->getContext(), $exception);
+    $stack_trace = V8\ExceptionManager::getStackTrace($info->getContext(), $exception);
     $helper->header('Stack trace created from thrown value');
     $helper->dump_object_methods($stack_trace, [], new ArrayListFilter(['getFrame'], true, ReflectionMethod::IS_PUBLIC));
     $helper->line();
 
 
     $exception = new \V8\StringValue($info->getIsolate(), 'test');
-    $stack_trace = V8\Exception::getStackTrace($info->getContext(), $exception);
+    $stack_trace = V8\ExceptionManager::getStackTrace($info->getContext(), $exception);
     $helper->assert('Stack trace created from manually created value is null', null === $stack_trace);
     $helper->line();
 });

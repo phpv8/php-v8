@@ -20,7 +20,7 @@ namespace V8;
  * Create new error objects by calling the corresponding error object
  * constructor with the message.
  */
-class Exception
+class ExceptionManager
 {
     /**
      * @param Context         $context
@@ -28,7 +28,7 @@ class Exception
      *
      * @return \V8\ObjectValue
      */
-    public static function rangeError(Context $context, StringValue $message): ObjectValue
+    public static function createRangeError(Context $context, StringValue $message): ObjectValue
     {
     }
 
@@ -38,7 +38,7 @@ class Exception
      *
      * @return \V8\ObjectValue
      */
-    public static function referenceError(Context $context, StringValue $message): ObjectValue
+    public static function createReferenceError(Context $context, StringValue $message): ObjectValue
     {
     }
 
@@ -48,7 +48,7 @@ class Exception
      *
      * @return \V8\ObjectValue
      */
-    public static function syntaxError(Context $context, StringValue $message): ObjectValue
+    public static function createSyntaxError(Context $context, StringValue $message): ObjectValue
     {
     }
 
@@ -58,7 +58,7 @@ class Exception
      *
      * @return \V8\ObjectValue
      */
-    public static function typeError(Context $context, StringValue $message): ObjectValue
+    public static function createTypeError(Context $context, StringValue $message): ObjectValue
     {
     }
 
@@ -68,7 +68,7 @@ class Exception
      *
      * @return ObjectValue
      */
-    public static function error(Context $context, StringValue $message): ObjectValue
+    public static function createError(Context $context, StringValue $message): ObjectValue
     {
     }
 
@@ -82,7 +82,7 @@ class Exception
      *
      * @return Message
      */
-    static function createMessage(Context $context, Value $exception): Message
+    public  static function createMessage(Context $context, Value $exception): Message
     {
     }
 

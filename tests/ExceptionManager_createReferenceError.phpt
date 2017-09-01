@@ -1,5 +1,5 @@
 --TEST--
-V8\Exception::typeError()
+V8\ExceptionManager::createReferenceError()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -14,7 +14,7 @@ $context = new \V8\Context($isolate);
 
 
 try {
-    $error = V8\Exception::typeError($context, new \V8\StringValue($isolate, 'test'));
+    $error = V8\ExceptionManager::createReferenceError($context, new \V8\StringValue($isolate, 'test'));
     $helper->assert('Can create error when out of context', $error instanceof \V8\Value);
 } catch (\Exception $e) {
     $helper->exception_export($e);
@@ -25,14 +25,14 @@ $helper->line();
 $func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) {
     $value = count($info->arguments()) ? $info->arguments()[0] : new \V8\StringValue($info->getIsolate(), "exception");
 
-    $info->getIsolate()->throwException($info->getContext(), V8\Exception::typeError($info->getContext(), $value));
+    $info->getIsolate()->throwException($info->getContext(), V8\ExceptionManager::createReferenceError($info->getContext(), $value));
 });
 
 $func_test_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInfo $info) use ($helper, $v8_helper) {
 
     $message = new \V8\StringValue($info->getIsolate(), "test");
-    $value1 = V8\Exception::typeError($info->getContext(), $message);
-    $value2 = V8\Exception::typeError($info->getContext(), $message);
+    $value1 = V8\ExceptionManager::createReferenceError($info->getContext(), $message);
+    $value2 = V8\ExceptionManager::createReferenceError($info->getContext(), $message);
 
     $context = $info->getContext();
 
@@ -92,11 +92,11 @@ CHECK !$value2->strictEquals($value1): OK
 CHECK !$value1->sameValue($value2): OK
 CHECK !$value2->sameValue($value1): OK
 
-e(): V8\Exceptions\TryCatchException: TypeError: exception
-e("test"): V8\Exceptions\TryCatchException: TypeError: test
+e(): V8\Exceptions\TryCatchException: ReferenceError: exception
+e("test"): V8\Exceptions\TryCatchException: ReferenceError: test
 
-exception: 'TypeError: foo'
-exception.stack: TypeError: foo
+exception: 'ReferenceError: foo'
+exception.stack: ReferenceError: foo
     at test.js:5:9
 
 Checks on V8\ObjectValue:

@@ -1,5 +1,5 @@
 --TEST--
-V8\Exception::createMessage()
+V8\ExceptionManager::createCreateMessage()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -13,7 +13,7 @@ $isolate = new \V8\Isolate();
 $context = new \V8\Context($isolate);
 
 try {
-    $message = V8\Exception::createMessage($context, new \V8\StringValue($isolate, 'test'));
+    $message = V8\ExceptionManager::createMessage($context, new \V8\StringValue($isolate, 'test'));
     $helper->assert('Can create message when out of context', $message instanceof \V8\Message);
 } catch (\Exception $e) {
     $helper->exception_export($e);
@@ -29,13 +29,13 @@ $func_test_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallba
 
     $exception = $info->arguments()[0];
 
-    $message = V8\Exception::createMessage($info->getContext(), $exception);
+    $message = V8\ExceptionManager::createMessage($info->getContext(), $exception);
     $helper->header('Message created from thrown value');
     $helper->dump_object_methods($message);
     $helper->line();
 
     $exception = new \V8\StringValue($info->getIsolate(), 'test');
-    $message = V8\Exception::createMessage($info->getContext(), $exception);
+    $message = V8\ExceptionManager::createMessage($info->getContext(), $exception);
     $helper->header('Message created from created value');
     $helper->dump_object_methods($message);
     $helper->line();

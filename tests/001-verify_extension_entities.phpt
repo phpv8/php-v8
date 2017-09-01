@@ -408,12 +408,12 @@ final class V8\ScriptCompiler\CompileOptions
     const PRODUCE_CODE_CACHE = 3
     const CONSUME_CODE_CACHE = 4
 
-class V8\Exception
-    public static function rangeError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
-    public static function referenceError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
-    public static function syntaxError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
-    public static function typeError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
-    public static function error(V8\Context $context, V8\StringValue $message): V8\ObjectValue
+class V8\ExceptionManager
+    public static function createRangeError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
+    public static function createReferenceError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
+    public static function createSyntaxError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
+    public static function createTypeError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
+    public static function createError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
     public static function createMessage(V8\Context $context, V8\Value $exception): V8\Message
     public static function getStackTrace(V8\Context $context, V8\Value $exception): ?V8\StackTrace
 

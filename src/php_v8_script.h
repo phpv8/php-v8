@@ -15,7 +15,7 @@
 
 typedef struct _php_v8_script_t php_v8_script_t;
 
-#include "php_v8_exception.h"
+#include "php_v8_exception_manager.h"
 #include "php_v8_context.h"
 #include "php_v8_isolate.h"
 #include <v8.h>

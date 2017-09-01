@@ -25,7 +25,7 @@ try {
 }
 
 
-$v8_exception = \V8\Exception::error($context, new \V8\StringValue($isolate, 'test'));
+$v8_exception = \V8\ExceptionManager::createError($context, new \V8\StringValue($isolate, 'test'));
 
 $func_tpl = new \V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use (&$v8_exception) {
     $info->getIsolate()->throwException($info->getContext(), $v8_exception, new RuntimeException('test'));
@@ -54,7 +54,7 @@ try {
     $helper->exception_export($e);
 }
 
-$v8_exception = \V8\Exception::error($context, new \V8\StringValue($isolate, 'test'));
+$v8_exception = \V8\ExceptionManager::createError($context, new \V8\StringValue($isolate, 'test'));
 
 
 // re-throw the same v8 object after it was propagated through TryCatch mechanism is OK

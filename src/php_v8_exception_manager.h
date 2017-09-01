@@ -10,8 +10,8 @@
  * http://opensource.org/licenses/MIT
  */
 
-#ifndef PHP_V8_EXCEPTION_H
-#define PHP_V8_EXCEPTION_H
+#ifndef PHP_V8_EXCEPTION_MANGER_H
+#define PHP_V8_EXCEPTION_MANGER_H
 
 extern "C" {
 #include "php.h"
@@ -21,9 +21,9 @@ extern "C" {
 #endif
 }
 
-extern zend_class_entry* php_v8_exception_class_entry;
+extern zend_class_entry* php_v8_exception_manager_class_entry;
 
 
-PHP_MINIT_FUNCTION(php_v8_exception);
+PHP_MINIT_FUNCTION(php_v8_exception_manger);
 
-#endif //PHP_V8_EXCEPTION_H
+#endif //PHP_V8_EXCEPTION_MANGER_H
