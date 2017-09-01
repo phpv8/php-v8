@@ -194,7 +194,7 @@ class Dumper
         $ret[] = $rp->hasType() ? ($rp->allowsNull() ? '?' : '') . (string)$rp->getType() : null;
         $ret[] = ($rp->isVariadic() ? '...' : '') . "\${$rp->getName()}";
 
-        // $ret[] = $rp->isOptional() ? '= ' . ($rp->isDefaultValueConstant() ? $rp->getDefaultValueConstantName() : $rp->getDefaultValue()) : null;
+        // $ret[] = $rp->isOptional() ? '= ?' : '';
 
         return trim(implode(' ', $ret));
     }
@@ -575,20 +575,20 @@ abstract class V8\Value
     public function isDataView(): bool
     public function isSharedArrayBuffer(): bool
     public function isProxy(): bool
-    public function toBoolean(V8\Context $context)
-    public function toNumber(V8\Context $context)
-    public function toString(V8\Context $context)
-    public function toDetailString(V8\Context $context)
-    public function toObject(V8\Context $context)
-    public function toInteger(V8\Context $context)
-    public function toUint32(V8\Context $context)
-    public function toInt32(V8\Context $context)
-    public function toArrayIndex(V8\Context $context)
-    public function booleanValue(V8\Context $context)
-    public function numberValue(V8\Context $context)
-    public function integerValue(V8\Context $context)
-    public function int32Value(V8\Context $context)
-    public function uint32Value(V8\Context $context)
+    public function toBoolean(V8\Context $context): V8\BooleanValue
+    public function toNumber(V8\Context $context): V8\NumberValue
+    public function toString(V8\Context $context): V8\StringValue
+    public function toDetailString(V8\Context $context): V8\StringValue
+    public function toObject(V8\Context $context): V8\ObjectValue
+    public function toInteger(V8\Context $context): V8\IntegerValue
+    public function toUint32(V8\Context $context): V8\Uint32Value
+    public function toInt32(V8\Context $context): V8\Int32Value
+    public function toArrayIndex(V8\Context $context): V8\Uint32Value
+    public function booleanValue(V8\Context $context): bool
+    public function numberValue(V8\Context $context): float
+    public function integerValue(V8\Context $context): float
+    public function int32Value(V8\Context $context): int
+    public function uint32Value(V8\Context $context): int
     public function equals(V8\Context $context, V8\Value $that): ?bool
     public function strictEquals(V8\Value $that): bool
     public function sameValue(V8\Value $that): bool
@@ -601,7 +601,7 @@ abstract class V8\PrimitiveValue
 class V8\UndefinedValue
     extends V8\PrimitiveValue
     public function __construct(V8\Isolate $isolate)
-    public function value(): null
+    public function value()
 
 class V8\NullValue
     extends V8\PrimitiveValue
@@ -719,8 +719,8 @@ class V8\FunctionObject
     public function getName(): V8\Value
     public function getInferredName(): V8\Value
     public function getDisplayName(): V8\Value
-    public function getScriptLineNumber()
-    public function getScriptColumnNumber()
+    public function getScriptLineNumber(): ?int
+    public function getScriptColumnNumber(): ?int
     public function getBoundFunction(): V8\Value
     public function getScriptOrigin(): V8\ScriptOrigin
 
@@ -791,7 +791,7 @@ class V8\StringObject
     extends V8\ObjectValue
     implements V8\AdjustableExternalMemoryInterface
     public function __construct(V8\Context $context, V8\StringValue $value)
-    public function valueOf()
+    public function valueOf(): V8\StringValue
 
 class V8\SymbolObject
     extends V8\ObjectValue
@@ -889,7 +889,7 @@ class V8\FunctionCallbackInfo
     public function isConstructCall(): bool
 
 class V8\NamedPropertyHandlerConfiguration
-    public function __construct($getter, $setter, $query, $deleter, $enumerator, $flags)
+    public function __construct(callable $getter, ?callable $setter, ?callable $query, ?callable $deleter, ?callable $enumerator, int $flags)
 
 class V8\IndexedPropertyHandlerConfiguration
-    public function __construct($getter, $setter, $query, $deleter, $enumerator, $flags)
+    public function __construct(callable $getter, ?callable $setter, ?callable $query, ?callable $deleter, ?callable $enumerator, int $flags)

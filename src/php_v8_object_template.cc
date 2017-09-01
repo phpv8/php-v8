@@ -383,7 +383,7 @@ static PHP_METHOD(ObjectTemplate, getExternalAllocatedMemory) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
                 ZEND_ARG_OBJ_INFO(0, constructor, V8\\FunctionTemplate, 1)
 ZEND_END_ARG_INFO()
@@ -393,13 +393,13 @@ ZEND_END_ARG_INFO()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_set, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Data, 0)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setAccessorProperty, 1)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, getter, V8\\FunctionTemplate, 0)
                 ZEND_ARG_OBJ_INFO(0, setter, V8\\FunctionTemplate, 0)
@@ -407,8 +407,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_setAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETUR
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setNativeDataProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setNativeDataProperty, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
@@ -423,8 +422,7 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_newInstance, ZEND_RETURN_V
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-// void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setAccessor, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setAccessor, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
@@ -433,18 +431,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_setAccessor, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE,
                 ZEND_ARG_OBJ_INFO(0, receiver, V8\\FunctionTemplate, 1)
 ZEND_END_ARG_INFO()
 
-// void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setHandlerForNamedProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setHandlerForNamedProperty, 1)
                 ZEND_ARG_OBJ_INFO(0, configuration, V8\\NamedPropertyHandlerConfiguration, 0)
 ZEND_END_ARG_INFO()
 
-// void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setHandlerForIndexedProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setHandlerForIndexedProperty, 1)
                 ZEND_ARG_OBJ_INFO(0, configuration, V8\\IndexedPropertyHandlerConfiguration, 0)
 ZEND_END_ARG_INFO()
 
-// void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setCallAsFunctionHandler, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setCallAsFunctionHandler, 1)
                 ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 

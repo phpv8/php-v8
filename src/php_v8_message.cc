@@ -277,7 +277,7 @@ static PHP_METHOD(Message, isOpaque)
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_opaque"), 0, &rv), 1, 0);
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 5)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 5)
                 ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
                 ZEND_ARG_TYPE_INFO(0, source_line, IS_STRING, 0)
                 ZEND_ARG_OBJ_INFO(0, script_origin, V8\\ScriptOrigin, 0)

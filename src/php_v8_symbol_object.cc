@@ -63,7 +63,7 @@ static PHP_METHOD(SymbolObject, valueOf) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\SymbolValue, 0)
 ZEND_END_ARG_INFO()

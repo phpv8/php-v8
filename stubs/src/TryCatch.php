@@ -113,7 +113,7 @@ class TryCatch
      * @return \V8\Value|null
      *
      */
-    public function exception()
+    public function exception(): ?Value
     {
         return $this->exception;
     }
@@ -124,7 +124,7 @@ class TryCatch
      *
      * @return \V8\Value|null
      */
-    public function stackTrace()
+    public function stackTrace(): ?Value
     {
         return $this->stack_trace;
     }
@@ -138,7 +138,7 @@ class TryCatch
      *
      * @return Message|null
      */
-    public function message()
+    public function message(): ?Message
     {
         return $this->message;
     }
@@ -180,7 +180,7 @@ class TryCatch
     /**
      * @return null|Throwable
      */
-    public function getExternalException()
+    public function getExternalException(): ?Throwable
     {
         return $this->external_exception;
     }

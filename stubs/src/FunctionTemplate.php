@@ -151,13 +151,21 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      * FunctionTemplate is called.
      *
      * @param callable $callback
+     *
+     * @return void
      */
-    public function setCallHandler(callable $callback)
+    public function setCallHandler(callable $callback): void
     {
     }
 
-    /** Set the predefined length property for the FunctionTemplate. */
-    public function setLength(int $length)
+    /**
+     * Set the predefined length property for the FunctionTemplate.
+     *
+     * @param int $length
+     *
+     * @return void
+     */
+    public function setLength(int $length): void
     {
     }
 
@@ -174,6 +182,8 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      * Causes the function template to inherit from a parent function template.
      *
      * @param FunctionTemplate $parent
+     *
+     * @return void
      */
     public function inherit(FunctionTemplate $parent)
     {
@@ -195,8 +205,10 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      * FunctionTemplate as its constructor.
      *
      * @param StringValue $name
+     *
+     * @return void
      */
-    public function setClassName(StringValue $name)
+    public function setClassName(StringValue $name): void
     {
     }
 
@@ -218,24 +230,32 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      * to make the __proto__ accessor not ignore instances of the
      * function template.  By default, instances of a function template
      * are not ignored.
+     *
+     * @param bool $value
+     *
+     * @return void
      */
-    public function setHiddenPrototype($value)
+    public function setHiddenPrototype(bool $value): void
     {
     }
 
     /**
      * Sets the ReadOnly flag in the attributes of the 'prototype' property
      * of functions created from this FunctionTemplate to true.
+     *
+     * @return void
      */
-    public function readOnlyPrototype()
+    public function readOnlyPrototype(): void
     {
     }
 
     /**
      * Removes the prototype property from functions created from this
      * FunctionTemplate.
+     *
+     * @return void
      */
-    public function removePrototype()
+    public function removePrototype(): void
     {
     }
 

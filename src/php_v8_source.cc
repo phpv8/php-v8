@@ -99,7 +99,7 @@ static PHP_METHOD(Source, getCachedData)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 1)
                 ZEND_ARG_OBJ_INFO(0, source_string, V8\\StringValue, 0)
                 ZEND_ARG_OBJ_INFO(0, origin, V8\\ScriptOrigin, 1)
                 ZEND_ARG_OBJ_INFO(0, cached_data, V8\\ScriptCompiler\\CachedData, 1)

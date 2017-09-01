@@ -88,7 +88,7 @@ static PHP_METHOD(ScriptOriginOptions, isModule) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 0)
                 ZEND_ARG_TYPE_INFO(0, is_shared_cross_origin, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, is_opaque, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, is_wasm, _IS_BOOL, 0)

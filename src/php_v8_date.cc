@@ -72,7 +72,7 @@ static PHP_METHOD(Date, dateTimeConfigurationChangeNotification) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, time, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
@@ -80,8 +80,7 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_valueOf, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-// void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_dateTimeConfigurationChangeNotification, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_dateTimeConfigurationChangeNotification, 1)
                 ZEND_ARG_OBJ_INFO(0, isolate, V8\\isolate, 0)
 ZEND_END_ARG_INFO()
 

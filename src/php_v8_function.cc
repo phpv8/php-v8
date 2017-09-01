@@ -574,7 +574,7 @@ static PHP_METHOD(Function, getScriptOrigin) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_CALLABLE_INFO(0, callback, 0)
                 ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
@@ -591,8 +591,7 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_call, ZEND_RETURN_VALUE, 2
                 ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
-// void method
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setName, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setName, 1)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 0)
 ZEND_END_ARG_INFO()
 
@@ -605,12 +604,10 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getDisplayName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
 ZEND_END_ARG_INFO()
 
-// long or null
-ZEND_BEGIN_ARG_INFO_EX(arginfo_getScriptLineNumber, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getScriptLineNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
-// long or null
-ZEND_BEGIN_ARG_INFO_EX(arginfo_getScriptColumnNumber, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getScriptColumnNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getBoundFunction, ZEND_RETURN_VALUE, 0, V8\\Value, 0)

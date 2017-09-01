@@ -94,24 +94,21 @@ class  FunctionObject extends ObjectValue
 
     /**
      * Returns zero based line number of function body and
-     * kLineOffsetNotFound if no information available.
+     * null if no information available.
      *
-     * NOTE: null used instead of kLineOffsetNotFound
-     *
-     * @return int | null
+     * @return int|null
      */
-    public function getScriptLineNumber()
+    public function getScriptLineNumber(): ?int
     {
     }
 
     /**
      * Returns zero based column number of function body and
-     * kLineOffsetNotFound if no information available.
-     * NOTE: null used instead of kLineOffsetNotFound
+     * null if no information available.
      *
-     * @return int | null
+     * @return int|null
      */
-    public function getScriptColumnNumber()
+    public function getScriptColumnNumber(): ?int
     {
     }
 

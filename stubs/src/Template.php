@@ -48,7 +48,7 @@ class Template extends Data
      *
      * @return void
      */
-    public function set(NameValue $name, Data $value, int $attributes = PropertyAttribute::NONE)
+    public function set(NameValue $name, Data $value, int $attributes = PropertyAttribute::NONE): void
     {
     }
 
@@ -58,6 +58,8 @@ class Template extends Data
      * @param \V8\FunctionTemplate $setter
      * @param int                  $attribute
      * @param int                  $settings
+     *
+     * @return void
      */
     public function setAccessorProperty(
         NameValue $name,
@@ -65,7 +67,7 @@ class Template extends Data
         FunctionTemplate $setter = null,
         $attribute = PropertyAttribute::NONE,
         $settings = AccessControl::DEFAULT_ACCESS
-    ) {
+    ): void {
     }
 
     /**
@@ -90,7 +92,9 @@ class Template extends Data
      *                                    defined by FunctionTemplate::HasInstance()), an implicit TypeError is
      *                                    thrown and no callback is invoked.
      *
-     * @param int              $settings  Access control settings for the accessor.
+     * @param int              $settings Access control settings for the accessor.
+     *
+     * @return void
      */
     public function setNativeDataProperty(
         NameValue $name,
@@ -99,6 +103,6 @@ class Template extends Data
         $attribute = PropertyAttribute::NONE,
         FunctionTemplate $receiver = null,
         $settings = AccessControl::DEFAULT_ACCESS
-    ) {
+    ): void {
     }
 }

@@ -294,13 +294,13 @@ void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> lo
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_set, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_set, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, value, V8\\Data, 0)
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setAccessorProperty, 1)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_OBJ_INFO(0, getter, V8\\FunctionTemplate, 0)
                 ZEND_ARG_OBJ_INFO(0, setter, V8\\FunctionTemplate, 0)
@@ -308,7 +308,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_setAccessorProperty, ZEND_SEND_BY_VAL, ZEND_RETUR
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setNativeDataProperty, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setNativeDataProperty, 2)
                 ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
                 ZEND_ARG_CALLABLE_INFO(0, getter, 0)
                 ZEND_ARG_CALLABLE_INFO(0, setter, 1)
