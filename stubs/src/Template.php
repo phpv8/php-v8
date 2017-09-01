@@ -42,13 +42,13 @@ class Template extends Data
     /**
      * Adds a property to each instance created by this template.
      *
-     * @param NameValue               $name
-     * @param PrimitiveValue|Template $value
-     * @param int                     $attributes One of \v8\PropertyAttribute constants
+     * @param NameValue                    $name
+     * @param Data|PrimitiveValue|Template $value
+     * @param int                          $attributes One of \V8\PropertyAttribute constants
      *
      * @return void
      */
-    public function set(NameValue $name, /*Data*/ $value, int $attributes = PropertyAttribute::None)
+    public function set(NameValue $name, Data $value, int $attributes = PropertyAttribute::None)
     {
     }
 
@@ -77,8 +77,8 @@ class Template extends Data
      * @param NameValue        $name      The name of the property for which an accessor is added.
      *
      * @param callable         $getter    The callback to invoke when getting the property.
-     *
      *                                    Callback signature should be (NameValue $property, PropertyCallbackInfo $info)
+     *
      * @param callable         $setter    The callback to invoke when setting the property.
      *                                    Callback signature should be (NameValue $property, PropertyCallbackInfo $info)
      *
