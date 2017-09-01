@@ -1,5 +1,5 @@
 --TEST--
-Check whether all method parameters have valid type
+Check whether methods signature is valid
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--
@@ -25,6 +25,31 @@ class Verifier
         foreach ($method->getParameters() as $p) {
             $this->verifyParameter($p);
         }
+
+        if ($method->getReturnType()) {
+            $type = $method->getReturnType();
+
+            if (!$type || $type->isBuiltin()) {
+                return;
+            }
+
+            if(!class_exists($type) && !interface_exists($type)) {
+                $method_name = $method->getDeclaringClass()->getName() . '::' . $method->getDeclaringFunction()->getName();
+                $shortcut = $method_name . '/return type';
+                if (isset($this->invalid[$shortcut])) {
+                    return;
+                }
+
+                $this->invalid[$shortcut] = true;
+
+                echo "{$method_name}() method's return type is invalid ($type)", PHP_EOL;
+            }
+        }
+
+    }
+
+    protected function verifyReturnType(ReflectionType $rt) {
+
     }
 
     public function verifyParameter(ReflectionParameter $parameter)
