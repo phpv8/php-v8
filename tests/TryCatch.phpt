@@ -203,7 +203,7 @@ object(V8\TryCatch)#11 (8) {
     ["code":protected]=>
     int(0)
     ["file":protected]=>
-    string(%d) "%s/V8TryCatch.php"
+    string(%d) "%s/TryCatch.php"
     ["line":protected]=>
     int(%d)
     ["trace":"Exception":private]=>

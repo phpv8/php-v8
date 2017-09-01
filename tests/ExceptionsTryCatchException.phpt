@@ -40,7 +40,7 @@ object(V8\Exceptions\TryCatchException)#5 (10) {
   ["code":protected]=>
   int(0)
   ["file":protected]=>
-  string(%d) "%s/V8ExceptionsTryCatchException.php"
+  string(%d) "%s/ExceptionsTryCatchException.php"
   ["line":protected]=>
   int(11)
   ["trace":"Exception":private]=>
