@@ -24,7 +24,7 @@ class IndexedPropertyHandlerConfiguration
      * @param callable $query      The callback to invoke to check if an object has a property.
      * @param callable $deleter    The callback to invoke when deleting a property.
      * @param callable $enumerator The callback to invoke to enumerate all the indexed properties of an object.
-     * @param int      $flags      One of \v8\PropertyHandlerFlags constants
+     * @param int      $flags      One of \V8\PropertyHandlerFlags constants
      */
     public function __construct(
         callable $getter,

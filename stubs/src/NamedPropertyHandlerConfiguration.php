@@ -39,7 +39,7 @@ class NamedPropertyHandlerConfiguration
      *                             Callback signature is (PropertyCallbackInfo $args).
      *                             ReturnValue from $args->GetReturnValue() accepts ArrayObject only
      *
-     * @param int      $flags      One of \v8\PropertyHandlerFlags constants
+     * @param int      $flags      One of \V8\PropertyHandlerFlags constants
      */
     public function __construct(
         callable $getter,
