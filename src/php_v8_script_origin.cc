@@ -224,7 +224,7 @@ static PHP_METHOD(ScriptOrigin, resourceColumnOffset) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("resource_column_offset"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(ScriptOrigin, scriptID) {
+static PHP_METHOD(ScriptOrigin, scriptId) {
     zval rv;
 
     if (zend_parse_parameters_none() == FAILURE) {
@@ -274,7 +274,7 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceColumnOffset, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_scriptID, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_scriptId, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_sourceMapUrl, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
@@ -289,7 +289,7 @@ static const zend_function_entry php_v8_script_origin_methods[] = {
         PHP_V8_ME(ScriptOrigin, resourceName,         ZEND_ACC_PUBLIC)
         PHP_V8_ME(ScriptOrigin, resourceLineOffset,   ZEND_ACC_PUBLIC)
         PHP_V8_ME(ScriptOrigin, resourceColumnOffset, ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ScriptOrigin, scriptID,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ScriptOrigin, scriptId,             ZEND_ACC_PUBLIC)
         PHP_V8_ME(ScriptOrigin, sourceMapUrl,         ZEND_ACC_PUBLIC)
         PHP_V8_ME(ScriptOrigin, options,              ZEND_ACC_PUBLIC)
 

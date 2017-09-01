@@ -19,7 +19,7 @@ $helper->header('Test getters (default)');
 $helper->method_matches_with_output($obj, 'resourceName', 'test');
 $helper->method_matches_with_output($obj, 'resourceLineOffset', 0);
 $helper->method_matches_with_output($obj, 'resourceColumnOffset', 0);
-$helper->method_matches_with_output($obj, 'scriptID', 0);
+$helper->method_matches_with_output($obj, 'scriptId', 0);
 $helper->method_matches_with_output($obj, 'sourceMapUrl', '');
 $helper->method_matches_instanceof($obj, 'options', V8\ScriptOriginOptions::class);
 $helper->space();
@@ -43,7 +43,7 @@ $helper->header('Test getters');
 $helper->method_matches_with_output($obj, 'resourceName', 'test');
 $helper->method_matches_with_output($obj, 'resourceLineOffset', 1);
 $helper->method_matches_with_output($obj, 'resourceColumnOffset', 2);
-$helper->method_matches_with_output($obj, 'scriptID', 3);
+$helper->method_matches_with_output($obj, 'scriptId', 3);
 $helper->method_matches_with_output($obj, 'sourceMapUrl', 'map');
 $helper->method_matches_instanceof($obj, 'options', V8\ScriptOriginOptions::class);
 $helper->space();
@@ -91,7 +91,7 @@ Test getters (default):
 V8\ScriptOrigin::resourceName() matches expected 'test'
 V8\ScriptOrigin::resourceLineOffset() matches expected 0
 V8\ScriptOrigin::resourceColumnOffset() matches expected 0
-V8\ScriptOrigin::scriptID() matches expected 0
+V8\ScriptOrigin::scriptId() matches expected 0
 V8\ScriptOrigin::sourceMapUrl() matches expected ''
 V8\ScriptOrigin::options() result is instance of V8\ScriptOriginOptions
 
@@ -134,7 +134,7 @@ Test getters:
 V8\ScriptOrigin::resourceName() matches expected 'test'
 V8\ScriptOrigin::resourceLineOffset() matches expected 1
 V8\ScriptOrigin::resourceColumnOffset() matches expected 2
-V8\ScriptOrigin::scriptID() matches expected 3
+V8\ScriptOrigin::scriptId() matches expected 3
 V8\ScriptOrigin::sourceMapUrl() matches expected 'map'
 V8\ScriptOrigin::options() result is instance of V8\ScriptOriginOptions
 
