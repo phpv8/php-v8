@@ -18,8 +18,8 @@ namespace V8;
 
 class PropertyAttribute
 {
-    const None = 0;
-    const ReadOnly = 1;
-    const DontEnum = 2;
-    const DontDelete = 4;
+    const NONE        = 0;
+    const READ_ONLY   = 1;
+    const DONT_ENUM   = 2;
+    const DONT_DELETE = 4;
 }

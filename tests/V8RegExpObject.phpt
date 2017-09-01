@@ -17,7 +17,7 @@ $isolate = new \V8\Isolate();
 $context = new V8\Context($isolate);
 $v8_helper->injectConsoleLog($context);
 
-$value = new V8\RegExpObject($context, new \V8\StringValue($isolate, '([a-z]{1,4})-([0-9]+)'), \V8\RegExpObject\Flags::kIgnoreCase);
+$value = new V8\RegExpObject($context, new \V8\StringValue($isolate, '([a-z]{1,4})-([0-9]+)'), \V8\RegExpObject\Flags::IGNORE_CASE);
 
 $helper->header('Object representation');
 $helper->dump($value);

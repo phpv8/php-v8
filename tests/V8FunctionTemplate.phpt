@@ -79,7 +79,7 @@ $value = new V8\StringValue($isolate, 'TEST VALUE 111');
 
 $global_template->set(new \V8\StringValue($isolate, 'test'), $value);
 $global_template->set(new \V8\StringValue($isolate, 'func'), $function_template);
-$global_template->set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DONT_DELETE);
 
 
 $context = new V8\Context($isolate, $global_template);

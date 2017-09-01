@@ -33,7 +33,7 @@ $setter = function (\V8\NameValue $prop, \V8\Value $value, \V8\PropertyCallbackI
 $templ = new \V8\FunctionTemplate($isolate);
 
 $inst = $templ->instanceTemplate();
-$inst->setAccessor(new \V8\StringValue($isolate, 'foo'), $getter, $setter, \V8\AccessControl::DEFAULT_ACCESS, \V8\PropertyAttribute::None, $templ);
+$inst->setAccessor(new \V8\StringValue($isolate, 'foo'), $getter, $setter, \V8\AccessControl::DEFAULT_ACCESS, \V8\PropertyAttribute::NONE, $templ);
 
 $context->globalObject()->set($context, new \V8\StringValue($isolate, 'f'), $templ->getFunction($context));
 

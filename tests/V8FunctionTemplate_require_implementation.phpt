@@ -40,7 +40,7 @@ $require_func_tpl_cache = new \V8\FunctionTemplate($isolate, function (\V8\Funct
   $info->getReturnValue()->set($loaded_cache[$module]);
 });
 $global_template = new V8\ObjectTemplate($isolate);
-$global_template->set(new \V8\StringValue($isolate, 'require'), $require_func_tpl_cache, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'require'), $require_func_tpl_cache, \V8\PropertyAttribute::DONT_DELETE);
 $context = new V8\Context($isolate, $global_template);
 $v8_helper->injectConsoleLog($context);
 
@@ -90,7 +90,7 @@ $require_func_tpl_nocache = new \V8\FunctionTemplate($isolate, function (\V8\Fun
 
 
 $global_template = new V8\ObjectTemplate($isolate);
-$global_template->set(new \V8\StringValue($isolate, 'require'), $require_func_tpl_nocache, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'require'), $require_func_tpl_nocache, \V8\PropertyAttribute::DONT_DELETE);
 $context = new V8\Context($isolate, $global_template);
 $v8_helper->injectConsoleLog($context);
 

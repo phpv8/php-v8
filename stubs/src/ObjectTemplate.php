@@ -72,7 +72,7 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
         callable $getter,
         callable $setter,
         $settings = AccessControl::DEFAULT_ACCESS,
-        $attributes = PropertyAttribute::None,
+        $attributes = PropertyAttribute::NONE,
         FunctionTemplate $receiver
     ) {
     }

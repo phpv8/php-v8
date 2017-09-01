@@ -38,7 +38,7 @@ $setter = function (\V8\NameValue$name, \V8\Value $value, \V8\PropertyCallbackIn
 
 $query = function (\V8\NameValue$name, \V8\PropertyCallbackInfo $info) use (&$foo) {
     echo 'I am named query for ', $name->toString($info->getContext())->value(), '!', PHP_EOL;
-    $info->getReturnValue()->setInteger(\V8\PropertyAttribute::None);
+    $info->getReturnValue()->setInteger(\V8\PropertyAttribute::NONE);
 };
 
 $deleter = function (\V8\NameValue$name, \V8\PropertyCallbackInfo $info) use (&$foo) {
@@ -90,7 +90,7 @@ $query = function ($index, \V8\PropertyCallbackInfo $info) use (&$foo) {
         return;
     }
 
-    $info->getReturnValue()->setInteger(\V8\PropertyAttribute::None);
+    $info->getReturnValue()->setInteger(\V8\PropertyAttribute::NONE);
 };
 
 $deleter = function (int $index, \V8\PropertyCallbackInfo $info) use (&$foo) {

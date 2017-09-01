@@ -129,7 +129,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
         callable $callback = null,
         FunctionTemplate $receiver = null,
         int $length = 0,
-        int $behavior = ConstructorBehavior::kAllow
+        int $behavior = ConstructorBehavior::ALLOW
     ) {
         parent::__construct($isolate);
     }

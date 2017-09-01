@@ -79,7 +79,7 @@ $cache_data = null;
     $source    = new \V8\ScriptCompiler\Source($source_string);
     $helper->assert('Source cache data is not set', $source->getCachedData() === null);
     try {
-        $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kConsumeParserCache);
+        $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::CONSUME_PARSER_CACHE);
     } catch (\V8\Exceptions\Exception $e) {
         $helper->exception_export($e);
     }
@@ -90,7 +90,7 @@ $cache_data = null;
     $source_string = new V8\StringValue($isolate, '"test " + status');;
     $source = new \V8\ScriptCompiler\Source($source_string);
     $helper->assert('Source cache data is NULL', $source->getCachedData() === null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kProduceCodeCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::PRODUCE_CODE_CACHE);
     $helper->assert('Source cache data is update', $source->getCachedData() != null);
     $helper->assert('Source cache data is not rejected', $source->getCachedData()->isRejected() === false);
 
@@ -103,7 +103,7 @@ $cache_data = null;
 
     $source = new \V8\ScriptCompiler\Source($source_string, null, $cache_data);
     $helper->assert('Source cache data is set', $source->getCachedData() != null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kConsumeCodeCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::CONSUME_CODE_CACHE);
     $helper->assert('Source cache data is still set', $source->getCachedData() != null);
     $helper->assert('Source cache data is not rejected', $source->getCachedData()->isRejected() === false);
 
@@ -115,7 +115,7 @@ $cache_data = null;
     $source_string = new V8\StringValue($isolate, '"other " + status');;
     $source = new \V8\ScriptCompiler\Source($source_string, null, $cache_data);
     $helper->assert('Source cache data is set', $source->getCachedData() != null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kConsumeCodeCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::CONSUME_CODE_CACHE);
     $helper->assert('Source cache data is still set', $source->getCachedData() != null);
     $helper->assert('Source cache data is rejected', $source->getCachedData()->isRejected() === true);
 
@@ -127,7 +127,7 @@ $cache_data = null;
     $source_string = new V8\StringValue($isolate, '   "test "   +   status');;
     $source    = new \V8\ScriptCompiler\Source($source_string, null, $cache_data);
     $helper->assert('Source cache data is set', $source->getCachedData() != null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kConsumeCodeCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::CONSUME_CODE_CACHE);
     $helper->assert('Source cache data is still set', $source->getCachedData() != null);
     $helper->assert('Source cache data is not rejected', $source->getCachedData()->isRejected() !== false);
 
@@ -139,7 +139,7 @@ $cache_data = null;
     $source_string = new V8\StringValue($isolate, '"test " + status');;
     $source    = new \V8\ScriptCompiler\Source($source_string, null, $cache_data);
     $helper->assert('Source cache data is set', $source->getCachedData() != null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kProduceCodeCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::PRODUCE_CODE_CACHE);
     $helper->assert('Source cache data is still set', $source->getCachedData() != null);
     $helper->assert('Source cache data is rejected', $source->getCachedData()->isRejected() === true);
 
@@ -152,7 +152,7 @@ $cache_data = null;
     $source_string = new V8\StringValue($isolate, '"test " + status');;
     $source    = new \V8\ScriptCompiler\Source($source_string, null, $cache_data);
     $helper->assert('Source cache data is set', $source->getCachedData() != null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kConsumeParserCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::CONSUME_PARSER_CACHE);
     $helper->assert('Source cache data is still set', $source->getCachedData() != null);
     $helper->assert('Source cache data is not rejected', $source->getCachedData()->isRejected() !== true);
 
@@ -165,7 +165,7 @@ $cache_data = null;
     $source_string = new V8\StringValue($isolate, '"test " + status');;
     $source = new \V8\ScriptCompiler\Source($source_string);
     $helper->assert('Source cache data is NULL', $source->getCachedData() === null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kProduceParserCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::PRODUCE_PARSER_CACHE);
     $helper->assert('Source cache data is NOT updated', $source->getCachedData() === null);
 
     $helper->line();
@@ -177,7 +177,7 @@ $cache_data = null;
     $source_string = new V8\StringValue($isolate, 'function test() { return 1+1;}');;
     $source = new \V8\ScriptCompiler\Source($source_string);
     $helper->assert('Source cache data is NULL', $source->getCachedData() === null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kProduceParserCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::PRODUCE_PARSER_CACHE);
     $helper->assert('Source cache data is update', $source->getCachedData() != null);
     $helper->assert('Source cache data is not rejected', $source->getCachedData()->isRejected() === false);
 
@@ -192,7 +192,7 @@ $cache_data = null;
     $source_string = new V8\StringValue($isolate, 'function test() { return 1+1;}');;
     $source = new \V8\ScriptCompiler\Source($source_string, null, $cache_data);
     $helper->assert('Source cache data is set', $source->getCachedData() != null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kConsumeParserCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::CONSUME_PARSER_CACHE);
     $helper->assert('Source cache data is still set', $source->getCachedData() != null);
     $helper->assert('Source cache data is not rejected', $source->getCachedData()->isRejected() === false);
 
@@ -205,7 +205,7 @@ $cache_data = null;
     $source_string = new V8\StringValue($isolate, 'function test() { return 1+1;}');;
     $source = new \V8\ScriptCompiler\Source($source_string, null, $cache_data);
     $helper->assert('Source cache data is set', $source->getCachedData() != null);
-    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::kConsumeCodeCache);
+    $unbound = V8\ScriptCompiler::compileUnboundScript($context, $source, V8\ScriptCompiler\CompileOptions::CONSUME_CODE_CACHE);
     $helper->assert('Source cache data is still set', $source->getCachedData() != null);
     $helper->assert('Source cache data is not rejected', $source->getCachedData()->isRejected() === false);
 

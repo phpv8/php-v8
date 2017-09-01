@@ -32,6 +32,10 @@ $helper->assert('StringValue extends NameValue', $value instanceof \V8\NameValue
 $helper->assert('StringValue extends Value', $value instanceof \V8\Value);
 $helper->line();
 
+$helper->header('Class constants');
+$helper->dump_object_constants($value);
+$helper->space();
+
 $helper->header('Accessors');
 $helper->method_matches($value, 'getIsolate', $isolate);
 $helper->method_export($value, 'value');
@@ -113,6 +117,11 @@ object(V8\StringValue)#5 (1) {
 
 StringValue extends NameValue: ok
 StringValue extends Value: ok
+
+Class constants:
+----------------
+V8\StringValue::MAX_LENGTH = 268435440
+
 
 Accessors:
 ----------

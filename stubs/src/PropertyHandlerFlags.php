@@ -25,19 +25,19 @@ class PropertyHandlerFlags
     /**
      * None.
      */
-    const kNone = 0;
+    const NONE = 0;
     /**
      * See \V8\AccessControl::ALL_CAN_READ (all cross-context reads are allowed).
      */
-    const kAllCanRead = 1;
+    const ALL_CAN_READ = 1;
     /** Will not call into interceptor for properties on the receiver or prototype
      * chain, i.e., only call into interceptor for properties that do not exist.
      * Currently only valid for named interceptors.
      */
-    const kNonMasking = 2;
+    const NON_MASKING = 2;
     /**
      * Will not call into interceptor for symbol lookup.  Only meaningful for
      * named interceptors.
      */
-    const kOnlyInterceptStrings = 4;
+    const ONLY_INTERCEPT_STRINGS = 4;
 }

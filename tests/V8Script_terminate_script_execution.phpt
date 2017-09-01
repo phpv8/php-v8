@@ -38,7 +38,7 @@ $terminate = new V8\FunctionTemplate($isolate, function (\V8\FunctionCallbackInf
     $e = null;
 });
 
-$global_template->set(new \V8\StringValue($isolate, 'terminate'), $terminate, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'terminate'), $terminate, \V8\PropertyAttribute::DONT_DELETE);
 
 $context = new V8\Context($isolate, $global_template);
 $v8_helper->injectConsoleLog($context);

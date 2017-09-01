@@ -40,7 +40,7 @@ $query = function ($index, \V8\PropertyCallbackInfo $info) use (&$foo) {
         return;
     }
 
-    $info->getReturnValue()->setInteger(\V8\PropertyAttribute::None);
+    $info->getReturnValue()->setInteger(\V8\PropertyAttribute::NONE);
 };
 
 $deleter = function (int $index, \V8\PropertyCallbackInfo $info) use (&$foo) {

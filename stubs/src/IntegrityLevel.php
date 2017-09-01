@@ -20,6 +20,6 @@ namespace V8;
  */
 class IntegrityLevel
 {
-    const kFrozen = 0;
-    const kSealed = 1;
+    const FROZEN = 0;
+    const SEALED = 1;
 }

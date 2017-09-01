@@ -26,7 +26,7 @@ $exit = new v8Tests\TrackingDtors\FunctionTemplate($isolate, function () {
     exit();
 });
 
-$global_template->set(new \V8\StringValue($isolate, 'exit'), $exit, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'exit'), $exit, \V8\PropertyAttribute::DONT_DELETE);
 
 $context = new v8Tests\TrackingDtors\Context($isolate, $global_template);
 $v8_helper->injectConsoleLog($context);

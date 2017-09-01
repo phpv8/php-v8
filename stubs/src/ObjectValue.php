@@ -78,7 +78,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
         Context $context,
         NameValue $key,
         Value $value,
-        int $attributes = PropertyAttribute::None
+        int $attributes = PropertyAttribute::NONE
     ): bool {
     }
 
@@ -154,7 +154,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
         callable $getter,
         callable $setter = null,
         int $settings = AccessControl::DEFAULT_ACCESS,
-        int $attributes = PropertyAttribute::None
+        int $attributes = PropertyAttribute::NONE
     ): bool {
     }
 
@@ -169,7 +169,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
         NameValue $name,
         FunctionObject $getter,
         FunctionObject $setter = null,
-        int $attributes = PropertyAttribute::None,
+        int $attributes = PropertyAttribute::NONE,
         int $settings = AccessControl::DEFAULT_ACCESS
     ) {
     }
@@ -191,7 +191,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
         NameValue $name,
         callable $getter,
         callable $setter = null,
-        int $attributes = PropertyAttribute::None
+        int $attributes = PropertyAttribute::NONE
     ): bool {
     }
 

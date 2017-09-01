@@ -24,12 +24,12 @@ $context->globalObject()->set($context, new \V8\StringValue($isolate, 'obj0'), $
 
 $obj1 = new \V8\ObjectValue($context);
 $obj1->set($context, new \V8\StringValue($isolate, 'test'), new \V8\IntegerValue($isolate, 42));
-$obj1->setIntegrityLevel($context, \V8\IntegrityLevel::kFrozen);
+$obj1->setIntegrityLevel($context, \V8\IntegrityLevel::FROZEN);
 $context->globalObject()->set($context, new \V8\StringValue($isolate, 'obj1'), $obj1);
 
 $obj2 = new \V8\ObjectValue($context);
 $obj2->set($context, new \V8\StringValue($isolate, 'test'), new \V8\IntegerValue($isolate, 42));
-$obj2->setIntegrityLevel($context, \V8\IntegrityLevel::kSealed);
+$obj2->setIntegrityLevel($context, \V8\IntegrityLevel::SEALED);
 $context->globalObject()->set($context, new \V8\StringValue($isolate, 'obj2'), $obj2);
 
 $source    = '

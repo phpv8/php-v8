@@ -17,7 +17,7 @@ $isolate = new \V8\Isolate();
 $global_template = new V8\ObjectTemplate($isolate);
 
 $func_tpl = new \V8\FunctionTemplate($isolate, function () {});
-$global_template->set(new \V8\StringValue($isolate, 'func'), $func_tpl, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'func'), $func_tpl, \V8\PropertyAttribute::DONT_DELETE);
 
 $foo = new V8\ObjectTemplate($isolate);;
 $name = new V8\StringValue($isolate, 'test');

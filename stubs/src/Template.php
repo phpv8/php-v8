@@ -48,7 +48,7 @@ class Template extends Data
      *
      * @return void
      */
-    public function set(NameValue $name, Data $value, int $attributes = PropertyAttribute::None)
+    public function set(NameValue $name, Data $value, int $attributes = PropertyAttribute::NONE)
     {
     }
 
@@ -63,7 +63,7 @@ class Template extends Data
         NameValue $name,
         FunctionTemplate $getter = null,
         FunctionTemplate $setter = null,
-        $attribute = PropertyAttribute::None,
+        $attribute = PropertyAttribute::NONE,
         $settings = AccessControl::DEFAULT_ACCESS
     ) {
     }
@@ -96,7 +96,7 @@ class Template extends Data
         NameValue $name,
         callable $getter,
         callable $setter = null,
-        $attribute = PropertyAttribute::None,
+        $attribute = PropertyAttribute::NONE,
         FunctionTemplate $receiver = null,
         $settings = AccessControl::DEFAULT_ACCESS
     ) {

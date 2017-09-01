@@ -47,7 +47,7 @@ class NamedPropertyHandlerConfiguration
         callable $query = null,
         callable $deleter = null,
         callable $enumerator = null,
-        $flags = PropertyHandlerFlags::kNone
+        $flags = PropertyHandlerFlags::NONE
     ) {
     }
 }

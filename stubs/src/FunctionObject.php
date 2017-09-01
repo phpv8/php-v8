@@ -30,7 +30,7 @@ class  FunctionObject extends ObjectValue
      * @param int         $length
      * @param int         $behavior
      */
-    public function __construct(Context $context, callable $callback, int $length = 0, int $behavior = ConstructorBehavior::kAllow)
+    public function __construct(Context $context, callable $callback, int $length = 0, int $behavior = ConstructorBehavior::ALLOW)
     {
         parent::__construct($context);
     }

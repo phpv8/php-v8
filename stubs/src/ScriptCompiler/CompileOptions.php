@@ -6,9 +6,9 @@ namespace V8\ScriptCompiler;
 
 class CompileOptions
 {
-    const kNoCompileOptions = 0;
-    const kProduceParserCache = 1;
-    const kConsumeParserCache = 2;
-    const kProduceCodeCache = 3;
-    const kConsumeCodeCache = 4;
+    const NO_COMPILE_OPTIONS   = 0;
+    const PRODUCE_PARSER_CACHE = 1;
+    const CONSUME_PARSER_CACHE = 2;
+    const PRODUCE_CODE_CACHE   = 3;
+    const CONSUME_CODE_CACHE   = 4;
 }

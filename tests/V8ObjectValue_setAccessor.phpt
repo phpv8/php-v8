@@ -38,7 +38,7 @@ $print_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallb
     echo implode('', $out), PHP_EOL;
 });
 
-$global_template->set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'print'), $print_func_tpl, \V8\PropertyAttribute::DONT_DELETE);
 
 $context = new V8\Context($isolate, $global_template);
 

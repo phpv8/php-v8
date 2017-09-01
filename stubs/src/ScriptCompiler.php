@@ -59,7 +59,7 @@ class  ScriptCompiler
      *
      * @return UnboundScript
      */
-    public static function compileUnboundScript(Context $context, Source $source, int $options = CompileOptions::kNoCompileOptions): UnboundScript
+    public static function compileUnboundScript(Context $context, Source $source, int $options = CompileOptions::NO_COMPILE_OPTIONS): UnboundScript
     {
     }
 
@@ -80,7 +80,7 @@ class  ScriptCompiler
      *
      * @return Script
      */
-    public static function compile(Context $context, Source $source, int $options = CompileOptions::kNoCompileOptions): Script
+    public static function compile(Context $context, Source $source, int $options = CompileOptions::NO_COMPILE_OPTIONS): Script
     {
     }
 

@@ -303,11 +303,11 @@ PHP_MINIT_FUNCTION(php_v8_script_compiler)
     INIT_NS_CLASS_ENTRY(ce, "V8\\ScriptCompiler", "CompileOptions", php_v8_compile_options_methods);
     php_v8_compile_options_class_entry = zend_register_internal_class(&ce);
 
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kNoCompileOptions"), v8::ScriptCompiler::CompileOptions::kNoCompileOptions);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kProduceParserCache"), v8::ScriptCompiler::CompileOptions::kProduceParserCache);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kConsumeParserCache"), v8::ScriptCompiler::CompileOptions::kConsumeParserCache);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kProduceCodeCache"), v8::ScriptCompiler::CompileOptions::kProduceCodeCache);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kConsumeCodeCache"), v8::ScriptCompiler::CompileOptions::kConsumeCodeCache);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("NO_COMPILE_OPTIONS"),   v8::ScriptCompiler::CompileOptions::kNoCompileOptions);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("PRODUCE_PARSER_CACHE"), v8::ScriptCompiler::CompileOptions::kProduceParserCache);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("CONSUME_PARSER_CACHE"), v8::ScriptCompiler::CompileOptions::kConsumeParserCache);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("PRODUCE_CODE_CACHE"),   v8::ScriptCompiler::CompileOptions::kProduceCodeCache);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("CONSUME_CODE_CACHE"),   v8::ScriptCompiler::CompileOptions::kConsumeCodeCache);
 
     return SUCCESS;
 }

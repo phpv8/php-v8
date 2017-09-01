@@ -18,7 +18,7 @@ $test_func_tpl = new \V8\FunctionTemplate($isolate, function (\V8\FunctionCallba
 
 
 $global_template = new V8\ObjectTemplate($isolate);
-$global_template->set(new \V8\StringValue($isolate, 'test'), $test_func_tpl, \V8\PropertyAttribute::DontDelete);
+$global_template->set(new \V8\StringValue($isolate, 'test'), $test_func_tpl, \V8\PropertyAttribute::DONT_DELETE);
 
 $context = new V8\Context($isolate, $global_template);
 

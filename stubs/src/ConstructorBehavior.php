@@ -18,6 +18,6 @@ namespace V8;
 
 class ConstructorBehavior
 {
-    const kThrow = 0;
-    const kAllow = 1;
+    const THROW = 0;
+    const ALLOW = 1;
 }
