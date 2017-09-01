@@ -4,7 +4,7 @@ PHP extension for V8 JavaScript engine
 [![Build Status](https://travis-ci.org/pinepain/php-v8.svg)](https://travis-ci.org/pinepain/php-v8)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/pinepain/php-v8/master/LICENSE)
 
-This extension is for PHP 7 only.
+**This extension requires PHP >= 7.1**. Last version that supports PHP 7.0 is v0.1.9.
 
 **This extension is still under heavy development and its public API may change without any warning. Use at your own risk.**
 
