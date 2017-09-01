@@ -93,47 +93,76 @@ class  HeapStatistics
         $this->does_zap_garbage           = $does_zap_garbage;
     }
 
-    public function total_heap_size(): float
+    /**
+     * @return float
+     */
+    public function getTotalHeapSize(): float
     {
         return $this->total_heap_size;
     }
 
-    public function total_heap_size_executable(): float
+    /**
+     * @return float
+     */
+    public function getTotalHeapSizeExecutable(): float
     {
         return $this->total_heap_size_executable;
     }
 
-    public function total_physical_size(): float
+    /**
+     * @return float
+     */
+    public function getTotalPhysicalSize(): float
     {
         return $this->total_physical_size;
     }
 
-    public function total_available_size(): float
+    /**
+     * @return float
+     */
+    public function getTotalAvailableSize(): float
     {
         return $this->total_available_size;
     }
 
-    public function used_heap_size(): float
+    /**
+     * @return float
+     */
+    public function getUsedHeapSize(): float
     {
         return $this->used_heap_size;
     }
 
-    public function heap_size_limit(): float
+    /**
+     * @return float
+     */
+    public function getHeapSizeLimit(): float
     {
         return $this->heap_size_limit;
     }
 
-    public function malloced_memory(): float
+    /**
+     * @return float
+     */
+    public function getMallocedMemory(): float
     {
         return $this->malloced_memory;
     }
 
-    public function peak_malloced_memory(): float
+    /**
+     * @return float
+     */
+    public function getPeakMallocedMemory(): float
     {
         return $this->peak_malloced_memory;
     }
 
-    public function does_zap_garbage(): bool
+    /**
+     * Returns a boolean, which signifies whether the V8 overwrite heap garbage with a bit pattern.
+     *
+     * @return bool
+     */
+    public function doesZapGarbage(): bool
     {
         return $this->does_zap_garbage;
     }
