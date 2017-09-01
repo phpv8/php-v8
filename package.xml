@@ -26,11 +26,11 @@
         <email>pinepain@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2017-07-17</date>
-    <time>19:04:05</time>
+    <date>2017-09-01</date>
+    <time>17:02:09</time>
     <version>
-        <release>0.1.8</release>
-        <api>0.1.8</api>
+        <release>0.1.9</release>
+        <api>0.1.9</api>
     </version>
     <stability>
         <release>stable</release>
@@ -38,12 +38,12 @@
     </stability>
     <license uri="https://opensource.org/licenses/mit">The MIT License (MIT)</license>
     <notes>
-        This release extends and clarify existent API and does not introduce any BC-breaking changes.
+        Refactor methods name to follow PSR-2 camelCase convention.
+
+        NOTE: This is the last release that supports PHP 7.0.
 
         Changes list:
-
-          - Change V8\Exception::*Error() return type to V8\ObjectValue as the only possible type;
-          - Add external exception wiring option to V8\Isolate::ThrowException().
+          - refactor methods name to follow PSR-2 camelCase convention;
     </notes>
     <contents>
         <dir name="/">
@@ -166,6 +166,7 @@
             <file name="tests/.tracking_dtors.php" role="test" />
             <file name="tests/.v8-helpers.php" role="test" />
             <file name="tests/001-V8_extension_info.phpt" role="test" />
+            <file name="tests/001-verify-method-case.phpt" role="test" />
             <file name="tests/001-verify-method-parameters-type.phpt" role="test" />
             <file name="tests/001.phpt" role="test" />
             <file name="tests/002-enums.phpt" role="test" />
@@ -173,64 +174,62 @@
             <file name="tests/003-V8ObjectTemplate_recursive_global.phpt" role="test" />
             <file name="tests/003-V8ObjectTemplate_recursive_self.phpt" role="test" />
             <file name="tests/003-V8ObjectTemplate_recursive_tree.phpt" role="test" />
-            <file name="tests/004-ICU-Intl_DateTimeFormat.phpt" role="test" />
-            <file name="tests/004-ICU-Intl_NumberFormat.phpt" role="test" />
+            <file name="tests/004-ICU-Intl_dateTimeFormat.phpt" role="test" />
+            <file name="tests/004-ICU-Intl_numberFormat.phpt" role="test" />
             <file name="tests/005-V8FunctionTemplate_external_memory.phpt" role="test" />
             <file name="tests/005-V8ObjectTemplate_external_memory.phpt" role="test" />
             <file name="tests/005-V8ObjectValue_external_memory.phpt" role="test" />
             <file name="tests/V8ArrayObject.phpt" role="test" />
-            <file name="tests/V8ArrayObject_Length.phpt" role="test" />
+            <file name="tests/V8ArrayObject_length.phpt" role="test" />
             <file name="tests/V8Boolean.phpt" role="test" />
             <file name="tests/V8BooleanObject.phpt" role="test" />
             <file name="tests/V8CachedData.phpt" role="test" />
             <file name="tests/V8Context.phpt" role="test" />
-            <file name="tests/V8Context_GlobalObject.phpt" role="test" />
-            <file name="tests/V8Context_SetSecurityToken.phpt" role="test" />
+            <file name="tests/V8Context_globalObject.phpt" role="test" />
             <file name="tests/V8Context_invalid_ctor_arg_type.phpt" role="test" />
             <file name="tests/V8Context_reference_lifecycle.phpt" role="test" />
+            <file name="tests/V8Context_setSecurityToken.phpt" role="test" />
             <file name="tests/V8Context_weakness.phpt" role="test" />
             <file name="tests/V8Data.phpt" role="test" />
             <file name="tests/V8DateObject.phpt" role="test" />
-            <file name="tests/V8Exception_CreateMessage.phpt" role="test" />
-            <file name="tests/V8Exception_Error.phpt" role="test" />
-            <file name="tests/V8Exception_GetStackTrace.phpt" role="test" />
-            <file name="tests/V8Exception_RangeError.phpt" role="test" />
-            <file name="tests/V8Exception_ReferenceError.phpt" role="test" />
-            <file name="tests/V8Exception_SyntaxError.phpt" role="test" />
-            <file name="tests/V8Exception_TypeError.phpt" role="test" />
+            <file name="tests/V8Exception_createMessage.phpt" role="test" />
+            <file name="tests/V8Exception_error.phpt" role="test" />
+            <file name="tests/V8Exception_getStackTrace.phpt" role="test" />
+            <file name="tests/V8Exception_rangeError.phpt" role="test" />
+            <file name="tests/V8Exception_referenceError.phpt" role="test" />
+            <file name="tests/V8Exception_syntaxError.phpt" role="test" />
+            <file name="tests/V8Exception_typeError.phpt" role="test" />
             <file name="tests/V8ExceptionsTryCatchException.phpt" role="test" />
             <file name="tests/V8FunctionCallbackInfo.phpt" role="test" />
             <file name="tests/V8FunctionObject.phpt" role="test" />
-            <file name="tests/V8FunctionObject_Call.phpt" role="test" />
-            <file name="tests/V8FunctionObject_Call_bad_args.phpt" role="test" />
-            <file name="tests/V8FunctionObject_NewInstance.phpt" role="test" />
+            <file name="tests/V8FunctionObject_call.phpt" role="test" />
+            <file name="tests/V8FunctionObject_call_bad_args.phpt" role="test" />
             <file name="tests/V8FunctionObject_constructor_behavior.phpt" role="test" />
             <file name="tests/V8FunctionObject_die.phpt" role="test" />
             <file name="tests/V8FunctionObject_die_different_isolates.phpt" role="test" />
             <file name="tests/V8FunctionObject_die_nested.phpt" role="test" />
+            <file name="tests/V8FunctionObject_newInstance.phpt" role="test" />
             <file name="tests/V8FunctionObject_weakness_multiple.phpt" role="test" />
             <file name="tests/V8FunctionTemplate.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_GetFunction.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_Set.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_SetCallHandler.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_callback_weakness.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_constructor_behavior.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_constructor_receiver.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_exception_in_php.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_getFunction.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_invalid_ctor_arg_type.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_require_implementation.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_set.phpt" role="test" />
+            <file name="tests/V8FunctionTemplate_setCallHandler.phpt" role="test" />
             <file name="tests/V8FunctionTemplate_weakness.phpt" role="test" />
             <file name="tests/V8HeapStatistics.phpt" role="test" />
             <file name="tests/V8IndexedPropertyHandlerConfiguration.phpt" role="test" />
             <file name="tests/V8Int32Value.phpt" role="test" />
             <file name="tests/V8IntegerValue.phpt" role="test" />
             <file name="tests/V8Isolate.phpt" role="test" />
-            <file name="tests/V8Isolate_GetEnteredContext.phpt" role="test" />
-            <file name="tests/V8Isolate_IsDead.phpt" role="test" />
-            <file name="tests/V8Isolate_IsInUse.phpt" role="test" />
-            <file name="tests/V8Isolate_ThrowException.phpt" role="test" />
-            <file name="tests/V8Isolate_ThrowException_with_external.phpt" role="test" />
             <file name="tests/V8Isolate_gc_cyclic_ref_memleak.phpt" role="test" />
+            <file name="tests/V8Isolate_getEnteredContext.phpt" role="test" />
+            <file name="tests/V8Isolate_isDead.phpt" role="test" />
+            <file name="tests/V8Isolate_isInUse.phpt" role="test" />
             <file name="tests/V8Isolate_limit_memory.phpt" role="test" />
             <file name="tests/V8Isolate_limit_memory_nested.phpt" role="test" />
             <file name="tests/V8Isolate_limit_memory_not_hit.phpt" role="test" />
@@ -242,6 +241,8 @@
             <file name="tests/V8Isolate_limit_time_set_during_execution.phpt" role="test" />
             <file name="tests/V8Isolate_nested_termination_exceptions.phpt" role="test" />
             <file name="tests/V8Isolate_snapshot_support.phpt" role="test" />
+            <file name="tests/V8Isolate_throwException.phpt" role="test" />
+            <file name="tests/V8Isolate_throwException_with_external.phpt" role="test" />
             <file name="tests/V8MapObject.phpt" role="test" />
             <file name="tests/V8Message.phpt" role="test" />
             <file name="tests/V8NamedPropertyHandlerConfiguration.phpt" role="test" />
@@ -249,44 +250,44 @@
             <file name="tests/V8NumberObject.phpt" role="test" />
             <file name="tests/V8NumberValue.phpt" role="test" />
             <file name="tests/V8ObjectTemplate.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_Set.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_SetAccessor_receiver.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_SetCallAsFunctionHandler.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_SetHandlerForIndexedProperty.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_SetHandlerForNamedProperty.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_SetHandler_both.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_SetNativeDataProperty.phpt" role="test" />
             <file name="tests/V8ObjectTemplate_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_set.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_setAccessor_receiver.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_setCallAsFunctionHandler.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_setHandlerForIndexedProperty.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_setHandlerForNamedProperty.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_setHandler_both.phpt" role="test" />
+            <file name="tests/V8ObjectTemplate_setNativeDataProperty.phpt" role="test" />
             <file name="tests/V8ObjectValue.phpt" role="test" />
-            <file name="tests/V8ObjectValue_Get.phpt" role="test" />
-            <file name="tests/V8ObjectValue_IsArgumentsObject.phpt" role="test" />
-            <file name="tests/V8ObjectValue_IsNativeError.phpt" role="test" />
-            <file name="tests/V8ObjectValue_SetAccessor.phpt" role="test" />
-            <file name="tests/V8ObjectValue_SetIntegrityLevel.phpt" role="test" />
-            <file name="tests/V8ObjectValue_SetNativeDataProperty.phpt" role="test" />
-            <file name="tests/V8ObjectValue_SetNativeDataProperty_from_template.phpt" role="test" />
+            <file name="tests/V8ObjectValue_get.phpt" role="test" />
+            <file name="tests/V8ObjectValue_isArgumentsObject.phpt" role="test" />
+            <file name="tests/V8ObjectValue_isNativeError.phpt" role="test" />
+            <file name="tests/V8ObjectValue_setAccessor.phpt" role="test" />
+            <file name="tests/V8ObjectValue_setIntegrityLevel.phpt" role="test" />
+            <file name="tests/V8ObjectValue_setNativeDataProperty.phpt" role="test" />
+            <file name="tests/V8ObjectValue_setNativeDataProperty_from_template.phpt" role="test" />
             <file name="tests/V8PropertyCallbackInfo.phpt" role="test" />
             <file name="tests/V8RegExpObject.phpt" role="test" />
             <file name="tests/V8ReturnValue.phpt" role="test" />
             <file name="tests/V8ReturnValue_context.phpt" role="test" />
             <file name="tests/V8Script.phpt" role="test" />
             <file name="tests/V8ScriptCompiler.phpt" role="test" />
-            <file name="tests/V8ScriptCompiler_Compile.phpt" role="test" />
-            <file name="tests/V8ScriptCompiler_CompileFunctionInContext.phpt" role="test" />
-            <file name="tests/V8ScriptCompiler_CompileUnbound.phpt" role="test" />
+            <file name="tests/V8ScriptCompiler_compile.phpt" role="test" />
+            <file name="tests/V8ScriptCompiler_compileFunctionInContext.phpt" role="test" />
+            <file name="tests/V8ScriptCompiler_compileUnbound.phpt" role="test" />
             <file name="tests/V8ScriptOrigin.phpt" role="test" />
             <file name="tests/V8ScriptOriginOptions.phpt" role="test" />
-            <file name="tests/V8Script_Run.phpt" role="test" />
-            <file name="tests/V8Script_Run_out_of_memory.phpt" role="test" />
-            <file name="tests/V8Script_Run_uncaught_exception.phpt" role="test" />
             <file name="tests/V8Script_exit_during_script_execution.phpt" role="test" />
+            <file name="tests/V8Script_run.phpt" role="test" />
+            <file name="tests/V8Script_run_out_of_memory.phpt" role="test" />
+            <file name="tests/V8Script_run_uncaught_exception.phpt" role="test" />
             <file name="tests/V8Script_terminate_script_execution.phpt" role="test" />
             <file name="tests/V8SetObject.phpt" role="test" />
             <file name="tests/V8Source.phpt" role="test" />
             <file name="tests/V8StackFrame.phpt" role="test" />
             <file name="tests/V8StackTrace.phpt" role="test" />
-            <file name="tests/V8StackTrace_CurrentStackTrace.phpt" role="test" />
-            <file name="tests/V8StartupData_CreateFromSource.phpt" role="test" />
+            <file name="tests/V8StackTrace_currentStackTrace.phpt" role="test" />
+            <file name="tests/V8StartupData_createFromSource.phpt" role="test" />
             <file name="tests/V8StringObject.phpt" role="test" />
             <file name="tests/V8StringValue.phpt" role="test" />
             <file name="tests/V8String_range_error_length.phpt" role="test" />
