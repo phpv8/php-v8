@@ -123,13 +123,13 @@ static PHP_METHOD(IndexedPropertyHandlerConfiguration, __construct) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
-                ZEND_ARG_INFO(0, getter)
-                ZEND_ARG_INFO(0, setter)
-                ZEND_ARG_INFO(0, query)
-                ZEND_ARG_INFO(0, deleter)
-                ZEND_ARG_INFO(0, enumerator)
-                ZEND_ARG_INFO(0, flags)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 1)
+                ZEND_ARG_CALLABLE_INFO(0, getter, 0)
+                ZEND_ARG_CALLABLE_INFO(0, setter, 1)
+                ZEND_ARG_CALLABLE_INFO(0, query, 1)
+                ZEND_ARG_CALLABLE_INFO(0, deleter, 1)
+                ZEND_ARG_CALLABLE_INFO(0, enumerator, 1)
+                ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 

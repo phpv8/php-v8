@@ -142,7 +142,7 @@ static PHP_METHOD(StackTrace, currentStackTrace)
     php_v8_stack_trace_create_from_stack_trace(return_value, php_v8_isolate, trace);
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 1)
                 ZEND_ARG_TYPE_INFO(0, frames, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 

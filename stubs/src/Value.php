@@ -231,7 +231,7 @@ abstract class Value extends Data
      *
      * @return \V8\BooleanValue
      */
-    public function toBoolean(Context $context)
+    public function toBoolean(Context $context): BooleanValue
     {
     }
 
@@ -240,7 +240,7 @@ abstract class Value extends Data
      *
      * @return \V8\NumberValue
      */
-    public function toNumber(Context $context)
+    public function toNumber(Context $context): NumberValue
     {
     }
 
@@ -249,7 +249,7 @@ abstract class Value extends Data
      *
      * @return \V8\StringValue
      */
-    public function toString(Context $context)
+    public function toString(Context $context): StringValue
     {
     }
 
@@ -258,7 +258,7 @@ abstract class Value extends Data
      *
      * @return \V8\StringValue
      */
-    public function toDetailString(Context $context)
+    public function toDetailString(Context $context): StringValue
     {
     }
 
@@ -268,7 +268,7 @@ abstract class Value extends Data
      *
      * @return \V8\ObjectValue
      */
-    public function toObject(Context $context)
+    public function toObject(Context $context): ObjectValue
     {
     }
 
@@ -278,7 +278,7 @@ abstract class Value extends Data
      *
      * @return \V8\IntegerValue
      */
-    public function toInteger(Context $context)
+    public function toInteger(Context $context): IntegerValue
     {
     }
 
@@ -288,7 +288,7 @@ abstract class Value extends Data
      *
      * @return \V8\Uint32Value
      */
-    public function toUint32(Context $context)
+    public function toUint32(Context $context): Uint32Value
     {
     }
 
@@ -297,7 +297,7 @@ abstract class Value extends Data
      *
      * @return \V8\Int32Value
      */
-    public function toInt32(Context $context)
+    public function toInt32(Context $context): Int32Value
     {
     }
 
@@ -318,7 +318,7 @@ abstract class Value extends Data
      *
      * @return bool
      */
-    public function booleanValue(Context $context)
+    public function booleanValue(Context $context): bool
     {
     }
 
@@ -327,25 +327,16 @@ abstract class Value extends Data
      *
      * @return double
      */
-    public function numberValue(Context $context)
+    public function numberValue(Context $context): double
     {
     }
 
     /**
      * @param Context $context
      *
-     * @return int | double
+     * @return int|double
      */
-    public function integerValue(Context $context)
-    {
-    }
-
-    /**
-     * @param Context $context
-     *
-     * @return int
-     */
-    public function uint32Value(Context $context)
+    public function integerValue(Context $context): double
     {
     }
 
@@ -354,7 +345,16 @@ abstract class Value extends Data
      *
      * @return int
      */
-    public function int32Value(Context $context)
+    public function uint32Value(Context $context): int
+    {
+    }
+
+    /**
+     * @param Context $context
+     *
+     * @return int
+     */
+    public function int32Value(Context $context): int
     {
     }
 

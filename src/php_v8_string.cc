@@ -127,7 +127,7 @@ static PHP_METHOD(String, containsOnlyOneByte)
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 2)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
@@ -166,7 +166,7 @@ PHP_MINIT_FUNCTION(php_v8_string)
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "StringValue", php_v8_string_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_name_class_entry);
 
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kMaxLength"), v8::String::kMaxLength);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("MAX_LENGTH"), v8::String::kMaxLength);
 
     return SUCCESS;
 }

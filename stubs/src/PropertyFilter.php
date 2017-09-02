@@ -20,10 +20,10 @@ namespace V8;
  */
 class PropertyFilter
 {
-    const ALL_PROPERTIES = 0;
-    const ONLY_WRITABLE = 1;
-    const ONLY_ENUMERABLE = 2;
+    const ALL_PROPERTIES    = 0;
+    const ONLY_WRITABLE     = 1;
+    const ONLY_ENUMERABLE   = 2;
     const ONLY_CONFIGURABLE = 4;
-    const SKIP_STRINGS = 8;
-    const SKIP_SYMBOLS = 16;
+    const SKIP_STRINGS      = 8;
+    const SKIP_SYMBOLS      = 16;
 }

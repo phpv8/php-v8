@@ -71,7 +71,7 @@
             <file name="src/php_v8_enums.cc" role="src" />
             <file name="src/php_v8_enums.h" role="src" />
             <file name="src/php_v8_exception.cc" role="src" />
-            <file name="src/php_v8_exception.h" role="src" />
+            <file name="src/php_v8_exception_manager.h" role="src" />
             <file name="src/php_v8_exceptions.cc" role="src" />
             <file name="src/php_v8_exceptions.h" role="src" />
             <file name="src/php_v8_ext_mem_interface.cc" role="src" />

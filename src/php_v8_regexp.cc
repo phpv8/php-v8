@@ -82,7 +82,7 @@ static PHP_METHOD(RegExp, getFlags) {
 }
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 2)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 2)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\StringValue, 0)
                 ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 1)
@@ -112,16 +112,19 @@ PHP_MINIT_FUNCTION(php_v8_regexp) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "RegExpObject", php_v8_regexp_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_object_class_entry);
 
+    #undef this_ce
+    #define this_ce php_v8_regexp_flags_class_entry
 
     INIT_NS_CLASS_ENTRY(ce, "V8\\RegExpObject", "Flags", php_v8_regexp_flags_methods);
-    php_v8_regexp_flags_class_entry = zend_register_internal_class(&ce);
+    this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
 
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kNone"),       v8::RegExp::Flags::kNone);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kGlobal"),     v8::RegExp::Flags::kGlobal);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kIgnoreCase"), v8::RegExp::Flags::kIgnoreCase);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kMultiline"),  v8::RegExp::Flags::kMultiline);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kSticky"),     v8::RegExp::Flags::kSticky);
-    zend_declare_class_constant_long(php_v8_regexp_flags_class_entry, ZEND_STRL("kUnicode"),    v8::RegExp::Flags::kUnicode);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("NONE"),        v8::RegExp::Flags::kNone);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("GLOBAL"),      v8::RegExp::Flags::kGlobal);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("IGNORE_CASE"), v8::RegExp::Flags::kIgnoreCase);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("MULTILINE"),   v8::RegExp::Flags::kMultiline);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("STICKY"),      v8::RegExp::Flags::kSticky);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("UNICODE"),     v8::RegExp::Flags::kUnicode);
 
     return SUCCESS;
 }

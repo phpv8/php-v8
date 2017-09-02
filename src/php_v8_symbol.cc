@@ -172,7 +172,7 @@ static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(Symbol, ToStringTag);
 static PHP_V8_SYMBOL_WELL_KNOWN_METHOD(Symbol, Unscopables);
 
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 1)
     ZEND_ARG_OBJ_INFO(0, isolate, V8\\Isolate, 0)
     ZEND_ARG_OBJ_INFO(0, name, V8\\StringValue, 1)
 ZEND_END_ARG_INFO()

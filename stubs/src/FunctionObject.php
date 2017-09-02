@@ -30,7 +30,7 @@ class  FunctionObject extends ObjectValue
      * @param int         $length
      * @param int         $behavior
      */
-    public function __construct(Context $context, callable $callback, int $length = 0, int $behavior = ConstructorBehavior::kAllow)
+    public function __construct(Context $context, callable $callback, int $length = 0, int $behavior = ConstructorBehavior::ALLOW)
     {
         parent::__construct($context);
     }
@@ -94,38 +94,38 @@ class  FunctionObject extends ObjectValue
 
     /**
      * Returns zero based line number of function body and
-     * kLineOffsetNotFound if no information available.
+     * null if no information available.
      *
-     * NOTE: null used instead of kLineOffsetNotFound
-     *
-     * @return int | null
+     * @return int|null
      */
-    public function getScriptLineNumber()
+    public function getScriptLineNumber(): ?int
     {
     }
 
     /**
      * Returns zero based column number of function body and
-     * kLineOffsetNotFound if no information available.
-     * NOTE: null used instead of kLineOffsetNotFound
+     * null if no information available.
      *
-     * @return int | null
+     * @return int|null
      */
-    public function getScriptColumnNumber()
+    public function getScriptColumnNumber(): ?int
     {
     }
 
 
-    ///**
-    // * Returns scriptId.
-    // */
-    //int ScriptId() const;
+    /**
+     * Returns script id where function was created and null if no information available.
+     *
+     * @return int
+     */
+    public function getScriptId(): ?int
+    {
+    }
 
     /**
-     * Returns the original function if this function is bound, else returns
-     * v8::Undefined.
+     * Returns the original function if this function is bound, else returns UndefinedValue.
      *
-     * @return Value
+     * @return FunctionObject|UndefinedValue|Value
      */
     public function getBoundFunction(): Value
     {

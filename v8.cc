@@ -21,7 +21,7 @@
 #include "php_v8_startup_data.h"
 #include "php_v8_heap_statistics.h"
 #include "php_v8_exceptions.h"
-#include "php_v8_exception.h"
+#include "php_v8_exception_manager.h"
 #include "php_v8_try_catch.h"
 #include "php_v8_message.h"
 #include "php_v8_stack_frame.h"
@@ -116,7 +116,7 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_source)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_script_compiler)(INIT_FUNC_ARGS_PASSTHRU);
 
-    PHP_MINIT(php_v8_exception)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_exception_manger)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_try_catch)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_message)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_stack_frame)(INIT_FUNC_ARGS_PASSTHRU);

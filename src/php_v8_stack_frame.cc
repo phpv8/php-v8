@@ -187,7 +187,7 @@ static PHP_METHOD(StackFrame, isConstructor) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_constructor"), 0, &rv), 1, 0);
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo___construct, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 0)
                 ZEND_ARG_TYPE_INFO(0, line_number, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, column, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, script_id, IS_LONG, 0)

@@ -14,7 +14,7 @@
 #define PHP_V8_SOURCE_H
 
 
-#include "php_v8_exception.h"
+#include "php_v8_exception_manager.h"
 #include "php_v8_context.h"
 #include "php_v8_isolate.h"
 #include <v8.h>

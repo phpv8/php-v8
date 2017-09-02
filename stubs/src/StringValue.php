@@ -21,7 +21,7 @@ namespace V8;
  */
 class StringValue extends NameValue
 {
-    const kMaxLength = (1 << 28) - 16;
+    const MAX_LENGTH = (1 << 28) - 16;
 
     /**
      * @param Isolate $isolate

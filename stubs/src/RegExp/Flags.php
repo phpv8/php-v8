@@ -18,10 +18,10 @@ namespace V8\RegExpObject;
 
 class Flags
 {
-    const kNone = 0;
-    const kGlobal = 1;
-    const kIgnoreCase = 2;
-    const kMultiline = 4;
-    const kSticky = 8;
-    const kUnicode = 16;
+    const NONE        = 0;
+    const GLOBAL      = 1;
+    const IGNORE_CASE = 2;
+    const MULTILINE   = 4;
+    const STICKY      = 8;
+    const UNICODE     = 16;
 }

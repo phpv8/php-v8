@@ -161,7 +161,7 @@ if test "$PHP_V8" != "no"; then
     v8.cc                                                 \
     src/php_v8_a.cc                                       \
     src/php_v8_enums.cc                                   \
-    src/php_v8_exception.cc                               \
+    src/php_v8_exception_manager.cc                       \
     src/php_v8_ext_mem_interface.cc                       \
     src/php_v8_try_catch.cc                               \
     src/php_v8_message.cc                                 \

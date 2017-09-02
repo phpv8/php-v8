@@ -24,7 +24,7 @@ class RegExpObject extends ObjectValue
      * @param StringValue $pattern
      * @param int         $flags
      */
-    public function __construct(Context $context, StringValue $pattern, int $flags = RegExpObject\Flags::kNone)
+    public function __construct(Context $context, StringValue $pattern, int $flags = RegExpObject\Flags::NONE)
     {
         parent::__construct($context);
     }
