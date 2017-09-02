@@ -120,7 +120,7 @@ StringValue extends Value: ok
 
 Class constants:
 ----------------
-V8\StringValue::MAX_LENGTH = 268435440
+V8\StringValue::MAX_LENGTH = 1073741799
 
 
 Accessors:
