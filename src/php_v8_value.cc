@@ -108,7 +108,7 @@ static void php_v8_value_free(zend_object *object) {
     php_v8_value_t *php_v8_value = php_v8_value_fetch_object(object);
 
     // TODO: check whether we have valid isolate?
-    if (php_v8_value->php_v8_isolate && php_v8_value->persistent && !php_v8_value->persistent->IsEmpty()) {
+    if (PHP_V8_IS_UP_AND_RUNNING() && php_v8_value->php_v8_isolate && php_v8_value->persistent && !php_v8_value->persistent->IsEmpty()) {
         PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
 
         // TODO: in general, this makes sense only for objects
