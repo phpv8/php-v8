@@ -52,6 +52,7 @@ void php_v8_create_try_catch_exception(zval *return_value, php_v8_isolate_t *php
     const char *message = NULL;
 
     PHP_V8_DECLARE_LIMITS(php_v8_isolate);
+    PHP_V8_DECLARE_ISOLATE(php_v8_isolate);
 
     if ((try_catch == NULL) || (try_catch->Exception()->IsNull() && try_catch->Message().IsEmpty() && !try_catch->CanContinue() && try_catch->HasTerminated())) {
         if (limits->time_limit_hit) {
@@ -68,10 +69,9 @@ void php_v8_create_try_catch_exception(zval *return_value, php_v8_isolate_t *php
         object_init_ex(return_value, ce);
         zend_update_property_string(php_v8_try_catch_exception_class_entry, return_value, ZEND_STRL("message"), message);
     } else {
-        v8::String::Utf8Value exception(try_catch->Exception());
-
         ce = php_v8_try_catch_exception_class_entry;
-        PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK_NODECL(exception, message);
+
+        PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING_NODECL(isolate, message, try_catch->Exception());
 
         object_init_ex(return_value, ce);
         zend_update_property_string(php_v8_try_catch_exception_class_entry, return_value, ZEND_STRL("message"), message);

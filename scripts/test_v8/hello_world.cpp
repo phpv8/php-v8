@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
     Local<Value> result = script->Run();
 
     // Convert the result to an UTF8 string and print it.
-    String::Utf8Value utf8(result);
+    String::Utf8Value utf8(isolate, result);
     printf("%s\n", *utf8);
   }
 

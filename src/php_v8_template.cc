@@ -261,7 +261,7 @@ void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> lo
 
     v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
-    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(name, local_name);
+    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, name, local_name);
 
     phpv8::CallbacksBucket *bucket = php_v8_template->persistent_data->bucket("native_data_property_", local_name->IsSymbol(), name);
     data = v8::External::New(isolate, bucket);

@@ -25,7 +25,7 @@ extern "C" {
 
 extern zend_class_entry* php_v8_stack_frame_class_entry;
 
-extern void php_v8_stack_frame_create_from_stack_frame(zval *return_value, v8::Local<v8::StackFrame> frame);
+extern void php_v8_stack_frame_create_from_stack_frame(v8::Isolate *isolate, zval *return_value, v8::Local<v8::StackFrame> frame);
 
 
 PHP_MINIT_FUNCTION(php_v8_stack_frame);

@@ -245,7 +245,7 @@ static PHP_METHOD(ObjectTemplate, setAccessor) {
 
     v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
-    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(name, local_name);
+    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, name, local_name);
 
     v8::AccessorNameGetterCallback getter;
     v8::AccessorNameSetterCallback setter = 0;
