@@ -2,6 +2,8 @@
 V8\FunctionObject - test die() during nested calling
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
+--ENV--
+HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 

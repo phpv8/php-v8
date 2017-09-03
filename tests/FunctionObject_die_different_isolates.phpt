@@ -1,9 +1,9 @@
 --TEST--
 V8\FunctionObject - test die() called from different Isolate
 --SKIPIF--
-<?php if (!extension_loaded("v8")) {
-    print "skip";
-} ?>
+<?php if (!extension_loaded("v8")) print "skip"; ?>
+--ENV--
+HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 
