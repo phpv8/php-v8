@@ -4,14 +4,6 @@ V8\Isolate - nested memory limit exceptions
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --ENV--
 HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
-<?php
-/** @var \Phpv8Testsuite $helper */
-$helper = require '.testsuite.php';
-
-if ($helper->need_more_time()) {
-    echo 'skip Random bugs on travis at this time under valgrind';
-}
-?>
 --FILE--
 <?php
 
