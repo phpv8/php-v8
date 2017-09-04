@@ -22,7 +22,7 @@ zend_class_entry *php_v8_stack_frame_class_entry;
 #define this_ce php_v8_stack_frame_class_entry
 
 
-void php_v8_stack_frame_create_from_stack_frame(zval *return_value, v8::Local<v8::StackFrame> frame) {
+void php_v8_stack_frame_create_from_stack_frame(v8::Isolate *isolate, zval *return_value, v8::Local<v8::StackFrame> frame) {
 
     assert(!frame.IsEmpty());
 
@@ -41,23 +41,19 @@ void php_v8_stack_frame_create_from_stack_frame(zval *return_value, v8::Local<v8
 
     /* v8::StackFrame::GetScriptName */
     if (!frame->GetScriptName().IsEmpty()) {
-        v8::String::Utf8Value script_name_utf8(frame->GetScriptName());
-        PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(script_name_utf8, script_name_chars);
+        PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, script_name_chars, frame->GetScriptName());
         zend_update_property_string(this_ce, return_value, ZEND_STRL("script_name"), script_name_chars);
     }
 
     /* v8::StackFrame::GetScriptNameOrSourceURL */
     if (!frame->GetScriptNameOrSourceURL().IsEmpty()) {
-        v8::String::Utf8Value script_name_or_source_url_utf8(frame->GetScriptNameOrSourceURL());
-        PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(script_name_or_source_url_utf8, script_name_or_source_url_chars);
-        zend_update_property_string(this_ce, return_value, ZEND_STRL("script_name_or_source_url"),
-                                    script_name_or_source_url_chars);
+        PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, script_name_or_source_url_chars, frame->GetScriptNameOrSourceURL());
+        zend_update_property_string(this_ce, return_value, ZEND_STRL("script_name_or_source_url"), script_name_or_source_url_chars);
     }
 
     /* v8::StackFrame::GetFunctionName */
     if (!frame->GetFunctionName().IsEmpty()) {
-        v8::String::Utf8Value function_name_utf8(frame->GetFunctionName());
-        PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(function_name_utf8, function_name_chars);
+        PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, function_name_chars, frame->GetFunctionName());
         zend_update_property_string(this_ce, return_value, ZEND_STRL("function_name"), function_name_chars);
     }
 

@@ -21,7 +21,7 @@ namespace V8;
  */
 class StringValue extends NameValue
 {
-    const MAX_LENGTH = (1 << 28) - 16;
+    const MAX_LENGTH = (1 << 30) - 25; // It's (1 << 28) - 16 on x32 platform, but we don't run on x32.
 
     /**
      * @param Isolate $isolate

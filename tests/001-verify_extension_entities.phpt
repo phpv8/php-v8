@@ -1,9 +1,9 @@
 --TEST--
 Check whether all method parameters have valid type
 --SKIPIF--
-<?php if (!extension_loaded("v8")) {
-    print "skip";
-} ?>
+<?php if (!extension_loaded("v8")) print "skip"; ?>
+--ENV--
+HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 
@@ -619,7 +619,7 @@ abstract class V8\NameValue
 
 class V8\StringValue
     extends V8\NameValue
-    const MAX_LENGTH = 268435440
+    const MAX_LENGTH = 1073741799
     public function __construct(V8\Isolate $isolate, $data)
     public function value(): string
     public function length(): int

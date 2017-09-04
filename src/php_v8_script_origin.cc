@@ -27,11 +27,11 @@ extern void php_v8_create_script_origin(zval *return_value, v8::Local<v8::Contex
     zval options_zv;
 
     object_init_ex(return_value, this_ce);
+    v8::Isolate *isolate= context->GetIsolate();
 
     /* v8::ScriptOrigin::ResourceName */
     if (!origin.ResourceName().IsEmpty() && !origin.ResourceName()->IsUndefined()) {
-        v8::String::Utf8Value resource_name_utf8(origin.ResourceName());
-        PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(resource_name_utf8, resource_name_chars);
+        PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, resource_name_chars, origin.ResourceName());
         zend_update_property_string(this_ce, return_value, ZEND_STRL("resource_name"), resource_name_chars);
     }
 
@@ -57,8 +57,7 @@ extern void php_v8_create_script_origin(zval *return_value, v8::Local<v8::Contex
 
     /* v8::SourceMapUrl::ResourceName */
     if (!origin.SourceMapUrl().IsEmpty() && !origin.SourceMapUrl()->IsUndefined()) {
-        v8::String::Utf8Value source_map_url_utf8(origin.SourceMapUrl());
-        PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(source_map_url_utf8, source_map_url_chars);
+        PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, source_map_url_chars, origin.SourceMapUrl());
         zend_update_property_string(this_ce, return_value, ZEND_STRL("source_map_url"), source_map_url_chars);
     }
 }

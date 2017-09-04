@@ -29,7 +29,7 @@ void php_v8_stack_trace_create_from_stack_trace(zval *return_value, php_v8_isola
 
     object_init_ex(return_value, this_ce);
 
-    v8::Isolate *isolate = php_v8_isolate->isolate;
+    PHP_V8_DECLARE_ISOLATE(php_v8_isolate);
 
     /* v8::StackTrace::GetFrames */
     /* v8::StackTrace::GetFrame */
@@ -42,7 +42,7 @@ void php_v8_stack_trace_create_from_stack_trace(zval *return_value, php_v8_isola
     zval frame_zv;
 
     for (uint32_t i = 0; i < frames_cnt; i++) {
-        php_v8_stack_frame_create_from_stack_frame(&frame_zv, trace->GetFrame(i));
+        php_v8_stack_frame_create_from_stack_frame(isolate, &frame_zv, trace->GetFrame(i));
         add_index_zval(&frames_array_zv, i, &frame_zv);
     }
 

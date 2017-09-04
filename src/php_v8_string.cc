@@ -59,7 +59,7 @@ static PHP_METHOD(String, value)
 
     v8::Local<v8::Value> str_tpl = php_v8_value_get_local(php_v8_value);
 
-    v8::String::Utf8Value str(str_tpl);
+    v8::String::Utf8Value str(isolate, str_tpl);
 
     PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(str, cstr);
 

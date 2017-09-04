@@ -1,9 +1,9 @@
 --TEST--
 V8\ObjectValue::isArgumentsObject()
 --SKIPIF--
-<?php if (!extension_loaded("v8")) {
-    print "skip";
-} ?>
+<?php if (!extension_loaded("v8")) print "skip"; ?>
+--ENV--
+HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 

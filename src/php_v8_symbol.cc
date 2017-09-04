@@ -69,7 +69,7 @@ static PHP_METHOD(Symbol, value)
         RETURN_EMPTY_STRING();
     }
 
-    v8::String::Utf8Value str(local_name);
+    v8::String::Utf8Value str(isolate, local_name);
 
     PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(str, cstr);
 

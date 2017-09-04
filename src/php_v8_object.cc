@@ -447,7 +447,7 @@ static PHP_METHOD(Object, setAccessor) {
     v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
     v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
-    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(name, local_name);
+    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, name, local_name);
 
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
     settings = settings ? settings & PHP_V8_ACCESS_CONTROL_FLAGS : settings;
@@ -574,7 +574,7 @@ static PHP_METHOD(Object, setNativeDataProperty) {
     v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
     v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
 
-    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(name, local_name);
+    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, name, local_name);
 
     attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
 

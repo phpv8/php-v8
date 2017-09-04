@@ -303,7 +303,7 @@ class PhpV8Testsuite
 
     public function need_more_time() {
         // NOTE: this check is a bit fragile but should fits our need
-        return isset($_ENV['TRAVIS']) && isset($_ENV['TEST_PHP_ARGS']) && $_ENV['TEST_PHP_ARGS'] == '-m';
+        return isset($_ENV['TEST_PHP_ARGS']) && $_ENV['TEST_PHP_ARGS'] == '-m';
     }
 
     public function is_memory_test() {

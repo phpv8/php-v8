@@ -2,14 +2,8 @@
 V8\Isolate - memory limit
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
-<?php
-/** @var \Phpv8Testsuite $helper */
-$helper = require '.testsuite.php';
-
-if ($helper->need_more_time()) {
-    echo 'skip Random bugs on travis at this time under valgrind';
-}
-?>
+--ENV--
+HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 

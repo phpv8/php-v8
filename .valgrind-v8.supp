@@ -1,0 +1,6 @@
+{
+   <suppress_false_positive_warning_see_v8_issue_6566>
+   Memcheck:Cond
+   fun:_ZN2v88internal20MarkCompactCollector20EmptyMarkingWorklistEv
+   ...
+}

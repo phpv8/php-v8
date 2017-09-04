@@ -48,7 +48,7 @@ $source = new \V8\StringValue($isolate, "'Hello' + ', World!'");
 $script = new \V8\Script($context, $source);
 $result = $script->run($context);
 
-echo $result->toString($context)->value(), PHP_EOL;
+echo $result->value(), PHP_EOL;
 ```
 
 which will output `Hello, World!`. See how it's shorter and more readable than [that C++ version][v8-hello-world]?
@@ -69,7 +69,7 @@ in your IDE and other code-analysis tools.
 ### Requirements
 
 #### V8
-You will need a recent v8 Google JavaScript engine version installed. At this time the extension is tested on 6.2.2.
+You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.3.2 required.
 
 #### PHP
 This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.
@@ -92,7 +92,7 @@ $ php --ri v8
 
 While [pinepain/php](https://launchpad.net/~pinepain/+archive/ubuntu/php) PPA targets to contain all necessary
 extensions with dependencies, you may find
-[pinepain/libv8-6.2](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-6.2),
+[pinepain/libv8-6.3](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-6.3),
 [pinepain/libv8-experimental](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental) and
 [pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) standalone PPAs useful.
 

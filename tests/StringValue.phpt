@@ -2,6 +2,8 @@
 V8\StringValue
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
+--ENV--
+HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 
@@ -120,7 +122,7 @@ StringValue extends Value: ok
 
 Class constants:
 ----------------
-V8\StringValue::MAX_LENGTH = 268435440
+V8\StringValue::MAX_LENGTH = 1073741799
 
 
 Accessors:

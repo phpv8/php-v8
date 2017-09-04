@@ -29,20 +29,18 @@ void php_v8_message_create_from_message(zval *return_value, php_v8_isolate_t *ph
 
     object_init_ex(return_value, this_ce);
 
-    v8::Isolate *isolate = php_v8_isolate->isolate;
+    PHP_V8_DECLARE_ISOLATE(php_v8_isolate);
     v8::Local<v8::Context> context = isolate->GetEnteredContext();
 
     /* v8::Message::Get */
     if (!message->Get().IsEmpty()) {
-        v8::String::Utf8Value message_utf8(message->Get());
-        PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(message_utf8, message_chars);
+        PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, message_chars, message->Get());
         zend_update_property_string(this_ce, return_value, ZEND_STRL("message"), message_chars);
     }
 
     /* v8::Message::GetSourceLine */
     if (!message->GetSourceLine(context).IsEmpty()) {
-        v8::String::Utf8Value source_line_utf8(message->GetSourceLine(context).ToLocalChecked());
-        PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(source_line_utf8, source_line_chars);
+        PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, source_line_chars, message->GetSourceLine(context).ToLocalChecked());
         zend_update_property_string(this_ce, return_value, ZEND_STRL("source_line"), source_line_chars);
     }
 
@@ -54,8 +52,7 @@ void php_v8_message_create_from_message(zval *return_value, php_v8_isolate_t *ph
 
     /* v8::Message::GetScriptResourceName */
     if (!message->GetScriptResourceName().IsEmpty() && !message->GetScriptResourceName()->IsUndefined()) {
-        v8::String::Utf8Value script_resource_name_utf8(message->GetScriptResourceName());
-        PHP_V8_CONVERT_UTF8VALUE_TO_STRING_WITH_CHECK(script_resource_name_utf8, script_resource_name_chars);
+        PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, script_resource_name_chars, message->GetScriptResourceName());
         zend_update_property_string(this_ce, return_value, ZEND_STRL("resource_name"), script_resource_name_chars);
     }
 
