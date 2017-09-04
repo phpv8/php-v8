@@ -8,13 +8,15 @@ env:
   global:
     - V8=6.3
   matrix:
-    - PHP=7.1
-    - PHP=7.1 TEST_PHP_ARGS=-m
-    - PHP=7.2
-    - PHP=7.2 TEST_PHP_ARGS=-m
+    - TAG=xenial-v8-63-php-71
+    - TAG=xenial-v8-63-php-71 TEST_PHP_ARGS=-m
+    - TAG=xenial-v8-63-php-72
+    - TAG=xenial-v8-63-php-72 TEST_PHP_ARGS=-m
 
 before_install:
-  - docker build -t ${TRAVIS_REPO_SLUG}:${V8}-${PHP} --build-arg V8=${V8} --build-arg PHP=${PHP} .
+  # docker on travis doesn't allow anything before FROM, let's fix that
+  - sed -i -e "s/\${TAG}/$TAG/g" Dockerfile && sed -i -e '1,2d' Dockerfile
+  - docker build -t ${TRAVIS_REPO_SLUG}:${V8}-${PHP} --build-arg TAG=${TAG} .
 
 script:
   - docker run -e TEST_PHP_ARGS ${TRAVIS_REPO_SLUG}:${V8}-${PHP} bash -c "make test | tee result.txt; ./test-report.sh"
