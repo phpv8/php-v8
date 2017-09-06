@@ -22,7 +22,7 @@ $helper->space();
 
 
 
-$obj = new V8\ScriptOriginOptions(true);
+$obj = new V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_SHARED_CROSS_ORIGIN);
 
 $helper->header('Object representation');
 $helper->dump($obj);
@@ -32,7 +32,7 @@ $helper->header('Test getters');
 $helper->dump_object_methods($obj);
 $helper->space();
 
-$obj = new V8\ScriptOriginOptions(false, true);
+$obj = new V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_OPAQUE);
 
 $helper->header('Object representation');
 $helper->dump($obj);
@@ -42,7 +42,7 @@ $helper->header('Test getters');
 $helper->dump_object_methods($obj);
 $helper->space();
 
-$obj = new V8\ScriptOriginOptions(false, false, true);
+$obj = new V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_WASM);
 
 $helper->header('Object representation');
 $helper->dump($obj);
@@ -52,7 +52,7 @@ $helper->header('Test getters');
 $helper->dump_object_methods($obj);
 $helper->space();
 
-$obj = new V8\ScriptOriginOptions(false, false, false, true);
+$obj = new V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_MODULE);
 
 $helper->header('Object representation');
 $helper->dump($obj);
@@ -66,20 +66,15 @@ $helper->space();
 --EXPECT--
 Object representation (default):
 --------------------------------
-object(V8\ScriptOriginOptions)#2 (4) {
-  ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_opaque":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_wasm":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_module":"V8\ScriptOriginOptions":private]=>
-  bool(false)
+object(V8\ScriptOriginOptions)#2 (1) {
+  ["flags":"V8\ScriptOriginOptions":private]=>
+  int(0)
 }
 
 
 Test getters (default):
 -----------------------
+V8\ScriptOriginOptions->getFlags(): int(0)
 V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(false)
 V8\ScriptOriginOptions->isOpaque(): bool(false)
 V8\ScriptOriginOptions->isWasm(): bool(false)
@@ -88,20 +83,15 @@ V8\ScriptOriginOptions->isModule(): bool(false)
 
 Object representation:
 ----------------------
-object(V8\ScriptOriginOptions)#11 (4) {
-  ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-  bool(true)
-  ["is_opaque":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_wasm":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_module":"V8\ScriptOriginOptions":private]=>
-  bool(false)
+object(V8\ScriptOriginOptions)#12 (1) {
+  ["flags":"V8\ScriptOriginOptions":private]=>
+  int(1)
 }
 
 
 Test getters:
 -------------
+V8\ScriptOriginOptions->getFlags(): int(1)
 V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(true)
 V8\ScriptOriginOptions->isOpaque(): bool(false)
 V8\ScriptOriginOptions->isWasm(): bool(false)
@@ -110,20 +100,15 @@ V8\ScriptOriginOptions->isModule(): bool(false)
 
 Object representation:
 ----------------------
-object(V8\ScriptOriginOptions)#4 (4) {
-  ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_opaque":"V8\ScriptOriginOptions":private]=>
-  bool(true)
-  ["is_wasm":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_module":"V8\ScriptOriginOptions":private]=>
-  bool(false)
+object(V8\ScriptOriginOptions)#4 (1) {
+  ["flags":"V8\ScriptOriginOptions":private]=>
+  int(2)
 }
 
 
 Test getters:
 -------------
+V8\ScriptOriginOptions->getFlags(): int(2)
 V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(false)
 V8\ScriptOriginOptions->isOpaque(): bool(true)
 V8\ScriptOriginOptions->isWasm(): bool(false)
@@ -132,43 +117,33 @@ V8\ScriptOriginOptions->isModule(): bool(false)
 
 Object representation:
 ----------------------
-object(V8\ScriptOriginOptions)#10 (4) {
-  ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_opaque":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_wasm":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_module":"V8\ScriptOriginOptions":private]=>
-  bool(false)
+object(V8\ScriptOriginOptions)#11 (1) {
+  ["flags":"V8\ScriptOriginOptions":private]=>
+  int(4)
 }
 
 
 Test getters:
 -------------
+V8\ScriptOriginOptions->getFlags(): int(4)
 V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(false)
 V8\ScriptOriginOptions->isOpaque(): bool(false)
-V8\ScriptOriginOptions->isWasm(): bool(false)
+V8\ScriptOriginOptions->isWasm(): bool(true)
 V8\ScriptOriginOptions->isModule(): bool(false)
 
 
 Object representation:
 ----------------------
-object(V8\ScriptOriginOptions)#6 (4) {
-  ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_opaque":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_wasm":"V8\ScriptOriginOptions":private]=>
-  bool(false)
-  ["is_module":"V8\ScriptOriginOptions":private]=>
-  bool(false)
+object(V8\ScriptOriginOptions)#6 (1) {
+  ["flags":"V8\ScriptOriginOptions":private]=>
+  int(8)
 }
 
 
 Test getters:
 -------------
+V8\ScriptOriginOptions->getFlags(): int(8)
 V8\ScriptOriginOptions->isSharedCrossOrigin(): bool(false)
 V8\ScriptOriginOptions->isOpaque(): bool(false)
 V8\ScriptOriginOptions->isWasm(): bool(false)
-V8\ScriptOriginOptions->isModule(): bool(false)
+V8\ScriptOriginOptions->isModule(): bool(true)

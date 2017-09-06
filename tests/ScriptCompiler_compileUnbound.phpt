@@ -41,7 +41,7 @@ $cache_data = null;
     }
 
     try {
-        $origin = new \V8\ScriptOrigin('test-module.js', 0, 0, 0, false, "", false, false, true);
+        $origin = new \V8\ScriptOrigin('test-module.js', null, null, null, "", new \V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_MODULE));
 
         $source_string = new V8\StringValue($isolate, '"test"');
         $source        = new \V8\ScriptCompiler\Source($source_string, $origin);

@@ -51,11 +51,6 @@ extern void php_v8_create_script_origin(zval *return_value, v8::Local<v8::Contex
         }
     }
 
-    /* v8::SourceMapUrl::Options */
-    php_v8_create_script_origin_options(&options_zv, origin.Options());
-    zend_update_property(this_ce, return_value, ZEND_STRL("options"), &options_zv);
-    zval_ptr_dtor(&options_zv);
-
     /* v8::SourceMapUrl::ScriptID */
     if (!origin.ScriptID().IsEmpty() && origin.ScriptID()->NumberValue(context).IsJust()) {
         zend_long script_id = static_cast<zend_long>(origin.ScriptID()->NumberValue(context).FromJust());
@@ -69,6 +64,11 @@ extern void php_v8_create_script_origin(zval *return_value, v8::Local<v8::Contex
         PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, source_map_url_chars, origin.SourceMapUrl());
         zend_update_property_string(this_ce, return_value, ZEND_STRL("source_map_url"), source_map_url_chars);
     }
+
+    /* v8::SourceMapUrl::Options */
+    php_v8_create_script_origin_options(&options_zv, origin.Options());
+    zend_update_property(this_ce, return_value, ZEND_STRL("options"), &options_zv);
+    zval_ptr_dtor(&options_zv);
 }
 
 
@@ -131,15 +131,13 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
     zval *options_zv = zend_read_property(this_ce, value, ZEND_STRL("options"), 0, &rv); // ScriptOriginOptions
 
     if (Z_TYPE_P(options_zv) == IS_OBJECT && instanceof_function(Z_OBJCE_P(options_zv), php_v8_script_origin_options_class_entry)) {
-        zval *is_shared_cross_origin_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_shared_cross_origin"), 0, &rv);
-        zval *is_opaque_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_opaque"), 0, &rv);
-        zval *is_wasm_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_wasm"), 0, &rv);
-        zval *is_module_zv = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("is_module"), 0, &rv);
+        zval *tmp = zend_read_property(php_v8_script_origin_options_class_entry, options_zv, ZEND_STRL("flags"), 0, &rv);
+        zend_long flags = Z_LVAL_P(tmp);
 
-        resource_is_shared_cross_origin = v8::Boolean::New(isolate, Z_TYPE_P(is_shared_cross_origin_zv) == IS_TRUE);
-        resource_is_opaque = v8::Boolean::New(isolate, Z_TYPE_P(is_opaque_zv) == IS_TRUE);
-        is_wasm = v8::Boolean::New(isolate, Z_TYPE_P(is_wasm_zv) == IS_TRUE);
-        is_module = v8::Boolean::New(isolate, Z_TYPE_P(is_module_zv) == IS_TRUE);
+        resource_is_shared_cross_origin = v8::Boolean::New(isolate, static_cast<bool>(flags & PHP_V8_SCRIPT_ORIGIN_OPTION_IS_SHARED_CROSS_ORIGIN));
+        resource_is_opaque = v8::Boolean::New(isolate, static_cast<bool>(flags & PHP_V8_SCRIPT_ORIGIN_OPTION_IS_OPAQUE));
+        is_wasm = v8::Boolean::New(isolate, static_cast<bool>(flags & PHP_V8_SCRIPT_ORIGIN_OPTION_IS_WASM));
+        is_module = v8::Boolean::New(isolate, static_cast<bool>(flags & PHP_V8_SCRIPT_ORIGIN_OPTION_IS_MODULE));
     }
 
     return new v8::ScriptOrigin(resource_name,
@@ -157,35 +155,20 @@ static PHP_METHOD(ScriptOrigin, __construct) {
     zend_string *resource_name = NULL;
     zend_long resource_line_offset = -1;
     zend_long resource_column_offset = -1;
-    zend_bool resource_is_shared_cross_origin = '\0';
     zend_long script_id = -1;
     zend_string *source_map_url = NULL;
-    zend_bool resource_is_opaque = '\0';
-    zend_bool is_wasm = '\0';
-    zend_bool is_module = '\0';
 
-    zval options_zv;
+    zval *options_zv = NULL;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|SlllbSbbb",
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|SlllSo!",
                               &resource_name,
                               &resource_line_offset,
                               &resource_column_offset,
                               &script_id,
-                              &resource_is_shared_cross_origin,
                               &source_map_url,
-                              &resource_is_opaque,
-                              &is_wasm,
-                              &is_module) == FAILURE) {
+                              &options_zv) == FAILURE) {
         return;
     }
-
-    v8::ScriptOriginOptions options(static_cast<bool>(resource_is_shared_cross_origin),
-                                    static_cast<bool>(resource_is_opaque),
-                                    static_cast<bool>(is_wasm),
-                                    static_cast<bool>(is_module));
-
-    php_v8_create_script_origin_options(&options_zv, options);
-
     zend_update_property_str(this_ce, getThis(), ZEND_STRL("resource_name"), resource_name);
 
     if (resource_line_offset > 0) {
@@ -199,13 +182,20 @@ static PHP_METHOD(ScriptOrigin, __construct) {
         zend_update_property_long(this_ce, getThis(), ZEND_STRL("script_id"), script_id);
     }
 
-    zend_update_property(this_ce, getThis(), ZEND_STRL("options"), &options_zv);
-
-    if (source_map_url != NULL) {
+    if (options_zv != NULL) {
         zend_update_property_str(this_ce, getThis(), ZEND_STRL("source_map_url"), source_map_url);
     }
 
-    zval_ptr_dtor(&options_zv);
+
+    if (NULL != options_zv) {
+        zend_update_property(this_ce, getThis(), ZEND_STRL("options"), options_zv);
+    } else {
+        zval tmp;
+        v8::ScriptOriginOptions options(0);
+        php_v8_create_script_origin_options(&tmp, options);
+        zend_update_property(this_ce, getThis(), ZEND_STRL("options"), &tmp);
+        zval_ptr_dtor(&tmp);
+    }
 }
 
 static PHP_METHOD(ScriptOrigin, resourceName) {
@@ -269,14 +259,13 @@ static PHP_METHOD(ScriptOrigin, options) {
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 0)
                 ZEND_ARG_TYPE_INFO(0, resource_name, IS_STRING, 0)
                 ZEND_ARG_TYPE_INFO(0, resource_line_offset, IS_LONG, 1)
                 ZEND_ARG_TYPE_INFO(0, resource_column_offset, IS_LONG, 1)
                 ZEND_ARG_TYPE_INFO(0, script_id, IS_LONG, 1)
-                ZEND_ARG_TYPE_INFO(0, resource_is_shared_cross_origin, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, source_map_url, IS_STRING, 0)
-                ZEND_ARG_TYPE_INFO(0, resource_is_opaque, _IS_BOOL, 0)
+                ZEND_ARG_OBJ_INFO(0, options, V8\\ScriptOriginOptions, 1)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
@@ -319,9 +308,9 @@ PHP_MINIT_FUNCTION (php_v8_script_origin) {
     zend_declare_property_string(this_ce, ZEND_STRL("resource_name"), "",      ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce,   ZEND_STRL("resource_line_offset"),   ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce,   ZEND_STRL("resource_column_offset"), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce,   ZEND_STRL("options"),                ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce,   ZEND_STRL("script_id"),              ZEND_ACC_PRIVATE);
     zend_declare_property_string(this_ce, ZEND_STRL("source_map_url"), "",     ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce,   ZEND_STRL("options"),                ZEND_ACC_PRIVATE);
 
     return SUCCESS;
 }

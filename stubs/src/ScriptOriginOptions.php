@@ -21,39 +21,25 @@ namespace V8;
  */
 class ScriptOriginOptions
 {
-    /**
-     * @var bool
-     */
-    private $is_shared_cross_origin;
-    /**
-     * @var bool
-     */
-    private $is_opaque;
-    /**
-     * @var bool
-     */
-    private $is_wasm;
-    /**
-     * @var bool
-     */
-    private $is_module;
+    const IS_SHARED_CROSS_ORIGIN = 1;
+    const IS_OPAQUE              = 2;
+    const IS_WASM                = 4;
+    const IS_MODULE              = 8;
 
     /**
-     * @param bool $is_shared_cross_origin
-     * @param bool $is_opaque
-     * @param bool $is_wasm
-     * @param bool $is_module
+     * @var int
      */
-    public function __construct(
-        bool $is_shared_cross_origin = false,
-        bool $is_opaque = false,
-        bool $is_wasm = false,
-        bool $is_module = false
-    ) {
-        $this->is_shared_cross_origin = $is_shared_cross_origin;
-        $this->is_opaque              = $is_opaque;
-        $this->is_wasm                = $is_wasm;
-        $this->is_module              = $is_module;
+    private $options;
+
+    /**
+     * @param int $options
+     */
+    public function __construct(int $options = 0)
+    {
+    }
+
+    public function getOptions(): int
+    {
     }
 
     /**
@@ -61,7 +47,6 @@ class ScriptOriginOptions
      */
     public function isSharedCrossOrigin(): bool
     {
-        return $this->is_shared_cross_origin;
     }
 
     /**
@@ -69,7 +54,6 @@ class ScriptOriginOptions
      */
     public function isOpaque(): bool
     {
-        return $this->is_opaque;
     }
 
     /**
@@ -77,7 +61,6 @@ class ScriptOriginOptions
      */
     public function isWasm(): bool
     {
-        return $this->is_wasm;
     }
 
     /**
@@ -85,6 +68,5 @@ class ScriptOriginOptions
      */
     public function isModule(): bool
     {
-        return $this->is_module;
     }
 }

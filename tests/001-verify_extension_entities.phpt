@@ -493,11 +493,13 @@ class V8\StackTrace
     public static function currentStackTrace(V8\Isolate $isolate, int $frame_limit): V8\StackTrace
 
 class V8\ScriptOriginOptions
-    private $is_shared_cross_origin
-    private $is_opaque
-    private $is_wasm
-    private $is_module
-    public function __construct(bool $is_shared_cross_origin, bool $is_opaque, bool $is_wasm, bool $is_module)
+    const IS_SHARED_CROSS_ORIGIN = 1
+    const IS_OPAQUE = 2
+    const IS_WASM = 4
+    const IS_MODULE = 8
+    private $flags
+    public function __construct(int $options)
+    public function getFlags(): int
     public function isSharedCrossOrigin(): bool
     public function isOpaque(): bool
     public function isWasm(): bool
@@ -507,10 +509,10 @@ class V8\ScriptOrigin
     private $resource_name
     private $resource_line_offset
     private $resource_column_offset
-    private $options
     private $script_id
     private $source_map_url
-    public function __construct(string $resource_name, ?int $resource_line_offset, ?int $resource_column_offset, ?int $script_id, bool $resource_is_shared_cross_origin, string $source_map_url, bool $resource_is_opaque)
+    private $options
+    public function __construct(string $resource_name, ?int $resource_line_offset, ?int $resource_column_offset, ?int $script_id, string $source_map_url, ?V8\ScriptOriginOptions $options)
     public function resourceName(): string
     public function resourceLineOffset(): ?int
     public function resourceColumnOffset(): ?int

@@ -151,21 +151,15 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->getScriptOrigin():
       NULL
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       NULL
-      ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#133 (4) {
-        ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_opaque":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_wasm":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_module":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-      }
       ["script_id":"V8\ScriptOrigin":private]=>
       NULL
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
+      ["options":"V8\ScriptOrigin":private]=>
+      object(V8\ScriptOriginOptions)#133 (1) {
+        ["flags":"V8\ScriptOriginOptions":private]=>
+        int(0)
+      }
     }
 
 

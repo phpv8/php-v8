@@ -97,21 +97,15 @@ V8\Message->getScriptOrigin():
       NULL
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       NULL
-      ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#13 (4) {
-        ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_opaque":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_wasm":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_module":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-      }
       ["script_id":"V8\ScriptOrigin":private]=>
       int(%d)
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
+      ["options":"V8\ScriptOrigin":private]=>
+      object(V8\ScriptOriginOptions)#13 (1) {
+        ["flags":"V8\ScriptOriginOptions":private]=>
+        int(0)
+      }
     }
 V8\Message->getScriptResourceName(): string(7) "test.js"
 V8\Message->getStackTrace(): NULL
@@ -135,21 +129,15 @@ V8\Message->getScriptOrigin():
       NULL
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
       NULL
-      ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#34 (4) {
-        ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_opaque":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_wasm":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_module":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-      }
       ["script_id":"V8\ScriptOrigin":private]=>
       int(%d)
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
+      ["options":"V8\ScriptOrigin":private]=>
+      object(V8\ScriptOriginOptions)#34 (1) {
+        ["flags":"V8\ScriptOriginOptions":private]=>
+        int(0)
+      }
     }
 V8\Message->getScriptResourceName(): string(7) "test.js"
 V8\Message->getStackTrace(): NULL
