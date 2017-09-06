@@ -447,9 +447,7 @@ class V8\Message
     private $end_position
     private $start_column
     private $end_column
-    private $is_shared_cross_origin
-    private $is_opaque
-    public function __construct(string $message, string $source_line, V8\ScriptOrigin $script_origin, string $resource_name, V8\StackTrace $stack_trace, ?int $line_number, ?int $start_position, ?int $end_position, ?int $start_column, ?int $end_column, bool $is_shared_cross_origin, bool $is_opaque)
+    public function __construct(string $message, string $source_line, V8\ScriptOrigin $script_origin, string $resource_name, V8\StackTrace $stack_trace, ?int $line_number, ?int $start_position, ?int $end_position, ?int $start_column, ?int $end_column)
     public function get(): string
     public function getSourceLine(): string
     public function getScriptOrigin(): V8\ScriptOrigin
@@ -460,8 +458,6 @@ class V8\Message
     public function getEndPosition(): ?int
     public function getStartColumn(): ?int
     public function getEndColumn(): ?int
-    public function isSharedCrossOrigin(): bool
-    public function isOpaque(): bool
 
 class V8\StackFrame
     private $line_number

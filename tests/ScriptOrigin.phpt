@@ -26,15 +26,6 @@ $helper->method_matches_with_output($obj, 'sourceMapUrl', '');
 $helper->method_matches_instanceof($obj, 'options', V8\ScriptOriginOptions::class);
 $helper->space();
 
-$options = $obj->options();
-
-$helper->header('Test options getters (default)');
-$helper->method_matches_with_output($options, 'isSharedCrossOrigin', false);
-$helper->method_matches_with_output($options, 'isOpaque', false);
-$helper->space();
-
-
-
 $obj = new V8\ScriptOrigin('test', 1, 2, 3,'map', new \V8\ScriptOriginOptions());
 
 $helper->header('Object representation');
@@ -82,12 +73,6 @@ V8\ScriptOrigin::resourceColumnOffset() matches expected NULL
 V8\ScriptOrigin::scriptId() matches expected NULL
 V8\ScriptOrigin::sourceMapUrl() matches expected ''
 V8\ScriptOrigin::options() result is instance of V8\ScriptOriginOptions
-
-
-Test options getters (default):
--------------------------------
-V8\ScriptOriginOptions::isSharedCrossOrigin() matches expected false
-V8\ScriptOriginOptions::isOpaque() matches expected false
 
 
 Object representation:

@@ -60,14 +60,6 @@ class Message
      * @var int|null
      */
     private $end_column;
-    /**
-     * @var bool
-     */
-    private $is_shared_cross_origin;
-    /**
-     * @var bool
-     */
-    private $is_opaque;
 
     /**
      * @param string       $message
@@ -80,8 +72,6 @@ class Message
      * @param int          $end_position
      * @param int          $start_column
      * @param int          $end_column
-     * @param bool         $is_shared_cross_origin
-     * @param bool         $is_opaque
      */
     public function __construct(
         string $message,
@@ -93,22 +83,8 @@ class Message
         ?int $start_position = null,
         ?int $end_position = null,
         ?int $start_column = null,
-        ?int $end_column = null,
-        bool $is_shared_cross_origin = false,
-        bool $is_opaque = false
+        ?int $end_column = null
     ) {
-        $this->message                = $message;
-        $this->source_line            = $source_line;
-        $this->script_origin          = $script_origin;
-        $this->resource_name          = $resource_name;
-        $this->stack_trace            = $stack_trace;
-        $this->line_number            = $line_number;
-        $this->start_position         = $start_position;
-        $this->end_position           = $end_position;
-        $this->start_column           = $start_column;
-        $this->end_column             = $end_column;
-        $this->is_shared_cross_origin = $is_shared_cross_origin;
-        $this->is_opaque              = $is_opaque;
     }
 
 
@@ -120,8 +96,6 @@ class Message
     }
 
     /**
-     * TODO: should be return simple string?
-     *
      * @return string
      */
     public function getSourceLine(): string
@@ -205,23 +179,6 @@ class Message
      * @return int|null
      */
     public function getEndColumn(): ?int
-    {
-    }
-
-    /**
-     * Passes on the value set by the embedder when it fed the script from which
-     * this Message was generated to V8.
-     *
-     * @return bool
-     */
-    public function isSharedCrossOrigin(): bool
-    {
-    }
-
-    /**
-     * @return bool
-     */
-    public function isOpaque(): bool
     {
     }
 }

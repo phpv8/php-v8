@@ -33,12 +33,10 @@ $helper->method_matches_with_output($obj, 'getStartPosition', null);
 $helper->method_matches_with_output($obj, 'getEndPosition', null);
 $helper->method_matches_with_output($obj, 'getStartColumn', null);
 $helper->method_matches_with_output($obj, 'getEndColumn', null);
-$helper->method_matches_with_output($obj, 'isSharedCrossOrigin', false);
-$helper->method_matches_with_output($obj, 'isOpaque', false);
 $helper->space();
 
 
-$obj = new V8\Message('message', 'source_line', $origin, 'resource_name', $trace, 1, 2, 3, 4, 5, true, true);
+$obj = new V8\Message('message', 'source_line', $origin, 'resource_name', $trace, 1, 2, 3, 4, 5);
 
 $helper->header('Object representation');
 $helper->dump($obj);
@@ -55,15 +53,13 @@ $helper->method_matches_with_output($obj, 'getStartPosition', 2);
 $helper->method_matches_with_output($obj, 'getEndPosition', 3);
 $helper->method_matches_with_output($obj, 'getStartColumn', 4);
 $helper->method_matches_with_output($obj, 'getEndColumn', 5);
-$helper->method_matches_with_output($obj, 'isSharedCrossOrigin', true);
-$helper->method_matches_with_output($obj, 'isOpaque', true);
 $helper->space();
 
 ?>
 --EXPECT--
 Object representation (default):
 --------------------------------
-object(V8\Message)#7 (12) {
+object(V8\Message)#7 (10) {
   ["message":"V8\Message":private]=>
   string(7) "message"
   ["script_origin":"V8\Message":private]=>
@@ -104,10 +100,6 @@ object(V8\Message)#7 (12) {
   NULL
   ["end_column":"V8\Message":private]=>
   NULL
-  ["is_shared_cross_origin":"V8\Message":private]=>
-  bool(false)
-  ["is_opaque":"V8\Message":private]=>
-  bool(false)
 }
 
 
@@ -123,13 +115,11 @@ V8\Message::getStartPosition() matches expected NULL
 V8\Message::getEndPosition() matches expected NULL
 V8\Message::getStartColumn() matches expected NULL
 V8\Message::getEndColumn() matches expected NULL
-V8\Message::isSharedCrossOrigin() matches expected false
-V8\Message::isOpaque() matches expected false
 
 
 Object representation:
 ----------------------
-object(V8\Message)#8 (12) {
+object(V8\Message)#8 (10) {
   ["message":"V8\Message":private]=>
   string(7) "message"
   ["script_origin":"V8\Message":private]=>
@@ -170,10 +160,6 @@ object(V8\Message)#8 (12) {
   int(4)
   ["end_column":"V8\Message":private]=>
   int(5)
-  ["is_shared_cross_origin":"V8\Message":private]=>
-  bool(true)
-  ["is_opaque":"V8\Message":private]=>
-  bool(true)
 }
 
 
@@ -189,5 +175,3 @@ V8\Message::getStartPosition() matches expected 2
 V8\Message::getEndPosition() matches expected 3
 V8\Message::getStartColumn() matches expected 4
 V8\Message::getEndColumn() matches expected 5
-V8\Message::isSharedCrossOrigin() matches expected true
-V8\Message::isOpaque() matches expected true
