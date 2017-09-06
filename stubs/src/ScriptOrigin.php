@@ -26,15 +26,15 @@ class ScriptOrigin
      */
     private $resource_name;
     /**
-     * @var int
+     * @var int|null
      */
     private $resource_line_offset;
     /**
-     * @var int
+     * @var int|null
      */
     private $resource_column_offset;
     /**
-     * @var int
+     * @var int|null
      */
     private $script_id;
     /**
@@ -48,22 +48,22 @@ class ScriptOrigin
     private $options;
 
     /**
-     * @param string $resource_name
-     * @param int    $resource_line_offset
-     * @param int    $resource_column_offset
-     * @param bool   $resource_is_shared_cross_origin
-     * @param int    $script_id
-     * @param string $source_map_url
-     * @param bool   $resource_is_opaque
-     * @param bool   $is_wasm
-     * @param bool   $is_module
+     * @param string   $resource_name
+     * @param int|null $resource_line_offset
+     * @param int|null $resource_column_offset
+     * @param int|null $script_id
+     * @param bool     $resource_is_shared_cross_origin
+     * @param string   $source_map_url
+     * @param bool     $resource_is_opaque
+     * @param bool     $is_wasm
+     * @param bool     $is_module
      */
     public function __construct(
-        string $resource_name,
-        int $resource_line_offset = Message::kNoLineNumberInfo,
-        int $resource_column_offset = Message::kNoColumnInfo,
+        string $resource_name = "",
+        ?int $resource_line_offset = null,
+        ?int $resource_column_offset = null,
+        ?int $script_id = null,
         bool $resource_is_shared_cross_origin = false,
-        int $script_id = Message::kNoScriptIdInfo,
         string $source_map_url = '',
         bool $resource_is_opaque = false,
         bool $is_wasm = false,
@@ -72,10 +72,10 @@ class ScriptOrigin
         $this->resource_name          = $resource_name;
         $this->resource_line_offset   = $resource_line_offset;
         $this->resource_column_offset = $resource_column_offset;
+        $this->script_id              = $script_id;
 
         $this->options = new ScriptOriginOptions($resource_is_shared_cross_origin, $resource_is_opaque, $is_wasm, $is_module);
 
-        $this->script_id      = $script_id;
         $this->source_map_url = $source_map_url;
     }
 
@@ -84,17 +84,26 @@ class ScriptOrigin
         return $this->resource_name;
     }
 
-    public function resourceLineOffset(): int
+    /**
+     * @return int|null
+     */
+    public function resourceLineOffset(): ?int
     {
         return $this->resource_line_offset;
     }
 
-    public function resourceColumnOffset(): int
+    /**
+     * @return int|null
+     */
+    public function resourceColumnOffset(): ?int
     {
         return $this->resource_column_offset;
     }
 
-    public function scriptId(): int
+    /**
+     * @return int|null
+     */
+    public function scriptId(): ?int
     {
         return $this->script_id;
     }

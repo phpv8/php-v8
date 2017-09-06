@@ -37,12 +37,18 @@ extern void php_v8_create_script_origin(zval *return_value, v8::Local<v8::Contex
 
     /* v8::SourceMapUrl::ResourceLineOffset */
     if (!origin.ResourceLineOffset().IsEmpty() && origin.ResourceLineOffset()->NumberValue(context).IsJust()) {
-        zend_update_property_long(this_ce, return_value, ZEND_STRL("resource_line_offset"), static_cast<zend_long>(origin.ResourceLineOffset()->NumberValue(context).FromJust()));
+        zend_long resource_line_offset = static_cast<zend_long>(origin.ResourceLineOffset()->NumberValue(context).FromJust());
+        if (v8::Message::kNoLineNumberInfo != resource_line_offset) {
+            zend_update_property_long(this_ce, return_value, ZEND_STRL("resource_line_offset"), resource_line_offset);
+        }
     }
 
     /* v8::SourceMapUrl::ResourceColumnOffset */
     if (!origin.ResourceColumnOffset().IsEmpty() && origin.ResourceColumnOffset()->NumberValue(context).IsJust()) {
-        zend_update_property_long(this_ce, return_value, ZEND_STRL("resource_column_offset"), static_cast<zend_long>(origin.ResourceColumnOffset()->NumberValue(context).FromJust()));
+        zend_long resource_column_offset = static_cast<zend_long>(origin.ResourceColumnOffset()->NumberValue(context).FromJust());
+        if (v8::Message::kNoColumnInfo != resource_column_offset) {
+            zend_update_property_long(this_ce, return_value, ZEND_STRL("resource_column_offset"), resource_column_offset);
+        }
     }
 
     /* v8::SourceMapUrl::Options */
@@ -52,7 +58,10 @@ extern void php_v8_create_script_origin(zval *return_value, v8::Local<v8::Contex
 
     /* v8::SourceMapUrl::ScriptID */
     if (!origin.ScriptID().IsEmpty() && origin.ScriptID()->NumberValue(context).IsJust()) {
-        zend_update_property_long(this_ce, return_value, ZEND_STRL("script_id"), static_cast<zend_long>(origin.ScriptID()->NumberValue(context).FromJust()));
+        zend_long script_id = static_cast<zend_long>(origin.ScriptID()->NumberValue(context).FromJust());
+        if (v8::Message::kNoScriptIdInfo != script_id) {
+            zend_update_property_long(this_ce, return_value, ZEND_STRL("script_id"), script_id);
+        }
     }
 
     /* v8::SourceMapUrl::ResourceName */
@@ -146,10 +155,10 @@ v8::ScriptOrigin *php_v8_create_script_origin_from_zval(zval *value, v8::Isolate
 
 static PHP_METHOD(ScriptOrigin, __construct) {
     zend_string *resource_name = NULL;
-    zend_long resource_line_offset = static_cast<zend_long>(v8::Message::kNoLineNumberInfo);
-    zend_long resource_column_offset = static_cast<zend_long>(v8::Message::kNoColumnInfo);
+    zend_long resource_line_offset = -1;
+    zend_long resource_column_offset = -1;
     zend_bool resource_is_shared_cross_origin = '\0';
-    zend_long script_id = static_cast<zend_long>(v8::Message::kNoScriptIdInfo);
+    zend_long script_id = -1;
     zend_string *source_map_url = NULL;
     zend_bool resource_is_opaque = '\0';
     zend_bool is_wasm = '\0';
@@ -157,12 +166,12 @@ static PHP_METHOD(ScriptOrigin, __construct) {
 
     zval options_zv;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|SllblSbbb",
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|SlllbSbbb",
                               &resource_name,
                               &resource_line_offset,
                               &resource_column_offset,
-                              &resource_is_shared_cross_origin,
                               &script_id,
+                              &resource_is_shared_cross_origin,
                               &source_map_url,
                               &resource_is_opaque,
                               &is_wasm,
@@ -179,12 +188,18 @@ static PHP_METHOD(ScriptOrigin, __construct) {
 
     zend_update_property_str(this_ce, getThis(), ZEND_STRL("resource_name"), resource_name);
 
-    zend_update_property_long(this_ce, getThis(), ZEND_STRL("resource_line_offset"), resource_line_offset);
-    zend_update_property_long(this_ce, getThis(), ZEND_STRL("resource_column_offset"), resource_column_offset);
+    if (resource_line_offset > 0) {
+        zend_update_property_long(this_ce, getThis(), ZEND_STRL("resource_line_offset"), resource_line_offset);
+    }
+    if (resource_column_offset > 0) {
+        zend_update_property_long(this_ce, getThis(), ZEND_STRL("resource_column_offset"), resource_column_offset);
+    }
+
+    if (script_id > 0) {
+        zend_update_property_long(this_ce, getThis(), ZEND_STRL("script_id"), script_id);
+    }
 
     zend_update_property(this_ce, getThis(), ZEND_STRL("options"), &options_zv);
-
-    zend_update_property_long(this_ce, getThis(), ZEND_STRL("script_id"), script_id);
 
     if (source_map_url != NULL) {
         zend_update_property_str(this_ce, getThis(), ZEND_STRL("source_map_url"), source_map_url);
@@ -256,10 +271,10 @@ static PHP_METHOD(ScriptOrigin, options) {
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 1)
                 ZEND_ARG_TYPE_INFO(0, resource_name, IS_STRING, 0)
-                ZEND_ARG_TYPE_INFO(0, resource_line_offset, IS_LONG, 0)
-                ZEND_ARG_TYPE_INFO(0, resource_column_offset, IS_LONG, 0)
+                ZEND_ARG_TYPE_INFO(0, resource_line_offset, IS_LONG, 1)
+                ZEND_ARG_TYPE_INFO(0, resource_column_offset, IS_LONG, 1)
+                ZEND_ARG_TYPE_INFO(0, script_id, IS_LONG, 1)
                 ZEND_ARG_TYPE_INFO(0, resource_is_shared_cross_origin, _IS_BOOL, 0)
-                ZEND_ARG_TYPE_INFO(0, script_id, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, source_map_url, IS_STRING, 0)
                 ZEND_ARG_TYPE_INFO(0, resource_is_opaque, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
@@ -267,13 +282,13 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceName, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceLineOffset, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceLineOffset, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceColumnOffset, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_resourceColumnOffset, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_scriptId, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_scriptId, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_sourceMapUrl, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
@@ -301,12 +316,12 @@ PHP_MINIT_FUNCTION (php_v8_script_origin) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "ScriptOrigin", php_v8_script_origin_methods);
     this_ce = zend_register_internal_class(&ce);
 
-    zend_declare_property_string(this_ce, ZEND_STRL("resource_name"), "", ZEND_ACC_PRIVATE);
-    zend_declare_property_long(this_ce, ZEND_STRL("resource_line_offset"), static_cast<zend_long>(v8::Message::kNoLineNumberInfo), ZEND_ACC_PRIVATE);
-    zend_declare_property_long(this_ce, ZEND_STRL("resource_column_offset"), static_cast<zend_long>(v8::Message::kNoColumnInfo), ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("options"), ZEND_ACC_PRIVATE);
-    zend_declare_property_long(this_ce, ZEND_STRL("script_id"), static_cast<zend_long>(v8::Message::kNoScriptIdInfo), ZEND_ACC_PRIVATE);
-    zend_declare_property_string(this_ce, ZEND_STRL("source_map_url"), "", ZEND_ACC_PRIVATE);
+    zend_declare_property_string(this_ce, ZEND_STRL("resource_name"), "",      ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce,   ZEND_STRL("resource_line_offset"),   ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce,   ZEND_STRL("resource_column_offset"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce,   ZEND_STRL("options"),                ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce,   ZEND_STRL("script_id"),              ZEND_ACC_PRIVATE);
+    zend_declare_property_string(this_ce, ZEND_STRL("source_map_url"), "",     ZEND_ACC_PRIVATE);
 
     return SUCCESS;
 }

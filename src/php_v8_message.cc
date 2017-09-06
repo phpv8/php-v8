@@ -70,7 +70,10 @@ void php_v8_message_create_from_message(zval *return_value, php_v8_isolate_t *ph
     if (!message->GetLineNumber(context).IsNothing()) {
         line_number = message->GetLineNumber(context).FromJust();
     }
-    zend_update_property_long(this_ce, return_value, ZEND_STRL("line_number"), static_cast<zend_long>(line_number));
+
+    if (v8::Message::kNoLineNumberInfo != line_number) {
+        zend_update_property_long(this_ce, return_value, ZEND_STRL("line_number"), static_cast<zend_long>(line_number));
+    }
 
     /* v8::Message::GetStartPosition */
     zend_update_property_long(this_ce, return_value, ZEND_STRL("start_position"), static_cast<zend_long>(message->GetStartPosition()));
@@ -85,7 +88,9 @@ void php_v8_message_create_from_message(zval *return_value, php_v8_isolate_t *ph
         start_column = message->GetStartColumn(context).FromJust();
     }
 
-    zend_update_property_long(this_ce, return_value, ZEND_STRL("start_column"), static_cast<zend_long>(start_column));
+    if (v8::Message::kNoColumnInfo != start_column) {
+        zend_update_property_long(this_ce, return_value, ZEND_STRL("start_column"), static_cast<zend_long>(start_column));
+    }
 
     /* v8::Message::GetEndColumn */
     /* NOTE: we don't use FromMaybe(v8::Message::kNoColumnInfo) due to static const (https://gcc.gnu.org/wiki/VerboseDiagnostics#missing_static_const_definition)*/
@@ -93,7 +98,9 @@ void php_v8_message_create_from_message(zval *return_value, php_v8_isolate_t *ph
     if (!message->GetEndColumn(context).IsNothing()) {
         end_column  = message->GetEndColumn(context).FromJust();
     }
-    zend_update_property_long(this_ce, return_value, ZEND_STRL("end_column"), static_cast<zend_long>(end_column));
+    if (v8::Message::kNoColumnInfo != end_column) {
+        zend_update_property_long(this_ce, return_value, ZEND_STRL("end_column"), static_cast<zend_long>(end_column));
+    }
 
     /* v8::Message::IsSharedCrossOrigin */
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_shared_cross_origin"), static_cast<zend_bool>(message->IsSharedCrossOrigin()));
@@ -110,11 +117,11 @@ static PHP_METHOD(Message, __construct) {
     zend_string *resource_name = NULL;
     zval *stack_trace = NULL;
 
-    zend_long line_number = static_cast<zend_long>(v8::Message::kNoLineNumberInfo);
+    zend_long line_number    = -1;
     zend_long start_position = -1;
-    zend_long end_position = -1;
-    zend_long start_column = static_cast<zend_long>(v8::Message::kNoColumnInfo);
-    zend_long end_column = static_cast<zend_long>(v8::Message::kNoColumnInfo);
+    zend_long end_position   = -1;
+    zend_long start_column   = -1;
+    zend_long end_column     = -1;
 
     zend_bool is_shared_cross_origin = '\0';
     zend_bool is_opaque = '\0';
@@ -132,11 +139,21 @@ static PHP_METHOD(Message, __construct) {
     zend_update_property_str(this_ce, getThis(), ZEND_STRL("resource_name"), resource_name);
     zend_update_property(this_ce, getThis(), ZEND_STRL("stack_trace"), stack_trace);
 
-    zend_update_property_long(this_ce, getThis(), ZEND_STRL("line_number"), line_number);
-    zend_update_property_long(this_ce, getThis(), ZEND_STRL("start_position"), start_position);
-    zend_update_property_long(this_ce, getThis(), ZEND_STRL("end_position"), end_position);
-    zend_update_property_long(this_ce, getThis(), ZEND_STRL("start_column"), start_column);
-    zend_update_property_long(this_ce, getThis(), ZEND_STRL("end_column"), end_column);
+    if (line_number > 0) {
+        zend_update_property_long(this_ce, getThis(), ZEND_STRL("line_number"), line_number);
+    }
+    if (start_position >= 0) {
+        zend_update_property_long(this_ce, getThis(), ZEND_STRL("start_position"), start_position);
+    }
+    if (end_position >= 0) {
+        zend_update_property_long(this_ce, getThis(), ZEND_STRL("end_position"), end_position);
+    }
+    if (start_column > 0) {
+        zend_update_property_long(this_ce, getThis(), ZEND_STRL("start_column"), start_column);
+    }
+    if (end_column > 0) {
+        zend_update_property_long(this_ce, getThis(), ZEND_STRL("end_column"), end_column);
+    }
 
     zend_update_property_bool(this_ce, getThis(), ZEND_STRL("is_shared_cross_origin"), is_shared_cross_origin);
     zend_update_property_bool(this_ce, getThis(), ZEND_STRL("is_opaque"), is_opaque);
@@ -280,11 +297,11 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 5)
                 ZEND_ARG_OBJ_INFO(0, script_origin, V8\\ScriptOrigin, 0)
                 ZEND_ARG_TYPE_INFO(0, resource_name, IS_STRING, 0)
                 ZEND_ARG_OBJ_INFO(0, stack_trace, V8\\StackTrace, 0)
-                ZEND_ARG_TYPE_INFO(0, line_number, IS_LONG, 0)
-                ZEND_ARG_TYPE_INFO(0, start_position, IS_LONG, 0)
-                ZEND_ARG_TYPE_INFO(0, end_position, IS_LONG, 0)
-                ZEND_ARG_TYPE_INFO(0, start_column, IS_LONG, 0)
-                ZEND_ARG_TYPE_INFO(0, end_column, IS_LONG, 0)
+                ZEND_ARG_TYPE_INFO(0, line_number, IS_LONG, 1)
+                ZEND_ARG_TYPE_INFO(0, start_position, IS_LONG, 1)
+                ZEND_ARG_TYPE_INFO(0, end_position, IS_LONG, 1)
+                ZEND_ARG_TYPE_INFO(0, start_column, IS_LONG, 1)
+                ZEND_ARG_TYPE_INFO(0, end_column, IS_LONG, 1)
                 ZEND_ARG_TYPE_INFO(0, is_shared_cross_origin, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, is_opaque, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
@@ -304,19 +321,19 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getStackTrace, ZEND_RETURN_VALUE, 0, V8\\StackTrace, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getLineNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getLineNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getStartPosition, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getStartPosition, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getEndPosition, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getEndPosition, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getStartColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getStartColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getEndColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getEndColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isSharedCrossOrigin, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
@@ -349,22 +366,18 @@ PHP_MINIT_FUNCTION (php_v8_message) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "Message", php_v8_message_methods);
     this_ce = zend_register_internal_class(&ce);
 
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kNoLineNumberInfo"), static_cast<zend_long>(v8::Message::kNoLineNumberInfo));
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kNoColumnInfo"), static_cast<zend_long>(v8::Message::kNoColumnInfo));
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kNoScriptIdInfo"), static_cast<zend_long>(v8::Message::kNoLineNumberInfo));
-
-    zend_declare_property_string(this_ce, ZEND_STRL("message"), "", ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("script_origin"), ZEND_ACC_PRIVATE);
-    zend_declare_property_string(this_ce, ZEND_STRL("source_line"), "", ZEND_ACC_PRIVATE);
+    zend_declare_property_string(this_ce, ZEND_STRL("message"),       "", ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce,   ZEND_STRL("script_origin"),     ZEND_ACC_PRIVATE);
+    zend_declare_property_string(this_ce, ZEND_STRL("source_line"),   "", ZEND_ACC_PRIVATE);
     zend_declare_property_string(this_ce, ZEND_STRL("resource_name"), "", ZEND_ACC_PRIVATE);
-    zend_declare_property_null(this_ce, ZEND_STRL("stack_trace"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce,   ZEND_STRL("stack_trace"),       ZEND_ACC_PRIVATE);
 
-    zend_declare_property_long(this_ce, ZEND_STRL("line_number"), static_cast<zend_long>(v8::Message::kNoLineNumberInfo), ZEND_ACC_PRIVATE);
-    zend_declare_property_long(this_ce, ZEND_STRL("start_position"), -1, ZEND_ACC_PRIVATE);
-    zend_declare_property_long(this_ce, ZEND_STRL("end_position"), -1, ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("line_number"),    ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("start_position"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("end_position"),   ZEND_ACC_PRIVATE);
 
-    zend_declare_property_long(this_ce, ZEND_STRL("start_column"), static_cast<zend_long>(v8::Message::kNoColumnInfo), ZEND_ACC_PRIVATE);
-    zend_declare_property_long(this_ce, ZEND_STRL("end_column"), static_cast<zend_long>(v8::Message::kNoColumnInfo), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("start_column"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("end_column"),   ZEND_ACC_PRIVATE);
 
     zend_declare_property_bool(this_ce, ZEND_STRL("is_shared_cross_origin"), static_cast<zend_bool>(false), ZEND_ACC_PRIVATE);
     zend_declare_property_bool(this_ce, ZEND_STRL("is_opaque"), static_cast<zend_bool>(false), ZEND_ACC_PRIVATE);

@@ -111,9 +111,9 @@ object(V8\ScriptCompiler\Source)#9 (3) {
     ["resource_name":"V8\ScriptOrigin":private]=>
     string(7) "test.js"
     ["resource_line_offset":"V8\ScriptOrigin":private]=>
-    int(0)
+    NULL
     ["resource_column_offset":"V8\ScriptOrigin":private]=>
-    int(0)
+    NULL
     ["options":"V8\ScriptOrigin":private]=>
     object(V8\ScriptOriginOptions)#6 (4) {
       ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
@@ -126,7 +126,7 @@ object(V8\ScriptCompiler\Source)#9 (3) {
       bool(false)
     }
     ["script_id":"V8\ScriptOrigin":private]=>
-    int(0)
+    NULL
     ["source_map_url":"V8\ScriptOrigin":private]=>
     string(0) ""
   }
@@ -180,9 +180,9 @@ object(V8\ScriptCompiler\Source)#9 (3) {
     ["resource_name":"V8\ScriptOrigin":private]=>
     string(7) "test.js"
     ["resource_line_offset":"V8\ScriptOrigin":private]=>
-    int(0)
+    NULL
     ["resource_column_offset":"V8\ScriptOrigin":private]=>
-    int(0)
+    NULL
     ["options":"V8\ScriptOrigin":private]=>
     object(V8\ScriptOriginOptions)#6 (4) {
       ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
@@ -195,7 +195,7 @@ object(V8\ScriptCompiler\Source)#9 (3) {
       bool(false)
     }
     ["script_id":"V8\ScriptOrigin":private]=>
-    int(0)
+    NULL
     ["source_map_url":"V8\ScriptOrigin":private]=>
     string(0) ""
   }

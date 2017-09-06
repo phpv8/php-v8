@@ -21,15 +21,15 @@ namespace V8;
 class StackFrame
 {
     /**
-     * @var int
+     * @var int|null
      */
     private $line_number;
     /**
-     * @var int
+     * @var int|null
      */
     private $column;
     /**
-     * @var int
+     * @var int|null
      */
     private $script_id;
     /**
@@ -54,19 +54,19 @@ class StackFrame
     private $is_constructor;
 
     /**
-     * @param int    $line_number
-     * @param int    $column
-     * @param int    $script_id
-     * @param string $script_name
-     * @param string $script_name_or_source_url
-     * @param string $function_name
-     * @param bool   $is_eval
-     * @param bool   $is_constructor
+     * @param int|null $line_number
+     * @param int|null $column
+     * @param int|null $script_id
+     * @param string   $script_name
+     * @param string   $script_name_or_source_url
+     * @param string   $function_name
+     * @param bool     $is_eval
+     * @param bool     $is_constructor
      */
     public function __construct(
-        int $line_number = Message::kNoLineNumberInfo,
-        int $column = Message::kNoColumnInfo,
-        int $script_id = Message::kNoScriptIdInfo,
+        ?int $line_number = null,
+        ?int $column = null,
+        ?int $script_id = null,
         string $script_name = '',
         string $script_name_or_source_url = '',
         string $function_name = '',
@@ -85,13 +85,13 @@ class StackFrame
 
     /**
      * Returns the number, 1-based, of the line for the associate function call.
-     * This method will return Message::kNoLineNumberInfo if it is unable to
+     * This method will return null if it is unable to
      * retrieve the line number, or if kLineNumber was not passed as an option
      * when capturing the StackTrace.
      *
      * @return int
      */
-    public function getLineNumber(): int
+    public function getLineNumber(): ?int
     {
         return $this->line_number;
     }
@@ -105,7 +105,7 @@ class StackFrame
      *
      * @return int
      */
-    public function getColumn(): int
+    public function getColumn(): ?int
     {
         return $this->column;
     }
@@ -118,7 +118,7 @@ class StackFrame
      *
      * @return int
      */
-    public function getScriptId(): int
+    public function getScriptId(): ?int
     {
         return $this->script_id;
     }

@@ -94,9 +94,9 @@ V8\Message->getScriptOrigin():
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(7) "test.js"
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
-      int(0)
+      NULL
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
-      int(0)
+      NULL
       ["options":"V8\ScriptOrigin":private]=>
       object(V8\ScriptOriginOptions)#13 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
@@ -132,9 +132,9 @@ V8\Message->getScriptOrigin():
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(7) "test.js"
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
-      int(0)
+      NULL
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
-      int(0)
+      NULL
       ["options":"V8\ScriptOrigin":private]=>
       object(V8\ScriptOriginOptions)#34 (4) {
         ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>

@@ -20,10 +20,6 @@ namespace V8;
  */
 class Message
 {
-    const kNoLineNumberInfo = 0;
-    const kNoColumnInfo = 0;
-    const kNoScriptIdInfo = 0;
-
     /**
      * @var ScriptOrigin
      */
@@ -41,27 +37,27 @@ class Message
      */
     private $resource_name;
     /**
-     * @var StackTrace
+     * @var StackTrace|null
      */
     private $stack_trace;
     /**
-     * @var int
+     * @var int|null
      */
     private $line_number;
     /**
-     * @var int
+     * @var int|null
      */
     private $start_position;
     /**
-     * @var int
+     * @var int|null
      */
     private $end_position;
     /**
-     * @var int
+     * @var int|null
      */
     private $start_column;
     /**
-     * @var int
+     * @var int|null
      */
     private $end_column;
     /**
@@ -93,11 +89,11 @@ class Message
         ScriptOrigin $script_origin,
         string $resource_name,
         StackTrace $stack_trace,
-        int $line_number = self::kNoLineNumberInfo,
-        int $start_position = -1,
-        int $end_position = -1,
-        int $start_column = self::kNoColumnInfo,
-        int $end_column = self::kNoColumnInfo,
+        ?int $line_number = null,
+        ?int $start_position = null,
+        ?int $end_position = null,
+        ?int $start_column = null,
+        ?int $end_column = null,
         bool $is_shared_cross_origin = false,
         bool $is_opaque = false
     ) {
@@ -157,18 +153,18 @@ class Message
      * uncaught exceptions. SetCaptureStackTraceForUncaughtExceptions allows
      * to change this option.
      *
-     * @return StackTrace
+     * @return StackTrace|null
      */
-    public function getStackTrace(): StackTrace
+    public function getStackTrace(): ?StackTrace
     {
     }
 
     /**
      * Returns the number, 1-based, of the line where the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getLineNumber(): int
+    public function getLineNumber(): ?int
     {
     }
 
@@ -176,9 +172,9 @@ class Message
      * Returns the index within the script of the first character where
      * the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getStartPosition(): int
+    public function getStartPosition(): ?int
     {
     }
 
@@ -186,9 +182,9 @@ class Message
      * Returns the index within the script of the last character where
      * the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getEndPosition(): int
+    public function getEndPosition(): ?int
     {
     }
 
@@ -196,9 +192,9 @@ class Message
      * Returns the index within the line of the first character where
      * the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getStartColumn(): int
+    public function getStartColumn(): ?int
     {
     }
 
@@ -206,9 +202,9 @@ class Message
      * Returns the index within the line of the last character where
      * the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getEndColumn(): int
+    public function getEndColumn(): ?int
     {
     }
 
