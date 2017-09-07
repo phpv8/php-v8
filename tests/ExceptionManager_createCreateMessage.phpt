@@ -94,24 +94,18 @@ V8\Message->getScriptOrigin():
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(7) "test.js"
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
-      int(0)
+      NULL
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
-      int(0)
-      ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#13 (4) {
-        ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_opaque":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_wasm":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_module":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-      }
+      NULL
       ["script_id":"V8\ScriptOrigin":private]=>
       int(%d)
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
+      ["options":"V8\ScriptOrigin":private]=>
+      object(V8\ScriptOriginOptions)#13 (1) {
+        ["flags":"V8\ScriptOriginOptions":private]=>
+        int(0)
+      }
     }
 V8\Message->getScriptResourceName(): string(7) "test.js"
 V8\Message->getStackTrace(): NULL
@@ -120,36 +114,28 @@ V8\Message->getStartPosition(): int(231)
 V8\Message->getEndPosition(): int(232)
 V8\Message->getStartColumn(): int(8)
 V8\Message->getEndColumn(): int(9)
-V8\Message->isSharedCrossOrigin(): bool(false)
-V8\Message->isOpaque(): bool(false)
 
 Message created from created value:
 -----------------------------------
 V8\Message->get(): string(13) "Uncaught test"
 V8\Message->getSourceLine(): string(24) "        test(exception);"
 V8\Message->getScriptOrigin():
-    object(V8\ScriptOrigin)#35 (6) {
+    object(V8\ScriptOrigin)#33 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(7) "test.js"
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
-      int(0)
+      NULL
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
-      int(0)
-      ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#34 (4) {
-        ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_opaque":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_wasm":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_module":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-      }
+      NULL
       ["script_id":"V8\ScriptOrigin":private]=>
       int(%d)
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
+      ["options":"V8\ScriptOrigin":private]=>
+      object(V8\ScriptOriginOptions)#32 (1) {
+        ["flags":"V8\ScriptOriginOptions":private]=>
+        int(0)
+      }
     }
 V8\Message->getScriptResourceName(): string(7) "test.js"
 V8\Message->getStackTrace(): NULL
@@ -158,8 +144,6 @@ V8\Message->getStartPosition(): int(231)
 V8\Message->getEndPosition(): int(232)
 V8\Message->getStartColumn(): int(8)
 V8\Message->getEndColumn(): int(9)
-V8\Message->isSharedCrossOrigin(): bool(false)
-V8\Message->isOpaque(): bool(false)
 
 
 Checks on V8\ObjectValue:

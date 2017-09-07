@@ -69,6 +69,8 @@ $isolate = null;
 $context = null;
 
 echo 'END', PHP_EOL;
+// EXPECTF: ---/string\(\d+\) ".+\/php-v8\/tests\/TryCatch.php"/
+// EXPECTF: +++string(%d) "%s/php-v8/tests/TryCatch.php"
 ?>
 --EXPECTF--
 Object representation (default):
@@ -140,7 +142,7 @@ object(V8\TryCatch)#11 (8) {
     }
   }
   ["message":"V8\TryCatch":private]=>
-  object(V8\Message)#6 (12) {
+  object(V8\Message)#6 (10) {
     ["message":"V8\Message":private]=>
     string(7) "message"
     ["script_origin":"V8\Message":private]=>
@@ -148,24 +150,18 @@ object(V8\TryCatch)#11 (8) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(13) "resource_name"
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
-      int(0)
+      NULL
       ["resource_column_offset":"V8\ScriptOrigin":private]=>
-      int(0)
-      ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#8 (4) {
-        ["is_shared_cross_origin":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_opaque":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_wasm":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-        ["is_module":"V8\ScriptOriginOptions":private]=>
-        bool(false)
-      }
+      NULL
       ["script_id":"V8\ScriptOrigin":private]=>
-      int(0)
+      NULL
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
+      ["options":"V8\ScriptOrigin":private]=>
+      object(V8\ScriptOriginOptions)#8 (1) {
+        ["flags":"V8\ScriptOriginOptions":private]=>
+        int(0)
+      }
     }
     ["source_line":"V8\Message":private]=>
     string(4) "line"
@@ -178,19 +174,15 @@ object(V8\TryCatch)#11 (8) {
       }
     }
     ["line_number":"V8\Message":private]=>
-    int(0)
+    NULL
     ["start_position":"V8\Message":private]=>
-    int(-1)
+    NULL
     ["end_position":"V8\Message":private]=>
-    int(-1)
+    NULL
     ["start_column":"V8\Message":private]=>
-    int(0)
+    NULL
     ["end_column":"V8\Message":private]=>
-    int(0)
-    ["is_shared_cross_origin":"V8\Message":private]=>
-    bool(false)
-    ["is_opaque":"V8\Message":private]=>
-    bool(false)
+    NULL
   }
   ["can_continue":"V8\TryCatch":private]=>
   bool(true)
@@ -205,9 +197,9 @@ object(V8\TryCatch)#11 (8) {
     ["code":protected]=>
     int(0)
     ["file":protected]=>
-    string(%d) "%s/TryCatch.php"
+    string(%d) "%s/php-v8/tests/TryCatch.php"
     ["line":protected]=>
-    int(%d)
+    int(36)
     ["trace":"Exception":private]=>
     array(0) {
     }

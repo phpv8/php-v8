@@ -20,10 +20,6 @@ namespace V8;
  */
 class Message
 {
-    const kNoLineNumberInfo = 0;
-    const kNoColumnInfo = 0;
-    const kNoScriptIdInfo = 0;
-
     /**
      * @var ScriptOrigin
      */
@@ -41,37 +37,29 @@ class Message
      */
     private $resource_name;
     /**
-     * @var StackTrace
+     * @var StackTrace|null
      */
     private $stack_trace;
     /**
-     * @var int
+     * @var int|null
      */
     private $line_number;
     /**
-     * @var int
+     * @var int|null
      */
     private $start_position;
     /**
-     * @var int
+     * @var int|null
      */
     private $end_position;
     /**
-     * @var int
+     * @var int|null
      */
     private $start_column;
     /**
-     * @var int
+     * @var int|null
      */
     private $end_column;
-    /**
-     * @var bool
-     */
-    private $is_shared_cross_origin;
-    /**
-     * @var bool
-     */
-    private $is_opaque;
 
     /**
      * @param string       $message
@@ -84,8 +72,6 @@ class Message
      * @param int          $end_position
      * @param int          $start_column
      * @param int          $end_column
-     * @param bool         $is_shared_cross_origin
-     * @param bool         $is_opaque
      */
     public function __construct(
         string $message,
@@ -93,26 +79,12 @@ class Message
         ScriptOrigin $script_origin,
         string $resource_name,
         StackTrace $stack_trace,
-        int $line_number = self::kNoLineNumberInfo,
-        int $start_position = -1,
-        int $end_position = -1,
-        int $start_column = self::kNoColumnInfo,
-        int $end_column = self::kNoColumnInfo,
-        bool $is_shared_cross_origin = false,
-        bool $is_opaque = false
+        ?int $line_number = null,
+        ?int $start_position = null,
+        ?int $end_position = null,
+        ?int $start_column = null,
+        ?int $end_column = null
     ) {
-        $this->message                = $message;
-        $this->source_line            = $source_line;
-        $this->script_origin          = $script_origin;
-        $this->resource_name          = $resource_name;
-        $this->stack_trace            = $stack_trace;
-        $this->line_number            = $line_number;
-        $this->start_position         = $start_position;
-        $this->end_position           = $end_position;
-        $this->start_column           = $start_column;
-        $this->end_column             = $end_column;
-        $this->is_shared_cross_origin = $is_shared_cross_origin;
-        $this->is_opaque              = $is_opaque;
     }
 
 
@@ -124,8 +96,6 @@ class Message
     }
 
     /**
-     * TODO: should be return simple string?
-     *
      * @return string
      */
     public function getSourceLine(): string
@@ -157,18 +127,18 @@ class Message
      * uncaught exceptions. SetCaptureStackTraceForUncaughtExceptions allows
      * to change this option.
      *
-     * @return StackTrace
+     * @return StackTrace|null
      */
-    public function getStackTrace(): StackTrace
+    public function getStackTrace(): ?StackTrace
     {
     }
 
     /**
      * Returns the number, 1-based, of the line where the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getLineNumber(): int
+    public function getLineNumber(): ?int
     {
     }
 
@@ -176,9 +146,9 @@ class Message
      * Returns the index within the script of the first character where
      * the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getStartPosition(): int
+    public function getStartPosition(): ?int
     {
     }
 
@@ -186,9 +156,9 @@ class Message
      * Returns the index within the script of the last character where
      * the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getEndPosition(): int
+    public function getEndPosition(): ?int
     {
     }
 
@@ -196,9 +166,9 @@ class Message
      * Returns the index within the line of the first character where
      * the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getStartColumn(): int
+    public function getStartColumn(): ?int
     {
     }
 
@@ -206,26 +176,9 @@ class Message
      * Returns the index within the line of the last character where
      * the error occurred.
      *
-     * @return int
+     * @return int|null
      */
-    public function getEndColumn(): int
-    {
-    }
-
-    /**
-     * Passes on the value set by the embedder when it fed the script from which
-     * this Message was generated to V8.
-     *
-     * @return bool
-     */
-    public function isSharedCrossOrigin(): bool
-    {
-    }
-
-    /**
-     * @return bool
-     */
-    public function isOpaque(): bool
+    public function getEndColumn(): ?int
     {
     }
 }

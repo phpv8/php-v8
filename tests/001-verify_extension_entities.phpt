@@ -1,5 +1,5 @@
 --TEST--
-Check whether all method parameters have valid type
+Check all extension entities
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --ENV--
@@ -437,9 +437,6 @@ class V8\TryCatch
     public function getExternalException(): ?Throwable
 
 class V8\Message
-    const kNoLineNumberInfo = 0
-    const kNoColumnInfo = 0
-    const kNoScriptIdInfo = 0
     private $message
     private $script_origin
     private $source_line
@@ -450,21 +447,17 @@ class V8\Message
     private $end_position
     private $start_column
     private $end_column
-    private $is_shared_cross_origin
-    private $is_opaque
-    public function __construct(string $message, string $source_line, V8\ScriptOrigin $script_origin, string $resource_name, V8\StackTrace $stack_trace, int $line_number, int $start_position, int $end_position, int $start_column, int $end_column, bool $is_shared_cross_origin, bool $is_opaque)
+    public function __construct(string $message, string $source_line, V8\ScriptOrigin $script_origin, string $resource_name, V8\StackTrace $stack_trace, ?int $line_number, ?int $start_position, ?int $end_position, ?int $start_column, ?int $end_column)
     public function get(): string
     public function getSourceLine(): string
     public function getScriptOrigin(): V8\ScriptOrigin
     public function getScriptResourceName(): string
     public function getStackTrace(): ?V8\StackTrace
-    public function getLineNumber(): int
-    public function getStartPosition(): int
-    public function getEndPosition(): int
-    public function getStartColumn(): int
-    public function getEndColumn(): int
-    public function isSharedCrossOrigin(): bool
-    public function isOpaque(): bool
+    public function getLineNumber(): ?int
+    public function getStartPosition(): ?int
+    public function getEndPosition(): ?int
+    public function getStartColumn(): ?int
+    public function getEndColumn(): ?int
 
 class V8\StackFrame
     private $line_number
@@ -475,10 +468,10 @@ class V8\StackFrame
     private $function_name
     private $is_eval
     private $is_constructor
-    public function __construct(int $line_number, int $column, int $script_id, string $script_name, string $script_name_or_source_url, string $function_name, bool $is_eval, bool $is_constructor)
-    public function getLineNumber(): int
-    public function getColumn(): int
-    public function getScriptId(): int
+    public function __construct(?int $line_number, ?int $column, ?int $script_id, string $script_name, string $script_name_or_source_url, string $function_name, bool $is_eval, bool $is_constructor)
+    public function getLineNumber(): ?int
+    public function getColumn(): ?int
+    public function getScriptId(): ?int
     public function getScriptName(): string
     public function getScriptNameOrSourceURL(): string
     public function getFunctionName(): string
@@ -496,11 +489,13 @@ class V8\StackTrace
     public static function currentStackTrace(V8\Isolate $isolate, int $frame_limit): V8\StackTrace
 
 class V8\ScriptOriginOptions
-    private $is_shared_cross_origin
-    private $is_opaque
-    private $is_wasm
-    private $is_module
-    public function __construct(bool $is_shared_cross_origin, bool $is_opaque, bool $is_wasm, bool $is_module)
+    const IS_SHARED_CROSS_ORIGIN = 1
+    const IS_OPAQUE = 2
+    const IS_WASM = 4
+    const IS_MODULE = 8
+    private $flags
+    public function __construct(int $options)
+    public function getFlags(): int
     public function isSharedCrossOrigin(): bool
     public function isOpaque(): bool
     public function isWasm(): bool
@@ -510,14 +505,14 @@ class V8\ScriptOrigin
     private $resource_name
     private $resource_line_offset
     private $resource_column_offset
-    private $options
     private $script_id
     private $source_map_url
-    public function __construct(string $resource_name, int $resource_line_offset, int $resource_column_offset, bool $resource_is_shared_cross_origin, int $script_id, string $source_map_url, bool $resource_is_opaque)
+    private $options
+    public function __construct(string $resource_name, ?int $resource_line_offset, ?int $resource_column_offset, ?int $script_id, string $source_map_url, ?V8\ScriptOriginOptions $options)
     public function resourceName(): string
-    public function resourceLineOffset(): int
-    public function resourceColumnOffset(): int
-    public function scriptId(): int
+    public function resourceLineOffset(): ?int
+    public function resourceColumnOffset(): ?int
+    public function scriptId(): ?int
     public function sourceMapUrl(): string
     public function options(): V8\ScriptOriginOptions
 

@@ -58,9 +58,9 @@ object(V8\StackTrace)#7 (1) {
       ["line_number":"V8\StackFrame":private]=>
       int(1)
       ["column":"V8\StackFrame":private]=>
-      int(0)
+      NULL
       ["script_id":"V8\StackFrame":private]=>
-      int(0)
+      NULL
       ["script_name":"V8\StackFrame":private]=>
       string(0) ""
       ["script_name_or_source_url":"V8\StackFrame":private]=>
@@ -77,9 +77,9 @@ object(V8\StackTrace)#7 (1) {
       ["line_number":"V8\StackFrame":private]=>
       int(2)
       ["column":"V8\StackFrame":private]=>
-      int(0)
+      NULL
       ["script_id":"V8\StackFrame":private]=>
-      int(0)
+      NULL
       ["script_name":"V8\StackFrame":private]=>
       string(0) ""
       ["script_name_or_source_url":"V8\StackFrame":private]=>
