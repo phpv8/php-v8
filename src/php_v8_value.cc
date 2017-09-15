@@ -67,9 +67,6 @@ static void php_v8_value_weak_callback(const v8::WeakCallbackInfo<v8::Persistent
 
     data.GetParameter()->Reset();
     delete data.GetParameter();
-
-    // Tell v8 that we release external allocated memory
-    isolate->AdjustAmountOfExternalAllocatedMemory(-1024 * 1024 * 1024);
 }
 
 static void php_v8_value_make_weak(php_v8_value_t *php_v8_value) {
