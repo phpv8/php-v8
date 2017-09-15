@@ -28,6 +28,8 @@
 #include "php_v8_array.h"
 #include "php_v8_map.h"
 #include "php_v8_set.h"
+#include "php_v8_promise.h"
+#include "php_v8_proxy.h"
 #include "php_v8_object.h"
 
 #include "php_v8_null.h"
@@ -229,12 +231,20 @@ zend_class_entry *php_v8_get_class_entry_from_value(v8::Local<v8::Value> value) 
         }
         */
 
+        if (value->IsPromise()) {
+            return php_v8_promise_class_entry;
+        }
+
         if (value->IsMap()) {
             return php_v8_map_class_entry;
         }
 
         if (value->IsSet()) {
             return php_v8_set_class_entry;
+        }
+
+        if(value->IsProxy()) {
+            return php_v8_proxy_class_entry;
         }
 
         // anything else will be just an object

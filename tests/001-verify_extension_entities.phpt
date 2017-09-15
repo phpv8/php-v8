@@ -771,6 +771,30 @@ final class V8\RegExpObject\Flags
     const STICKY = 8
     const UNICODE = 16
 
+class V8\PromiseObject
+    extends V8\ObjectValue
+    implements V8\AdjustableExternalMemoryInterface
+    const STATE_PENDING = 0
+    const STATE_FULFILLED = 1
+    const STATE_REJECTED = 2
+    public function __construct(V8\Context $context)
+    public function resolve(V8\Context $context, V8\Value $value)
+    public function reject(V8\Context $context, V8\Value $value)
+    public function catch(V8\Context $context, V8\FunctionObject $handler): V8\PromiseObject
+    public function then(V8\Context $context, V8\FunctionObject $handler): V8\PromiseObject
+    public function hasHandler(): bool
+    public function result(): V8\Value
+    public function state(): int
+
+class V8\ProxyObject
+    extends V8\ObjectValue
+    implements V8\AdjustableExternalMemoryInterface
+    public function __construct(V8\Context $context, V8\ObjectValue $target, V8\ObjectValue $handler)
+    public function getTarget(): V8\ObjectValue
+    public function getHandler(): V8\Value
+    public function isRevoked(): bool
+    public function revoke()
+
 class V8\NumberObject
     extends V8\ObjectValue
     implements V8\AdjustableExternalMemoryInterface

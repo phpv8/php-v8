@@ -36,7 +36,7 @@ class Verifier
             }
 
             if(!class_exists($type) && !interface_exists($type)) {
-                $method_name = $method->getDeclaringClass()->getName() . '::' . $method->getDeclaringFunction()->getName();
+                $method_name = $method->getDeclaringClass()->getName() . '::' . $method->getName();
                 $shortcut = $method_name . '/return type';
                 if (isset($this->invalid[$shortcut])) {
                     return;
