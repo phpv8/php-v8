@@ -8,6 +8,25 @@ PHP extension for V8 JavaScript engine
 
 **This extension is still under heavy development and its public API may change without any warning. Use at your own risk.**
 
+## Why (aka Rationale)
+
+This tool solves following domain problems:
+
+ - execute arbitrary untrusted code from user;
+ - provide restricted/experimental api to end-user;
+ - allow to use that with scripting/DSL language;
+ - limit execution time and used memory;
+ - use common language that is familiar to large audience;
+ - be well-maintainable and mature.
+
+By accident (not by design) this tool could also be used to:
+
+ - render React/Vue/Angular components in PHP;
+ - implement node.js in PHP;
+ - increase the number of "why", "why not just <...>" questions.
+
+If you have any other use, feels free to share
+
 
 ## About
 [php-v8](https://github.com/pinepain/php-v8) is a PHP 7.x extension
@@ -24,7 +43,7 @@ provides an accurate native V8 C++ API implementation available from PHP.
  - provides a both-way interaction with PHP and V8 objects, arrays and functions;
  - execution time and memory limits;
  - multiple isolates and contexts at the same time;
- - it works;
+ - it works.
 
 With this extension almost everything that the native V8 C++ API provides can be used. It provides a way to pass PHP scalars,
 objects and functions to the V8 runtime and specify interactions with passed values (objects and functions only, as scalars
