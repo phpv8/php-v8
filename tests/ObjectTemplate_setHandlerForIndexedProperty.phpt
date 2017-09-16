@@ -123,9 +123,18 @@ I am indexed getter for 0!
 test[0]: 21
 I am indexed enumerator!
 I am indexed query for 0!
+I am indexed query for 1!
+I am indexed query for 2!
+I am indexed query for 3!
+I am indexed query for 4!
+I am indexed query for 5!
+I am indexed query for 6!
+I am indexed query for 7!
+I am indexed query for 8!
+I am indexed query for 9!
+I am indexed query for 0!
 I am indexed getter for 0!
 test[0]: 21
-I am indexed query for 1!
 I am indexed query for 2!
 I am indexed getter for 2!
 test[2]: 21
