@@ -25,10 +25,17 @@ extern "C" {
 }
 
 extern zend_class_entry* php_v8_regexp_class_entry;
-extern zend_class_entry* php_v8_regexp_flags_class_entry;
 
 
-#define PHP_V8_REGEXP_FLAGS (v8::RegExp::Flags::kNone | v8::RegExp::Flags::kGlobal | v8::RegExp::Flags::kIgnoreCase | v8::RegExp::Flags::kMultiline | v8::RegExp::Flags::kSticky | v8::RegExp::Flags::kUnicode)
+#define PHP_V8_REGEXP_FLAGS ( 0         \
+    | v8::RegExp::Flags::kNone          \
+    | v8::RegExp::Flags::kGlobal        \
+    | v8::RegExp::Flags::kIgnoreCase    \
+    | v8::RegExp::Flags::kMultiline     \
+    | v8::RegExp::Flags::kSticky        \
+    | v8::RegExp::Flags::kUnicode       \
+    | v8::RegExp::Flags::kDotAll        \
+)
 
 
 PHP_MINIT_FUNCTION(php_v8_regexp);

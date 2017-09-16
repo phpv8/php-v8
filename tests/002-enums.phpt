@@ -19,7 +19,6 @@ $enums = [
     new V8\PropertyFilter(),
     new V8\KeyCollectionMode(),
     new V8\IndexFilter(),
-    new V8\RegExpObject\Flags(),
     new V8\ScriptCompiler\CompileOptions(),
 ];
 
@@ -155,25 +154,7 @@ V8\IndexFilter::SKIP_INDICES = 1
 Object representation:
 ----------------------
 Class is final: ok
-object(V8\RegExpObject\Flags)#10 (0) {
-}
-
-
-Class constants:
-----------------
-V8\RegExpObject\Flags::NONE = 0
-V8\RegExpObject\Flags::GLOBAL = 1
-V8\RegExpObject\Flags::IGNORE_CASE = 2
-V8\RegExpObject\Flags::MULTILINE = 4
-V8\RegExpObject\Flags::STICKY = 8
-V8\RegExpObject\Flags::UNICODE = 16
-V8\RegExpObject\Flags::DOTALL = 32
-
-
-Object representation:
-----------------------
-Class is final: ok
-object(V8\ScriptCompiler\CompileOptions)#11 (0) {
+object(V8\ScriptCompiler\CompileOptions)#10 (0) {
 }
 
 

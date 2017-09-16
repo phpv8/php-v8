@@ -22,7 +22,6 @@
 #include "php_v8.h"
 
 zend_class_entry *php_v8_regexp_class_entry;
-zend_class_entry *php_v8_regexp_flags_class_entry;
 
 #define this_ce php_v8_regexp_class_entry
 
@@ -103,29 +102,19 @@ static const zend_function_entry php_v8_regexp_methods[] = {
         PHP_FE_END
 };
 
-static const zend_function_entry php_v8_regexp_flags_methods[] = {
-        PHP_FE_END
-};
 
 PHP_MINIT_FUNCTION(php_v8_regexp) {
     zend_class_entry ce;
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "RegExpObject", php_v8_regexp_methods);
     this_ce = zend_register_internal_class_ex(&ce, php_v8_object_class_entry);
 
-    #undef this_ce
-    #define this_ce php_v8_regexp_flags_class_entry
-
-    INIT_NS_CLASS_ENTRY(ce, "V8\\RegExpObject", "Flags", php_v8_regexp_flags_methods);
-    this_ce = zend_register_internal_class(&ce);
-    this_ce->ce_flags |= ZEND_ACC_FINAL;
-
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("NONE"),        v8::RegExp::Flags::kNone);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("GLOBAL"),      v8::RegExp::Flags::kGlobal);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("IGNORE_CASE"), v8::RegExp::Flags::kIgnoreCase);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("MULTILINE"),   v8::RegExp::Flags::kMultiline);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("STICKY"),      v8::RegExp::Flags::kSticky);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("UNICODE"),     v8::RegExp::Flags::kUnicode);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("DOTALL"),      v8::RegExp::Flags::kDotAll);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("FLAG_NONE"),        v8::RegExp::Flags::kNone);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("FLAG_GLOBAL"),      v8::RegExp::Flags::kGlobal);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("FLAG_IGNORE_CASE"), v8::RegExp::Flags::kIgnoreCase);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("FLAG_MULTILINE"),   v8::RegExp::Flags::kMultiline);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("FLAG_STICKY"),      v8::RegExp::Flags::kSticky);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("FLAG_UNICODE"),     v8::RegExp::Flags::kUnicode);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("FLAG_DOTALL"),      v8::RegExp::Flags::kDotAll);
 
     return SUCCESS;
 }

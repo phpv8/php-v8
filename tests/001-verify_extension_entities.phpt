@@ -759,18 +759,16 @@ class V8\DateObject
 class V8\RegExpObject
     extends V8\ObjectValue
     implements V8\AdjustableExternalMemoryInterface
+    const FLAG_NONE = 0
+    const FLAG_GLOBAL = 1
+    const FLAG_IGNORE_CASE = 2
+    const FLAG_MULTILINE = 4
+    const FLAG_STICKY = 8
+    const FLAG_UNICODE = 16
+    const FLAG_DOTALL = 32
     public function __construct(V8\Context $context, V8\StringValue $context, ?int $flags)
     public function getSource(): V8\StringValue
     public function getFlags(): int
-
-final class V8\RegExpObject\Flags
-    const NONE = 0
-    const GLOBAL = 1
-    const IGNORE_CASE = 2
-    const MULTILINE = 4
-    const STICKY = 8
-    const UNICODE = 16
-    const DOTALL = 32
 
 class V8\PromiseObject
     extends V8\ObjectValue

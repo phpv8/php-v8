@@ -19,7 +19,7 @@ $isolate = new \V8\Isolate();
 $context = new V8\Context($isolate);
 $v8_helper->injectConsoleLog($context);
 
-$value = new V8\RegExpObject($context, new \V8\StringValue($isolate, '([a-z]{1,4})-([0-9]+)'), \V8\RegExpObject\Flags::IGNORE_CASE);
+$value = new V8\RegExpObject($context, new \V8\StringValue($isolate, '([a-z]{1,4})-([0-9]+)'), \V8\RegExpObject::FLAG_IGNORE_CASE);
 
 $helper->header('Object representation');
 $helper->dump($value);
@@ -27,6 +27,10 @@ $helper->space();
 
 $helper->assert('RegExpObject extends ObjectValue', $value instanceof \V8\ObjectValue);
 $helper->line();
+
+$helper->header('Getters');
+$helper->dump_object_constants($value);
+$helper->space();
 
 $helper->header('Getters');
 $helper->pretty_dump(get_class($value) . '->getSource()->value()', $value->getSource()->value());
@@ -74,6 +78,17 @@ object(V8\RegExpObject)#6 (2) {
 
 
 RegExpObject extends ObjectValue: ok
+
+Getters:
+--------
+V8\RegExpObject::FLAG_NONE = 0
+V8\RegExpObject::FLAG_GLOBAL = 1
+V8\RegExpObject::FLAG_IGNORE_CASE = 2
+V8\RegExpObject::FLAG_MULTILINE = 4
+V8\RegExpObject::FLAG_STICKY = 8
+V8\RegExpObject::FLAG_UNICODE = 16
+V8\RegExpObject::FLAG_DOTALL = 32
+
 
 Getters:
 --------
