@@ -18,7 +18,16 @@ $helper->header('Object representation');
 $helper->dump($isolate);
 $helper->line();
 
+$helper->header('Class constants');
+$helper->dump_object_constants($isolate);
+$helper->line();
+
 $helper->method_export($isolate, 'getHeapStatistics');
+
+$isolate->lowMemoryNotification();
+$isolate->memoryPressureNotification(\V8\Isolate::MEMORY_PRESSURE_LEVEL_NONE);
+$isolate->memoryPressureNotification(\V8\Isolate::MEMORY_PRESSURE_LEVEL_MODERATE);
+$isolate->memoryPressureNotification(\V8\Isolate::MEMORY_PRESSURE_LEVEL_CRITICAL);
 
 $isolate = null;
 
@@ -31,8 +40,14 @@ Object representation:
 object(V8\Isolate)#2 (0) {
 }
 
+Class constants:
+----------------
+V8\Isolate::MEMORY_PRESSURE_LEVEL_NONE = 0
+V8\Isolate::MEMORY_PRESSURE_LEVEL_MODERATE = 1
+V8\Isolate::MEMORY_PRESSURE_LEVEL_CRITICAL = 2
+
 V8\Isolate->getHeapStatistics():
-    object(V8\HeapStatistics)#26 (9) {
+    object(V8\HeapStatistics)#27 (9) {
       ["total_heap_size":"V8\HeapStatistics":private]=>
       float(%f)
       ["total_heap_size_executable":"V8\HeapStatistics":private]=>

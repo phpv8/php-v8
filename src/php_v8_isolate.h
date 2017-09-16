@@ -115,6 +115,12 @@ inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php
         return;                                     \
     }                                               \
 
+#define PHP_V8_CHECK_ISOLATE_MEMORY_PRESSURE_LEVEL(level, message)                  \
+    if (level < static_cast<zend_long>(v8::MemoryPressureLevel::kNone)              \
+         || level > static_cast<zend_long>(v8::MemoryPressureLevel::kCritical)) {   \
+        PHP_V8_THROW_VALUE_EXCEPTION(message);                                      \
+        return;                                                                     \
+    }
 
 
 struct _php_v8_isolate_t {

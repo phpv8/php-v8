@@ -225,6 +225,231 @@ abstract class Value extends Data
     {
     }
 
+    /**
+     * Returns true if this value is an async function.
+     *
+     * @return bool
+     */
+    public function isAsyncFunction(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a Generator function.
+     *
+     * @return bool
+     */
+    public function isGeneratorFunction(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a Generator object (iterator).
+     *
+     * @return bool
+     */
+    public function isGeneratorObject(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a Promise.
+     *
+     * @return bool
+     */
+    public function isPromise(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a Map.
+     *
+     * @return bool
+     */
+    public function isMap(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a Set.
+     *
+     * @return bool
+     */
+    public function isSet(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a Map Iterator.
+     *
+     * @return bool
+     */
+    public function isMapIterator(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a Set Iterator.
+     *
+     * @return bool
+     */
+    public function isSetIterator(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a WeakMap.
+     *
+     * @return bool
+     */
+    public function isWeakMap(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a WeakSet.
+     *
+     * @return bool
+     */
+    public function isWeakSet(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is an ArrayBuffer.
+     *
+     * @return bool
+     */
+    public function isArrayBuffer(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is an ArrayBufferView.
+     *
+     * @return bool
+     */
+    public function isArrayBufferView(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is one of TypedArrays.
+     *
+     * @return bool
+     */
+    public function isTypedArray(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is an Uint8Array.
+     *
+     * @return bool
+     */
+    public function isUint8Array(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is an Uint8ClampedArray.
+     *
+     * @return bool
+     */
+    public function isUint8ClampedArray(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is an Int8Array.
+     *
+     * @return bool
+     */
+    public function isInt8Array(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is an Uint16Array.
+     *
+     * @return bool
+     */
+    public function isUint16Array(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is an Int16Array.
+     *
+     * @return bool
+     */
+    public function isInt16Array(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is an Uint32Array.
+     *
+     * @return bool
+     */
+    public function isUint32Array(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is an Int32Array.
+     *
+     * @return bool
+     */
+    public function isInt32Array(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a Float32Array.
+     *
+     * @return bool
+     */
+    public function isFloat32Array(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a Float64Array.
+     *
+     * @return bool
+     */
+    public function isFloat64Array(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a DataView.
+     *
+     * @return bool
+     */
+    public function isDataView(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a SharedArrayBuffer.
+     * This is an experimental feature.
+     *
+     * @return bool
+     */
+    public function isSharedArrayBuffer(): bool
+    {
+    }
+
+    /**
+     * Returns true if this value is a JavaScript Proxy.
+     *
+     * @return bool
+     */
+    public function isProxy(): bool
+    {
+    }
 
     /**
      * @param Context $context

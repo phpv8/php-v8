@@ -1,6 +1,4 @@
-<?php
-
-/**
+/*
  * This file is part of the pinepain/php-v8 PHP extension.
  *
  * Copyright (c) 2015-2017 Bogdan Padalko <pinepain@gmail.com>
@@ -12,16 +10,24 @@
  * http://opensource.org/licenses/MIT
  */
 
+#ifndef PHP_V8_PROMISE_H
+#define PHP_V8_PROMISE_H
 
-namespace V8\RegExpObject;
+#include "php_v8_value.h"
+#include <v8.h>
 
+extern "C" {
+#include "php.h"
 
-class Flags
-{
-    const NONE        = 0;
-    const GLOBAL      = 1;
-    const IGNORE_CASE = 2;
-    const MULTILINE   = 4;
-    const STICKY      = 8;
-    const UNICODE     = 16;
+#ifdef ZTS
+#include "TSRM.h"
+#endif
 }
+
+extern zend_class_entry* php_v8_promise_class_entry;
+extern zend_class_entry* php_v8_promise_flags_class_entry;
+
+
+PHP_MINIT_FUNCTION(php_v8_promise);
+
+#endif //PHP_V8_PROMISE_H

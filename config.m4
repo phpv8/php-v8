@@ -203,6 +203,8 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_set.cc                                     \
     src/php_v8_date.cc                                    \
     src/php_v8_regexp.cc                                  \
+    src/php_v8_promise.cc                                 \
+    src/php_v8_proxy.cc                                   \
     src/php_v8_number_object.cc                           \
     src/php_v8_boolean_object.cc                          \
     src/php_v8_string_object.cc                           \

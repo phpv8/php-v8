@@ -18,13 +18,20 @@ namespace V8;
 
 class RegExpObject extends ObjectValue
 {
+    const FLAG_NONE        = 0;
+    const FLAG_GLOBAL      = 1;
+    const FLAG_IGNORE_CASE = 2;
+    const FLAG_MULTILINE   = 4;
+    const FLAG_STICKY      = 8;
+    const FLAG_UNICODE     = 16;
+    const FLAG_DOTALL      = 32;
 
     /**
      * @param \V8\Context $context
      * @param StringValue $pattern
      * @param int         $flags
      */
-    public function __construct(Context $context, StringValue $pattern, int $flags = RegExpObject\Flags::NONE)
+    public function __construct(Context $context, StringValue $pattern, int $flags = RegExpObject::FLAG_NONE)
     {
         parent::__construct($context);
     }

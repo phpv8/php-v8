@@ -327,6 +327,9 @@ class V8\StartupData
     public static function createFromSource(string $source): V8\StartupData
 
 class V8\Isolate
+    const MEMORY_PRESSURE_LEVEL_NONE = 0
+    const MEMORY_PRESSURE_LEVEL_MODERATE = 1
+    const MEMORY_PRESSURE_LEVEL_CRITICAL = 2
     public function __construct(?V8\StartupData $snapshot)
     public function setTimeLimit(float $time_limit_in_seconds)
     public function getTimeLimit(): float
@@ -334,6 +337,7 @@ class V8\Isolate
     public function setMemoryLimit(int $memory_limit_in_bytes)
     public function getMemoryLimit(): int
     public function isMemoryLimitHit(): bool
+    public function memoryPressureNotification(int $level)
     public function getHeapStatistics(): V8\HeapStatistics
     public function inContext(): bool
     public function getEnteredContext(): V8\Context
@@ -396,17 +400,15 @@ class V8\ScriptCompiler\Source
     public function getCachedData(): ?V8\ScriptCompiler\CachedData
 
 class V8\ScriptCompiler
+    const OPTION_NO_COMPILE_OPTIONS = 0
+    const OPTION_PRODUCE_PARSER_CACHE = 1
+    const OPTION_CONSUME_PARSER_CACHE = 2
+    const OPTION_PRODUCE_CODE_CACHE = 3
+    const OPTION_CONSUME_CODE_CACHE = 4
     public static function cachedDataVersionTag(): int
     public static function compileUnboundScript(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\UnboundScript
     public static function compile(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\Script
     public static function compileFunctionInContext(V8\Context $context, V8\ScriptCompiler\Source $source, array $arguments, array $context_extensions): V8\FunctionObject
-
-final class V8\ScriptCompiler\CompileOptions
-    const NO_COMPILE_OPTIONS = 0
-    const PRODUCE_PARSER_CACHE = 1
-    const CONSUME_PARSER_CACHE = 2
-    const PRODUCE_CODE_CACHE = 3
-    const CONSUME_CODE_CACHE = 4
 
 class V8\ExceptionManager
     public static function createRangeError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
@@ -759,17 +761,40 @@ class V8\DateObject
 class V8\RegExpObject
     extends V8\ObjectValue
     implements V8\AdjustableExternalMemoryInterface
+    const FLAG_NONE = 0
+    const FLAG_GLOBAL = 1
+    const FLAG_IGNORE_CASE = 2
+    const FLAG_MULTILINE = 4
+    const FLAG_STICKY = 8
+    const FLAG_UNICODE = 16
+    const FLAG_DOTALL = 32
     public function __construct(V8\Context $context, V8\StringValue $context, ?int $flags)
     public function getSource(): V8\StringValue
     public function getFlags(): int
 
-final class V8\RegExpObject\Flags
-    const NONE = 0
-    const GLOBAL = 1
-    const IGNORE_CASE = 2
-    const MULTILINE = 4
-    const STICKY = 8
-    const UNICODE = 16
+class V8\PromiseObject
+    extends V8\ObjectValue
+    implements V8\AdjustableExternalMemoryInterface
+    const STATE_PENDING = 0
+    const STATE_FULFILLED = 1
+    const STATE_REJECTED = 2
+    public function __construct(V8\Context $context)
+    public function resolve(V8\Context $context, V8\Value $value)
+    public function reject(V8\Context $context, V8\Value $value)
+    public function catch(V8\Context $context, V8\FunctionObject $handler): V8\PromiseObject
+    public function then(V8\Context $context, V8\FunctionObject $handler): V8\PromiseObject
+    public function hasHandler(): bool
+    public function result(): V8\Value
+    public function state(): int
+
+class V8\ProxyObject
+    extends V8\ObjectValue
+    implements V8\AdjustableExternalMemoryInterface
+    public function __construct(V8\Context $context, V8\ObjectValue $target, V8\ObjectValue $handler)
+    public function getTarget(): V8\ObjectValue
+    public function getHandler(): V8\Value
+    public function isRevoked(): bool
+    public function revoke()
 
 class V8\NumberObject
     extends V8\ObjectValue
