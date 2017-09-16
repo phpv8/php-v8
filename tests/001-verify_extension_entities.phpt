@@ -770,6 +770,7 @@ final class V8\RegExpObject\Flags
     const MULTILINE = 4
     const STICKY = 8
     const UNICODE = 16
+    const DOTALL = 32
 
 class V8\PromiseObject
     extends V8\ObjectValue

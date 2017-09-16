@@ -167,6 +167,7 @@ V8\RegExpObject\Flags::IGNORE_CASE = 2
 V8\RegExpObject\Flags::MULTILINE = 4
 V8\RegExpObject\Flags::STICKY = 8
 V8\RegExpObject\Flags::UNICODE = 16
+V8\RegExpObject\Flags::DOTALL = 32
 
 
 Object representation:

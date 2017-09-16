@@ -125,6 +125,7 @@ PHP_MINIT_FUNCTION(php_v8_regexp) {
     zend_declare_class_constant_long(this_ce, ZEND_STRL("MULTILINE"),   v8::RegExp::Flags::kMultiline);
     zend_declare_class_constant_long(this_ce, ZEND_STRL("STICKY"),      v8::RegExp::Flags::kSticky);
     zend_declare_class_constant_long(this_ce, ZEND_STRL("UNICODE"),     v8::RegExp::Flags::kUnicode);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("DOTALL"),      v8::RegExp::Flags::kDotAll);
 
     return SUCCESS;
 }

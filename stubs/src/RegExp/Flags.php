@@ -24,4 +24,5 @@ class Flags
     const MULTILINE   = 4;
     const STICKY      = 8;
     const UNICODE     = 16;
+    const DOTALL      = 32;
 }
