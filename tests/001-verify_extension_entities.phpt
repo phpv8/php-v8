@@ -327,6 +327,9 @@ class V8\StartupData
     public static function createFromSource(string $source): V8\StartupData
 
 class V8\Isolate
+    const MEMORY_PRESSURE_LEVEL_NONE = 0
+    const MEMORY_PRESSURE_LEVEL_MODERATE = 1
+    const MEMORY_PRESSURE_LEVEL_CRITICAL = 2
     public function __construct(?V8\StartupData $snapshot)
     public function setTimeLimit(float $time_limit_in_seconds)
     public function getTimeLimit(): float
@@ -334,6 +337,7 @@ class V8\Isolate
     public function setMemoryLimit(int $memory_limit_in_bytes)
     public function getMemoryLimit(): int
     public function isMemoryLimitHit(): bool
+    public function memoryPressureNotification(int $level)
     public function getHeapStatistics(): V8\HeapStatistics
     public function inContext(): bool
     public function getEnteredContext(): V8\Context

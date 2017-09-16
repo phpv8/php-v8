@@ -296,6 +296,21 @@ static PHP_METHOD(Isolate, isMemoryLimitHit) {
     RETVAL_BOOL(php_v8_isolate->limits.memory_limit_hit);
 }
 
+static PHP_METHOD(Isolate, memoryPressureNotification) {
+    zend_long level = static_cast<zend_long>(v8::MemoryPressureLevel::kNone);
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &level) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_CHECK_ISOLATE_MEMORY_PRESSURE_LEVEL(level, "Invalid memory pressure level given. See V8\\Isolate MEMORY_PRESSURE_LEVEL_* class constants for available levels.")
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
+
+    isolate->MemoryPressureNotification(static_cast<v8::MemoryPressureLevel>(level));
+}
+
 static PHP_METHOD(Isolate, getHeapStatistics) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -511,6 +526,10 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isMemoryLimitHit, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_memoryPressureNotification, 0)
+                ZEND_ARG_TYPE_INFO(0, level, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getHeapStatistics, ZEND_RETURN_VALUE, 0, V8\\HeapStatistics, 0)
 ZEND_END_ARG_INFO()
 
@@ -555,24 +574,25 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_isolate_methods[] = {
-        PHP_V8_ME(Isolate, __construct,              ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_V8_ME(Isolate, setTimeLimit,             ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, getTimeLimit,             ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, isTimeLimitHit,           ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, setMemoryLimit,           ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, getMemoryLimit,           ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, isMemoryLimitHit,         ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, getHeapStatistics,        ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, inContext,                ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, getEnteredContext,        ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, throwException,           ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, idleNotificationDeadline, ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, lowMemoryNotification,    ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, terminateExecution,       ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, isExecutionTerminating,   ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, cancelTerminateExecution, ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, isDead,                   ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Isolate, isInUse,                  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, __construct,                ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Isolate, setTimeLimit,               ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, getTimeLimit,               ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isTimeLimitHit,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, setMemoryLimit,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, getMemoryLimit,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isMemoryLimitHit,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, memoryPressureNotification, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, getHeapStatistics,          ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, inContext,                  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, getEnteredContext,          ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, throwException,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, idleNotificationDeadline,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, lowMemoryNotification,      ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, terminateExecution,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isExecutionTerminating,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, cancelTerminateExecution,   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isDead,                     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, isInUse,                    ZEND_ACC_PUBLIC)
         PHP_V8_ME(Isolate, setCaptureStackTraceForUncaughtExceptions, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
@@ -585,6 +605,10 @@ PHP_MINIT_FUNCTION (php_v8_isolate) {
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "Isolate", php_v8_isolate_methods);
     this_ce = zend_register_internal_class(&ce);
     this_ce->create_object = php_v8_isolate_ctor;
+
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("MEMORY_PRESSURE_LEVEL_NONE"),     static_cast<zend_long>(v8::MemoryPressureLevel::kNone));
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("MEMORY_PRESSURE_LEVEL_MODERATE"), static_cast<zend_long>(v8::MemoryPressureLevel::kModerate));
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("MEMORY_PRESSURE_LEVEL_CRITICAL"), static_cast<zend_long>(v8::MemoryPressureLevel::kCritical));
 
     memcpy(&php_v8_isolate_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 

@@ -21,6 +21,10 @@ use V8\Exceptions\ValueException;
 
 class Isolate
 {
+    const MEMORY_PRESSURE_LEVEL_NONE     = 0;
+    const MEMORY_PRESSURE_LEVEL_MODERATE = 1;
+    const MEMORY_PRESSURE_LEVEL_CRITICAL = 2;
+
     public function __construct(StartupData $snapshot = null)
     {
     }
@@ -46,6 +50,20 @@ class Isolate
     }
 
     public function isTimeLimitHit(): bool
+    {
+    }
+
+    /**
+     * Optional notification that the system is running low on memory.
+     * V8 uses these notifications to guide heuristics.
+     * It is allowed to call this function from another thread while
+     * the isolate is executing long running JavaScript code.
+     *
+     * @param int $level
+     *
+     * @return void
+     */
+    public function memoryPressureNotification(int $level)
     {
     }
 
@@ -82,8 +100,8 @@ class Isolate
      * operation; the caller must return immediately and only after the exception
      * has been handled does it become legal to invoke JavaScript operations.
      *
-     * @param Context $context
-     * @param Value $value
+     * @param Context        $context
+     * @param Value          $value
      * @param Throwable|null $e Exception to associate with a given value.
      *                          Because how underlying object wiring done, wiring PHP to V8 exceptions
      *                          is possible only for V8 exception that are instances of ObjectValue.
@@ -195,7 +213,7 @@ class Isolate
      * and report it to the message listeners. The option is off by default.
      *
      * @param bool $capture
-     * @param int $frame_limit
+     * @param int  $frame_limit
      */
     public function setCaptureStackTraceForUncaughtExceptions(bool $capture, int $frame_limit = 10)
     {
