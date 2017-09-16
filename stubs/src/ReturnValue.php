@@ -20,14 +20,14 @@ class ReturnValue
 {
 
     /**
-     * @return \V8\Isolate
+     * @return Isolate
      */
     public function getIsolate(): Isolate
     {
     }
 
     /**
-     * @return \V8\Context
+     * @return Context
      */
     public function getContext(): Context
     {
@@ -43,7 +43,7 @@ class ReturnValue
     }
 
     /**
-     * @param \V8\Value $value
+     * @param Value $value
      */
     public function set(Value $value)
     {
@@ -54,7 +54,7 @@ class ReturnValue
      *
      * If the ReturnValue was not yet set, this will return the undefined value.
      *
-     * @return Value|StringValue|NumberValue|ObjectValue|ArrayObject|FunctionObject|DateObject|RegExpObject
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function get(): Value
     {

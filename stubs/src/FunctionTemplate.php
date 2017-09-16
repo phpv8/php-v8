@@ -84,8 +84,8 @@ namespace V8;
  * \code
  *   FunctionTemplate Parent  -> Parent() . prototype -> { }
  *     ^                                                  ^
- *     | Inherit(Parent)                                  | .__proto__
- *     |                                                  |
+ *    |Inherit(Parent)                                 |.__proto__
+ *    |                                                 |
  *   FunctionTemplate Child   -> Child()  . prototype -> { }
  * \endcode
  *
@@ -172,7 +172,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
     /**
      * Get the InstanceTemplate.
      *
-     * @return \V8\ObjectTemplate
+     * @return ObjectTemplate
      */
     public function instanceTemplate(): ObjectTemplate
     {
@@ -193,7 +193,7 @@ class FunctionTemplate extends Template implements AdjustableExternalMemoryInter
      * A PrototypeTemplate is the template used to create the prototype object
      * of the function created by this template.
      *
-     * @return \V8\ObjectTemplate
+     * @return ObjectTemplate
      */
     public function prototypeTemplate(): ObjectTemplate
     {

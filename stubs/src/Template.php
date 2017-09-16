@@ -19,20 +19,20 @@ namespace V8;
 class Template extends Data
 {
     /**
-     * @var \V8\Isolate
+     * @var Isolate
      */
     private $isolate;
 
     /**
      * @param Isolate $isolate
      */
-    public function __construct(\V8\Isolate $isolate)
+    public function __construct(Isolate $isolate)
     {
         $this->isolate = $isolate;
     }
 
     /**
-     * @return \V8\Isolate
+     * @return Isolate
      */
     public function getIsolate(): Isolate
     {
@@ -44,7 +44,7 @@ class Template extends Data
      *
      * @param NameValue                    $name
      * @param Data|PrimitiveValue|Template $value
-     * @param int                          $attributes One of \V8\PropertyAttribute constants
+     * @param int                          $attributes One of PropertyAttribute constants
      *
      * @return void
      */
@@ -53,11 +53,11 @@ class Template extends Data
     }
 
     /**
-     * @param NameValue            $name
-     * @param \V8\FunctionTemplate $getter
-     * @param \V8\FunctionTemplate $setter
-     * @param int                  $attribute
-     * @param int                  $settings
+     * @param NameValue        $name
+     * @param FunctionTemplate $getter
+     * @param FunctionTemplate $setter
+     * @param int              $attribute
+     * @param int              $settings
      *
      * @return void
      */
@@ -92,7 +92,7 @@ class Template extends Data
      *                                    defined by FunctionTemplate::HasInstance()), an implicit TypeError is
      *                                    thrown and no callback is invoked.
      *
-     * @param int              $settings Access control settings for the accessor.
+     * @param int              $settings  Access control settings for the accessor.
      *
      * @return void
      */

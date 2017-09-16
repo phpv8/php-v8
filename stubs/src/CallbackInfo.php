@@ -18,14 +18,14 @@ namespace V8;
 class CallbackInfo
 {
     /**
-     * @return \V8\Isolate
+     * @return Isolate
      */
     public function getIsolate(): Isolate
     {
     }
 
     /**
-     * @return \V8\Context
+     * @return Context
      */
     public function getContext(): Context
     {
@@ -34,7 +34,7 @@ class CallbackInfo
     /**
      * Returns the receiver. This corresponds to the "this" value.
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public function this(): ObjectValue
     {
@@ -50,7 +50,7 @@ class CallbackInfo
      * referencing this callback was found (which in V8 internally is often
      * referred to as holder [sic]).
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public function holder(): ObjectValue
     {
@@ -59,7 +59,7 @@ class CallbackInfo
     /**
      * The ReturnValue for the call
      *
-     * @return \V8\ReturnValue
+     * @return ReturnValue
      */
     public function getReturnValue(): ReturnValue
     {

@@ -39,7 +39,7 @@ class Script
     }
 
     /**
-     * @return \V8\Context
+     * @return Context
      */
     public function getContext(): Context
     {
@@ -48,9 +48,9 @@ class Script
     /**
      * Runs the script returning the resulting value.
      *
-     * @param \V8\Context $context
+     * @param Context $context
      *
-     * @return BooleanValue | FunctionObject | NumberValue | ObjectValue | StringValue | Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function run(Context $context): Value
     {
@@ -59,7 +59,7 @@ class Script
     /**
      * Returns the corresponding context-unbound script.
      *
-     * @return \V8\UnboundScript
+     * @return UnboundScript
      */
     public function getUnboundScript(): UnboundScript
     {

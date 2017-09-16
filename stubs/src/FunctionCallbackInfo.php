@@ -34,7 +34,7 @@ class FunctionCallbackInfo extends CallbackInfo
     /**
      * Get available arguments
      *
-     * @return Value[] | StringValue[] | SymbolValue[] | NumberValue[] | ObjectValue[] | ArrayObject[] | FunctionObject[] | StringObject[] | SymbolObject[]
+     * @return Value[]
      */
     public function arguments(): array
     {
@@ -43,7 +43,7 @@ class FunctionCallbackInfo extends CallbackInfo
     /**
      * For construct calls, this returns the "new.target" value.
      *
-     * @return Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function newTarget(): Value
     {

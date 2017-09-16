@@ -33,7 +33,7 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      *
      * @param Context $context
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public function newInstance(Context $context): ObjectValue
     {
@@ -85,9 +85,9 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      * invoked instead of accessing the property directly on the JavaScript
      * object.
      *
-     * See \V8\NamedPropertyHandlerConfiguration constructor argument description for details
+     * See NamedPropertyHandlerConfiguration constructor argument description for details
      *
-     * @param \V8\NamedPropertyHandlerConfiguration The NamedPropertyHandlerConfiguration that defines the callbacks to invoke when accessing a property.
+     * @param NamedPropertyHandlerConfiguration The NamedPropertyHandlerConfiguration that defines the callbacks to invoke when accessing a property.
      */
     public function setHandlerForNamedProperty(NamedPropertyHandlerConfiguration $configuration)
     {
@@ -100,9 +100,9 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
      * this object template, the provided callback is invoked instead of
      * accessing the property directly on the JavaScript object.
      *
-     * See \V8\IndexedPropertyHandlerConfiguration constructor argument description for details
+     * See IndexedPropertyHandlerConfiguration constructor argument description for details
      *
-     * @param \V8\IndexedPropertyHandlerConfiguration $configuration The IndexedPropertyHandlerConfiguration that defines the callbacks to invoke when accessing a property.
+     * @param IndexedPropertyHandlerConfiguration $configuration The IndexedPropertyHandlerConfiguration that defines the callbacks to invoke when accessing a property.
      */
     public function setHandlerForIndexedProperty(IndexedPropertyHandlerConfiguration $configuration)
     {

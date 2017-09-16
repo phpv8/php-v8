@@ -25,10 +25,10 @@ class  FunctionObject extends ObjectValue
      * Create a function in the current execution context
      * for a given FunctionCallback.
      *
-     * @param \V8\Context $context
-     * @param callable    $callback
-     * @param int         $length
-     * @param int         $behavior
+     * @param Context  $context
+     * @param callable $callback
+     * @param int      $length
+     * @param int      $behavior
      */
     public function __construct(Context $context, callable $callback, int $length = 0, int $behavior = ConstructorBehavior::ALLOW)
     {
@@ -36,21 +36,21 @@ class  FunctionObject extends ObjectValue
     }
 
     /**
-     * @param \V8\Context $context
-     * @param \V8\Value[] $arguments
+     * @param Context $context
+     * @param Value[] $arguments
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public function newInstance(Context $context, array $arguments = []): ObjectValue
     {
     }
 
     /**
-     * @param \V8\Context $context
-     * @param \V8\Value   $recv
-     * @param \V8\Value[] $arguments
+     * @param Context $context
+     * @param Value   $recv
+     * @param Value[] $arguments
      *
-     * @return \V8\Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function call(Context $context, Value $recv, array $arguments = []): Value
     {
@@ -64,7 +64,7 @@ class  FunctionObject extends ObjectValue
     }
 
     /**
-     * @return \V8\Value | StringValue
+     * @return Value|StringValue
      */
     public function getName(): Value
     {
@@ -76,7 +76,7 @@ class  FunctionObject extends ObjectValue
      * in an OO style, where many functions are anonymous but are assigned
      * to object properties.
      *
-     * @return \V8\Value | StringValue
+     * @return Value|StringValue
      */
     public function getInferredName(): Value
     {
@@ -86,7 +86,7 @@ class  FunctionObject extends ObjectValue
      * User-defined name assigned to the "displayName" property of this function.
      * Used to facilitate debugging and profiling of JavaScript code.
      *
-     * @return \V8\Value | StringValue
+     * @return Value|StringValue
      */
     public function getDisplayName(): Value
     {
@@ -125,7 +125,7 @@ class  FunctionObject extends ObjectValue
     /**
      * Returns the original function if this function is bound, else returns UndefinedValue.
      *
-     * @return FunctionObject|UndefinedValue|Value
+     * @return Value|FunctionObject|UndefinedValue
      */
     public function getBoundFunction(): Value
     {

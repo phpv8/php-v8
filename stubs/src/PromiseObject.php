@@ -94,7 +94,7 @@ class PromiseObject extends ObjectValue
     /**
      * Returns the content of the promise result (resolve or reject value). The Promise must not be pending.
      *
-     * @return Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function result(): Value
     {

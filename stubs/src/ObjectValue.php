@@ -27,7 +27,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
     }
 
     /**
-     * @return \V8\Context
+     * @return Context
      */
     public function getContext()
     {
@@ -86,7 +86,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Context $context
      * @param Value   $key
      *
-     * @return \V8\Value | \V8\ObjectValue | \V8\FunctionObject | ArrayObject | StringValue | NumberValue
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function get(Context $context, Value $key): Value
     {
@@ -112,7 +112,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Context   $context
      * @param NameValue $key
      *
-     * @return \V8\Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function getOwnPropertyDescriptor(Context $context, NameValue $key): Value
     {
@@ -235,7 +235,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * be skipped by __proto__ and it does not consult the security
      * handler.
      *
-     * @return \V8\Value
+     * @return Value
      */
     public function getPrototype(): Value
     {
@@ -293,7 +293,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * Sets the integrity level of the object.
      *
      * @param Context $context
-     * @param int     $level One of \V8\IntegrityLevel::{kFrozen, kSealed}
+     * @param int     $level One of IntegrityLevel::{kFrozen, kSealed}
      *
      * @return bool
      */
@@ -348,7 +348,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Context $context
      * @param string  $key
      *
-     * @return \V8\Value
+     * @return Value
      */
     public function getRealNamedPropertyInPrototypeChain(Context $context, $key): Value
     {
@@ -376,7 +376,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Context $context
      * @param string  $key
      *
-     * @return \V8\Value
+     * @return Value
      */
     public function getRealNamedProperty(Context $context, $key): Value
     {
@@ -466,7 +466,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Value   $recv
      * @param array   $arguments
      *
-     * @return \V8\Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function callAsFunction(Context $context, Value $recv, array $arguments = []): Value
     {
@@ -480,7 +480,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Context $context
      * @param array   $arguments
      *
-     * @return \V8\Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function callAsConstructor(Context $context, array $arguments = []): Value
     {

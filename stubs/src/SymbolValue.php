@@ -43,7 +43,7 @@ class SymbolValue extends NameValue
     /**
      * Returns the print name string of the symbol, or undefined if none.
      *
-     * @return StringValue | UndefinedValue | Value
+     * @return Value|StringValue|UndefinedValue
      */
     public function name(): Value
     {
@@ -96,7 +96,7 @@ class SymbolValue extends NameValue
     /**
      * @param Isolate $isolate
      *
-     * @return \V8\SymbolValue
+     * @return SymbolValue
      */
     public static function getIsConcatSpreadable(Isolate $isolate): SymbolValue
     {

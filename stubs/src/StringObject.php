@@ -22,8 +22,8 @@ namespace V8;
 class StringObject extends ObjectValue
 {
     /**
-     * @param \V8\Context     $context
-     * @param \V8\StringValue $value
+     * @param Context     $context
+     * @param StringValue $value
      */
     public function __construct(Context $context, StringValue $value)
     {
@@ -31,7 +31,7 @@ class StringObject extends ObjectValue
     }
 
     /**
-     * @return \V8\StringValue
+     * @return StringValue
      */
     public function valueOf(): StringValue
     {

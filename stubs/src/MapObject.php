@@ -33,7 +33,7 @@ class MapObject extends ObjectValue
      * @param Context $context
      * @param Value   $key
      *
-     * @return Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function get(Context $context, Value $key): Value
     {

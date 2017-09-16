@@ -88,7 +88,7 @@ class Isolate
     /**
      * Returns the last entered context.
      *
-     * @return \V8\Context
+     * @return Context
      */
     public function getEnteredContext(): Context
     {

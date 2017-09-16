@@ -60,13 +60,13 @@ class TryCatch
      * all TryCatch blocks should be stack allocated because the memory
      * location itself is compared against JavaScript try/catch blocks.
      *
-     * @param Isolate $isolate
-     * @param Context $context
-     * @param Value $exception
-     * @param Value $stack_trace
-     * @param Message $message
-     * @param bool $can_continue
-     * @param bool $has_terminated
+     * @param Isolate        $isolate
+     * @param Context        $context
+     * @param Value          $exception
+     * @param Value          $stack_trace
+     * @param Message        $message
+     * @param bool           $can_continue
+     * @param bool           $has_terminated
      * @param Throwable|null $external_exception
      */
     public function __construct(
@@ -79,17 +79,17 @@ class TryCatch
         bool $has_terminated = false,
         Throwable $external_exception = null
     ) {
-        $this->isolate        = $isolate;
-        $this->exception      = $exception;
-        $this->stack_trace    = $stack_trace;
-        $this->message        = $message;
-        $this->can_continue   = $can_continue;
-        $this->has_terminated = $has_terminated;
+        $this->isolate            = $isolate;
+        $this->exception          = $exception;
+        $this->stack_trace        = $stack_trace;
+        $this->message            = $message;
+        $this->can_continue       = $can_continue;
+        $this->has_terminated     = $has_terminated;
         $this->external_exception = $external_exception;
     }
 
     /**
-     * @return \V8\Isolate
+     * @return Isolate
      */
     public function getIsolate(): Isolate
     {
@@ -97,7 +97,7 @@ class TryCatch
     }
 
     /**
-     * @return \V8\Context
+     * @return Context
      */
     public function getContext(): Context
     {
@@ -110,7 +110,7 @@ class TryCatch
      *
      * The returned handle is valid until this TryCatch block has been destroyed.
      *
-     * @return \V8\Value|null
+     * @return Value|null
      *
      */
     public function exception(): ?Value
@@ -122,7 +122,7 @@ class TryCatch
      * Returns the .stack property of the thrown object.  If no .stack
      * property is present an empty handle is returned.
      *
-     * @return \V8\Value|null
+     * @return Value|null
      */
     public function stackTrace(): ?Value
     {

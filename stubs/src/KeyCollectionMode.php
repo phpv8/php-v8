@@ -20,6 +20,6 @@ namespace V8;
  */
 class KeyCollectionMode
 {
-    const kOwnOnly = 0; // limits the collected properties to the given Object only. kIncludesPrototypes
+    const kOwnOnly            = 0; // limits the collected properties to the given Object only. kIncludesPrototypes
     const kIncludesPrototypes = 1; // will include all keys of the objects's prototype chain as well.
 }

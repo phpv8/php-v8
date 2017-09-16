@@ -43,7 +43,7 @@ class SetObject extends ObjectValue
     /**
      * Returns an array of the keys in this Set.
      *
-     * @return \V8\ArrayObject
+     * @return ArrayObject
      */
     public function asArray(): ArrayObject
     {

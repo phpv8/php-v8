@@ -22,7 +22,7 @@ namespace V8;
 abstract class Value extends Data
 {
     /**
-     * @return \V8\Isolate
+     * @return Isolate
      */
     public function getIsolate(): Isolate
     {
@@ -454,7 +454,7 @@ abstract class Value extends Data
     /**
      * @param Context $context
      *
-     * @return \V8\BooleanValue
+     * @return BooleanValue
      */
     public function toBoolean(Context $context): BooleanValue
     {
@@ -463,7 +463,7 @@ abstract class Value extends Data
     /**
      * @param Context $context
      *
-     * @return \V8\NumberValue
+     * @return NumberValue
      */
     public function toNumber(Context $context): NumberValue
     {
@@ -472,7 +472,7 @@ abstract class Value extends Data
     /**
      * @param Context $context
      *
-     * @return \V8\StringValue
+     * @return StringValue
      */
     public function toString(Context $context): StringValue
     {
@@ -481,7 +481,7 @@ abstract class Value extends Data
     /**
      * @param Context $context
      *
-     * @return \V8\StringValue
+     * @return StringValue
      */
     public function toDetailString(Context $context): StringValue
     {
@@ -491,7 +491,7 @@ abstract class Value extends Data
      *
      * @param Context $context
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public function toObject(Context $context): ObjectValue
     {
@@ -501,7 +501,7 @@ abstract class Value extends Data
      *
      * @param Context $context
      *
-     * @return \V8\IntegerValue
+     * @return IntegerValue
      */
     public function toInteger(Context $context): IntegerValue
     {
@@ -511,7 +511,7 @@ abstract class Value extends Data
      *
      * @param Context $context
      *
-     * @return \V8\Uint32Value
+     * @return Uint32Value
      */
     public function toUint32(Context $context): Uint32Value
     {
@@ -520,7 +520,7 @@ abstract class Value extends Data
     /**
      * @param Context $context
      *
-     * @return \V8\Int32Value
+     * @return Int32Value
      */
     public function toInt32(Context $context): Int32Value
     {
@@ -532,7 +532,7 @@ abstract class Value extends Data
      *
      * @param Context $context
      *
-     * @return \V8\Uint32Value
+     * @return Uint32Value
      */
     public function toArrayIndex(Context $context)
     {

@@ -39,7 +39,7 @@ class StackTrace
      */
     public function __construct(array $frames)
     {
-        $this->frames   = $frames;
+        $this->frames = $frames;
     }
 
 

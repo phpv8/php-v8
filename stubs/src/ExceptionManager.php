@@ -23,48 +23,48 @@ namespace V8;
 class ExceptionManager
 {
     /**
-     * @param Context         $context
-     * @param \V8\StringValue $message
+     * @param Context     $context
+     * @param StringValue $message
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public static function createRangeError(Context $context, StringValue $message): ObjectValue
     {
     }
 
     /**
-     * @param Context         $context
-     * @param \V8\StringValue $message
+     * @param Context     $context
+     * @param StringValue $message
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public static function createReferenceError(Context $context, StringValue $message): ObjectValue
     {
     }
 
     /**
-     * @param Context         $context
-     * @param \V8\StringValue $message
+     * @param Context     $context
+     * @param StringValue $message
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public static function createSyntaxError(Context $context, StringValue $message): ObjectValue
     {
     }
 
     /**
-     * @param Context         $context
-     * @param \V8\StringValue $message
+     * @param Context     $context
+     * @param StringValue $message
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public static function createTypeError(Context $context, StringValue $message): ObjectValue
     {
     }
 
     /**
-     * @param Context         $context
-     * @param \V8\StringValue $message
+     * @param Context     $context
+     * @param StringValue $message
      *
      * @return ObjectValue
      */
@@ -82,7 +82,7 @@ class ExceptionManager
      *
      * @return Message
      */
-    public  static function createMessage(Context $context, Value $exception): Message
+    public static function createMessage(Context $context, Value $exception): Message
     {
     }
 

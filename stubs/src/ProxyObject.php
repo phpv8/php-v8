@@ -35,7 +35,7 @@ class ProxyObject extends ObjectValue
     }
 
     /**
-     * @return Value
+     * @return Value|ObjectValue|NullValue
      */
     public function getHandler(): Value
     {

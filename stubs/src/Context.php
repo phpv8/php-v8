@@ -22,7 +22,7 @@ namespace V8;
 class Context
 {
     /**
-     * @var \V8\Isolate
+     * @var Isolate
      */
     private $isolate;
 
@@ -41,21 +41,18 @@ class Context
      * template. The state of the global object will be completely reset
      * and only object identify will remain.
      *
-     * @param \V8\Isolate             $isolate
-     * @param \V8\ObjectTemplate|null $global_template
-     * @param \V8\ObjectValue|null    $global_object
+     * @param Isolate             $isolate
+     * @param ObjectTemplate|null $global_template
+     * @param ObjectValue|null    $global_object
      *
      * @internal param array|null $extensions Currently unused as there are not extensions support
      */
-    public function __construct(
-        Isolate $isolate,
-        ObjectTemplate $global_template = null,
-        ObjectValue $global_object = null
-    ) {
+    public function __construct(Isolate $isolate, ObjectTemplate $global_template = null, ObjectValue $global_object = null)
+    {
     }
 
     /**
-     * @return \V8\Isolate
+     * @return Isolate
      */
     public function getIsolate(): Isolate
     {
@@ -74,7 +71,7 @@ class Context
      * would break VM---v8 expects only global object as a prototype of global
      * proxy object.
      *
-     * @return \V8\ObjectValue
+     * @return ObjectValue
      */
     public function globalObject(): ObjectValue
     {
@@ -93,7 +90,7 @@ class Context
      * Sets the security token for the context.  To access an object in
      * another context, the security tokens must match.
      *
-     * @param \V8\Value $token
+     * @param Value $token
      */
     public function setSecurityToken(Value $token)
     {
@@ -109,7 +106,7 @@ class Context
     /**
      * Returns the security token of this context.
      *
-     * @return \V8\Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function getSecurityToken(): Value
     {

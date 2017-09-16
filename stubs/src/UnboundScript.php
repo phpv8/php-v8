@@ -33,7 +33,7 @@ class UnboundScript
     }
 
     /**
-     * @return Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function getScriptName(): Value
     {
@@ -42,7 +42,7 @@ class UnboundScript
     /**
      * Data read from magic sourceURL comments.
      *
-     * @return Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function getSourceURL(): Value
     {
@@ -51,7 +51,7 @@ class UnboundScript
     /**
      * Data read from magic sourceMappingURL comments.
      *
-     * @return Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function getSourceMappingURL(): Value
     {

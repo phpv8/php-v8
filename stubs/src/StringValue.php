@@ -62,7 +62,7 @@ class StringValue extends NameValue
     /**
      * @return bool
      */
-    public function containsOnlyOneByte():bool
+    public function containsOnlyOneByte(): bool
     {
     }
 }
