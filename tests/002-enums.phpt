@@ -19,7 +19,6 @@ $enums = [
     new V8\PropertyFilter(),
     new V8\KeyCollectionMode(),
     new V8\IndexFilter(),
-    new V8\ScriptCompiler\CompileOptions(),
 ];
 
 foreach ($enums as $enum) {
@@ -149,19 +148,3 @@ Class constants:
 ----------------
 V8\IndexFilter::INCLUDE_INDICES = 0
 V8\IndexFilter::SKIP_INDICES = 1
-
-
-Object representation:
-----------------------
-Class is final: ok
-object(V8\ScriptCompiler\CompileOptions)#10 (0) {
-}
-
-
-Class constants:
-----------------
-V8\ScriptCompiler\CompileOptions::NO_COMPILE_OPTIONS = 0
-V8\ScriptCompiler\CompileOptions::PRODUCE_PARSER_CACHE = 1
-V8\ScriptCompiler\CompileOptions::CONSUME_PARSER_CACHE = 2
-V8\ScriptCompiler\CompileOptions::PRODUCE_CODE_CACHE = 3
-V8\ScriptCompiler\CompileOptions::CONSUME_CODE_CACHE = 4

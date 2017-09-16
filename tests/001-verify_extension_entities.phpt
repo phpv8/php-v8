@@ -396,17 +396,15 @@ class V8\ScriptCompiler\Source
     public function getCachedData(): ?V8\ScriptCompiler\CachedData
 
 class V8\ScriptCompiler
+    const OPTION_NO_COMPILE_OPTIONS = 0
+    const OPTION_PRODUCE_PARSER_CACHE = 1
+    const OPTION_CONSUME_PARSER_CACHE = 2
+    const OPTION_PRODUCE_CODE_CACHE = 3
+    const OPTION_CONSUME_CODE_CACHE = 4
     public static function cachedDataVersionTag(): int
     public static function compileUnboundScript(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\UnboundScript
     public static function compile(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\Script
     public static function compileFunctionInContext(V8\Context $context, V8\ScriptCompiler\Source $source, array $arguments, array $context_extensions): V8\FunctionObject
-
-final class V8\ScriptCompiler\CompileOptions
-    const NO_COMPILE_OPTIONS = 0
-    const PRODUCE_PARSER_CACHE = 1
-    const CONSUME_PARSER_CACHE = 2
-    const PRODUCE_CODE_CACHE = 3
-    const CONSUME_CODE_CACHE = 4
 
 class V8\ExceptionManager
     public static function createRangeError(V8\Context $context, V8\StringValue $message): V8\ObjectValue
