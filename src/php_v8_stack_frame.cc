@@ -60,6 +60,9 @@ void php_v8_stack_frame_create_from_stack_frame(v8::Isolate *isolate, zval *retu
 
     /* v8::StackFrame::IsConstructor */
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_constructor"), static_cast<zend_bool >(frame->IsConstructor()));
+
+    /* v8::StackFrame::IsWasm */
+    zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_wasm"), static_cast<zend_bool >(frame->IsWasm()));
 }
 
 static PHP_METHOD(StackFrame, __construct) {
@@ -73,11 +76,12 @@ static PHP_METHOD(StackFrame, __construct) {
 
     zend_bool is_eval = '\0';
     zend_bool is_constructor = '\0';
+    zend_bool is_wasm = '\0';
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|lllSSSbb",
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|lllSSSbbb",
                               &line_number, &column, &script_id,
                               &script_name, &script_name_or_source_url, &function_name,
-                              &is_eval, &is_constructor) == FAILURE) {
+                              &is_eval, &is_constructor, &is_wasm) == FAILURE) {
         return;
     }
 
@@ -105,6 +109,7 @@ static PHP_METHOD(StackFrame, __construct) {
 
     zend_update_property_bool(this_ce, getThis(), ZEND_STRL("is_eval"), is_eval);
     zend_update_property_bool(this_ce, getThis(), ZEND_STRL("is_constructor"), is_constructor);
+    zend_update_property_bool(this_ce, getThis(), ZEND_STRL("is_wasm"), is_wasm);
 }
 
 static PHP_METHOD(StackFrame, getLineNumber) {
@@ -187,6 +192,17 @@ static PHP_METHOD(StackFrame, isConstructor) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_constructor"), 0, &rv), 1, 0);
 }
 
+static PHP_METHOD(StackFrame, isWasm) {
+    zval rv;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("is_wasm"), 0, &rv), 1, 0);
+}
+
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 0)
                 ZEND_ARG_TYPE_INFO(0, line_number, IS_LONG, 1)
                 ZEND_ARG_TYPE_INFO(0, column, IS_LONG, 1)
@@ -196,6 +212,7 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 0)
                 ZEND_ARG_TYPE_INFO(0, function_name, IS_STRING, 0)
                 ZEND_ARG_TYPE_INFO(0, is_eval, _IS_BOOL, 0)
                 ZEND_ARG_TYPE_INFO(0, is_constructor, _IS_BOOL, 0)
+                ZEND_ARG_TYPE_INFO(0, is_wasm, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getLineNumber, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
@@ -222,6 +239,9 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isConstructor, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isWasm, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_stack_frame_methods[] = {
         PHP_V8_ME(StackFrame, __construct,              ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
@@ -233,6 +253,7 @@ static const zend_function_entry php_v8_stack_frame_methods[] = {
         PHP_V8_ME(StackFrame, getFunctionName,          ZEND_ACC_PUBLIC)
         PHP_V8_ME(StackFrame, isEval,                   ZEND_ACC_PUBLIC)
         PHP_V8_ME(StackFrame, isConstructor,            ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StackFrame, isWasm,                   ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };
@@ -253,6 +274,7 @@ PHP_MINIT_FUNCTION (php_v8_stack_frame) {
 
     zend_declare_property_bool(this_ce, ZEND_STRL("is_eval"), static_cast<zend_bool>(false), ZEND_ACC_PRIVATE);
     zend_declare_property_bool(this_ce, ZEND_STRL("is_constructor"), static_cast<zend_bool>(false), ZEND_ACC_PRIVATE);
+    zend_declare_property_bool(this_ce, ZEND_STRL("is_wasm"), static_cast<zend_bool>(false), ZEND_ACC_PRIVATE);
 
     return SUCCESS;
 }

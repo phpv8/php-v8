@@ -470,7 +470,8 @@ class V8\StackFrame
     private $function_name
     private $is_eval
     private $is_constructor
-    public function __construct(?int $line_number, ?int $column, ?int $script_id, string $script_name, string $script_name_or_source_url, string $function_name, bool $is_eval, bool $is_constructor)
+    private $is_wasm
+    public function __construct(?int $line_number, ?int $column, ?int $script_id, string $script_name, string $script_name_or_source_url, string $function_name, bool $is_eval, bool $is_constructor, bool $is_wasm)
     public function getLineNumber(): ?int
     public function getColumn(): ?int
     public function getScriptId(): ?int
@@ -479,6 +480,7 @@ class V8\StackFrame
     public function getFunctionName(): string
     public function isEval(): bool
     public function isConstructor(): bool
+    public function isWasm(): bool
 
 class V8\StackTrace
     const MIN_FRAME_LIMIT = 0

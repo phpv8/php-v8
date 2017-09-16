@@ -25,10 +25,11 @@ $helper->method_matches_with_output($obj, 'getScriptNameOrSourceURL', '');
 $helper->method_matches_with_output($obj, 'getFunctionName', '');
 $helper->method_matches_with_output($obj, 'isEval', false);
 $helper->method_matches_with_output($obj, 'isConstructor', false);
+$helper->method_matches_with_output($obj, 'isWasm', false);
 $helper->space();
 
 
-$obj = new V8\StackFrame(1, 2, 3, 'script_name', 'script_name_or_source_url', 'function_name', true, true);
+$obj = new V8\StackFrame(1, 2, 3, 'script_name', 'script_name_or_source_url', 'function_name', true, true, true);
 
 
 $helper->header('Object representation');
@@ -44,13 +45,14 @@ $helper->method_matches_with_output($obj, 'getScriptNameOrSourceURL', 'script_na
 $helper->method_matches_with_output($obj, 'getFunctionName', 'function_name');
 $helper->method_matches_with_output($obj, 'isEval', true);
 $helper->method_matches_with_output($obj, 'isConstructor', true);
+$helper->method_matches_with_output($obj, 'isWasm', true);
 $helper->space();
 
 ?>
 --EXPECT--
 Object representation (default):
 --------------------------------
-object(V8\StackFrame)#2 (8) {
+object(V8\StackFrame)#2 (9) {
   ["line_number":"V8\StackFrame":private]=>
   NULL
   ["column":"V8\StackFrame":private]=>
@@ -67,6 +69,8 @@ object(V8\StackFrame)#2 (8) {
   bool(false)
   ["is_constructor":"V8\StackFrame":private]=>
   bool(false)
+  ["is_wasm":"V8\StackFrame":private]=>
+  bool(false)
 }
 
 
@@ -80,11 +84,12 @@ V8\StackFrame::getScriptNameOrSourceURL() matches expected ''
 V8\StackFrame::getFunctionName() matches expected ''
 V8\StackFrame::isEval() matches expected false
 V8\StackFrame::isConstructor() matches expected false
+V8\StackFrame::isWasm() matches expected false
 
 
 Object representation:
 ----------------------
-object(V8\StackFrame)#3 (8) {
+object(V8\StackFrame)#3 (9) {
   ["line_number":"V8\StackFrame":private]=>
   int(1)
   ["column":"V8\StackFrame":private]=>
@@ -101,6 +106,8 @@ object(V8\StackFrame)#3 (8) {
   bool(true)
   ["is_constructor":"V8\StackFrame":private]=>
   bool(true)
+  ["is_wasm":"V8\StackFrame":private]=>
+  bool(true)
 }
 
 
@@ -114,3 +121,4 @@ V8\StackFrame::getScriptNameOrSourceURL() matches expected 'script_name_or_sourc
 V8\StackFrame::getFunctionName() matches expected 'function_name'
 V8\StackFrame::isEval() matches expected true
 V8\StackFrame::isConstructor() matches expected true
+V8\StackFrame::isWasm() matches expected true

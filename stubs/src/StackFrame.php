@@ -52,6 +52,10 @@ class StackFrame
      * @var bool
      */
     private $is_constructor;
+    /**
+     * @var bool
+     */
+    private $is_wasm;
 
     /**
      * @param int|null $line_number
@@ -62,6 +66,7 @@ class StackFrame
      * @param string   $function_name
      * @param bool     $is_eval
      * @param bool     $is_constructor
+     * @param bool     $is_wasm
      */
     public function __construct(
         ?int $line_number = null,
@@ -71,16 +76,9 @@ class StackFrame
         string $script_name_or_source_url = '',
         string $function_name = '',
         bool $is_eval = false,
-        bool $is_constructor = false
+        bool $is_constructor = false,
+        bool $is_wasm = false
     ) {
-        $this->line_number               = $line_number;
-        $this->column                    = $column;
-        $this->script_id                 = $script_id;
-        $this->script_name               = $script_name;
-        $this->script_name_or_source_url = $script_name_or_source_url;
-        $this->function_name             = $function_name;
-        $this->is_eval                   = $is_eval;
-        $this->is_constructor            = $is_constructor;
     }
 
     /**
@@ -93,7 +91,6 @@ class StackFrame
      */
     public function getLineNumber(): ?int
     {
-        return $this->line_number;
     }
 
     /**
@@ -107,7 +104,6 @@ class StackFrame
      */
     public function getColumn(): ?int
     {
-        return $this->column;
     }
 
     /**
@@ -120,7 +116,6 @@ class StackFrame
      */
     public function getScriptId(): ?int
     {
-        return $this->script_id;
     }
 
     /**
@@ -131,7 +126,6 @@ class StackFrame
      */
     public function getScriptName(): string
     {
-        return $this->script_name;
     }
 
     /**
@@ -144,7 +138,6 @@ class StackFrame
      */
     public function getScriptNameOrSourceURL(): string
     {
-        return $this->script_name_or_source_url;
     }
 
     /**
@@ -154,7 +147,6 @@ class StackFrame
      */
     public function getFunctionName(): string
     {
-        return $this->function_name;
     }
 
     /**
@@ -165,7 +157,6 @@ class StackFrame
      */
     public function isEval(): bool
     {
-        return $this->is_eval;
     }
 
     /**
@@ -176,6 +167,14 @@ class StackFrame
      */
     public function isConstructor(): bool
     {
-        return $this->is_constructor;
+    }
+
+    /**
+     * Returns whether or not the associated functions is defined in wasm.
+     *
+     * @return bool
+     */
+    public function isWasm(): bool
+    {
     }
 }

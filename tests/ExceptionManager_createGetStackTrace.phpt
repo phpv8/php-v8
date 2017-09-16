@@ -116,7 +116,7 @@ Stack trace created from thrown value:
 V8\StackTrace->getFrames():
     array(1) {
       [0]=>
-      object(V8\StackFrame)#14 (8) {
+      object(V8\StackFrame)#14 (9) {
         ["line_number":"V8\StackFrame":private]=>
         int(5)
         ["column":"V8\StackFrame":private]=>
@@ -132,6 +132,8 @@ V8\StackTrace->getFrames():
         ["is_eval":"V8\StackFrame":private]=>
         bool(false)
         ["is_constructor":"V8\StackFrame":private]=>
+        bool(false)
+        ["is_wasm":"V8\StackFrame":private]=>
         bool(false)
       }
     }
