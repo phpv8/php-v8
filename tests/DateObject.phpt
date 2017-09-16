@@ -187,7 +187,7 @@ V8\DateObject(V8\Value)->isSharedArrayBuffer(): bool(false)
 V8\DateObject(V8\Value)->isProxy(): bool(false)
 
 
-val: Wed Oct 21 2015 16:29:00 GMT+0000 (UTC)
+val: Wed Oct 21 2015 %s
 typeof val: object
 
 
@@ -198,13 +198,13 @@ Expected value is identical to actual value
 
 Timezone change (with notification to v8):
 ------------------------------------------
-val: Wed Oct 21 2015 09:29:00 GMT-0700 (PDT)
+val: Wed Oct 21 2015 %s
 typeof val: object
 Expected 1445444940000.0 value is identical to actual value 1445444940000.0
 
 
 Timezone change (without notification to v8):
 ---------------------------------------------
-val: Wed Oct 21 2015 09:29:00 GMT-0700 (%sDT)
+val: Wed Oct 21 2015 %s
 typeof val: object
 Expected 1445444940000.0 value is identical to actual value 1445444940000.0
