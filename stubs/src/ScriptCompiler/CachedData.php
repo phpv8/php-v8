@@ -1,5 +1,17 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of the pinepain/php-v8 PHP extension.
+ *
+ * Copyright (c) 2015-2017 Bogdan Padalko <pinepain@gmail.com>
+ *
+ * Licensed under the MIT license: http://opensource.org/licenses/MIT
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source or visit
+ * http://opensource.org/licenses/MIT
+ */
+
 
 namespace V8\ScriptCompiler;
 
@@ -20,11 +32,6 @@ class CachedData
     public function getData(): string
     {
     }
-
-    // TODO: technically, we can use \strlen($this->getData()) when we need, though in PHP it's not necessary to get string length before fetching string itself
-    //public function getLength(): int
-    //{
-    //}
 
     public function isRejected(): bool
     {
