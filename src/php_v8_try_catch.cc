@@ -151,7 +151,7 @@ static PHP_METHOD(TryCatch, getContext)
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("context"), 0, &rv), 1, 0);
 }
 
-static PHP_METHOD(TryCatch, exception)
+static PHP_METHOD(TryCatch, getException)
 {
     zval rv;
     zval *prop;
@@ -165,7 +165,7 @@ static PHP_METHOD(TryCatch, exception)
     RETVAL_ZVAL(prop, 1, 0);
 }
 
-static PHP_METHOD(TryCatch, stackTrace)
+static PHP_METHOD(TryCatch, getStackTrace)
 {
     zval rv;
     zval *prop;
@@ -179,7 +179,7 @@ static PHP_METHOD(TryCatch, stackTrace)
     RETVAL_ZVAL(prop, 1, 0);
 }
 
-static PHP_METHOD(TryCatch, message)
+static PHP_METHOD(TryCatch, getMessage)
 {
     zval rv;
     zval *prop;
@@ -245,13 +245,13 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_exception, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getException, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_stackTrace, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getStackTrace, ZEND_RETURN_VALUE, 0, V8\\Value, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_message, ZEND_RETURN_VALUE, 0, V8\\Message, 1)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getMessage, ZEND_RETURN_VALUE, 0, V8\\Message, 1)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_canContinue, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
@@ -268,9 +268,9 @@ static const zend_function_entry php_v8_try_catch_methods[] = {
         PHP_V8_ME(TryCatch, __construct,   ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
         PHP_V8_ME(TryCatch, getIsolate,    ZEND_ACC_PUBLIC)
         PHP_V8_ME(TryCatch, getContext,    ZEND_ACC_PUBLIC)
-        PHP_V8_ME(TryCatch, exception,     ZEND_ACC_PUBLIC)
-        PHP_V8_ME(TryCatch, stackTrace,    ZEND_ACC_PUBLIC)
-        PHP_V8_ME(TryCatch, message,       ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, getException,  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, getStackTrace, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(TryCatch, getMessage,    ZEND_ACC_PUBLIC)
         PHP_V8_ME(TryCatch, canContinue,   ZEND_ACC_PUBLIC)
         PHP_V8_ME(TryCatch, hasTerminated, ZEND_ACC_PUBLIC)
 

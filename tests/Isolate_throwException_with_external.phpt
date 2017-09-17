@@ -41,7 +41,7 @@ try {
 } catch (\V8\Exceptions\TryCatchException $e) {
     $helper->exception_export($e);
 
-    $helper->assert('Thrown exception object is the same', $e->getTryCatch()->exception(), $v8_exception);
+    $helper->assert('Thrown exception object is the same', $e->getTryCatch()->getException(), $v8_exception);
 
     $helper->exception_export($e->getTryCatch()->getExternalException());
 }

@@ -432,9 +432,9 @@ class V8\TryCatch
     public function __construct(V8\Isolate $isolate, V8\Context $context, ?V8\Value $exception, ?V8\Value $stack_trace, ?V8\Message $message, bool $can_continue, bool $has_terminated, ?Throwable $external_exception)
     public function getIsolate(): V8\Isolate
     public function getContext(): V8\Context
-    public function exception(): ?V8\Value
-    public function stackTrace(): ?V8\Value
-    public function message(): ?V8\Message
+    public function getException(): ?V8\Value
+    public function getStackTrace(): ?V8\Value
+    public function getMessage(): ?V8\Message
     public function canContinue(): bool
     public function hasTerminated(): bool
     public function getExternalException(): ?Throwable

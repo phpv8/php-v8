@@ -79,13 +79,6 @@ class TryCatch
         bool $has_terminated = false,
         Throwable $external_exception = null
     ) {
-        $this->isolate            = $isolate;
-        $this->exception          = $exception;
-        $this->stack_trace        = $stack_trace;
-        $this->message            = $message;
-        $this->can_continue       = $can_continue;
-        $this->has_terminated     = $has_terminated;
-        $this->external_exception = $external_exception;
     }
 
     /**
@@ -93,7 +86,6 @@ class TryCatch
      */
     public function getIsolate(): Isolate
     {
-        return $this->isolate;
     }
 
     /**
@@ -101,7 +93,6 @@ class TryCatch
      */
     public function getContext(): Context
     {
-        return $this->context;
     }
 
     /**
@@ -113,9 +104,8 @@ class TryCatch
      * @return Value|null
      *
      */
-    public function exception(): ?Value
+    public function getException(): ?Value
     {
-        return $this->exception;
     }
 
     /**
@@ -124,9 +114,8 @@ class TryCatch
      *
      * @return Value|null
      */
-    public function stackTrace(): ?Value
+    public function getStackTrace(): ?Value
     {
-        return $this->stack_trace;
     }
 
     /**
@@ -138,9 +127,8 @@ class TryCatch
      *
      * @return Message|null
      */
-    public function message(): ?Message
+    public function getMessage(): ?Message
     {
-        return $this->message;
     }
 
     /**
@@ -155,7 +143,6 @@ class TryCatch
      */
     public function canContinue(): bool
     {
-        return $this->can_continue;
     }
 
     /**
@@ -174,7 +161,6 @@ class TryCatch
      */
     public function hasTerminated(): bool
     {
-        return $this->has_terminated;
     }
 
     /**
@@ -182,6 +168,5 @@ class TryCatch
      */
     public function getExternalException(): ?Throwable
     {
-        return $this->external_exception;
     }
 }
