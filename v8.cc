@@ -66,6 +66,7 @@
 #include "php_v8_function_callback_info.h"
 #include "php_v8_named_property_handler_configuration.h"
 #include "php_v8_indexed_property_handler_configuration.h"
+#include "php_v8_json.h"
 
 #include "php_v8_value.h"
 #include "php_v8_data.h"
@@ -166,6 +167,8 @@ PHP_MINIT_FUNCTION(v8)
 
     PHP_MINIT(php_v8_named_property_handler_configuration)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_indexed_property_handler_configuration)(INIT_FUNC_ARGS_PASSTHRU);
+
+    PHP_MINIT(php_v8_json)(INIT_FUNC_ARGS_PASSTHRU);
 
     /* If you have INI entries, uncomment these lines
     REGISTER_INI_ENTRIES();

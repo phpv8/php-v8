@@ -215,6 +215,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_property_callback_info.cc                  \
     src/php_v8_named_property_handler_configuration.cc    \
     src/php_v8_indexed_property_handler_configuration.cc  \
+    src/php_v8_json.cc                                    \
   ], $ext_shared, , -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
   PHP_ADD_BUILD_DIR($ext_builddir/src)

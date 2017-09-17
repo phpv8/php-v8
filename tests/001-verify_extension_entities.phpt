@@ -925,3 +925,7 @@ class V8\NamedPropertyHandlerConfiguration
 
 class V8\IndexedPropertyHandlerConfiguration
     public function __construct(callable $getter, ?callable $setter, ?callable $query, ?callable $deleter, ?callable $enumerator, int $flags)
+
+class V8\JSON
+    public static function parse(V8\Context $context, V8\StringValue $json_string): V8\Value
+    public static function stringify(V8\Context $context, V8\Value $json_value, ?V8\StringValue $gap): string
