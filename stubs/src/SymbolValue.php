@@ -63,7 +63,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function for(Context $context, StringValue $name): SymbolValue
+    public static function createFor(Context $context, StringValue $name): SymbolValue
     {
     }
 
@@ -78,7 +78,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function forApi(Context $context, StringValue $name): SymbolValue
+    public static function createForApi(Context $context, StringValue $name): SymbolValue
     {
     }
 
@@ -89,7 +89,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getHasInstance(Isolate $isolate): SymbolValue
+    public static function getHasInstanceSymbol(Isolate $isolate): SymbolValue
     {
     }
 
@@ -98,7 +98,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getIsConcatSpreadable(Isolate $isolate): SymbolValue
+    public static function getIsConcatSpreadableSymbol(Isolate $isolate): SymbolValue
     {
     }
 
@@ -107,7 +107,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getIterator(Isolate $isolate): SymbolValue
+    public static function getIteratorSymbol(Isolate $isolate): SymbolValue
     {
     }
 
@@ -116,7 +116,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getMatch(Isolate $isolate): SymbolValue
+    public static function getMatchSymbol(Isolate $isolate): SymbolValue
     {
     }
 
@@ -125,7 +125,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getReplace(Isolate $isolate): SymbolValue
+    public static function getReplaceSymbol(Isolate $isolate): SymbolValue
     {
     }
 
@@ -134,7 +134,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getSearch(Isolate $isolate): SymbolValue
+    public static function getSearchSymbol(Isolate $isolate): SymbolValue
     {
     }
 
@@ -143,7 +143,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getSplit(Isolate $isolate): SymbolValue
+    public static function getSplitSymbol(Isolate $isolate): SymbolValue
     {
     }
 
@@ -152,7 +152,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getToPrimitive(Isolate $isolate): SymbolValue
+    public static function getToPrimitiveSymbol(Isolate $isolate): SymbolValue
     {
     }
 
@@ -161,7 +161,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getToStringTag(Isolate $isolate): SymbolValue
+    public static function getToStringTagSymbol(Isolate $isolate): SymbolValue
     {
     }
 
@@ -170,7 +170,7 @@ class SymbolValue extends NameValue
      *
      * @return SymbolValue
      */
-    public static function getUnscopables(Isolate $isolate): SymbolValue
+    public static function getUnscopablesSymbol(Isolate $isolate): SymbolValue
     {
     }
 }

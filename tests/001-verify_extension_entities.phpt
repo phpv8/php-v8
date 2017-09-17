@@ -640,18 +640,18 @@ class V8\SymbolValue
     public function __construct(V8\Isolate $isolate, ?V8\StringValue $name)
     public function value(): string
     public function name(): V8\Value
-    public static function for(V8\Context $context, V8\StringValue $name): V8\SymbolValue
-    public static function forApi(V8\Context $context, V8\StringValue $name): V8\SymbolValue
-    public static function getHasInstance(V8\Isolate $isolate): V8\SymbolValue
-    public static function getIsConcatSpreadable(V8\Isolate $isolate): V8\SymbolValue
-    public static function getIterator(V8\Isolate $isolate): V8\SymbolValue
-    public static function getMatch(V8\Isolate $isolate): V8\SymbolValue
-    public static function getReplace(V8\Isolate $isolate): V8\SymbolValue
-    public static function getSearch(V8\Isolate $isolate): V8\SymbolValue
-    public static function getSplit(V8\Isolate $isolate): V8\SymbolValue
-    public static function getToPrimitive(V8\Isolate $isolate): V8\SymbolValue
-    public static function getToStringTag(V8\Isolate $isolate): V8\SymbolValue
-    public static function getUnscopables(V8\Isolate $isolate): V8\SymbolValue
+    public static function createFor(V8\Context $context, V8\StringValue $name): V8\SymbolValue
+    public static function createForApi(V8\Context $context, V8\StringValue $name): V8\SymbolValue
+    public static function getHasInstanceSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getIsConcatSpreadableSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getIteratorSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getMatchSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getReplaceSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getSearchSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getSplitSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getToPrimitiveSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getToStringTagSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getUnscopablesSymbol(V8\Isolate $isolate): V8\SymbolValue
 
 class V8\NumberValue
     extends V8\PrimitiveValue
