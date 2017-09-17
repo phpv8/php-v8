@@ -325,6 +325,7 @@ class V8\StartupData
     public function getData(): string
     public function getRawSize(): int
     public static function createFromSource(string $source): V8\StartupData
+    public static function warmUpSnapshotDataBlob(V8\StartupData $cold_startup_data, string $warmup_source): V8\StartupData
 
 class V8\Isolate
     const MEMORY_PRESSURE_LEVEL_NONE = 0

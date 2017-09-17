@@ -46,4 +46,20 @@ class StartupData
 
         return new self($blob);
     }
+
+    /**
+     * Bootstrap an isolate and a context from the cold startup blob, run the
+     * warm-up script to trigger code compilation. The side effects are then
+     * discarded. The resulting startup snapshot will include compiled code.
+     *
+     * The argument startup blob is untouched.
+     *
+     * @param StartupData $cold_startup_data
+     * @param string      $warmup_source
+     *
+     * @return StartupData
+     */
+    public static function warmUpSnapshotDataBlob(StartupData $cold_startup_data, string $warmup_source): StartupData
+    {
+    }
 }
