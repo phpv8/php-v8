@@ -19,7 +19,7 @@ $isolate = new V8\Isolate();
 $helper->inline_dump('Isolate in use', $isolate->isInUse());
 
 $context = new V8\Context($isolate);
-$fnc = new \V8\FunctionObject($context, function (\V8\CallbackInfo $info) use ($helper) {
+$fnc = new \V8\FunctionObject($context, function (\V8\FunctionCallbackInfo $info) use ($helper) {
   $helper->inline_dump('Isolate in use', $info->getIsolate()->isInUse());
 });
 

@@ -62,7 +62,6 @@
 #include "php_v8_object.h"
 #include "php_v8_template.h"
 #include "php_v8_return_value.h"
-#include "php_v8_callback_info.h"
 #include "php_v8_property_callback_info.h"
 #include "php_v8_function_callback_info.h"
 #include "php_v8_named_property_handler_configuration.h"
@@ -162,7 +161,6 @@ PHP_MINIT_FUNCTION(v8)
 
     PHP_MINIT(php_v8_return_value)(INIT_FUNC_ARGS_PASSTHRU);
 
-    PHP_MINIT(php_v8_callback_info)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_property_callback_info)(INIT_FUNC_ARGS_PASSTHRU); /* PropertyCallbackInfo inherits CallbackInfo */
     PHP_MINIT(php_v8_function_callback_info)(INIT_FUNC_ARGS_PASSTHRU); /* FunctionCallbackInfo inherits CallbackInfo */
 

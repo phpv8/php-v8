@@ -60,16 +60,16 @@ Property callback called
 Object representation:
 ----------------------
 object(V8\PropertyCallbackInfo)#8 (6) {
-  ["isolate":"V8\CallbackInfo":private]=>
+  ["isolate":"V8\PropertyCallbackInfo":private]=>
   object(V8\Isolate)#2 (0) {
   }
-  ["context":"V8\CallbackInfo":private]=>
+  ["context":"V8\PropertyCallbackInfo":private]=>
   object(V8\Context)#3 (1) {
     ["isolate":"V8\Context":private]=>
     object(V8\Isolate)#2 (0) {
     }
   }
-  ["this":"V8\CallbackInfo":private]=>
+  ["this":"V8\PropertyCallbackInfo":private]=>
   object(V8\ObjectValue)#5 (2) {
     ["isolate":"V8\Value":private]=>
     object(V8\Isolate)#2 (0) {
@@ -81,7 +81,7 @@ object(V8\PropertyCallbackInfo)#8 (6) {
       }
     }
   }
-  ["holder":"V8\CallbackInfo":private]=>
+  ["holder":"V8\PropertyCallbackInfo":private]=>
   object(V8\ObjectValue)#5 (2) {
     ["isolate":"V8\Value":private]=>
     object(V8\Isolate)#2 (0) {
@@ -93,7 +93,7 @@ object(V8\PropertyCallbackInfo)#8 (6) {
       }
     }
   }
-  ["return_value":"V8\CallbackInfo":private]=>
+  ["return_value":"V8\PropertyCallbackInfo":private]=>
   object(V8\ReturnValue)#9 (2) {
     ["isolate":"V8\ReturnValue":private]=>
     object(V8\Isolate)#2 (0) {

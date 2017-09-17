@@ -22,8 +22,56 @@ namespace V8;
  * including the receiver, the number and values of arguments, and
  * the holder of the function.
  */
-class FunctionCallbackInfo extends CallbackInfo
+class FunctionCallbackInfo
 {
+    /**
+     * @return Isolate
+     */
+    public function getIsolate(): Isolate
+    {
+    }
+
+    /**
+     * @return Context
+     */
+    public function getContext(): Context
+    {
+    }
+
+    /**
+     * Returns the receiver. This corresponds to the "this" value.
+     *
+     * @return ObjectValue
+     */
+    public function this(): ObjectValue
+    {
+    }
+
+    /**
+     * If the callback was created without a Signature, this is the same
+     * value as This(). If there is a signature, and the signature didn't match
+     * This() but one of its hidden prototypes, this will be the respective
+     * hidden prototype.
+     *
+     * Note that this is not the prototype of This() on which the accessor
+     * referencing this callback was found (which in V8 internally is often
+     * referred to as holder [sic]).
+     *
+     * @return ObjectValue
+     */
+    public function holder(): ObjectValue
+    {
+    }
+
+    /**
+     * The ReturnValue for the call
+     *
+     * @return ReturnValue
+     */
+    public function getReturnValue(): ReturnValue
+    {
+    }
+
     /**
      * @return int
      */
