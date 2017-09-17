@@ -843,6 +843,8 @@ class V8\ObjectTemplate
     public function setHandlerForNamedProperty(V8\NamedPropertyHandlerConfiguration $configuration)
     public function setHandlerForIndexedProperty(V8\IndexedPropertyHandlerConfiguration $configuration)
     public function setCallAsFunctionHandler($callback)
+    public function isImmutableProto(): bool
+    public function setImmutableProto()
     public function adjustExternalAllocatedMemory(int $change_in_bytes): int
     public function getExternalAllocatedMemory(): int
 

@@ -120,6 +120,26 @@ class ObjectTemplate extends Template implements AdjustableExternalMemoryInterfa
     {
     }
 
+
+    /**
+     * Returns true if the object will be an immutable prototype exotic object.
+     *
+     * @return bool
+     */
+    public function isImmutableProto(): bool
+    {
+    }
+
+    /**
+     * Makes the ObjectTempate for an immutable prototype exotic object, with an
+     * immutable __proto__.
+     *
+     * @return bool
+     */
+    public function setImmutableProto(): bool
+    {
+    }
+
     /**
      * {@inheritdoc}
      */
