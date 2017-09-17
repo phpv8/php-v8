@@ -15,7 +15,7 @@
 
 namespace V8;
 
-class AccessControl
+final class AccessControl
 {
     const DEFAULT_ACCESS = 0; // do not allow cross-context access
     const ALL_CAN_READ   = 1; // all cross-context reads are allowed

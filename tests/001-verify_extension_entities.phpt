@@ -260,6 +260,12 @@ final class V8\IndexFilter
     const INCLUDE_INDICES = 0
     const SKIP_INDICES = 1
 
+final class V8\RAILMode
+    const PERFORMANCE_RESPONSE = 0
+    const PERFORMANCE_ANIMATION = 1
+    const PERFORMANCE_IDLE = 2
+    const PERFORMANCE_LOAD = 3
+
 class V8\Exceptions\Exception
     extends Exception
     implements Throwable
@@ -345,6 +351,7 @@ class V8\Isolate
     public function throwException(V8\Context $context, V8\Value $value, Throwable $e)
     public function idleNotificationDeadline($deadline_in_seconds): bool
     public function lowMemoryNotification()
+    public function setRAILMode(int $rail_mode)
     public function terminateExecution()
     public function isExecutionTerminating(): bool
     public function cancelTerminateExecution()

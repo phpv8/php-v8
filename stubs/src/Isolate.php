@@ -189,6 +189,21 @@ class Isolate
     }
 
     /**
+     * Optional notification to tell V8 the current performance requirements
+     * of the embedder based on RAIL.
+     * V8 uses these notifications to guide heuristics.
+     * This is an unfinished experimental feature. Semantics and implementation
+     * may change frequently.
+     *
+     * @param int $rail_mode
+     *
+     * @return void
+     */
+    public function setRAILMode(int $rail_mode)
+    {
+    }
+
+    /**
      * Check if V8 is dead and therefore unusable.  This is the case after
      * fatal errors such as out-of-memory situations.
      *

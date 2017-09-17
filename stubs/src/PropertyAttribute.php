@@ -16,7 +16,7 @@
 namespace V8;
 
 
-class PropertyAttribute
+final class PropertyAttribute
 {
     const NONE        = 0;
     const READ_ONLY   = 1;

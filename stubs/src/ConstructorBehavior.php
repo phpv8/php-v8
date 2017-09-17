@@ -16,7 +16,7 @@
 namespace V8;
 
 
-class ConstructorBehavior
+final class ConstructorBehavior
 {
     const THROW = 0;
     const ALLOW = 1;

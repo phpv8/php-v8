@@ -20,7 +20,7 @@ namespace V8;
  * Configuration flags for V8\NamedPropertyHandlerConfiguration or
  * V8\IndexedPropertyHandlerConfiguration.
  */
-class PropertyHandlerFlags
+final class PropertyHandlerFlags
 {
     /**
      * None.

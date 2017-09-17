@@ -25,6 +25,7 @@ zend_class_entry* php_v8_property_handler_flags_class_entry;
 zend_class_entry *php_v8_property_filter_class_entry;
 zend_class_entry *php_v8_key_collection_mode_class_entry;
 zend_class_entry *php_v8_index_filter_class_entry;
+zend_class_entry *php_v8_rail_mode_class_entry;
 
 
 static const zend_function_entry php_v8_enum_methods[] = {
@@ -124,6 +125,18 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
 
     zend_declare_class_constant_long(this_ce, ZEND_STRL("INCLUDE_INDICES"), static_cast<zend_long>(v8::IndexFilter::kIncludeIndices));
     zend_declare_class_constant_long(this_ce, ZEND_STRL("SKIP_INDICES"),    static_cast<zend_long>(v8::IndexFilter::kSkipIndices));
+    #undef this_ce
+
+    // v8::RAILMode
+    #define this_ce php_v8_index_filter_class_entry
+    INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "RAILMode", php_v8_enum_methods);
+    this_ce = zend_register_internal_class(&ce);
+    this_ce->ce_flags |= ZEND_ACC_FINAL;
+
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("PERFORMANCE_RESPONSE"),  static_cast<zend_long>(v8::RAILMode::PERFORMANCE_RESPONSE));
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("PERFORMANCE_ANIMATION"), static_cast<zend_long>(v8::RAILMode::PERFORMANCE_ANIMATION));
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("PERFORMANCE_IDLE"),      static_cast<zend_long>(v8::RAILMode::PERFORMANCE_IDLE));
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("PERFORMANCE_LOAD"),      static_cast<zend_long>(v8::RAILMode::PERFORMANCE_LOAD));
     #undef this_ce
 
     return SUCCESS;

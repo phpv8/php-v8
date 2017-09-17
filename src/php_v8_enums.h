@@ -31,6 +31,7 @@ extern zend_class_entry* php_v8_property_handler_flags_class_entry;
 extern zend_class_entry* php_v8_property_filter_class_entry;
 extern zend_class_entry* php_v8_key_collection_mode_class_entry;
 extern zend_class_entry* php_v8_index_filter_class_entry;
+extern zend_class_entry *php_v8_rail_mode_class_entry;
 
 
 #define PHP_V8_ACCESS_CONTROL_FLAGS ( 0 \
@@ -77,11 +78,10 @@ extern zend_class_entry* php_v8_index_filter_class_entry;
   | static_cast<long>(v8::KeyCollectionMode::kIncludePrototypes)  \
 )
 
-#define PHP_V8_INDEX_FILTER_FLAGS ( 0                      \
-  | static_cast<long>(v8::IndexFilter::kIncludeIndices)            \
-  | static_cast<long>(v8::IndexFilter::kSkipIndices)  \
+#define PHP_V8_INDEX_FILTER_FLAGS ( 0                   \
+  | static_cast<long>(v8::IndexFilter::kIncludeIndices) \
+  | static_cast<long>(v8::IndexFilter::kSkipIndices)    \
 )
-
 
 PHP_MINIT_FUNCTION (php_v8_enums);
 

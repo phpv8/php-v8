@@ -18,7 +18,7 @@ namespace V8;
 /**
  * Keys/Properties filter to limits the range of collected properties
  */
-class KeyCollectionMode
+final class KeyCollectionMode
 {
     const kOwnOnly            = 0; // limits the collected properties to the given Object only. kIncludesPrototypes
     const kIncludesPrototypes = 1; // will include all keys of the objects's prototype chain as well.

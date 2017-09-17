@@ -18,7 +18,7 @@ namespace V8;
 /**
  * Integrity level for objects.
  */
-class IntegrityLevel
+final class IntegrityLevel
 {
     const FROZEN = 0;
     const SEALED = 1;
