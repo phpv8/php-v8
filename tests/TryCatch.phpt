@@ -142,7 +142,7 @@ object(V8\TryCatch)#11 (8) {
     }
   }
   ["message":"V8\TryCatch":private]=>
-  object(V8\Message)#6 (10) {
+  object(V8\Message)#6 (11) {
     ["message":"V8\Message":private]=>
     string(7) "message"
     ["script_origin":"V8\Message":private]=>
@@ -182,6 +182,8 @@ object(V8\TryCatch)#11 (8) {
     ["start_column":"V8\Message":private]=>
     NULL
     ["end_column":"V8\Message":private]=>
+    NULL
+    ["error_level":"V8\Message":private]=>
     NULL
   }
   ["can_continue":"V8\TryCatch":private]=>

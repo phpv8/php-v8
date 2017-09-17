@@ -440,6 +440,12 @@ class V8\TryCatch
     public function getExternalException(): ?Throwable
 
 class V8\Message
+    const ERROR_LEVEL_LOG = 1
+    const ERROR_LEVEL_DEBUG = 2
+    const ERROR_LEVEL_INFO = 4
+    const ERROR_LEVEL_ERROR = 8
+    const ERROR_LEVEL_WARNING = 16
+    const ERROR_LEVEL_ALL = 31
     private $message
     private $script_origin
     private $source_line
@@ -450,7 +456,8 @@ class V8\Message
     private $end_position
     private $start_column
     private $end_column
-    public function __construct(string $message, string $source_line, V8\ScriptOrigin $script_origin, string $resource_name, V8\StackTrace $stack_trace, ?int $line_number, ?int $start_position, ?int $end_position, ?int $start_column, ?int $end_column)
+    private $error_level
+    public function __construct(string $message, string $source_line, V8\ScriptOrigin $script_origin, string $resource_name, V8\StackTrace $stack_trace, ?int $line_number, ?int $start_position, ?int $end_position, ?int $start_column, ?int $end_column, ?int $error_level)
     public function get(): string
     public function getSourceLine(): string
     public function getScriptOrigin(): V8\ScriptOrigin
@@ -461,6 +468,7 @@ class V8\Message
     public function getEndPosition(): ?int
     public function getStartColumn(): ?int
     public function getEndColumn(): ?int
+    public function getErrorLevel(): ?int
 
 class V8\StackFrame
     private $line_number

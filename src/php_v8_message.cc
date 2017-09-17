@@ -101,6 +101,8 @@ void php_v8_message_create_from_message(zval *return_value, php_v8_isolate_t *ph
     if (v8::Message::kNoColumnInfo != end_column) {
         zend_update_property_long(this_ce, return_value, ZEND_STRL("end_column"), static_cast<zend_long>(end_column));
     }
+
+    zend_update_property_long(this_ce, return_value, ZEND_STRL("error_level"), static_cast<zend_long>(message->ErrorLevel()));
 }
 
 
@@ -117,10 +119,11 @@ static PHP_METHOD(Message, __construct) {
     zend_long end_position   = -1;
     zend_long start_column   = -1;
     zend_long end_column     = -1;
+    zend_long error_level    = -1;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "SSoSo|lllll",
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "SSoSo|llllll",
                               &message, &source_line, &script_origin, &resource_name, &stack_trace,
-                              &line_number, &start_position, &end_position, &start_column, &end_column) == FAILURE) {
+                              &line_number, &start_position, &end_position, &start_column, &end_column, &error_level) == FAILURE) {
         return;
     }
 
@@ -144,6 +147,9 @@ static PHP_METHOD(Message, __construct) {
     }
     if (end_column > 0) {
         zend_update_property_long(this_ce, getThis(), ZEND_STRL("end_column"), end_column);
+    }
+    if (end_column > 0) {
+        zend_update_property_long(this_ce, getThis(), ZEND_STRL("error_level"), error_level);
     }
 }
 
@@ -257,6 +263,18 @@ static PHP_METHOD(Message, getEndColumn)
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("end_column"), 0, &rv), 1, 0);
 }
 
+static PHP_METHOD(Message, getErrorLevel)
+{
+    zval rv;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("error_level"), 0, &rv), 1, 0);
+}
+
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 5)
                 ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
                 ZEND_ARG_TYPE_INFO(0, source_line, IS_STRING, 0)
@@ -268,6 +286,7 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 5)
                 ZEND_ARG_TYPE_INFO(0, end_position, IS_LONG, 1)
                 ZEND_ARG_TYPE_INFO(0, start_column, IS_LONG, 1)
                 ZEND_ARG_TYPE_INFO(0, end_column, IS_LONG, 1)
+                ZEND_ARG_TYPE_INFO(0, error_level, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_get, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
@@ -300,6 +319,9 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getEndColumn, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getErrorLevel, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_message_methods[] = {
         PHP_V8_ME(Message, __construct,           ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
@@ -313,14 +335,23 @@ static const zend_function_entry php_v8_message_methods[] = {
         PHP_V8_ME(Message, getEndPosition,        ZEND_ACC_PUBLIC)
         PHP_V8_ME(Message, getStartColumn,        ZEND_ACC_PUBLIC)
         PHP_V8_ME(Message, getEndColumn,          ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Message, getErrorLevel,         ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };
+
 
 PHP_MINIT_FUNCTION (php_v8_message) {
     zend_class_entry ce;
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "Message", php_v8_message_methods);
     this_ce = zend_register_internal_class(&ce);
+
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("ERROR_LEVEL_LOG"),     v8::Isolate::MessageErrorLevel::kMessageLog);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("ERROR_LEVEL_DEBUG"),   v8::Isolate::MessageErrorLevel::kMessageDebug);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("ERROR_LEVEL_INFO"),    v8::Isolate::MessageErrorLevel::kMessageInfo);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("ERROR_LEVEL_ERROR"),   v8::Isolate::MessageErrorLevel::kMessageError);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("ERROR_LEVEL_WARNING"), v8::Isolate::MessageErrorLevel::kMessageWarning);
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("ERROR_LEVEL_ALL"),     v8::Isolate::MessageErrorLevel::kMessageAll);
 
     zend_declare_property_string(this_ce, ZEND_STRL("message"),       "", ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce,   ZEND_STRL("script_origin"),     ZEND_ACC_PRIVATE);
@@ -334,6 +365,7 @@ PHP_MINIT_FUNCTION (php_v8_message) {
 
     zend_declare_property_null(this_ce, ZEND_STRL("start_column"), ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("end_column"),   ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("error_level"),  ZEND_ACC_PRIVATE);
 
     return SUCCESS;
 }

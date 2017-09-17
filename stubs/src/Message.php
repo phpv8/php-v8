@@ -20,6 +20,13 @@ namespace V8;
  */
 class Message
 {
+    const ERROR_LEVEL_LOG     = 1;
+    const ERROR_LEVEL_DEBUG   = 2;
+    const ERROR_LEVEL_INFO    = 4;
+    const ERROR_LEVEL_ERROR   = 8;
+    const ERROR_LEVEL_WARNING = 16;
+    const ERROR_LEVEL_ALL     = 31;
+
     /**
      * @var ScriptOrigin
      */
@@ -60,6 +67,10 @@ class Message
      * @var int|null
      */
     private $end_column;
+    /**
+     * @var int|null
+     */
+    private $error_level;
 
     /**
      * @param string       $message
@@ -72,6 +83,7 @@ class Message
      * @param int          $end_position
      * @param int          $start_column
      * @param int          $end_column
+     * @param int|null     $error_level
      */
     public function __construct(
         string $message,
@@ -83,7 +95,8 @@ class Message
         ?int $start_position = null,
         ?int $end_position = null,
         ?int $start_column = null,
-        ?int $end_column = null
+        ?int $end_column = null,
+        ?int $error_level = null
     ) {
     }
 
@@ -179,6 +192,15 @@ class Message
      * @return int|null
      */
     public function getEndColumn(): ?int
+    {
+    }
+
+    /**
+     * Returns the error level of the message.
+     *
+     * @return int|null
+     */
+    public function getErrorLevel(): ?int
     {
     }
 }
