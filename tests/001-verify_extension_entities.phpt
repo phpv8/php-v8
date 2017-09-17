@@ -605,6 +605,7 @@ abstract class V8\Value
 
 abstract class V8\PrimitiveValue
     extends V8\Value
+    abstract public function value()
 
 class V8\UndefinedValue
     extends V8\PrimitiveValue
