@@ -88,7 +88,7 @@ in your IDE and other code-analysis tools.
 ### Requirements
 
 #### V8
-You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.3.2 required.
+You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.3.163 required.
 
 #### PHP
 This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.

@@ -44,6 +44,10 @@ $instance = $value->newInstance($context);
 
 $helper->assert('ObjectTemplate instance has name from constructor', $instance->getConstructorName()->value() == 'TestConstructor');
 
+$helper->line();
+$helper->assert('Object template is not immutable prototype by default', $value->isImmutableProto(), false);
+$value->setImmutableProto();
+$helper->assert('Object template is now set to be immutable prototype', $value->isImmutableProto(), true);
 
 ?>
 --EXPECT--
@@ -64,3 +68,6 @@ Accessors:
 V8\ObjectTemplate::getIsolate() matches expected value
 
 ObjectTemplate instance has name from constructor: ok
+
+Object template is not immutable prototype by default: ok
+Object template is now set to be immutable prototype: ok

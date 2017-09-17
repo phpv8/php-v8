@@ -260,6 +260,12 @@ final class V8\IndexFilter
     const INCLUDE_INDICES = 0
     const SKIP_INDICES = 1
 
+final class V8\RAILMode
+    const PERFORMANCE_RESPONSE = 0
+    const PERFORMANCE_ANIMATION = 1
+    const PERFORMANCE_IDLE = 2
+    const PERFORMANCE_LOAD = 3
+
 class V8\Exceptions\Exception
     extends Exception
     implements Throwable
@@ -325,6 +331,7 @@ class V8\StartupData
     public function getData(): string
     public function getRawSize(): int
     public static function createFromSource(string $source): V8\StartupData
+    public static function warmUpSnapshotDataBlob(V8\StartupData $cold_startup_data, string $warmup_source): V8\StartupData
 
 class V8\Isolate
     const MEMORY_PRESSURE_LEVEL_NONE = 0
@@ -344,6 +351,7 @@ class V8\Isolate
     public function throwException(V8\Context $context, V8\Value $value, Throwable $e)
     public function idleNotificationDeadline($deadline_in_seconds): bool
     public function lowMemoryNotification()
+    public function setRAILMode(int $rail_mode)
     public function terminateExecution()
     public function isExecutionTerminating(): bool
     public function cancelTerminateExecution()
@@ -431,14 +439,20 @@ class V8\TryCatch
     public function __construct(V8\Isolate $isolate, V8\Context $context, ?V8\Value $exception, ?V8\Value $stack_trace, ?V8\Message $message, bool $can_continue, bool $has_terminated, ?Throwable $external_exception)
     public function getIsolate(): V8\Isolate
     public function getContext(): V8\Context
-    public function exception(): ?V8\Value
-    public function stackTrace(): ?V8\Value
-    public function message(): ?V8\Message
+    public function getException(): ?V8\Value
+    public function getStackTrace(): ?V8\Value
+    public function getMessage(): ?V8\Message
     public function canContinue(): bool
     public function hasTerminated(): bool
     public function getExternalException(): ?Throwable
 
 class V8\Message
+    const ERROR_LEVEL_LOG = 1
+    const ERROR_LEVEL_DEBUG = 2
+    const ERROR_LEVEL_INFO = 4
+    const ERROR_LEVEL_ERROR = 8
+    const ERROR_LEVEL_WARNING = 16
+    const ERROR_LEVEL_ALL = 31
     private $message
     private $script_origin
     private $source_line
@@ -449,7 +463,8 @@ class V8\Message
     private $end_position
     private $start_column
     private $end_column
-    public function __construct(string $message, string $source_line, V8\ScriptOrigin $script_origin, string $resource_name, V8\StackTrace $stack_trace, ?int $line_number, ?int $start_position, ?int $end_position, ?int $start_column, ?int $end_column)
+    private $error_level
+    public function __construct(string $message, string $source_line, V8\ScriptOrigin $script_origin, string $resource_name, V8\StackTrace $stack_trace, ?int $line_number, ?int $start_position, ?int $end_position, ?int $start_column, ?int $end_column, ?int $error_level)
     public function get(): string
     public function getSourceLine(): string
     public function getScriptOrigin(): V8\ScriptOrigin
@@ -460,6 +475,7 @@ class V8\Message
     public function getEndPosition(): ?int
     public function getStartColumn(): ?int
     public function getEndColumn(): ?int
+    public function getErrorLevel(): ?int
 
 class V8\StackFrame
     private $line_number
@@ -470,7 +486,8 @@ class V8\StackFrame
     private $function_name
     private $is_eval
     private $is_constructor
-    public function __construct(?int $line_number, ?int $column, ?int $script_id, string $script_name, string $script_name_or_source_url, string $function_name, bool $is_eval, bool $is_constructor)
+    private $is_wasm
+    public function __construct(?int $line_number, ?int $column, ?int $script_id, string $script_name, string $script_name_or_source_url, string $function_name, bool $is_eval, bool $is_constructor, bool $is_wasm)
     public function getLineNumber(): ?int
     public function getColumn(): ?int
     public function getScriptId(): ?int
@@ -479,6 +496,7 @@ class V8\StackFrame
     public function getFunctionName(): string
     public function isEval(): bool
     public function isConstructor(): bool
+    public function isWasm(): bool
 
 class V8\StackTrace
     const MIN_FRAME_LIMIT = 0
@@ -594,6 +612,7 @@ abstract class V8\Value
 
 abstract class V8\PrimitiveValue
     extends V8\Value
+    abstract public function value()
 
 class V8\UndefinedValue
     extends V8\PrimitiveValue
@@ -629,18 +648,18 @@ class V8\SymbolValue
     public function __construct(V8\Isolate $isolate, ?V8\StringValue $name)
     public function value(): string
     public function name(): V8\Value
-    public static function for(V8\Context $context, V8\StringValue $name): V8\SymbolValue
-    public static function forApi(V8\Context $context, V8\StringValue $name): V8\SymbolValue
-    public static function getHasInstance(V8\Isolate $isolate): V8\SymbolValue
-    public static function getIsConcatSpreadable(V8\Isolate $isolate): V8\SymbolValue
-    public static function getIterator(V8\Isolate $isolate): V8\SymbolValue
-    public static function getMatch(V8\Isolate $isolate): V8\SymbolValue
-    public static function getReplace(V8\Isolate $isolate): V8\SymbolValue
-    public static function getSearch(V8\Isolate $isolate): V8\SymbolValue
-    public static function getSplit(V8\Isolate $isolate): V8\SymbolValue
-    public static function getToPrimitive(V8\Isolate $isolate): V8\SymbolValue
-    public static function getToStringTag(V8\Isolate $isolate): V8\SymbolValue
-    public static function getUnscopables(V8\Isolate $isolate): V8\SymbolValue
+    public static function createFor(V8\Context $context, V8\StringValue $name): V8\SymbolValue
+    public static function createForApi(V8\Context $context, V8\StringValue $name): V8\SymbolValue
+    public static function getHasInstanceSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getIsConcatSpreadableSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getIteratorSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getMatchSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getReplaceSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getSearchSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getSplitSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getToPrimitiveSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getToStringTagSymbol(V8\Isolate $isolate): V8\SymbolValue
+    public static function getUnscopablesSymbol(V8\Isolate $isolate): V8\SymbolValue
 
 class V8\NumberValue
     extends V8\PrimitiveValue
@@ -687,14 +706,14 @@ class V8\ObjectValue
     public function objectProtoToString(V8\Context $context): V8\StringValue
     public function getConstructorName(): V8\StringValue
     public function setIntegrityLevel(V8\Context $context, int $level): bool
-    public function hasOwnProperty(V8\Context $context, $key): bool
-    public function hasRealNamedProperty(V8\Context $context, $key): bool
-    public function hasRealIndexedProperty(V8\Context $context, $index): bool
-    public function hasRealNamedCallbackProperty(V8\Context $context, $key): bool
-    public function getRealNamedPropertyInPrototypeChain(V8\Context $context, $key): V8\Value
-    public function getRealNamedPropertyAttributesInPrototypeChain(V8\Context $context, $key): int
-    public function getRealNamedProperty(V8\Context $context, $key): V8\Value
-    public function getRealNamedPropertyAttributes(V8\Context $context, $key): int
+    public function hasOwnProperty(V8\Context $context, V8\NameValue $key): bool
+    public function hasRealNamedProperty(V8\Context $context, V8\NameValue $key): bool
+    public function hasRealIndexedProperty(V8\Context $context, int $index): bool
+    public function hasRealNamedCallbackProperty(V8\Context $context, V8\NameValue $key): bool
+    public function getRealNamedPropertyInPrototypeChain(V8\Context $context, V8\NameValue $key): V8\Value
+    public function getRealNamedPropertyAttributesInPrototypeChain(V8\Context $context, V8\NameValue $key): int
+    public function getRealNamedProperty(V8\Context $context, V8\NameValue $key): V8\Value
+    public function getRealNamedPropertyAttributes(V8\Context $context, V8\NameValue $key): int
     public function hasNamedLookupInterceptor(): bool
     public function hasIndexedLookupInterceptor(): bool
     public function getIdentityHash(): int
@@ -841,6 +860,8 @@ class V8\ObjectTemplate
     public function setHandlerForNamedProperty(V8\NamedPropertyHandlerConfiguration $configuration)
     public function setHandlerForIndexedProperty(V8\IndexedPropertyHandlerConfiguration $configuration)
     public function setCallAsFunctionHandler($callback)
+    public function isImmutableProto(): bool
+    public function setImmutableProto()
     public function adjustExternalAllocatedMemory(int $change_in_bytes): int
     public function getExternalAllocatedMemory(): int
 
@@ -882,28 +903,34 @@ class V8\ReturnValue
     public function getContext(): V8\Context
     public function inContext(): bool
 
-class V8\CallbackInfo
+class V8\PropertyCallbackInfo
     private $isolate
     private $context
     private $this
     private $holder
     private $return_value
+    private $should_throw_on_error
     public function this(): V8\ObjectValue
     public function holder(): V8\ObjectValue
     public function getIsolate(): V8\Isolate
     public function getContext(): V8\Context
     public function getReturnValue(): V8\ReturnValue
-
-class V8\PropertyCallbackInfo
-    extends V8\CallbackInfo
-    private $should_throw_on_error
     public function shouldThrowOnError(): bool
 
 class V8\FunctionCallbackInfo
-    extends V8\CallbackInfo
+    private $isolate
+    private $context
+    private $this
+    private $holder
+    private $return_value
     private $arguments
     private $new_target
     private $is_constructor_call
+    public function this(): V8\ObjectValue
+    public function holder(): V8\ObjectValue
+    public function getIsolate(): V8\Isolate
+    public function getContext(): V8\Context
+    public function getReturnValue(): V8\ReturnValue
     public function length(): int
     public function arguments(): array
     public function newTarget(): V8\Value
@@ -914,3 +941,7 @@ class V8\NamedPropertyHandlerConfiguration
 
 class V8\IndexedPropertyHandlerConfiguration
     public function __construct(callable $getter, ?callable $setter, ?callable $query, ?callable $deleter, ?callable $enumerator, int $flags)
+
+class V8\JSON
+    public static function parse(V8\Context $context, V8\StringValue $json_string): V8\Value
+    public static function stringify(V8\Context $context, V8\Value $json_value, ?V8\StringValue $gap): string

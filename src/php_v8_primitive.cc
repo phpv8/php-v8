@@ -22,8 +22,13 @@ zend_class_entry* php_v8_primitive_class_entry;
 #define this_ce php_v8_primitive_class_entry
 
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_value, 0)
+ZEND_END_ARG_INFO()
+
+
 static const zend_function_entry php_v8_primitive_methods[] = {
-    PHP_FE_END
+        PHP_V8_ABSTRACT_ME(PrimitiveValue, value)
+        PHP_FE_END
 };
 
 

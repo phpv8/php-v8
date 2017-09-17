@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -39,7 +39,7 @@ class StackTrace
      */
     public function __construct(array $frames)
     {
-        $this->frames   = $frames;
+        $this->frames = $frames;
     }
 
 

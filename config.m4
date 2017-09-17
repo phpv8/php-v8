@@ -19,7 +19,7 @@ if test "$PHP_V8" != "no"; then
   SEARCH_PATH="/usr/local /usr"
   SEARCH_FOR="include/v8.h"
 
-  V8_MIN_API_VERSION_STR=6.3.2
+  V8_MIN_API_VERSION_STR=6.3.163
 
   DESIRED_V8_VERSION=`echo "${V8_MIN_API_VERSION_STR}" | $AWK 'BEGIN { FS = "."; } { printf "%s.%s", [$]1, [$]2;}'`
 
@@ -211,11 +211,11 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_symbol_object.cc                           \
     src/php_v8_template.cc                                \
     src/php_v8_return_value.cc                            \
-    src/php_v8_callback_info.cc                           \
     src/php_v8_function_callback_info.cc                  \
     src/php_v8_property_callback_info.cc                  \
     src/php_v8_named_property_handler_configuration.cc    \
     src/php_v8_indexed_property_handler_configuration.cc  \
+    src/php_v8_json.cc                                    \
   ], $ext_shared, , -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
   PHP_ADD_BUILD_DIR($ext_builddir/src)

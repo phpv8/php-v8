@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -18,7 +18,7 @@ namespace V8;
 /**
  * Property filter bits. They can be or'ed to build a composite filter.
  */
-class PropertyFilter
+final class PropertyFilter
 {
     const ALL_PROPERTIES    = 0;
     const ONLY_WRITABLE     = 1;

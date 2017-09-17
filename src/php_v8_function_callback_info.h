@@ -14,7 +14,6 @@
 #define PHP_V8_FUNCTION_CALLBACK_INFO_H
 
 #include "php_v8_return_value.h"
-#include "php_v8_callback_info.h"
 #include <v8.h>
 
 extern "C" {

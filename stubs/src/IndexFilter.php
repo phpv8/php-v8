@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -18,5 +18,5 @@ namespace V8;
 class IndexFilter
 {
     const kIncludeIndices = 0; // allows for integer indices to be collected, while
-    const kSkipIndices = 1; // will exclude integer indicies from being collected.
+    const kSkipIndices    = 1; // will exclude integer indicies from being collected.
 }

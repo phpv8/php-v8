@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -27,7 +27,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
     }
 
     /**
-     * @return \V8\Context
+     * @return Context
      */
     public function getContext()
     {
@@ -86,7 +86,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Context $context
      * @param Value   $key
      *
-     * @return \V8\Value | \V8\ObjectValue | \V8\FunctionObject | ArrayObject | StringValue | NumberValue
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function get(Context $context, Value $key): Value
     {
@@ -112,7 +112,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Context   $context
      * @param NameValue $key
      *
-     * @return \V8\Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function getOwnPropertyDescriptor(Context $context, NameValue $key): Value
     {
@@ -235,7 +235,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * be skipped by __proto__ and it does not consult the security
      * handler.
      *
-     * @return \V8\Value
+     * @return Value
      */
     public function getPrototype(): Value
     {
@@ -293,7 +293,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * Sets the integrity level of the object.
      *
      * @param Context $context
-     * @param int     $level One of \V8\IntegrityLevel::{kFrozen, kSealed}
+     * @param int     $level One of IntegrityLevel::{kFrozen, kSealed}
      *
      * @return bool
      */
@@ -302,42 +302,43 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
     }
 
     /**
-     * @param Context $context
-     * @param string  $key
+     * @param Context   $context
+     * @param NameValue $key
      *
      * @return bool
      */
-    public function hasOwnProperty(Context $context, $key): bool
+    public function hasOwnProperty(Context $context, NameValue $key): bool
+    {
+    }
+
+    /**
+     * @param Context   $context
+     *
+     * @param NameValue $key
+     *
+     * @return bool
+     */
+    public function hasRealNamedProperty(Context $context, NameValue $key): bool
     {
     }
 
     /**
      * @param Context $context
-     * @param string  $key
+     * @param int     $index
      *
      * @return bool
      */
-    public function hasRealNamedProperty(Context $context, $key): bool
+    public function hasRealIndexedProperty(Context $context, int $index): bool
     {
     }
 
     /**
-     * @param Context $context
-     * @param string  $index
+     * @param Context   $context
+     * @param NameValue $key
      *
      * @return bool
      */
-    public function hasRealIndexedProperty(Context $context, $index): bool
-    {
-    }
-
-    /**
-     * @param Context $context
-     * @param string  $key
-     *
-     * @return bool
-     */
-    public function hasRealNamedCallbackProperty(Context $context, $key): bool
+    public function hasRealNamedCallbackProperty(Context $context, NameValue $key): bool
     {
     }
 
@@ -345,12 +346,12 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * If result.IsEmpty() no real property was located in the prototype chain.
      * This means interceptors in the prototype chain are not called.
      *
-     * @param Context $context
-     * @param string  $key
+     * @param Context   $context
+     * @param NameValue $key
      *
-     * @return \V8\Value
+     * @return Value
      */
-    public function getRealNamedPropertyInPrototypeChain(Context $context, $key): Value
+    public function getRealNamedPropertyInPrototypeChain(Context $context, NameValue $key): Value
     {
     }
 
@@ -373,12 +374,12 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * in the prototype chain.
      * This means interceptors in the prototype chain are not called.
      *
-     * @param Context $context
-     * @param string  $key
+     * @param Context   $context
+     * @param NameValue $key
      *
-     * @return \V8\Value
+     * @return Value
      */
-    public function getRealNamedProperty(Context $context, $key): Value
+    public function getRealNamedProperty(Context $context, NameValue $key): Value
     {
     }
 
@@ -466,7 +467,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Value   $recv
      * @param array   $arguments
      *
-     * @return \V8\Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function callAsFunction(Context $context, Value $recv, array $arguments = []): Value
     {
@@ -480,7 +481,7 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * @param Context $context
      * @param array   $arguments
      *
-     * @return \V8\Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function callAsConstructor(Context $context, array $arguments = []): Value
     {

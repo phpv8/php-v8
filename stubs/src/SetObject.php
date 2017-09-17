@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -43,7 +43,7 @@ class SetObject extends ObjectValue
     /**
      * Returns an array of the keys in this Set.
      *
-     * @return \V8\ArrayObject
+     * @return ArrayObject
      */
     public function asArray(): ArrayObject
     {

@@ -193,6 +193,16 @@ I am named query for foo!
 I am indexed enumerator!
 I am named enumerator!
 I am named query for test-a!
+I am named query for test-b!
+I am named query for test-c!
+I am named query for test-d!
+I am named query for test-e!
+I am named query for test-f!
+I am named query for test-g!
+I am named query for test-h!
+I am named query for test-i!
+I am named query for test-j!
+I am named query for test-a!
 I am named getter for test-a!
 test[test-a]: 21
 I am named query for test-b!
@@ -241,11 +251,20 @@ delete test[0]: true
 I am indexed getter for 0!
 test[0]: 21
 I am indexed enumerator!
+I am indexed query for 0!
+I am indexed query for 1!
+I am indexed query for 2!
+I am indexed query for 3!
+I am indexed query for 4!
+I am indexed query for 5!
+I am indexed query for 6!
+I am indexed query for 7!
+I am indexed query for 8!
+I am indexed query for 9!
 I am named enumerator!
 I am indexed query for 0!
 I am indexed getter for 0!
 test[0]: 21
-I am indexed query for 1!
 I am indexed query for 2!
 I am indexed getter for 2!
 test[2]: 21

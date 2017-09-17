@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -88,7 +88,7 @@ class Isolate
     /**
      * Returns the last entered context.
      *
-     * @return \V8\Context
+     * @return Context
      */
     public function getEnteredContext(): Context
     {
@@ -185,6 +185,21 @@ class Isolate
      * V8 uses these notifications to attempt to free memory.
      */
     public function lowMemoryNotification()
+    {
+    }
+
+    /**
+     * Optional notification to tell V8 the current performance requirements
+     * of the embedder based on RAIL.
+     * V8 uses these notifications to guide heuristics.
+     * This is an unfinished experimental feature. Semantics and implementation
+     * may change frequently.
+     *
+     * @param int $rail_mode
+     *
+     * @return void
+     */
+    public function setRAILMode(int $rail_mode)
     {
     }
 

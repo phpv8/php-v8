@@ -15,7 +15,6 @@
 #endif
 
 #include "php_v8_callbacks.h"
-#include "php_v8_callback_info.h"
 #include "php_v8_property_callback_info.h"
 #include "php_v8_function_callback_info.h"
 #include "php_v8_return_value.h"

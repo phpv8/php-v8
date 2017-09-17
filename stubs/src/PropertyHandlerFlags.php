@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -20,7 +20,7 @@ namespace V8;
  * Configuration flags for V8\NamedPropertyHandlerConfiguration or
  * V8\IndexedPropertyHandlerConfiguration.
  */
-class PropertyHandlerFlags
+final class PropertyHandlerFlags
 {
     /**
      * None.

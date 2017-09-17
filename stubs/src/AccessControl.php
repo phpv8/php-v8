@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -15,9 +15,9 @@
 
 namespace V8;
 
-class AccessControl
+final class AccessControl
 {
     const DEFAULT_ACCESS = 0; // do not allow cross-context access
-    const ALL_CAN_READ = 1; // all cross-context reads are allowed
-    const ALL_CAN_WRITE = 2; // all cross-context writes are allowed
+    const ALL_CAN_READ   = 1; // all cross-context reads are allowed
+    const ALL_CAN_WRITE  = 2; // all cross-context writes are allowed
 }

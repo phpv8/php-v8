@@ -10,8 +10,8 @@
  * http://opensource.org/licenses/MIT
  */
 
-#ifndef PHP_V8_CALLBACK_INFO_H
-#define PHP_V8_CALLBACK_INFO_H
+#ifndef PHP_V8_JSON_H
+#define PHP_V8_JSON_H
 
 extern "C" {
 #include "php.h"
@@ -21,9 +21,9 @@ extern "C" {
 #endif
 }
 
-extern zend_class_entry* php_v8_callback_info_class_entry;
+extern zend_class_entry* php_v8_json_class_entry;
 
 
-PHP_MINIT_FUNCTION(php_v8_callback_info);
+PHP_MINIT_FUNCTION(php_v8_json);
 
-#endif //PHP_V8_CALLBACK_INFO_H
+#endif //PHP_V8_JSON_H

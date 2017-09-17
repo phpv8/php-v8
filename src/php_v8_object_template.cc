@@ -372,6 +372,33 @@ static PHP_METHOD(ObjectTemplate, setCallAsFunctionHandler) {
     local_template->SetCallAsFunctionHandler(callback, data);
 }
 
+static PHP_METHOD(ObjectTemplate, isImmutableProto) {
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(getThis(), php_v8_object_template);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
+
+    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(php_v8_object_template);
+
+    RETURN_BOOL(static_cast<zend_bool>(local_obj_tpl->IsImmutableProto()));
+}
+
+static PHP_METHOD(ObjectTemplate, setImmutableProto) {
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(getThis(), php_v8_object_template);
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_object_template);
+
+    v8::Local<v8::ObjectTemplate> local_obj_tpl = php_v8_object_template_get_local(php_v8_object_template);
+
+    local_obj_tpl->SetImmutableProto();
+}
+
+
 /* Non-standard, implementations of AdjustableExternalMemoryInterface::AdjustExternalAllocatedMemory */
 static PHP_METHOD(ObjectTemplate, adjustExternalAllocatedMemory) {
     php_v8_ext_mem_interface_object_template_AdjustExternalAllocatedMemory(INTERNAL_FUNCTION_PARAM_PASSTHRU);
@@ -443,6 +470,12 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setCallAsFunctionHandler,
                 ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isImmutableProto, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setImmutableProto, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_adjustExternalAllocatedMemory, ZEND_RETURN_VALUE, 1, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, change_in_bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -453,18 +486,20 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_object_template_methods[] = {
-        PHP_V8_ME(ObjectTemplate, __construct,                                     ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_V8_ME(ObjectTemplate, getIsolate,                                      ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, set,                          ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, setAccessorProperty,          ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, setNativeDataProperty,        ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, newInstance,                                     ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, setAccessor,                  ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, setHandlerForNamedProperty,   ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, setHandlerForIndexedProperty, ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, setCallAsFunctionHandler,     ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, adjustExternalAllocatedMemory,                   ZEND_ACC_PUBLIC)
-        PHP_V8_ME(ObjectTemplate, getExternalAllocatedMemory,                      ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, __construct,                   ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(ObjectTemplate, getIsolate,                    ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, set,                           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, setAccessorProperty,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, setNativeDataProperty,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, newInstance,                   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, setAccessor,                   ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, setHandlerForNamedProperty,    ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, setHandlerForIndexedProperty,  ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, setCallAsFunctionHandler,      ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, isImmutableProto,              ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, setImmutableProto,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, adjustExternalAllocatedMemory, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(ObjectTemplate, getExternalAllocatedMemory,    ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };

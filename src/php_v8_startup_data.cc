@@ -140,6 +140,33 @@ static PHP_METHOD(StartupData, createFromSource) {
     php_v8_startup_data_create(return_value, startup_blob);
 }
 
+static PHP_METHOD(StartupData, warmUpSnapshotDataBlob) {
+    zval *php_cold_data_zv;
+    zend_string *source = NULL;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "oS", &php_cold_data_zv, &source) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_STARTUP_DATA_FETCH_INTO(php_cold_data_zv, php_v8_cold_data);
+
+    /* we can't try-catch here while we have no isolate yet */
+
+    const char *warmup_source = ZSTR_VAL(source);
+    php_v8_init();
+
+    v8::StartupData *warm_data = new v8::StartupData();
+
+    *warm_data = v8::V8::WarmUpSnapshotDataBlob(*php_v8_cold_data->blob->data(), warmup_source);
+
+    if (warm_data->data == NULL) {
+        PHP_V8_THROW_EXCEPTION("Failed to warm up snapshot");
+        return;
+    }
+
+    php_v8_startup_data_create(return_value, warm_data);
+}
+
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 1)
                 ZEND_ARG_TYPE_INFO(0, blob, IS_STRING, 0)
@@ -155,12 +182,18 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_createFromSource, ZEND_RET
                 ZEND_ARG_TYPE_INFO(0, source, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_warmUpSnapshotDataBlob, ZEND_RETURN_VALUE, 2, V8\\StartupData, 0)
+                ZEND_ARG_OBJ_INFO(0, cold_startup_data, V8\\StartupData, 0)
+                ZEND_ARG_TYPE_INFO(0, warmup_source, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_startup_data_methods[] = {
-        PHP_V8_ME(StartupData, __construct,      ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_V8_ME(StartupData, getData,          ZEND_ACC_PUBLIC)
-        PHP_V8_ME(StartupData, getRawSize,       ZEND_ACC_PUBLIC)
-        PHP_V8_ME(StartupData, createFromSource, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(StartupData, __construct,            ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(StartupData, getData,                ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StartupData, getRawSize,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StartupData, createFromSource,       ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+        PHP_V8_ME(StartupData, warmUpSnapshotDataBlob, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
         PHP_FE_END
 };

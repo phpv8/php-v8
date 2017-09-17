@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -19,6 +19,7 @@ namespace V8\Exceptions;
 use V8\Context;
 use V8\Isolate;
 use V8\TryCatch;
+
 
 class TryCatchException extends Exception
 {

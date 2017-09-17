@@ -22,6 +22,10 @@ $helper->header('Object representation (default)');
 $helper->dump($obj);
 $helper->space();
 
+$helper->header('Class constants');
+$helper->dump_object_constants($obj);
+$helper->space();
+
 $helper->header('Test getters (default)');
 $helper->method_matches_with_output($obj, 'get', 'message');
 $helper->method_matches_with_output($obj, 'getSourceLine', 'source_line');
@@ -36,7 +40,7 @@ $helper->method_matches_with_output($obj, 'getEndColumn', null);
 $helper->space();
 
 
-$obj = new V8\Message('message', 'source_line', $origin, 'resource_name', $trace, 1, 2, 3, 4, 5);
+$obj = new V8\Message('message', 'source_line', $origin, 'resource_name', $trace, 1, 2, 3, 4, 5, 7);
 
 $helper->header('Object representation');
 $helper->dump($obj);
@@ -59,7 +63,7 @@ $helper->space();
 --EXPECT--
 Object representation (default):
 --------------------------------
-object(V8\Message)#7 (10) {
+object(V8\Message)#7 (11) {
   ["message":"V8\Message":private]=>
   string(7) "message"
   ["script_origin":"V8\Message":private]=>
@@ -100,7 +104,19 @@ object(V8\Message)#7 (10) {
   NULL
   ["end_column":"V8\Message":private]=>
   NULL
+  ["error_level":"V8\Message":private]=>
+  NULL
 }
+
+
+Class constants:
+----------------
+V8\Message::ERROR_LEVEL_LOG = 1
+V8\Message::ERROR_LEVEL_DEBUG = 2
+V8\Message::ERROR_LEVEL_INFO = 4
+V8\Message::ERROR_LEVEL_ERROR = 8
+V8\Message::ERROR_LEVEL_WARNING = 16
+V8\Message::ERROR_LEVEL_ALL = 31
 
 
 Test getters (default):
@@ -119,7 +135,7 @@ V8\Message::getEndColumn() matches expected NULL
 
 Object representation:
 ----------------------
-object(V8\Message)#8 (10) {
+object(V8\Message)#8 (11) {
   ["message":"V8\Message":private]=>
   string(7) "message"
   ["script_origin":"V8\Message":private]=>
@@ -160,6 +176,8 @@ object(V8\Message)#8 (10) {
   int(4)
   ["end_column":"V8\Message":private]=>
   int(5)
+  ["error_level":"V8\Message":private]=>
+  int(7)
 }
 
 

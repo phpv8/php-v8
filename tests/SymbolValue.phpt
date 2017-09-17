@@ -123,7 +123,7 @@ $v8_helper->run_checks($res, 'Checkers on Symbol value from script');
 
 function test_For(\V8\Context $context, PhpV8Testsuite $helper)
 {
-    $value = V8\SymbolValue::for($context, new \V8\StringValue($context->getIsolate(), 'test'));
+    $value = V8\SymbolValue::createFor($context, new \V8\StringValue($context->getIsolate(), 'test'));
     $helper->assert('Symbol For(string) returned', $value instanceof \V8\SymbolValue);
     $helper->pretty_dump('Symbol For(string) name', $value->name()->value());
     $helper->line();
@@ -146,22 +146,22 @@ $v8_helper->CompileRun($context, 'test_For()');
 
 
 $helper->assert('Isolate not in context', !$isolate->inContext());
-$value = V8\SymbolValue::forApi($context, new \V8\StringValue($isolate, 'test'));
+$value = V8\SymbolValue::createForApi($context, new \V8\StringValue($isolate, 'test'));
 $helper->assert('Symbol ForApi(string) returned', $value instanceof \V8\SymbolValue);
 $helper->pretty_dump('Symbol ForApi(string) name', $value->name()->value());
 $helper->line();
 
 $static_getters = [
-    'GetHasInstance',
-    'GetIsConcatSpreadable',
-    'GetIterator',
-    'GetMatch',
-    'GetReplace',
-    'GetSearch',
-    'GetSplit',
-    'GetToPrimitive',
-    'GetToStringTag',
-    'GetUnscopables',
+    'getHasInstanceSymbol',
+    'getIsConcatSpreadableSymbol',
+    'getIteratorSymbol',
+    'getMatchSymbol',
+    'getReplaceSymbol',
+    'getSearchSymbol',
+    'getSplitSymbol',
+    'getToPrimitiveSymbol',
+    'getToStringTagSymbol',
+    'getUnscopablesSymbol',
 ];
 
 foreach ($static_getters as $static_getter) {
@@ -607,41 +607,41 @@ Symbol ForApi(string) returned: ok
 Symbol ForApi(string) name: string(4) "test"
 
 Isolate not in context: ok
-Symbol GetHasInstance() returned: ok
-Symbol GetHasInstance() name: string(18) "Symbol.hasInstance"
+Symbol getHasInstanceSymbol() returned: ok
+Symbol getHasInstanceSymbol() name: string(18) "Symbol.hasInstance"
 
 Isolate not in context: ok
-Symbol GetIsConcatSpreadable() returned: ok
-Symbol GetIsConcatSpreadable() name: string(25) "Symbol.isConcatSpreadable"
+Symbol getIsConcatSpreadableSymbol() returned: ok
+Symbol getIsConcatSpreadableSymbol() name: string(25) "Symbol.isConcatSpreadable"
 
 Isolate not in context: ok
-Symbol GetIterator() returned: ok
-Symbol GetIterator() name: string(15) "Symbol.iterator"
+Symbol getIteratorSymbol() returned: ok
+Symbol getIteratorSymbol() name: string(15) "Symbol.iterator"
 
 Isolate not in context: ok
-Symbol GetMatch() returned: ok
-Symbol GetMatch() name: string(12) "Symbol.match"
+Symbol getMatchSymbol() returned: ok
+Symbol getMatchSymbol() name: string(12) "Symbol.match"
 
 Isolate not in context: ok
-Symbol GetReplace() returned: ok
-Symbol GetReplace() name: string(14) "Symbol.replace"
+Symbol getReplaceSymbol() returned: ok
+Symbol getReplaceSymbol() name: string(14) "Symbol.replace"
 
 Isolate not in context: ok
-Symbol GetSearch() returned: ok
-Symbol GetSearch() name: string(13) "Symbol.search"
+Symbol getSearchSymbol() returned: ok
+Symbol getSearchSymbol() name: string(13) "Symbol.search"
 
 Isolate not in context: ok
-Symbol GetSplit() returned: ok
-Symbol GetSplit() name: string(12) "Symbol.split"
+Symbol getSplitSymbol() returned: ok
+Symbol getSplitSymbol() name: string(12) "Symbol.split"
 
 Isolate not in context: ok
-Symbol GetToPrimitive() returned: ok
-Symbol GetToPrimitive() name: string(18) "Symbol.toPrimitive"
+Symbol getToPrimitiveSymbol() returned: ok
+Symbol getToPrimitiveSymbol() name: string(18) "Symbol.toPrimitive"
 
 Isolate not in context: ok
-Symbol GetToStringTag() returned: ok
-Symbol GetToStringTag() name: string(18) "Symbol.toStringTag"
+Symbol getToStringTagSymbol() returned: ok
+Symbol getToStringTagSymbol() name: string(18) "Symbol.toStringTag"
 
 Isolate not in context: ok
-Symbol GetUnscopables() returned: ok
-Symbol GetUnscopables() name: string(18) "Symbol.unscopables"
+Symbol getUnscopablesSymbol() returned: ok
+Symbol getUnscopablesSymbol() name: string(18) "Symbol.unscopables"

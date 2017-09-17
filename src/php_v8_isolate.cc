@@ -23,6 +23,7 @@
 #include "php_v8_stack_trace.h"
 #include "php_v8_object.h"
 #include "php_v8_value.h"
+#include "php_v8_enums.h"
 #include "php_v8_a.h"
 #include "php_v8.h"
 
@@ -424,6 +425,21 @@ static PHP_METHOD(Isolate, lowMemoryNotification) {
     isolate->LowMemoryNotification();
 }
 
+static PHP_METHOD(Isolate, setRAILMode) {
+    zend_long rail_mode = -1;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &rail_mode) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_CHECK_ISOLATE_RAIL_MODE(rail_mode, "Invalid RAIL mode given. See V8\\RAILMode class constants for available values.")
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate);
+
+    isolate->SetRAILMode(static_cast<v8::RAILMode>(rail_mode));
+}
+
 static PHP_METHOD(Isolate, terminateExecution) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
@@ -549,6 +565,10 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_idleNotificationDeadline,
                 ZEND_ARG_INFO(0, deadline_in_seconds)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setRAILMode, 1)
+                ZEND_ARG_TYPE_INFO(0, rail_mode, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_lowMemoryNotification, 0)
 ZEND_END_ARG_INFO()
 
@@ -588,6 +608,7 @@ static const zend_function_entry php_v8_isolate_methods[] = {
         PHP_V8_ME(Isolate, throwException,             ZEND_ACC_PUBLIC)
         PHP_V8_ME(Isolate, idleNotificationDeadline,   ZEND_ACC_PUBLIC)
         PHP_V8_ME(Isolate, lowMemoryNotification,      ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Isolate, setRAILMode,                ZEND_ACC_PUBLIC)
         PHP_V8_ME(Isolate, terminateExecution,         ZEND_ACC_PUBLIC)
         PHP_V8_ME(Isolate, isExecutionTerminating,     ZEND_ACC_PUBLIC)
         PHP_V8_ME(Isolate, cancelTerminateExecution,   ZEND_ACC_PUBLIC)

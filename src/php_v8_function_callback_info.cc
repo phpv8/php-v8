@@ -16,7 +16,6 @@
 
 #include "php_v8_function_callback_info.h"
 #include "php_v8_exceptions.h"
-#include "php_v8_callback_info.h"
 #include "php_v8_return_value.h"
 #include "php_v8_value.h"
 #include "php_v8.h"
@@ -46,21 +45,21 @@ php_v8_return_value_t * php_v8_callback_info_create_from_info(zval *return_value
     // common to both callback structures:
     // isolate
     ZVAL_OBJ(&tmp, &php_v8_isolate->std);
-    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("isolate"), &tmp);
+    zend_update_property(php_v8_function_callback_info_class_entry, return_value, ZEND_STRL("isolate"), &tmp);
     // context
     ZVAL_OBJ(&tmp, &php_v8_context->std);
-    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("context"), &tmp);
+    zend_update_property(php_v8_function_callback_info_class_entry, return_value, ZEND_STRL("context"), &tmp);
     // this
     php_v8_get_or_create_value(&tmp, args.This(), php_v8_isolate);
-    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("this"), &tmp);
+    zend_update_property(php_v8_function_callback_info_class_entry, return_value, ZEND_STRL("this"), &tmp);
     Z_DELREF(tmp);
     // holder
     php_v8_get_or_create_value(&tmp, args.Holder(), php_v8_isolate);
-    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("holder"), &tmp);
+    zend_update_property(php_v8_function_callback_info_class_entry, return_value, ZEND_STRL("holder"), &tmp);
     Z_DELREF(tmp);
     // return value
     php_v8_return_value = php_v8_return_value_create_from_return_value(&tmp, php_v8_context, PHP_V8_RETVAL_ACCEPTS_ANY);
-    zend_update_property(php_v8_callback_info_class_entry, return_value, ZEND_STRL("return_value"), &tmp);
+    zend_update_property(php_v8_function_callback_info_class_entry, return_value, ZEND_STRL("return_value"), &tmp);
     Z_DELREF(tmp);
 
     // specific to function callback structure:
@@ -84,6 +83,66 @@ php_v8_return_value_t * php_v8_callback_info_create_from_info(zval *return_value
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("is_constructor_call"), static_cast<zend_bool>(args.IsConstructCall()));
 
     return php_v8_return_value;
+}
+
+static PHP_METHOD(CallbackInfo, getIsolate) {
+    zval rv;
+    zval *tmp;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("isolate"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
+}
+
+static PHP_METHOD(CallbackInfo, getContext) {
+    zval rv;
+    zval *tmp;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("context"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
+}
+
+static PHP_METHOD(CallbackInfo, this) {
+    zval rv;
+    zval *tmp;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("this"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
+}
+
+static PHP_METHOD(CallbackInfo, holder) {
+    zval rv;
+    zval *tmp;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("holder"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
+}
+
+static PHP_METHOD(CallbackInfo, getReturnValue) {
+    zval rv;
+    zval *tmp;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    tmp = zend_read_property(this_ce, getThis(), ZEND_STRL("return_value"), 0, &rv);
+    ZVAL_COPY(return_value, tmp);
 }
 
 static PHP_METHOD(FunctionCallbackInfo, length) {
@@ -136,6 +195,21 @@ static PHP_METHOD(FunctionCallbackInfo, isConstructCall) {
 }
 
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getContext, ZEND_RETURN_VALUE, 0, V8\\Context, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_this, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_holder, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getReturnValue, ZEND_RETURN_VALUE, 0, V8\\ReturnValue, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_length, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
@@ -150,6 +224,11 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_function_callback_info_methods[] = {
+        PHP_V8_ME(CallbackInfo, this,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, holder,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, getIsolate,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, getContext,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(CallbackInfo, getReturnValue, ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionCallbackInfo, length,          ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionCallbackInfo, arguments,       ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionCallbackInfo, newTarget,       ZEND_ACC_PUBLIC)
@@ -161,8 +240,13 @@ PHP_MINIT_FUNCTION(php_v8_function_callback_info) {
     zend_class_entry ce;
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "FunctionCallbackInfo", php_v8_function_callback_info_methods);
-    this_ce = zend_register_internal_class_ex(&ce, php_v8_callback_info_class_entry);
+    this_ce = zend_register_internal_class(&ce);
 
+    zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("context"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("this"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("holder"), ZEND_ACC_PRIVATE);
+    zend_declare_property_null(this_ce, ZEND_STRL("return_value"), ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("arguments"),           ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("new_target"),          ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("is_constructor_call"), ZEND_ACC_PRIVATE);

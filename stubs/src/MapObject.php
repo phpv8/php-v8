@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -33,7 +33,7 @@ class MapObject extends ObjectValue
      * @param Context $context
      * @param Value   $key
      *
-     * @return Value
+     * @return Value|PrimitiveValue|ObjectValue
      */
     public function get(Context $context, Value $key): Value
     {

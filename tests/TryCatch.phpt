@@ -26,9 +26,9 @@ $helper->space();
 $helper->header('Test getters (default)');
 $helper->method_matches($obj, 'getIsolate', $isolate);
 $helper->method_matches($obj, 'getContext', $context);
-$helper->method_matches($obj, 'exception', null);
-$helper->method_matches($obj, 'message', null);
-$helper->method_matches($obj, 'stackTrace', null);
+$helper->method_matches($obj, 'getException', null);
+$helper->method_matches($obj, 'getMessage', null);
+$helper->method_matches($obj, 'getStackTrace', null);
 
 $helper->method_matches($obj, 'canContinue', false);
 $helper->method_matches($obj, 'hasTerminated', false);
@@ -49,9 +49,9 @@ $helper->space();
 $helper->header('Test getters');
 $helper->method_matches($obj, 'getIsolate', $isolate);
 $helper->method_matches($obj, 'getContext', $context);
-$helper->method_matches($obj, 'exception', $exception);
-$helper->method_matches($obj, 'message', $message);
-$helper->method_matches($obj, 'stackTrace', $trace);
+$helper->method_matches($obj, 'getException', $exception);
+$helper->method_matches($obj, 'getMessage', $message);
+$helper->method_matches($obj, 'getStackTrace', $trace);
 
 $helper->method_matches($obj, 'canContinue', true);
 $helper->method_matches($obj, 'hasTerminated', true);
@@ -104,9 +104,9 @@ Test getters (default):
 -----------------------
 V8\TryCatch::getIsolate() matches expected value
 V8\TryCatch::getContext() matches expected value
-V8\TryCatch::exception() matches expected value
-V8\TryCatch::message() matches expected value
-V8\TryCatch::stackTrace() matches expected value
+V8\TryCatch::getException() matches expected value
+V8\TryCatch::getMessage() matches expected value
+V8\TryCatch::getStackTrace() matches expected value
 V8\TryCatch::canContinue() matches expected value
 V8\TryCatch::hasTerminated() matches expected value
 
@@ -142,7 +142,7 @@ object(V8\TryCatch)#11 (8) {
     }
   }
   ["message":"V8\TryCatch":private]=>
-  object(V8\Message)#6 (10) {
+  object(V8\Message)#6 (11) {
     ["message":"V8\Message":private]=>
     string(7) "message"
     ["script_origin":"V8\Message":private]=>
@@ -183,6 +183,8 @@ object(V8\TryCatch)#11 (8) {
     NULL
     ["end_column":"V8\Message":private]=>
     NULL
+    ["error_level":"V8\Message":private]=>
+    NULL
   }
   ["can_continue":"V8\TryCatch":private]=>
   bool(true)
@@ -213,9 +215,9 @@ Test getters:
 -------------
 V8\TryCatch::getIsolate() matches expected value
 V8\TryCatch::getContext() matches expected value
-V8\TryCatch::exception() matches expected value
-V8\TryCatch::message() matches expected value
-V8\TryCatch::stackTrace() matches expected value
+V8\TryCatch::getException() matches expected value
+V8\TryCatch::getMessage() matches expected value
+V8\TryCatch::getStackTrace() matches expected value
 V8\TryCatch::canContinue() matches expected value
 V8\TryCatch::hasTerminated() matches expected value
 V8\TryCatch::getExternalException() matches expected value

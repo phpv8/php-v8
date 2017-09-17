@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
@@ -16,7 +16,7 @@
 namespace V8;
 
 
-class ConstructorBehavior
+final class ConstructorBehavior
 {
     const THROW = 0;
     const ALLOW = 1;

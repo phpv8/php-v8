@@ -114,13 +114,14 @@ V8\Message->getStartPosition(): int(231)
 V8\Message->getEndPosition(): int(232)
 V8\Message->getStartColumn(): int(8)
 V8\Message->getEndColumn(): int(9)
+V8\Message->getErrorLevel(): int(8)
 
 Message created from created value:
 -----------------------------------
 V8\Message->get(): string(13) "Uncaught test"
 V8\Message->getSourceLine(): string(24) "        test(exception);"
 V8\Message->getScriptOrigin():
-    object(V8\ScriptOrigin)#33 (6) {
+    object(V8\ScriptOrigin)#34 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(7) "test.js"
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -132,7 +133,7 @@ V8\Message->getScriptOrigin():
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#32 (1) {
+      object(V8\ScriptOriginOptions)#33 (1) {
         ["flags":"V8\ScriptOriginOptions":private]=>
         int(0)
       }
@@ -144,6 +145,7 @@ V8\Message->getStartPosition(): int(231)
 V8\Message->getEndPosition(): int(232)
 V8\Message->getStartColumn(): int(8)
 V8\Message->getEndColumn(): int(9)
+V8\Message->getErrorLevel(): int(8)
 
 
 Checks on V8\ObjectValue:

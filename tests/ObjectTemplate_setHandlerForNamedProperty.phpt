@@ -105,6 +105,16 @@ I am named query for foo!
 "foo" in test: true
 I am named enumerator!
 I am named query for test-a!
+I am named query for test-b!
+I am named query for test-c!
+I am named query for test-d!
+I am named query for test-e!
+I am named query for test-f!
+I am named query for test-g!
+I am named query for test-h!
+I am named query for test-i!
+I am named query for test-j!
+I am named query for test-a!
 I am named getter for test-a!
 test[test-a]: 21
 I am named query for test-b!

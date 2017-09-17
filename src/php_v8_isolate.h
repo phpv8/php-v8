@@ -122,6 +122,13 @@ inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php
         return;                                                                     \
     }
 
+#define PHP_V8_CHECK_ISOLATE_RAIL_MODE(mode, message)                  \
+    if (mode < static_cast<zend_long>(v8::RAILMode::PERFORMANCE_RESPONSE)              \
+         || mode > static_cast<zend_long>(v8::RAILMode::PERFORMANCE_LOAD)) {   \
+        PHP_V8_THROW_VALUE_EXCEPTION(message);                                      \
+        return;                                                                     \
+    }
+
 
 struct _php_v8_isolate_t {
     v8::Isolate *isolate;

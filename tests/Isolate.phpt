@@ -25,9 +25,41 @@ $helper->line();
 $helper->method_export($isolate, 'getHeapStatistics');
 
 $isolate->lowMemoryNotification();
+
+$helper->line();
+
+try {
+    $isolate->memoryPressureNotification(-2);
+} catch (\V8\Exceptions\ValueException $e) {
+    $helper->exception_export($e);
+}
+
 $isolate->memoryPressureNotification(\V8\Isolate::MEMORY_PRESSURE_LEVEL_NONE);
 $isolate->memoryPressureNotification(\V8\Isolate::MEMORY_PRESSURE_LEVEL_MODERATE);
 $isolate->memoryPressureNotification(\V8\Isolate::MEMORY_PRESSURE_LEVEL_CRITICAL);
+try {
+    $isolate->memoryPressureNotification(42);
+} catch (\V8\Exceptions\ValueException $e) {
+    $helper->exception_export($e);
+}
+
+$helper->line();
+
+try {
+    $isolate->setRAILMode(-2);
+} catch (\V8\Exceptions\ValueException $e) {
+    $helper->exception_export($e);
+}
+$isolate->setRAILMode(\V8\RAILMode::PERFORMANCE_RESPONSE);
+$isolate->setRAILMode(\V8\RAILMode::PERFORMANCE_ANIMATION);
+$isolate->setRAILMode(\V8\RAILMode::PERFORMANCE_IDLE);
+$isolate->setRAILMode(\V8\RAILMode::PERFORMANCE_LOAD);
+try {
+    $isolate->setRAILMode(42);
+} catch (\V8\Exceptions\ValueException $e) {
+    $helper->exception_export($e);
+}
+
 
 $isolate = null;
 
@@ -47,7 +79,7 @@ V8\Isolate::MEMORY_PRESSURE_LEVEL_MODERATE = 1
 V8\Isolate::MEMORY_PRESSURE_LEVEL_CRITICAL = 2
 
 V8\Isolate->getHeapStatistics():
-    object(V8\HeapStatistics)#27 (9) {
+    object(V8\HeapStatistics)#28 (9) {
       ["total_heap_size":"V8\HeapStatistics":private]=>
       float(%f)
       ["total_heap_size_executable":"V8\HeapStatistics":private]=>
@@ -67,3 +99,9 @@ V8\Isolate->getHeapStatistics():
       ["does_zap_garbage":"V8\HeapStatistics":private]=>
       bool(false)
     }
+
+V8\Exceptions\ValueException: Invalid memory pressure level given. See V8\Isolate MEMORY_PRESSURE_LEVEL_* class constants for available levels.
+V8\Exceptions\ValueException: Invalid memory pressure level given. See V8\Isolate MEMORY_PRESSURE_LEVEL_* class constants for available levels.
+
+V8\Exceptions\ValueException: Invalid RAIL mode given. See V8\RAILMode class constants for available values.
+V8\Exceptions\ValueException: Invalid RAIL mode given. See V8\RAILMode class constants for available values.

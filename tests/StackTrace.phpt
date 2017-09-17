@@ -54,7 +54,7 @@ object(V8\StackTrace)#7 (1) {
   ["frames":"V8\StackTrace":private]=>
   array(2) {
     [0]=>
-    object(V8\StackFrame)#5 (8) {
+    object(V8\StackFrame)#5 (9) {
       ["line_number":"V8\StackFrame":private]=>
       int(1)
       ["column":"V8\StackFrame":private]=>
@@ -71,9 +71,11 @@ object(V8\StackTrace)#7 (1) {
       bool(false)
       ["is_constructor":"V8\StackFrame":private]=>
       bool(false)
+      ["is_wasm":"V8\StackFrame":private]=>
+      bool(false)
     }
     [1]=>
-    object(V8\StackFrame)#6 (8) {
+    object(V8\StackFrame)#6 (9) {
       ["line_number":"V8\StackFrame":private]=>
       int(2)
       ["column":"V8\StackFrame":private]=>
@@ -89,6 +91,8 @@ object(V8\StackTrace)#7 (1) {
       ["is_eval":"V8\StackFrame":private]=>
       bool(false)
       ["is_constructor":"V8\StackFrame":private]=>
+      bool(false)
+      ["is_wasm":"V8\StackFrame":private]=>
       bool(false)
     }
   }
