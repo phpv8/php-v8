@@ -302,42 +302,43 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
     }
 
     /**
-     * @param Context $context
-     * @param string  $key
+     * @param Context   $context
+     * @param NameValue $key
      *
      * @return bool
      */
-    public function hasOwnProperty(Context $context, $key): bool
+    public function hasOwnProperty(Context $context, NameValue $key): bool
+    {
+    }
+
+    /**
+     * @param Context   $context
+     *
+     * @param NameValue $key
+     *
+     * @return bool
+     */
+    public function hasRealNamedProperty(Context $context, NameValue $key): bool
     {
     }
 
     /**
      * @param Context $context
-     * @param string  $key
+     * @param int     $index
      *
      * @return bool
      */
-    public function hasRealNamedProperty(Context $context, $key): bool
+    public function hasRealIndexedProperty(Context $context, int $index): bool
     {
     }
 
     /**
-     * @param Context $context
-     * @param string  $index
+     * @param Context   $context
+     * @param NameValue $key
      *
      * @return bool
      */
-    public function hasRealIndexedProperty(Context $context, $index): bool
-    {
-    }
-
-    /**
-     * @param Context $context
-     * @param string  $key
-     *
-     * @return bool
-     */
-    public function hasRealNamedCallbackProperty(Context $context, $key): bool
+    public function hasRealNamedCallbackProperty(Context $context, NameValue $key): bool
     {
     }
 
@@ -345,12 +346,12 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * If result.IsEmpty() no real property was located in the prototype chain.
      * This means interceptors in the prototype chain are not called.
      *
-     * @param Context $context
-     * @param string  $key
+     * @param Context   $context
+     * @param NameValue $key
      *
      * @return Value
      */
-    public function getRealNamedPropertyInPrototypeChain(Context $context, $key): Value
+    public function getRealNamedPropertyInPrototypeChain(Context $context, NameValue $key): Value
     {
     }
 
@@ -373,12 +374,12 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * in the prototype chain.
      * This means interceptors in the prototype chain are not called.
      *
-     * @param Context $context
-     * @param string  $key
+     * @param Context   $context
+     * @param NameValue $key
      *
      * @return Value
      */
-    public function getRealNamedProperty(Context $context, $key): Value
+    public function getRealNamedProperty(Context $context, NameValue $key): Value
     {
     }
 

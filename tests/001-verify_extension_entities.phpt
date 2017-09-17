@@ -689,14 +689,14 @@ class V8\ObjectValue
     public function objectProtoToString(V8\Context $context): V8\StringValue
     public function getConstructorName(): V8\StringValue
     public function setIntegrityLevel(V8\Context $context, int $level): bool
-    public function hasOwnProperty(V8\Context $context, $key): bool
-    public function hasRealNamedProperty(V8\Context $context, $key): bool
-    public function hasRealIndexedProperty(V8\Context $context, $index): bool
-    public function hasRealNamedCallbackProperty(V8\Context $context, $key): bool
-    public function getRealNamedPropertyInPrototypeChain(V8\Context $context, $key): V8\Value
-    public function getRealNamedPropertyAttributesInPrototypeChain(V8\Context $context, $key): int
-    public function getRealNamedProperty(V8\Context $context, $key): V8\Value
-    public function getRealNamedPropertyAttributes(V8\Context $context, $key): int
+    public function hasOwnProperty(V8\Context $context, V8\NameValue $key): bool
+    public function hasRealNamedProperty(V8\Context $context, V8\NameValue $key): bool
+    public function hasRealIndexedProperty(V8\Context $context, int $index): bool
+    public function hasRealNamedCallbackProperty(V8\Context $context, V8\NameValue $key): bool
+    public function getRealNamedPropertyInPrototypeChain(V8\Context $context, V8\NameValue $key): V8\Value
+    public function getRealNamedPropertyAttributesInPrototypeChain(V8\Context $context, V8\NameValue $key): int
+    public function getRealNamedProperty(V8\Context $context, V8\NameValue $key): V8\Value
+    public function getRealNamedPropertyAttributes(V8\Context $context, V8\NameValue $key): int
     public function hasNamedLookupInterceptor(): bool
     public function hasIndexedLookupInterceptor(): bool
     public function getIdentityHash(): int
