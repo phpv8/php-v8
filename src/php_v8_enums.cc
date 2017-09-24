@@ -128,7 +128,7 @@ PHP_MINIT_FUNCTION (php_v8_enums) {
     #undef this_ce
 
     // v8::RAILMode
-    #define this_ce php_v8_index_filter_class_entry
+    #define this_ce php_v8_rail_mode_class_entry
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "RAILMode", php_v8_enum_methods);
     this_ce = zend_register_internal_class(&ce);
     this_ce->ce_flags |= ZEND_ACC_FINAL;
