@@ -42,3 +42,6 @@ tmp-php.ini
 /conftest*
 
 /*.tgz
+
+_book/
+node_modules/

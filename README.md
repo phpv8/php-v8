@@ -153,6 +153,7 @@ $ sudo make install
 ```
 
 ## Developers note
+
  - to be able to customize some tests make sure you have `variables_order = "EGPCS"` in your php.ini
  - `export DEV_TESTS=1` allows to run tests that are made for development reasons (e.g. test some weird behavior or for debugging)
  - To prevent the test suite from asking you to send results to the PHP QA team do `export NO_INTERACTION=1`
@@ -162,6 +163,14 @@ $ sudo make install
    and `free` to display free and used memory in the system.
  - [pinepain/libv8-experimental](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental) normally contains
    `libv8` version that used in current `master` branch.
+
+### Docs
+
+To start writing docs you will need to get [GitBook](https://gitbook.com), just run `npm install gitbook-cli -g` and
+then `gitbook serve` in project rood directory to live preview docs or `gitbook build` to build static website. See
+[Setup and Installation of GitBook](https://toolchain.gitbook.com/setup.html) official GitBook manual for more;
+
+You may find [GitBook Editor](https://www.gitbook.com/editor) useful for docs writing and editing.
 
 ## Credits
 
