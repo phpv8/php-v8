@@ -1,7 +1,7 @@
 # php-v8
 PHP extension for V8 JavaScript engine
 
-[![Build Status](https://travis-ci.org/pinepain/php-v8.svg)](https://travis-ci.org/pinepain/php-v8)
+[![Build Status](https://api.travis-ci.org/pinepain/php-v8.svg?branch=master)](https://travis-ci.org/pinepain/php-v8)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/pinepain/php-v8/master/LICENSE)
 
 **This extension requires PHP >= 7.1**. Last version that supports PHP 7.0 is v0.1.9.
