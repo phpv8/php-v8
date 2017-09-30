@@ -26,11 +26,11 @@
         <email>pinepain@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2017-09-01</date>
-    <time>17:02:09</time>
+    <date>2017-09-30</date>
+    <time>20:09:41</time>
     <version>
-        <release>0.1.9</release>
-        <api>0.1.9</api>
+        <release>0.2.0</release>
+        <api>0.2.0</api>
     </version>
     <stability>
         <release>stable</release>
@@ -38,12 +38,45 @@
     </stability>
     <license uri="https://opensource.org/licenses/mit">The MIT License (MIT)</license>
     <notes>
-        Refactor methods name to follow PSR-2 camelCase convention.
+        This release introduces many major changes to public API and breaks BC for the sake of more solid and stable API in a further versions.
 
-        NOTE: This is the last release that supports PHP 7.0.
+        PLEASE READ:
+          Maintaining this project takes significant amount of time and efforts.
+        If you like my work and want to show your appreciation, please consider supporting me: https://www.patreon.com/pinepain
 
-        Changes list:
-          - refactor methods name to follow PSR-2 camelCase convention;
+        Changes:
+
+         - Drop PHP 7.0 support, #30;
+         - Add typehint for $value param in Template::set(), #36;
+         - Rename constants to match PSR-2 convention, #34;
+         - Make enum classes with constants final, #39 ;
+         - Rename HeapStatistics methods to match PSR-2, #38;
+         - Rename V8\Exception class and it methods, #33;
+         - Add FunctionObject::getScriptId() method;
+         - Remove no-data constants and use NULL instead, #40;
+         - Refactor ScriptOriginOptions to use bit field, #42;
+         - Remove redundant ScriptOrigin::is*() methods, #61;
+         - Add missed method to Value stub;
+         - Fix improperly adjusted external allocated memory on weak callback call;
+         - Add Proxy and Promise builtin support, #55;
+         - Add support for regexp dotAll flag, #54;
+         - Move RegExpObject\Flags constants under RegExpObject, #64;
+         - Move CompileOptions constants under ScriptCompiler, #65;
+         - Add Isolate::MemoryPressureNotification() support, #57;
+         - Require libv8 >= 6.3.163;
+         - Add StackFrame::isWasm(), #53;
+         - Get rid of CallbackInfo, #67;
+         - Add immutable prototype chains to ObjectTemplate, #58;
+         - Add StartupData::warmUpSnapshotDataBlob(), #59;
+         - Add missed JSON class support, #56;
+         - Add Message::getErrorLevel() method, #52;
+         - Rename SymbolValue methods, #41;
+         - Rename TryCatch methods, #41;
+         - Add missed PrimitiveValue::value() abstract method;
+         - Add Isolate::SetRAILMode(), #60;
+         - Fix improperly internally constructed RAILMode enum class, #60.
+
+        See https://github.com/pinepain/php-v8/issues/43#issuecomment-333329225 for details
     </notes>
     <contents>
         <dir name="/">
@@ -58,8 +91,6 @@
             <file name="src/php_v8_boolean_object.h" role="src" />
             <file name="src/php_v8_cached_data.cc" role="src" />
             <file name="src/php_v8_cached_data.h" role="src" />
-            <file name="src/php_v8_callback_info.cc" role="src" />
-            <file name="src/php_v8_callback_info.h" role="src" />
             <file name="src/php_v8_callbacks.cc" role="src" />
             <file name="src/php_v8_callbacks.h" role="src" />
             <file name="src/php_v8_context.cc" role="src" />
@@ -70,7 +101,7 @@
             <file name="src/php_v8_date.h" role="src" />
             <file name="src/php_v8_enums.cc" role="src" />
             <file name="src/php_v8_enums.h" role="src" />
-            <file name="src/php_v8_exception.cc" role="src" />
+            <file name="src/php_v8_exception_manager.cc" role="src" />
             <file name="src/php_v8_exception_manager.h" role="src" />
             <file name="src/php_v8_exceptions.cc" role="src" />
             <file name="src/php_v8_exceptions.h" role="src" />
@@ -94,6 +125,8 @@
             <file name="src/php_v8_isolate.h" role="src" />
             <file name="src/php_v8_isolate_limits.cc" role="src" />
             <file name="src/php_v8_isolate_limits.h" role="src" />
+            <file name="src/php_v8_json.cc" role="src" />
+            <file name="src/php_v8_json.h" role="src" />
             <file name="src/php_v8_map.cc" role="src" />
             <file name="src/php_v8_map.h" role="src" />
             <file name="src/php_v8_message.cc" role="src" />
@@ -114,8 +147,12 @@
             <file name="src/php_v8_object_template.h" role="src" />
             <file name="src/php_v8_primitive.cc" role="src" />
             <file name="src/php_v8_primitive.h" role="src" />
+            <file name="src/php_v8_promise.cc" role="src" />
+            <file name="src/php_v8_promise.h" role="src" />
             <file name="src/php_v8_property_callback_info.cc" role="src" />
             <file name="src/php_v8_property_callback_info.h" role="src" />
+            <file name="src/php_v8_proxy.cc" role="src" />
+            <file name="src/php_v8_proxy.h" role="src" />
             <file name="src/php_v8_regexp.cc" role="src" />
             <file name="src/php_v8_regexp.h" role="src" />
             <file name="src/php_v8_return_value.cc" role="src" />
@@ -165,9 +202,10 @@
             <file name="tests/.testsuite.php" role="test" />
             <file name="tests/.tracking_dtors.php" role="test" />
             <file name="tests/.v8-helpers.php" role="test" />
-            <file name="tests/001-V8_extension_info.phpt" role="test" />
+            <file name="tests/001-extension_info.phpt" role="test" />
             <file name="tests/001-verify-method-case.phpt" role="test" />
-            <file name="tests/001-verify-method-parameters-type.phpt" role="test" />
+            <file name="tests/001-verify-methods-signature.phpt" role="test" />
+            <file name="tests/001-verify_extension_entities.phpt" role="test" />
             <file name="tests/001.phpt" role="test" />
             <file name="tests/002-enums.phpt" role="test" />
             <file name="tests/003-V8ObjectTemplate_recursive_chain.phpt" role="test" />
@@ -179,128 +217,135 @@
             <file name="tests/005-V8FunctionTemplate_external_memory.phpt" role="test" />
             <file name="tests/005-V8ObjectTemplate_external_memory.phpt" role="test" />
             <file name="tests/005-V8ObjectValue_external_memory.phpt" role="test" />
-            <file name="tests/V8ArrayObject.phpt" role="test" />
-            <file name="tests/V8ArrayObject_length.phpt" role="test" />
-            <file name="tests/V8Boolean.phpt" role="test" />
-            <file name="tests/V8BooleanObject.phpt" role="test" />
-            <file name="tests/V8CachedData.phpt" role="test" />
-            <file name="tests/V8Context.phpt" role="test" />
-            <file name="tests/V8Context_globalObject.phpt" role="test" />
-            <file name="tests/V8Context_invalid_ctor_arg_type.phpt" role="test" />
-            <file name="tests/V8Context_reference_lifecycle.phpt" role="test" />
-            <file name="tests/V8Context_setSecurityToken.phpt" role="test" />
-            <file name="tests/V8Context_weakness.phpt" role="test" />
-            <file name="tests/V8Data.phpt" role="test" />
-            <file name="tests/V8DateObject.phpt" role="test" />
-            <file name="tests/V8Exception_createMessage.phpt" role="test" />
-            <file name="tests/V8Exception_error.phpt" role="test" />
-            <file name="tests/V8Exception_getStackTrace.phpt" role="test" />
-            <file name="tests/V8Exception_rangeError.phpt" role="test" />
-            <file name="tests/V8Exception_referenceError.phpt" role="test" />
-            <file name="tests/V8Exception_syntaxError.phpt" role="test" />
-            <file name="tests/V8Exception_typeError.phpt" role="test" />
-            <file name="tests/V8ExceptionsTryCatchException.phpt" role="test" />
-            <file name="tests/V8FunctionCallbackInfo.phpt" role="test" />
-            <file name="tests/V8FunctionObject.phpt" role="test" />
-            <file name="tests/V8FunctionObject_call.phpt" role="test" />
-            <file name="tests/V8FunctionObject_call_bad_args.phpt" role="test" />
-            <file name="tests/V8FunctionObject_constructor_behavior.phpt" role="test" />
-            <file name="tests/V8FunctionObject_die.phpt" role="test" />
-            <file name="tests/V8FunctionObject_die_different_isolates.phpt" role="test" />
-            <file name="tests/V8FunctionObject_die_nested.phpt" role="test" />
-            <file name="tests/V8FunctionObject_newInstance.phpt" role="test" />
-            <file name="tests/V8FunctionObject_weakness_multiple.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_callback_weakness.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_constructor_behavior.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_constructor_receiver.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_exception_in_php.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_getFunction.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_invalid_ctor_arg_type.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_require_implementation.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_set.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_setCallHandler.phpt" role="test" />
-            <file name="tests/V8FunctionTemplate_weakness.phpt" role="test" />
-            <file name="tests/V8HeapStatistics.phpt" role="test" />
-            <file name="tests/V8IndexedPropertyHandlerConfiguration.phpt" role="test" />
-            <file name="tests/V8Int32Value.phpt" role="test" />
-            <file name="tests/V8IntegerValue.phpt" role="test" />
-            <file name="tests/V8Isolate.phpt" role="test" />
-            <file name="tests/V8Isolate_gc_cyclic_ref_memleak.phpt" role="test" />
-            <file name="tests/V8Isolate_getEnteredContext.phpt" role="test" />
-            <file name="tests/V8Isolate_isDead.phpt" role="test" />
-            <file name="tests/V8Isolate_isInUse.phpt" role="test" />
-            <file name="tests/V8Isolate_limit_memory.phpt" role="test" />
-            <file name="tests/V8Isolate_limit_memory_nested.phpt" role="test" />
-            <file name="tests/V8Isolate_limit_memory_not_hit.phpt" role="test" />
-            <file name="tests/V8Isolate_limit_time.phpt" role="test" />
-            <file name="tests/V8Isolate_limit_time_affects_js_runtime_only.phpt" role="test" />
-            <file name="tests/V8Isolate_limit_time_changed_at_runtime.phpt" role="test" />
-            <file name="tests/V8Isolate_limit_time_nested.phpt" role="test" />
-            <file name="tests/V8Isolate_limit_time_not_hit.phpt" role="test" />
-            <file name="tests/V8Isolate_limit_time_set_during_execution.phpt" role="test" />
-            <file name="tests/V8Isolate_nested_termination_exceptions.phpt" role="test" />
-            <file name="tests/V8Isolate_snapshot_support.phpt" role="test" />
-            <file name="tests/V8Isolate_throwException.phpt" role="test" />
-            <file name="tests/V8Isolate_throwException_with_external.phpt" role="test" />
-            <file name="tests/V8MapObject.phpt" role="test" />
-            <file name="tests/V8Message.phpt" role="test" />
-            <file name="tests/V8NamedPropertyHandlerConfiguration.phpt" role="test" />
-            <file name="tests/V8NullValue.phpt" role="test" />
-            <file name="tests/V8NumberObject.phpt" role="test" />
-            <file name="tests/V8NumberValue.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_invalid_ctor_arg_type.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_set.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_setAccessor_receiver.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_setCallAsFunctionHandler.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_setHandlerForIndexedProperty.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_setHandlerForNamedProperty.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_setHandler_both.phpt" role="test" />
-            <file name="tests/V8ObjectTemplate_setNativeDataProperty.phpt" role="test" />
-            <file name="tests/V8ObjectValue.phpt" role="test" />
-            <file name="tests/V8ObjectValue_get.phpt" role="test" />
-            <file name="tests/V8ObjectValue_isArgumentsObject.phpt" role="test" />
-            <file name="tests/V8ObjectValue_isNativeError.phpt" role="test" />
-            <file name="tests/V8ObjectValue_setAccessor.phpt" role="test" />
-            <file name="tests/V8ObjectValue_setIntegrityLevel.phpt" role="test" />
-            <file name="tests/V8ObjectValue_setNativeDataProperty.phpt" role="test" />
-            <file name="tests/V8ObjectValue_setNativeDataProperty_from_template.phpt" role="test" />
-            <file name="tests/V8PropertyCallbackInfo.phpt" role="test" />
-            <file name="tests/V8RegExpObject.phpt" role="test" />
-            <file name="tests/V8ReturnValue.phpt" role="test" />
-            <file name="tests/V8ReturnValue_context.phpt" role="test" />
-            <file name="tests/V8Script.phpt" role="test" />
-            <file name="tests/V8ScriptCompiler.phpt" role="test" />
-            <file name="tests/V8ScriptCompiler_compile.phpt" role="test" />
-            <file name="tests/V8ScriptCompiler_compileFunctionInContext.phpt" role="test" />
-            <file name="tests/V8ScriptCompiler_compileUnbound.phpt" role="test" />
-            <file name="tests/V8ScriptOrigin.phpt" role="test" />
-            <file name="tests/V8ScriptOriginOptions.phpt" role="test" />
-            <file name="tests/V8Script_exit_during_script_execution.phpt" role="test" />
-            <file name="tests/V8Script_run.phpt" role="test" />
-            <file name="tests/V8Script_run_out_of_memory.phpt" role="test" />
-            <file name="tests/V8Script_run_uncaught_exception.phpt" role="test" />
-            <file name="tests/V8Script_terminate_script_execution.phpt" role="test" />
-            <file name="tests/V8SetObject.phpt" role="test" />
-            <file name="tests/V8Source.phpt" role="test" />
-            <file name="tests/V8StackFrame.phpt" role="test" />
-            <file name="tests/V8StackTrace.phpt" role="test" />
-            <file name="tests/V8StackTrace_currentStackTrace.phpt" role="test" />
-            <file name="tests/V8StartupData_createFromSource.phpt" role="test" />
-            <file name="tests/V8StringObject.phpt" role="test" />
-            <file name="tests/V8StringValue.phpt" role="test" />
-            <file name="tests/V8String_range_error_length.phpt" role="test" />
-            <file name="tests/V8SymbolObject.phpt" role="test" />
-            <file name="tests/V8SymbolValue.phpt" role="test" />
-            <file name="tests/V8TryCatch.phpt" role="test" />
-            <file name="tests/V8TryCatch_from_script.phpt" role="test" />
-            <file name="tests/V8Uint32Value.phpt" role="test" />
-            <file name="tests/V8UnboundScript.phpt" role="test" />
-            <file name="tests/V8Undefined.phpt" role="test" />
-            <file name="tests/V8UndefinedValue_destruct.phpt" role="test" />
-            <file name="tests/V8UndefinedValue_invalid_ctor_arg_type.phpt" role="test" />
-            <file name="tests/V8Value_empty.phpt" role="test" />
+            <file name="tests/010-no-value-self-cleanup-on-shutdown.phpt" role="test" />
+            <file name="tests/ArrayObject.phpt" role="test" />
+            <file name="tests/ArrayObject_length.phpt" role="test" />
+            <file name="tests/Boolean.phpt" role="test" />
+            <file name="tests/BooleanObject.phpt" role="test" />
+            <file name="tests/CachedData.phpt" role="test" />
+            <file name="tests/Context.phpt" role="test" />
+            <file name="tests/Context_globalObject.phpt" role="test" />
+            <file name="tests/Context_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/Context_reference_lifecycle.phpt" role="test" />
+            <file name="tests/Context_setSecurityToken.phpt" role="test" />
+            <file name="tests/Context_weakness.phpt" role="test" />
+            <file name="tests/Data.phpt" role="test" />
+            <file name="tests/DateObject.phpt" role="test" />
+            <file name="tests/ExceptionManager_createCreateMessage.phpt" role="test" />
+            <file name="tests/ExceptionManager_createError.phpt" role="test" />
+            <file name="tests/ExceptionManager_createGetStackTrace.phpt" role="test" />
+            <file name="tests/ExceptionManager_createRangeError.phpt" role="test" />
+            <file name="tests/ExceptionManager_createReferenceError.phpt" role="test" />
+            <file name="tests/ExceptionManager_createSyntaxError.phpt" role="test" />
+            <file name="tests/ExceptionManager_createTypeError.phpt" role="test" />
+            <file name="tests/ExceptionsTryCatchException.phpt" role="test" />
+            <file name="tests/FunctionCallbackInfo.phpt" role="test" />
+            <file name="tests/FunctionObject.phpt" role="test" />
+            <file name="tests/FunctionObject_call.phpt" role="test" />
+            <file name="tests/FunctionObject_call_bad_args.phpt" role="test" />
+            <file name="tests/FunctionObject_constructor_behavior.phpt" role="test" />
+            <file name="tests/FunctionObject_die.phpt" role="test" />
+            <file name="tests/FunctionObject_die_different_isolates.phpt" role="test" />
+            <file name="tests/FunctionObject_die_nested.phpt" role="test" />
+            <file name="tests/FunctionObject_newInstance.phpt" role="test" />
+            <file name="tests/FunctionObject_weakness_multiple.phpt" role="test" />
+            <file name="tests/FunctionTemplate.phpt" role="test" />
+            <file name="tests/FunctionTemplate_callback_weakness.phpt" role="test" />
+            <file name="tests/FunctionTemplate_constructor_behavior.phpt" role="test" />
+            <file name="tests/FunctionTemplate_constructor_receiver.phpt" role="test" />
+            <file name="tests/FunctionTemplate_exception_in_php.phpt" role="test" />
+            <file name="tests/FunctionTemplate_getFunction.phpt" role="test" />
+            <file name="tests/FunctionTemplate_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/FunctionTemplate_require_implementation.phpt" role="test" />
+            <file name="tests/FunctionTemplate_set.phpt" role="test" />
+            <file name="tests/FunctionTemplate_setCallHandler.phpt" role="test" />
+            <file name="tests/FunctionTemplate_weakness.phpt" role="test" />
+            <file name="tests/HeapStatistics.phpt" role="test" />
+            <file name="tests/IndexedPropertyHandlerConfiguration.phpt" role="test" />
+            <file name="tests/Int32Value.phpt" role="test" />
+            <file name="tests/IntegerValue.phpt" role="test" />
+            <file name="tests/Isolate.phpt" role="test" />
+            <file name="tests/Isolate_gc_cyclic_ref_memleak.phpt" role="test" />
+            <file name="tests/Isolate_getEnteredContext.phpt" role="test" />
+            <file name="tests/Isolate_isDead.phpt" role="test" />
+            <file name="tests/Isolate_isInUse.phpt" role="test" />
+            <file name="tests/Isolate_limit_memory.phpt" role="test" />
+            <file name="tests/Isolate_limit_memory_nested.phpt" role="test" />
+            <file name="tests/Isolate_limit_memory_not_hit.phpt" role="test" />
+            <file name="tests/Isolate_limit_time.phpt" role="test" />
+            <file name="tests/Isolate_limit_time_affects_js_runtime_only.phpt" role="test" />
+            <file name="tests/Isolate_limit_time_changed_at_runtime.phpt" role="test" />
+            <file name="tests/Isolate_limit_time_nested.phpt" role="test" />
+            <file name="tests/Isolate_limit_time_not_hit.phpt" role="test" />
+            <file name="tests/Isolate_limit_time_set_during_execution.phpt" role="test" />
+            <file name="tests/Isolate_nested_termination_exceptions.phpt" role="test" />
+            <file name="tests/Isolate_snapshot_support.phpt" role="test" />
+            <file name="tests/Isolate_throwException.phpt" role="test" />
+            <file name="tests/Isolate_throwException_with_external.phpt" role="test" />
+            <file name="tests/JSON.phpt" role="test" />
+            <file name="tests/MapObject.phpt" role="test" />
+            <file name="tests/Message.phpt" role="test" />
+            <file name="tests/NamedPropertyHandlerConfiguration.phpt" role="test" />
+            <file name="tests/NullValue.phpt" role="test" />
+            <file name="tests/NumberObject.phpt" role="test" />
+            <file name="tests/NumberValue.phpt" role="test" />
+            <file name="tests/ObjectTemplate.phpt" role="test" />
+            <file name="tests/ObjectTemplate_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/ObjectTemplate_set.phpt" role="test" />
+            <file name="tests/ObjectTemplate_setAccessor_receiver.phpt" role="test" />
+            <file name="tests/ObjectTemplate_setCallAsFunctionHandler.phpt" role="test" />
+            <file name="tests/ObjectTemplate_setHandlerForIndexedProperty.phpt" role="test" />
+            <file name="tests/ObjectTemplate_setHandlerForNamedProperty.phpt" role="test" />
+            <file name="tests/ObjectTemplate_setHandler_both.phpt" role="test" />
+            <file name="tests/ObjectTemplate_setNativeDataProperty.phpt" role="test" />
+            <file name="tests/ObjectValue.phpt" role="test" />
+            <file name="tests/ObjectValue_get.phpt" role="test" />
+            <file name="tests/ObjectValue_isArgumentsObject.phpt" role="test" />
+            <file name="tests/ObjectValue_isNativeError.phpt" role="test" />
+            <file name="tests/ObjectValue_setAccessor.phpt" role="test" />
+            <file name="tests/ObjectValue_setIntegrityLevel.phpt" role="test" />
+            <file name="tests/ObjectValue_setNativeDataProperty.phpt" role="test" />
+            <file name="tests/ObjectValue_setNativeDataProperty_from_template.phpt" role="test" />
+            <file name="tests/PromiseObject.phpt" role="test" />
+            <file name="tests/PromiseObject_methods.phpt" role="test" />
+            <file name="tests/PropertyCallbackInfo.phpt" role="test" />
+            <file name="tests/ProxyObject.phpt" role="test" />
+            <file name="tests/ProxyObject_methods.phpt" role="test" />
+            <file name="tests/RegExpObject.phpt" role="test" />
+            <file name="tests/ReturnValue.phpt" role="test" />
+            <file name="tests/ReturnValue_context.phpt" role="test" />
+            <file name="tests/Script.phpt" role="test" />
+            <file name="tests/ScriptCompiler.phpt" role="test" />
+            <file name="tests/ScriptCompiler_compile.phpt" role="test" />
+            <file name="tests/ScriptCompiler_compileFunctionInContext.phpt" role="test" />
+            <file name="tests/ScriptCompiler_compileUnbound.phpt" role="test" />
+            <file name="tests/ScriptOrigin.phpt" role="test" />
+            <file name="tests/ScriptOriginOptions.phpt" role="test" />
+            <file name="tests/Script_exit_during_script_execution.phpt" role="test" />
+            <file name="tests/Script_run.phpt" role="test" />
+            <file name="tests/Script_run_out_of_memory.phpt" role="test" />
+            <file name="tests/Script_run_uncaught_exception.phpt" role="test" />
+            <file name="tests/Script_terminate_script_execution.phpt" role="test" />
+            <file name="tests/SetObject.phpt" role="test" />
+            <file name="tests/Source.phpt" role="test" />
+            <file name="tests/StackFrame.phpt" role="test" />
+            <file name="tests/StackTrace.phpt" role="test" />
+            <file name="tests/StackTrace_currentStackTrace.phpt" role="test" />
+            <file name="tests/StartupData_createFromSource.phpt" role="test" />
+            <file name="tests/StartupData_warmUpSnapshotDataBlob.phpt" role="test" />
+            <file name="tests/StringObject.phpt" role="test" />
+            <file name="tests/StringValue.phpt" role="test" />
+            <file name="tests/String_range_error_length.phpt" role="test" />
+            <file name="tests/SymbolObject.phpt" role="test" />
+            <file name="tests/SymbolValue.phpt" role="test" />
+            <file name="tests/TryCatch.phpt" role="test" />
+            <file name="tests/TryCatch_from_script.phpt" role="test" />
+            <file name="tests/Uint32Value.phpt" role="test" />
+            <file name="tests/UnboundScript.phpt" role="test" />
+            <file name="tests/Undefined.phpt" role="test" />
+            <file name="tests/UndefinedValue_destruct.phpt" role="test" />
+            <file name="tests/UndefinedValue_invalid_ctor_arg_type.phpt" role="test" />
+            <file name="tests/Value_empty.phpt" role="test" />
             <file name="stubs/LICENSE" role="doc" />
             <file name="stubs/README.md" role="doc" />
             <file name="stubs/composer.json" role="doc" />
@@ -309,12 +354,11 @@
             <file name="stubs/src/ArrayObject.php" role="doc" />
             <file name="stubs/src/BooleanObject.php" role="doc" />
             <file name="stubs/src/BooleanValue.php" role="doc" />
-            <file name="stubs/src/CallbackInfo.php" role="doc" />
             <file name="stubs/src/ConstructorBehavior.php" role="doc" />
             <file name="stubs/src/Context.php" role="doc" />
             <file name="stubs/src/Data.php" role="doc" />
             <file name="stubs/src/DateObject.php" role="doc" />
-            <file name="stubs/src/Exception.php" role="doc" />
+            <file name="stubs/src/ExceptionManager.php" role="doc" />
             <file name="stubs/src/Exceptions/Exception.php" role="doc" />
             <file name="stubs/src/Exceptions/MemoryLimitException.php" role="doc" />
             <file name="stubs/src/Exceptions/ResourceLimitException.php" role="doc" />
@@ -332,6 +376,7 @@
             <file name="stubs/src/IntegerValue.php" role="doc" />
             <file name="stubs/src/IntegrityLevel.php" role="doc" />
             <file name="stubs/src/Isolate.php" role="doc" />
+            <file name="stubs/src/JSON.php" role="doc" />
             <file name="stubs/src/KeyCollectionMode.php" role="doc" />
             <file name="stubs/src/MapObject.php" role="doc" />
             <file name="stubs/src/Message.php" role="doc" />
@@ -343,17 +388,18 @@
             <file name="stubs/src/ObjectTemplate.php" role="doc" />
             <file name="stubs/src/ObjectValue.php" role="doc" />
             <file name="stubs/src/PrimitiveValue.php" role="doc" />
+            <file name="stubs/src/PromiseObject.php" role="doc" />
             <file name="stubs/src/PropertyAttribute.php" role="doc" />
             <file name="stubs/src/PropertyCallbackInfo.php" role="doc" />
             <file name="stubs/src/PropertyFilter.php" role="doc" />
             <file name="stubs/src/PropertyHandlerFlags.php" role="doc" />
-            <file name="stubs/src/RegExp/Flags.php" role="doc" />
+            <file name="stubs/src/ProxyObject.php" role="doc" />
+            <file name="stubs/src/RAILMode.php" role="doc" />
             <file name="stubs/src/RegExpObject.php" role="doc" />
             <file name="stubs/src/ReturnValue.php" role="doc" />
             <file name="stubs/src/Script.php" role="doc" />
             <file name="stubs/src/ScriptCompiler.php" role="doc" />
             <file name="stubs/src/ScriptCompiler/CachedData.php" role="doc" />
-            <file name="stubs/src/ScriptCompiler/CompileOptions.php" role="doc" />
             <file name="stubs/src/ScriptCompiler/Source.php" role="doc" />
             <file name="stubs/src/ScriptOrigin.php" role="doc" />
             <file name="stubs/src/ScriptOriginOptions.php" role="doc" />

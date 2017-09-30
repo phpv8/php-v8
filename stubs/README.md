@@ -4,6 +4,10 @@ This is a git subtree split of [php-v8](https://github.com/pinepain/php-v8) exte
 
 **All issues and pull-requests should be submitted to the original [php-v8](https://github.com/pinepain/php-v8) repository.**
 
+### PLEASE READ:
+
+Maintaining this project takes significant amount of time and efforts.
+If you like my work and want to show your appreciation, please consider supporting me at https://www.patreon.com/pinepain.
 
 ## Installation
 

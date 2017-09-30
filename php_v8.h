@@ -36,7 +36,7 @@ extern zend_module_entry php_v8_module_entry;
 #endif
 
 #ifndef PHP_V8_VERSION
-#define PHP_V8_VERSION "0.1.9"
+#define PHP_V8_VERSION "0.2.0"
 #endif
 
 #ifndef PHP_V8_REVISION
