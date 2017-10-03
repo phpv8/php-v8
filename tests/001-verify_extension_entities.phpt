@@ -412,7 +412,7 @@ class V8\ScriptCompiler
     const OPTION_PRODUCE_PARSER_CACHE = 1
     const OPTION_CONSUME_PARSER_CACHE = 2
     const OPTION_PRODUCE_CODE_CACHE = 3
-    const OPTION_CONSUME_CODE_CACHE = 4
+    const OPTION_CONSUME_CODE_CACHE = 5
     public static function cachedDataVersionTag(): int
     public static function compileUnboundScript(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\UnboundScript
     public static function compile(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\Script
