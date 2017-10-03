@@ -376,12 +376,11 @@ class V8\Script
     public function getUnboundScript(): V8\UnboundScript
 
 class V8\UnboundScript
-    const kNoScriptId = 0
     private $isolate
     private function __construct()
     public function getIsolate(): V8\Isolate
     public function bindToContext(V8\Context $context): V8\Script
-    public function getId(): int
+    public function getId(): ?int
     public function getScriptName(): V8\Value
     public function getSourceURL(): V8\Value
     public function getSourceMappingURL(): V8\Value

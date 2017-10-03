@@ -130,6 +130,10 @@ static PHP_METHOD(UnboundScript, getId)
 
     v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(php_v8_unbound_script);
 
+    if (v8::UnboundScript::kNoScriptId == local_unbound_script->GetId()) {
+        RETURN_NULL();
+    }
+
     RETURN_LONG(static_cast<zend_long>(local_unbound_script->GetId()));
 }
 
@@ -204,7 +208,7 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_bindToContext, ZEND_RETURN
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getId, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getId, ZEND_RETURN_VALUE, 0, IS_LONG, 1)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getScriptName, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
@@ -244,7 +248,6 @@ PHP_MINIT_FUNCTION(php_v8_unbound_script)
     this_ce->create_object = php_v8_unbound_script_ctor;
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
-    zend_declare_class_constant_long(this_ce, ZEND_STRL("kNoScriptId"), v8::UnboundScript::kNoScriptId);
 
     memcpy(&php_v8_unbound_script_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 

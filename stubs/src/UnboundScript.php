@@ -8,8 +8,6 @@ namespace V8;
  */
 class UnboundScript
 {
-    const kNoScriptId = 0;
-
     private function __construct()
     {
     }
@@ -26,9 +24,9 @@ class UnboundScript
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
     }
 
