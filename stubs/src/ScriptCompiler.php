@@ -12,6 +12,13 @@ use V8\ScriptCompiler\Source;
  */
 class  ScriptCompiler
 {
+    const OPTION_NO_COMPILE_OPTIONS = 0;
+    const OPTION_PRODUCE_PARSER_CACHE = 1;
+    const OPTION_CONSUME_PARSER_CACHE = 2;
+    const OPTION_PRODUCE_CODE_CACHE = 3;
+    const OPTION_PRODUCE_FULL_CODE_CACHE = 4;
+    const OPTION_CONSUME_CODE_CACHE = 5;
+
     private function __construct()
     {
     }

@@ -13,8 +13,8 @@ class Dumper
     {
         $re = new ReflectionExtension('v8');
 
-        echo 'Name: ', $re->getName(), PHP_EOL;
-        echo 'Version: ', $re->getVersion(), PHP_EOL;
+        // echo 'Name: ', $re->getName(), PHP_EOL;
+        // echo 'Version: ', $re->getVersion(), PHP_EOL;
 
         echo PHP_EOL;
         echo 'Extension-global functions:', PHP_EOL;
@@ -204,14 +204,8 @@ $d = new Dumper();
 
 $d->dumpExtension();
 
-// EXPECTF: ---/Version: .+/
-// EXPECTF: +++Version: %s
-
 ?>
---EXPECTF--
-Name: v8
-Version: %s
-
+--EXPECT--
 Extension-global functions:
 none
 
@@ -412,6 +406,7 @@ class V8\ScriptCompiler
     const OPTION_PRODUCE_PARSER_CACHE = 1
     const OPTION_CONSUME_PARSER_CACHE = 2
     const OPTION_PRODUCE_CODE_CACHE = 3
+    const OPTION_PRODUCE_FULL_CODE_CACHE = 4
     const OPTION_CONSUME_CODE_CACHE = 5
     public static function cachedDataVersionTag(): int
     public static function compileUnboundScript(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\UnboundScript
