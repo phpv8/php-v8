@@ -211,6 +211,7 @@ if test "$PHP_V8" != "no"; then
     src/php_v8_symbol_object.cc                           \
     src/php_v8_template.cc                                \
     src/php_v8_return_value.cc                            \
+    src/php_v8_callback_info_interface.cc                 \
     src/php_v8_function_callback_info.cc                  \
     src/php_v8_property_callback_info.cc                  \
     src/php_v8_named_property_handler_configuration.cc    \

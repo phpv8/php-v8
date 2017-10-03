@@ -16,6 +16,9 @@ $isolate = new v8Tests\TrackingDtors\Isolate();
 $global_template = new V8\ObjectTemplate($isolate);
 $context = new V8\Context($isolate, $global_template);
 
+$helper->assert("FunctionCallbackInfo implements CallbackInfoInterface", new V8\FunctionCallbackInfo() instanceof V8\CallbackInfoInterface);
+$helper->line();
+
 // TEST: Pass context instead of isolate to FunctionTemplate
 
 $scalar = new \V8\StringValue($isolate, "test");
@@ -73,6 +76,8 @@ echo 'We are done for now', PHP_EOL;
 
 ?>
 --EXPECT--
+FunctionCallbackInfo implements CallbackInfoInterface: ok
+
 Function called
 Object representation:
 ----------------------

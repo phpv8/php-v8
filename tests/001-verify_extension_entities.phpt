@@ -903,21 +903,30 @@ class V8\ReturnValue
     public function getContext(): V8\Context
     public function inContext(): bool
 
+interface V8\CallbackInfoInterface
+    abstract public function getIsolate(): V8\Isolate
+    abstract public function getContext(): V8\Context
+    abstract public function this(): V8\ObjectValue
+    abstract public function holder(): V8\ObjectValue
+    abstract public function getReturnValue(): V8\ReturnValue
+
 class V8\PropertyCallbackInfo
+    implements V8\CallbackInfoInterface
     private $isolate
     private $context
     private $this
     private $holder
     private $return_value
     private $should_throw_on_error
-    public function this(): V8\ObjectValue
-    public function holder(): V8\ObjectValue
     public function getIsolate(): V8\Isolate
     public function getContext(): V8\Context
+    public function this(): V8\ObjectValue
+    public function holder(): V8\ObjectValue
     public function getReturnValue(): V8\ReturnValue
     public function shouldThrowOnError(): bool
 
 class V8\FunctionCallbackInfo
+    implements V8\CallbackInfoInterface
     private $isolate
     private $context
     private $this
@@ -926,10 +935,10 @@ class V8\FunctionCallbackInfo
     private $arguments
     private $new_target
     private $is_constructor_call
-    public function this(): V8\ObjectValue
-    public function holder(): V8\ObjectValue
     public function getIsolate(): V8\Isolate
     public function getContext(): V8\Context
+    public function this(): V8\ObjectValue
+    public function holder(): V8\ObjectValue
     public function getReturnValue(): V8\ReturnValue
     public function length(): int
     public function arguments(): array

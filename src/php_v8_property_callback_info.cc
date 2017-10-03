@@ -16,6 +16,7 @@
 
 #include "php_v8_property_callback_info.h"
 #include "php_v8_return_value.h"
+#include "php_v8_callback_info_interface.h"
 #include "php_v8_value.h"
 #include "php_v8.h"
 
@@ -186,10 +187,10 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_property_callback_info_methods[] = {
-        PHP_V8_ME(PropertyCallbackInfo, this,           ZEND_ACC_PUBLIC)
-        PHP_V8_ME(PropertyCallbackInfo, holder,         ZEND_ACC_PUBLIC)
         PHP_V8_ME(PropertyCallbackInfo, getIsolate,     ZEND_ACC_PUBLIC)
         PHP_V8_ME(PropertyCallbackInfo, getContext,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(PropertyCallbackInfo, this,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(PropertyCallbackInfo, holder,         ZEND_ACC_PUBLIC)
         PHP_V8_ME(PropertyCallbackInfo, getReturnValue, ZEND_ACC_PUBLIC)
         PHP_V8_ME(PropertyCallbackInfo, shouldThrowOnError, ZEND_ACC_PUBLIC)
         PHP_FE_END
@@ -199,6 +200,7 @@ PHP_MINIT_FUNCTION (php_v8_property_callback_info) {
     zend_class_entry ce;
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "PropertyCallbackInfo", php_v8_property_callback_info_methods);
     this_ce = zend_register_internal_class(&ce);
+    zend_class_implements(this_ce, 1, php_v8_callback_info_interface_class_entry);
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("context"), ZEND_ACC_PRIVATE);
