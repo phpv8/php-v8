@@ -79,7 +79,7 @@ V8\Isolate::MEMORY_PRESSURE_LEVEL_MODERATE = 1
 V8\Isolate::MEMORY_PRESSURE_LEVEL_CRITICAL = 2
 
 V8\Isolate->getHeapStatistics():
-    object(V8\HeapStatistics)#28 (9) {
+    object(V8\HeapStatistics)#29 (9) {
       ["total_heap_size":"V8\HeapStatistics":private]=>
       float(%f)
       ["total_heap_size_executable":"V8\HeapStatistics":private]=>

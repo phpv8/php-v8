@@ -223,6 +223,45 @@ static PHP_METHOD(Isolate, __construct) {
     php_v8_isolate->key.Reset(isolate, local_private_key);
 }
 
+static PHP_METHOD(Isolate, within) {
+    zval args;
+    zval retval;
+
+    zend_fcall_info fci = empty_fcall_info;
+    zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "f",  &fci, &fci_cache) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_ISOLATE_FETCH_WITH_CHECK(getThis(), php_v8_isolate);
+    PHP_V8_ENTER_ISOLATE(php_v8_isolate)
+
+    /* Build the parameter array */
+    array_init_size(&args, 1);
+
+    add_index_zval(&args, 0, getThis());
+    Z_ADDREF_P(getThis());
+
+    /* Convert everything to be callable */
+    zend_fcall_info_args(&fci, &args);
+
+    /* Initialize the return persistent pointer */
+    fci.retval = &retval;
+
+    /* Call the function */
+    if (zend_call_function(&fci, &fci_cache) == SUCCESS && Z_TYPE(retval) != IS_UNDEF) {
+        ZVAL_COPY_VALUE(return_value, &retval);
+    }
+
+    // We let user handle any case of exceptions for themselves
+
+    /* Clean up our mess */
+    zend_fcall_info_args_clear(&fci, 1);
+
+    zval_ptr_dtor(&args);
+}
+
 static PHP_METHOD(Isolate, setTimeLimit) {
     double time_limit_in_seconds;
 
@@ -522,6 +561,10 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 0)
                 ZEND_ARG_OBJ_INFO(0, snapshot, V8\\StartupData, 1)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_MIXED_INFO_EX(arginfo_within, 1)
+                ZEND_ARG_CALLABLE_INFO(0, callback, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setTimeLimit, 1)
                 ZEND_ARG_TYPE_INFO(0, time_limit_in_seconds, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
@@ -595,6 +638,7 @@ ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_isolate_methods[] = {
         PHP_V8_ME(Isolate, __construct,                ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+        PHP_V8_ME(Isolate, within,                     ZEND_ACC_PUBLIC)
         PHP_V8_ME(Isolate, setTimeLimit,               ZEND_ACC_PUBLIC)
         PHP_V8_ME(Isolate, getTimeLimit,               ZEND_ACC_PUBLIC)
         PHP_V8_ME(Isolate, isTimeLimitHit,             ZEND_ACC_PUBLIC)

@@ -12,6 +12,7 @@
  * http://opensource.org/licenses/MIT
  */
 
+
 namespace V8;
 
 
@@ -26,6 +27,17 @@ class Isolate
     const MEMORY_PRESSURE_LEVEL_CRITICAL = 2;
 
     public function __construct(StartupData $snapshot = null)
+    {
+    }
+
+    /**
+     * Enter isolate and execute callback
+     *
+     * @param callable $callback Callback to execute. Current isolate object will be passed as first argument.
+     *
+     * @return mixed Value returned by callback
+     */
+    public function within(callable $callback)
     {
     }
 

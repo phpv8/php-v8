@@ -332,6 +332,7 @@ class V8\Isolate
     const MEMORY_PRESSURE_LEVEL_MODERATE = 1
     const MEMORY_PRESSURE_LEVEL_CRITICAL = 2
     public function __construct(?V8\StartupData $snapshot)
+    public function within(callable $callback)
     public function setTimeLimit(float $time_limit_in_seconds)
     public function getTimeLimit(): float
     public function isTimeLimitHit(): bool
@@ -356,6 +357,7 @@ class V8\Isolate
 class V8\Context
     private $isolate
     public function __construct(V8\Isolate $isolate, ?V8\ObjectTemplate $global_template, ?V8\ObjectValue $global_object)
+    public function within(callable $callback)
     public function getIsolate(): V8\Isolate
     public function globalObject(): V8\ObjectValue
     public function detachGlobal()

@@ -1,0 +1,24 @@
+{
+    "name": "pinepain/php-v8-perf",
+    "type": "library",
+    "description": "Performance tests for pinepain/php-v8 php extension",
+    "keywords": ["dev", "performance", "benchmark", "tests", "php-v8", "v8", "js", "javascript"],
+    "homepage": "https://github.com/pinepain/php-v8-perf",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bogdan Padalko",
+            "email": "pinepain@gmail.com",
+            "homepage": "https://github.com/pinepain"
+        }
+    ],
+    "require": {
+        "php": "~7.1",
+        "phpbench/phpbench": "^0.13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pinepain\\V8\\Tests\\Perf\\": "src/"
+        }
+    }
+}
