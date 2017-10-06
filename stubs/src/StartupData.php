@@ -29,7 +29,7 @@ class StartupData
     {
     }
 
-    public function getRawSize(): int
+    public function isRejected(): bool
     {
     }
 

@@ -323,7 +323,7 @@ class V8\HeapStatistics
 class V8\StartupData
     public function __construct(string $blob)
     public function getData(): string
-    public function getRawSize(): int
+    public function isRejected(): bool
     public static function createFromSource(string $source): V8\StartupData
     public static function warmUpSnapshotDataBlob(V8\StartupData $cold_startup_data, string $warmup_source): V8\StartupData
 
@@ -409,7 +409,7 @@ class V8\ScriptCompiler
     const OPTION_PRODUCE_CODE_CACHE = 3
     const OPTION_PRODUCE_FULL_CODE_CACHE = 4
     const OPTION_CONSUME_CODE_CACHE = 5
-    public static function cachedDataVersionTag(): int
+    public static function getCachedDataVersionTag(): float
     public static function compileUnboundScript(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\UnboundScript
     public static function compile(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\Script
     public static function compileFunctionInContext(V8\Context $context, V8\ScriptCompiler\Source $source, array $arguments, array $context_extensions): V8\FunctionObject

@@ -17,7 +17,7 @@ $v8_helper = new PhpV8Helpers($helper);
 $isolate = new V8\Isolate();
 
 $helper->header('Methods');
-$helper->inline_dump('V8\ScriptCompiler::cachedDataVersionTag()', V8\ScriptCompiler::cachedDataVersionTag());
+$helper->inline_dump('V8\ScriptCompiler::getCachedDataVersionTag()', V8\ScriptCompiler::getCachedDataVersionTag());
 $helper->space();
 
 
@@ -25,4 +25,4 @@ $helper->space();
 --EXPECTF--
 Methods:
 --------
-V8\ScriptCompiler::cachedDataVersionTag(): int(%d)
+V8\ScriptCompiler::getCachedDataVersionTag(): float(%f)

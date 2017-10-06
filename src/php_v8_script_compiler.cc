@@ -24,7 +24,9 @@
 #include "php_v8_string.h"
 #include "php_v8_value.h"
 #include "php_v8_isolate.h"
+#include "php_v8_a.h"
 #include "php_v8.h"
+#include "zend_smart_str.h"
 
 zend_class_entry* php_v8_script_compiler_class_entry;
 #define this_ce php_v8_script_compiler_class_entry
@@ -59,13 +61,17 @@ static v8::ScriptCompiler::Source * php_v8_build_source(zval *source_string_zv, 
     return source;
 }
 
-static PHP_METHOD(ScriptCompiler, cachedDataVersionTag)
+static PHP_METHOD(ScriptCompiler, getCachedDataVersionTag)
 {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
-    RETURN_LONG(static_cast<zend_long>(v8::ScriptCompiler::CachedDataVersionTag()));
+    php_v8_init();
+    script_compiler_tag version = php_v8_startup_data_get_current_tag();
+    uint64_t tag = (uint64_t) version.magic << (sizeof(version.tag) * 8) | version.tag;
+
+    RETURN_DOUBLE(tag);
 }
 
 static PHP_METHOD(ScriptCompiler, compileUnboundScript)
@@ -79,6 +85,8 @@ static PHP_METHOD(ScriptCompiler, compileUnboundScript)
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "oo|l", &php_v8_context_zv, &php_v8_source_zv, &options) == FAILURE) {
         return;
     }
+
+    php_v8_init();
 
     PHP_V8_CHECK_COMPILER_OPTIONS_RANGE(options, "Invalid Script compiler options given. See V8\\ScriptCompiler OPTION_* class constants for available options.")
 
@@ -135,6 +143,8 @@ static PHP_METHOD(ScriptCompiler, compile)
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "oo|l", &php_v8_context_zv, &php_v8_source_zv, &options) == FAILURE) {
         return;
     }
+
+    php_v8_init();
 
     PHP_V8_CHECK_COMPILER_OPTIONS_RANGE(options, "Invalid Script compiler options given. See V8\\ScriptCompiler OPTION_* class constants for available options.")
 
@@ -198,6 +208,8 @@ static PHP_METHOD(ScriptCompiler, compileFunctionInContext)
         return;
     }
 
+    php_v8_init();
+
     PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
 
     zval *source_string_zv = PHP_V8_SOURCE_READ_SOURCE_STRING(php_v8_source_zv);
@@ -252,7 +264,7 @@ static PHP_METHOD(ScriptCompiler, compileFunctionInContext)
 }
 
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_cachedDataVersionTag, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getCachedDataVersionTag, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_compileUnboundScript, ZEND_RETURN_VALUE, 2, V8\\UnboundScript, 0)
@@ -276,7 +288,7 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_script_compiler_methods[] = {
-    PHP_V8_ME(ScriptCompiler, cachedDataVersionTag,     ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(ScriptCompiler, getCachedDataVersionTag,  ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_V8_ME(ScriptCompiler, compileUnboundScript,     ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_V8_ME(ScriptCompiler, compile,                  ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_V8_ME(ScriptCompiler, compileFunctionInContext, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)

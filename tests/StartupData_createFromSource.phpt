@@ -19,14 +19,13 @@ $helper->space();
 
 
 $helper->assert('Snapshot blob is large binary string', is_string($data->getData()) && strlen($data->getData()) > 400000);
-$helper->assert('Snapshot raw_size is the same as binary_string length', $data->getRawSize(), strlen($data->getData()));
-$helper->assert('Snapshot raw_size is the same as binary_string length', $data->getRawSize(), strlen($data->getData()));
-
+$helper->assert('Snapshot blob is not rejected', $data->isRejected(), false);
 
 $isolate = new \V8\Isolate($data);
-$data = null;
-
 $context = new \V8\Context($isolate);
+
+$helper->assert('Snapshot blob is not rejected', $data->isRejected(), false);
+$data = null;
 
 $helper->assert('Context global is affected by snapshot blob', $context->globalObject()->get($context, new \V8\StringValue($isolate, 'test_snapshot'))->isFunction());
 
@@ -48,8 +47,8 @@ object(V8\StartupData)#2 (0) {
 
 
 Snapshot blob is large binary string: ok
-Snapshot raw_size is the same as binary_string length: ok
-Snapshot raw_size is the same as binary_string length: ok
+Snapshot blob is not rejected: ok
+Snapshot blob is not rejected: ok
 Context global is affected by snapshot blob: ok
 
 

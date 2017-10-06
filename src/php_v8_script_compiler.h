@@ -13,6 +13,7 @@
 #ifndef PHP_V8_SCRIPT_COMPILER_H
 #define PHP_V8_SCRIPT_COMPILER_H
 
+
 extern "C" {
 #include "php.h"
 
@@ -20,6 +21,8 @@ extern "C" {
 #include "TSRM.h"
 #endif
 }
+
+#include "v8.h"
 
 extern zend_class_entry *php_v8_script_compiler_class_entry;
 

@@ -200,9 +200,18 @@ static PHP_METHOD(Isolate, __construct) {
 
     if (snapshot_zv != NULL) {
         PHP_V8_STARTUP_DATA_FETCH_INTO(snapshot_zv, php_v8_startup_data);
-        if (php_v8_startup_data->blob && php_v8_startup_data->blob->hasData()) {
-            php_v8_isolate->blob = php_v8_startup_data->blob;
-            php_v8_isolate->create_params->snapshot_blob = php_v8_isolate->blob->acquire();
+
+        if (php_v8_startup_data->blob && php_v8_startup_data->blob->hasData() && !php_v8_startup_data->blob->rejected()) {
+
+            script_compiler_tag runtime = php_v8_startup_data_get_current_tag();
+            script_compiler_tag version = php_v8_startup_data->blob->version();
+
+            if (runtime.magic == version.magic && runtime.tag == version.tag) {
+                php_v8_isolate->blob = php_v8_startup_data->blob;
+                php_v8_isolate->create_params->snapshot_blob = php_v8_isolate->blob->acquire();
+            } else {
+                php_v8_startup_data->blob->reject();
+            }
         }
     }
 

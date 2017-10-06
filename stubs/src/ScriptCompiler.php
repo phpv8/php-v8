@@ -1,23 +1,35 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of the pinepain/php-v8 PHP extension.
+ *
+ * Copyright (c) 2015-2017 Bogdan Padalko <pinepain@gmail.com>
+ *
+ * Licensed under the MIT license: http://opensource.org/licenses/MIT
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source or visit
+ * http://opensource.org/licenses/MIT
+ */
+
 
 namespace V8;
 
-use V8\ScriptCompiler\CompileOptions;
+
 use V8\ScriptCompiler\Source;
 
 
 /**
  * For compiling scripts.
  */
-class  ScriptCompiler
+class ScriptCompiler
 {
-    const OPTION_NO_COMPILE_OPTIONS = 0;
-    const OPTION_PRODUCE_PARSER_CACHE = 1;
-    const OPTION_CONSUME_PARSER_CACHE = 2;
-    const OPTION_PRODUCE_CODE_CACHE = 3;
+    const OPTION_NO_COMPILE_OPTIONS      = 0;
+    const OPTION_PRODUCE_PARSER_CACHE    = 1;
+    const OPTION_CONSUME_PARSER_CACHE    = 2;
+    const OPTION_PRODUCE_CODE_CACHE      = 3;
     const OPTION_PRODUCE_FULL_CODE_CACHE = 4;
-    const OPTION_CONSUME_CODE_CACHE = 5;
+    const OPTION_CONSUME_CODE_CACHE      = 5;
 
     private function __construct()
     {
@@ -41,9 +53,9 @@ class  ScriptCompiler
      *   Alternatively, this tag can be stored alongside the cached data and
      *   compared when it is being used.
      *
-     * @return int
+     * @return float
      */
-    public static function cachedDataVersionTag(): int
+    public static function getCachedDataVersionTag(): float
     {
     }
 
