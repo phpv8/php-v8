@@ -17,6 +17,7 @@
 #include "php_v8_function_callback_info.h"
 #include "php_v8_exceptions.h"
 #include "php_v8_return_value.h"
+#include "php_v8_callback_info_interface.h"
 #include "php_v8_value.h"
 #include "php_v8.h"
 
@@ -85,7 +86,7 @@ php_v8_return_value_t * php_v8_callback_info_create_from_info(zval *return_value
     return php_v8_return_value;
 }
 
-static PHP_METHOD(CallbackInfo, getIsolate) {
+static PHP_METHOD(FunctionCallbackInfo, getIsolate) {
     zval rv;
     zval *tmp;
 
@@ -97,7 +98,7 @@ static PHP_METHOD(CallbackInfo, getIsolate) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(CallbackInfo, getContext) {
+static PHP_METHOD(FunctionCallbackInfo, getContext) {
     zval rv;
     zval *tmp;
 
@@ -109,7 +110,7 @@ static PHP_METHOD(CallbackInfo, getContext) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(CallbackInfo, this) {
+static PHP_METHOD(FunctionCallbackInfo, this) {
     zval rv;
     zval *tmp;
 
@@ -121,7 +122,7 @@ static PHP_METHOD(CallbackInfo, this) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(CallbackInfo, holder) {
+static PHP_METHOD(FunctionCallbackInfo, holder) {
     zval rv;
     zval *tmp;
 
@@ -133,7 +134,7 @@ static PHP_METHOD(CallbackInfo, holder) {
     ZVAL_COPY(return_value, tmp);
 }
 
-static PHP_METHOD(CallbackInfo, getReturnValue) {
+static PHP_METHOD(FunctionCallbackInfo, getReturnValue) {
     zval rv;
     zval *tmp;
 
@@ -224,11 +225,11 @@ ZEND_END_ARG_INFO()
 
 
 static const zend_function_entry php_v8_function_callback_info_methods[] = {
-        PHP_V8_ME(CallbackInfo, this,           ZEND_ACC_PUBLIC)
-        PHP_V8_ME(CallbackInfo, holder,         ZEND_ACC_PUBLIC)
-        PHP_V8_ME(CallbackInfo, getIsolate,     ZEND_ACC_PUBLIC)
-        PHP_V8_ME(CallbackInfo, getContext,     ZEND_ACC_PUBLIC)
-        PHP_V8_ME(CallbackInfo, getReturnValue, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionCallbackInfo, getIsolate,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionCallbackInfo, getContext,     ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionCallbackInfo, this,           ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionCallbackInfo, holder,         ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionCallbackInfo, getReturnValue, ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionCallbackInfo, length,          ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionCallbackInfo, arguments,       ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionCallbackInfo, newTarget,       ZEND_ACC_PUBLIC)
@@ -241,6 +242,7 @@ PHP_MINIT_FUNCTION(php_v8_function_callback_info) {
 
     INIT_NS_CLASS_ENTRY(ce, PHP_V8_NS, "FunctionCallbackInfo", php_v8_function_callback_info_methods);
     this_ce = zend_register_internal_class(&ce);
+    zend_class_implements(this_ce, 1, php_v8_callback_info_interface_class_entry);
 
     zend_declare_property_null(this_ce, ZEND_STRL("isolate"), ZEND_ACC_PRIVATE);
     zend_declare_property_null(this_ce, ZEND_STRL("context"), ZEND_ACC_PRIVATE);

@@ -52,6 +52,17 @@ class Context
     }
 
     /**
+     * Enter context and execute callback
+     *
+     * @param callable $callback Callback to execute. Current isolate will be passed as first argument and current context object as second.
+     *
+     * @return mixed Value returned by callback
+     */
+    public function within(callable $callback)
+    {
+    }
+
+    /**
      * @return Isolate
      */
     public function getIsolate(): Isolate

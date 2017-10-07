@@ -3,6 +3,7 @@ tests/*
 !tests/.testsuite.php
 !tests/.v8-helpers.php
 !tests/.tracking_dtors.php
+!tests/stubs
 
 .deps
 *.lo

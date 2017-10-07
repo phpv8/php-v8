@@ -105,6 +105,31 @@ $cache_data = null;
 }
 
 {
+    $helper->header('Test generating full code cache');
+    $source_string = new V8\StringValue($isolate, '"test " + status');
+    $source = new \V8\ScriptCompiler\Source($source_string);
+    $helper->assert('Source cache data is NULL', $source->getCachedData() === null);
+    $script = V8\ScriptCompiler::compile($context, $source, V8\ScriptCompiler::OPTION_PRODUCE_FULL_CODE_CACHE);
+    $helper->assert('Source cache data is update', $source->getCachedData() != null);
+    $helper->assert('Source cache data is not rejected', $source->getCachedData()->isRejected() === false);
+
+    $cache_data = $source->getCachedData();
+    $helper->line();
+}
+
+{
+    $helper->header('Test consuming full code cache');
+
+    $source = new \V8\ScriptCompiler\Source($source_string, null, $cache_data);
+    $helper->assert('Source cache data is set', $source->getCachedData() != null);
+    $script = V8\ScriptCompiler::compile($context, $source, V8\ScriptCompiler::OPTION_CONSUME_CODE_CACHE);
+    $helper->assert('Source cache data is still set', $source->getCachedData() != null);
+    $helper->assert('Source cache data is not rejected', $source->getCachedData()->isRejected() === false);
+
+    $helper->line();
+}
+
+{
     $helper->header('Test consuming code cache for wrong source');
     $source_string = new V8\StringValue($isolate, '"other " + status');
     $source = new \V8\ScriptCompiler\Source($source_string, null, $cache_data);
@@ -288,6 +313,18 @@ Source cache data is not rejected: ok
 
 Test consuming code cache:
 --------------------------
+Source cache data is set: ok
+Source cache data is still set: ok
+Source cache data is not rejected: ok
+
+Test generating full code cache:
+--------------------------------
+Source cache data is NULL: ok
+Source cache data is update: ok
+Source cache data is not rejected: ok
+
+Test consuming full code cache:
+-------------------------------
 Source cache data is set: ok
 Source cache data is still set: ok
 Source cache data is not rejected: ok

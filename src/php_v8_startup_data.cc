@@ -16,8 +16,10 @@
 
 #include "php_v8_startup_data.h"
 #include "php_v8_exceptions.h"
+#include "php_v8_script_compiler.h"
 #include "php_v8_a.h"
 #include "php_v8.h"
+#include "zend_smart_str.h"
 
 
 zend_class_entry *php_v8_startup_data_class_entry;
@@ -25,13 +27,25 @@ zend_class_entry *php_v8_startup_data_class_entry;
 
 static zend_object_handlers php_v8_startup_data_object_handlers;
 
+extern script_compiler_tag php_v8_startup_data_get_current_tag() {
+    script_compiler_tag tag = {PHP_V8_SCRIPT_COMPILER_TAG_MAGIC, v8::ScriptCompiler::CachedDataVersionTag()};
+    return tag;
+}
 
 void php_v8_startup_data_create(zval *return_value, v8::StartupData *blob) {
     object_init_ex(return_value, this_ce);
 
     PHP_V8_STARTUP_DATA_FETCH_INTO(return_value, php_v8_startup_data);
 
-    php_v8_startup_data->blob = new phpv8::StartupData(blob);
+    script_compiler_tag version = php_v8_startup_data_get_current_tag();
+
+    const char *blob_data = blob->data;
+
+    blob->data = (const char *) estrndup(blob->data, blob->raw_size);
+
+    delete []blob_data;
+
+    php_v8_startup_data->blob = new phpv8::StartupData(blob, version);
 }
 
 static void php_v8_startup_data_free(zend_object *object) {
@@ -68,22 +82,27 @@ static PHP_METHOD(StartupData, __construct) {
         return;
     }
 
-    if (ZSTR_LEN(blob_string) > INT_MAX) {
-        PHP_V8_THROW_EXCEPTION("Failed to create startup blob due to blob size integer overflow");
+    if (ZSTR_LEN(blob_string) > INT_MAX + sizeof(script_compiler_tag)) {
+        PHP_V8_THROW_EXCEPTION("Invalid startup blob (too large)");
         return;
     }
 
-    if (!ZSTR_LEN(blob_string)) {
+    if (ZSTR_LEN(blob_string) < sizeof(script_compiler_tag)) {
+        PHP_V8_THROW_EXCEPTION("Invalid startup blob (too small)");
         return;
     }
+
+    script_compiler_tag version = {};
+    memcpy(&version, &ZSTR_VAL(blob_string)[0], sizeof(script_compiler_tag));
 
     PHP_V8_STARTUP_DATA_FETCH_INTO(getThis(), php_v8_startup_data);
 
     v8::StartupData *blob = new v8::StartupData();
-    blob->data = (const char *) estrndup(ZSTR_VAL(blob_string), ZSTR_LEN(blob_string));
-    blob->raw_size = static_cast<int>(ZSTR_LEN(blob_string));
 
-    php_v8_startup_data->blob = new phpv8::StartupData(blob);
+    blob->data     = (const char *) estrndup(&ZSTR_VAL(blob_string)[sizeof(script_compiler_tag)], ZSTR_LEN(blob_string) - sizeof(script_compiler_tag));
+    blob->raw_size = static_cast<int>(ZSTR_LEN(blob_string) - sizeof(script_compiler_tag));
+
+    php_v8_startup_data->blob = new phpv8::StartupData(blob, version);
 }
 
 static PHP_METHOD(StartupData, getData) {
@@ -94,26 +113,34 @@ static PHP_METHOD(StartupData, getData) {
     PHP_V8_STARTUP_DATA_FETCH_INTO(getThis(), php_v8_startup_data);
 
     if (php_v8_startup_data->blob && php_v8_startup_data->blob->hasData()) {
-        zend_string *out = zend_string_init(php_v8_startup_data->blob->data()->data, static_cast<size_t>(php_v8_startup_data->blob->data()->raw_size), 0);
+        script_compiler_tag loaded = php_v8_startup_data->blob->version();
+        smart_str my_str = {0};
+
+        smart_str_appendl(&my_str, (char *)&loaded, sizeof(script_compiler_tag));
+        smart_str_appendl(&my_str, php_v8_startup_data->blob->data()->data, static_cast<size_t>(php_v8_startup_data->blob->data()->raw_size));
+        smart_str_0(&my_str);
+
+        zend_string *out = zend_string_copy(my_str.s);
+        smart_str_free(&my_str);
+
         RETURN_STR(out);
     }
 
     RETURN_EMPTY_STRING();
 }
 
-static PHP_METHOD(StartupData, getRawSize) {
+static PHP_METHOD(StartupData, isRejected) {
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
 
     PHP_V8_STARTUP_DATA_FETCH_INTO(getThis(), php_v8_startup_data);
 
-    if (php_v8_startup_data->blob && php_v8_startup_data->blob->hasData()) {
-        RETVAL_LONG(static_cast<zend_long>(php_v8_startup_data->blob->data()->raw_size));
-        return;
+    if (php_v8_startup_data->blob) {
+        RETURN_BOOL(php_v8_startup_data->blob->rejected());
     }
 
-    RETURN_LONG(0);
+    RETURN_BOOL(false);
 }
 
 static PHP_METHOD(StartupData, createFromSource) {
@@ -128,7 +155,7 @@ static PHP_METHOD(StartupData, createFromSource) {
     const char *source = ZSTR_VAL(blob);
     php_v8_init();
 
-    v8::StartupData *startup_blob = new v8::StartupData;
+    v8::StartupData *startup_blob = new v8::StartupData();
 
     *startup_blob = v8::V8::CreateSnapshotDataBlob(source);
 
@@ -175,7 +202,7 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getData, ZEND_RETURN_VALUE, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getRawSize, ZEND_RETURN_VALUE, 0, IS_LONG, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isRejected, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_createFromSource, ZEND_RETURN_VALUE, 1, V8\\StartupData, 0)
@@ -191,7 +218,7 @@ ZEND_END_ARG_INFO()
 static const zend_function_entry php_v8_startup_data_methods[] = {
         PHP_V8_ME(StartupData, __construct,            ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
         PHP_V8_ME(StartupData, getData,                ZEND_ACC_PUBLIC)
-        PHP_V8_ME(StartupData, getRawSize,             ZEND_ACC_PUBLIC)
+        PHP_V8_ME(StartupData, isRejected,             ZEND_ACC_PUBLIC)
         PHP_V8_ME(StartupData, createFromSource,       ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
         PHP_V8_ME(StartupData, warmUpSnapshotDataBlob, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 

@@ -32,10 +32,6 @@ $helper->header('UnboundScript representation');
 $helper->dump($unbound);
 $helper->space();
 
-$helper->header('Class constants');
-$helper->dump_object_constants($unbound);
-$helper->space();
-
 $helper->header('Accessors');
 $helper->method_matches($unbound, 'getIsolate', $isolate);
 $helper->method_matches_instanceof($unbound, 'bindToContext', V8\Script::class, [$context]);
@@ -75,11 +71,6 @@ object(V8\UnboundScript)#6 (1) {
   object(V8\Isolate)#3 (0) {
   }
 }
-
-
-Class constants:
-----------------
-V8\UnboundScript::kNoScriptId = 0
 
 
 Accessors:

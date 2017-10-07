@@ -11,6 +11,7 @@ use V8\Context;
 use V8\Isolate;
 use V8\NameValue;
 use V8\ObjectValue;
+use V8\CallbackInfoInterface;
 use V8\PropertyCallbackInfo;
 use V8\Script;
 use V8\StringValue;
@@ -19,10 +20,13 @@ use V8\StringValue;
 $helper = require '.testsuite.php';
 
 $isolate = new Isolate();
-
 $context = new Context($isolate);
 
+$helper->assert("PropertyCallbackInfo implements CallbackInfoInterface", new PropertyCallbackInfo() instanceof CallbackInfoInterface);
+$helper->line();
+
 $prop_value = 'foo';
+
 
 $getter = function (NameValue $property, PropertyCallbackInfo $info) use (&$prop_value, $helper, $isolate, $context) {
 
@@ -55,6 +59,8 @@ $helper->dump($script->run($context)->toString($context)->value());
 
 ?>
 --EXPECT--
+PropertyCallbackInfo implements CallbackInfoInterface: ok
+
 Property callback called
 
 Object representation:

@@ -13,8 +13,8 @@ class Dumper
     {
         $re = new ReflectionExtension('v8');
 
-        echo 'Name: ', $re->getName(), PHP_EOL;
-        echo 'Version: ', $re->getVersion(), PHP_EOL;
+        // echo 'Name: ', $re->getName(), PHP_EOL;
+        // echo 'Version: ', $re->getVersion(), PHP_EOL;
 
         echo PHP_EOL;
         echo 'Extension-global functions:', PHP_EOL;
@@ -204,14 +204,8 @@ $d = new Dumper();
 
 $d->dumpExtension();
 
-// EXPECTF: ---/Version: .+/
-// EXPECTF: +++Version: %s
-
 ?>
---EXPECTF--
-Name: v8
-Version: %s
-
+--EXPECT--
 Extension-global functions:
 none
 
@@ -329,7 +323,7 @@ class V8\HeapStatistics
 class V8\StartupData
     public function __construct(string $blob)
     public function getData(): string
-    public function getRawSize(): int
+    public function isRejected(): bool
     public static function createFromSource(string $source): V8\StartupData
     public static function warmUpSnapshotDataBlob(V8\StartupData $cold_startup_data, string $warmup_source): V8\StartupData
 
@@ -338,6 +332,7 @@ class V8\Isolate
     const MEMORY_PRESSURE_LEVEL_MODERATE = 1
     const MEMORY_PRESSURE_LEVEL_CRITICAL = 2
     public function __construct(?V8\StartupData $snapshot)
+    public function within(callable $callback)
     public function setTimeLimit(float $time_limit_in_seconds)
     public function getTimeLimit(): float
     public function isTimeLimitHit(): bool
@@ -362,6 +357,7 @@ class V8\Isolate
 class V8\Context
     private $isolate
     public function __construct(V8\Isolate $isolate, ?V8\ObjectTemplate $global_template, ?V8\ObjectValue $global_object)
+    public function within(callable $callback)
     public function getIsolate(): V8\Isolate
     public function globalObject(): V8\ObjectValue
     public function detachGlobal()
@@ -382,12 +378,11 @@ class V8\Script
     public function getUnboundScript(): V8\UnboundScript
 
 class V8\UnboundScript
-    const kNoScriptId = 0
     private $isolate
     private function __construct()
     public function getIsolate(): V8\Isolate
     public function bindToContext(V8\Context $context): V8\Script
-    public function getId(): int
+    public function getId(): ?int
     public function getScriptName(): V8\Value
     public function getSourceURL(): V8\Value
     public function getSourceMappingURL(): V8\Value
@@ -412,8 +407,9 @@ class V8\ScriptCompiler
     const OPTION_PRODUCE_PARSER_CACHE = 1
     const OPTION_CONSUME_PARSER_CACHE = 2
     const OPTION_PRODUCE_CODE_CACHE = 3
-    const OPTION_CONSUME_CODE_CACHE = 4
-    public static function cachedDataVersionTag(): int
+    const OPTION_PRODUCE_FULL_CODE_CACHE = 4
+    const OPTION_CONSUME_CODE_CACHE = 5
+    public static function getCachedDataVersionTag(): float
     public static function compileUnboundScript(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\UnboundScript
     public static function compile(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\Script
     public static function compileFunctionInContext(V8\Context $context, V8\ScriptCompiler\Source $source, array $arguments, array $context_extensions): V8\FunctionObject
@@ -903,21 +899,30 @@ class V8\ReturnValue
     public function getContext(): V8\Context
     public function inContext(): bool
 
+interface V8\CallbackInfoInterface
+    abstract public function getIsolate(): V8\Isolate
+    abstract public function getContext(): V8\Context
+    abstract public function this(): V8\ObjectValue
+    abstract public function holder(): V8\ObjectValue
+    abstract public function getReturnValue(): V8\ReturnValue
+
 class V8\PropertyCallbackInfo
+    implements V8\CallbackInfoInterface
     private $isolate
     private $context
     private $this
     private $holder
     private $return_value
     private $should_throw_on_error
-    public function this(): V8\ObjectValue
-    public function holder(): V8\ObjectValue
     public function getIsolate(): V8\Isolate
     public function getContext(): V8\Context
+    public function this(): V8\ObjectValue
+    public function holder(): V8\ObjectValue
     public function getReturnValue(): V8\ReturnValue
     public function shouldThrowOnError(): bool
 
 class V8\FunctionCallbackInfo
+    implements V8\CallbackInfoInterface
     private $isolate
     private $context
     private $this
@@ -926,10 +931,10 @@ class V8\FunctionCallbackInfo
     private $arguments
     private $new_target
     private $is_constructor_call
-    public function this(): V8\ObjectValue
-    public function holder(): V8\ObjectValue
     public function getIsolate(): V8\Isolate
     public function getContext(): V8\Context
+    public function this(): V8\ObjectValue
+    public function holder(): V8\ObjectValue
     public function getReturnValue(): V8\ReturnValue
     public function length(): int
     public function arguments(): array
