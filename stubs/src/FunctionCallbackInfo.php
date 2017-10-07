@@ -22,7 +22,7 @@ namespace V8;
  * including the receiver, the number and values of arguments, and
  * the holder of the function.
  */
-class FunctionCallbackInfo
+class FunctionCallbackInfo implements CallbackInfoInterface
 {
     /**
      * {@inheritdoc}
