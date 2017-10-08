@@ -87,6 +87,10 @@ in your IDE and other code-analysis tools.
 
     composer require --dev pinepain/php-v8-stubs
 
+## High-level wrapper library
+
+There is [pinepain/js-sandbox](https://github.com/pinepain/js-sandbox) library that provides high-level abstraction
+on top of php-v8 extension and makes embedding JavaScript in PHP easier.
 
 ## Installation
 
