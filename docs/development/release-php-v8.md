@@ -12,6 +12,8 @@
 6. Commit all changes with `Prepare X.Y.Z release` commit message.
 7. Push this commit and make sure it will pass the build.
 8. Tag it with `vX.Y.Z` tag and push. Create github release from a draft prepared in step above.
+9. Run `./scripts/subsplit.sh` to update `php-v8-stubs` which are available in a separate read-only repository to match
+   packagist and composer expectations. 
 
 # PECL release 
 
