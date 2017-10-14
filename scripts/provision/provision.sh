@@ -5,7 +5,7 @@ echo Provisioning...
 # Add Ondřej Surý's PPA with co-installable PHP versions:
 sudo add-apt-repository -y ppa:ondrej/php
 # Add libv8 PPA:
-sudo add-apt-repository ppa:pinepain/libv8-6.3
+sudo add-apt-repository ppa:pinepain/libv8-6.4
 
 # Let's update packages list:
 sudo apt-get update
@@ -19,7 +19,7 @@ sudo apt-get install -y git htop curl pkgconf
 
 
 # Build and development requirements
-sudo apt-get install -y libv8-6.3 libv8-6.3-dev libv8-6.3-dbg
+sudo apt-get install -y libv8-6.4 libv8-6.4-dev libv8-6.4-dbg
 sudo apt-get install -y dh-make valgrind
 sudo apt-get install -y libssl-dev openssl
 sudo apt-get install -y php7.1 php7.1-cli php7.1-dev php7.1-fpm

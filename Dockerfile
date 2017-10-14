@@ -1,4 +1,4 @@
-ARG TAG=xenial-v8-63-php-72
+ARG TAG=xenial-v8-64-php-72
 
 FROM pinepain/php-v8-docker:${TAG}
 
