@@ -13,6 +13,9 @@ PHP extension for V8 JavaScript engine
 Maintaining this project takes significant amount of time and efforts.
 If you like my work and want to show your appreciation, please consider supporting me at https://www.patreon.com/pinepain.
 
+Work in progress documentation could be found at https://pinepain.gitbooks.io/php-v8/content/. You can also use tests and 
+stubs as reference.
+
 ## Why (aka Rationale)
 
 This tool solves following domain problems:
