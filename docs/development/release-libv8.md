@@ -35,18 +35,19 @@ To track v8 changes you can use these links:
 1. Update min required `libv8` version in [php-v8](https://github.com/pinepain/php-v8)/config.m4, `V8_MIN_API_VERSION_STR=X.Y.Z`.
 2. If there was new docker images published, update reference to them in [php-v8](https://github.com/pinepain/php-v8)/.travis.yml
    and in [php-v8](https://github.com/pinepain/php-v8)/Dockerfile, and set proper `V8` and `TAG` value there.
-3. Also, update references to v8 version in [php-v8](https://github.com/pinepain/php-v8)/scripts/provision/provision.sh,
+3. Update reference to `v8@X.Y` in [php-v8](https://github.com/pinepain/php-v8)/CMakeLists.txt on minor version bump.
+4. Also, update references to v8 version in [php-v8](https://github.com/pinepain/php-v8)/scripts/provision/provision.sh,
    it's normally could be done by replacing old version with new, e.g. `6.3` => `6.4`.
-4. On every version bump update [php-v8](https://github.com/pinepain/php-v8)/README.md file with proper min v8 version required/tested.
-5. If you use vagrant, re-provision your local dev env at this step to fetch/add new `libv8` version.
+5. On every version bump update [php-v8](https://github.com/pinepain/php-v8)/README.md file with proper min v8 version required/tested.
+6. If you use vagrant, re-provision your local dev env at this step to fetch/add new `libv8` version.
    It's generally a good idea to remove old `libv8` versions as well and remove their PPA from apt sources list at this point.
-6. **Make sure you tested [php-v8](https://github.com/pinepain/php-v8) locally first before pushing to remote**,
+7. **Make sure you tested [php-v8](https://github.com/pinepain/php-v8) locally first before pushing to remote**,
    upgrading v8 could be tricky as it may break BC even in patch releases (that's why we started to have separate
    PPAs for minor version to somehow couple with this issue in minor releases).
-7. Note, that doing all this in a separate branch and merging that later into master is a nice and safe idea
+8. Note, that doing all this in a separate branch and merging that later into master is a nice and safe idea
    (note, you may skip PR overhead and do fast-forward merge locally to master).
-8. Commit message should state that it is v8 version bump, e.g. `Require libv8 >= X.Y.Z`
-9. Push changes and make sure build is green. If not, fix code/update tests and repeat.  
+9. Commit message should state that it is v8 version bump, e.g. `Require libv8 >= X.Y.Z`
+10. Push changes and make sure build is green. If not, fix code/update tests and repeat.  
 
 
 ## Building packages for macOS Homebrew

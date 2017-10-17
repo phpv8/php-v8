@@ -3,8 +3,8 @@ project(php-v8)
 
 # NOTE: This CMake file is just for syntax highlighting in CLion
 
-include_directories(/usr/local/opt/v8@6.3/include)
-include_directories(/usr/local/opt/v8@6.3/include/libplatform)
+include_directories(/usr/local/opt/v8@6.4/include)
+include_directories(/usr/local/opt/v8@6.4/include/libplatform)
 
 include_directories(/usr/local/include/php)
 include_directories(/usr/local/include/php/TSRM)
