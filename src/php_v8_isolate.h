@@ -20,7 +20,7 @@ typedef struct _php_v8_isolate_t php_v8_isolate_t;
 #include "php_v8_exceptions.h"
 #include "php_v8_callbacks.h"
 #include <v8.h>
-#include <map>
+#include <vector>
 
 extern "C" {
 #include "php.h"
@@ -34,6 +34,7 @@ extern zend_class_entry *php_v8_isolate_class_entry;
 
 inline php_v8_isolate_t * php_v8_isolate_fetch_object(zend_object *obj);
 inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php_v8_isolate);
+extern void php_v8_isolate_external_exceptions_maybe_clear(php_v8_isolate_t *php_v8_isolate);
 
 // TODO: remove or cleanup to use for debug reasons
 #define SX(x) #x
@@ -130,6 +131,20 @@ inline v8::Local<v8::Private> php_v8_isolate_get_key_local(php_v8_isolate_t *php
     }
 
 
+namespace phpv8 {
+
+    class ExternalExceptionsStack {
+    public:
+        int getGcCount();
+        void collectGcZvals(zval *& zv);
+        void add(zval zv);
+        void clear();
+        ~ExternalExceptionsStack();
+    private:
+        std::vector<zval> exceptions;
+    };
+}
+
 struct _php_v8_isolate_t {
     v8::Isolate *isolate;
     v8::Isolate::CreateParams *create_params;
@@ -138,6 +153,7 @@ struct _php_v8_isolate_t {
     phpv8::PersistentCollection<v8::FunctionTemplate> *weak_function_templates;
     phpv8::PersistentCollection<v8::ObjectTemplate> *weak_object_templates;
     phpv8::PersistentCollection<v8::Value> *weak_values;
+    phpv8::ExternalExceptionsStack *external_exceptions;
 
     v8::Persistent<v8::Private> key;
 

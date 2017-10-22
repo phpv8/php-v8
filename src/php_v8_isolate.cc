@@ -64,6 +64,37 @@ static inline void php_v8_isolate_destroy(php_v8_isolate_t *php_v8_isolate) {
     }
 }
 
+void php_v8_isolate_external_exceptions_maybe_clear(php_v8_isolate_t *php_v8_isolate) {
+    if (!php_v8_isolate->limits.depth) {
+        php_v8_isolate->external_exceptions->clear();
+    }
+}
+
+namespace phpv8 {
+    int ExternalExceptionsStack::getGcCount() {
+        return static_cast<int>(exceptions.size());
+    }
+    void ExternalExceptionsStack::collectGcZvals(zval *& zv) {
+        for (auto const &item : exceptions) {
+            ZVAL_COPY_VALUE(zv++, &item);
+        }
+    }
+    void ExternalExceptionsStack::add(zval zv) {
+        assert(IS_OBJECT == Z_TYPE(zv));
+        Z_ADDREF(zv);
+        exceptions.push_back(zv);
+        assert(exceptions.size() < INT_MAX);
+    }
+    void ExternalExceptionsStack::clear() {
+        for (auto &item : exceptions) {
+            zval_ptr_dtor(&item);
+        }
+        exceptions.clear();
+    }
+    ExternalExceptionsStack::~ExternalExceptionsStack() {
+        clear();
+    }
+}
 
 static HashTable * php_v8_isolate_gc(zval *object, zval **table, int *n) {
     PHP_V8_ISOLATE_FETCH_INTO(object, php_v8_isolate);
@@ -73,6 +104,7 @@ static HashTable * php_v8_isolate_gc(zval *object, zval **table, int *n) {
     size += php_v8_isolate->weak_function_templates->getGcCount();
     size += php_v8_isolate->weak_object_templates->getGcCount();
     size += php_v8_isolate->weak_values->getGcCount();
+    size += php_v8_isolate->external_exceptions->getGcCount();
 
     if (php_v8_isolate->gc_data_count < size) {
         php_v8_isolate->gc_data = (zval *)safe_erealloc(php_v8_isolate->gc_data, size, sizeof(zval), 0);
@@ -85,6 +117,7 @@ static HashTable * php_v8_isolate_gc(zval *object, zval **table, int *n) {
     php_v8_isolate->weak_function_templates->collectGcZvals(gc_data);
     php_v8_isolate->weak_object_templates->collectGcZvals(gc_data);
     php_v8_isolate->weak_values->collectGcZvals(gc_data);
+    php_v8_isolate->external_exceptions->collectGcZvals(gc_data);
 
     *table = php_v8_isolate->gc_data;
     *n     = php_v8_isolate->gc_data_count;
@@ -107,6 +140,10 @@ static void php_v8_isolate_free(zend_object *object) {
 
     if (php_v8_isolate->weak_values) {
         delete php_v8_isolate->weak_values;
+    }
+
+    if (php_v8_isolate->external_exceptions) {
+        delete php_v8_isolate->external_exceptions;
     }
 
     if (php_v8_isolate->gc_data) {
@@ -159,6 +196,7 @@ static zend_object *php_v8_isolate_ctor(zend_class_entry *ce) {
     php_v8_isolate->weak_function_templates = new phpv8::PersistentCollection<v8::FunctionTemplate>();
     php_v8_isolate->weak_object_templates = new phpv8::PersistentCollection<v8::ObjectTemplate>();
     php_v8_isolate->weak_values = new phpv8::PersistentCollection<v8::Value>();
+    php_v8_isolate->external_exceptions = new phpv8::ExternalExceptionsStack();
     new(&php_v8_isolate->key) v8::Persistent<v8::Private>();
 
     php_v8_isolate->std.handlers = &php_v8_isolate_object_handlers;
@@ -409,6 +447,7 @@ static PHP_METHOD(Isolate, getEnteredContext) {
 }
 
 static PHP_METHOD(Isolate, throwException) {
+    zval tmp;
     zval *php_v8_context_zv;
     zval *php_v8_value_zv;
     zval *exception_zv = NULL;
@@ -444,6 +483,9 @@ static PHP_METHOD(Isolate, throwException) {
         }
 
         ZVAL_COPY(&php_v8_value->exception, exception_zv);
+
+        ZVAL_OBJ(&tmp, &php_v8_value->std);
+        php_v8_isolate->external_exceptions->add(tmp);
     }
 
     isolate->ThrowException(local_value);

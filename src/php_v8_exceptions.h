@@ -53,8 +53,10 @@ extern void php_v8_throw_try_catch_exception(php_v8_context_t *php_v8_context, v
     php_v8_isolate_limits_maybe_stop_timer((php_v8_context)->php_v8_isolate);\
     if ((try_catch).HasCaught()) { \
         php_v8_throw_try_catch_exception((php_v8_context), &(try_catch)); \
+        php_v8_isolate_external_exceptions_maybe_clear((php_v8_context)->php_v8_isolate); \
         return; \
-    }
+    } \
+    php_v8_isolate_external_exceptions_maybe_clear((php_v8_context)->php_v8_isolate); \
 
 
 #define PHP_V8_TRY_CATCH_EXCEPTION_STORE_ISOLATE(to_zval, from_isolate_zv) zend_update_property(php_v8_try_catch_exception_class_entry, (to_zval), ZEND_STRL("isolate"), (from_isolate_zv));
