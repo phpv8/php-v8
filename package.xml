@@ -26,11 +26,11 @@
         <email>pinepain@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2017-09-30</date>
-    <time>20:09:41</time>
+    <date>2017-10-23</date>
+    <time>20:20:32</time>
     <version>
-        <release>0.2.0</release>
-        <api>0.2.0</api>
+        <release>0.2.1</release>
+        <api>0.2.1</api>
     </version>
     <stability>
         <release>stable</release>
@@ -38,45 +38,27 @@
     </stability>
     <license uri="https://opensource.org/licenses/mit">The MIT License (MIT)</license>
     <notes>
-        This release introduces many major changes to public API and breaks BC for the sake of more solid and stable API in a further versions.
+        This release brings stability and improvements. It contains some minor BC-breaking changes which should not affect general public. See full change log below for details
 
-        PLEASE READ:
-          Maintaining this project takes significant amount of time and efforts.
-        If you like my work and want to show your appreciation, please consider supporting me: https://www.patreon.com/pinepain
+        Changelog:
 
-        Changes:
+        BC-breaking changes:
 
-         - Drop PHP 7.0 support, #30;
-         - Add typehint for $value param in Template::set(), #36;
-         - Rename constants to match PSR-2 convention, #34;
-         - Make enum classes with constants final, #39 ;
-         - Rename HeapStatistics methods to match PSR-2, #38;
-         - Rename V8\Exception class and it methods, #33;
-         - Add FunctionObject::getScriptId() method;
-         - Remove no-data constants and use NULL instead, #40;
-         - Refactor ScriptOriginOptions to use bit field, #42;
-         - Remove redundant ScriptOrigin::is*() methods, #61;
-         - Add missed method to Value stub;
-         - Fix improperly adjusted external allocated memory on weak callback call;
-         - Add Proxy and Promise builtin support, #55;
-         - Add support for regexp dotAll flag, #54;
-         - Move RegExpObject\Flags constants under RegExpObject, #64;
-         - Move CompileOptions constants under ScriptCompiler, #65;
-         - Add Isolate::MemoryPressureNotification() support, #57;
-         - Require libv8 >= 6.3.163;
-         - Add StackFrame::isWasm(), #53;
-         - Get rid of CallbackInfo, #67;
-         - Add immutable prototype chains to ObjectTemplate, #58;
-         - Add StartupData::warmUpSnapshotDataBlob(), #59;
-         - Add missed JSON class support, #56;
-         - Add Message::getErrorLevel() method, #52;
-         - Rename SymbolValue methods, #41;
-         - Rename TryCatch methods, #41;
-         - Add missed PrimitiveValue::value() abstract method;
-         - Add Isolate::SetRAILMode(), #60;
-         - Fix improperly internally constructed RAILMode enum class, #60.
+        - require libv8 &gt;= 6.4.6;
+        - remove UnboundScript::kNoScriptId const and return null in getId() on no data
+        - change ScriptCompiler::cachedDataVersionTag(): int method name and return type to be ScriptCompiler::getCachedDataVersionTag(): float;
+        - remove StartupData::getRawSize() method;
 
-        See https://github.com/pinepain/php-v8/issues/43#issuecomment-333329225 for details
+        Non-breaking changes:
+
+        - fix segfault when invalid startup data passed to isolate;
+        - fix external exception lost when it has refcount 1;
+        - change script compiler version tag generation to take into account changes to extension internals;
+        - add CallbackInfoInterface;
+        - add support for ScriptCompiler::kProduceFullCodeCache;
+        - add {Isolate,Context}::within() as optimization solution;
+        - add StartupData::isRejected();
+        - add docs skeleton.
     </notes>
     <contents>
         <dir name="/">
@@ -91,6 +73,8 @@
             <file name="src/php_v8_boolean_object.h" role="src" />
             <file name="src/php_v8_cached_data.cc" role="src" />
             <file name="src/php_v8_cached_data.h" role="src" />
+            <file name="src/php_v8_callback_info_interface.cc" role="src" />
+            <file name="src/php_v8_callback_info_interface.h" role="src" />
             <file name="src/php_v8_callbacks.cc" role="src" />
             <file name="src/php_v8_callbacks.h" role="src" />
             <file name="src/php_v8_context.cc" role="src" />
@@ -229,6 +213,7 @@
             <file name="tests/Context_reference_lifecycle.phpt" role="test" />
             <file name="tests/Context_setSecurityToken.phpt" role="test" />
             <file name="tests/Context_weakness.phpt" role="test" />
+            <file name="tests/Context_within.phpt" role="test" />
             <file name="tests/Data.phpt" role="test" />
             <file name="tests/DateObject.phpt" role="test" />
             <file name="tests/ExceptionManager_createCreateMessage.phpt" role="test" />
@@ -279,9 +264,12 @@
             <file name="tests/Isolate_limit_time_not_hit.phpt" role="test" />
             <file name="tests/Isolate_limit_time_set_during_execution.phpt" role="test" />
             <file name="tests/Isolate_nested_termination_exceptions.phpt" role="test" />
+            <file name="tests/Isolate_snapshot_mismatch.phpt" role="test" />
             <file name="tests/Isolate_snapshot_support.phpt" role="test" />
             <file name="tests/Isolate_throwException.phpt" role="test" />
             <file name="tests/Isolate_throwException_with_external.phpt" role="test" />
+            <file name="tests/Isolate_throwException_with_external_preserved.phpt" role="test" />
+            <file name="tests/Isolate_within.phpt" role="test" />
             <file name="tests/JSON.phpt" role="test" />
             <file name="tests/MapObject.phpt" role="test" />
             <file name="tests/Message.phpt" role="test" />
@@ -354,6 +342,7 @@
             <file name="stubs/src/ArrayObject.php" role="doc" />
             <file name="stubs/src/BooleanObject.php" role="doc" />
             <file name="stubs/src/BooleanValue.php" role="doc" />
+            <file name="stubs/src/CallbackInfoInterface.php" role="doc" />
             <file name="stubs/src/ConstructorBehavior.php" role="doc" />
             <file name="stubs/src/Context.php" role="doc" />
             <file name="stubs/src/Data.php" role="doc" />

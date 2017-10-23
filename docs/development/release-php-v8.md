@@ -12,8 +12,9 @@
 6. Commit all changes with `Prepare X.Y.Z release` commit message.
 7. Push this commit and make sure it will pass the build.
 8. Tag it with `vX.Y.Z` tag and push. Create github release from a draft prepared in step above.
-9. Run `./scripts/subsplit.sh` to update `php-v8-stubs` which are available in a separate read-only repository to match
-   packagist and composer expectations. 
+9. Close relevant milestone, if any.
+10. Run `./scripts/subsplit.sh` to update `php-v8-stubs` which are available in a separate read-only repository to match
+    packagist and composer expectations. 
 
 # PECL release 
 
@@ -38,7 +39,7 @@
 3. If version has already been published to bintray and you absolutely sure it needs to be re-built without revision
    bump, you will need to delete such version from bintray first.
 
-# Afterall
+# After all
 
 Update [js-sandbox](https://github.com/pinepain/js-sandbox)/.travis.yml to refer to new `php-v8` version and
 to relevant `libv8` PPA and packages. 
