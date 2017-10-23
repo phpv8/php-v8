@@ -36,11 +36,11 @@ extern zend_module_entry php_v8_module_entry;
 #endif
 
 #ifndef PHP_V8_VERSION
-#define PHP_V8_VERSION "0.2.1"
+#define PHP_V8_VERSION "0.3.0"
 #endif
 
 #ifndef PHP_V8_REVISION
-#define PHP_V8_REVISION "release"
+#define PHP_V8_REVISION "dev"
 #endif
 
 
