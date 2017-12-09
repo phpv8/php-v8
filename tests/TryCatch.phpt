@@ -69,8 +69,8 @@ $isolate = null;
 $context = null;
 
 echo 'END', PHP_EOL;
-// EXPECTF: ---/string\(\d+\) ".+\/php-v8\/tests\/TryCatch.php"/
-// EXPECTF: +++string(%d) "%s/php-v8/tests/TryCatch.php"
+// EXPECTF: ---/string\(\d+\) ".+\/tests\/TryCatch.php"/
+// EXPECTF: +++string(%d) "%s/tests/TryCatch.php"
 ?>
 --EXPECTF--
 Object representation (default):
@@ -199,7 +199,7 @@ object(V8\TryCatch)#11 (8) {
     ["code":protected]=>
     int(0)
     ["file":protected]=>
-    string(%d) "%s/php-v8/tests/TryCatch.php"
+    string(%d) "%s/tests/TryCatch.php"
     ["line":protected]=>
     int(36)
     ["trace":"Exception":private]=>
