@@ -4,3 +4,33 @@
    fun:_ZN2v88internal20MarkCompactCollector20EmptyMarkingWorklistEv
    ...
 }
+{
+   <suppress_false_positive_warning_see_v8_issue_6566_workarond_for_603286>
+   Memcheck:Cond
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   fun:_ZL33zim_Isolate_lowMemoryNotificationP18_zend_execute_dataP12_zval_struct
+   ...
+}
+{
+   <suppress_false_positive_warning_see_v8_issue_6566_workarond_for_603286_extra>
+   Memcheck:Cond
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   obj:/opt/libv8-6.5/lib/libv8.so
+   fun:_ZL33zim_Isolate_lowMemoryNotificationP18_zend_execute_dataP12_zval_struct
+}
