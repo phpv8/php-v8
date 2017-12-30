@@ -226,6 +226,13 @@ static PHP_METHOD(ScriptCompiler, compileFunctionInContext)
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
     PHP_V8_ENTER_CONTEXT(php_v8_context);
 
+    v8::ScriptCompiler::Source * source = php_v8_build_source(source_string_zv, origin_zv, cached_data_zv, isolate);
+
+    if (source->GetResourceOptions().IsModule()) {
+        PHP_V8_THROW_VALUE_EXCEPTION("Compiling module as a function in context is not supported");
+        return;
+    }
+
     if (arguments_zv != NULL && !php_v8_function_unpack_string_args(arguments_zv, 3, isolate, &arguments_count, &arguments)) {
         return;
     }
@@ -233,8 +240,6 @@ static PHP_METHOD(ScriptCompiler, compileFunctionInContext)
     if (context_extensions_zv != NULL && !php_v8_function_unpack_object_args(context_extensions_zv, 4, isolate, &context_extensions_count, &context_extensions)) {
         return;
     }
-
-    v8::ScriptCompiler::Source * source = php_v8_build_source(source_string_zv, origin_zv, cached_data_zv, isolate);
 
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_CONTEXT(php_v8_context);
