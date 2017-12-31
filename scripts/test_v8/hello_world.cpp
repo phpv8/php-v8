@@ -6,17 +6,6 @@
 
 using namespace v8;
 
-class ArrayBufferAllocator : public v8::ArrayBuffer::Allocator {
-public:
-  virtual void* Allocate(size_t length) {
-    void* data = AllocateUninitialized(length);
-    return data == NULL ? data : memset(data, 0, length);
-  }
-  virtual void* AllocateUninitialized(size_t length) { return malloc(length); }
-  virtual void Free(void* data, size_t) { free(data); }
-};
-
-
 void weak_callback(const v8::WeakCallbackInfo<v8::Persistent<v8::String>>& data) {
   printf("Weak callback called\n");
   data.GetParameter()->Reset();
@@ -29,20 +18,16 @@ int main(int argc, char* argv[]) {
   v8::Platform *platform = v8::platform::CreateDefaultPlatform();
   v8::V8::InitializePlatform(platform);
 
+//  std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
+//  v8::V8::InitializePlatform(platform.get());
+
   V8::Initialize();
 
-
-  ArrayBufferAllocator *array_buffer_allocator;
-  v8::Isolate::CreateParams *create_params;
-
-  array_buffer_allocator = new ArrayBufferAllocator();
-  create_params = new v8::Isolate::CreateParams();
-
-  create_params->array_buffer_allocator = array_buffer_allocator;
-
+  v8::Isolate::CreateParams create_params;
+  create_params.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
 
   // Create a new Isolate and make it the current one.
-  Isolate* isolate = v8::Isolate::New(*create_params);
+  Isolate* isolate = v8::Isolate::New(create_params);
 
   v8::Persistent<v8::String> test;
 
@@ -89,10 +74,6 @@ int main(int argc, char* argv[]) {
   isolate->Dispose();
   V8::Dispose();
   V8::ShutdownPlatform();
-
-  delete array_buffer_allocator;
-  delete create_params;
-  delete platform;
 
   return 0;
 }

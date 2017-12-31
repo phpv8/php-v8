@@ -6,12 +6,12 @@ services:
 
 env:
   global:
-    - V8=6.4
+    - V8=6.5
   matrix:
-    - TAG=xenial-v8-64-php-71
-    - TAG=xenial-v8-64-php-71 TEST_PHP_ARGS=-m
-    - TAG=xenial-v8-64-php-72
-    - TAG=xenial-v8-64-php-72 TEST_PHP_ARGS=-m
+    - TAG=xenial-v8-65-php-71
+    - TAG=xenial-v8-65-php-71 TEST_PHP_ARGS=-m
+    - TAG=xenial-v8-65-php-72
+    - TAG=xenial-v8-65-php-72 TEST_PHP_ARGS=-m
 
 before_install:
   # docker on travis doesn't allow anything before FROM, let's fix that

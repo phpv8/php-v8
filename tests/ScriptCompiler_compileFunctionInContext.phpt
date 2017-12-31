@@ -30,11 +30,33 @@ $source = new \V8\ScriptCompiler\Source($source_string);
 $function = V8\ScriptCompiler::compileFunctionInContext($context, $source);
 $helper->assert('Compile function', $function instanceof \V8\FunctionObject);
 
-$origin = new \V8\ScriptOrigin('test-module.js', null, null, null, "", new \V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_MODULE));
+$origin = new \V8\ScriptOrigin('test.js', null, null, null, "", new \V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_SHARED_CROSS_ORIGIN));
 $source_string = new V8\StringValue($isolate, '"test"');
 $source = new \V8\ScriptCompiler\Source($source_string, $origin);
 $function = V8\ScriptCompiler::compileFunctionInContext($context, $source);
-$helper->assert('Compile module as function', $function instanceof \V8\FunctionObject);
+$helper->assert('Compile shared cross origin script as function', $function instanceof \V8\FunctionObject);
+
+$origin = new \V8\ScriptOrigin('test.js', null, null, null, "", new \V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_OPAQUE));
+$source_string = new V8\StringValue($isolate, '"test"');
+$source = new \V8\ScriptCompiler\Source($source_string, $origin);
+$function = V8\ScriptCompiler::compileFunctionInContext($context, $source);
+$helper->assert('Compile opaque script as function', $function instanceof \V8\FunctionObject);
+
+$origin = new \V8\ScriptOrigin('test.js', null, null, null, "", new \V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_WASM));
+$source_string = new V8\StringValue($isolate, '"test"');
+$source = new \V8\ScriptCompiler\Source($source_string, $origin);
+$function = V8\ScriptCompiler::compileFunctionInContext($context, $source);
+$helper->assert('Compile wasm as function', $function instanceof \V8\FunctionObject);
+
+try {
+    $origin = new \V8\ScriptOrigin('test.js', null, null, null, "", new \V8\ScriptOriginOptions(\V8\ScriptOriginOptions::IS_MODULE));
+    $source_string = new V8\StringValue($isolate, '"test"');
+    $source = new \V8\ScriptCompiler\Source($source_string, $origin);
+    $function = V8\ScriptCompiler::compileFunctionInContext($context, $source);
+    $helper->assert('Compile module as function', $function instanceof \V8\FunctionObject);
+} catch (\V8\Exceptions\ValueException $e) {
+    $helper->exception_export($e);
+}
 
 try {
     $source_string = new V8\StringValue($isolate, 'garbage garbage garbage');
@@ -130,7 +152,10 @@ Compiling:
 ----------
 Compile function: ok
 Compile function: ok
-Compile module as function: ok
+Compile shared cross origin script as function: ok
+Compile opaque script as function: ok
+Compile wasm as function: ok
+V8\Exceptions\ValueException: Compiling module as a function in context is not supported
 V8\Exceptions\TryCatchException: SyntaxError: Unexpected identifier
 Compile function: ok
 Compile function: ok

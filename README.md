@@ -100,7 +100,7 @@ on top of php-v8 extension and makes embedding JavaScript in PHP easier.
 ### Requirements
 
 #### V8
-You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.4.6 required.
+You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.5.116 required.
 
 #### PHP
 This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.
@@ -123,7 +123,7 @@ $ php --ri v8
 
 While [pinepain/php](https://launchpad.net/~pinepain/+archive/ubuntu/php) PPA targets to contain all necessary
 extensions with dependencies, you may find
-[pinepain/libv8-6.4](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-6.4),
+[pinepain/libv8-6.5](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-6.5),
 [pinepain/libv8-experimental](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental) and
 [pinepain/php-v8](https://launchpad.net/~pinepain/+archive/ubuntu/php-v8) standalone PPAs useful.
 
@@ -191,7 +191,7 @@ My thanks to the following people and projects, without whom this extension woul
 
 ## License
 
-Copyright (c) 2015-2017 Bogdan Padalko &lt;pinepain@gmail.com&gt;
+Copyright (c) 2015-2018 Bogdan Padalko &lt;pinepain@gmail.com&gt;
 
 [php-v8](https://github.com/pinepain/php-v8) PHP extension is licensed under the [MIT license](http://opensource.org/licenses/MIT).
 

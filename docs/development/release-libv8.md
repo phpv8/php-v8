@@ -29,7 +29,8 @@ To track v8 changes you can use these links:
    been rebuild on push as we don't need them anymore and replace them with a new one (we still need to keep old tags
    for CI purpose and just in case things won't go smooth and we have to rollback).
 5. Rebuild/publish docker images to include new `libv8` version.
-6. Make sure you have proper `php-v8` version set in `packaging/Dockerfile` under `V8` constant. 
+6. You may want to set proper default image `TAG` in `php-v8` `Dockerfile` by updating it first line `ARG TAG=xenial-v8-64-php-72`.
+7. Make sure you have proper `php-v8` version set in `packaging/Dockerfile` under `V8` constant. 
 
 ## After docker images rebuilt/published
 
