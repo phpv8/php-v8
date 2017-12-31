@@ -3,7 +3,7 @@
 /**
  * This file is part of the pinepain/php-v8 PHP extension.
  *
- * Copyright (c) 2015-2017 Bogdan Padalko <pinepain@gmail.com>
+ * Copyright (c) 2015-2018 Bogdan Padalko <pinepain@gmail.com>
  *
  * Licensed under the MIT license: http://opensource.org/licenses/MIT
  *

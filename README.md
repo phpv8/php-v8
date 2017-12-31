@@ -191,7 +191,7 @@ My thanks to the following people and projects, without whom this extension woul
 
 ## License
 
-Copyright (c) 2015-2017 Bogdan Padalko &lt;pinepain@gmail.com&gt;
+Copyright (c) 2015-2018 Bogdan Padalko &lt;pinepain@gmail.com&gt;
 
 [php-v8](https://github.com/pinepain/php-v8) PHP extension is licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
