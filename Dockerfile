@@ -7,6 +7,7 @@ COPY ./scripts/provision/.bashrc /root/.bashrc
 
 WORKDIR /root/php-v8
 
-RUN php -i && php-config || true
+ENV NO_INTERACTION=1
 
+RUN php -i && php-config || true
 RUN phpize && ./configure && make
