@@ -31,7 +31,9 @@ void php_v8_init()
 
     // If we use snapshot and extenal startup data then we have to initialize it (see https://codereview.chromium.org/315033002/)
     // v8::V8::InitializeExternalStartupData(NULL);
-    v8::Platform *platform = v8::platform::CreateDefaultPlatform();
+    std::unique_ptr<v8::Platform> platform_unique_ptr = v8::platform::NewDefaultPlatform();
+
+    v8::Platform *platform = platform_unique_ptr.release();
     v8::V8::InitializePlatform(platform);
 
 //    const char *flags = "--no-hard_abort";

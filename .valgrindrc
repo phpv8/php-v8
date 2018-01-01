@@ -1,3 +1,0 @@
---gen-suppressions=all
---suppressions=./.valgrind-v8.supp
---suppressions=./.valgrind-docker.supp

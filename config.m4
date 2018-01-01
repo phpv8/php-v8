@@ -117,7 +117,7 @@ if test "$PHP_V8" != "no"; then
   PHP_SUBST(V8_SHARED_LIBADD)
   PHP_REQUIRE_CXX()
 
-  CPPFLAGS="$CPPFLAGS -std=c++11"
+  CPPFLAGS="$CPPFLAGS -std=c++14"
 
   # On OS X clang reports warnings in zeng_strings.h, like
   #     php/Zend/zend_string.h:326:2: warning: 'register' storage class specifier is deprecated [-Wdeprecated-register]

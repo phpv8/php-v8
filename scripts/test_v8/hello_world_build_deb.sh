@@ -8,10 +8,10 @@ INCLUDE_DIR=$ROOT/include
 
 set -x
 
-g++ -std=c++14 hello_world.cpp -o hello_world \
+g++ hello_world.cpp -o hello_world \
  -g \
  -O2 \
- -std=c++11 \
+ -std=c++14 \
  -I$INCLUDE_DIR \
  -L$LIB_DIR \
  -Wl,-rpath,$LIB_DIR \
