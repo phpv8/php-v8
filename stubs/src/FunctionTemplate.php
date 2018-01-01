@@ -53,7 +53,7 @@ namespace V8;
  *    v8::Local<v8::ObjectTemplate> instance_t = t->InstanceTemplate();
  *    instance_t->SetAccessor(String::NewFromUtf8(isolate, "instance_accessor"),
  *                            InstanceAccessorCallback);
- *    instance_t->SetNamedPropertyHandler(PropertyHandlerCallback);
+ *    instance_t->SetHandler(NamedPropertyHandlerConfiguration(PropertyHandlerCallback));
  *    instance_t->Set(String::NewFromUtf8(isolate, "instance_property"),
  *                    Number::New(isolate, 3));
  *
