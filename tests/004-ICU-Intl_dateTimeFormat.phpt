@@ -2,8 +2,6 @@
 ICU - Intl.DateTimeFormat()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
---ENV--
-HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 TZ=UTC
 --INI--
 date.timezone = "UTC"

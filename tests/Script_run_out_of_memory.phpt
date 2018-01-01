@@ -4,8 +4,6 @@ V8\Script::run() - out of memory example
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 <?php if (!getenv("DEV_TESTS")) print "skip"; ?>
 <?php if (getenv("SKIP_SLOW_TESTS")) print "skip slow"; ?>
---ENV--
-HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 /** @var \Phpv8Testsuite $helper */

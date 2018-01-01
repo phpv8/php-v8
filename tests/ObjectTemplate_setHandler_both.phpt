@@ -2,8 +2,6 @@
 V8\ObjectTemplate::setHandlerFor{Named,Indexed}Property()
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
---ENV--
-HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 

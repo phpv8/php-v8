@@ -2,8 +2,6 @@
 V8\Context::__construct() - with invalid arg type
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
---ENV--
-HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 
