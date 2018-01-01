@@ -15,11 +15,9 @@ void weak_callback(const v8::WeakCallbackInfo<v8::Persistent<v8::String>>& data)
 int main(int argc, char* argv[]) {
   // Initialize V8.
   v8::V8::InitializeICU();
-  v8::Platform *platform = v8::platform::CreateDefaultPlatform();
-  v8::V8::InitializePlatform(platform);
 
-//  std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
-//  v8::V8::InitializePlatform(platform.get());
+  std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
+  v8::V8::InitializePlatform(platform.get());
 
   V8::Initialize();
 

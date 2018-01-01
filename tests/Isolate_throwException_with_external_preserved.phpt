@@ -2,8 +2,6 @@
 V8\Isolate::throwException() - external exception is not lost when provided with refcount=1
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
---ENV--
-HOME=/tmp/we-need-home-env-var-set-to-load-valgrindrc
 --FILE--
 <?php
 /** @var \Phpv8Testsuite $helper */
