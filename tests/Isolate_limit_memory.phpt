@@ -70,7 +70,7 @@ Memory limit accessor report hit: ok
 
 object(V8\Isolate)#3 (0) {
 }
-object(V8\HeapStatistics)#10 (9) {
+object(V8\HeapStatistics)#10 (11) {
   ["total_heap_size":"V8\HeapStatistics":private]=>
   float(%f)
   ["total_heap_size_executable":"V8\HeapStatistics":private]=>
@@ -89,4 +89,8 @@ object(V8\HeapStatistics)#10 (9) {
   float(%f)
   ["does_zap_garbage":"V8\HeapStatistics":private]=>
   bool(false)
+  ["number_of_native_contexts":"V8\HeapStatistics":private]=>
+  float(%f)
+  ["number_of_detached_contexts":"V8\HeapStatistics":private]=>
+  float(%f)
 }

@@ -37,6 +37,9 @@ void php_v8_heap_statistics_create_from_heap_statistics(zval *return_value, v8::
     zend_update_property_double(this_ce, return_value, ZEND_STRL("peak_malloced_memory"), hs->peak_malloced_memory());
 
     zend_update_property_bool(this_ce, return_value, ZEND_STRL("does_zap_garbage"), static_cast<zend_long>(hs->does_zap_garbage()));
+
+    zend_update_property_double(this_ce, return_value, ZEND_STRL("number_of_native_contexts"), hs->number_of_native_contexts());
+    zend_update_property_double(this_ce, return_value, ZEND_STRL("number_of_detached_contexts"), hs->number_of_detached_contexts());
 }
 
 static PHP_METHOD(HeapStatistics, __construct) {
@@ -51,10 +54,14 @@ static PHP_METHOD(HeapStatistics, __construct) {
 
     zend_bool does_zap_garbage = '\0';
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|" "dddd" "dddd" "b",
+    double number_of_native_contexts = 0;
+    double number_of_detached_contexts = 0;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|" "dddd" "dddd" "b" "dd",
                               &total_heap_size, &total_heap_size_executable, &total_physical_size, &total_available_size,
                               &used_heap_size, &heap_size_limit, &malloced_memory, &peak_malloced_memory,
-                              &does_zap_garbage) == FAILURE) {
+                              &does_zap_garbage,
+                              &number_of_native_contexts, &number_of_detached_contexts) == FAILURE) {
         return;
     }
 
@@ -68,6 +75,9 @@ static PHP_METHOD(HeapStatistics, __construct) {
     zend_update_property_double(this_ce, getThis(), ZEND_STRL("peak_malloced_memory"), peak_malloced_memory);
 
     zend_update_property_bool(this_ce, getThis(), ZEND_STRL("does_zap_garbage"), does_zap_garbage);
+
+    zend_update_property_double(this_ce, getThis(), ZEND_STRL("number_of_native_contexts"), number_of_native_contexts);
+    zend_update_property_double(this_ce, getThis(), ZEND_STRL("number_of_detached_contexts"), number_of_detached_contexts);
 }
 
 static PHP_METHOD(HeapStatistics, getTotalHeapSize) {
@@ -160,6 +170,26 @@ static PHP_METHOD(HeapStatistics, doesZapGarbage) {
     RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("does_zap_garbage"), 0, &rv), 1, 0);
 }
 
+static PHP_METHOD(HeapStatistics, getNumberOfNativeContexts) {
+    zval rv;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("number_of_native_contexts"), 0, &rv), 1, 0);
+}
+
+static PHP_METHOD(HeapStatistics, getNumberOfDetachedContexts) {
+    zval rv;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    RETVAL_ZVAL(zend_read_property(this_ce, getThis(), ZEND_STRL("number_of_detached_contexts"), 0, &rv), 1, 0);
+}
+
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 0)
                 ZEND_ARG_TYPE_INFO(0, total_heap_size, IS_DOUBLE, 0)
@@ -202,6 +232,12 @@ ZEND_END_ARG_INFO()
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_doesZapGarbage, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getNumberOfNativeContexts, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+ZEND_END_ARG_INFO()
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getNumberOfDetachedContexts, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_heap_statistics_methods[] = {
         PHP_V8_ME(HeapStatistics, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
@@ -215,6 +251,8 @@ static const zend_function_entry php_v8_heap_statistics_methods[] = {
         PHP_V8_ME(HeapStatistics, getMallocedMemory, ZEND_ACC_PUBLIC)
         PHP_V8_ME(HeapStatistics, getPeakMallocedMemory, ZEND_ACC_PUBLIC)
         PHP_V8_ME(HeapStatistics, doesZapGarbage, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, getNumberOfNativeContexts, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(HeapStatistics, getNumberOfDetachedContexts, ZEND_ACC_PUBLIC)
 
         PHP_FE_END
 };
@@ -235,6 +273,9 @@ PHP_MINIT_FUNCTION (php_v8_heap_statistics) {
     zend_declare_property_double(this_ce, ZEND_STRL("peak_malloced_memory"), 0, ZEND_ACC_PRIVATE);
 
     zend_declare_property_bool(this_ce, ZEND_STRL("does_zap_garbage"), false, ZEND_ACC_PRIVATE);
+
+    zend_declare_property_double(this_ce, ZEND_STRL("number_of_native_contexts"), 0, ZEND_ACC_PRIVATE);
+    zend_declare_property_double(this_ce, ZEND_STRL("number_of_detached_contexts"), 0, ZEND_ACC_PRIVATE);
 
     return SUCCESS;
 }

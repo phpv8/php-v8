@@ -307,6 +307,8 @@ class V8\HeapStatistics
     private $malloced_memory
     private $peak_malloced_memory
     private $does_zap_garbage
+    private $number_of_native_contexts
+    private $number_of_detached_contexts
     public function __construct(float $total_heap_size, float $total_heap_size_executable, float $total_physical_size, float $total_available_size, float $used_heap_size, float $heap_size_limit, float $malloced_memory, float $peak_malloced_memory, bool $does_zap_garbage)
     public function getTotalHeapSize(): float
     public function getTotalHeapSizeExecutable(): float
@@ -317,6 +319,8 @@ class V8\HeapStatistics
     public function getMallocedMemory(): float
     public function getPeakMallocedMemory(): float
     public function doesZapGarbage(): bool
+    public function getNumberOfNativeContexts(): float
+    public function getNumberOfDetachedContexts(): float
 
 class V8\StartupData
     public function __construct(string $blob)

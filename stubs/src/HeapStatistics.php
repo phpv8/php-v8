@@ -60,6 +60,14 @@ class  HeapStatistics
      * @var bool
      */
     private $does_zap_garbage;
+    /**
+     * @var float
+     */
+    private $number_of_native_contexts;
+    /**
+     * @var float
+     */
+    private $number_of_detached_contexts;
 
     /**
      * @param float $total_heap_size
@@ -69,7 +77,10 @@ class  HeapStatistics
      * @param float $used_heap_size
      * @param float $heap_size_limit
      * @param float $malloced_memory
+     * @param float $peak_malloced_memory
      * @param bool  $does_zap_garbage
+     * @param float $number_of_native_contexts
+     * @param float $number_of_detached_contexts
      */
     public function __construct(
         float $total_heap_size,
@@ -80,17 +91,21 @@ class  HeapStatistics
         float $heap_size_limit,
         float $malloced_memory,
         float $peak_malloced_memory,
-        bool $does_zap_garbage
+        bool $does_zap_garbage,
+        float $number_of_native_contexts,
+        float $number_of_detached_contexts
     ) {
-        $this->total_heap_size            = $total_heap_size;
-        $this->total_heap_size_executable = $total_heap_size_executable;
-        $this->total_physical_size        = $total_physical_size;
-        $this->total_available_size       = $total_available_size;
-        $this->used_heap_size             = $used_heap_size;
-        $this->heap_size_limit            = $heap_size_limit;
-        $this->malloced_memory            = $malloced_memory;
-        $this->peak_malloced_memory       = $peak_malloced_memory;
-        $this->does_zap_garbage           = $does_zap_garbage;
+        $this->total_heap_size             = $total_heap_size;
+        $this->total_heap_size_executable  = $total_heap_size_executable;
+        $this->total_physical_size         = $total_physical_size;
+        $this->total_available_size        = $total_available_size;
+        $this->used_heap_size              = $used_heap_size;
+        $this->heap_size_limit             = $heap_size_limit;
+        $this->malloced_memory             = $malloced_memory;
+        $this->peak_malloced_memory        = $peak_malloced_memory;
+        $this->does_zap_garbage            = $does_zap_garbage;
+        $this->number_of_native_contexts   = $number_of_native_contexts;
+        $this->number_of_detached_contexts = $number_of_detached_contexts;
     }
 
     /**
@@ -165,5 +180,23 @@ class  HeapStatistics
     public function doesZapGarbage(): bool
     {
         return $this->does_zap_garbage;
+    }
+
+    /**
+     * The total number of native contexts object on the heap
+     * @return float
+     */
+    public function getNumberOfNativeContexts(): float
+    {
+        return $this->number_of_native_contexts;
+    }
+
+    /**
+     * The total number of native contexts that were detached but were not garbage collected yet
+     * @return float
+     */
+    public function getNumberOfDetachedContexts(): float
+    {
+        return $this->number_of_detached_contexts;
     }
 }
