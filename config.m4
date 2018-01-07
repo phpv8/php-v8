@@ -24,9 +24,9 @@ if test "$PHP_V8" != "no"; then
   DESIRED_V8_VERSION=`echo "${V8_MIN_API_VERSION_STR}" | $AWK 'BEGIN { FS = "."; } { printf "%s.%s", [$]1, [$]2;}'`
 
   # Path where v8 from packages we recommend are installed, it's /opt/libv8-MAJOR.MINOR on Ubuntu
-  # and /usr/local/opt/v8@MAJOR.MINOR on macOS
-  PRIORITY_SEARCH_PATH="/opt/libv8-${DESIRED_V8_VERSION} /usr/local/opt/v8@${DESIRED_V8_VERSION}"
-  SEARCH_PATH="${PRIORITY_SEARCH_PATH} /usr/local /usr"
+  # and /usr/local/opt/v8@MAJOR.MINOR on macOS. For Docker image it's just /opt/libv8
+  PRIORITY_SEARCH_PATH="/opt/libv8-${DESIRED_V8_VERSION} /usr/local/opt/v8@${DESIRED_V8_VERSION} /opt/libv8"
+  SEARCH_PATH="${PRIORITY_SEARCH_PATH} ${SEARCH_PATH}"
 
   if test -r $PHP_V8/$SEARCH_FOR; then
     V8_ROOT_DIR=$PHP_V8

@@ -167,6 +167,15 @@ $ sudo make install
  - [pinepain/libv8-experimental](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental) normally contains
    `libv8` version that used in current `master` branch.
 
+### Docker
+
+First, let's build docker image `docker build -t pinepain/php-v8 .` that we'll use later for development. By default, 
+it contains PHP 7.2, though you can change that by passing `--build-arg PHP=MAJOR.MINOR` where MAJOR.MINOR version
+present in [ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php) PPA.
+
+To start playing with php-v8 in docker, run ```docker run -e TEST_PHP_ARGS -v `pwd`:/root/php-v8 -it pinepain/php-v8 bash``.
+Now you can build php-v8 as usual with `phpize && ./configure && make`. Don't forget to run `make test`!
+
 ### Docs
 
 To start writing docs you will need to get [GitBook](https://gitbook.com), just run `npm install gitbook-cli -g` and
