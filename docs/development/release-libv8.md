@@ -23,8 +23,8 @@ To track v8 changes you can use these links:
 1. Copy fresh `libv8-X.Y` build packages from `libv8-experimental` (default target for all libv8 builds we trigger)
    to it `libv8-X.Y` PPA. Do not rebuild, just copy binaries.
 2. **Wait for packages copied and published!**
-3. Build [libv8](https://github.com/pinepain/libv8) docker image, tag it with the relevant v8 full version and push to
-   Docker Hub.
+3. Build [pinepain/libv8](https://github.com/pinepain/dockerfiles/tree/master/libv8) docker image, tag it with the 
+   relevant v8 full version and push to Docker Hub.
 4. You may want to set proper `V8` version in `php-v8` by updating it in `.travis.yml`.
 5. Make sure you have proper `php-v8` version set in `packaging/Dockerfile` under `V8` constant. 
 
