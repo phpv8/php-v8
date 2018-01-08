@@ -31,6 +31,7 @@ class ScriptCompiler
     const OPTION_PRODUCE_CODE_CACHE      = 3;
     const OPTION_PRODUCE_FULL_CODE_CACHE = 4;
     const OPTION_CONSUME_CODE_CACHE      = 5;
+    const OPTION_EAGER_COMPILE           = 6;
 
     private function __construct()
     {

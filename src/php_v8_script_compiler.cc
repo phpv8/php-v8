@@ -354,6 +354,7 @@ PHP_MINIT_FUNCTION(php_v8_script_compiler)
     zend_declare_class_constant_long(this_ce, ZEND_STRL("OPTION_PRODUCE_CODE_CACHE"),      static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kProduceCodeCache));
     zend_declare_class_constant_long(this_ce, ZEND_STRL("OPTION_PRODUCE_FULL_CODE_CACHE"), static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kProduceFullCodeCache));
     zend_declare_class_constant_long(this_ce, ZEND_STRL("OPTION_CONSUME_CODE_CACHE"),      static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kConsumeCodeCache));
+    zend_declare_class_constant_long(this_ce, ZEND_STRL("OPTION_EAGER_COMPILE"),           static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kEagerCompile));
 
     return SUCCESS;
 }
