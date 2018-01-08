@@ -27,8 +27,8 @@ extern "C" {
 extern zend_class_entry *php_v8_script_compiler_class_entry;
 
 #define PHP_V8_CHECK_COMPILER_OPTIONS_RANGE(options, message) \
-    if (options < static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kNoCompileOptions) \
-         || options > static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kConsumeCodeCache)) { \
+    if ((options) < static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kNoCompileOptions) \
+        || (options) > static_cast<zend_long>(v8::ScriptCompiler::CompileOptions::kEagerCompile)) { \
         PHP_V8_THROW_VALUE_EXCEPTION(message); \
         return; \
     }

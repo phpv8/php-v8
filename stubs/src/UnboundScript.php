@@ -8,7 +8,19 @@ namespace V8;
  */
 class UnboundScript
 {
+    /**
+     * @var Isolate
+     */
+    private $isolate;
+
     private function __construct()
+    {
+    }
+
+    /**
+     * @return Isolate
+     */
+    public function getIsolate(): Isolate
     {
     }
 

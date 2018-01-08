@@ -79,16 +79,18 @@ console.log(new Intl.DateTimeFormat('en-US', options).format(date));
 // sometimes you want to be more precise
 var options = {
   hour: 'numeric', minute: 'numeric', second: 'numeric',
+  timeZone: 'Australia/Sydney',
   timeZoneName: 'short'
 };
-console.log(new Intl.DateTimeFormat('en-AU', options).format(date).replace('AM', 'am'));
+console.log(new Intl.DateTimeFormat('en-AU', options).format(date).replace('PM', 'pm'));
 // → "2:00:00 pm AEDT"
 
 // sometimes even the US needs 24-hour time
 options = {
   year: 'numeric', month: 'numeric', day: 'numeric',
   hour: 'numeric', minute: 'numeric', second: 'numeric',
-  hour12: false
+  hour12: false,
+  timeZone: 'America/Los_Angeles'
 };
 console.log(date.toLocaleString('en-US', options));
 // → "12/19/2012, 19:00:00"
@@ -117,7 +119,6 @@ HEREDOC;
 
 (new \V8\Script($context, new \V8\StringValue($isolate, $source)))->run($context);
 
-
 ?>
 --EXPECT--
 12/20/2012
@@ -129,8 +130,8 @@ HEREDOC;
 
 Donnerstag, 20. Dezember 2012
 Thursday, December 20, 2012, UTC
-3:00:00 am UTC
-12/20/2012, 03:00:00
+2:00:00 pm AEDT
+12/19/2012, 19:00:00
 
 Wednesday, December 19, 2012
 jeudi 20 décembre 2012

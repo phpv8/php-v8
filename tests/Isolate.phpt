@@ -77,7 +77,7 @@ V8\Isolate::MEMORY_PRESSURE_LEVEL_MODERATE = 1
 V8\Isolate::MEMORY_PRESSURE_LEVEL_CRITICAL = 2
 
 V8\Isolate->getHeapStatistics():
-    object(V8\HeapStatistics)#29 (9) {
+    object(V8\HeapStatistics)#29 (11) {
       ["total_heap_size":"V8\HeapStatistics":private]=>
       float(%f)
       ["total_heap_size_executable":"V8\HeapStatistics":private]=>
@@ -96,6 +96,10 @@ V8\Isolate->getHeapStatistics():
       float(%f)
       ["does_zap_garbage":"V8\HeapStatistics":private]=>
       bool(false)
+      ["number_of_native_contexts":"V8\HeapStatistics":private]=>
+      float(%f)
+      ["number_of_detached_contexts":"V8\HeapStatistics":private]=>
+      float(%f)
     }
 
 V8\Exceptions\ValueException: Invalid memory pressure level given. See V8\Isolate MEMORY_PRESSURE_LEVEL_* class constants for available levels.

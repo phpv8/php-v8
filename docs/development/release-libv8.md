@@ -23,14 +23,10 @@ To track v8 changes you can use these links:
 1. Copy fresh `libv8-X.Y` build packages from `libv8-experimental` (default target for all libv8 builds we trigger)
    to it `libv8-X.Y` PPA. Do not rebuild, just copy binaries.
 2. **Wait for packages copied and published!**
-3. If there was a minor version bump in `libv8` (not patch), create new dockerfiles for it in
-   [php-v8-docker](https://github.com/pinepain/php-v8-docker) and set `ARG V8=X.Y` to proper version.
-4. Go to [php-v8-docker Docker Hub](https://hub.docker.com/r/pinepain/php-v8-docker) and remove old Docker tags from
-   been rebuild on push as we don't need them anymore and replace them with a new one (we still need to keep old tags
-   for CI purpose and just in case things won't go smooth and we have to rollback).
-5. Rebuild/publish docker images to include new `libv8` version.
-6. You may want to set proper default image `TAG` in `php-v8` `Dockerfile` by updating it first line `ARG TAG=xenial-v8-64-php-72`.
-7. Make sure you have proper `php-v8` version set in `packaging/Dockerfile` under `V8` constant. 
+3. Build [pinepain/libv8](https://github.com/pinepain/dockerfiles/tree/master/libv8) docker image, tag it with the 
+   relevant v8 full version and push to Docker Hub.
+4. You may want to set proper `V8` version in `php-v8` by updating it in `.travis.yml`.
+5. Make sure you have proper `php-v8` version set in `packaging/Dockerfile` under `V8` constant. 
 
 ## After docker images rebuilt/published
 

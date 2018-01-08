@@ -100,7 +100,7 @@ on top of php-v8 extension and makes embedding JavaScript in PHP easier.
 ### Requirements
 
 #### V8
-You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.5.116 required.
+You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.5.144 required.
 
 #### PHP
 This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.
@@ -166,6 +166,15 @@ $ sudo make install
    and `free` to display free and used memory in the system.
  - [pinepain/libv8-experimental](https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental) normally contains
    `libv8` version that used in current `master` branch.
+
+### Docker
+
+First, let's build docker image `docker build -t pinepain/php-v8 .` that we'll use later for development. By default, 
+it contains PHP 7.2, though you can change that by passing `--build-arg PHP=MAJOR.MINOR` where MAJOR.MINOR version
+present in [ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php) PPA.
+
+To start playing with php-v8 in docker, run ```docker run -e TEST_PHP_ARGS -v `pwd`:/root/php-v8 -it pinepain/php-v8 bash``.
+Now you can build php-v8 as usual with `phpize && ./configure && make`. Don't forget to run `make test`!
 
 ### Docs
 
