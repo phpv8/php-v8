@@ -415,6 +415,7 @@ class V8\ScriptCompiler
     public static function compileUnboundScript(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\UnboundScript
     public static function compile(V8\Context $context, V8\ScriptCompiler\Source $source, int $options): V8\Script
     public static function compileFunctionInContext(V8\Context $context, V8\ScriptCompiler\Source $source, array $arguments, array $context_extensions): V8\FunctionObject
+    public static function createCodeCache(V8\UnboundScript $unbound_script, V8\StringValue $source_string): V8\ScriptCompiler\CachedData
 
 class V8\ExceptionManager
     public static function createRangeError(V8\Context $context, V8\StringValue $message): V8\ObjectValue

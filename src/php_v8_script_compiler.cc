@@ -268,6 +268,39 @@ static PHP_METHOD(ScriptCompiler, compileFunctionInContext)
     php_v8_get_or_create_value(return_value, local_function, php_v8_context->php_v8_isolate);
 }
 
+static PHP_METHOD(ScriptCompiler, createCodeCache)
+{
+    zval rv;
+
+    zval *php_v8_unbound_script_zv;
+    zval *php_v8_source_string_zv;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "oo", &php_v8_unbound_script_zv, &php_v8_source_string_zv) == FAILURE) {
+        return;
+    }
+
+    php_v8_init();
+
+    PHP_V8_FETCH_UNBOUND_SCRIPT_WITH_CHECK(php_v8_unbound_script_zv, php_v8_unbound_script);
+    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_source_string_zv, php_v8_source_string);
+
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_unbound_script, php_v8_source_string);
+
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_unbound_script);
+
+    v8::Local<v8::UnboundScript> local_unbound_script = php_v8_unbound_script_get_local(php_v8_unbound_script);
+    v8::Local<v8::String> local_source_string = php_v8_value_get_local_as<v8::String>(php_v8_source_string);
+
+    v8::ScriptCompiler::CachedData* cached_data = v8::ScriptCompiler::CreateCodeCache(local_unbound_script, local_source_string);
+
+    if (!cached_data) {
+        PHP_V8_THROW_VALUE_EXCEPTION("Failed to create code cache");
+        return;
+    }
+
+    php_v8_create_cached_data(return_value, cached_data);
+}
+
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_getCachedDataVersionTag, ZEND_RETURN_VALUE, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
@@ -291,12 +324,18 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_compileFunctionInContext, 
                 ZEND_ARG_TYPE_INFO(0, context_extensions, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_createCodeCache, ZEND_RETURN_VALUE, 2, V8\\ScriptCompiler\\CachedData, 0)
+                ZEND_ARG_OBJ_INFO(0, unbound_script, V8\\UnboundScript, 0)
+                ZEND_ARG_OBJ_INFO(0, source_string, V8\\StringValue, 0)
+ZEND_END_ARG_INFO()
+
 
 static const zend_function_entry php_v8_script_compiler_methods[] = {
     PHP_V8_ME(ScriptCompiler, getCachedDataVersionTag,  ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_V8_ME(ScriptCompiler, compileUnboundScript,     ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_V8_ME(ScriptCompiler, compile,                  ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_V8_ME(ScriptCompiler, compileFunctionInContext, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_V8_ME(ScriptCompiler, createCodeCache,          ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
     PHP_FE_END
 };
