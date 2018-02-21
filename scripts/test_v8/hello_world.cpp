@@ -6,15 +6,9 @@
 
 using namespace v8;
 
-void weak_callback(const v8::WeakCallbackInfo<v8::Persistent<v8::String>>& data) {
-  printf("Weak callback called\n");
-  data.GetParameter()->Reset();
-//  data.GetIsolate()->AdjustAmountOfExternalAllocatedMemory(-(1024*1024*1024));
-}
-
 int main(int argc, char* argv[]) {
   // Initialize V8.
-  v8::V8::InitializeICU();
+  //v8::V8::InitializeICU();
 
   std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
   v8::V8::InitializePlatform(platform.get());

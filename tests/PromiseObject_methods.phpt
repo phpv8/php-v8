@@ -1,5 +1,7 @@
 --TEST--
 V8\PromiseObject - object-specific methods
+--XFAIL--
+Resolving/rejecting Promise in non-pending state leads to segfault - https://github.com/pinepain/php-v8/issues/95
 --SKIPIF--
 <?php if (!extension_loaded("v8")) print "skip"; ?>
 --FILE--

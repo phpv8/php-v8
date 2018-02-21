@@ -23,8 +23,8 @@ $helper->assert('Proxy returns valid handler', $value->getHandler(), $handler);
 $helper->assert('Proxy is not revoked', $value->isRevoked(), false);
 $value->revoke();
 $helper->assert('Proxy is now revoked', $value->isRevoked(), true);
-$helper->assert('Proxy returns valid target', $value->getTarget(), $target);
-$helper->assert('Proxy returns null handler', $value->getHandler() instanceof V8\NullValue);
+$helper->assert('Proxy returns valid target', $value->getHandler(), null);
+$helper->assert('Proxy returns null handler', $value->getHandler(), null);
 
 
 ?>

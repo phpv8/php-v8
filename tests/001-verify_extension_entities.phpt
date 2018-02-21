@@ -810,8 +810,8 @@ class V8\ProxyObject
     extends V8\ObjectValue
     implements V8\AdjustableExternalMemoryInterface
     public function __construct(V8\Context $context, V8\ObjectValue $target, V8\ObjectValue $handler)
-    public function getTarget(): V8\ObjectValue
-    public function getHandler(): V8\Value
+    public function getTarget(): ?V8\ObjectValue
+    public function getHandler(): ?V8\ObjectValue
     public function isRevoked(): bool
     public function revoke()
 

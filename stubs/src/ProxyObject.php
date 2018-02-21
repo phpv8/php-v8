@@ -28,16 +28,16 @@ class ProxyObject extends ObjectValue
     }
 
     /***
-     * @return ObjectValue
+     * @return Value|ObjectValue|NullValue|null
      */
-    public function getTarget(): ObjectValue
+    public function getTarget(): ?ObjectValue
     {
     }
 
     /**
-     * @return Value|ObjectValue|NullValue
+     * @return Value|ObjectValue|NullValue|null
      */
-    public function getHandler(): Value
+    public function getHandler(): ?Value
     {
     }
 

@@ -6,7 +6,7 @@ services:
 
 env:
   global:
-    - V8=6.5.144
+    - V8=6.6.313
   matrix:
     - PHP=7.2
     - PHP=7.2 TEST_PHP_ARGS=-m
