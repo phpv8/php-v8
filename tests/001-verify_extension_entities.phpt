@@ -587,6 +587,8 @@ abstract class V8\Value
     public function isInt32Array(): bool
     public function isFloat32Array(): bool
     public function isFloat64Array(): bool
+    public function isBigInt64Array(): bool
+    public function isBigUint64Array(): bool
     public function isDataView(): bool
     public function isSharedArrayBuffer(): bool
     public function isProxy(): bool

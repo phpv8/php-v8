@@ -147,6 +147,8 @@ V8\UndefinedValue(V8\Value)->isUint32Array(): bool(false)
 V8\UndefinedValue(V8\Value)->isInt32Array(): bool(false)
 V8\UndefinedValue(V8\Value)->isFloat32Array(): bool(false)
 V8\UndefinedValue(V8\Value)->isFloat64Array(): bool(false)
+V8\UndefinedValue(V8\Value)->isBigInt64Array(): bool(false)
+V8\UndefinedValue(V8\Value)->isBigUint64Array(): bool(false)
 V8\UndefinedValue(V8\Value)->isDataView(): bool(false)
 V8\UndefinedValue(V8\Value)->isSharedArrayBuffer(): bool(false)
 V8\UndefinedValue(V8\Value)->isProxy(): bool(false)
@@ -160,7 +162,7 @@ V8\UndefinedValue(V8\Value)->numberValue(): float(NAN)
 
 V8\UndefinedValue::toString() converting:
 -----------------------------------------
-object(V8\StringValue)#89 (1) {
+object(V8\StringValue)#91 (1) {
   ["isolate":"V8\Value":private]=>
   object(V8\Isolate)#3 (0) {
   }
@@ -217,6 +219,8 @@ V8\UndefinedValue(V8\Value)->isUint32Array(): bool(false)
 V8\UndefinedValue(V8\Value)->isInt32Array(): bool(false)
 V8\UndefinedValue(V8\Value)->isFloat32Array(): bool(false)
 V8\UndefinedValue(V8\Value)->isFloat64Array(): bool(false)
+V8\UndefinedValue(V8\Value)->isBigInt64Array(): bool(false)
+V8\UndefinedValue(V8\Value)->isBigUint64Array(): bool(false)
 V8\UndefinedValue(V8\Value)->isDataView(): bool(false)
 V8\UndefinedValue(V8\Value)->isSharedArrayBuffer(): bool(false)
 V8\UndefinedValue(V8\Value)->isProxy(): bool(false)
