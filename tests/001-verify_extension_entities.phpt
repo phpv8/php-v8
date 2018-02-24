@@ -698,8 +698,8 @@ class V8\ObjectValue
     public function setAccessor(V8\Context $context, V8\NameValue $name, callable $getter, ?callable $setter, int $settings, int $attributes): bool
     public function setAccessorProperty(V8\NameValue $name, V8\FunctionObject $getter, V8\FunctionObject $setter, int $attributes, int $settings)
     public function setNativeDataProperty(V8\Context $context, V8\NameValue $name, callable $getter, ?callable $setter, int $attributes): bool
-    public function getPropertyNames(V8\Context $context, int $mode, int $property_filter, int $index_filter): V8\ArrayObject
-    public function getOwnPropertyNames(V8\Context $context, int $filter): V8\ArrayObject
+    public function getPropertyNames(V8\Context $context, int $mode, int $property_filter, int $index_filter, bool $convert_to_strings): V8\ArrayObject
+    public function getOwnPropertyNames(V8\Context $context, int $filter, bool $convert_to_strings): V8\ArrayObject
     public function getPrototype(): V8\Value
     public function setPrototype(V8\Context $context, V8\Value $prototype): bool
     public function findInstanceInPrototypeChain(V8\FunctionTemplate $tmpl): V8\ObjectValue

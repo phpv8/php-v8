@@ -614,14 +614,17 @@ static PHP_METHOD(Object, getPropertyNames) {
     zend_long mode            = static_cast<zend_long>(v8::KeyCollectionMode::kOwnOnly);
     zend_long property_filter = static_cast<zend_long>(v8::PropertyFilter::ALL_PROPERTIES);
     zend_long index_filter    = static_cast<zend_long>(v8::IndexFilter::kIncludeIndices);
+    zend_bool convert_to_strings  = '\0';
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|lll", &context_zv, &mode, &property_filter, &index_filter) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|lllb",
+                              &context_zv, &mode, &property_filter, &index_filter, &convert_to_strings) == FAILURE) {
         return;
     }
 
     mode = mode ? mode & PHP_V8_KEY_COLLECTION_MODE_FLAGS : mode;
     property_filter = property_filter ? property_filter & PHP_V8_PROPERTY_FILTER_FLAGS : property_filter;
     index_filter = index_filter ? index_filter & PHP_V8_INDEX_FILTER_FLAGS : index_filter;
+    v8::KeyConversionMode key_conversion = convert_to_strings ? v8::KeyConversionMode::kConvertToString : v8::KeyConversionMode::kKeepNumbers;
 
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_CONTEXT_FETCH_WITH_CHECK(context_zv, php_v8_context);
@@ -639,7 +642,8 @@ static PHP_METHOD(Object, getPropertyNames) {
     v8::MaybeLocal<v8::Array> maybe_local_array = local_object->GetPropertyNames(context,
                                                                                  static_cast<v8::KeyCollectionMode>(mode),
                                                                                  static_cast<v8::PropertyFilter >(property_filter),
-                                                                                 static_cast<v8::IndexFilter>(index_filter));
+                                                                                 static_cast<v8::IndexFilter>(index_filter),
+                                                                                 key_conversion);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local_array, "Failed to get property names")
@@ -652,11 +656,13 @@ static PHP_METHOD(Object, getPropertyNames) {
 static PHP_METHOD(Object, getOwnPropertyNames) {
     zval *context_zv;
     zend_long filter = static_cast<zend_long>(v8::PropertyFilter::ALL_PROPERTIES);
+    zend_bool convert_to_strings  = '\0';
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|l", &context_zv, &filter) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "o|lb", &context_zv, &filter, &convert_to_strings) == FAILURE) {
         return;
     }
     filter = filter ? filter & PHP_V8_PROPERTY_FILTER_FLAGS : filter;
+    v8::KeyConversionMode key_conversion = convert_to_strings ? v8::KeyConversionMode::kConvertToString : v8::KeyConversionMode::kKeepNumbers;
 
     PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
     PHP_V8_CONTEXT_FETCH_WITH_CHECK(context_zv, php_v8_context);
@@ -671,7 +677,7 @@ static PHP_METHOD(Object, getOwnPropertyNames) {
     PHP_V8_TRY_CATCH(isolate);
     PHP_V8_INIT_ISOLATE_LIMITS_ON_OBJECT_VALUE(php_v8_value);
 
-    v8::MaybeLocal<v8::Array> maybe_local_array = local_object->GetOwnPropertyNames(context, static_cast<v8::PropertyFilter >(filter));
+    v8::MaybeLocal<v8::Array> maybe_local_array = local_object->GetOwnPropertyNames(context, static_cast<v8::PropertyFilter >(filter), key_conversion);
 
     PHP_V8_MAYBE_CATCH(php_v8_context, try_catch);
     PHP_V8_THROW_EXCEPTION_WHEN_EMPTY(maybe_local_array, "Failed to get own property names")
@@ -1372,11 +1378,13 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getPropertyNames, ZEND_RET
                 ZEND_ARG_TYPE_INFO(0, mode, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, property_filter, IS_LONG, 0)
                 ZEND_ARG_TYPE_INFO(0, index_filter, IS_LONG, 0)
+                ZEND_ARG_TYPE_INFO(0, convert_to_strings, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getOwnPropertyNames, ZEND_RETURN_VALUE, 1, V8\\ArrayObject, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, filter, IS_LONG, 0)
+                ZEND_ARG_TYPE_INFO(0, convert_to_strings, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getPrototype, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
