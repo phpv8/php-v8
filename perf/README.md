@@ -7,5 +7,5 @@ For more details see [phpbench documentation](http://phpbench.readthedocs.io/en/
 e.g.
 
  - `./vendor/bin/phpbench run src/SetObjectProperty.php --report=aggregate --retry-threshold=5`
-
  - `./vendor/bin/phpbench run src/CreatePrimitiveValue.php --report=aggregate --retry-threshold=5`
+ - `./vendor/bin/phpbench run src/IsolateSnapshotAndScriptCaching.php --report=aggregate --retry-threshold=5`
