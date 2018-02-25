@@ -38,6 +38,9 @@ extern void php_v8_function_template_SetAccessorProperty(INTERNAL_FUNCTION_PARAM
 extern void php_v8_object_template_SetNativeDataProperty(INTERNAL_FUNCTION_PARAMETERS);
 extern void php_v8_function_template_SetNativeDataProperty(INTERNAL_FUNCTION_PARAMETERS);
 
+extern void php_v8_object_template_SetLazyDataProperty(INTERNAL_FUNCTION_PARAMETERS);
+extern void php_v8_function_template_SetLazyDataProperty(INTERNAL_FUNCTION_PARAMETERS);
+
 #define PHP_V8_TEMPLATE_STORE_ISOLATE(to_zval, from_isolate_zv) zend_update_property(php_v8_template_ce, (to_zval), ZEND_STRL("isolate"), (from_isolate_zv));
 #define PHP_V8_TEMPLATE_READ_ISOLATE(from_zval) zend_read_property(php_v8_template_ce, (from_zval), ZEND_STRL("isolate"), 0, &rv)
 

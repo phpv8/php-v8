@@ -696,6 +696,7 @@ class V8\ObjectValue
     public function setAccessor(V8\Context $context, V8\NameValue $name, callable $getter, ?callable $setter, int $settings, int $attributes): bool
     public function setAccessorProperty(V8\NameValue $name, V8\FunctionObject $getter, V8\FunctionObject $setter, int $attributes, int $settings)
     public function setNativeDataProperty(V8\Context $context, V8\NameValue $name, callable $getter, ?callable $setter, int $attributes): bool
+    public function setLazyDataProperty(V8\Context $context, V8\NameValue $name, callable $getter, int $attributes): bool
     public function getPropertyNames(V8\Context $context, int $mode, int $property_filter, int $index_filter, bool $convert_to_strings): V8\ArrayObject
     public function getOwnPropertyNames(V8\Context $context, int $filter, bool $convert_to_strings): V8\ArrayObject
     public function getPrototype(): V8\Value
@@ -852,6 +853,7 @@ abstract class V8\Template
     abstract public function set(V8\NameValue $name, V8\Data $value, int $attributes)
     abstract public function setAccessorProperty(V8\NameValue $name, V8\FunctionTemplate $getter, V8\FunctionTemplate $setter, int $attributes, int $settings)
     abstract public function setNativeDataProperty(V8\NameValue $name, callable $getter, ?callable $setter, int $attributes, ?V8\FunctionTemplate $receiver, int $settings)
+    abstract public function setLazyDataProperty(V8\NameValue $name, callable $getter, int $attributes)
 
 class V8\ObjectTemplate
     extends V8\Template
@@ -861,6 +863,7 @@ class V8\ObjectTemplate
     public function set(V8\NameValue $name, V8\Data $value, int $attributes)
     public function setAccessorProperty(V8\NameValue $name, V8\FunctionTemplate $getter, V8\FunctionTemplate $setter, int $attributes, int $settings)
     public function setNativeDataProperty(V8\NameValue $name, callable $getter, ?callable $setter, int $attributes, ?V8\FunctionTemplate $receiver, int $settings)
+    public function setLazyDataProperty(V8\NameValue $name, callable $getter, int $attributes)
     public function newInstance(V8\Context $value): V8\ObjectValue
     public function setAccessor(V8\NameValue $name, callable $getter, ?callable $setter, int $settings, int $attributes, ?V8\FunctionTemplate $receiver)
     public function setHandlerForNamedProperty(V8\NamedPropertyHandlerConfiguration $configuration)
@@ -879,6 +882,7 @@ class V8\FunctionTemplate
     public function set(V8\NameValue $name, V8\Data $value, int $attributes)
     public function setAccessorProperty(V8\NameValue $name, V8\FunctionTemplate $getter, V8\FunctionTemplate $setter, int $attributes, int $settings)
     public function setNativeDataProperty(V8\NameValue $name, callable $getter, ?callable $setter, int $attributes, ?V8\FunctionTemplate $receiver, int $settings)
+    public function setLazyDataProperty(V8\NameValue $name, callable $getter, int $attributes)
     public function getFunction(V8\Context $context): V8\FunctionObject
     public function setCallHandler(callable $callback)
     public function setLength(int $length)

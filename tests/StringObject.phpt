@@ -78,7 +78,7 @@ StringObject is instanceof String: ok
 Getters:
 --------
 V8\StringObject->valueOf():
-    object(V8\StringValue)#121 (1) {
+    object(V8\StringValue)#122 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }

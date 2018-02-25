@@ -190,25 +190,25 @@ V8\MapObject(V8\Value)->isProxy(): bool(false)
 Converters:
 -----------
 V8\MapObject(V8\Value)->toBoolean():
-    object(V8\BooleanValue)#122 (1) {
+    object(V8\BooleanValue)#123 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\MapObject(V8\Value)->toNumber():
-    object(V8\NumberValue)#122 (1) {
+    object(V8\NumberValue)#123 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\MapObject(V8\Value)->toString():
-    object(V8\StringValue)#122 (1) {
+    object(V8\StringValue)#123 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\MapObject(V8\Value)->toDetailString():
-    object(V8\StringValue)#122 (1) {
+    object(V8\StringValue)#123 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
@@ -226,19 +226,19 @@ V8\MapObject(V8\Value)->toObject():
       }
     }
 V8\MapObject(V8\Value)->toInteger():
-    object(V8\Int32Value)#122 (1) {
+    object(V8\Int32Value)#123 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\MapObject(V8\Value)->toUint32():
-    object(V8\Int32Value)#122 (1) {
+    object(V8\Int32Value)#123 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\MapObject(V8\Value)->toInt32():
-    object(V8\Int32Value)#122 (1) {
+    object(V8\Int32Value)#123 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }

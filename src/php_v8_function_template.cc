@@ -211,6 +211,9 @@ static PHP_METHOD(FunctionTemplate, setNativeDataProperty) {
     php_v8_function_template_SetNativeDataProperty(INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
 
+static PHP_METHOD(FunctionTemplate, setLazyDataProperty) {
+    php_v8_function_template_SetLazyDataProperty(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static PHP_METHOD(FunctionTemplate, getFunction) {
@@ -486,6 +489,12 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setNativeDataProperty, 2)
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setLazyDataProperty, 2)
+                ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
+                ZEND_ARG_CALLABLE_INFO(0, getter, 0)
+                ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getFunction, ZEND_RETURN_VALUE, 1, V8\\FunctionObject, 0)
@@ -547,6 +556,7 @@ static const zend_function_entry php_v8_function_template_methods[] = {
         PHP_V8_ME(FunctionTemplate, set,                   ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionTemplate, setAccessorProperty,   ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionTemplate, setNativeDataProperty, ZEND_ACC_PUBLIC)
+        PHP_V8_ME(FunctionTemplate, setLazyDataProperty,   ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionTemplate, getFunction,           ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionTemplate, setCallHandler,        ZEND_ACC_PUBLIC)
         PHP_V8_ME(FunctionTemplate, setLength,             ZEND_ACC_PUBLIC)

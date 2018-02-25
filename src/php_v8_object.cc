@@ -528,17 +528,6 @@ static PHP_METHOD(Object, setAccessorProperty) {
     local_object->SetAccessorProperty(local_name, getter, setter, static_cast<v8::PropertyAttribute>(attributes), static_cast<v8::AccessControl>(settings));
 }
 
-
-///**
-// * Sets a native data property like Template::SetNativeDataProperty, but
-// * this method sets on this object directly.
-// */
-//V8_WARN_UNUSED_RESULT Maybe<bool> SetNativeDataProperty(
-//        Local<Context> context, Local<Name> name,
-//        AccessorNameGetterCallback getter,
-//        AccessorNameSetterCallback setter = nullptr,
-//        Local<Value> data = Local<Value>(), PropertyAttribute attributes = None);
-
 static PHP_METHOD(Object, setNativeDataProperty) {
     zval *context_zv;
     zval *php_v8_name_zv;
@@ -606,6 +595,61 @@ static PHP_METHOD(Object, setNativeDataProperty) {
     RETURN_BOOL(maybe_res.FromJust());
 }
 
+static PHP_METHOD(Object, setLazyDataProperty) {
+    zval *context_zv;
+    zval *php_v8_name_zv;
+
+    zend_long attributes = 0;
+
+    zend_fcall_info getter_fci = empty_fcall_info;
+    zend_fcall_info_cache getter_fci_cache = empty_fcall_info_cache;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "oof|l",
+                              &context_zv,
+                              &php_v8_name_zv,
+                              &getter_fci, &getter_fci_cache,
+                              &attributes
+    ) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
+    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_name_zv, php_v8_name);
+    PHP_V8_CONTEXT_FETCH_WITH_CHECK(context_zv, php_v8_context);
+
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context)
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_name)
+
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_context);
+    PHP_V8_ENTER_CONTEXT(php_v8_context);
+
+    v8::Local<v8::Object> local_object = php_v8_value_get_local_as<v8::Object>(php_v8_value);
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
+
+    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, name, local_name);
+
+    attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
+
+    v8::AccessorNameGetterCallback getter;
+    v8::Local<v8::External> data;
+
+    phpv8::CallbacksBucket *bucket = php_v8_value->persistent_data->bucket("lazy_data_property_", local_name->IsSymbol(), name);
+    data = v8::External::New(isolate, bucket);
+
+    bucket->add(phpv8::CallbacksBucket::Index::Getter, getter_fci, getter_fci_cache);
+    getter = php_v8_callback_accessor_name_getter;
+
+    v8::Maybe<bool> maybe_res = local_object->SetLazyDataProperty(context,
+                                                                    local_name,
+                                                                    getter,
+                                                                    data,
+                                                                    static_cast<v8::PropertyAttribute>(attributes)
+    );
+
+    PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(maybe_res, "Failed to set lazy data property");
+
+    RETURN_BOOL(maybe_res.FromJust());
+}
 
 /* NOTE: we skip functionality for private properties for now */
 
@@ -1373,6 +1417,13 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_setNativeDataProperty, ZE
                 ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_setLazyDataProperty, ZEND_RETURN_VALUE, 3, _IS_BOOL, 0)
+                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
+                ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
+                ZEND_ARG_CALLABLE_INFO(0, getter, 0)
+                ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getPropertyNames, ZEND_RETURN_VALUE, 1, V8\\ArrayObject, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_TYPE_INFO(0, mode, IS_LONG, 0)
@@ -1505,6 +1556,7 @@ static const zend_function_entry php_v8_object_methods[] = {
         PHP_V8_ME(Object, setAccessor,                  ZEND_ACC_PUBLIC)
         PHP_V8_ME(Object, setAccessorProperty,          ZEND_ACC_PUBLIC)
         PHP_V8_ME(Object, setNativeDataProperty,        ZEND_ACC_PUBLIC)
+        PHP_V8_ME(Object, setLazyDataProperty,          ZEND_ACC_PUBLIC)
         PHP_V8_ME(Object, getPropertyNames,             ZEND_ACC_PUBLIC)
         PHP_V8_ME(Object, getOwnPropertyNames,          ZEND_ACC_PUBLIC)
         PHP_V8_ME(Object, getPrototype,                 ZEND_ACC_PUBLIC)

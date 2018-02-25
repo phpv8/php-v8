@@ -144,7 +144,7 @@ string(11) "Script done"
 Function created from php still holds no script id after been passed to script: ok
 
 v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->getScriptOrigin():
-    object(V8\ScriptOrigin)#131 (6) {
+    object(V8\ScriptOrigin)#132 (6) {
       ["resource_name":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["resource_line_offset":"V8\ScriptOrigin":private]=>
@@ -156,7 +156,7 @@ v8Tests\TrackingDtors\FunctionObject(V8\FunctionObject)->getScriptOrigin():
       ["source_map_url":"V8\ScriptOrigin":private]=>
       string(0) ""
       ["options":"V8\ScriptOrigin":private]=>
-      object(V8\ScriptOriginOptions)#135 (1) {
+      object(V8\ScriptOriginOptions)#136 (1) {
         ["flags":"V8\ScriptOriginOptions":private]=>
         int(0)
       }

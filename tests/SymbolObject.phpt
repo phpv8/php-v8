@@ -83,7 +83,7 @@ SymbolObject is instanceof Symbol: ok
 Getters:
 --------
 V8\SymbolObject->valueOf():
-    object(V8\SymbolValue)#121 (1) {
+    object(V8\SymbolValue)#122 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
