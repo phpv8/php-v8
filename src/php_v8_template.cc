@@ -30,6 +30,7 @@ zend_class_entry *php_v8_template_ce;
 template<class T, typename N> void php_v8_template_Set(v8::Isolate *isolate, v8::Local<T> local_template, N* php_v8_template, INTERNAL_FUNCTION_PARAMETERS);
 template<class T, typename N> void php_v8_template_SetAccessorProperty(v8::Isolate *isolate, v8::Local<T> local_template, N* php_v8_template, INTERNAL_FUNCTION_PARAMETERS);
 template<class T, typename N> void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> local_template, N* php_v8_template, INTERNAL_FUNCTION_PARAMETERS);
+template<class T, typename N> void php_v8_template_SetLazyDataProperty(v8::Isolate *isolate, v8::Local<T> local_template, N* php_v8_template, INTERNAL_FUNCTION_PARAMETERS);
 
 
 void php_v8_object_template_Set(INTERNAL_FUNCTION_PARAMETERS) {
@@ -98,6 +99,30 @@ void php_v8_function_template_SetNativeDataProperty(INTERNAL_FUNCTION_PARAMETERS
 
     php_v8_template_SetNativeDataProperty(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
+
+
+void php_v8_object_template_SetLazyDataProperty(INTERNAL_FUNCTION_PARAMETERS) {
+
+    PHP_V8_FETCH_OBJECT_TEMPLATE_WITH_CHECK(getThis(), php_v8_template);
+
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_template);
+
+    v8::Local<v8::ObjectTemplate> local_template = php_v8_object_template_get_local(php_v8_template);
+
+    php_v8_template_SetLazyDataProperty(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+
+void php_v8_function_template_SetLazyDataProperty(INTERNAL_FUNCTION_PARAMETERS)
+{
+    PHP_V8_FETCH_FUNCTION_TEMPLATE_WITH_CHECK(getThis(), php_v8_template);
+
+    PHP_V8_ENTER_STORED_ISOLATE(php_v8_template);
+
+    v8::Local<v8::FunctionTemplate> local_template = php_v8_function_template_get_local(php_v8_template);
+
+    php_v8_template_SetNativeDataProperty(isolate, local_template, php_v8_template, INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+
 
 template<typename M, typename N>
 static inline bool php_v8_template_node_set(M *parent, N *child) {
@@ -290,6 +315,44 @@ void php_v8_template_SetNativeDataProperty(v8::Isolate *isolate, v8::Local<T> lo
                                           static_cast<v8::AccessControl>(settings));
 }
 
+template<class T, typename N>
+void php_v8_template_SetLazyDataProperty(v8::Isolate *isolate, v8::Local<T> local_template, N* php_v8_template, INTERNAL_FUNCTION_PARAMETERS) {
+    zval *php_v8_name_zv;
+
+    zend_fcall_info getter_fci = empty_fcall_info;
+    zend_fcall_info_cache getter_fci_cache = empty_fcall_info_cache;
+    zend_long attributes = v8::PropertyAttribute::None;
+
+    v8::AccessorNameGetterCallback getter;
+    v8::Local<v8::External> data;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(),
+                              "of|l",
+                              &php_v8_name_zv, &getter_fci, &getter_fci_cache, &attributes) == FAILURE) {
+        return;
+    }
+
+    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_name_zv, php_v8_name);
+    PHP_V8_DATA_ISOLATES_CHECK(php_v8_template, php_v8_name);
+
+    attributes = attributes ? attributes & PHP_V8_PROPERTY_ATTRIBUTE_FLAGS : attributes;
+
+    v8::Local<v8::Name> local_name = php_v8_value_get_local_as<v8::Name>(php_v8_name);
+
+    PHP_V8_CONVERT_FROM_V8_STRING_TO_STRING(isolate, name, local_name);
+
+    phpv8::CallbacksBucket *bucket = php_v8_template->persistent_data->bucket("lazy_data_property_", local_name->IsSymbol(), name);
+    data = v8::External::New(isolate, bucket);
+
+    bucket->add(phpv8::CallbacksBucket::Index::Getter, getter_fci, getter_fci_cache);
+    getter = php_v8_callback_accessor_name_getter;
+
+    local_template->SetLazyDataProperty(local_name,
+                                          getter,
+                                          data,
+                                          static_cast<v8::PropertyAttribute>(attributes));
+}
+
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getIsolate, ZEND_RETURN_VALUE, 0, V8\\Isolate, 0)
 ZEND_END_ARG_INFO()
@@ -317,11 +380,19 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setNativeDataProperty, 2)
                 ZEND_ARG_TYPE_INFO(0, settings, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_setLazyDataProperty, 2)
+                ZEND_ARG_OBJ_INFO(0, name, V8\\NameValue, 0)
+                ZEND_ARG_CALLABLE_INFO(0, getter, 0)
+                ZEND_ARG_TYPE_INFO(0, attributes, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry php_v8_template_methods[] = {
         PHP_V8_ABSTRACT_ME(Template, getIsolate)
         PHP_V8_ABSTRACT_ME(Template, set)
         PHP_V8_ABSTRACT_ME(Template, setAccessorProperty)
         PHP_V8_ABSTRACT_ME(Template, setNativeDataProperty)
+        PHP_V8_ABSTRACT_ME(Template, setLazyDataProperty)
 
         PHP_FE_END
 };

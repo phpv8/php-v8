@@ -105,4 +105,22 @@ class Template extends Data
         $settings = AccessControl::DEFAULT_ACCESS
     ): void {
     }
+
+
+    /**
+     * Like SetNativeDataProperty, but V8 will replace the native data property
+     * with a real data property on first access.
+     *
+     * @param NameValue $name      The name of the property for which an accessor is added.
+     *
+     * @param callable  $getter    The callback to invoke when getting the property.
+     *                             Callback signature should be (NameValue $property, PropertyCallbackInfo $info)
+     *
+     * @param int       $attribute The attributes of the property for which an accessor is added.
+     *
+     * @return void
+     */
+    public function setLazyDataProperty(NameValue $name, callable $getter, $attribute = PropertyAttribute::NONE): void
+    {
+    }
 }

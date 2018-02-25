@@ -196,6 +196,31 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
     }
 
     /**
+     * Attempts to create a property with the given name which behaves like a data
+     * property, except that the provided getter is invoked (and provided with the
+     * data value) to supply its value the first time it is read. After the
+     * property is accessed once, it is replaced with an ordinary data property.
+     *
+     * Analogous to Template::SetLazyDataProperty.
+     *
+     * @param Context   $context
+     * @param NameValue $name
+     * @param callable  $getter
+     * @param int       $attributes
+     *
+     * @return bool
+     */
+    public function setLazyDataProperty(
+        Context $context,
+        NameValue $name,
+        callable $getter,
+        callable $setter = null,
+        int $attributes = PropertyAttribute::NONE
+    ): bool {
+    }
+
+
+    /**
      * Returns an array containing the names of the enumerable properties
      * of this object, including properties from prototype objects.  The
      * array returned by this method contains the same values as would
