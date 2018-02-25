@@ -103,7 +103,8 @@ $helper->space();
 
 putenv("TZ={$old_tz}"); // Go back
 
-
+// EXPECTF: ---/^val: Wed Oct 21 2015 .+$/
+// EXPECTF: +++val: Wed Oct 21 2015 %s
 ?>
 --EXPECTF--
 Object representation:
@@ -180,6 +181,8 @@ V8\DateObject(V8\Value)->isUint32Array(): bool(false)
 V8\DateObject(V8\Value)->isInt32Array(): bool(false)
 V8\DateObject(V8\Value)->isFloat32Array(): bool(false)
 V8\DateObject(V8\Value)->isFloat64Array(): bool(false)
+V8\DateObject(V8\Value)->isBigInt64Array(): bool(false)
+V8\DateObject(V8\Value)->isBigUint64Array(): bool(false)
 V8\DateObject(V8\Value)->isDataView(): bool(false)
 V8\DateObject(V8\Value)->isSharedArrayBuffer(): bool(false)
 V8\DateObject(V8\Value)->isProxy(): bool(false)

@@ -67,7 +67,13 @@ static PHP_METHOD(Proxy, getTarget) {
     PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
     PHP_V8_ENTER_STORED_CONTEXT(php_v8_value);
 
-    v8::Local<v8::Object> local_target = php_v8_value_get_local_as<v8::Proxy>(php_v8_value)->GetTarget();
+    v8::Local<v8::Value> local_target = php_v8_value_get_local_as<v8::Proxy>(php_v8_value)->GetTarget();
+
+    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_UNDEFINED(local_target, "Failed to get Proxy target"); // this should never happen
+
+    if (local_target->IsNull()) {
+        RETURN_NULL();
+    }
 
     php_v8_get_or_create_value(return_value, local_target, php_v8_value->php_v8_isolate);
 }
@@ -83,7 +89,10 @@ static PHP_METHOD(Proxy, getHandler) {
 
     v8::Local<v8::Value> local_handler = php_v8_value_get_local_as<v8::Proxy>(php_v8_value)->GetHandler();
 
-    if (local_handler->IsUndefined()) {
+    // this should never happen
+    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_UNDEFINED(local_handler, "Failed to get Proxy handler"); // this should never happen
+
+    if (local_handler->IsNull()) {
         RETURN_NULL();
     }
 
@@ -121,10 +130,10 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 2)
                 ZEND_ARG_OBJ_INFO(0, handler, V8\\ObjectValue, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getTarget, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getTarget, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 1)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getHandler, ZEND_RETURN_VALUE, 0, V8\\Value, 0)
+PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_getHandler, ZEND_RETURN_VALUE, 0, V8\\ObjectValue, 1)
 ZEND_END_ARG_INFO()
 
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_isRevoked, ZEND_RETURN_VALUE, 0, _IS_BOOL, 0)

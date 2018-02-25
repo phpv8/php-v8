@@ -202,9 +202,10 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      * be enumerated by a for-in statement over this object.
      *
      * @param Context $context
-     * @param int     $mode            One of KeyCollectionMode options
+     * @param int     $mode One of KeyCollectionMode options
      * @param int     $property_filter One or multiple PropertyFilter options
-     * @param int     $index_filter    One or multiple IndexFilter options
+     * @param int     $index_filter One or multiple IndexFilter options
+     * @param bool    $convert_to_strings Convert integer indices to strings
      *
      * @return ArrayObject
      */
@@ -212,7 +213,8 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
         Context $context,
         int $mode = KeyCollectionMode::kOwnOnly,
         int $property_filter = PropertyFilter::ALL_PROPERTIES,
-        int $index_filter = IndexFilter::kIncludeIndices
+        int $index_filter = IndexFilter::kIncludeIndices,
+        bool $convert_to_strings = false
     ): ArrayObject {
     }
 
@@ -223,11 +225,15 @@ class ObjectValue extends Value implements AdjustableExternalMemoryInterface
      *
      * @param Context $context
      * @param int     $filter One or multiple PropertyFilter options
+     * @param bool    $convert_to_strings Will convert integer indices to strings
      *
      * @return ArrayObject
      */
-    public function getOwnPropertyNames(Context $context, int $filter = PropertyFilter::ALL_PROPERTIES): ArrayObject
-    {
+    public function getOwnPropertyNames(
+        Context $context,
+        int $filter = PropertyFilter::ALL_PROPERTIES,
+        bool $convert_to_strings = false
+    ): ArrayObject {
     }
 
     /**

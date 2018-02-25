@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT=/usr/local/opt/v8@6.5
+ROOT=/usr/local/opt/v8@6.6
 LIB_DIR=$ROOT/lib/
 
 SRC_DIR=$ROOT

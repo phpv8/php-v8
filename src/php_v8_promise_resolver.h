@@ -10,8 +10,8 @@
  * http://opensource.org/licenses/MIT
  */
 
-#ifndef PHP_V8_PROMISE_H
-#define PHP_V8_PROMISE_H
+#ifndef PHP_V8_PROMISE_RESOLVER_H
+#define PHP_V8_PROMISE_RESOLVER_H
 
 #include "php_v8_value.h"
 #include <v8.h>
@@ -24,9 +24,9 @@ extern "C" {
 #endif
 }
 
-extern zend_class_entry* php_v8_promise_class_entry;
+extern zend_class_entry* php_v8_promise_resolver_class_entry;
 
 
-PHP_MINIT_FUNCTION(php_v8_promise);
+PHP_MINIT_FUNCTION(php_v8_promise_resolver);
 
-#endif //PHP_V8_PROMISE_H
+#endif //PHP_V8_PROMISE_RESOLVER_H

@@ -81,8 +81,15 @@ extern void php_v8_throw_try_catch_exception(php_v8_context_t *php_v8_context, v
         return; \
     }
 
+#define PHP_V8_THROW_EXCEPTION_WHEN_UNDEFINED_CE(value, message, ce) \
+    if ((value)->IsUndefined()) { \
+        PHP_V8_THROW_EXCEPTION_CE(message, ce); \
+        return; \
+    }
+
 #define PHP_V8_THROW_VALUE_EXCEPTION_WHEN_NOTHING(value, message) PHP_V8_THROW_EXCEPTION_WHEN_NOTHING_CE((value), (message), php_v8_value_exception_class_entry)
 #define PHP_V8_THROW_VALUE_EXCEPTION_WHEN_EMPTY(value, message) PHP_V8_THROW_EXCEPTION_WHEN_EMPTY_CE((value), (message), php_v8_value_exception_class_entry)
+#define PHP_V8_THROW_VALUE_EXCEPTION_WHEN_UNDEFINED(value, message) PHP_V8_THROW_EXCEPTION_WHEN_UNDEFINED_CE((value), (message), php_v8_value_exception_class_entry)
 
 
 #define PHP_V8_THROW_EXCEPTION_WHEN_NOTHING(value, message) \
@@ -96,6 +103,7 @@ extern void php_v8_throw_try_catch_exception(php_v8_context_t *php_v8_context, v
         PHP_V8_THROW_EXCEPTION(message); \
         return; \
     }
+
 
 #define PHP_V8_THROW_EXCEPTION_WHEN_LIMITS_HIT(php_v8_context) \
     if ((php_v8_context)->php_v8_isolate->limits.time_limit_hit || (php_v8_context)->php_v8_isolate->limits.memory_limit_hit) { \

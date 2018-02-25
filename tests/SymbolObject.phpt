@@ -83,7 +83,7 @@ SymbolObject is instanceof Symbol: ok
 Getters:
 --------
 V8\SymbolObject->valueOf():
-    object(V8\SymbolValue)#119 (1) {
+    object(V8\SymbolValue)#121 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
@@ -142,6 +142,8 @@ V8\SymbolObject(V8\Value)->isUint32Array(): bool(false)
 V8\SymbolObject(V8\Value)->isInt32Array(): bool(false)
 V8\SymbolObject(V8\Value)->isFloat32Array(): bool(false)
 V8\SymbolObject(V8\Value)->isFloat64Array(): bool(false)
+V8\SymbolObject(V8\Value)->isBigInt64Array(): bool(false)
+V8\SymbolObject(V8\Value)->isBigUint64Array(): bool(false)
 V8\SymbolObject(V8\Value)->isDataView(): bool(false)
 V8\SymbolObject(V8\Value)->isSharedArrayBuffer(): bool(false)
 V8\SymbolObject(V8\Value)->isProxy(): bool(false)

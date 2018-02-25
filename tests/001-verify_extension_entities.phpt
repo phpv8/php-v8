@@ -406,10 +406,6 @@ class V8\ScriptCompiler\Source
 
 class V8\ScriptCompiler
     const OPTION_NO_COMPILE_OPTIONS = 0
-    const OPTION_PRODUCE_PARSER_CACHE = 1
-    const OPTION_CONSUME_PARSER_CACHE = 2
-    const OPTION_PRODUCE_CODE_CACHE = 3
-    const OPTION_PRODUCE_FULL_CODE_CACHE = 4
     const OPTION_CONSUME_CODE_CACHE = 5
     const OPTION_EAGER_COMPILE = 6
     public static function getCachedDataVersionTag(): float
@@ -587,6 +583,8 @@ abstract class V8\Value
     public function isInt32Array(): bool
     public function isFloat32Array(): bool
     public function isFloat64Array(): bool
+    public function isBigInt64Array(): bool
+    public function isBigUint64Array(): bool
     public function isDataView(): bool
     public function isSharedArrayBuffer(): bool
     public function isProxy(): bool
@@ -698,8 +696,8 @@ class V8\ObjectValue
     public function setAccessor(V8\Context $context, V8\NameValue $name, callable $getter, ?callable $setter, int $settings, int $attributes): bool
     public function setAccessorProperty(V8\NameValue $name, V8\FunctionObject $getter, V8\FunctionObject $setter, int $attributes, int $settings)
     public function setNativeDataProperty(V8\Context $context, V8\NameValue $name, callable $getter, ?callable $setter, int $attributes): bool
-    public function getPropertyNames(V8\Context $context, int $mode, int $property_filter, int $index_filter): V8\ArrayObject
-    public function getOwnPropertyNames(V8\Context $context, int $filter): V8\ArrayObject
+    public function getPropertyNames(V8\Context $context, int $mode, int $property_filter, int $index_filter, bool $convert_to_strings): V8\ArrayObject
+    public function getOwnPropertyNames(V8\Context $context, int $filter, bool $convert_to_strings): V8\ArrayObject
     public function getPrototype(): V8\Value
     public function setPrototype(V8\Context $context, V8\Value $prototype): bool
     public function findInstanceInPrototypeChain(V8\FunctionTemplate $tmpl): V8\ObjectValue
@@ -798,20 +796,28 @@ class V8\PromiseObject
     const STATE_FULFILLED = 1
     const STATE_REJECTED = 2
     public function __construct(V8\Context $context)
-    public function resolve(V8\Context $context, V8\Value $value)
-    public function reject(V8\Context $context, V8\Value $value)
     public function catch(V8\Context $context, V8\FunctionObject $handler): V8\PromiseObject
     public function then(V8\Context $context, V8\FunctionObject $handler): V8\PromiseObject
     public function hasHandler(): bool
     public function result(): V8\Value
     public function state(): int
 
+class V8\PromiseObject\ResolverObject
+    extends V8\PromiseObject
+    implements V8\AdjustableExternalMemoryInterface
+    const STATE_PENDING = 0
+    const STATE_FULFILLED = 1
+    const STATE_REJECTED = 2
+    public function __construct(V8\Context $context)
+    public function resolve(V8\Context $context, V8\Value $value)
+    public function reject(V8\Context $context, V8\Value $value)
+
 class V8\ProxyObject
     extends V8\ObjectValue
     implements V8\AdjustableExternalMemoryInterface
     public function __construct(V8\Context $context, V8\ObjectValue $target, V8\ObjectValue $handler)
-    public function getTarget(): V8\ObjectValue
-    public function getHandler(): V8\Value
+    public function getTarget(): ?V8\ObjectValue
+    public function getHandler(): ?V8\ObjectValue
     public function isRevoked(): bool
     public function revoke()
 

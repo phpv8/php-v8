@@ -134,6 +134,8 @@ V8\ArrayObject(V8\Value)->isUint32Array(): bool(false)
 V8\ArrayObject(V8\Value)->isInt32Array(): bool(false)
 V8\ArrayObject(V8\Value)->isFloat32Array(): bool(false)
 V8\ArrayObject(V8\Value)->isFloat64Array(): bool(false)
+V8\ArrayObject(V8\Value)->isBigInt64Array(): bool(false)
+V8\ArrayObject(V8\Value)->isBigUint64Array(): bool(false)
 V8\ArrayObject(V8\Value)->isDataView(): bool(false)
 V8\ArrayObject(V8\Value)->isSharedArrayBuffer(): bool(false)
 V8\ArrayObject(V8\Value)->isProxy(): bool(false)
@@ -142,25 +144,25 @@ V8\ArrayObject(V8\Value)->isProxy(): bool(false)
 Converters:
 -----------
 V8\ArrayObject(V8\Value)->toBoolean():
-    object(V8\BooleanValue)#118 (1) {
+    object(V8\BooleanValue)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\ArrayObject(V8\Value)->toNumber():
-    object(V8\Int32Value)#118 (1) {
+    object(V8\Int32Value)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\ArrayObject(V8\Value)->toString():
-    object(V8\StringValue)#118 (1) {
+    object(V8\StringValue)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\ArrayObject(V8\Value)->toDetailString():
-    object(V8\StringValue)#118 (1) {
+    object(V8\StringValue)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
@@ -178,19 +180,19 @@ V8\ArrayObject(V8\Value)->toObject():
       }
     }
 V8\ArrayObject(V8\Value)->toInteger():
-    object(V8\Int32Value)#118 (1) {
+    object(V8\Int32Value)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\ArrayObject(V8\Value)->toUint32():
-    object(V8\Int32Value)#118 (1) {
+    object(V8\Int32Value)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }
     }
 V8\ArrayObject(V8\Value)->toInt32():
-    object(V8\Int32Value)#118 (1) {
+    object(V8\Int32Value)#120 (1) {
       ["isolate":"V8\Value":private]=>
       object(V8\Isolate)#3 (0) {
       }

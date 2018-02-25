@@ -16,7 +16,6 @@ $context = new V8\Context($isolate);
 
 $value = new V8\PromiseObject($context);
 
-
 $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();
@@ -134,6 +133,8 @@ V8\PromiseObject(V8\Value)->isUint32Array(): bool(false)
 V8\PromiseObject(V8\Value)->isInt32Array(): bool(false)
 V8\PromiseObject(V8\Value)->isFloat32Array(): bool(false)
 V8\PromiseObject(V8\Value)->isFloat64Array(): bool(false)
+V8\PromiseObject(V8\Value)->isBigInt64Array(): bool(false)
+V8\PromiseObject(V8\Value)->isBigUint64Array(): bool(false)
 V8\PromiseObject(V8\Value)->isDataView(): bool(false)
 V8\PromiseObject(V8\Value)->isSharedArrayBuffer(): bool(false)
 V8\PromiseObject(V8\Value)->isProxy(): bool(false)
@@ -210,6 +211,8 @@ V8\PromiseObject(V8\Value)->isUint32Array(): bool(false)
 V8\PromiseObject(V8\Value)->isInt32Array(): bool(false)
 V8\PromiseObject(V8\Value)->isFloat32Array(): bool(false)
 V8\PromiseObject(V8\Value)->isFloat64Array(): bool(false)
+V8\PromiseObject(V8\Value)->isBigInt64Array(): bool(false)
+V8\PromiseObject(V8\Value)->isBigUint64Array(): bool(false)
 V8\PromiseObject(V8\Value)->isDataView(): bool(false)
 V8\PromiseObject(V8\Value)->isSharedArrayBuffer(): bool(false)
 V8\PromiseObject(V8\Value)->isProxy(): bool(false)
