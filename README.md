@@ -81,6 +81,9 @@ echo $result->value(), PHP_EOL;
 which will output `Hello, World!`. See how it's shorter and more readable than [that C++ version][v8-hello-world]?
 And it also doesn't limit you from V8 API utilizing to implement more amazing stuff.
 
+## Quick start
+
+You can try php-v8 in `pinepain/php-v8`: `docker run -it pinepain/php-v8 bash -c "php test.php"`
 
 ## Stub files
 
