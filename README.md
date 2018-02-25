@@ -100,7 +100,7 @@ on top of php-v8 extension and makes embedding JavaScript in PHP easier.
 ### Requirements
 
 #### V8
-You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.6.275 required.
+You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.6.313 required.
 
 #### PHP
 This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.

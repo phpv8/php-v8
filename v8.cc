@@ -54,6 +54,7 @@
 #include "php_v8_date.h"
 #include "php_v8_regexp.h"
 #include "php_v8_proxy.h"
+#include "php_v8_promise_resolver.h"
 #include "php_v8_promise.h"
 #include "php_v8_number_object.h"
 #include "php_v8_boolean_object.h"
@@ -149,6 +150,7 @@ PHP_MINIT_FUNCTION(v8)
     PHP_MINIT(php_v8_date)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_regexp)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_promise)(INIT_FUNC_ARGS_PASSTHRU);
+    PHP_MINIT(php_v8_promise_resolver)(INIT_FUNC_ARGS_PASSTHRU);
     PHP_MINIT(php_v8_proxy)(INIT_FUNC_ARGS_PASSTHRU);
 
     PHP_MINIT(php_v8_number_object)(INIT_FUNC_ARGS_PASSTHRU);

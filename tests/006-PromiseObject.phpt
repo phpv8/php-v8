@@ -16,7 +16,6 @@ $context = new V8\Context($isolate);
 
 $value = new V8\PromiseObject($context);
 
-
 $helper->header('Object representation');
 $helper->dump($value);
 $helper->space();

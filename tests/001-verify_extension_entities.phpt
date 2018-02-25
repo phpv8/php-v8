@@ -800,13 +800,21 @@ class V8\PromiseObject
     const STATE_FULFILLED = 1
     const STATE_REJECTED = 2
     public function __construct(V8\Context $context)
-    public function resolve(V8\Context $context, V8\Value $value)
-    public function reject(V8\Context $context, V8\Value $value)
     public function catch(V8\Context $context, V8\FunctionObject $handler): V8\PromiseObject
     public function then(V8\Context $context, V8\FunctionObject $handler): V8\PromiseObject
     public function hasHandler(): bool
     public function result(): V8\Value
     public function state(): int
+
+class V8\PromiseObject\ResolverObject
+    extends V8\PromiseObject
+    implements V8\AdjustableExternalMemoryInterface
+    const STATE_PENDING = 0
+    const STATE_FULFILLED = 1
+    const STATE_REJECTED = 2
+    public function __construct(V8\Context $context)
+    public function resolve(V8\Context $context, V8\Value $value)
+    public function reject(V8\Context $context, V8\Value $value)
 
 class V8\ProxyObject
     extends V8\ObjectValue

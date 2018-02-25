@@ -30,26 +30,6 @@ class PromiseObject extends ObjectValue
     }
 
     /**
-     * Resolve the promise with a given value. Ignored if the promise is no longer pending.
-     *
-     * @param Context $context
-     * @param Value   $value
-     */
-    public function resolve(Context $context, Value $value)
-    {
-    }
-
-    /**
-     * Reject the promise with a given value. Ignored if the promise is no longer pending.
-     *
-     * @param Context $context
-     * @param Value   $value
-     */
-    public function reject(Context $context, Value $value)
-    {
-    }
-
-    /**
      * Register a resolution/rejection handler with the promise.
      *
      * The handler is given the respective rejection value as

@@ -47,58 +47,6 @@ static PHP_METHOD(Promise, __construct) {
     php_v8_value->persistent->Reset(isolate, local_resolver);
 }
 
-static PHP_METHOD(Promise, resolve) {
-    zval *php_v8_context_zv;
-    zval *php_v8_rvalue_zv;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "oo", &php_v8_context_zv, &php_v8_rvalue_zv) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
-    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_rvalue_zv, php_v8_rvalue);
-
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_rvalue);
-
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_CONTEXT(php_v8_context);
-
-    v8::Local<v8::Promise::Resolver> local_resolver = php_v8_value_get_local_as<v8::Promise::Resolver>(php_v8_value);
-    v8::Local<v8::Value> local_rvalue = php_v8_value_get_local_as<v8::Value>(php_v8_rvalue);
-
-    v8::Maybe<bool> maybe_resolved = local_resolver->Resolve(context, local_rvalue);
-
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_NOTHING(maybe_resolved, "Failed to resolve a promise");
-}
-
-static PHP_METHOD(Promise, reject) {
-    zval *php_v8_context_zv;
-    zval *php_v8_rvalue_zv;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "oo", &php_v8_context_zv, &php_v8_rvalue_zv) == FAILURE) {
-        return;
-    }
-
-    PHP_V8_VALUE_FETCH_WITH_CHECK(getThis(), php_v8_value);
-    PHP_V8_CONTEXT_FETCH_WITH_CHECK(php_v8_context_zv, php_v8_context);
-    PHP_V8_VALUE_FETCH_WITH_CHECK(php_v8_rvalue_zv, php_v8_rvalue);
-
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_context);
-    PHP_V8_DATA_ISOLATES_CHECK(php_v8_value, php_v8_rvalue);
-
-    PHP_V8_ENTER_STORED_ISOLATE(php_v8_value);
-    PHP_V8_ENTER_CONTEXT(php_v8_context);
-
-    v8::Local<v8::Promise::Resolver> local_resolver = php_v8_value_get_local_as<v8::Promise::Resolver>(php_v8_value);
-    v8::Local<v8::Value> local_rvalue = php_v8_value_get_local_as<v8::Value>(php_v8_rvalue);
-
-    v8::Maybe<bool> maybe_rejected = local_resolver->Reject(context, local_rvalue);
-
-    PHP_V8_THROW_VALUE_EXCEPTION_WHEN_NOTHING(maybe_rejected, "Failed to reject a promise");
-}
-
 static PHP_METHOD(Promise, catch) {
     zval *php_v8_context_zv;
     zval *php_v8_function_zv;
@@ -209,16 +157,6 @@ PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(arginfo___construct, 1)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
 ZEND_END_ARG_INFO()
 
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_resolve, 2)
-                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
-ZEND_END_ARG_INFO()
-
-PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(arginfo_reject, 2)
-                ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
-                ZEND_ARG_OBJ_INFO(0, value, V8\\Value, 0)
-ZEND_END_ARG_INFO()
-
 PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_catch, ZEND_RETURN_VALUE, 2, V8\\PromiseObject, 0)
                 ZEND_ARG_OBJ_INFO(0, context, V8\\Context, 0)
                 ZEND_ARG_OBJ_INFO(0, handler, V8\\FunctionObject, 0)
@@ -241,8 +179,6 @@ ZEND_END_ARG_INFO()
 
 static const zend_function_entry php_v8_promise_methods[] = {
         PHP_V8_ME(Promise, __construct, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-        PHP_V8_ME(Promise, resolve,   ZEND_ACC_PUBLIC)
-        PHP_V8_ME(Promise, reject,   ZEND_ACC_PUBLIC)
         PHP_V8_ME(Promise, catch,   ZEND_ACC_PUBLIC)
         PHP_V8_ME(Promise, then,    ZEND_ACC_PUBLIC)
         PHP_V8_ME(Promise, hasHandler,    ZEND_ACC_PUBLIC)
