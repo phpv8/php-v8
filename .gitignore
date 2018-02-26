@@ -29,7 +29,7 @@ configure.ac
 install-sh
 libtool
 ltmain.sh
-Makefile
+/Makefile
 Makefile.fragments
 Makefile.global
 Makefile.objects
@@ -42,6 +42,5 @@ tmp-php.ini
 /conftest*
 
 /*.tgz
+.virtualenv
 
-_book/
-node_modules/
