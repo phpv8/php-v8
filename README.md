@@ -3,6 +3,8 @@ PHP extension for V8 JavaScript engine
 
 [![Build Status](https://api.travis-ci.org/pinepain/php-v8.svg?branch=master)](https://travis-ci.org/pinepain/php-v8)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/pinepain/php-v8/master/LICENSE)
+[![Docs](https://readthedocs.org/projects/php-v8/badge/)](https://php-v8.readthedocs.io)
+
 
 **This extension requires PHP >= 7.1**. Last version that supports PHP 7.0 is v0.1.9.
 
@@ -13,7 +15,7 @@ PHP extension for V8 JavaScript engine
 Maintaining this project takes significant amount of time and efforts.
 If you like my work and want to show your appreciation, please consider supporting me at https://www.patreon.com/pinepain.
 
-Work in progress documentation could be found at https://pinepain.gitbooks.io/php-v8/content/. You can also use tests and 
+Work in progress documentation could be found at https://php-v8.readthedocs.io. You can also use tests and 
 stubs as reference.
 
 ## Why (aka Rationale)
@@ -181,11 +183,16 @@ Now you can build php-v8 as usual with `phpize && ./configure && make`. Don't fo
 
 ### Docs
 
-To start writing docs you will need to get [GitBook](https://gitbook.com), just run `npm install gitbook-cli -g` and
-then `gitbook serve` in project rood directory to live preview docs or `gitbook build` to build static website. See
-[Setup and Installation of GitBook](https://toolchain.gitbook.com/setup.html) official GitBook manual for more;
+We use [Sphinx](http://www.sphinx-doc.org/en/master/) to buld docs and [Read The Docs](https://readthedocs.org/) to host
+it.
 
-You may find [GitBook Editor](https://www.gitbook.com/editor) useful for docs writing and editing.
+To rebuild docs locally run in a project root:
+
+    virtualenv -p `which python` .virtualenv
+    source .virtualenv/bin/activate
+    cd docs
+    make html
+
 
 ## Credits
 
