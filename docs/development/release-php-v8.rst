@@ -23,7 +23,8 @@ GitHub release
 #. Run ``./scripts/subsplit.sh`` to update ``php-v8-stubs`` which are available in a separate read-only repository to match
     packagist and composer expectations. 
 
-# PECL release 
+PECL release
+============
 
 #. Run ``pecl package`` in your build machine (it's normally vagrant box used for ``php-v8`` development). It should create
    ``v8-X.Y.Z.tgz`` file.
@@ -51,7 +52,15 @@ macOS Homebrew release
 #. If version has already been published to bintray and you absolutely sure it needs to be re-built without revision.
    bump, you will need to delete such version from bintray first.
 
-TODO: docker release
+Docker image release
+====================
+
+#. Go into `pinepain/dockerfiles <https://github.com/pinepain/dockerfiles/tree/master/php-v8>`_ ``php-v8`` folder.
+#. Make sure you have valid stable and latest versions in ``Makefile``.
+#. To avoid caching, run ``make clean-stable`` to remove any image for the current stable version
+   and ``make clean-latest`` to do the same for the current latest version.
+#. Run ``make stable`` to build and upload current stable version
+   and ``make latest`` to build and upload the latest version.
 
 After all
 =========
