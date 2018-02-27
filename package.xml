@@ -26,11 +26,11 @@
         <email>pinepain@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2017-10-23</date>
-    <time>20:20:32</time>
+    <date>2018-02-27</date>
+    <time>21:20:35</time>
     <version>
-        <release>0.2.1</release>
-        <api>0.2.1</api>
+        <release>0.2.2</release>
+        <api>0.2.2</api>
     </version>
     <stability>
         <release>stable</release>
@@ -38,27 +38,29 @@
     </stability>
     <license uri="https://opensource.org/licenses/mit">The MIT License (MIT)</license>
     <notes>
-        This release brings stability and improvements. It contains some minor BC-breaking changes which should not affect general public. See full change log below for details
+        I'm excited to announce that starting from this release documentation is available at
+        https://php-v8.readthedocs.io.
 
-        Changelog:
+        Read The Docs is awesome place to host documentation and Sphinx would help to create decent documentation.
+        Contributors welcomed!
+
+        This is the last version that supports PHP 7.1. Nex versions wil reqiure PHP &gt;= 7.2 unless further notice.
 
         BC-breaking changes:
 
-        - require libv8 &gt;= 6.4.6;
-        - remove UnboundScript::kNoScriptId const and return null in getId() on no data
-        - change ScriptCompiler::cachedDataVersionTag(): int method name and return type to be ScriptCompiler::getCachedDataVersionTag(): float;
-        - remove StartupData::getRawSize() method;
+         - Upgrade v8 version to 6.6.313
+         - Remove deprecated and non-working ScriptCompiler cache options
+         - Rework PromiseObject
+         - Add ValueObject::isBigInt64Array() and ValueObject::isBigUint64Array methods
 
         Non-breaking changes:
 
-        - fix segfault when invalid startup data passed to isolate;
-        - fix external exception lost when it has refcount 1;
-        - change script compiler version tag generation to take into account changes to extension internals;
-        - add CallbackInfoInterface;
-        - add support for ScriptCompiler::kProduceFullCodeCache;
-        - add {Isolate,Context}::within() as optimization solution;
-        - add StartupData::isRejected();
-        - add docs skeleton.
+         - Add number of native and detached contexts to HeapStatistics
+         - Add support to produce code cache
+         - Add ScriptCompiler::OPTION_EAGER_COMPILE option
+         - Add support for integer-&lt;strings for ObjectValue::GetOwnPropertyNames and `ObjectValue::GetPropertyNames
+         - Add {Template,ObjectValue}:setLazyDataProperty() method
+
     </notes>
     <contents>
         <dir name="/">
@@ -133,6 +135,8 @@
             <file name="src/php_v8_primitive.h" role="src" />
             <file name="src/php_v8_promise.cc" role="src" />
             <file name="src/php_v8_promise.h" role="src" />
+            <file name="src/php_v8_promise_resolver.cc" role="src" />
+            <file name="src/php_v8_promise_resolver.h" role="src" />
             <file name="src/php_v8_property_callback_info.cc" role="src" />
             <file name="src/php_v8_property_callback_info.h" role="src" />
             <file name="src/php_v8_proxy.cc" role="src" />
@@ -201,6 +205,9 @@
             <file name="tests/005-V8FunctionTemplate_external_memory.phpt" role="test" />
             <file name="tests/005-V8ObjectTemplate_external_memory.phpt" role="test" />
             <file name="tests/005-V8ObjectValue_external_memory.phpt" role="test" />
+            <file name="tests/006-PromiseObject.phpt" role="test" />
+            <file name="tests/006-PromiseObject_methods.phpt" role="test" />
+            <file name="tests/006-ResolverObject.phpt" role="test" />
             <file name="tests/010-no-value-self-cleanup-on-shutdown.phpt" role="test" />
             <file name="tests/ArrayObject.phpt" role="test" />
             <file name="tests/ArrayObject_length.phpt" role="test" />
@@ -285,6 +292,7 @@
             <file name="tests/ObjectTemplate_setHandlerForIndexedProperty.phpt" role="test" />
             <file name="tests/ObjectTemplate_setHandlerForNamedProperty.phpt" role="test" />
             <file name="tests/ObjectTemplate_setHandler_both.phpt" role="test" />
+            <file name="tests/ObjectTemplate_setLazyDataProperty.phpt" role="test" />
             <file name="tests/ObjectTemplate_setNativeDataProperty.phpt" role="test" />
             <file name="tests/ObjectValue.phpt" role="test" />
             <file name="tests/ObjectValue_get.phpt" role="test" />
@@ -292,10 +300,9 @@
             <file name="tests/ObjectValue_isNativeError.phpt" role="test" />
             <file name="tests/ObjectValue_setAccessor.phpt" role="test" />
             <file name="tests/ObjectValue_setIntegrityLevel.phpt" role="test" />
+            <file name="tests/ObjectValue_setLazyDataProperty.phpt" role="test" />
             <file name="tests/ObjectValue_setNativeDataProperty.phpt" role="test" />
             <file name="tests/ObjectValue_setNativeDataProperty_from_template.phpt" role="test" />
-            <file name="tests/PromiseObject.phpt" role="test" />
-            <file name="tests/PromiseObject_methods.phpt" role="test" />
             <file name="tests/PropertyCallbackInfo.phpt" role="test" />
             <file name="tests/ProxyObject.phpt" role="test" />
             <file name="tests/ProxyObject_methods.phpt" role="test" />
@@ -307,6 +314,7 @@
             <file name="tests/ScriptCompiler_compile.phpt" role="test" />
             <file name="tests/ScriptCompiler_compileFunctionInContext.phpt" role="test" />
             <file name="tests/ScriptCompiler_compileUnbound.phpt" role="test" />
+            <file name="tests/ScriptCompiler_createCodeCache.phpt" role="test" />
             <file name="tests/ScriptOrigin.phpt" role="test" />
             <file name="tests/ScriptOriginOptions.phpt" role="test" />
             <file name="tests/Script_exit_during_script_execution.phpt" role="test" />
@@ -378,6 +386,7 @@
             <file name="stubs/src/ObjectValue.php" role="doc" />
             <file name="stubs/src/PrimitiveValue.php" role="doc" />
             <file name="stubs/src/PromiseObject.php" role="doc" />
+            <file name="stubs/src/PromiseObject/ResolverObject.php" role="doc" />
             <file name="stubs/src/PropertyAttribute.php" role="doc" />
             <file name="stubs/src/PropertyCallbackInfo.php" role="doc" />
             <file name="stubs/src/PropertyFilter.php" role="doc" />
