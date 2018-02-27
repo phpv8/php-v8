@@ -70,7 +70,8 @@ You will need a recent v8 Google JavaScript engine version installed. At this ti
 PHP
 """
 
-This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.
+**This extension requires PHP >= 7.2**. Last version that supports PHP 7.1 is v0.2.2 and for PHP 7.0 is v0.1.9.
+
 
 OS
 """
