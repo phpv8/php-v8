@@ -107,8 +107,8 @@ Isolate startup data
 ====================
 
 Startup data can speedup your context creation by populating them with script run result. It can save from 1% to 3%, so
-it's not so effective as script code cache, however, the benchmark was done on so complex example so if you have a lot
-of entities that you need to bootstrap your context with, your saving may be more.
+it's not so effective as script code cache, however, the benchmark was done on using quite simple example,
+so if you have a lot of entities that you need to bootstrap your context with, your saving may be more.
 
 .. code:: php
 
