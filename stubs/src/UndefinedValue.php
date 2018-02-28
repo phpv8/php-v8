@@ -27,7 +27,7 @@ class UndefinedValue extends PrimitiveValue
     /**
      * @return null
      */
-    public function value()
+    public function value(): null
     {
     }
 }

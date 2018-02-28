@@ -6,7 +6,7 @@ PHP extension for V8 JavaScript engine
 [![Docs](https://readthedocs.org/projects/php-v8/badge/)](https://php-v8.readthedocs.io)
 
 
-**This extension requires PHP >= 7.1**. Last version that supports PHP 7.0 is v0.1.9.
+**This extension requires PHP >= 7.2**. Last version that supports PHP 7.1 is v0.2.2 and for PHP 7.0 is v0.1.9.
 
 **This extension is still under heavy development and its public API may change without any warning. Use at your own risk.**
 
@@ -108,7 +108,7 @@ on top of php-v8 extension and makes embedding JavaScript in PHP easier.
 You will need a recent v8 Google JavaScript engine version installed. At this time v8 >= 6.6.313 required.
 
 #### PHP
-This extension is PHP7-only. It works and tested with both PHP 7.0 and PHP 7.1.
+**This extension requires PHP >= 7.2**. Last version that supports PHP 7.1 is v0.2.2 and for PHP 7.0 is v0.1.9.
 
 #### OS
 This extension works and tested on x64 Linux and macOS. As of written it is Ubuntu 16.04 LTS Xenial Xerus, amd64
@@ -122,7 +122,7 @@ and macOS 10.12.5. Windows is not supported at this time.
 $ sudo add-apt-repository -y ppa:ondrej/php
 $ sudo add-apt-repository -y ppa:pinepain/php
 $ sudo apt-get update -y
-$ sudo apt-get install -y php7.1 php-v8
+$ sudo apt-get install -y php7.2 php-v8
 $ php --ri v8
 ```
 
@@ -139,7 +139,7 @@ extensions with dependencies, you may find
 $ brew tap homebrew/dupes
 $ brew tap homebrew/php
 $ brew tap pinepain/devtools
-$ brew install php71 php71-v8
+$ brew install php72 php72-v8
 $ php --ri v8
 ```
 

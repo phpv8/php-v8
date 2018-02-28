@@ -615,12 +615,12 @@ abstract class V8\PrimitiveValue
 class V8\UndefinedValue
     extends V8\PrimitiveValue
     public function __construct(V8\Isolate $isolate)
-    public function value()
+    public function value(): null
 
 class V8\NullValue
     extends V8\PrimitiveValue
     public function __construct(V8\Isolate $isolate)
-    public function value()
+    public function value(): null
 
 class V8\BooleanValue
     extends V8\PrimitiveValue

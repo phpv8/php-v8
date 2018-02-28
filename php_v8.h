@@ -50,9 +50,9 @@ extern zend_module_entry php_v8_module_entry;
 #define PHP_V8_LIBV8_VERSION "undefined"
 #endif
 
-#if PHP_VERSION_ID < 70100
+#if PHP_VERSION_ID < 70200
 // should never get her, but just in case
-#error PHP >= 7.1 required
+#error PHP >= 7.2 required
 #endif
 
 
@@ -61,20 +61,11 @@ ZEND_BEGIN_MODULE_GLOBALS(v8)
     v8::Platform *platform;
 ZEND_END_MODULE_GLOBALS(v8)
 
-// Add zend_type support (new since PHP 7.2)
-#ifdef ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX
-    #define PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(name, return_reference, required_num_args, classname, allow_null) \
-        ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(name, return_reference, required_num_args, classname, allow_null)
+#define PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(name, return_reference, required_num_args, classname, allow_null) \
+    ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(name, return_reference, required_num_args, classname, allow_null)
 
-    #define PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, type, allow_null) \
-        ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, type, allow_null)
-#else
-    #define PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(name, return_reference, required_num_args, classname, allow_null) \
-        ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, IS_OBJECT, #classname, allow_null)
-
-    #define PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, type, allow_null) \
-        ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, type, NULL, allow_null)
-#endif
+#define PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, type, allow_null) \
+    ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, type, allow_null)
 
 #define PHP_V8_ZEND_BEGIN_ARG_WITH_CONSTRUCTOR_INFO_EX(name, required_num_args) ZEND_BEGIN_ARG_INFO_EX(name, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, required_num_args)
 #define PHP_V8_ZEND_BEGIN_ARG_WITH_RETURN_VOID_INFO_EX(name, required_num_args) ZEND_BEGIN_ARG_INFO_EX(name, ZEND_SEND_BY_VAL, ZEND_RETURN_VALUE, required_num_args)

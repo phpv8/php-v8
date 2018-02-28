@@ -10,8 +10,6 @@ env:
   matrix:
     - PHP=7.2
     - PHP=7.2 TEST_PHP_ARGS=-m
-    - PHP=7.1
-    - PHP=7.1 TEST_PHP_ARGS=-m
 
 before_install:
   # docker on travis doesn't allow anything before FROM, let's fix that
