@@ -2,10 +2,15 @@
 Performance tricks
 ******************
 
-If you use ``php-v8`` extension for short-lived tasks or you have your :class:`Context` likely to be long-living enough
-so that ``V8`` runtime optimizations won't have significant impact, you can still improve your performance.
+If you:
 
-Important note: all caching techniques are V8 version-specific and platform specific, some caches won't even work on
+ * use ``php-v8`` extension for short-lived tasks or
+ * you have your :class:`Context` short-lived
+
+it is likely that you won't be able benefit from ``V8`` runtime optimizations.
+However, you can still improve your performance.
+
+*Important note*: all caching techniques are V8 version-specific and platform specific, some caches won't even work on
 different CPU with different instructions set, you have to test following techniques for your environment and
 infrastructure and be ready to fallback to raw, cache-less flow.
 
