@@ -18,21 +18,17 @@ Building libv8
 #. Update libv8 Makefile (``packaging/libv8/Makefile``) with new libv8 version by setting proper values in
    ``GIT_VERSION=X.Y.Z`` and ``NAME=libv8-X.Y`` variables.
 #. Commit changes with ``build libv8`` commit message and wait until libv8 PPA build done.
-#. Don't forget to update ``libv8 >= <new X.Y.Z version>`` dependency for ``php-v8`` PPA in ``packaging/php-v8/debian/control``
-   and also change ``php-v8`` PPA repository dependency to include new ``libv8-X.Y`` PPA
-   (https://launchpad.net/~pinepain/+archive/ubuntu/php-v8/+edit-dependencies), it's done by looking for ppa by full name,
-   e.g. ``pinepain/libv8-X.Y``.
 
 After libv8 PPA build done
 ==========================
 
-#. Copy fresh ``libv8-X.Y`` build packages from ``libv8-experimental`` (default target for all libv8 builds we trigger)
+#. Copy fresh ``libv8-X.Y`` build packages from ``experimental`` (default target for all libv8 builds we trigger)
    to it ``libv8-X.Y`` PPA. Do not rebuild, just copy binaries.
 #. **Wait for packages copied and published!**
 #. Build `pinepain/libv8`_ docker image, tag it with the
    relevant v8 full version and push to Docker Hub.
 #. You may want to set proper ``V8`` version in ``php-v8`` by updating it in ``.travis.yml``.
-#. Make sure you have proper ``php-v8`` version set in ``packaging/Dockerfile`` under ``V8`` constant.
+#. Make sure you have proper ``V8`` version set in ``packaging/Dockerfile`` under ``V8`` constant.
 
 After docker images rebuilt/published
 =====================================

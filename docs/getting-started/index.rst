@@ -110,7 +110,7 @@ While `pinepain/php <https://launchpad.net/~pinepain/+archive/ubuntu/php>`_ PPA 
 extensions with dependencies, you may find following standalone PPAs useful:
 
 - `pinepain/libv8-6.6 <https://launchpad.net/~pinepain/+archive/ubuntu/libv8-6.6>`_
-- `pinepain/libv8-experimental <https://launchpad.net/~pinepain/+archive/ubuntu/libv8-experimental>`_
+- `pinepain/experimental <https://launchpad.net/~pinepain/+archive/ubuntu/experimental>`_
 - `pinepain/php-v8 <https://launchpad.net/~pinepain/+archive/ubuntu/php-v8>`_
 
 
