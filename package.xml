@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ This file is part of the pinepain/php-v8 PHP extension.
+  ~ This file is part of the phpv8/php-v8 PHP extension.
   ~
-  ~ Copyright (c) 2015-2018 Bogdan Padalko <pinepain@gmail.com>
+  ~ Copyright (c) 2015-2018 Bogdan Padalko <thepinepain@gmail.com>
   ~
   ~ Licensed under the MIT license: http://opensource.org/licenses/MIT
   ~
@@ -23,7 +23,7 @@
     <lead>
         <name>Bogdan Padalko</name>
         <user>pinepain</user>
-        <email>pinepain@gmail.com</email>
+        <email>thepinepain@gmail.com</email>
         <active>yes</active>
     </lead>
     <date>2018-02-27</date>

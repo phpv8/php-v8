@@ -25,7 +25,7 @@ After libv8 PPA build done
 #. Copy fresh ``libv8-X.Y`` build packages from ``experimental`` (default target for all libv8 builds we trigger)
    to it ``libv8-X.Y`` PPA. Do not rebuild, just copy binaries.
 #. **Wait for packages copied and published!**
-#. Build `pinepain/libv8`_ docker image, tag it with the
+#. Build `phpv8/libv8`_ docker image, tag it with the
    relevant v8 full version and push to Docker Hub.
 #. You may want to set proper ``V8`` version in ``php-v8`` by updating it in ``.travis.yml``.
 #. Make sure you have proper ``V8`` version set in ``packaging/Dockerfile`` under ``V8`` constant.
@@ -59,5 +59,5 @@ Building packages for macOS Homebrew
 #. Remove/reset formula ``revision`` if it is version bump and not rebuild.
 #. Build ``v8@X.Y`` (locally or with TravisCI if it provides relevant macOS version) and publish.
 
-.. _php-v8: https://github.com/pinepain/php-v8
-.. _pinepain/libv8: https://github.com/pinepain/dockerfiles/tree/master/libv8
+.. _php-v8: https://github.com/phpv8/php-v8
+.. _phpv8/libv8: https://github.com/phpv8/dockerfiles/tree/master/libv8

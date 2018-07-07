@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
 /**
- * This file is part of the pinepain/php-v8 PHP extension.
+ * This file is part of the phpv8/php-v8 PHP extension.
  *
- * Copyright (c) 2015-2018 Bogdan Padalko <pinepain@gmail.com>
+ * Copyright (c) 2015-2018 Bogdan Padalko <thepinepain@gmail.com>
  *
  * Licensed under the MIT license: http://opensource.org/licenses/MIT
  *
@@ -13,7 +13,7 @@
  */
 
 
-namespace Pinepain\V8\Tests\Perf;
+namespace PhpV8\V8\Tests\Perf;
 
 
 use V8\Context;
