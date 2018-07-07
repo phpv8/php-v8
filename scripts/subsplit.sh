@@ -10,4 +10,4 @@ else
     git subsplit init .
 fi
 
-git subsplit publish --heads="master" stubs:git@github.com:pinepain/php-v8-stubs.git
+git subsplit publish --heads="master" stubs:git@github.com:phpv8/php-v8-stubs.git

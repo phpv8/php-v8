@@ -1,14 +1,14 @@
 {
-  "name": "pinepain/php-v8-stubs",
+  "name": "phpv8/php-v8-stubs",
   "type": "library",
-  "description": "Stub files for pinepain/php-v8 php extension",
+  "description": "Stub files for phpv8/php-v8 php extension",
   "keywords": ["dev", "stub", "php-v8", "v8", "js", "javascript"],
-  "homepage": "https://github.com/pinepain/php-v8-stubs",
+  "homepage": "https://github.com/phpv8/php-v8-stubs",
   "license": "MIT",
   "authors": [
     {
       "name": "Bogdan Padalko",
-      "email": "pinepain@gmail.com",
+      "email": "thepinepain@gmail.com",
       "homepage": "https://github.com/pinepain"
     }
   ],

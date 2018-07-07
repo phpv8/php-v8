@@ -85,11 +85,11 @@ Quick guide
 Docker
 """"""
 
-There is default ``pinepain/php-v8`` docker image with basic dependencies to evaluate and play with php-v8:
+There is default ``phpv8/php-v8`` docker image with basic dependencies to evaluate and play with php-v8:
 
 .. code-block:: bash
 
-    docker run -it pinepain/php-v8 bash -c "php test.php"
+    docker run -it phpv8/php-v8 bash -c "php test.php"
 
 
 Ubuntu
@@ -111,7 +111,7 @@ extensions with dependencies, you may find following standalone PPAs useful:
 
 - `pinepain/libv8-6.6 <https://launchpad.net/~pinepain/+archive/ubuntu/libv8-6.6>`_
 - `pinepain/experimental <https://launchpad.net/~pinepain/+archive/ubuntu/experimental>`_
-- `pinepain/php-v8 <https://launchpad.net/~pinepain/+archive/ubuntu/php-v8>`_
+- `phpv8/php-v8 <https://launchpad.net/~pinepain/+archive/ubuntu/php-v8>`_
 
 
 
@@ -122,18 +122,18 @@ OS X (homebrew)
 
     $ brew tap homebrew/dupes
     $ brew tap homebrew/php
-    $ brew tap pinepain/devtools
+    $ brew tap phpv8/tap
     $ brew install php71 php71-v8
     $ php --ri v8
 
-For macOS php-v8 formulae and dependencies provided by `pinepain/devtools <https://github.com/pinepain/homebrew-devtools>`_ tap.
+For macOS php-v8 formulae and dependencies provided by `phpv8/tap <https://github.com/pinepain/homebrew-devtools>`_ tap.
 
 Building php-v8 from sources
 ----------------------------
 
 .. code-block:: bash
 
-    git clone https://github.com/pinepain/php-v8.git
+    git clone https://github.com/phpv8/php-v8.git
     cd php-v8
     phpize && ./configure && make
     make test
@@ -145,8 +145,8 @@ To install extension globally run
     $ sudo make install
 
 .. _V8: https://developers.google.com/v8/intro
-.. _php-v8: https://github.com/pinepain/php-v8
+.. _php-v8: https://github.com/phpv8/php-v8
 .. _Hello World: https://chromium.googlesource.com/v8/v8/+/master/samples/hello-world.cc
 .. _Getting Started: https://developers.google.com/v8/intro
-.. _php-v8-stubs: https://github.com/pinepain/php-v8-stubs
+.. _php-v8-stubs: https://github.com/phpv8/php-v8-stubs
 .. _ECMA: http://kangax.github.io/compat-table

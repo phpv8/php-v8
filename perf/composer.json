@@ -1,14 +1,14 @@
 {
-    "name": "pinepain/php-v8-perf",
+    "name": "phpv8/php-v8-perf",
     "type": "library",
-    "description": "Performance tests for pinepain/php-v8 php extension",
+    "description": "Performance tests for phpv8/php-v8 php extension",
     "keywords": ["dev", "performance", "benchmark", "tests", "php-v8", "v8", "js", "javascript"],
-    "homepage": "https://github.com/pinepain/php-v8-perf",
+    "homepage": "https://github.com/phpv8/php-v8/tree/master/perf",
     "license": "MIT",
     "authors": [
         {
             "name": "Bogdan Padalko",
-            "email": "pinepain@gmail.com",
+            "email": "thepinepain@gmail.com",
             "homepage": "https://github.com/pinepain"
         }
     ],
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Pinepain\\V8\\Tests\\Perf\\": "src/"
+            "PhpV8\\V8\\Tests\\Perf\\": "src/"
         }
     }
 }

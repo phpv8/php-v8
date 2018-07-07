@@ -6,8 +6,8 @@ I'm moving away from PHP world and all my PHP projects going to be abandoned too
 # php-v8
 PHP extension for V8 JavaScript engine
 
-[![Build Status](https://api.travis-ci.org/pinepain/php-v8.svg?branch=master)](https://travis-ci.org/pinepain/php-v8)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/pinepain/php-v8/master/LICENSE)
+[![Build Status](https://api.travis-ci.org/phpv8/php-v8.svg?branch=master)](https://travis-ci.org/phpv8/php-v8)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/phpv8/php-v8/master/LICENSE)
 [![Docs](https://readthedocs.org/projects/php-v8/badge/)](https://php-v8.readthedocs.io)
 
 
@@ -44,7 +44,7 @@ If you have any other use, feels free to share
 
 
 ## About
-[php-v8](https://github.com/pinepain/php-v8) is a PHP 7.x extension
+[php-v8](https://github.com/phpv8/php-v8) is a PHP 7.x extension
 that brings [V8](https://developers.google.com/v8/intro) JavaScript engine API to PHP with some abstraction in mind and
 provides an accurate native V8 C++ API implementation available from PHP.
 
@@ -90,7 +90,7 @@ And it also doesn't limit you from V8 API utilizing to implement more amazing st
 
 ## Quick start
 
-You can try php-v8 in `pinepain/php-v8`: `docker run -it pinepain/php-v8 bash -c "php test.php"`
+You can try php-v8 in `phpv8/php-v8`: `docker run -it phpv8/php-v8 bash -c "php test.php"`
 
 ## Stub files
 
@@ -98,11 +98,11 @@ If you are also using Composer, it is recommended to add the [php-v8-stub][php-v
 package as a dev-mode requirement. It provides skeleton definitions and annotations to enable support for auto-completion
 in your IDE and other code-analysis tools.
 
-    composer require --dev pinepain/php-v8-stubs
+    composer require --dev phpv8/php-v8-stubs
 
 ## High-level wrapper library
 
-There is [pinepain/js-sandbox](https://github.com/pinepain/js-sandbox) library that provides high-level abstraction
+There is [phpv8/js-sandbox](https://github.com/phpv8/js-sandbox) library that provides high-level abstraction
 on top of php-v8 extension and makes embedding JavaScript in PHP easier.
 
 ## Installation
@@ -142,17 +142,17 @@ extensions with dependencies, you may find
 ```
 $ brew tap homebrew/dupes
 $ brew tap homebrew/php
-$ brew tap pinepain/devtools
+$ brew tap phpv8/tap
 $ brew install php72 php72-v8
 $ php --ri v8
 ```
 
-For macOS php-v8 formulae and dependencies provided by [pinepain/devtools](https://github.com/pinepain/homebrew-devtools) tap.
+For macOS php-v8 formulae and dependencies provided by [phpv8/tap](https://github.com/phpv8/homebrew-tap) tap.
 
 ### Building php-v8 from sources
 
 ```
-git clone https://github.com/pinepain/php-v8.git
+git clone https://github.com/phpv8/php-v8.git
 cd php-v8
 phpize && ./configure && make
 make test
@@ -178,11 +178,11 @@ $ sudo make install
 
 ### Docker
 
-First, let's build docker image `docker build -t pinepain/php-v8 .` that we'll use later for development. By default, 
+First, let's build docker image `docker build -t phpv8/php-v8 .` that we'll use later for development. By default, 
 it contains PHP 7.2, though you can change that by passing `--build-arg PHP=MAJOR.MINOR` where MAJOR.MINOR version
 present in [ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php) PPA.
 
-To start playing with php-v8 in docker, run ```docker run -e TEST_PHP_ARGS -v `pwd`:/root/php-v8 -it pinepain/php-v8 bash``.
+To start playing with php-v8 in docker, run ```docker run -e TEST_PHP_ARGS -v `pwd`:/root/php-v8 -it phpv8/php-v8 bash``.
 Now you can build php-v8 as usual with `phpize && ./configure && make`. Don't forget to run `make test`!
 
 ### Docs
@@ -214,11 +214,11 @@ My thanks to the following people and projects, without whom this extension woul
 
 ## License
 
-Copyright (c) 2015-2018 Bogdan Padalko &lt;pinepain@gmail.com&gt;
+Copyright (c) 2015-2018 Bogdan Padalko &lt;thepinepain@gmail.com&gt;
 
-[php-v8](https://github.com/pinepain/php-v8) PHP extension is licensed under the [MIT license](http://opensource.org/licenses/MIT).
+[php-v8](https://github.com/phpv8/php-v8) PHP extension is licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
 
 [v8-hello-world]: https://chromium.googlesource.com/v8/v8/+/master/samples/hello-world.cc
 [v8-intro]: https://developers.google.com/v8/intro
-[php-v8-stubs]: https://github.com/pinepain/php-v8-stubs
+[php-v8-stubs]: https://github.com/phpv8/php-v8-stubs
