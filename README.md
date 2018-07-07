@@ -1,8 +1,3 @@
-WARNING: This project is UNSUPPORTED and ABANDONED
-==================================================
-
-I'm moving away from PHP world and all my PHP projects going to be abandoned too. Abandoning this project too as I have no intent to continue working on it unless there would be strong request from community and commercial interest. No more updates or documentation will be made. If someone is interested, feels free to contact me using email specified in my GitHub profile.
-
 # php-v8
 PHP extension for V8 JavaScript engine
 
@@ -14,11 +9,6 @@ PHP extension for V8 JavaScript engine
 **This extension requires PHP >= 7.2**. Last version that supports PHP 7.1 is v0.2.2 and for PHP 7.0 is v0.1.9.
 
 **This extension is still under heavy development and its public API may change without any warning. Use at your own risk.**
-
-### PLEASE READ:
-
-Maintaining this project takes significant amount of time and efforts.
-If you like my work and want to show your appreciation, please consider supporting me at https://www.patreon.com/pinepain.
 
 Work in progress documentation could be found at https://php-v8.readthedocs.io. You can also use tests and 
 stubs as reference.
