@@ -19,8 +19,6 @@ RUN echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" > /etc/apt
     php-config || true && \
     mkdir /root/php-v8
 
-COPY ./scripts/provision/.bashrc /root/.bashrc
-
 WORKDIR /root/php-v8
 
 #COPY . /root/php-v8
