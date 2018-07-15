@@ -1,8 +1,6 @@
 Welcome to php-v8's documentation!
 ==================================
 
-.. include:: getting-started/donate.rst
-
 About
 =====
 

@@ -1,4 +1,4 @@
-FROM pinepain/libv8:latest
+FROM phpv8/libv8:latest
 
 ARG PHP=7.2
 

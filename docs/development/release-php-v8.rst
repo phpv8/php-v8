@@ -29,28 +29,7 @@ PECL release
 #. Run ``pecl package`` in your build machine (it's normally vagrant box used for ``php-v8`` development). It should create
    ``v8-X.Y.Z.tgz`` file.
 #. Log in to PECL and upload file from previous step at https://pecl.php.net/release-upload.php. Verify that release info
-   is accurate and confirm release.  
-
-Ubuntu PPA release
-==================
-
-#. Copy targeted ``libv8-X.Y`` build to ``php`` ppa without rebuild, just copy.
-#. Make sure you have proper PHP and ``php-v8`` PPA dependencies set in https://launchpad.net/~pinepain/+archive/ubuntu/php-v8/+edit-dependencies
-#. Make sure you have proper ``php-v8`` version set in ``packaging/Dockerfile`` under ``V8`` constant.
-#. In ``packaging/php-v8/Makefile`` set proper ``VERSION=X.Y.Z``
-#. Make sure you have valid ``libv8`` dependency in ``packaging/php-v8/debian/control`` file.
-#. Commit changes with ``build php-v8`` commit message and wait until libv8 PPA build done.
-#. Copy ``php-v8`` packages to ``pinepain/php`` PPA, do not rebuild, just copy.
-#. After they get copied, feels free to remove **old** ``libv8`` packages from ``pinepain/php`` ppa.
-
-macOS Homebrew release
-======================
-
-#. Update ``php7*-v8`` formula **one by one** to have proper ``depends_on 'v8@X.Y'``
-   and ``v8_prefix=Formula['v8@X.Y'].opt_prefix`` values.
-#. If you want to rebuild existent version, add/increment ``revision`` in formula body.
-#. If version has already been published to bintray and you absolutely sure it needs to be re-built without revision.
-   bump, you will need to delete such version from bintray first.
+   is accurate and confirm release.
 
 Docker image release
 ====================
@@ -65,8 +44,7 @@ Docker image release
 After all
 =========
 
-#. Update `js-sandbox`_ ``.travis.yml`` and ``.scrutinizer.yml``
-   to refer to new ``php-v8`` version and to relevant ``libv8`` PPA and packages.
+#. Update `js-sandbox`_ dependencies, if required, to use latest ``php-v8`` and other dependencies, if any.
 #. Update ``PHP_V8_VERSION`` to the next version and set ``PHP_V8_REVISION`` to ``dev`` in ``php_v8.h``.
 #. Commit changes with ``Back to dev [skip ci]`` message and push them to master.
 
